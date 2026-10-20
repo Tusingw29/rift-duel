@@ -114,3 +114,10 @@ Chrome training checks selected Hold guard from the pause menu. A strike reduced
 68 tests pass. New tests restrict authored profiles to Aegis/far and Tala/mid, distinguish those effects from stock bursts, check finite poses and clean return positions, and verify held-guard bypass, no stock cost, and exactly one damage resolution. Existing burst effect expectations were updated to reflect the intentional redistribution.
 
 Desktop Chrome screenshots verified the orbital beam during Aegis's far capture, the doubles during Tala's mid capture, the separate Aegis blade burst, and Tala's single-attacker levitating burst. The first capture check exposed misleading training READY text; the readout now identifies cinematic kind and remaining time. No console errors/warnings appeared during the initial browser checks. Other capture contexts remain shared alpha choreography.
+
+
+## Six signature capture contexts (0.12)
+
+70 tests pass. Capture-profile scope and damage tests now cover all six fighters, including held-guard bypass, no stock cost, and exactly one hit. New pose checks cover reversed/diagonal/zero separation, multiple camera shots, finite transforms, input immutability, and return to simulation positions. Effect checks distinguish spirit flight, weapon lift, firefall, and the two-fighter aerial drop.
+
+Chrome screenshots verified all four new captures. Vesper's back capture was triggered with actual move → circle-step → capture keyboard inputs. Rei's spirit wings were enlarged/reoriented after initial inspection, then visually rechecked. All new profiles appeared in read-only debug state at the expected context. No console errors/warnings appeared in the final local check. These sampled checks are not full frame-by-frame animation verification.

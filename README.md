@@ -65,3 +65,5 @@ Options include 60/90/120-second rounds, first to 1/2/3 wins, and three stick de
 Training: Pause → Practice Controls selects Stand still, Hold guard, or Fight back. Recent-input history shows the last six direction/action changes, newest first, with held simulation-frame counts. A dot marks neutral/release. The display can be hidden. See [fidelity audit](docs/FIDELITY_AUDIT.md) for verified scope and remaining research gaps.
 
 Aegis’s far capture calls an orbital emitter; Tala’s mid-range capture surrounds the rival with doubles. These captures are separate from their stock bursts and retain normal capture damage and stock rules.
+
+Every fighter now has a signature capture context: Aegis/far orbital beam, Rei/far spirit flight, Tala/mid doubles, Morrow/mid weapon lift, Sol/far firefall, and Vesper/back aerial drop. Other contexts retain the shared throws.

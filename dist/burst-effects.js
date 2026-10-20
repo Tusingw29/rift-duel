@@ -9,6 +9,11 @@ export function createBurstEffects(scene){
  const rings=Array.from({length:4},()=>make(new T.TorusGeometry(1,.035,5,48)));
  const slashes=Array.from({length:3},()=>make(new T.TorusGeometry(1,.07,5,32,Math.PI*1.35)));
  const missiles=Array.from({length:6},()=>make(new T.ConeGeometry(.12,.55,5)));
+ const spirits=Array.from({length:3},()=>{
+  const sprite=new T.Group();group.add(sprite);make(new T.IcosahedronGeometry(.2,1),energy,sprite);
+  for(const side of [-1,1]){const wing=make(new T.ConeGeometry(.2,.65,3),energy,sprite);wing.position.x=side*.3;wing.rotation.z=-side*Math.PI/2;}
+  sprite.scale.setScalar(1.3);return sprite;
+ });
  const emitter=new T.Group();group.add(emitter);
  const casing=new T.MeshStandardMaterial({color:'#364850',metalness:.7,roughness:.35,flatShading:true});
  make(new T.OctahedronGeometry(.6),casing,emitter);
@@ -29,7 +34,7 @@ export function createBurstEffects(scene){
   group.visible=true;
   const e=pose.effects,color=fighters[model.id].color;energy.color.set(color);
   energy.opacity=reduced?.4:.65;
-  for(const mesh of [beam,orb,emitter,...rings,...slashes,...missiles])mesh.visible=false;
+  for(const mesh of [beam,orb,emitter,...rings,...slashes,...missiles,...spirits])mesh.visible=false;
   if(e.emitter){emitter.visible=true;emitter.position.set(e.emitter.x,e.emitter.y,e.emitter.z);emitter.rotation.y=e.t*2;}
   if(e.beam>.01){beam.visible=true;beam.position.set(e.center.x,5,e.center.z);beam.scale.set(e.beam,1,e.beam);}
   if(e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
@@ -42,6 +47,7 @@ export function createBurstEffects(scene){
    });
   }
   e.rays.forEach((ray,i)=>{const missile=missiles[i];missile.visible=ray.visible;missile.position.set(ray.position.x,ray.position.y,ray.position.z);const direction=new T.Vector3(e.center.x-ray.position.x,e.center.y-ray.position.y,e.center.z-ray.position.z).normalize();missile.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),direction);});
+  e.spirits?.forEach((state,i)=>{const sprite=spirits[i];sprite.visible=state.visible;sprite.position.set(state.position.x,state.position.y,state.position.z);sprite.rotation.y=Math.sin(e.t*6+i)*.3;sprite.children[1].rotation.x=Math.sin(e.t*36+i)*.7;sprite.children[2].rotation.x=-Math.sin(e.t*36+i)*.7;});
   if(e.echoes.length&&source!==model){if(source)reset();prepareEchoes(model);group.visible=true;}
   echoes.forEach((echo,i)=>{const state=e.echoes[i];echo.g.visible=!!state&&state.opacity>.01;if(!state)return;for(const [copy,original] of echo.pairs.slice(1)){copy.position.copy(original.position);copy.quaternion.copy(original.quaternion);copy.scale.copy(original.scale);}echo.g.position.set(state.x,state.y,state.z);echo.g.rotation.set(0,state.yaw,0);echo.g.scale.setScalar(1);for(const material of echo.materials){material.opacity=state.opacity;material.color?.set(color);}});
  }

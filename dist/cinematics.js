@@ -3,6 +3,10 @@ export const BURST_DURATIONS={aegis:2.8,rei:2.5,tala:2.6,morrow:2.9,sol:2.8,vesp
 export function capturePresentation(id,context){
  if(id==='aegis'&&context==='far')return {profile:'orbital',duration:2.8};
  if(id==='tala'&&context==='mid')return {profile:'surround',duration:2.6};
+ if(id==='rei'&&context==='far')return {profile:'spirit-flight',duration:2.6};
+ if(id==='morrow'&&context==='mid')return {profile:'iron-scoop',duration:2.4};
+ if(id==='sol'&&context==='far')return {profile:'ember-fall',duration:2.5};
+ if(id==='vesper'&&context==='back')return {profile:'astral-drop',duration:2.7};
  return {profile:null,duration:context==='far'?1.5:context==='mid'?1.2:.95};
 }
 const clamp=x=>Math.max(0,Math.min(1,x));

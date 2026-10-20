@@ -136,3 +136,17 @@ Practice now offers standing, held guard, and active CPU behavior. Settings are 
 Aegis's far capture now invokes an orbital device with portrait, overhead-device, and beam-impact shots. Tala's mid capture invokes surrounding doubles followed by a rising palm. `capturePresentation` selects these profiles only for their intended fighter/range combinations. Both sequences use the existing render-only staged-pose/effect system, while capture damage still resolves once in combat. Held guard cannot suppress capture posing or damage; captures consume no stock. Their durations are original 2.8/2.6-second choices.
 
 The corresponding stock bursts are distinct: Aegis's renamed Sentinel Verdict approaches with a blade sweep, and Tala's burst levitates the rival with a single attacker. The other capture contexts still use the shared tracks. Training identifies cinematic kind/context and remaining time instead of displaying misleading ready/recovery text.
+
+
+## Full current-roster signature captures (0.12)
+
+`captures.js` adds four render-only tracks alongside the two existing profiles. Rei's far capture sends three winged spirit forms; Morrow's mid capture lifts the target with a weapon scoop and drops them; Sol's far capture calls an orb down directly above the target; Vesper's back capture raises both fighters before dropping the victim. Each uses two camera shots and blends positions home. Captured targets do not assume a guarding pose even when guard was held at acquisition.
+
+| Fighter / context | Profile | Duration |
+|---|---|---|
+| Rei / far | spirit-flight | 2.6 s |
+| Morrow / mid | iron-scoop | 2.4 s |
+| Sol / far | ember-fall | 2.5 s |
+| Vesper / back | astral-drop | 2.7 s |
+
+These are original choreography and timing choices informed by the researched move descriptions. All six fighters now have one individually staged capture. The other eighteen fighter/context combinations still use shared throw tracks. Damage, guard-break timing, and stock cost have not changed.
