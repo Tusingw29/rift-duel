@@ -170,3 +170,7 @@ Four new 2.5-second profiles complete mid-range coverage. Aegis approaches and e
 ## Alpha 0.17: complete capture coverage for the six-fighter roster
 
 `capture-finishes.js` adds five rear throws (bridge suplex, leg reap, cradle slam, inverted driver, scissors flip) and three distant attacks (rushing barrage, travelling siege orb, surrounding astral cuts). Rear captures last 2.4 seconds and far captures 2.8 seconds, using original timing. All 24 contexts now select distinct profiles. Staged poses can control one leg separately for sweeps and flips. The shared choreography remains only as an unknown-profile fallback. This closes profile coverage, not production-quality contact animation or historical frame matching.
+
+## Alpha 0.18: three-hit aerial pursuit
+
+Pursuit snapshots an airborne rival within nine units at startup. The attacker glides toward the initial contact point over seven frames, then attempts hits on active offsets 0, 9 and 18. Damage is 4/4/6 times fighter power, preserving the previous 14 total. The first contacts preserve airborne height; the last ends in a grounded knockdown. Fresh air recovery, attacker interruption, loss of range or a grounded target cancels remaining contacts. Holding pursuit cannot reacquire a target. Grounded and out-of-range commands retain the single dash. Poses alternate strikes and a finishing kick; neutral framing tracks airborne height. These are original gameplay timings.

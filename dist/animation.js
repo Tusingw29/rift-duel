@@ -56,6 +56,12 @@ export function animateCharacter(r,p,time){
   if(move.effect==='lance'){r.spine.rotation.x=0;leftArm.rotation.x=-1.6*fade;rightArm.rotation.x=-1.6*fade;}
   if(move.effect==='fan'){r.spine.rotation.y=progress*Math.PI*2;leftArm.rotation.z=.8*fade;rightArm.rotation.z=-.8*fade;}
  }
+ if(p?.move?.aerial&&p.move.frame>=p.move.startup&&p.move.frame<p.move.startup+p.move.active){
+  const beat=Math.floor((p.move.frame-p.move.startup)/9),pulse=1-smooth(((p.move.frame-p.move.startup)%9)/9);
+  r.limbs[beat%2?2:0].rotation.x=-1.7*pulse;
+  r.elbows[beat%2].rotation.x=-.05;r.spine.rotation.y=(beat%2?-.35:.35)*pulse;
+  if(beat===2){rightLeg.rotation.x=-1.4*pulse;r.knees[1].rotation.x=0;}
+ }
  if(p?.move&&p.move.frame<p.move.startup){
   const wind=smooth(p.move.frame/p.move.startup);
   if(f.id==='morrow'){rightArm.rotation.x=-.3-wind*1.9;leftArm.rotation.x=-wind*1.3;r.spine.rotation.y=wind*.3;}

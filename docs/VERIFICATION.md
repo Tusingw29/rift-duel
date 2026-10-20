@@ -156,3 +156,9 @@ Chrome keyboard sequences selected all four new mid-range profiles. Screenshots 
 91 tests pass. The profile test requires 24 unique authored identities. All 24 receive finite-pose, camera-shot and return-home checks with normal, diagonal/reversed and zero-separation positions. Eight new acquisition cases check rear/far selection, held-guard bypass, one damage event and no stock consumption. Rig samples verify the new throws stay above the floor; distinct-effect assertions separate barrage, travelling orb and surrounding cuts.
 
 Chrome keyboard checks triggered all five rear captures through movement, circle-step and capture, plus the three far captures from initial spacing. Screenshots inspected all eight sequences. No console errors/warnings appeared. These samples establish working alpha choreography, not full animation quality or exact original-game fidelity.
+
+## Three-hit aerial pursuit (0.18)
+
+97 tests pass. New tests verify gradual approach before damage, three separated contacts for all six fighters, original total damage, final knockdown and roll recovery, fresh air-guard escape, attacker interruption, missed contact, range limits, and held-input non-reacquisition. The older launcher/pursuit test now waits for the full sequence.
+
+Chrome keyboard checks landed a launcher and all three pursuit hits: target HP 100 → 92 → 88 → 84 → 78, ending knocked down. A local-versus test used player-two guard after the first pursuit hit and finished at 88 HP with no subsequent damage. Initial screenshots exposed HUD overlap; the neutral camera now follows aerial height, and a second screenshot verified clear framing. No console errors/warnings appeared.

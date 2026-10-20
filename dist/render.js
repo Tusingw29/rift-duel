@@ -74,7 +74,7 @@ export function createView(canvas){
   finisher.visible=cinema?.kind==='capture'&&!stagedState;
   if(cinema?.kind==='capture'&&!stagedState){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
   const target=v(),pos=v();
-  if(m){const [a,b]=m.players;target.set((a.x+b.x)/2,1.1,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
+  if(m){const [a,b]=m.players;const airHeight=Math.max(...[a,b].map(p=>Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5));target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+airHeight*.5+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
    if(stagedState&&!settings.reduced){
     const shot=stagedState.camera;target.set(shot.target.x,shot.target.y,shot.target.z);
     const aspectScale=1/Math.min(1,camera.aspect/1.25);

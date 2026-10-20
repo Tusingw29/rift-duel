@@ -66,13 +66,19 @@ function action(m,a,b,requested,empowered=false){
  if(kind==='super'||empowered)a.stocks--;
  const timing=moveTiming(f,kind);
  a.move={kind,...timing,empowered,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ if(kind==='pursuit'&&b.air>0&&d<9){
+  a.move.aerial=true;a.move.active=19;a.move.total=timing.startup+19+timing.recovery;
+  a.move.glideX=(b.x-a.x-a.move.aimX*1.6)/timing.startup;
+  a.move.glideZ=(b.z-a.z-a.move.aimZ*1.6)/timing.startup;
+  a.air=.45;
+ }
  a.buffer=null;
  if(chaining&&previous.kind==='strike'&&d<f.reach+.5){
   const advance=Math.min(.4,Math.max(0,d-1.2));
   a.x=clamp(a.x+a.move.aimX*advance,-11,11);a.z=clamp(a.z+a.move.aimZ*advance,-6,6);
  }
  if(chaining)event(m,'hint',{text:`CHAIN ${a.move.chain} / 3`});
- a.cool=timing.total*STEP;a.anim=kind==='shot'?'attack':kind;a.animTime=timing.total*STEP;
+ a.cool=a.move.total*STEP;a.anim=kind==='shot'?'attack':kind;a.animTime=a.cool;
  a.held=0;
 }
 function executeAction(m,a,b,move){
@@ -150,9 +156,19 @@ function executeAction(m,a,b,move){
   }return;
  }
  if(kind==='pursuit'){
-  
-  if(b.air>0&&d<9){a.x=b.x-dx*1.6;a.z=b.z-dz*1.6;hit(m,a,b,14*f.power);event(m,'hint',{text:'AERIAL PURSUIT'});}
-  else{a.x=clamp(a.x+dx*2,-11,11);a.z=clamp(a.z+dz*2,-6,6);if(d<4)hit(m,a,b,7*f.power);}
+  if(move.aerial){
+   if(move.aborted||b.inv>0||b.air<=0||d>3){move.aborted=true;return;}
+   const beat=move.frame-move.startup;
+   if(beat!==0&&beat!==9&&beat!==18)return;
+   const last=beat===18,previousAir=b.air;
+   const landed=hit(m,a,b,(last?6:4)*f.power,'hit',!last);
+   if(!landed){move.aborted=true;return;}
+   move.pursuitHit=beat/9+1;a.air=last?.16:.4;
+   if(!last)b.air=clamp(previousAir,.35,.65);
+   if(last){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}
+   event(m,'hint',{text:`AERIAL PURSUIT ${move.pursuitHit} / 3`});return;
+  }
+  a.x=clamp(a.x+dx*2,-11,11);a.z=clamp(a.z+dz*2,-6,6);if(d<4)hit(m,a,b,7*f.power);
   return;
  }
  if(kind==='launch') {if(d<f.reach+.3&&facing)hit(m,a,b,8*f.power,'hit',true);return;}
@@ -230,6 +246,9 @@ export function update(m,inputs,dt=STEP){
   for(const a of m.players){
    const move=a.move;if(!move||move.started===m.tick)continue;
    move.frame++;a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
+   if(move.aerial&&move.frame<=move.startup){
+    a.x=clamp(a.x+move.glideX,-11,11);a.z=clamp(a.z+move.glideZ,-6,6);
+   }
    if(move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
    if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
   }

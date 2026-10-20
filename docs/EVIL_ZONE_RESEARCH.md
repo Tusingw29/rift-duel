@@ -103,3 +103,7 @@ The PAL guide describes mid-range blade extraction, a sustained sword thrust, a 
 ## Rear and far capture completion
 
 The PAL guide describes rear suplex, leg-hook, wrestling-slam and scissors-style captures for the corresponding archetypes. Its far descriptions inform Tala’s rushing strikes, Morrow’s energy orb and Vesper’s staged cuts. Version 0.17 adapts these broad identities with original timing, trajectories, echoes and cameras. All current-roster contexts now have individual direction; this does not resolve the documented gaps in original-game timing and regional behavior. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Aerial pursuit pass
+
+The PAL guide describes a three-hit glide follow-up against airborne opponents and guard-based air recovery. Version 0.18 implements those broad roles. Seven-frame approach, nine-frame contact spacing, 4/4/6 damage, escape handling, final knockdown and height-aware framing are original tuning; the guide alone does not verify exact original pursuit timing or recovery windows. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
