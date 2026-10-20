@@ -10,21 +10,26 @@ const cells=[
  ['jab f0',strike(1,0)],['jab f2',strike(1,2)],['jab f5 HIT',strike(1,5)],['jab f8',strike(1,8)],['jab f13',strike(1,13)],['jab f19',strike(1,19)],['cross f5 HIT',strike(2,5)],['cross f9',strike(2,9)],
  ['hook f0',strike(3,0)],['hook f3',strike(3,3)],['hook f5 HIT',strike(3,5)],['hook f8',strike(3,8)],['hook f12',strike(3,12)],['hook f16',strike(3,16)],['hook f19',strike(3,19)],['stance',{anim:'idle'},0]
 ];
-const cols=8,rows=Math.ceil(cells.length/cols);
-const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.setScissorTest(true);document.body.append(renderer.domElement);
+const cols=8;
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.setScissorTest(true);document.body.append(renderer.domElement);
 const scene=new T.Scene();scene.background=new T.Color('#10191c');scene.add(new T.HemisphereLight('#dcf5ff','#444455',3));const light=new T.DirectionalLight('#fff5df',3);light.position.set(-3,8,9);scene.add(light);
 const floor=new T.Mesh(new T.CircleGeometry(3,32),new T.MeshStandardMaterial({color:'#283c40'}));floor.rotation.x=-Math.PI/2;scene.add(floor);
 const rig=buildCharacter(2);scene.add(rig.g);
-const w=innerWidth/cols,h=innerHeight/rows;const labels=document.getElementById('labels');
-cells.forEach(([name,p,t],i)=>{
- // Each cell is a fresh rig state so blending does not leak between cells.
- rig.pose=null;rig.lastTime=undefined;rig.prevTwist=undefined;rig.twistLag=0;
- const time=t??1;for(let k=0;k<8;k++)animateCharacter(rig,p,time+k*1/60);
- const col=i%cols,row=Math.floor(i/cols),x=col*w,y=innerHeight-(row+1)*h;
- const camera=new T.PerspectiveCamera(36,w/h,.1,100);
- if(view==='back')camera.position.set(1.9,2.5,-5.2);else camera.position.set(-1.6,1.9,5.4);
- camera.lookAt(0,1,0);
- renderer.setViewport(x,y,w,h);renderer.setScissor(x,y,w,h);renderer.render(scene,camera);
- const b=document.createElement('b');b.textContent=name;b.style.left=(x+4)+'px';b.style.top=(row*h+4)+'px';labels.append(b);
-});
+const labels=document.getElementById('labels');
+function renderSheet(){
+ const rows=Math.ceil(cells.length/cols),w=innerWidth/cols,h=innerHeight/rows;labels.innerHTML='';renderer.clear();
+ cells.forEach(([name,p,t],i)=>{
+  // Each cell is a fresh rig state so blending does not leak between cells.
+  rig.pose=null;rig.lastTime=undefined;rig.prevTwist=undefined;rig.twistLag=0;
+  const time=t??1;for(let k=0;k<8;k++)animateCharacter(rig,p,time+k*1/60);
+  const col=i%cols,row=Math.floor(i/cols),x=col*w,y=innerHeight-(row+1)*h;
+  const camera=new T.PerspectiveCamera(36,w/h,.1,100);
+  if(view==='back')camera.position.set(1.9,2.5,-5.2);else camera.position.set(-1.6,1.9,5.4);
+  camera.lookAt(0,1,0);
+  renderer.setViewport(x,y,w,h);renderer.setScissor(x,y,w,h);renderer.render(scene,camera);
+  const b=document.createElement('b');b.textContent=name;b.style.left=(x+4)+'px';b.style.top=(row*h+4)+'px';labels.append(b);
+ });
+}
+window.rig=rig;window.cells=cells;window.strikeState=strike;window.animateCharacter=animateCharacter;window.renderSheet=renderSheet;
+renderSheet();
 </script></body></html>
