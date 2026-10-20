@@ -246,3 +246,7 @@ Reference inspected in Chrome: https://www.youtube.com/watch?v=wkltXOTfZa8 at 1:
 Added tests for a supporting foot holding world position while the root advances, preservation of full movement pose amplitude after transition, and direct continuity between chained punches. Chrome local training checks movement and a paused run pose from the fight camera. Subjective fluidity remains a playtest judgment. Shared aerial/capture animation transitions and boot orientation remain limitations.
 
 Final local build: 173 tests pass. Chrome training sequence circled both directions, retreated, approached and landed all three punches (rival HP 100 → 93.88 → 87.76 → 77.56). No console errors or warnings.
+
+## Post-0.32 check from a second session
+
+The public build hash matched the local release. A headless Chromium training session as Tala against an idle Morrow advanced, stopped, circled, closed in and landed all three punches (rival HP 93.88 → 87.76 → 81.64) with no console errors; captured frames showed grounded feet while advancing and circling and a planted follow-through on the straight. Training input-history arrows were corrected to the lock-on meaning (↑ close, ↓ retreat, ← → circle). Fluidity at normal speed remains a live playtest judgment.
