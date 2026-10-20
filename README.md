@@ -12,26 +12,30 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 - Frame-timed wind-up/contact/recovery, attack interruption, simultaneous hit trades, recovery buffering, and training phase feedback.
 - WASD keyboard controls, standard gamepads, and basic touch controls.
 - First-to-two rounds, restart/rematch, arcade endings, pause-on-blur, persistent options.
+- Round ceremony: versus card, round and fight calls with a camera sweep, hitstop and camera shake on contact, a held K.O. freeze with a push-in on the fallen fighter and a winner pose, and round-win pips.
+- Six home arenas (orbital relay, moonlit shrine, storm summit, iron wastes, ember archive, silent orbit), chosen by the opponent's home.
+- Procedural soundtrack per arena and menu, synthesized impact/KO/announcement effects, and an optional announcer voice; no audio files.
 - Static deployment with GitHub Actions tests before GitHub Pages publication.
 
 ## Controls
 
 | Action | Player 1 | Standard controller |
 |---|---|---|
-| Move / sidestep | WASD | Left stick / D-pad |
+| Close in / retreat | W / S | Stick or D-pad up / down |
+| Circle left / right | A / D | Stick or D-pad left / right |
 | Attack / hold to charge | J | A / Cross |
 | Guard | K | B / Circle |
-| Signature / retreat special | Toward / away + tap J | Stick + attack |
-| Capture | U or S + tap J | X / Square |
-| Third signature | W + tap J | Up + A / Cross |
-| Launcher | I or double-tap S + J | LB / L1 |
+| Signature / retreat special | W / S + tap J | Up / down + attack |
+| Capture | U or D + tap J | X / Square or right + attack |
+| Third signature | A + tap J | Left + A / Cross |
+| Launcher | I or double-tap D + J | LB / L1 |
 | Pursuit / dash | O | RB / R1 |
 | Burst (one stock) | L | Y / Triangle |
 | Pause | Escape | Start / Options |
 
 Player 2: arrows and Numpad 1–6 (or number row 1–6) for attack, guard, capture, launch, pursuit, burst. In local versus one controller controls P2; two controllers control both players. Other modes use the first controller for P1. Press a controller button after connecting it. Menus: Up/Down moves focus, Left/Right changes a fighter or value, A/Cross confirms, B/Circle closes dialogs. Mode, opponent, options, pause, and result controls support the controller.
 
-Directional commands work with keyboard or gamepad: tap a direction twice within 0.30 seconds, then attack. Toward = pursuit, away = burst, down = launcher, up = jumping crossover. Double-tap up + guard jumps. Press guard freshly in the air to recover. Toward + guard circles behind a nearby rival; capture before they turn for a back throw. Capture context (front/back/middle/far) changes damage, motion and camera framing.
+The camera locks on behind your fighter, Evil Zone style, so directions never flip when fighters swap sides: W always closes in, S retreats, A and D circle the rival. Options can switch to the older side camera. Directional commands work with keyboard or gamepad: tap a direction twice within 0.30 seconds, then attack. Close (W) = pursuit, retreat (S) = burst, D = launcher, A = jumping crossover. Double-tap A + guard jumps. Press guard freshly in the air to recover. W + guard circles behind a nearby rival; capture before they turn for a back throw. Capture context (front/back/middle/far) changes damage, motion and camera framing.
 
 Tap means release within 0.24 seconds. Hold attack without a direction to charge. Aegis: toward + hold attack, then release for a four-shot volley. Sol: away + hold attack, then release for a retreating five-shot fire fan. Both held specials cost one stock; their direction is selected when attack is pressed. Captures defeat sustained guard, but a fresh guard breaks them. Launch at close range, then pursue immediately after recovery. Bursts can be guarded and miss at long range.
 
@@ -98,3 +102,13 @@ Aegis’s retreat special is a stunning lightning bolt. Rei sends a winged spiri
 Keyboard remapping: **Options → Keyboard controls**. Choose any player/action, then press a letter, number, arrow, Space or numeric keypad key. Escape cancels. Conflicts are rejected across both players; changing a control replaces its old aliases. Layouts save in this browser, with a Restore default keys button. Fight prompts show your current Player 1 bindings. Controller and touch actions remain unchanged.
 
 Sol’s base toward special now sends one stunning fire shot; his retreat special sends one flame that knocks down on a clean hit. A second tap still selects the slower knockdown shot or split flames, and a retreating hold still spends one stock on five flames.
+
+## Alpha 0.27: lock-on camera, hit feel, arenas and audio
+
+Movement is now relative to the rival rather than world axes: the simulation resolves W/S along the line to the opponent and A/D as circling. The default camera sits behind your fighter looking across at the rival; Options → Camera restores the side overview. Player two in local versus uses the same relative scheme from their own point of view.
+
+Rounds open with a versus card, "ROUND N" and "FIGHT" over an orbiting camera sweep. Hits freeze both fighters briefly (longer for heavy hits), shake the camera and flash the victim. A knockout holds a slow K.O. moment with the camera cutting beside the fallen fighter while the winner poses; time-outs and draws use the same hold. Training skips the ceremony, and Reduce motion shortens it and disables the sweep and shake.
+
+Every fighter has a home arena with its own palette, lighting, fog, decoration and ambient animation. Arcade, duel and local fights use the opponent's home; training and the menu use yours. Music is a synthesized sixteen-step sequencer per arena with a four-bar bass movement, plus a menu theme. Effects for hits, blocks, deflects, shots, stocks, captures, bursts, KO and round calls are synthesized at runtime. Options include Music, Announcer voice (browser speech synthesis, where available) and Camera.
+
+Story-mode episode data (`story.js`) is authored and tested but not yet wired into the menu; arcade remains a six-bout journey for now.

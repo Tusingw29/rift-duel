@@ -9,7 +9,7 @@ test('strike has eight startup frames and a follow-up still needs its own startu
  tap(m);assert.equal(m.players[0].move.chain,2);step(m,{}, {},7);assert.equal(m.players[1].hp,94);step(m);assert.equal(m.players[1].hp,88);
 });
 test('leaving range during startup makes a melee strike whiff instead of changing to a shot',()=>{
- const m=close();m.players[1].x=-1.5;tap(m);step(m,{}, {x:1},8);assert.equal(m.players[1].hp,100);assert.equal(m.projectiles.length,0);
+ const m=close();m.players[1].x=-1.5;tap(m);step(m,{}, {x:-1},8);assert.equal(m.players[1].hp,100);assert.equal(m.projectiles.length,0);
 });
 test('faster melee interrupts the slower fighter before contact',()=>{
  const m=close(2,3);tap(m,true,true);step(m,{}, {},12);assert.equal(m.players[0].hp,100);assert.ok(m.players[1].hp<100);assert.equal(m.players[1].move,null);

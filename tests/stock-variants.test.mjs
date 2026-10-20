@@ -66,8 +66,8 @@ test('interrupting startup cancels the volley and does not refund its cost',()=>
  const m=createMatch();hold(m,1);hit(m,m.players[1],m.players[0],5);
  step(m,{}, {},40);assert.equal(m.players[0].stocks,0);assert.equal(m.projectiles.length,0);
 });
-test('held variant is opponent relative on either side and works for player two',()=>{
- const m=createMatch(1,0);step(m,{}, {x:-1,attack:true},20);step(m);
+test('held variant is lock-on relative on either side and works for player two',()=>{
+ const m=createMatch(1,0);step(m,{}, {x:1,attack:true},20);step(m);
  assert.equal(m.players[1].move.kind,'forward');assert.equal(m.players[1].move.empowered,true);assert.equal(m.players[1].stocks,0);
 });
 test('buffering a held variant retains its cost and cannot bypass recovery',()=>{

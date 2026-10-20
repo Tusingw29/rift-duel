@@ -1,4 +1,5 @@
-// Opponent-relative horizontal commands and world-oriented depth commands.
+// Lock-on commands: x is toward (+) or away (-) from the rival, z is the circling
+// direction (+ right, - left), so inputs never flip when fighters swap sides.
 // These windows are Rift Duel tuning, not measured Evil Zone frame data.
 export const DOUBLE_TAP_WINDOW = 18;
 export const COMMAND_LIFETIME = 18;

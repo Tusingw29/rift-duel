@@ -190,3 +190,7 @@ Keyboard and touch controls enqueue changed input snapshots independently for ea
 ## Keyboard configuration (0.25)
 
 A separate validated binding map stores two players and ten actions per player. Defaults retain WASD and the player-two numeric-key aliases. Rebinding requires an unused key and replaces the selected action’s old aliases. Escape and browser shortcut keys are reserved. Malformed or conflicting saved layouts fall back to defaults. Reconfiguration flushes input queues, and touch buttons resolve their original logical action through the current map. The editor saves to a separate browser-storage key and reports a session-only change if storage fails. Controller mappings are unchanged.
+
+## Alpha 0.27: lock-on presentation pass
+
+Goal: make a round feel like Evil Zone before adding more systems. Four changes: (1) a lock-on camera behind the player with opponent-relative movement in the simulation, so inputs keep meaning after side swaps; (2) hit feel through hitstop, camera shake, hurt flash, a K.O. hold with cut-in camera, winner and defeat poses, and a versus/round/fight ceremony with an orbiting sweep; (3) six home arenas built as disposable groups with per-stage lighting and fog; (4) a fully synthesized soundtrack and effects layer with optional speech-synthesis announcer. The round ceremony is a pure state machine (`presentation.js`) driven by `main.js`, and hitstop is applied by skipping simulation steps so tests and the combat module are unaffected. Story episode data is authored (`story.js`) for a later menu pass.

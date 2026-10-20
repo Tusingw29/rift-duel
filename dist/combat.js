@@ -200,8 +200,8 @@ export function aiInput(m,dt){
  const random=()=>{m.seed=((m.seed||1234567)*1664525+1013904223)>>>0;return m.seed/4294967296;};
  m.aiClock=.14+random()*.23/skill;
  const i=neutral(),r=random(),preferred=f.id==='tala'?1.8:f.id==='sol'||f.id==='vesper'?6:3;
- i.x=d>preferred?Math.sign(b.x-a.x):d<preferred-1?-Math.sign(b.x-a.x):0;
- i.z=Math.abs(b.z-a.z)>1?Math.sign(b.z-a.z):(r<.25?1:r>.8?-1:0);
+ i.x=d>preferred?1:d<preferred-1?-1:0;
+ i.z=r<.25?1:r>.8?-1:0;
  const incoming=m.projectiles.some(p=>p.owner===0&&Math.hypot(p.x-a.x,p.z-a.z)<4);
  i.guard=(incoming||b.anim==='strike')&&r<skill;
  i.attack=!i.guard&&r<.8;
@@ -220,7 +220,7 @@ export function update(m,inputs,dt=STEP){
    const i=inputs[n]||neutral(),b=m.players[1-n];
    a.turnDelay=Math.max(0,a.turnDelay-dt);
    if(a.turnDelay===0&&a.stun===0&&!a.move){const d=distance(a,b)||1;a.lookX=(b.x-a.x)/d;a.lookZ=(b.z-a.z)/d;a.face=b.x>=a.x?1:-1;}
-   const command=readCommand(a.commands,i,a.prev,a.face,m.tick);
+   const command=readCommand(a.commands,i,a.prev,1,m.tick);
    const freshGuard=i.guard&&!a.prev.guard;
    const freshDepth=Math.abs(i.z)>.5&&(Math.abs(a.prev.z)<=.5||Math.sign(i.z)!==Math.sign(a.prev.z));
    if(a.anim==='knockdown'&&a.stun>0&&a.stun<=.55&&freshDepth){
@@ -229,7 +229,7 @@ export function update(m,inputs,dt=STEP){
    }
    if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
    else if(command==='jump'&&a.stun<=0&&a.cool<=0){a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;event(m,'hint',{text:'JUMP'});}
-   else if(freshGuard&&i.x*a.face>.5&&distance(a,b)<3.5&&a.stun<=0&&a.cool<=0){
+   else if(freshGuard&&i.x>.5&&distance(a,b)<3.5&&a.stun<=0&&a.cool<=0){
     const d=distance(a,b)||1,dx=(b.x-a.x)/d,dz=(b.z-a.z)/d;
     a.x=clamp(b.x+dx*1.6,-11,11);a.z=clamp(b.z+dz*1.6,-6,6);a.inv=.15;a.cool=.12;b.turnDelay=.45;
     event(m,'hint',{text:'CIRCLE STEP'});
@@ -247,7 +247,8 @@ export function update(m,inputs,dt=STEP){
     if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
     if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
     const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
-    a.x=clamp(a.x+i.x/len*speed*dt,-11,11);a.z=clamp(a.z+i.z/len*speed*dt,-6,6);
+    // Lock-on movement: x closes or retreats along the line to the rival, z circles.
+    const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
     if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.anim='charge';if(!hasStockVariant(a.id,a.commands.attack)){a.charge+=dt*(1+(100-a.hp)/65);if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}}
     if(!i.attack&&a.prev.attack){if(a.held>0&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))action(m,a,b,a.commands.attack||'attack',a.held>.24);a.held=0;}

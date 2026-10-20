@@ -8,8 +8,8 @@ test('forward-forward attack pursues; back-back attack consumes stock',()=>{
  const m=createMatch();double(m,{x:1});assert.equal(m.players[0].anim,'pursuit');assert.equal(m.projectiles.length,0);
  const n=createMatch();double(n,{x:-1});assert.equal(n.cinematic.kind,'super');assert.equal(n.players[0].stocks,0);
 });
-test('horizontal commands reverse for right-side player',()=>{
- const m=createMatch();m.players[0].x=4;m.players[1].x=-4;double(m,{x:1});assert.equal(m.cinematic.kind,'super');
+test('retreat command stays relative for the right-side player',()=>{
+ const m=createMatch();m.players[0].x=4;m.players[1].x=-4;double(m,{x:-1});assert.equal(m.cinematic.kind,'super');
 });
 test('down-down attack launches and up-up attack crosses over',()=>{
  const m=createMatch();m.players[1].x=-2;double(m,{z:1});assert.ok(m.players[1].air>0);assert.equal(m.cinematic,null);

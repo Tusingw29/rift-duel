@@ -74,6 +74,18 @@ export function animateCharacter(r,p,time){
  if(p?.guard){leftArm.rotation.x=-.85;rightArm.rotation.x=-.85;leftArm.rotation.z=.16;rightArm.rotation.z=-.16;r.elbows[0].rotation.x=-1.3;r.elbows[1].rotation.x=-1.3;r.spine.rotation.x=.09;}
  if((p?.air||0)>0){leftLeg.rotation.x=-.55;rightLeg.rotation.x=.3;r.knees[0].rotation.x=.9;r.knees[1].rotation.x=.5;}
  if(state==='hurt'){r.spine.rotation.x=-.22;r.head.rotation.x=-.15;leftArm.rotation.z=.5;rightArm.rotation.z=-.5;}
+ if(state==='victory'){
+  // Round-winning pose, held while the camera pushes in on the fallen rival.
+  const settle=smooth((p.animTime||0)/.45),bob=Math.sin(time*2.2)*.02;
+  r.body.position.y+=.06*settle+bob;r.head.rotation.x=-.18*settle;
+  if(f.id==='aegis'){rightArm.rotation.x=-2.9*settle;rightArm.rotation.z=-.15;leftArm.rotation.x=-.35*settle;r.spine.rotation.y=.18*settle;}
+  else if(f.id==='rei'){rightArm.rotation.x=-1.1*settle;rightArm.rotation.y=-.9*settle;rightArm.rotation.z=.4*settle;leftArm.rotation.z=.3;r.spine.rotation.y=.45*settle;r.spine.rotation.x=.08;}
+  else if(f.id==='tala'){rightArm.rotation.x=-3*settle;r.elbows[1].rotation.x=-.1;leftArm.rotation.x=-.5;r.elbows[0].rotation.x=-1.6;r.spine.rotation.y=-.3*settle;leftLeg.rotation.x=-.3*settle;r.knees[0].rotation.x=.5*settle;}
+  else if(f.id==='morrow'){rightArm.rotation.x=-2.2*settle;rightArm.rotation.z=-.5*settle;r.elbows[1].rotation.x=-.9*settle;leftArm.rotation.x=.2;r.spine.rotation.x=-.08*settle;}
+  else if(f.id==='sol'){leftArm.rotation.x=-2.7*settle;r.elbows[0].rotation.x=-.2;rightArm.rotation.z=-.9*settle;r.spine.rotation.y=.2*settle;}
+  else{leftArm.rotation.x=-1.4*settle;rightArm.rotation.x=-1.4*settle;leftArm.rotation.z=1.1*settle;rightArm.rotation.z=-1.1*settle;r.elbows[0].rotation.x=-.3;r.elbows[1].rotation.x=-.3;r.body.position.y+=.25*settle;}
+ }
+ if(state==='defeat'){const down=smooth(Math.min(1,(p.animTime||0)/.35));r.body.rotation.z=Math.PI/2*down;r.body.position.y=.35*down;leftArm.rotation.x=-.6*down;rightArm.rotation.x=.4*down;r.head.rotation.z=.2*down;}
  if(state==='knockdown'){const down=smooth((p.animTime||0)/.35);r.body.rotation.z=Math.PI/2*down;r.body.position.y=.35*down;}
  if(state==='roll'&&p.roll){const progress=Math.min(1,p.roll.elapsed/.3);const angle=progress*Math.PI*2*p.roll.direction*(p.face||1);r.body.rotation.z=angle;r.body.position.x=Math.sin(angle)*1.4;r.body.position.y=.3+1.4*(1-Math.cos(angle));leftLeg.rotation.x=-.8;rightLeg.rotation.x=-.8;r.knees[0].rotation.x=1.4;r.knees[1].rotation.x=1.4;leftArm.rotation.x=-1.3;rightArm.rotation.x=-1.3;}
  if(r.spirit){r.spirit.position.y=1.55+Math.sin(time*1.6)*.09;r.spirit.rotation.y=Math.sin(time)*.12;r.spirit.userData.material.opacity=state==='idle'?.22:.42;}
