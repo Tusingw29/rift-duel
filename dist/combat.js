@@ -6,6 +6,8 @@ import {normalizeOptions} from './options.js';
 export const STEP=1/60;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// Held stock variants are intentionally limited to these researched archetypes.
+export const hasStockVariant=(id,command)=>(id===0&&command==='forward')||(id===4&&command==='back');
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
@@ -43,20 +45,21 @@ function beginCapture(m,a,b,context){
  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,...capturePresentation(fighters[a.id].id,context),damage:15*fighters[a.id].power*multiplier,kind:'capture',context,name:fighters[a.id].capture};
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
-function action(m,a,b,requested){
+function action(m,a,b,requested,empowered=false){
  if(a.stun>0||a.guard||m.cinematic)return;
  const previous=a.move;
  const chaining=canChain(previous)&&(requested==='attack'||previous.chain===2&&['capture','launch','forward','back','technique','pursuit','jumpAttack','super'].includes(requested));
  if((a.move||a.cool>0)&&!chaining){
   const remaining=a.move?a.move.total-a.move.frame:Math.ceil(a.cool/STEP);
-  if(remaining<=INPUT_BUFFER_FRAMES)a.buffer={kind:requested,expires:m.tick+INPUT_BUFFER_FRAMES+1};
+  if(remaining<=INPUT_BUFFER_FRAMES)a.buffer={kind:requested,empowered,expires:m.tick+INPUT_BUFFER_FRAMES+1};
   return;
  }
  const f=fighters[a.id],d=distance(a,b),kind=requested==='attack'?(chaining?previous.kind:d<f.reach?'strike':'shot'):requested;
- if(kind==='super'&&a.stocks<1){event(m,'hint',{text:'Hold attack to charge a power stock'});return;}
- if(kind==='super')a.stocks--;
+ empowered=empowered&&hasStockVariant(a.id,kind);
+ if((kind==='super'||empowered)&&a.stocks<1){event(m,'hint',{text:'Hold attack without a direction to charge a power stock'});return;}
+ if(kind==='super'||empowered)a.stocks--;
  const timing=moveTiming(f,kind);
- a.move={kind,...timing,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ a.move={kind,...timing,empowered,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
  a.buffer=null;
  if(chaining&&previous.kind==='strike'&&d<f.reach+.5){
   const advance=Math.min(.4,Math.max(0,d-1.2));
@@ -97,6 +100,17 @@ function executeAction(m,a,b,move){
   event(m,'cinematic',{text:f.special});return;
  }
  if(kind==='forward'||kind==='back'){
+  if(move.empowered){
+   const volley=f.id==='aegis',count=volley?4:5;
+   event(m,'hint',{text:volley?'SENTINEL VOLLEY · 1 STOCK':'EMBER FAN · 1 STOCK'});
+   if(!volley){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+   for(let j=0;j<count;j++){
+    const angle=Math.atan2(dz,dx)+(volley?0:(j-2)*.19);
+    const spacing=volley?j*.7:0;
+    m.projectiles.push({x:a.x+dx*(1-spacing),z:a.z+dz*(1-spacing),dx:Math.cos(angle)*f.shotSpeed,dz:Math.sin(angle)*f.shotSpeed,life:2.5,owner:m.players.indexOf(a),damage:(volley?4:6)*f.power,kind:volley?'beam':'bolt',radius:volley?.35:.65});
+   }
+   event(m,'shot',{color:f.color});return;
+  }
   
   event(m,'hint',{text:f.moves[kind==='forward'?0:1]});
   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
@@ -187,12 +201,12 @@ export function update(m,inputs,dt=STEP){
    if(a.animTime===0)a.anim='idle';
    if(a.stun<=0){
     if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
-    if(a.buffer&&!a.move&&a.cool<=0){const command=a.buffer.kind;a.buffer=null;action(m,a,b,command);}
+    if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
     const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     a.x=clamp(a.x+i.x/len*speed*dt,-11,11);a.z=clamp(a.z+i.z/len*speed*dt,-6,6);
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
-    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.charge+=dt*(1+(100-a.hp)/65);a.anim='charge';if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}
-    if(!i.attack&&a.prev.attack){if(a.held>0&&a.held<=.24)action(m,a,b,a.commands.attack||'attack');a.held=0;}
+    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.anim='charge';if(!hasStockVariant(a.id,a.commands.attack)){a.charge+=dt*(1+(100-a.hp)/65);if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}}
+    if(!i.attack&&a.prev.attack){if(a.held>0&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))action(m,a,b,a.commands.attack||'attack',a.held>.24);a.held=0;}
     if(!i.attack)a.held=0;
     for(const kind of ['capture','launch','pursuit','super'])if(i[kind]&&!a.prev[kind])action(m,a,b,kind);
    }else{a.held=0;}

@@ -83,3 +83,7 @@ The guide separates up-plus-attack character specials from the double-down launc
 ## Ground recovery follow-up
 
 The Otaku_Tom guide lists depth-direction rolling while knocked down. Version 0.8 now includes an original recovery roll alongside airborne guard recovery. Exact original timing, displacement, and invulnerability remain unmeasured. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Held specials follow-up
+
+The PAL guide lists stock-consuming held forward shots for Danzaiver and held retreating fire attacks for Alty. Version 0.13 adapts these roles into Aegis’s aligned volley and Sol’s fire fan. Shot counts, spacing, release threshold, damage, and spread angles are original tuning, not measured original behavior. Other held specials and tap follow-ups still need implementation. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

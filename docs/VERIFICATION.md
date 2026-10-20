@@ -121,3 +121,12 @@ Desktop Chrome screenshots verified the orbital beam during Aegis's far capture,
 70 tests pass. Capture-profile scope and damage tests now cover all six fighters, including held-guard bypass, no stock cost, and exactly one hit. New pose checks cover reversed/diagonal/zero separation, multiple camera shots, finite transforms, input immutability, and return to simulation positions. Effect checks distinguish spirit flight, weapon lift, firefall, and the two-fighter aerial drop.
 
 Chrome screenshots verified all four new captures. Vesper's back capture was triggered with actual move → circle-step → capture keyboard inputs. Rei's spirit wings were enlarged/reoriented after initial inspection, then visually rechecked. All new profiles appeared in read-only debug state at the expected context. No console errors/warnings appeared in the final local check. These sampled checks are not full frame-by-frame animation verification.
+
+
+## First held stock specials (0.13)
+
+76 tests pass. Added checks cover stock consumption on release, distinct projectile patterns, free tap variants, neutral stock charging, empty-stock refusal, interrupted startup, player-two opponent-relative input, and preservation of the empowered variant through recovery buffering.
+
+Local Chrome keyboard checks triggered both specials. Aegis produced four projectiles, spent one stock, and dealt 16 total damage to an idle target. Sol retreated and produced five diverging projectiles for one stock. Screenshots inspected both patterns and the STOCK training readout. No console errors or warnings appeared. Hardware controller testing remains outstanding; the specials use the existing shared input pipeline.
+
+Public alpha 0.12 was also rechecked before this change: Rei’s far capture selected spirit-flight, finished with target health 83.125, and did not consume stock. Its deployment completed successfully.

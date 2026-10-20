@@ -150,3 +150,7 @@ The corresponding stock bursts are distinct: Aegis's renamed Sentinel Verdict ap
 | Vesper / back | astral-drop | 2.7 s |
 
 These are original choreography and timing choices informed by the researched move descriptions. All six fighters now have one individually staged capture. The other eighteen fighter/context combinations still use shared throw tracks. Damage, guard-break timing, and stock cost have not changed.
+
+## Alpha 0.13: first stock specials
+
+Aegis’s held forward attack produces four aligned shots; Sol’s held back attack retreats and produces a five-shot spread. Holding longer than 0.24 seconds selects the variant, and releasing spends one stock at startup. Empty stock refuses the action. Neutral holding still replenishes stock. Commands retain their direction from attack press, and the input buffer preserves the variant. These counts, timing, damage and fan angles are original balance choices. Other fighters retain their existing hold behavior.
