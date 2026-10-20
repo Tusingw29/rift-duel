@@ -100,3 +100,10 @@ In local versus, Chrome keyboard inputs moved player two into range, launched pl
 A synthetic standard gamepad in Chrome navigated from fighter selection to mode, changed to duel, opened options, and saved 60 seconds / first to one / large dead zone. A screenshot confirmed visible focus and readable option labels. The controller started the match, paused with Start, and resumed with B. The CPU bout ended with MATCH RESULT at a 0–1 score, verifying the first-to-one result flow. Options survived reload.
 
 The first test exposed A-button carryover into combat. After adding a release gate, starting and resuming left the fighter idle, while a subsequent fresh A press produced a projectile. No browser console errors/warnings were reported. This is synthetic API testing, not a physical controller test.
+
+
+## Training tools (0.10)
+
+65 tests pass. Added checks cover held-input duration and release markers, bounded history, diagonal/action labels, input immutability, and migration from the old training CPU setting.
+
+Chrome training checks selected Hold guard from the pause menu. A strike reduced target health from 100 to 99.28; a subsequent capture reduced it to 84.28. Input history displayed movement, release, attack, and release states with frame counts. Desktop and narrow-viewport screenshots were inspected for readability. Disabling the display hid it immediately on resuming. No console errors/warnings were reported in the initial browser check.

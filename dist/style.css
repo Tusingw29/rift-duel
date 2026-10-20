@@ -3,3 +3,5 @@
 
 #training-readout{position:absolute;bottom:65px;left:0;padding:10px 14px;border-left:2px solid var(--acid);background:#10191cdd;font-size:11px;letter-spacing:1px;color:var(--acid)}#training-readout[data-phase=startup]{color:#f5b65d;border-color:#f5b65d}#training-readout[data-phase=recovery]{color:#a5b1a8;border-color:#a5b1a8}@media(pointer:coarse),(max-width:600px){#training-readout{bottom:155px;font-size:9px}}
 .controller-nav button:focus,.controller-nav select:focus,.controller-nav input:focus{outline:2px solid var(--acid);outline-offset:4px}
+
+#input-history{position:absolute;left:0;bottom:110px;max-width:min(600px,80vw);background:#10191cdd;padding:8px 12px;font:12px monospace;color:var(--ink);line-height:1.7;overflow-wrap:anywhere;pointer-events:none}@media(pointer:coarse),(max-width:600px){#input-history{bottom:200px;font-size:10px;max-width:85vw}}

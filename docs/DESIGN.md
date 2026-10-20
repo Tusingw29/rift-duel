@@ -124,3 +124,8 @@ The procedural roll rotates around the torso and applies render-only floor clear
 Saved options now include round length (60, 90, 120 seconds), wins required (1, 2, 3), and stick dead zone (0.12, 0.22, 0.32). Defaults preserve 90-second, first-to-two matches. Training remains untimed. Match rules are snapshotted into each new round and the result flow uses the selected wins target. `options.js` validates persisted values, rejecting unsupported or malformed settings.
 
 Controller menus use Up/Down to move focus, Left/Right to change values, A to confirm, and B to close dialogs. Fighters preview when focused; A starts with the focused fighter. Selects, sliders, and checkboxes work without a mouse. Focus has a visible outline, and native focus scrolling brings off-screen options into view. D-pad directions override analog drift. Confirmation/pause buttons must be released before gameplay input resumes, preventing an accidental attack after starting a match. Physical hardware validation remains outstanding.
+
+
+## Training tools (0.10)
+
+Practice now offers standing, held guard, and active CPU behavior. Settings are available from the training pause dialog as well as the main Options dialog. The old active-CPU preference migrates to the new behavior selector. A toggleable input history shows the last six direction/action states, including neutral release markers and durations counted in 60 Hz simulation frames. Both keyboard and gamepad use the same merged input record. History resets when a round starts and does not advance while paused.
