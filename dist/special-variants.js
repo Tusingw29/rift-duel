@@ -1,5 +1,13 @@
 // Researched base identities with original damage and frame tuning.
 export const baseSpecials={
+ tala:{
+  forward:{name:'Storm spark',description:'One travelling energy shot; the up special remains your rush attack.',type:'bolt',count:1,speed:12,damage:10,radius:.55,life:2.3},
+  back:{name:'Still-water discus',description:'Retreat and throw a disc that stuns on a clean hit.',type:'wheel',count:1,speed:9,damage:10,radius:.7,stun:.65,life:2.3}
+ },
+ sol:{
+  forward:{name:'Comet script',description:'One quick fire shot that stuns on a clean hit.',type:'fire',count:1,speed:14,damage:10,radius:.55,stun:.6},
+  back:{name:'Ember familiar',description:'Retreat and send a travelling flame that knocks the rival down on a clean hit.',type:'fire',count:1,speed:10,damage:10,radius:.65,knockdown:true}
+ },
  aegis:{
   forward:{name:'Pulse lance',description:'A fast, straight energy beam.',type:'beam',count:1,speed:19.2,damage:10,radius:.4},
   back:{name:'Thunder snare',description:'Retreat and send a lightning bolt that stuns on a clean hit.',type:'lightning',count:1,speed:12,damage:10,radius:.5,stun:.7}
@@ -35,8 +43,8 @@ export const specialVariants={
   back:{name:'Ground salvo',description:'Two low missiles cover sidesteps, leaving the center open.',type:'bolt',count:2,offset:1.3,speed:9,damage:8,radius:.5,low:true}
  },
  sol:{
-  forward:{name:'Falling ember',description:'One slow fireball knocks the rival down on a clean hit.',type:'bolt',count:1,speed:6,damage:12,radius:.75,knockdown:true},
-  back:{name:'Twin dragons',description:'Two separated fire shots cover either side.',type:'bolt',count:2,offset:1.3,speed:10,damage:6,radius:.6}
+  forward:{name:'Falling ember',description:'One slow fireball knocks the rival down on a clean hit.',type:'fire',count:1,speed:6,damage:12,radius:.75,knockdown:true},
+  back:{name:'Twin dragons',description:'Two separated fire shots cover either side.',type:'fire',count:2,offset:1.3,speed:10,damage:6,radius:.6}
  },
  vesper:{
   forward:{name:'Fourfold flame',description:'Four spreading shots trade focused damage for coverage.',type:'bolt',count:4,spread:.18,speed:12,damage:4,radius:.55},
@@ -56,7 +64,7 @@ export function specialShots(s,a,move,owner,power){
  for(let j=0;j<s.count;j++){
   const centered=j-(s.count-1)/2,angle=Math.atan2(dz,dx)+centered*(s.spread||0),offset=centered*2*(s.offset||0);
   const forward=1-j*(s.trail||0);
-  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,stun:s.stun||0,knockdown:!!s.knockdown});
+  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:s.life||2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,stun:s.stun||0,knockdown:!!s.knockdown});
  }
  return shots;
 }

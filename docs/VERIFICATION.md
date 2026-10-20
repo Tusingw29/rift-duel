@@ -200,3 +200,7 @@ Chrome received a complete direction-plus-two-attack-taps sequence synchronously
 ## Published module audit after 0.25
 
 Fetched the public import map and all 23 referenced JavaScript modules. Every response matched the committed release bytes. This establishes complete module delivery for build `4313b6b1ed25`, not successful rendering or UI interaction. The outstanding manual cases are recorded in [browser acceptance](BROWSER_ACCEPTANCE.md).
+
+## Sol base-special resolution (0.26)
+
+138 tests pass. Four new tests require explicit base definitions for all twelve fighter/direction pairs, distinguish Sol’s single-shot stun and knockdown, verify damage and free cost, test held guard/reflection/sidestep responses, and preserve alternate and paid-spread selection. Existing Tala tests pass after moving her unchanged parameters into the shared definitions. Visual browser checks are still pending; this release reuses the flame geometry introduced in 0.24.

@@ -158,20 +158,7 @@ function executeAction(m,a,b,move){
    if(offset%(s.interval||1)===0){m.projectiles.push(...specialShots(s,a,move,m.players.indexOf(a),f.power));event(m,'shot',{color:f.color});}
    return;
   }
-  event(m,'hint',{text:f.moves[kind==='forward'?0:1]});
-  if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
-  if(f.id==='tala'){
-   const disc=kind==='back';
-   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*(disc?9:12),dz:dz*(disc?9:12),life:2.3,owner:m.players.indexOf(a),damage:10*f.power,kind:disc?'wheel':'bolt',radius:disc?.7:.55,stun:disc?.65:0});
-   event(m,'shot',{color:f.color});return;
-  }
-  const count=f.id==='sol'?2:1;
-  for(let j=0;j<count;j++){
-   const angle=Math.atan2(dz,dx)+(j-(count-1)/2)*.13;
-   const type='bolt';
-   const speed=f.shotSpeed*(type==='beam'?1.6:.85);
-   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:Math.cos(angle)*speed,dz:Math.sin(angle)*speed,life:2.3,owner:m.players.indexOf(a),damage:(count>1?5:10)*f.power,kind:type,radius:type==='crescent'?.9:type==='snare'?.8:.4});
-  }event(m,'shot',{color:f.color});return;
+  return;
  }
  if(kind==='capture'){
   if(b.inv>0)return;

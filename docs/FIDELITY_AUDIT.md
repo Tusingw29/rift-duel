@@ -40,3 +40,5 @@ Version 0.24 separates Aegis’s lightning from beam fire, Rei’s spirit from s
 Version 0.25 adds saved keyboard remapping for both players with conflict rejection, reserved Escape, default restoration and current-key fight prompts. This addresses configurable controls for the browser adaptation; controller bindings remain fixed. UI browser verification remains pending alongside the recent projectile visuals.
 
 The pending browser checks are consolidated in [BROWSER_ACCEPTANCE.md](BROWSER_ACCEPTANCE.md), including keyboard remapping, reload persistence, touch controls, projectile visibility and controller-menu navigation. Public delivery of all 23 release modules has been verified byte for byte.
+
+Version 0.26 resolves the broad Sol base-move gap using three guide descriptions: one stunning forward fire shot and a retreating knockdown flame. Names and bird/dragon imagery conflict among sources; exact timing and art fidelity remain unverified. All twelve current-roster base directional specials now have explicit definitions. This closes the documented duplicated-pattern problem, not all move-fidelity work.

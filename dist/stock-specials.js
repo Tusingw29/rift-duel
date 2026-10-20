@@ -15,7 +15,7 @@ export const stockSpecials={
   forward:{name:'Siege line',description:'Toward + hold attack: three eruptions advance along the ground.',area:1.7,advance:2,pulses:3,interval:8,damage:7}
  },
  sol:{
-  back:{name:'Ember fan',description:'Away + hold attack: retreat and release five fire shots.',type:'bolt',count:5,spread:.19,speed:14,damage:6,radius:.65}
+  back:{name:'Ember fan',description:'Away + hold attack: retreat and release five fire shots.',type:'fire',count:5,spread:.19,speed:14,damage:6,radius:.65}
  },
  vesper:{
   technique:{name:'Astral stream',description:'Up + hold attack: four rings fire in sequence.',type:'wheel',count:1,pulses:4,interval:6,speed:13,damage:5,radius:.8}

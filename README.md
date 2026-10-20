@@ -96,3 +96,5 @@ Morrow’s base toward special sends a stunning ground wave. His retreating spec
 Aegis’s retreat special is a stunning lightning bolt. Rei sends a winged spirit forward or throws a spectral sword while retreating. Vesper fires a stunning flame forward and a trapping ring backward. Their selected-fighter manuals explain these base moves separately from the second-tap alternates.
 
 Keyboard remapping: **Options → Keyboard controls**. Choose any player/action, then press a letter, number, arrow, Space or numeric keypad key. Escape cancels. Conflicts are rejected across both players; changing a control replaces its old aliases. Layouts save in this browser, with a Restore default keys button. Fight prompts show your current Player 1 bindings. Controller and touch actions remain unchanged.
+
+Sol’s base toward special now sends one stunning fire shot; his retreat special sends one flame that knocks down on a clean hit. A second tap still selects the slower knockdown shot or split flames, and a retreating hold still spends one stock on five flames.

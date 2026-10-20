@@ -1,8 +1,8 @@
-# Browser acceptance pass for alpha 0.25
+# Browser acceptance pass for alpha 0.26
 
 Status: **pending**. These are executable review steps, not passed-test claims.
-Target: https://tusingw29.github.io/rift-duel/?v=0.25
-Expected release: `4313b6b1ed25` (23 JavaScript modules).
+Target: https://tusingw29.github.io/rift-duel/?v=0.26
+Expected release: `4fd3bcc94374` (23 JavaScript modules).
 
 Use only the game’s owned tab. Preserve unrelated tabs. Restore default controls and exit to character select when finished.
 
@@ -30,6 +30,7 @@ Use Training with an idle rival. Start each check from initial spacing, with no 
 | Aegis | D / A + tap J | Straight beam / distinct lightning zigzag |
 | Rei | D / A + tap J | Winged spirit / straight spectral sword |
 | Vesper | D / A + tap J | Fire with trailing shape / visible trapping ring |
+| Sol | D / A + tap J | One stunning fire shot / one retreating knockdown flame |
 
 For each shape, inspect near emission and near impact. Check visibility, floor clearance, facing on both sides, and whether subsequent ordinary shots retain an old effect accidentally. The camera and HUD must leave the fighters and projectiles readable. Check the browser console after the sweep.
 
