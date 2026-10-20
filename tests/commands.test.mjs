@@ -20,7 +20,7 @@ test('up-up guard jumps and fresh airborne guard recovers',()=>{
  step(m);m.players[0].stun=.7;step(m,{guard:true});assert.equal(m.players[0].stun,0);assert.ok(m.players[0].air<.2);assert.ok(m.players[0].inv>0);
 });
 test('holding a direction never counts as double tap',()=>{
- const m=createMatch();step(m,{x:-1},{},10);step(m,{x:-1,attack:true});step(m,{x:-1});contact(m);assert.equal(m.cinematic,null);assert.equal(m.players[0].stocks,1);assert.equal(m.projectiles[0].kind,'beam');
+ const m=createMatch();step(m,{x:-1},{},10);step(m,{x:-1,attack:true});step(m,{x:-1});contact(m);assert.equal(m.cinematic,null);assert.equal(m.players[0].stocks,1);assert.equal(m.projectiles[0].kind,'lightning');
 });
 test('expired double tap falls back to basic attack',()=>{
  const m=createMatch();step(m,{x:-1});step(m);step(m,{x:-1});step(m,{}, {},20);step(m,{attack:true});step(m);contact(m);assert.equal(m.cinematic,null);assert.equal(m.projectiles[0].kind,'bolt');

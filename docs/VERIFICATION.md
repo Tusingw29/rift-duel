@@ -188,3 +188,7 @@ Chrome received a complete direction-plus-two-attack-taps sequence synchronously
 ## Morrow base-special correction (0.23)
 
 124 tests pass. Added tests cover ground-wave damage/stun, stun-animation duration, blocking, reflection, sidestep avoidance, eight missiles grouped into four pairs, retreat happening only once, interruption cancelling future pairs, free-stock rules, and transformation into the existing alternate forms. A Three.js scene-object test checks the new low arc, projectile-pool reuse, hidden state, giant-ring height and finite transforms. These checks do not replace visual browser inspection; the required browser runtime remained unavailable for this release.
+
+## Three additional base move sets (0.24)
+
+127 tests pass. Six base-special cases verify emission identity, single emission, clean-hit damage, extended stun where applicable and unchanged stocks. All six are checked against held guard, fresh-guard reflection and sidestep avoidance. The projectile scene-object test checks custom geometry visibility, travel-facing orientation in three directions, finite transforms and reuse across ten projectile types. Two older assertions were updated to the corrected identities. Visual browser inspection remains pending; scene-object tests do not establish appearance or framing in play.

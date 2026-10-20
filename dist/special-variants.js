@@ -1,5 +1,18 @@
 // Researched base identities with original damage and frame tuning.
-export const baseSpecials={morrow:{
+export const baseSpecials={
+ aegis:{
+  forward:{name:'Pulse lance',description:'A fast, straight energy beam.',type:'beam',count:1,speed:19.2,damage:10,radius:.4},
+  back:{name:'Thunder snare',description:'Retreat and send a lightning bolt that stuns on a clean hit.',type:'lightning',count:1,speed:12,damage:10,radius:.5,stun:.7}
+ },
+ rei:{
+  forward:{name:'Crescent wing',description:'A winged spirit shot that briefly stuns on a clean hit.',type:'spirit',count:1,speed:9.35,damage:10,radius:.9,stun:.6},
+  back:{name:'Echo blade',description:'Retreat and send a straight spectral sword.',type:'sword',count:1,speed:12,damage:10,radius:.45}
+ },
+ vesper:{
+  forward:{name:'Binary star',description:'A fire shot that briefly stuns on a clean hit.',type:'fire',count:1,speed:10,damage:10,radius:.6,stun:.6},
+  back:{name:'Event horizon',description:'Retreat and throw a ring that holds the rival in place on a clean hit.',type:'snare',count:1,speed:6.8,damage:10,radius:.8}
+ },
+ morrow:{
  forward:{name:'Fault line',description:'A ground wave stuns on a clean hit.',type:'wave',count:1,speed:10,damage:10,radius:.7,low:true,stun:.7},
  back:{name:'Siege salvo',description:'Retreat and fire eight missiles in four pairs. Interruption stops later pairs.',type:'bolt',count:2,spread:.06,pulses:4,interval:4,speed:12,damage:2,radius:.4,knockdown:true}
 }};

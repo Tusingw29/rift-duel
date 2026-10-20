@@ -168,7 +168,7 @@ function executeAction(m,a,b,move){
   const count=f.id==='sol'?2:1;
   for(let j=0;j<count;j++){
    const angle=Math.atan2(dz,dx)+(j-(count-1)/2)*.13;
-   const type=f.id==='vesper'?'snare':f.id==='rei'?'crescent':f.id==='aegis'?'beam':'bolt';
+   const type='bolt';
    const speed=f.shotSpeed*(type==='beam'?1.6:.85);
    m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:Math.cos(angle)*speed,dz:Math.sin(angle)*speed,life:2.3,owner:m.players.indexOf(a),damage:(count>1?5:10)*f.power,kind:type,radius:type==='crescent'?.9:type==='snare'?.8:.4});
   }event(m,'shot',{color:f.color});return;
