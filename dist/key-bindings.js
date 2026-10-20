@@ -1,4 +1,4 @@
-export const bindingLabels=['Left','Right','Up / sidestep','Down / sidestep','Attack / charge','Guard','Capture','Launch','Pursuit','Burst'];
+export const bindingLabels=['Circle left','Circle right','Close in','Retreat','Attack / charge','Guard','Capture','Launch','Pursuit','Burst'];
 export const defaultBindings=()=>[
  ['KeyA','KeyD','KeyW','KeyS','KeyJ','KeyK','KeyU','KeyI','KeyO','KeyL'].map(k=>[k]),
  ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',...Array.from({length:6},(_,i)=>'Numpad'+(i+1))].map((k,i)=>i<4?[k]:[k,'Digit'+(i-3)])

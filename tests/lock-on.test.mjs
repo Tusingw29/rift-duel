@@ -19,3 +19,11 @@ test('relative commands keep meaning after fighters swap sides',()=>{
 test('CPU input is relative and all matchups still terminate',()=>{
  for(let id=0;id<6;id++){const m=createMatch(0,id);for(let j=0;j<5500&&m.phase==='fight';j++){const ai=aiInput(m,STEP);assert.ok(Math.abs(ai.x)<=1&&Math.abs(ai.z)<=1);update(m,[neutral(),ai]);}assert.equal(m.phase,'over');}
 });
+test('player two closes, retreats and circles relative to its own rival after a side swap',()=>{
+ for(const swapped of [false,true]){
+  const m=createMatch();if(swapped){m.players[0].x=4;m.players[1].x=-4;}step(m);
+  const distance=()=>Math.hypot(m.players[0].x-m.players[1].x,m.players[0].z-m.players[1].z);
+  const start=distance();step(m,{}, {x:1},20);assert.ok(distance()<start);const close=distance();step(m,{}, {x:-1},20);assert.ok(distance()>close);
+  const before=distance(),z=m.players[1].z;step(m,{}, {z:1},30);assert.ok(Math.abs(m.players[1].z-z)>1);assert.ok(Math.abs(distance()-before)<.5);
+ }
+});

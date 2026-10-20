@@ -1,3 +1,4 @@
+import {applyMeleePose} from './melee-poses.js';
 import {fighters} from './fighters.js';
 import {Box3} from './vendor/three.module.js';
 const rollBounds=new Box3();
@@ -27,11 +28,20 @@ export function animateCharacter(r,p,time){
  if(f.id==='sol'){leftArm.rotation.x=-.3;leftArm.rotation.z=.22;r.elbows[0].rotation.x=-.7;}
  if(f.id==='vesper'){leftArm.rotation.z=.4;rightArm.rotation.z=-.4;r.elbows[0].rotation.x=-.6;r.elbows[1].rotation.x=-.6;r.head.rotation.z=.07;}
  if(run){
-  const stride=Math.sin(time*12),bend=Math.cos(time*12);
-  leftArm.rotation.x=stride*.55;rightArm.rotation.x=-stride*.55;
-  leftLeg.rotation.x=-stride*.65;rightLeg.rotation.x=stride*.65;
-  r.knees[0].rotation.x=Math.max(0,bend)*.8;r.knees[1].rotation.x=Math.max(0,-bend)*.8;
-  r.body.position.y=Math.abs(stride)*.035;r.spine.rotation.x=.09;
+  const forward=p?.prev?.x??1,side=p?.prev?.z||0,strafe=Math.abs(side)>Math.abs(forward);
+  const stride=Math.sin(time*(strafe?9:forward<0?10:12)),bend=Math.cos(time*(strafe?9:forward<0?10:12));
+  if(strafe){
+   leftLeg.rotation.z=side*(.12+stride*.3);rightLeg.rotation.z=side*(.12-stride*.3);
+   leftLeg.rotation.x=-.12;rightLeg.rotation.x=.12;r.body.position.y-=.04;
+   r.spine.rotation.z=side*.1;leftArm.rotation.x=-.65;rightArm.rotation.x=-.55;
+   r.elbows[0].rotation.x=-1;r.elbows[1].rotation.x=-1;
+  }else{
+   const retreat=forward<0,scale=retreat?.4:.65,direction=retreat?-1:1;
+   leftArm.rotation.x=stride*(retreat?.2:.55);rightArm.rotation.x=-stride*(retreat?.2:.55);
+   leftLeg.rotation.x=-stride*scale*direction;rightLeg.rotation.x=stride*scale*direction;
+   r.body.position.y=Math.abs(stride)*(retreat?.02:.035);r.spine.rotation.x=retreat?-.1:.12;
+  }
+  r.knees[0].rotation.x=Math.max(0,bend)*.5;r.knees[1].rotation.x=Math.max(0,-bend)*.5;
  }
  if(p?.move||['strike','attack','forward','back','launch','pursuit','jumpAttack'].includes(state)){
   const move=p?.move;
@@ -70,8 +80,20 @@ export function animateCharacter(r,p,time){
   else{leftArm.rotation.x=-.4*wind;rightArm.rotation.x=-.4*wind;r.elbows[0].rotation.x=-1.3*wind;r.elbows[1].rotation.x=-1.3*wind;}
   r.body.position.y-=.05*wind;
  }
+ if(p?.move?.kind==='strike')applyMeleePose(r,p);
+ if(p?.move?.kind==='pursuit'&&!p.move.aerial){
+  const phase=p.move.frame<p.move.startup?smooth(p.move.frame/p.move.startup):1-smooth((p.move.frame-p.move.startup)/(p.move.recovery||30));
+  r.spine.rotation.x=.5*phase;r.body.position.y-=.1*phase;
+  leftArm.rotation.x=.7*phase;rightArm.rotation.x=-1.3*phase;
+  leftLeg.rotation.x=-.65*phase;rightLeg.rotation.x=.7*phase;r.knees[0].rotation.x=.6*phase;
+ }
  if(state==='charge'){leftArm.rotation.z=.65;rightArm.rotation.z=-.65;r.elbows[0].rotation.x=-1.2;r.elbows[1].rotation.x=-1.2;r.head.rotation.x=-.12;}
  if(p?.guard){leftArm.rotation.x=-.85;rightArm.rotation.x=-.85;leftArm.rotation.z=.16;rightArm.rotation.z=-.16;r.elbows[0].rotation.x=-1.3;r.elbows[1].rotation.x=-1.3;r.spine.rotation.x=.09;}
+ if(p?.guard&&p.blockStun>0){
+  const recoil=Math.min(1,p.blockStun/.22);
+  r.spine.rotation.x-=.22*recoil;r.head.rotation.x=-.12*recoil;
+  r.body.position.z-=.1*recoil;r.elbows[0].rotation.x-=.25*recoil;r.elbows[1].rotation.x-=.25*recoil;
+ }
  if((p?.air||0)>0){leftLeg.rotation.x=-.55;rightLeg.rotation.x=.3;r.knees[0].rotation.x=.9;r.knees[1].rotation.x=.5;}
  if(state==='hurt'){r.spine.rotation.x=-.22;r.head.rotation.x=-.15;leftArm.rotation.z=.5;rightArm.rotation.z=-.5;}
  if(state==='victory'){
