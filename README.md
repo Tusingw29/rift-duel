@@ -71,3 +71,5 @@ Every fighter now has a signature capture context: Aegis/far orbital beam, Rei/f
 Special follow-ups: W + tap J, then quickly tap J again before contact (Up + attack, attack on controller). You may keep Up held. Aegis and Rei gain two strikes; Tala changes to a flying kick; Morrow fires a direct beam; Sol expands her barrier; Vesper throws three spreading rings. These alternate techniques cost no stock. Training displays FOLLOW-UP NOW during the input window.
 
 Aerial pursuit: launch a nearby rival with I, then press O after your recovery finishes. Within range, pursuit glides into three strikes and knocks the target down. Fresh guard in the air can escape between contacts; holding O does not restart the sequence. The neutral camera follows aerial height to keep fighters below the HUD.
+
+Forward/back follow-ups: toward or away + tap attack, then quickly tap attack again before contact. Keep the direction held or return to neutral. Each fighter has two free alternate forms; How to Play lists the selected fighter’s patterns and tradeoffs. Up-special follow-ups use the same timing. Stock specials cannot be converted into free alternates after paying their cost.

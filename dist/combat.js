@@ -1,6 +1,7 @@
 import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {canFollowUp,applyTechniqueVariant} from './techniques.js';
+import {canSpecialFollowUp,applySpecialVariant,specialShots} from './special-variants.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 import {normalizeOptions} from './options.js';
@@ -49,6 +50,11 @@ function beginCapture(m,a,b,context){
 function action(m,a,b,requested,empowered=false){
  if(a.stun>0||a.guard||m.cinematic)return;
  const previous=a.move;
+ if(!empowered&&canSpecialFollowUp(previous)&&(requested==='attack'||requested===previous.kind)){
+  applySpecialVariant(previous,fighters[a.id].id);
+  a.cool=(previous.total-previous.frame)*STEP;a.animTime=a.cool;a.held=0;
+  event(m,'hint',{text:previous.name.toUpperCase()});return;
+ }
  if(['attack','technique'].includes(requested)&&!empowered&&canFollowUp(previous)){
   applyTechniqueVariant(previous,fighters[a.id].id);
   a.cool=(previous.total-previous.frame)*STEP;a.animTime=a.cool;a.held=0;
@@ -118,6 +124,17 @@ function executeAction(m,a,b,move){
   event(m,'cinematic',{text:f.special});return;
  }
  if(kind==='forward'||kind==='back'){
+  if(move.special){
+   const s=move.special,offset=move.frame-move.startup;
+   if(offset===0){
+    event(m,'hint',{text:s.name});
+    if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+    if(s.area){if(d<s.area)hit(m,a,b,s.damage*f.power);return;}
+   }
+   if(s.area)return;
+   if(offset%(s.interval||1)===0){m.projectiles.push(...specialShots(s,a,move,m.players.indexOf(a),f.power));event(m,'shot',{color:f.color});}
+   return;
+  }
   if(move.empowered){
    const volley=f.id==='aegis',count=volley?4:5;
    event(m,'hint',{text:volley?'SENTINEL VOLLEY · 1 STOCK':'EMBER FAN · 1 STOCK'});
@@ -266,7 +283,7 @@ export function update(m,inputs,dt=STEP){
     if(p.kind!=='capture'&&b.guard&&b.guardTime<.17){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&b.guard&&b.guardTime<.2){p.life=0;event(m,'hint',{text:'CAPTURE BREAK'});}
     else if(p.kind==='capture'&&!m.cinematic){beginCapture(m,a,b,p.context||captureContext(a,b));p.life=0;}
-    else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&p.kind==='snare')b.stun=.85;p.life=0;}
+    else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&p.kind==='snare')b.stun=.85;if(landed&&p.knockdown){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}p.life=0;}
    }
   }
   m.projectiles=m.projectiles.filter(p=>p.life>0);

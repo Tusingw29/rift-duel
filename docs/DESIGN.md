@@ -174,3 +174,7 @@ Four new 2.5-second profiles complete mid-range coverage. Aegis approaches and e
 ## Alpha 0.18: three-hit aerial pursuit
 
 Pursuit snapshots an airborne rival within nine units at startup. The attacker glides toward the initial contact point over seven frames, then attempts hits on active offsets 0, 9 and 18. Damage is 4/4/6 times fighter power, preserving the previous 14 total. The first contacts preserve airborne height; the last ends in a grounded knockdown. Fresh air recovery, attacker interruption, loss of range or a grounded target cancels remaining contacts. Holding pursuit cannot reacquire a target. Grounded and out-of-range commands retain the single dash. Poses alternate strikes and a finishing kick; neutral framing tracks airborne height. These are original gameplay timings.
+
+## Alpha 0.19: forward/back alternate specials
+
+All six fighters now have free alternate forms for both horizontal specials. A second attack tap completed during startup selects the variant once, with neutral or the original direction held. Aegis adds timed beam pulses and split shots; Rei gains two fan patterns; Tala gains twin shots and split discs; Morrow gains a close radial eruption and split low missiles; Sol gains a slow knockdown fireball and split fire shots; Vesper gains a four-shot fan and a straight blast. The data lives in `special-variants.js`. Startup commitment, interruption and guard rules still apply. Paid stock variants cannot be converted. The controls guide displays fighter-specific explanations.

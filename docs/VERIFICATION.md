@@ -162,3 +162,9 @@ Chrome keyboard checks triggered all five rear captures through movement, circle
 97 tests pass. New tests verify gradual approach before damage, three separated contacts for all six fighters, original total damage, final knockdown and roll recovery, fresh air-guard escape, attacker interruption, missed contact, range limits, and held-input non-reacquisition. The older launcher/pursuit test now waits for the full sequence.
 
 Chrome keyboard checks landed a launcher and all three pursuit hits: target HP 100 → 92 → 88 → 84 → 78, ending knocked down. A local-versus test used player-two guard after the first pursuit hit and finished at 88 HP with no subsequent damage. Initial screenshots exposed HUD overlap; the neutral camera now follows aerial height, and a second screenshot verified clear framing. No console errors/warnings appeared.
+
+## Twelve horizontal follow-ups (0.19)
+
+103 tests pass. New checks cover all twelve selections, one-time transformation, no stock cost, projectile counts, pulse spacing and interruption, split-shot center misses versus sidestep hits, radial single-hit/block behavior, clean-hit knockdown, snare-to-blast substitution, and refusal to convert paid stock moves.
+
+Chrome keyboard sequences selected all twelve variants while preserving stock. Screenshots inspected eruption, spread and low split shots. The first check exposed undefined effect visibility on idle fighters; explicit boolean visibility fixed it, and the final screenshot confirmed no idle spheres. The selected-fighter controls dialog showed its alternate names and descriptions. No console errors/warnings appeared in the initial browser sweep.

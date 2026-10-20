@@ -107,3 +107,7 @@ The PAL guide describes rear suplex, leg-hook, wrestling-slam and scissors-style
 ## Aerial pursuit pass
 
 The PAL guide describes a three-hit glide follow-up against airborne opponents and guard-based air recovery. Version 0.18 implements those broad roles. Seven-frame approach, nine-frame contact spacing, 4/4/6 damage, escape handling, final knockdown and height-aware framing are original tuning; the guide alone does not verify exact original pursuit timing or recovery windows. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Horizontal special alternatives
+
+The PAL guide describes extra-tap horizontal alternatives that change beam duration, coverage, defensive range, projectile speed or knockdown. Version 0.19 adapts those roles for all six fighters. Some forms are intentionally simplified: Rei’s sword rain is a travelling sword fan, and the beam is a sequence of travelling pulses. Counts, angles, gaps, damage, timing and hit properties are original tuning, not measured original behavior. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
