@@ -1,6 +1,10 @@
 // Original, render-only burst direction. Game state and damage remain in combat.js.
 export const BURST_DURATIONS={aegis:2.8,rei:2.5,tala:2.6,morrow:2.9,sol:2.8,vesper:2.7};
 export function capturePresentation(id,context){
+ if(context==='front'){
+  const front={aegis:'vault-suplex',rei:'shoulder-turn',tala:'palm-slam',morrow:'pommel-turn',sol:'pivot-toss',vesper:'blink-shove'};
+  if(front[id])return {profile:front[id],duration:2.3};
+ }
  if(id==='aegis'&&context==='far')return {profile:'orbital',duration:2.8};
  if(id==='tala'&&context==='mid')return {profile:'surround',duration:2.6};
  if(id==='rei'&&context==='far')return {profile:'spirit-flight',duration:2.6};

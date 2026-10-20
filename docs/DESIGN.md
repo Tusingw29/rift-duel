@@ -158,3 +158,7 @@ Aegis’s held forward attack produces four aligned shots; Sol’s held back att
 ## Alpha 0.14: up-special variants
 
 A second attack tap completed during an up-special’s startup selects its alternate form once. Direction may remain Up or return to neutral. Aegis/Rei reset their hit latch once halfway through a longer active interval, giving at most two contacts; a parry or interruption cancels the remainder. Tala trades her launcher for a faster flying kick, Morrow fires a stationary beam, Sol gains a larger defensive sphere, and Vesper throws three diverging rings while spinning. These variants do not cost stock. Startup and recovery commitment remain; late taps cannot retroactively transform contact. Forward/back alternate specials remain future work.
+
+## Alpha 0.15: individual close-front captures
+
+All six front captures now have separate profiles: vault-suplex, shoulder-turn, palm-slam, pommel-turn, pivot-toss, and blink-shove. They use 2.3-second original sequences with grip and impact camera shots. Vesper moves between discrete positions and leaves three translucent echoes. Position, height and facing blend home before the simulation resumes. Staged body bounds now keep rotated heads and shoulders above the arena floor. Render poses never alter simulation positions; capture damage still occurs once with no stock consumption. Twelve of the 24 fighter/context combinations are now individually staged.

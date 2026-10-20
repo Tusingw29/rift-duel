@@ -1,6 +1,14 @@
 import {fighters} from './fighters.js';
 import {Box3} from './vendor/three.module.js';
 const rollBounds=new Box3();
+const stagedBounds=new Box3();
+export function applyStagedPose(r,part){
+ r.g.position.set(part.x,part.y,part.z);r.g.rotation.set(part.tilt,part.yaw,part.roll);
+ r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+ // Root rotations in throws must not sink a shoulder or head below the floor.
+ r.body.updateWorldMatrix(true,true);stagedBounds.setFromObject(r.body);
+ if(stagedBounds.min.y<.03)r.g.position.y+=.03-stagedBounds.min.y;
+}
 const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){

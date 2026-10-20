@@ -91,3 +91,7 @@ The PAL guide lists stock-consuming held forward shots for Danzaiver and held re
 ## Up-special alternate forms
 
 Version 0.14 adapts the PAL guide’s extra-tap up-special roles across the six archetypes: double contacts, a kick, a direct beam, a wider barrier, and spreading rings. The guide does not establish the input window. Rift Duel accepts the extra tap during startup; timings, hit limits, reach, damage, projectile counts and spread are original rules. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Close-front capture pass
+
+The PAL guide describes close captures built around a suplex, judo throw, slam, spinning pommel strike, arm drag and teleporting push for the six corresponding archetypes. Version 0.15 adapts those broad identities into original front-capture choreography. Timing, trajectories, camera shots and effects are authored choices; this is not a frame-matched reconstruction. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

@@ -2,7 +2,7 @@ import {burstPose} from './cinematics.js';
 import {stagedCapturePose} from './captures.js';
 import {createBurstEffects} from './burst-effects.js';
 import {buildCharacter} from './characters.js';
-import {animateCharacter} from './animation.js';
+import {animateCharacter,applyStagedPose} from './animation.js';
 import {capturePose} from './choreography.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
@@ -62,8 +62,7 @@ export function createView(canvas){
      const pose=capturePose(c,m.players[c.a],m.players[c.b]),part=n===c.a?pose.actor:pose.victim;
      r.g.position.set(part.x,part.y,part.z);r.g.rotation.x=part.tilt;r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
     }else if(stagedState){const part=n===c.a?stagedState.actor:stagedState.victim;
-     r.g.position.set(part.x,part.y,part.z);r.g.rotation.set(part.tilt,part.yaw,part.roll);
-     r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+     applyStagedPose(r,part);
      if(r.spirit&&n===c.a){r.spirit.scale.setScalar(1.4);r.spirit.userData.material.opacity=.5;}
     }
    }else r.g.rotation.x=0;

@@ -6,7 +6,7 @@ test('authored capture identities apply only to the intended fighter and range',
  assert.equal(capturePresentation('aegis','far').profile,'orbital');
  assert.equal(capturePresentation('tala','mid').profile,'surround');
  for(const id of ['aegis','tala','rei','morrow','sol','vesper'])for(const context of ['front','back','mid','far']){
-  if({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}[id]===context){assert.ok(capturePresentation(id,context).profile);continue;}
+  if(context==='front'||{aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}[id]===context){assert.ok(capturePresentation(id,context).profile);continue;}
   assert.equal(capturePresentation(id,context).profile,null);
  }
 });
@@ -35,8 +35,8 @@ test('authored captures bypass held guard, cost no stock, and resolve damage onc
   assert.equal(impacts,1);assert.ok(Math.abs(m.players[1].hp-(100-damage))<1e-6);
  }
 });
-test('all six capture tracks stay finite, change shots, and return to combat positions',()=>{
- for(const [id,context] of Object.entries({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'})){
+test('all authored capture tracks stay finite, change shots, and return to combat positions',()=>{
+ for(const [id,context] of [...Object.entries({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}),...['aegis','rei','tala','morrow','sol','vesper'].map(id=>[id,'front'])]){
   for(const [a,b] of [[{x:-4,z:0},{x:4,z:0,guard:true}],[{x:5,z:4},{x:-6,z:-3}],[{x:0,z:0},{x:0,z:0}]]){
    const spec=capturePresentation(id,context),shots=new Set(),before=JSON.stringify([a,b]);
    for(let i=0;i<=120;i++){

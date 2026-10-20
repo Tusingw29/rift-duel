@@ -136,3 +136,11 @@ Public alpha 0.12 was also rechecked before this change: Rei’s far capture sel
 Seven new tests cover all six alternate selections, holding or releasing Up between taps, two-hit limits, kick movement and no launch, stationary beam release, three ring directions, expanded barrier interception, late-input refusal, interruption and parry cancellation, and held-guard chip across both strikes. Chrome keyboard sequences selected all six variants with stock remaining at one. Screenshots inspected the flying kick and ring spread; no console errors/warnings appeared. Input windows are original tuning and have not been validated by external playtesters.
 
 Final suite: 83 tests passed. A synthetic standard-gamepad input through navigator.getGamepads selected Morrow’s alternate beam while keeping Up held across both attack taps; it produced one projectile and preserved stock. This verifies the browser API path, not physical controller hardware.
+
+## Individual close-front captures (0.15)
+
+New tests cover six unique front profiles, exactly one damage resolution per capture, no stock consumption, distinct motion/effect identities, and body bounds above the floor at 61 samples in both facing directions for all six throws. The authored-track tests now cover all twelve profiles with reversed, diagonal and zero-separation inputs. An older guard-bypass test was updated to wait for the configured cinematic duration rather than assuming the previous short shared throw.
+
+Chrome keyboard movement followed by capture selected all six front profiles. Screenshots inspected each at a representative grip/throw/impact point; no console errors or warnings appeared. These samples validate basic framing and pose readability, not production-quality contact animation across every frame.
+
+Final alpha 0.15 regression suite: 86 tests passed.
