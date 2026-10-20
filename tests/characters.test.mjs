@@ -2,13 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from '../dist/vendor/three.module.js';
 import {buildCharacter} from '../dist/characters.js';
+import {moveTiming} from '../dist/moves.js';
+import {fighters} from '../dist/fighters.js';
 import {animateCharacter} from '../dist/animation.js';
 
 test('all roster rigs remain finite and within camera-scale bounds through combat poses',()=>{
  for(let id=0;id<6;id++){
   const rig=buildCharacter(id);
   for(const anim of ['idle','run','strike','forward','back','charge','hurt','jumpAttack'])for(let frame=0;frame<24;frame++){
-   animateCharacter(rig,{anim,animTime:.42*(1-frame/24),combo:frame%3,air:anim==='jumpAttack'?.5:0,guard:false},frame/60);
+   animateCharacter(rig,{anim,animTime:.42*(1-frame/24),move:['strike','forward','back','jumpAttack'].includes(anim)?{kind:anim,...moveTiming(fighters[id],anim),frame}:null,combo:frame%3,air:anim==='jumpAttack'?.5:0,guard:false},frame/60);
    rig.g.updateMatrixWorld(true);
    const bounds=new T.Box3().setFromObject(rig.g),size=bounds.getSize(new T.Vector3());
    assert.ok([size.x,size.y,size.z].every(v=>Number.isFinite(v)&&v>0&&v<6),`${id} ${anim}: rig exceeds camera envelope`);

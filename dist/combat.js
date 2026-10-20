@@ -1,10 +1,11 @@
+import {moveTiming,INPUT_BUFFER_FRAMES} from './moves.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 export const STEP=1/60;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal') {
- const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,air:0,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState()});
+ const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
  return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],time:90,tick:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
 }
 function event(m,type,values={}){m.events.push({type,...values});}
@@ -14,10 +15,11 @@ export function hit(m,a,b,damage,kind='hit',launch=false){
  const perfect=b.guard&&b.guardTime<.17;
  if(b.guard&&kind!=='capture'){
   event(m,perfect?'parry':'block',{x:b.x,z:b.z,color:fighters[b.id].color});
-  b.hp=Math.max(1,b.hp-(perfect?0:damage*.12)); b.stun=perfect?0:.12;
-  if(perfect){a.stun=.4;b.charge+=.35;}
+  b.hp=Math.max(1,b.hp-(perfect?0:damage*.12)); b.blockStun=perfect?0:.12;
+  if(perfect){a.stun=.4;a.move=null;a.buffer=null;a.cool=0;b.charge+=.35;}
   return false;
  }
+ b.move=null;b.buffer=null;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32; b.air=launch?.85:0;
  b.anim=launch?'launch':'hurt';b.animTime=.42;
  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1;
@@ -38,25 +40,38 @@ function beginCapture(m,a,b,context){
  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:context==='far'?1.5:context==='mid'?1.2:.95,damage:15*fighters[a.id].power*multiplier,kind:'capture',context,name:fighters[a.id].capture};
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
-function action(m,a,b,kind){
- if(a.cool>0||a.stun>0||a.guard||m.cinematic)return;
- const f=fighters[a.id],d=distance(a,b),dx=(b.x-a.x)/(d||1),dz=(b.z-a.z)/(d||1);
- a.anim=kind;a.animTime=.42;
+function action(m,a,b,requested){
+ if(a.stun>0||a.guard||m.cinematic)return;
+ if(a.move||a.cool>0){
+  const remaining=a.move?a.move.total-a.move.frame:Math.ceil(a.cool/STEP);
+  if(remaining<=INPUT_BUFFER_FRAMES)a.buffer={kind:requested,expires:m.tick+INPUT_BUFFER_FRAMES+1};
+  return;
+ }
+ const f=fighters[a.id],d=distance(a,b),kind=requested==='attack'?(d<f.reach?'strike':'shot'):requested;
+ if(kind==='super'&&a.stocks<1){event(m,'hint',{text:'Hold attack to charge a power stock'});return;}
+ if(kind==='super')a.stocks--;
+ const timing=moveTiming(f,kind);
+ a.move={kind,...timing,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ a.cool=timing.total*STEP;a.anim=kind==='shot'?'attack':kind;a.animTime=timing.total*STEP;
+ a.held=0;
+}
+function executeAction(m,a,b,move){
+ const kind=move.kind,f=fighters[a.id],d=distance(a,b),dx=move.aimX,dz=move.aimZ;
+ const facing=d<.01||((b.x-a.x)*dx+(b.z-a.z)*dz)/d>.55;
  if(kind==='jumpAttack'){
-  a.air=.85;a.cool=.55;a.inv=.12;
+  a.air=.85;a.inv=.12;
   if(d<3.5){a.x=clamp(b.x+dx*1.6,-11,11);a.z=clamp(b.z+dz*1.6,-6,6);b.turnDelay=.5;hit(m,a,b,9*f.power);}
   else{a.x=clamp(a.x+dx*2.5,-11,11);a.z=clamp(a.z+dz*2.5,-6,6);}
   event(m,'hint',{text:d<3.5?'CROSSOVER STRIKE':'LEAP STRIKE'});return;
  }
  if(kind==='super'){
-  if(a.stocks<1){event(m,'hint',{text:'Hold attack to charge a power stock'});return;}
-  a.stocks--;a.cool=1.2;
+
   if(d>9||b.inv>0){event(m,'hint',{text:'Burst missed — close the distance'});return;}
   m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:1.65,damage:27*f.power,kind:'super',name:f.special};
   event(m,'cinematic',{text:f.special});return;
  }
  if(kind==='forward'||kind==='back'){
-  a.cool=f.id==='morrow'?.85:.62;
+  
   event(m,'hint',{text:f.moves[kind==='forward'?0:1]});
   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
   if(f.id==='tala'&&kind==='forward'){
@@ -72,24 +87,24 @@ function action(m,a,b,kind){
   }event(m,'shot',{color:f.color});return;
  }
  if(kind==='capture'){
-  a.cool=1.05;
+  
   const close=d<3.1;
   if(close){
-   if(b.guard&&b.guardTime<.2){a.stun=.6;event(m,'hint',{text:'CAPTURE BREAK'});return;}
+   if(b.guard&&b.guardTime<.2){a.move=null;a.buffer=null;a.cool=0;a.stun=.6;event(m,'hint',{text:'CAPTURE BREAK'});return;}
    beginCapture(m,a,b,captureContext(a,b));
   }else{
    m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*7,dz:dz*7,life:1.8,owner:m.players.indexOf(a),damage:12*f.power,kind:'capture',context:captureContext(a,b),radius:.65});event(m,'shot',{color:f.color});
   }return;
  }
  if(kind==='pursuit'){
-  a.cool=.75;
+  
   if(b.air>0&&d<9){a.x=b.x-dx*1.6;a.z=b.z-dz*1.6;hit(m,a,b,14*f.power);event(m,'hint',{text:'AERIAL PURSUIT'});}
   else{a.x=clamp(a.x+dx*2,-11,11);a.z=clamp(a.z+dz*2,-6,6);if(d<4)hit(m,a,b,7*f.power);}
   return;
  }
- if(kind==='launch') {a.cool=.7;if(d<f.reach+.3)hit(m,a,b,8*f.power,'hit',true);return;}
- a.cool=f.id==='sol'?.3:f.id==='morrow'?.55:.4;
- if(d<f.reach){hit(m,a,b,(a.combo%3===2?10:6)*f.power);a.anim='strike';}
+ if(kind==='launch') {if(d<f.reach+.3&&facing)hit(m,a,b,8*f.power,'hit',true);return;}
+ 
+ if(kind==='strike'){if(d<f.reach&&facing)hit(m,a,b,(a.combo%3===2?10:6)*f.power);}
  else {m.projectiles.push({x:a.x+dx*.8,z:a.z+dz*.8,dx:dx*f.shotSpeed,dz:dz*f.shotSpeed,life:2,owner:m.players.indexOf(a),damage:7*f.power,kind:'bolt',radius:f.id==='vesper'?.7:.4});event(m,'shot',{color:f.color});}
 }
 export function aiInput(m,dt){
@@ -119,33 +134,47 @@ export function update(m,inputs,dt=STEP){
   m.players.forEach((a,n)=>{
    const i=inputs[n]||neutral(),b=m.players[1-n];
    a.turnDelay=Math.max(0,a.turnDelay-dt);
-   if(a.turnDelay===0&&a.stun===0){const d=distance(a,b)||1;a.lookX=(b.x-a.x)/d;a.lookZ=(b.z-a.z)/d;a.face=b.x>=a.x?1:-1;}
+   if(a.turnDelay===0&&a.stun===0&&!a.move){const d=distance(a,b)||1;a.lookX=(b.x-a.x)/d;a.lookZ=(b.z-a.z)/d;a.face=b.x>=a.x?1:-1;}
    const command=readCommand(a.commands,i,a.prev,a.face,m.tick);
    const freshGuard=i.guard&&!a.prev.guard;
-   if(freshGuard&&a.air>0){a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
+   if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
    else if(command==='jump'&&a.stun<=0&&a.cool<=0){a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;event(m,'hint',{text:'JUMP'});}
    else if(freshGuard&&i.x*a.face>.5&&distance(a,b)<3.5&&a.stun<=0&&a.cool<=0){
     const d=distance(a,b)||1,dx=(b.x-a.x)/d,dz=(b.z-a.z)/d;
     a.x=clamp(b.x+dx*1.6,-11,11);a.z=clamp(b.z+dz*1.6,-6,6);a.inv=.15;a.cool=.12;b.turnDelay=.45;
     event(m,'hint',{text:'CIRCLE STEP'});
    }
-   a.guard=i.guard&&a.stun<=0&&a.air===0;a.guardTime=a.guard?a.guardTime+dt:0;
+   a.guard=(i.guard||a.blockStun>0)&&a.stun<=0&&a.air===0&&!a.move;a.guardTime=a.guard?a.guardTime+dt:0;
   });
   m.players.forEach((a,n)=>{
    const b=m.players[1-n],i=inputs[n]||neutral(),f=fighters[a.id];
-   for(const k of ['cool','stun','air','inv','comboTime','animTime'])a[k]=Math.max(0,a[k]-dt);
+   for(const k of ['cool','stun','blockStun','air','inv','comboTime','animTime'])a[k]=Math.max(0,a[k]-dt);
    if(a.animTime===0)a.anim='idle';
    if(a.stun<=0){
-    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.guard?.25:1)*(i.attack?.35:1);
+    if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
+    if(a.buffer&&!a.move&&a.cool<=0){const command=a.buffer.kind;a.buffer=null;action(m,a,b,command);}
+    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     a.x=clamp(a.x+i.x/len*speed*dt,-11,11);a.z=clamp(a.z+i.z/len*speed*dt,-6,6);
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
-    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24){a.charge+=dt*(1+(100-a.hp)/65);a.anim='charge';if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}
+    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.charge+=dt*(1+(100-a.hp)/65);a.anim='charge';if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}
     if(!i.attack&&a.prev.attack){if(a.held>0&&a.held<=.24)action(m,a,b,a.commands.attack||'attack');a.held=0;}
     if(!i.attack)a.held=0;
     for(const kind of ['capture','launch','pursuit','super'])if(i[kind]&&!a.prev[kind])action(m,a,b,kind);
    }else{a.held=0;}
    a.prev={...i};
   });
+  // Advance both timelines before resolving contact, so equally timed strikes
+  // can trade rather than always favoring player one.
+  const contacts=[];
+  for(const a of m.players){
+   const move=a.move;if(!move||move.started===m.tick)continue;
+   move.frame++;a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
+   if(move.frame===move.startup)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
+   if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
+  }
+  const clash=contacts.length===2&&contacts.every(c=>['capture','super'].includes(c.move.kind));
+  if(clash){for(const {a} of contacts){a.move=null;a.buffer=null;a.cool=0;a.stun=.3;a.anim='hurt';a.animTime=.3;}event(m,'hint',{text:'POWER CLASH'});}
+  else for(const {a,b,move} of contacts)executeAction(m,a,b,move);
   const [a,b]=m.players,d=distance(a,b);
   if(d<1.2){const dx=(b.x-a.x)/(d||1)||1,dz=(b.z-a.z)/(d||1);a.x-=dx*(1.2-d)/2;b.x+=dx*(1.2-d)/2;a.z-=dz*(1.2-d)/2;b.z+=dz*(1.2-d)/2;}
   for(const p of m.projectiles){

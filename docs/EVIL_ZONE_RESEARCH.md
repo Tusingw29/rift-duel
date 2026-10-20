@@ -36,8 +36,8 @@ Original balancing values—not Evil Zone frame data:
 | Close capture break | 0.20 seconds |
 | Stock capacity | 3; start with 1 |
 | Charge | 1.8 units; rate increases as health falls |
-| Standard attack recovery | 0.30–0.55 seconds by fighter |
-| Capture recovery | 1.05 seconds |
+| Standard melee startup / recovery | 5–12 / 14–21 frames by fighter |
+| Capture startup / recovery | 13 / 40 frames |
 | Burst | 1 stock; maximum initiation distance 9 |
 | Arena movement bounds | X ±11; Z ±6 |
 

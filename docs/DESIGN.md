@@ -54,6 +54,29 @@ GitHub stores source, versions, CI, and publication. Development was done in a t
 
 The six fighters now use articulated elbow/knee hierarchies, tapered torsos, facial meshes, individual hair/costume silhouettes, and hand-attached weapons. Rei has a translucent companion; Aegis has a sealed helmet and cape; Tala has hand wraps and a raised ready guard; Morrow has broad armor; Sol carries a staff; Vesper has a halo. Six separate stance/attack posing branches and shared running, guarding, charging, airborne and hurt clips replace the original uniform arm swing. Costume pieces sway independently.
 
-These are locally generated meshes and code-authored motion curves, with no downloaded character assets. They are still stylized alpha art and do not establish fan recognition or production animation quality. Strike curves begin at contact because damage currently resolves when the action triggers; introducing startup/active/recovery phases requires a combat-system change, not just decorative animation.
+These are locally generated meshes and code-authored motion curves, with no downloaded character assets. They are still stylized alpha art and do not establish fan recognition or production animation quality. The 0.3 strike curves began at contact. Version 0.4 replaces this with a shared combat/animation frame clock and real startup/contact/recovery phases.
 
 For a six-character visual review, serve the repository root with `python3 -m http.server 4174`, then open `/tests/rig-review.html`. This development gallery is excluded from the public game artifact.
+
+## Combat timing pass (0.4)
+
+Every attack now has an original frame schedule at 60 Hz. Direction and basic melee/projectile choice lock when the attack starts. Damage, capture, movement strikes and shot creation occur on the contact frame. A melee target can leave reach or the forward hit cone during startup; the move then misses rather than changing into a projectile. Fighters move slowly and cannot guard during committed attacks. A new attack tapped within the final eight recovery frames can queue for the next actionable frame.
+
+Normal hits interrupt a pending move. Bursts spend stock at startup, so an interrupted burst loses that stock. Equally timed strikes trade; equally timed capture/burst attempts clash. Guard inputs are collected before contacts; held guard stays active through block stun. Close capture breaks must now be timed near contact, not simply held from the beginning of the attack.
+
+| Move | Startup frames | Contact frames | Recovery frames |
+|---|---:|---:|---:|
+| Standard strike | 8 | 1 | 17 |
+| Tala strike | 5 | 1 | 14 |
+| Morrow strike | 12 | 1 | 21 |
+| Standard projectile | 11 | 1 | 18 |
+| Sol projectile | 7 | 1 | 11 |
+| Forward special | 13 (Tala 9; Morrow 18) | 1 | 22 (Morrow 28) |
+| Retreat special | 12 (Morrow 16) | 1 | 26 |
+| Capture | 13 | 1 | 40 |
+| Launcher | 10 (Morrow 15) | 1 | 25 |
+| Pursuit | 7 | 1 | 30 |
+| Jumping crossover | 9 | 1 | 25 |
+| Burst | 22 | 1 | 42 |
+
+Confirmed cinematic sequences pause the attack timelines until their presentation finishes. Training reports wind-up/contact/recovery and remaining frames. The authoritative tuning lives in `dist/moves.js`. These are **not measured Evil Zone timings**; original-game timing research remains separate.

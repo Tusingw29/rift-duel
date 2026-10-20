@@ -53,3 +53,11 @@ Browser review inspected all six original rigs together and separately inspected
 A browser screenshot was inspected in the tool output. Saving the screenshot into the repository was denied by the browser tool's path access checks, so no screenshot file is claimed as a saved artifact. The reproducible gallery source is retained instead.
 
 A Tala/Morrow training scene was inspected with movement and held guard; no console warnings or errors were reported. Static mesh batching reduced each character from 50–59 meshes to 33–36. Short 45-frame browser samples averaged approximately 36 ms before and 37.5 ms after, so **no frame-rate improvement is claimed** from batching. Low quality now also disables dynamic shadows. Simulation catch-up permits up to 100 ms per frame to reduce slow motion on moderately slow devices; hidden-tab pause remains in place. A broad hardware performance pass is still needed.
+
+## Combat timing update (0.4)
+
+34 tests pass. Previous instant-action assertions now wait for contact. New tests check the complete sequence: no early damage; a hit on the designated frame; recovery lockout; stepping out of reach causes a melee miss without a projectile; fast strikes interrupt slow ones; equal startup strikes trade; a recovery-buffered attack starts on the next available frame; guard cannot cancel attack commitment; interrupted bursts spend stock but do not start cinematics; equal bursts clash; repeated impacts remain blocked during block stun.
+
+The rig tests now exercise startup and recovery poses against the move clock. Browser keyboard checks observed startup → contact → recovery → ready for a shot. During startup the target retained 100 HP; after the projectile arrived it had 93 HP. The training readout matched the observed phases. Visual inspection of Morrow's close strike at startup frame 4 showed the raised weapon, undamaged target, and “WIND-UP · STRIKE · 8f” display. No console errors or warnings were reported in this check.
+
+These checks verify Rift Duel's implemented timing model. They do not establish original-game frame accuracy, competitive balance, or physical controller compatibility.
