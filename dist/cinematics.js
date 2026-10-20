@@ -5,6 +5,10 @@ export function capturePresentation(id,context){
   const front={aegis:'vault-suplex',rei:'shoulder-turn',tala:'palm-slam',morrow:'pommel-turn',sol:'pivot-toss',vesper:'blink-shove'};
   if(front[id])return {profile:front[id],duration:2.3};
  }
+ if(context==='mid'){
+  const mid={aegis:'blade-extract',rei:'spirit-thrust',sol:'ember-spear',vesper:'effigy-break'};
+  if(mid[id])return {profile:mid[id],duration:2.5};
+ }
  if(id==='aegis'&&context==='far')return {profile:'orbital',duration:2.8};
  if(id==='tala'&&context==='mid')return {profile:'surround',duration:2.6};
  if(id==='rei'&&context==='far')return {profile:'spirit-flight',duration:2.6};

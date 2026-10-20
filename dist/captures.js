@@ -53,6 +53,34 @@ export function stagedCapturePose(id,c,a,b){
    victim.x=b.x-px*shove*1.8;victim.z=b.z-pz*shove*1.8;victim.roll=shove*1.3;victim.y=shove*.3;
    effects.center=point(victim.x,.15,victim.z);
   }
+ }else if(['blade-extract','spirit-thrust'].includes(c.profile)){
+  const approach=smooth(t/.25),thrust=smooth((t-.25)/.12),release=smooth((t-.55)/.18);
+  const blade=c.profile==='blade-extract';
+  actor.x=mix(a.x,b.x-ux*(blade?1.55:1.25),approach);
+  actor.z=mix(a.z,b.z-uz*(blade?1.55:1.25),approach);
+  actor.arm=-.5-thrust*1.1;actor.tilt=thrust*.2;
+  actor.rightArm=-.15+release*(blade?.4:0);
+  if(blade){actor.yaw+=release*1.1;actor.x+=px*release*.6;actor.z+=pz*release*.6;victim.roll=-release*.6;}
+  else{actor.x+=ux*thrust*.4;actor.z+=uz*thrust*.4;actor.arm-=thrust*.25;}
+  victim.x=b.x+ux*release*(blade?.6:1.4);victim.z=b.z+uz*release*(blade?.6:1.4);
+  victim.tilt=-thrust*.3-release*.5;victim.y=release*.3;
+  effects.rings=release*(1-smooth((t-.8)/.15));effects.center=point(victim.x,1.4,victim.z);
+  camera={shot:c.profile+(t<.5?'-contact':'-release'),target:point(b.x,1.7,b.z),position:point(b.x+px*(t<.5?6:9)-ux*2,4.4,b.z+pz*(t<.5?6:9)-uz*2)};
+ }else if(c.profile==='ember-spear'){
+  const cast=smooth((t-.18)/.2),travel=smooth((t-.32)/.2),impact=smooth((t-.5)/.12);
+  actor.arm=-.5-cast*1.6;
+  const tip=point(mix(a.x,b.x,travel),1.5,mix(a.z,b.z,travel));
+  effects.spear={from:point(tip.x-ux*2,1.5,tip.z-uz*2),to:tip,visible:t>.2&&t<.7};
+  effects.rings=impact*(1-smooth((t-.8)/.15));effects.center=point(b.x,1.4,b.z);
+  victim.y=impact*.6;victim.tilt=-impact*.65;
+  camera={shot:t<.48?'spear-cast':'spear-impact',target:point((a.x+b.x)/2,1.8,(a.z+b.z)/2),position:point(b.x+px*10,5,b.z+pz*10)};
+ }else if(c.profile==='effigy-break'){
+  const conjure=smooth(t/.25),blast=smooth((t-.48)/.2);
+  actor.arm=-1.6;actor.tilt=blast*.18;
+  effects.effigy={position:point(a.x+ux*1.5+ux*blast*2,1.8+conjure*.3+blast,a.z+uz*1.5+uz*blast*2),scale:conjure*(1-smooth((t-.72)/.1)),roll:blast*Math.PI*2};
+  effects.rings=blast*(1-smooth((t-.8)/.15));effects.center=point(b.x,1.3,b.z);
+  victim.x=b.x+ux*blast*1.8;victim.z=b.z+uz*blast*1.8;victim.y=blast*1.2;victim.tilt=-blast*1.2;
+  camera=t<.48?{shot:'effigy-conjure',target:point(a.x+ux,2,a.z+uz),position:point(a.x+px*7-ux*2,4.2,a.z+pz*7-uz*2)}:{shot:'effigy-break',target:point(b.x,2.4,b.z),position:point(b.x+px*10,5,b.z+pz*10)};
  }else if(c.profile==='spirit-flight'){
   actor.arm=-1.1-smooth(t/.2);
   for(let i=0;i<3;i++){

@@ -21,7 +21,7 @@ Secondary summaries report a button-contest event when simultaneous dashes meet.
 
 ## Priority fidelity gaps
 
-1. **Capture versus burst identity.** Versions 0.11–0.15 give every current fighter two individually staged captures, including all close-front captures, with separate stock-burst choreography. Twelve of 24 fighter/context combinations still use shared tracks and need individual direction.
+1. **Capture versus burst identity.** Versions 0.11–0.16 provide sixteen individually staged captures, including all close-front and mid-range contexts, with separate stock-burst choreography. Eight of 24 fighter/context combinations still use shared tracks and need individual direction.
 2. **Special variants and stock economy.** The guide describes follow-up and held-input variants of character specials. Version 0.13 adds Aegis’s held forward volley and Sol’s held retreating spread, each costing one stock. Version 0.14 adds alternate up-specials for all six fighters, selected by another tap during wind-up. Forward/back tap variants and the remaining held specials are still missing; this is not the complete variation system.
 3. **Neutral and aerial movement.** Launch, pursuit, crossover, recovery, and sidestep exist. Original pursuit follow-ups, dash contests, tracking, and camera timing need direct observation.
 4. **Research confidence.** Measure only from lawful gameplay access or suitable footage. Preserve regional/version labels and distinguish observations from guide claims. Do not publish invented original-game frame data.

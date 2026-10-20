@@ -162,3 +162,7 @@ A second attack tap completed during an up-special’s startup selects its alter
 ## Alpha 0.15: individual close-front captures
 
 All six front captures now have separate profiles: vault-suplex, shoulder-turn, palm-slam, pommel-turn, pivot-toss, and blink-shove. They use 2.3-second original sequences with grip and impact camera shots. Vesper moves between discrete positions and leaves three translucent echoes. Position, height and facing blend home before the simulation resumes. Staged body bounds now keep rotated heads and shoulders above the arena floor. Render poses never alter simulation positions; capture damage still occurs once with no stock consumption. Twelve of the 24 fighter/context combinations are now individually staged.
+
+## Alpha 0.16: complete mid-range capture identities
+
+Four new 2.5-second profiles complete mid-range coverage. Aegis approaches and extracts a blade sideways; Rei presses a sustained thrust; Sol casts a travelling fire spear; Vesper conjures and breaks an effigy to throw the rival. Sword captures can pose the weapon arm separately from the free arm. Spear and effigy meshes are pooled and hidden between effects. Sixteen of 24 fighter/context pairs now have individual choreography. Combat damage, range classification, held-guard bypass and stock rules are unchanged.

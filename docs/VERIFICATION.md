@@ -144,3 +144,9 @@ New tests cover six unique front profiles, exactly one damage resolution per cap
 Chrome keyboard movement followed by capture selected all six front profiles. Screenshots inspected each at a representative grip/throw/impact point; no console errors or warnings appeared. These samples validate basic framing and pose readability, not production-quality contact animation across every frame.
 
 Final alpha 0.15 regression suite: 86 tests passed.
+
+## Complete mid-range coverage (0.16)
+
+88 tests pass. Profile, damage, guard-bypass and single-resolution tests include the four added mid-range captures. Pose checks cover all sixteen authored contexts with reversed/diagonal/zero separation. New effect tests distinguish extraction, thrust, spear and effigy; check finite render matrices; and verify spear/effigy meshes hide on the next unrelated capture.
+
+Chrome keyboard sequences selected all four new mid-range profiles. Screenshots inspected each. The first sword check exposed a too-vertical blade; separate weapon-arm posing corrected it, and Rei was visually rechecked. No console errors/warnings appeared. These are sampled alpha-animation checks, not proof of frame-perfect historical fidelity.

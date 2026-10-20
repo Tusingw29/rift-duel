@@ -5,6 +5,7 @@ const stagedBounds=new Box3();
 export function applyStagedPose(r,part){
  r.g.position.set(part.x,part.y,part.z);r.g.rotation.set(part.tilt,part.yaw,part.roll);
  r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+ if(Number.isFinite(part.rightArm))r.limbs[2].rotation.x=part.rightArm;
  // Root rotations in throws must not sink a shoulder or head below the floor.
  r.body.updateWorldMatrix(true,true);stagedBounds.setFromObject(r.body);
  if(stagedBounds.min.y<.03)r.g.position.y+=.03-stagedBounds.min.y;

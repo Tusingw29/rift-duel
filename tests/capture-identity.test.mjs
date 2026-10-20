@@ -6,7 +6,7 @@ test('authored capture identities apply only to the intended fighter and range',
  assert.equal(capturePresentation('aegis','far').profile,'orbital');
  assert.equal(capturePresentation('tala','mid').profile,'surround');
  for(const id of ['aegis','tala','rei','morrow','sol','vesper'])for(const context of ['front','back','mid','far']){
-  if(context==='front'||{aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}[id]===context){assert.ok(capturePresentation(id,context).profile);continue;}
+  if(context==='front'||context==='mid'||{aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}[id]===context){assert.ok(capturePresentation(id,context).profile);continue;}
   assert.equal(capturePresentation(id,context).profile,null);
  }
 });
@@ -25,8 +25,8 @@ test('orbital and surrounding captures remain distinct from stock bursts and byp
  }
 });
 test('authored captures bypass held guard, cost no stock, and resolve damage once',()=>{
- for(const [id,x,profile,damage] of [[0,4,'orbital',18.75],[2,0,'surround',16.83],[1,4,'spirit-flight',16.875],[3,0,'iron-scoop',20.46],[4,4,'ember-fall',16.125],[5,-2,'astral-drop',18.54]]){
-  const m=createMatch(id,1);m.players[1].x=x;if(id===5){m.players[1].lookX=1;m.players[1].turnDelay=99;}
+ for(const [id,x,profile,damage] of [[0,4,'orbital',18.75],[2,0,'surround',16.83],[1,4,'spirit-flight',16.875],[3,0,'iron-scoop',20.46],[4,4,'ember-fall',16.125],[5,-2,'astral-drop',18.54],[0,0,'blade-extract',16.5],[1,0,'spirit-thrust',14.85],[4,0,'ember-spear',14.19],[5,0,'effigy-break',16.995]]){
+  const m=createMatch(id,1);m.players[1].x=x;if(profile==='astral-drop'){m.players[1].lookX=1;m.players[1].turnDelay=99;}
   const guard={...neutral(),guard:true};for(let i=0;i<20;i++)update(m,[neutral(),guard]);
   update(m,[{...neutral(),capture:true},guard]);
   for(let i=0;i<120&&!m.cinematic;i++)update(m,[neutral(),guard]);
@@ -36,7 +36,7 @@ test('authored captures bypass held guard, cost no stock, and resolve damage onc
  }
 });
 test('all authored capture tracks stay finite, change shots, and return to combat positions',()=>{
- for(const [id,context] of [...Object.entries({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}),...['aegis','rei','tala','morrow','sol','vesper'].map(id=>[id,'front'])]){
+ for(const [id,context] of [...Object.entries({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}),...['aegis','rei','tala','morrow','sol','vesper'].flatMap(id=>[[id,'front'],[id,'mid']])]){
   for(const [a,b] of [[{x:-4,z:0},{x:4,z:0,guard:true}],[{x:5,z:4},{x:-6,z:-3}],[{x:0,z:0},{x:0,z:0}]]){
    const spec=capturePresentation(id,context),shots=new Set(),before=JSON.stringify([a,b]);
    for(let i=0;i<=120;i++){

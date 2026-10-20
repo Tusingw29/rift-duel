@@ -95,3 +95,7 @@ Version 0.14 adapts the PAL guide’s extra-tap up-special roles across the six 
 ## Close-front capture pass
 
 The PAL guide describes close captures built around a suplex, judo throw, slam, spinning pommel strike, arm drag and teleporting push for the six corresponding archetypes. Version 0.15 adapts those broad identities into original front-capture choreography. Timing, trajectories, camera shots and effects are authored choices; this is not a frame-matched reconstruction. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Remaining mid-range identities
+
+The PAL guide describes mid-range blade extraction, a sustained sword thrust, a fire spear and an effigy attack for these four archetypes. Version 0.16 adapts those descriptions into original staged captures. Trajectories, timing and camera cuts remain original choices, not measured original footage. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

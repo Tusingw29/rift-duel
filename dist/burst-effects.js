@@ -6,6 +6,14 @@ export function createBurstEffects(scene){
  const make=(geometry,material=energy,parent=group)=>{const mesh=new T.Mesh(geometry,material);parent.add(mesh);return mesh;};
  const beam=make(new T.CylinderGeometry(.32,.8,10,10));
  const orb=make(new T.IcosahedronGeometry(1,2));
+ const spear=make(new T.CylinderGeometry(.04,.16,1,6));
+ const effigy=new T.Group();group.add(effigy);
+ make(new T.IcosahedronGeometry(.22,1),energy,effigy).position.y=.45;
+ make(new T.BoxGeometry(.28,.5,.18),energy,effigy);
+ for(const side of [-1,1]){
+  const arm=make(new T.BoxGeometry(.32,.08,.1),energy,effigy);arm.position.set(side*.25,.12,0);
+  const leg=make(new T.BoxGeometry(.09,.35,.1),energy,effigy);leg.position.set(side*.09,-.35,0);
+ }
  const rings=Array.from({length:4},()=>make(new T.TorusGeometry(1,.035,5,48)));
  const slashes=Array.from({length:3},()=>make(new T.TorusGeometry(1,.07,5,32,Math.PI*1.35)));
  const missiles=Array.from({length:6},()=>make(new T.ConeGeometry(.12,.55,5)));
@@ -34,7 +42,12 @@ export function createBurstEffects(scene){
   group.visible=true;
   const e=pose.effects,color=fighters[model.id].color;energy.color.set(color);
   energy.opacity=reduced?.4:.65;
-  for(const mesh of [beam,orb,emitter,...rings,...slashes,...missiles,...spirits])mesh.visible=false;
+  for(const mesh of [beam,orb,emitter,spear,effigy,...rings,...slashes,...missiles,...spirits])mesh.visible=false;
+  if(e.spear?.visible){
+   const from=new T.Vector3(e.spear.from.x,e.spear.from.y,e.spear.from.z),to=new T.Vector3(e.spear.to.x,e.spear.to.y,e.spear.to.z),delta=to.clone().sub(from);
+   spear.visible=true;spear.position.copy(from).add(to).multiplyScalar(.5);spear.scale.set(1,delta.length(),1);spear.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),delta.normalize());
+  }
+  if(e.effigy?.scale>.01){effigy.visible=true;effigy.position.set(e.effigy.position.x,e.effigy.position.y,e.effigy.position.z);effigy.scale.setScalar(e.effigy.scale);effigy.rotation.z=e.effigy.roll;}
   if(e.emitter){emitter.visible=true;emitter.position.set(e.emitter.x,e.emitter.y,e.emitter.z);emitter.rotation.y=e.t*2;}
   if(e.beam>.01){beam.visible=true;beam.position.set(e.center.x,5,e.center.z);beam.scale.set(e.beam,1,e.beam);}
   if(e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
