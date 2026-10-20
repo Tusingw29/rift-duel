@@ -24,6 +24,8 @@ Tested in the available desktop Chrome browser:
 - Local-versus second-player arrow input moves P2 independently.
 - No console errors or warnings after the favicon fix.
 - Narrow viewport has no horizontal document overflow and shows touch controls.
+- Public GitHub Pages URL returned HTTP 200 and loaded the game successfully.
+- A live CPU duel reached a knockout, displayed the round result, and successfully started the next round. Returning to character selection also passed.
 - Narrow-screen inspection revealed a foreground pillar obstructing the arena; front pillars were removed.
 
 The gamepad check used a synthetic standard mapping, **not a physical controller**. Actual Xbox, PlayStation, Bluetooth, USB, Safari, Firefox, and mobile-device testing has not been performed. Touch is a fallback, not the primary fighting-game control scheme.
