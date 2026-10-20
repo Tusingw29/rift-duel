@@ -168,3 +168,9 @@ Chrome keyboard checks landed a launcher and all three pursuit hits: target HP 1
 103 tests pass. New checks cover all twelve selections, one-time transformation, no stock cost, projectile counts, pulse spacing and interruption, split-shot center misses versus sidestep hits, radial single-hit/block behavior, clean-hit knockdown, snare-to-blast substitution, and refusal to convert paid stock moves.
 
 Chrome keyboard sequences selected all twelve variants while preserving stock. Screenshots inspected eruption, spread and low split shots. The first check exposed undefined effect visibility on idle fighters; explicit boolean visibility fixed it, and the final screenshot confirmed no idle spheres. The selected-fighter controls dialog showed its alternate names and descriptions. No console errors/warnings appeared in the initial browser sweep.
+
+## Eight stock specials (0.20)
+
+107 tests pass. Expanded tests cover all eight stock forms, cost-on-release, emission counts, zero-stock refusal, no hidden charging, interruption without refund across every fighter, paid-technique follow-up refusal, advancing eruption hit locations and sidestep misses. Existing free variants, neutral charging and buffer tests continue to pass.
+
+Browser keyboard checks triggered all eight forms with one stock consumed each. Screenshots inspected giant discus, ground eruption and ring stream. The enlarged discus initially clipped the floor; its rendered height now scales with radius, and a second screenshot confirmed clearance. The selected-fighter guide displayed both Tala stock options. No console errors/warnings appeared during the initial browser sweep. Physical controller hardware remains untested.

@@ -18,7 +18,7 @@ export const techniqueVariants={
  vesper:{name:'Orbit fan',damage:7,active:18,effect:'fan'}
 };
 export function canFollowUp(move){
- return !!move&&move.kind==='technique'&&!move.followup&&move.frame<move.startup;
+ return !!move&&move.kind==='technique'&&!move.empowered&&!move.followup&&move.frame<move.startup;
 }
 export function applyTechniqueVariant(move,id){
  const variant=techniqueVariants[id];

@@ -2,6 +2,7 @@ import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {canFollowUp,applyTechniqueVariant} from './techniques.js';
 import {canSpecialFollowUp,applySpecialVariant,specialShots} from './special-variants.js';
+import {stockSpecials,stockTiming} from './stock-specials.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 import {normalizeOptions} from './options.js';
@@ -9,7 +10,7 @@ export const STEP=1/60;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // Held stock variants are intentionally limited to these researched archetypes.
-export const hasStockVariant=(id,command)=>(id===0&&command==='forward')||(id===4&&command==='back');
+export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[command];
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
@@ -72,6 +73,10 @@ function action(m,a,b,requested,empowered=false){
  if(kind==='super'||empowered)a.stocks--;
  const timing=moveTiming(f,kind);
  a.move={kind,...timing,empowered,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ if(empowered){
+  a.move.stockSpecial=stockSpecials[f.id][kind];
+  a.move.active=stockTiming(a.move.stockSpecial);a.move.total=timing.startup+a.move.active+timing.recovery;
+ }
  if(kind==='pursuit'&&b.air>0&&d<9){
   a.move.aerial=true;a.move.active=19;a.move.total=timing.startup+19+timing.recovery;
   a.move.glideX=(b.x-a.x-a.move.aimX*1.6)/timing.startup;
@@ -90,6 +95,20 @@ function action(m,a,b,requested,empowered=false){
 function executeAction(m,a,b,move){
  const kind=move.kind,f=fighters[a.id],d=distance(a,b),dx=move.aimX,dz=move.aimZ;
  const facing=d<.01||((b.x-a.x)*dx+(b.z-a.z)*dz)/d>.55;
+ if(move.stockSpecial){
+  const s=move.stockSpecial,offset=move.frame-move.startup;
+  if(offset===0){
+   event(m,'hint',{text:s.name.toUpperCase()+' · 1 STOCK'});
+   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+  }
+  if(offset%(s.interval||1)!==0)return;
+  if(s.area){
+   const reach=s.advance*(1+offset/s.interval),x=a.x+dx*reach,z=a.z+dz*reach;
+   if(Math.hypot(b.x-x,b.z-z)<s.area)hit(m,a,b,s.damage*f.power);
+   event(m,'shot',{color:f.color});
+  }else{m.projectiles.push(...specialShots(s,a,move,m.players.indexOf(a),f.power));event(m,'shot',{color:f.color});}
+  return;
+ }
  if(kind==='technique'){
   if(move.frame===move.startup)event(m,'hint',{text:move.name||f.moves[2]});
   if(move.secondHit&&move.frame===move.startup+move.secondHit)move.connected=false;
@@ -135,18 +154,6 @@ function executeAction(m,a,b,move){
    if(offset%(s.interval||1)===0){m.projectiles.push(...specialShots(s,a,move,m.players.indexOf(a),f.power));event(m,'shot',{color:f.color});}
    return;
   }
-  if(move.empowered){
-   const volley=f.id==='aegis',count=volley?4:5;
-   event(m,'hint',{text:volley?'SENTINEL VOLLEY · 1 STOCK':'EMBER FAN · 1 STOCK'});
-   if(!volley){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
-   for(let j=0;j<count;j++){
-    const angle=Math.atan2(dz,dx)+(volley?0:(j-2)*.19);
-    const spacing=volley?j*.7:0;
-    m.projectiles.push({x:a.x+dx*(1-spacing),z:a.z+dz*(1-spacing),dx:Math.cos(angle)*f.shotSpeed,dz:Math.sin(angle)*f.shotSpeed,life:2.5,owner:m.players.indexOf(a),damage:(volley?4:6)*f.power,kind:volley?'beam':'bolt',radius:volley?.35:.65});
-   }
-   event(m,'shot',{color:f.color});return;
-  }
-  
   event(m,'hint',{text:f.moves[kind==='forward'?0:1]});
   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
   if(f.id==='tala'&&kind==='forward'){

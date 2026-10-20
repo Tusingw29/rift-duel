@@ -48,11 +48,14 @@ export function createView(canvas){
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
    if(r.spirit)r.spirit.scale.setScalar(1);
    animateCharacter(r,p,time);
-   const active=(p?.move?.kind==='technique'||!!p?.move?.special?.area)&&p.move.frame>=p.move.startup&&p.move.frame<p.move.startup+p.move.active;
-   r.techniqueFX.visible=active&&(p.move.effect==='sphere'||!!p.move.special?.area);r.techniqueRing.visible=active;
+   const areaSpec=p?.move?.stockSpecial||p?.move?.special;
+   const active=(p?.move?.kind==='technique'||!!areaSpec?.area)&&p.move.frame>=p.move.startup&&p.move.frame<p.move.startup+p.move.active;
+   r.techniqueFX.visible=active&&(p.move.effect==='sphere'||!!areaSpec?.area);r.techniqueRing.visible=active;
+   r.techniqueFX.position.set(0,1.2,0);r.techniqueRing.position.set(0,1.2,0);
    if(active){const progress=(p.move.frame-p.move.startup)/p.move.active;
-    r.techniqueFX.scale.setScalar(p.move.special?.area||p.move.reach);r.techniqueFX.material.opacity=settings.reduced?.12:.22;
-    r.techniqueRing.scale.setScalar(p.move.special?.area|| (p.move.effect==='sphere'?p.move.reach:p.move.effect==='spin'?2.4:1.1));
+    if(areaSpec?.advance){const advance=areaSpec.advance*(1+Math.floor((p.move.frame-p.move.startup)/areaSpec.interval));r.techniqueFX.position.z=advance;r.techniqueRing.position.z=advance;}
+    r.techniqueFX.scale.setScalar(areaSpec?.area||p.move.reach);r.techniqueFX.material.opacity=settings.reduced?.12:.22;
+    r.techniqueRing.scale.setScalar(areaSpec?.area|| (p.move.effect==='sphere'?p.move.reach:p.move.effect==='spin'?2.4:1.1));
     r.techniqueRing.rotation.set(p.move.effect==='spin'?Math.PI/2:0,0,settings.reduced?0:progress*Math.PI*2);
    }
    if(anim==='hurt')r.g.rotation.z=.15;else r.g.rotation.z=0;
@@ -68,7 +71,7 @@ export function createView(canvas){
    }else r.g.rotation.x=0;
   });
   while(bolts.length<(m?.projectiles.length||0)){const b=new T.Mesh(new T.IcosahedronGeometry(.3,1),new T.MeshBasicMaterial({color:'#ffffff'}));const wheel=new T.Mesh(new T.TorusGeometry(.8,.09,6,24),b.material.clone());b.add(wheel);b.userData.wheel=wheel;scene.add(b);bolts.push(b);}
-  bolts.forEach((b,j)=>{const p=m?.projectiles[j];b.visible=!!p;if(p){b.position.set(p.x,p.low?.35:1.4,p.z);b.material.color.set(fighters[m.players[p.owner].id].color);b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);if(p.kind==='capture'||p.kind==='snare')b.scale.setScalar(1.7);b.userData.wheel.visible=p.kind==='wheel';b.userData.wheel.material.color.copy(b.material.color);if(p.kind==='wheel'){b.position.y=.9;b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}else{b.rotation.y=time*8;b.rotation.z=time*5;}}});
+  bolts.forEach((b,j)=>{const p=m?.projectiles[j];b.visible=!!p;if(p){b.position.set(p.x,p.low?.35:1.4,p.z);b.material.color.set(fighters[m.players[p.owner].id].color);b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);if(p.kind==='capture'||p.kind==='snare')b.scale.setScalar(1.7);if(p.radius>1)b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);b.userData.wheel.visible=p.kind==='wheel';b.userData.wheel.material.color.copy(b.material.color);if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}else{b.rotation.y=time*8;b.rotation.z=time*5;}}});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced);
   finisher.visible=cinema?.kind==='capture'&&!stagedState;

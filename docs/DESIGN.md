@@ -178,3 +178,7 @@ Pursuit snapshots an airborne rival within nine units at startup. The attacker g
 ## Alpha 0.19: forward/back alternate specials
 
 All six fighters now have free alternate forms for both horizontal specials. A second attack tap completed during startup selects the variant once, with neutral or the original direction held. Aegis adds timed beam pulses and split shots; Rei gains two fan patterns; Tala gains twin shots and split discs; Morrow gains a close radial eruption and split low missiles; Sol gains a slow knockdown fireball and split fire shots; Vesper gains a four-shot fan and a straight blast. The data lives in `special-variants.js`. Startup commitment, interruption and guard rules still apply. Paid stock variants cannot be converted. The controls guide displays fighter-specific explanations.
+
+## Alpha 0.20: stock-special roster coverage
+
+`stock-specials.js` centralizes eight stock forms. Every fighter has at least one; Aegis and Tala have two. The selected command is captured on attack press, holding beyond 0.24 seconds selects the stock form, and release consumes one stock at startup. Empty stock refuses it without charging. Neutral hold still charges. The common shot builder supports trails, spreads and timed streams; Morrow checks three advancing area centers. Paid techniques cannot transform into free follow-ups. Enlarged projectile visuals reflect their larger collision radius, and giant discs remain above the floor.

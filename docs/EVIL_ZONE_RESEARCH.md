@@ -111,3 +111,7 @@ The PAL guide describes a three-hit glide follow-up against airborne opponents a
 ## Horizontal special alternatives
 
 The PAL guide describes extra-tap horizontal alternatives that change beam duration, coverage, defensive range, projectile speed or knockdown. Version 0.19 adapts those roles for all six fighters. Some forms are intentionally simplified: Rei’s sword rain is a travelling sword fan, and the beam is a sequence of travelling pulses. Counts, angles, gaps, damage, timing and hit properties are original tuning, not measured original behavior. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Held forms across the roster
+
+The PAL guide describes larger energy shots/discs, multiple spirit projectiles, sequential explosions and projected rings on held inputs. Version 0.20 adapts those roles into eight stock specials. All cost one stock in Rift Duel; this uniform cost is an original rule, particularly where the guide omits a crystal marker for the spirit flock. Counts, damage, timing, spread and area checks are authored choices. Effects remain simplified procedural art. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

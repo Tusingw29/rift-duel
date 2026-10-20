@@ -37,7 +37,8 @@ export function specialShots(s,a,move,owner,power){
  const shots=[],dx=move.aimX,dz=move.aimZ;
  for(let j=0;j<s.count;j++){
   const centered=j-(s.count-1)/2,angle=Math.atan2(dz,dx)+centered*(s.spread||0),offset=centered*2*(s.offset||0);
-  shots.push({x:a.x+dx-dz*offset,z:a.z+dz+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,knockdown:!!s.knockdown});
+  const forward=1-j*(s.trail||0);
+  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,knockdown:!!s.knockdown});
  }
  return shots;
 }

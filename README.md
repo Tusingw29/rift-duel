@@ -73,3 +73,16 @@ Special follow-ups: W + tap J, then quickly tap J again before contact (Up + att
 Aerial pursuit: launch a nearby rival with I, then press O after your recovery finishes. Within range, pursuit glides into three strikes and knocks the target down. Fresh guard in the air can escape between contacts; holding O does not restart the sequence. The neutral camera follows aerial height to keep fighters below the HUD.
 
 Forward/back follow-ups: toward or away + tap attack, then quickly tap attack again before contact. Keep the direction held or return to neutral. Each fighter has two free alternate forms; How to Play lists the selected fighter’s patterns and tradeoffs. Up-special follow-ups use the same timing. Stock specials cannot be converted into free alternates after paying their cost.
+
+Held stock specials (hold longer than 0.24 seconds, then release attack; one stock each):
+
+| Fighter | Toward + hold | Away + hold | Up + hold |
+|---|---|---|---|
+| Aegis | Four-shot volley | Large stunning sphere | — |
+| Rei | Five spirit waves | — | — |
+| Tala | Large energy shot | Giant discus | — |
+| Morrow | Three advancing eruptions | — | — |
+| Sol | — | Five-shot fire fan | — |
+| Vesper | — | — | Four-ring stream |
+
+Neutral hold still builds stock. Empty stock refuses these specials, and interrupted startup does not refund their cost. The in-game guide shows the selected fighter’s options.
