@@ -94,3 +94,5 @@ Tala’s base directional specials now fire an energy shot toward the rival and 
 Morrow’s base toward special sends a stunning ground wave. His retreating special fires eight missiles in four pairs; interruption cancels later pairs. The second-tap forms remain a defensive eruption and two split ground missiles.
 
 Aegis’s retreat special is a stunning lightning bolt. Rei sends a winged spirit forward or throws a spectral sword while retreating. Vesper fires a stunning flame forward and a trapping ring backward. Their selected-fighter manuals explain these base moves separately from the second-tap alternates.
+
+Keyboard remapping: **Options → Keyboard controls**. Choose any player/action, then press a letter, number, arrow, Space or numeric keypad key. Escape cancels. Conflicts are rejected across both players; changing a control replaces its old aliases. Layouts save in this browser, with a Restore default keys button. Fight prompts show your current Player 1 bindings. Controller and touch actions remain unchanged.

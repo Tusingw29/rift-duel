@@ -192,3 +192,7 @@ Chrome received a complete direction-plus-two-attack-taps sequence synchronously
 ## Three additional base move sets (0.24)
 
 127 tests pass. Six base-special cases verify emission identity, single emission, clean-hit damage, extended stun where applicable and unchanged stocks. All six are checked against held guard, fresh-guard reflection and sidestep avoidance. The projectile scene-object test checks custom geometry visibility, travel-facing orientation in three directions, finite transforms and reuse across ten projectile types. Two older assertions were updated to the corrected identities. Visual browser inspection remains pending; scene-object tests do not establish appearance or framing in play.
+
+## Keyboard remapping (0.25)
+
+134 tests pass. Seven new tests cover JSON persistence and copy isolation, malformed/conflicting layouts, reserved keys, cross-player and alias conflicts, remapped taps producing a real combat projectile, disabled former keys, held/queued state clearing, independent movement/action remaps, touch action resolution, and default alias restoration. JavaScript syntax checks pass. The options dialog, focus behavior and live hint rendering have not received a browser interaction pass because the required browser runtime tool is unavailable.

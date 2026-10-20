@@ -186,3 +186,7 @@ All six fighters now have free alternate forms for both horizontal specials. A s
 ## Input transitions (0.21)
 
 Keyboard and touch controls enqueue changed input snapshots independently for each player. The 60 Hz simulation consumes one snapshot per player per tick, preserving short taps and directional ordering even when several events arrive before rendering. Held states persist; repeated keydown events do not create actions. Pause, reset and focus-loss paths clear pending states. Queues are bounded at 64 snapshots; an extreme event flood resynchronizes to recent state. Gamepads continue to use browser polling. This is original input handling, not a reconstruction of PS1 input timing.
+
+## Keyboard configuration (0.25)
+
+A separate validated binding map stores two players and ten actions per player. Defaults retain WASD and the player-two numeric-key aliases. Rebinding requires an unused key and replaces the selected action’s old aliases. Escape and browser shortcut keys are reserved. Malformed or conflicting saved layouts fall back to defaults. Reconfiguration flushes input queues, and touch buttons resolve their original logical action through the current map. The editor saves to a separate browser-storage key and reports a session-only change if storage fails. Controller mappings are unchanged.

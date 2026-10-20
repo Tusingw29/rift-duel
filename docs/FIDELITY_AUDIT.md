@@ -36,3 +36,5 @@ Version 0.22 corrects Tala’s two base horizontal specials to the energy-shot a
 Version 0.23 corrects Morrow’s base horizontal identities from duplicate bolt spreads to a stunning ground wave and an interruptible eight-missile barrage. The selected-fighter manual now explains both. Timing and spread remain original tuning, and visual browser inspection of the new wave is pending.
 
 Version 0.24 separates Aegis’s lightning from beam fire, Rei’s spirit from sword, and Vesper’s fire from ring trap. Base-move descriptions now appear in their manuals. Sol’s base two-shot pattern is still an original simplification requiring verification. Projectile visuals added in 0.23–0.24 have scene-object checks but await browser inspection.
+
+Version 0.25 adds saved keyboard remapping for both players with conflict rejection, reserved Escape, default restoration and current-key fight prompts. This addresses configurable controls for the browser adaptation; controller bindings remain fixed. UI browser verification remains pending alongside the recent projectile visuals.

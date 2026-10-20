@@ -1,21 +1,18 @@
+import {normalizeBindings} from './key-bindings.js';
 const actions=['attack','guard','capture','launch','pursuit','super'];
-const maps=[
- ['KeyA','KeyD','KeyW','KeyS','KeyJ','KeyK','KeyU','KeyI','KeyO','KeyL'],
- ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Numpad1','Numpad2','Numpad3','Numpad4','Numpad5','Numpad6']
-];
-const codes=new Set([...maps.flat(),...actions.map((_,n)=>'Digit'+(n+1))]);
 const neutral=()=>({x:0,z:0,...Object.fromEntries(actions.map(k=>[k,false]))});
 const same=(a,b)=>a.x===b.x&&a.z===b.z&&actions.every(k=>a[k]===b[k]);
 export const MAX_INPUT_STATES=64;
 // Preserve key transitions between animation frames. Each player drains their
 // own ordered snapshots, one per simulation tick, so short taps cannot vanish.
-export function createKeyboardInput(){
+export function createKeyboardInput(bindings){
+ let maps=normalizeBindings(bindings),codes=new Set(maps.flat(2));
  const pressed=new Set(),queues=[[],[]],latest=[neutral(),neutral()],current=[neutral(),neutral()];
  function snapshot(p){
-  const map=maps[p],i=neutral();
-  i.x=Number(pressed.has(map[1]))-Number(pressed.has(map[0]));
-  i.z=Number(pressed.has(map[3]))-Number(pressed.has(map[2]));
-  actions.forEach((k,n)=>i[k]=pressed.has(map[n+4])||!!(p&&pressed.has('Digit'+(n+1))));
+  const map=maps[p],i=neutral(),held=n=>map[n].some(code=>pressed.has(code));
+  i.x=Number(held(1))-Number(held(0));
+  i.z=Number(held(3))-Number(held(2));
+  actions.forEach((k,n)=>i[k]=held(n+4));
   return i;
  }
  function change(code,down){
@@ -30,6 +27,8 @@ export function createKeyboardInput(){
   }
  }
  return {
+  configure(bindings){maps=normalizeBindings(bindings);codes=new Set(maps.flat(2));this.clear();},
+  has(code){return codes.has(code);},
   add(code){change(code,true);},
   delete(code){change(code,false);},
   clear(){pressed.clear();for(let p=0;p<2;p++){queues[p].length=0;latest[p]=neutral();current[p]=neutral();}},
