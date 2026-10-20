@@ -20,7 +20,7 @@ function renderSheet(){
  const rows=Math.ceil(cells.length/cols),w=innerWidth/cols,h=innerHeight/rows;labels.innerHTML='';renderer.clear();
  cells.forEach(([name,p,t],i)=>{
   // Each cell is a fresh rig state so blending does not leak between cells.
-  rig.pose=null;rig.lastTime=undefined;rig.prevTwist=undefined;rig.twistLag=0;
+  rig.pose=null;rig.lastTime=undefined;rig.prevTwist=undefined;rig.twistLag=0;rig.footPlants=null;rig.plantRoot=null;rig.strikeBlend=null;rig.stridePhase=0;rig.lastPos=null;
   const time=t??1;for(let k=0;k<8;k++)animateCharacter(rig,p,time+k*1/60);
   const col=i%cols,row=Math.floor(i/cols),x=col*w,y=innerHeight-(row+1)*h;
   const camera=new T.PerspectiveCamera(36,w/h,.1,100);

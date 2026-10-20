@@ -19,7 +19,7 @@ export function animateCharacter(r,p,time){
  const f=fighters[r.id],state=p?.anim||'idle',run=state==='run';
  const breathing=Math.sin(time*2.4+r.id)*.014;
  r.body.position.set(0,breathing,0);r.body.rotation.set(0,0,0);r.spine.rotation.set(0,0,0);r.head.rotation.set(0,0,0);
- r.limbs.forEach((part,j)=>part.rotation.set(0,0,j===0?.08:j===2?-.08:0));
+ r.limbs.forEach((part,j)=>{part.rotation.order='XYZ';part.rotation.set(0,0,j===0?.08:j===2?-.08:0);});
  r.elbows.forEach(elbow=>elbow.rotation.set(-.22,0,0));r.knees.forEach(knee=>knee.rotation.set(.05,0,0));
  const [leftArm,leftLeg,rightArm,rightLeg]=r.limbs;
  // Tala runs on the blended full-body system for her sample states.

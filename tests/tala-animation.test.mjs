@@ -19,7 +19,7 @@ test('punches start in the hips and chest, snap to extension at contact, and rec
 });
 test('footwork phase advances with distance travelled, not time, and feet plant on strikes',()=>{
  const r={},p={anim:'run',x:0,z:0};advanceStride(r,p);p.x=.5;advanceStride(r,p);const moved=r.stridePhase;p.x=.5;advanceStride(r,p);assert.equal(r.stridePhase,moved,'standing still keeps the phase');
- assert.ok(Math.abs(moved-.5/STRIDE*Math.PI)<1e-9);p.anim='idle';advanceStride(r,p);assert.equal(r.stridePhase,0);
+ assert.ok(Math.abs(moved-.5/STRIDE*Math.PI)<1e-9);p.anim='idle';advanceStride(r,p);assert.equal(r.stridePhase,moved,'stopping preserves the current step');
  const a=movePose(1,0,0),b=movePose(1,0,Math.PI/2);assert.notDeepEqual(a,b);assert.ok(b.llx<0&&b.rlx>0,'legs scissor mid-stride');
  assert.ok(movePose(-1,0,1).lean<0&&movePose(1,0,1).lean>0,'advance leans in, retreat leans back');
  const strafe=movePose(0,1,0);assert.ok(Math.abs(strafe.llz)>.1&&Math.abs(strafe.llx)<.2,'circling steps sideways');
@@ -45,4 +45,32 @@ test('Tala rig animates through the sample system with lagging ponytail and dete
  for(let t=1;t<1.5;t+=1/60)animateCharacter(r,{...p,move:strike(1,5)},t);assert.ok(r.limbs[2].rotation.x<-1.4,'right arm reaches extension after blending');
  animateCharacter(r,{anim:'launch',air:.6,launched:true,x:0,z:0},2);assert.equal(r.pose,null,'shared animator takes over outside the sample states');
  const other=buildCharacter(0);animateCharacter(other,{anim:'idle',x:0,z:0},0);assert.equal(other.pose,undefined,'other fighters are untouched');
+});
+
+test('live fighter movement feeds the rig stride without a synthetic player phase',()=>{
+ const r=buildCharacter(2),p={anim:'run',x:0,z:0,prev:{x:1,z:0}};
+ animateCharacter(r,p,0);const first=r.pose.llx;
+ for(let i=1;i<=12;i++){p.x=i*.04;animateCharacter(r,p,i/60);}
+ assert.equal(p.stridePhase,undefined);assert.ok(Math.abs(r.pose.llx-first)>.2,'live legs actually step');
+ const phase=r.stridePhase;animateCharacter(r,{...p,anim:'idle'},13/60);assert.equal(r.stridePhase,phase);
+ assert.ok(movePose(-1,0,1).llx>0&&movePose(1,0,1).llx<0,'retreat reverses the step');
+});
+test('a live strike reaches its authored contact pose on the damage frame',()=>{
+ for(const chain of [1,2,3]){
+  const r=buildCharacter(2),p={anim:'idle',x:0,z:0};animateCharacter(r,p,0);
+  p.anim='strike';p.move=strike(chain,0);
+  for(let frame=0;frame<=p.move.startup;frame++){p.move.frame=frame;animateCharacter(r,p,(frame+1)/60);}
+  assert.deepEqual(r.pose,strikePose(p.move),'no smoothing delay at contact');
+ }
+});
+test('grounded ankle plants survive torso weight shifts and release for airborne motion',()=>{
+ const r=buildCharacter(2),p={anim:'idle',x:0,z:0};animateCharacter(r,p,0);
+ const plants=r.footPlants.map(v=>v.clone());
+ for(let i=1;i<20;i++)animateCharacter(r,p,i/60);
+ r.g.updateMatrixWorld(true);
+ for(let i=0;i<2;i++){
+  const foot=r.knees[i].localToWorld(plants[i].clone().set(0,-.48,0));
+  assert.ok(foot.distanceTo(plants[i])<1e-6,'support ankle stays in world space');
+ }
+ animateCharacter(r,{...p,anim:'launch',air:.5},1);assert.equal(r.footPlants,null);
 });

@@ -2,6 +2,7 @@
 // Poses are flat channel objects blended toward a target each frame, so idle,
 // footwork, strikes, guard and hit reactions flow from the current pose instead
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
+import {Vector3} from './vendor/three.module.js';
 export const CHANNELS=['bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -42,7 +43,7 @@ export function movePose(forward,side,phase){
   const dir=Math.sign(side)||1;
   return pose({...stance,llz:dir*(.18+s*.32),rlz:dir*(.18-s*.32),llx:-.1,rlx:.1,lk:.3+Math.max(0,c)*.5,rk:.3+Math.max(0,-c)*.5,bodyY:-.06+Math.abs(s)*.05,side:dir*.1,lean:.1,lax:-.85,rax:-.6,le:-1.25,re:-1.35});
  }
- const retreat=forward<0,amp=retreat?.38:.62,lift=retreat?.03:.07;
+ const retreat=forward<0,amp=retreat?-.38:.62,lift=retreat?.03:.07;
  return pose({...stance,llx:-s*amp,rlx:s*amp,lk:Math.max(0,c)*.95,rk:Math.max(0,-c)*.95,bodyY:-.04+Math.abs(s)*lift,lean:retreat?-.06:.16,hipYaw:s*.08,twist:-.18-s*.12,lax:-.85+s*.1,rax:-.6-s*.1,le:-1.2,re:-1.35,hy:.1});
 }
 export function idlePose(t){
@@ -52,7 +53,7 @@ export function idlePose(t){
 export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:-.1,hx:.05,bodyZ:-.14,le:-1.6,re:-1.6,rlx:.4}),recoil);}
 // Which states the sample handles; everything else falls back to the shared animator.
-export function targetFor(p,t){
+export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(!p)return {pose:idlePose(t),rate:8,kind:'idle'};
  const move=p.move;
  if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
@@ -60,13 +61,13 @@ export function targetFor(p,t){
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
- if(p.anim==='run')return {pose:movePose(p.prev?.x??1,p.prev?.z||0,p.stridePhase||0),rate:13,kind:'run'};
+ if(p.anim==='run')return {pose:movePose(p.prev?.x??1,p.prev?.z||0,stridePhase),rate:13,kind:'run'};
  return {pose:idlePose(t),rate:8,kind:'idle'};
 }
 export function advanceStride(r,p){
- if(!p)return 0;
+ if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.z))return r.stridePhase||0;
  if(r.lastPos&&p.anim==='run'){const d=Math.hypot(p.x-r.lastPos[0],p.z-r.lastPos[1]);r.stridePhase=(r.stridePhase||0)+Math.min(d,.5)/STRIDE*Math.PI;}
- else if(p.anim!=='run')r.stridePhase=0;
+ // Keep the step phase when stopping so a brief pause does not restart the gait.
  r.lastPos=[p.x,p.z];return r.stridePhase||0;
 }
 export function blendPose(current,target,rate,dt){
@@ -86,14 +87,59 @@ export function applyPose(r,s){
 export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
  if(p)advanceStride(r,p);
- const target=targetFor(p,time);
- if(!target){r.pose=null;return false;}
- r.pose=r.pose?blendPose(r.pose,target.pose,target.rate,dt):{...target.pose};
+ const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0);
+ if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;return false;}
+ // Blend the entry offset out by contact, then follow the combat timeline exactly.
+ // Smoothing every strike frame delays the fist beyond the frame that deals damage.
+ if(target.kind==='strike'){
+  const m=p.move,previous=r.strikeBlend;
+  if(!previous||previous.move!==m||m.frame<previous.frame){
+   const from=r.pose||target.pose;
+   r.strikeBlend={move:m,frame:m.frame,offset:Object.fromEntries(CHANNELS.map(k=>[k,from[k]-target.pose[k]]))};
+  }
+  const entry=1-smooth(m.frame/Math.max(1,m.startup));
+  r.pose=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+r.strikeBlend.offset[k]*entry]));
+  r.strikeBlend.frame=m.frame;
+ }else{
+  r.strikeBlend=null;
+  r.pose=r.pose?blendPose(r.pose,target.pose,target.rate,dt):{...target.pose};
+ }
  // Ponytail and head trail the chest turn slightly.
- if(dt>0){const twistVelocity=(r.pose.twist-(r.prevTwist??r.pose.twist))/dt;r.prevTwist=r.pose.twist;r.twistLag=(r.twistLag||0)*.8+twistVelocity*.02;}else r.twistLag=r.twistLag||0;
+ if(dt>0){const twistVelocity=(r.pose.twist-(r.prevTwist??r.pose.twist))/dt;r.prevTwist=r.pose.twist;const retention=Math.exp(-13.4*dt);r.twistLag=(r.twistLag||0)*retention+twistVelocity*.1*(1-retention);}else r.twistLag=r.twistLag||0;
  applyPose(r,r.pose);
  if(target.kind==='charge')r.body.position.y+=Math.sin(time*30)*.008;
+ plantSupportFeet(r,p,target.kind);
  r.head.rotation.y-=r.twistLag*.6;
  for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(target.kind==='run'?.2:0);part.rotation.z=Math.sin(time*2.3+i)*.07-r.twistLag*(i===0?1.5:.6);}
  return true;
+}
+
+// Keep grounded supporting ankles at their world positions while the torso shifts.
+// The two-bone solve is visual only. Release unreachable plants instead of stretching
+// a leg or moving the fighter's collision body. Airborne/shared states clear plants.
+const ankle=new Vector3(0,-.48,0);
+export function plantSupportFeet(r,p,kind){
+ if(!p||!['idle','guard','charge','strike'].includes(kind)){r.footPlants=null;return;}
+ r.g.updateMatrixWorld(true);
+ const position=new Vector3();r.g.getWorldPosition(position);
+ if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5)r.footPlants=null;
+ r.plantRoot=position;
+ const groundAnkle=k=>{const v=k.localToWorld(ankle.clone());v.y=position.y+.14*r.g.scale.y;return v;};
+ if(!r.footPlants)r.footPlants=r.knees.map(groundAnkle);
+ // Let the hips settle rather than pulling an anchored foot up during the bounce.
+ let settle=0;
+ for(let i=0;i<2;i++){
+  const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(r.limbs[i*2+1].position);
+  if(v.y<0&&v.x*v.x+v.z*v.z<.95**2)settle=Math.max(settle,-v.y-Math.sqrt(.95**2-v.x*v.x-v.z*v.z));
+ }
+ r.body.position.y-=Math.min(.12,settle);r.g.updateMatrixWorld(true);
+ for(let i=0;i<2;i++){
+  const leg=r.limbs[i*2+1],knee=r.knees[i];
+  const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(leg.position),d=v.length();
+  if(d>.955||d<.2){r.footPlants[i]=groundAnkle(knee);continue;}
+  const bend=2*Math.acos(Math.min(1,d/.96));
+  leg.rotation.order='ZXY';
+  leg.rotation.set(Math.atan2(-v.z,Math.hypot(v.x,v.y))-bend/2,0,Math.atan2(v.x,-v.y));
+  knee.rotation.x=bend;
+ }
 }
