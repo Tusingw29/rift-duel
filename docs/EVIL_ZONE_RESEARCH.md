@@ -22,7 +22,7 @@ Footage located for a future measured animation pass: [capture compilation](http
 
 Rift Duel uses a 60 Hz simulation, movement on an X/Z plane, and independent rendering. The neutral camera follows the midpoint and widens with separation. Confirmed captures use contextual framing, and stock bursts use character-specific shot sequences before returning to neutral. Reduced-motion mode retains neutral framing. Procedural animation separates idle, running, attacks, charging, guarding, hurt, launched, and cinematic states. Weapons, coat shapes, armor mass, and effects distinguish the roster.
 
-This alpha intentionally adapts inputs: WASD is world-oriented movement; toward/away attacks use the opponent's current side. J is tap attack / hold charge, K is guard, S+J captures, W+J launches. U/I/O/L are convenient capture/launcher/pursuit/burst shortcuts. Gamepad face buttons and bumpers provide equivalent actions. Double taps now provide toward+attack pursuit, away+attack burst, down+attack launch, up+attack jumping crossover, and up+guard jump. Fresh airborne guard recovers, while toward+guard circles behind a nearby rival. The parser uses an original 18-frame window, not measured original-game timing.
+This alpha intentionally adapts inputs: WASD is world-oriented movement; toward/away attacks use the opponent's current side. J is tap attack / hold charge, K is guard, S+J captures, W+J uses the third character signature. U/I/O/L are convenient capture/launcher/pursuit/burst shortcuts. Gamepad face buttons and bumpers provide equivalent actions. Double taps now provide toward+attack pursuit, away+attack burst, down+attack launch, up+attack jumping crossover, and up+guard jump. Fresh airborne guard recovers, while toward+guard circles behind a nearby rival. The parser uses an original 18-frame window, not measured original-game timing.
 
 Original balancing values—not Evil Zone frame data:
 
@@ -73,3 +73,8 @@ These are sampled visual observations, not continuous motion analysis or measure
 ## Chain rules follow-up
 
 The Otaku_Tom guide explicitly describes three close attacks, three ranged attacks, and substituting another attack for the last close hit. Version 0.6 now supports this structure with original timing and damage. Whiff restrictions, the ten-frame follow-up window, and ranged special finishes are Rift Duel design decisions; their exact correspondence to the original is unverified. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+
+## Third directional specials (0.7)
+
+The guide separates up-plus-attack character specials from the double-down launcher. Version 0.7 fixes the earlier shared-launcher placeholder: each current fighter now has a distinct third technique. Motion and defensive roles are informed by the guide; timings, reach, projectile interception, damage, and single-hit limits are original rules. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

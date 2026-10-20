@@ -44,7 +44,7 @@ function beginCapture(m,a,b,context){
 function action(m,a,b,requested){
  if(a.stun>0||a.guard||m.cinematic)return;
  const previous=a.move;
- const chaining=canChain(previous)&&(requested==='attack'||previous.chain===2&&['capture','launch','forward','back','pursuit','jumpAttack','super'].includes(requested));
+ const chaining=canChain(previous)&&(requested==='attack'||previous.chain===2&&['capture','launch','forward','back','technique','pursuit','jumpAttack','super'].includes(requested));
  if((a.move||a.cool>0)&&!chaining){
   const remaining=a.move?a.move.total-a.move.frame:Math.ceil(a.cool/STEP);
   if(remaining<=INPUT_BUFFER_FRAMES)a.buffer={kind:requested,expires:m.tick+INPUT_BUFFER_FRAMES+1};
@@ -67,6 +67,21 @@ function action(m,a,b,requested){
 function executeAction(m,a,b,move){
  const kind=move.kind,f=fighters[a.id],d=distance(a,b),dx=move.aimX,dz=move.aimZ;
  const facing=d<.01||((b.x-a.x)*dx+(b.z-a.z)*dz)/d>.55;
+ if(kind==='technique'){
+  if(move.frame===move.startup)event(m,'hint',{text:f.moves[2]});
+  if(move.effect==='wheel'){
+   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*9,dz:dz*9,life:2.6,owner:m.players.indexOf(a),damage:move.damage*f.power,kind:'wheel',radius:.9});
+   event(m,'shot',{color:f.color});return;
+  }
+  if(!move.connected){
+   a.x=clamp(a.x+dx*move.speed*STEP,-11,11);a.z=clamp(a.z+dz*move.speed*STEP,-6,6);
+   const radial=['spin','sphere'].includes(move.effect);
+   if(distance(a,b)<move.reach&&(radial||facing)&&b.inv<=0){
+    move.connected=true;hit(m,a,b,move.damage*f.power,'hit',!!move.launch);
+   }
+  }
+  return;
+ }
  if(kind==='jumpAttack'){
   a.air=.85;a.inv=.12;
   if(d<3.5){a.x=clamp(b.x+dx*1.6,-11,11);a.z=clamp(b.z+dz*1.6,-6,6);b.turnDelay=.5;hit(m,a,b,9*f.power);}
@@ -178,7 +193,7 @@ export function update(m,inputs,dt=STEP){
   for(const a of m.players){
    const move=a.move;if(!move||move.started===m.tick)continue;
    move.frame++;a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
-   if(move.frame===move.startup)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
+   if(move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
    if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
   }
   const clash=contacts.length===2&&contacts.every(c=>['capture','super'].includes(c.move.kind));
@@ -189,6 +204,8 @@ export function update(m,inputs,dt=STEP){
   for(const p of m.projectiles){
    p.x+=p.dx*dt;p.z+=p.dz*dt;p.life-=dt;
    const a=m.players[p.owner],b=m.players[1-p.owner];
+   const barrier=b.move?.kind==='technique'&&b.move.effect==='sphere'&&b.move.frame>=b.move.startup&&b.move.frame<b.move.startup+b.move.active;
+   if(barrier&&p.kind!=='capture'&&Math.hypot(p.x-b.x,p.z-b.z)<b.move.reach){p.life=0;event(m,'block',{x:p.x,z:p.z,color:fighters[b.id].color});continue;}
    if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&b.air<.5){
     if(p.kind!=='capture'&&b.guard&&b.guardTime<.17){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&b.guard&&b.guardTime<.2){p.life=0;event(m,'hint',{text:'CAPTURE BREAK'});}

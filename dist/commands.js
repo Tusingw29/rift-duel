@@ -23,7 +23,7 @@ export function readCommand(state,input,previous,face,tick) {
  if(tick-state.doubleTick>COMMAND_LIFETIME)state.double=null;
  const double=state.double;
  if(input.attack&&!previous.attack){
-  state.attack=double?({forward:'pursuit',back:'super',down:'launch',up:'jumpAttack'}[double]):({forward:'forward',back:'back',down:'capture',up:'launch'}[direction]||'attack');
+  state.attack=double?({forward:'pursuit',back:'super',down:'launch',up:'jumpAttack'}[double]):({forward:'forward',back:'back',down:'capture',up:'technique'}[direction]||'attack');
   state.double=null;
  }
  if(input.guard&&!previous.guard&&double==='up'){state.double=null;return 'jump';}

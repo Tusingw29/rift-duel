@@ -1,5 +1,6 @@
 // Rift Duel balance values, in 60 Hz simulation frames. These are original
 // timings, not frame data reverse-engineered from Evil Zone.
+import {techniques} from './techniques.js';
 export function moveTiming(fighter,kind){
  const heavy=fighter.id==='morrow',fast=fighter.id==='tala';
  const table={
@@ -11,15 +12,16 @@ export function moveTiming(fighter,kind){
   launch:{startup:heavy?15:10,recovery:25},
   pursuit:{startup:7,recovery:30},
   jumpAttack:{startup:9,recovery:25},
-  super:{startup:22,recovery:42}
+  super:{startup:22,recovery:42},
+  technique:techniques[fighter.id]
  };
  const timing=table[kind];
  if(!timing)throw new Error(`Unknown move: ${kind}`);
- return {...timing,total:timing.startup+1+timing.recovery};
+ return {...timing,active:timing.active||1,total:timing.startup+(timing.active||1)+timing.recovery};
 }
 export function movePhase(move){
  if(!move)return 'ready';
- return move.frame<move.startup?'startup':move.frame===move.startup?'contact':'recovery';
+ return move.frame<move.startup?'startup':move.frame<move.startup+(move.active||1)?'contact':'recovery';
 }
 export const INPUT_BUFFER_FRAMES=8;
 export const CHAIN_WINDOW_FRAMES=10;

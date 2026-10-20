@@ -23,7 +23,8 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 | Guard | K | B / Circle |
 | Signature / retreat special | Toward / away + tap J | Stick + attack |
 | Capture | U or S + tap J | X / Square |
-| Launcher | I or W + tap J | LB / L1 |
+| Third signature | W + tap J | Up + A / Cross |
+| Launcher | I or double-tap S + J | LB / L1 |
 | Pursuit / dash | O | RB / R1 |
 | Burst (one stock) | L | Y / Triangle |
 | Pause | Escape | Start / Options |
@@ -52,3 +53,5 @@ Open http://localhost:4173. No npm install, editor download, engine export, data
 - [Verification and known limitations](docs/VERIFICATION.md)
 
 Online multiplayer, production-quality animation, full Evil Zone roster/command fidelity, and voiced story content are not included. This project is unaffiliated with Evil Zone, Yuke's, or its publishers.
+
+Third signatures: Aegis rushes with a blade; Rei performs a radial spinning slash; Tala rushes into a rising strike; Morrow commits to a heavy charge; Sol creates a close-range sphere that intercepts ordinary projectiles; Vesper sends a rolling ring. Use W + tap J (Up + attack on controller). Startup can be interrupted, attacks can be guarded, and recovery leaves you open.

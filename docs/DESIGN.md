@@ -94,3 +94,19 @@ The six sequences use original 2.5–2.9 second durations and procedural motion.
 Basic strikes and shots can cancel recovery into up to three steps. A strike must connect with the target or held guard; a projectile opens its chain window on release. The original tuning window runs from contact through the next ten simulation frames. Each follow-up retains its normal startup, and the third step must recover fully. A small, bounded step-in helps connected melee chains retain range without granting unlimited tracking. Whiffs, parries, and interruption prevent chaining.
 
 After the second basic attack, a launcher, capture, directional special, pursuit, crossover, or stocked burst can replace the final step. These still obey their normal resource/range rules. Holding attack charges normally; repeated taps are required for a chain. The training readout shows the current step and CHAIN NOW prompt. Damage is 6/6/10 for strikes and 7/7/9 for shots, multiplied by fighter power. These are new balancing choices, not measured Evil Zone damage or cancel windows.
+
+
+## Third signatures (0.7)
+
+W + tap J / controller Up + attack now selects the third signature; I / LB and double-down + attack retain the launcher. `techniques.js` defines six original behaviors. Aegis and Morrow advance with committed attacks, Tala's advancing strike launches, Rei's spinning slash covers nearby angles, Sol's sphere intercepts ordinary projectiles during its active period, and Vesper emits a rolling ring. Captures bypass the sphere. Each melee technique can connect once per use; parries interrupt it. Aim locks at startup, so charging attacks can miss sidesteps. The timeline now supports multiple active frames before recovery. Techniques can replace the third chain step.
+
+| Fighter | Startup / active / recovery frames | Base damage |
+|---|---|---|
+| Aegis | 12 / 18 / 22 | 12 |
+| Rei | 10 / 16 / 23 | 11 |
+| Tala | 8 / 15 / 24 | 10, launches |
+| Morrow | 17 / 20 / 30 | 15 |
+| Sol | 9 / 22 / 26 | 10 |
+| Vesper | 14 / 1 / 25 | 12, projectile |
+
+Damage is multiplied by character power. All numbers are original tuning.

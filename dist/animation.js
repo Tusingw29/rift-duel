@@ -23,13 +23,23 @@ export function animateCharacter(r,p,time){
  }
  if(p?.move||['strike','attack','forward','back','launch','pursuit','jumpAttack'].includes(state)){
   const move=p?.move;
-  const strength=move?(move.frame<move.startup?0:1-smooth((move.frame-move.startup)/move.recovery)):smooth((p?.animTime||0)/.32);
+  const strength=move?(move.frame<move.startup?0:1-smooth((move.frame-move.startup-(move.active||1)+1)/move.recovery)):smooth((p?.animTime||0)/.32);
   if(f.id==='tala'){const arm=((move?.chain||1)-1)%2; r.limbs[arm?2:0].rotation.x=-1.6*strength;r.elbows[arm].rotation.x=-.08;r.spine.rotation.y=(arm?-.35:.35)*strength;}
   else if(f.id==='rei'){rightArm.rotation.x=-1.0*strength;rightArm.rotation.z=.65*strength;rightArm.rotation.y=-.55*strength;r.spine.rotation.y=-.5*strength;r.elbows[1].rotation.x=-.4;}
   else if(f.id==='morrow'){rightArm.rotation.x=-1.3*strength;leftArm.rotation.x=-.8*strength;r.spine.rotation.x=.18*strength;r.spine.rotation.y=-.3*strength;}
   else if(f.id==='sol'){leftArm.rotation.x=-1.5*strength;rightArm.rotation.x=-.4*strength;r.elbows[0].rotation.x=-.1;}
   else if(f.id==='vesper'){leftArm.rotation.x=-1.3*strength;rightArm.rotation.x=-1.3*strength;leftArm.rotation.z=.5*strength;rightArm.rotation.z=-.5*strength;}
   else{rightArm.rotation.x=-1.45*strength;leftArm.rotation.x=-.6*strength;r.spine.rotation.y=-.18*strength;r.elbows[1].rotation.x=-.12;}
+ }
+ if(p?.move?.kind==='technique'&&p.move.frame>=p.move.startup){
+  const move=p.move,progress=Math.min(1,(move.frame-move.startup)/move.active);
+  const fade=1-smooth((move.frame-move.startup-move.active)/move.recovery);
+  if(f.id==='rei'){r.spine.rotation.y=progress*Math.PI*2;rightArm.rotation.z=.9*fade;leftArm.rotation.z=-.8*fade;r.body.position.y+=Math.sin(progress*Math.PI)*.5;}
+  if(f.id==='aegis'){r.spine.rotation.x=.65*fade;rightArm.rotation.x=-1.8*fade;leftLeg.rotation.x=.5*fade;}
+  if(f.id==='tala'){rightArm.rotation.x=-2.7*fade;leftLeg.rotation.x=-.7*fade;r.body.position.y+=Math.sin(progress*Math.PI)*.65;}
+  if(f.id==='morrow'){r.spine.rotation.x=.4*fade;rightArm.rotation.x=-1.3*fade;leftArm.rotation.x=-1.3*fade;}
+  if(f.id==='sol'){leftArm.rotation.z=1.1*fade;rightArm.rotation.z=-1.1*fade;}
+  if(f.id==='vesper'){leftArm.rotation.x=-1.8*fade;rightArm.rotation.x=-.7*fade;r.spine.rotation.x=.2*fade;}
  }
  if(p?.move&&p.move.frame<p.move.startup){
   const wind=smooth(p.move.frame/p.move.startup);

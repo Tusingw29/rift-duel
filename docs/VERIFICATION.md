@@ -75,3 +75,10 @@ Desktop Chrome visual checks sampled all six bursts: Aegis's orbital emitter, Re
 47 tests pass. Six new tests cover three-step limits, required recovery after step three, melee whiffs, expired windows, launcher/capture finishes, ranged chains before impact, held guard and parry, and hold-to-charge behavior. The startup regression now verifies that a chained follow-up still waits its full startup before dealing damage.
 
 Local Chrome keyboard inputs produced three distinct contact states (steps 1, 2, 3) with target health 94, 88, 78. The training readout displayed CHAIN NOW during eligibility and removed it at step three. Screenshot inspection confirmed the three-hit feedback and readable recovery prompt. No console errors or warnings appeared in the initial browser check. These checks do not establish original-game frame parity or physical controller behavior.
+
+
+## Third signatures (0.7)
+
+52 tests pass. New coverage checks every signature's damage and stock preservation, committed travel and sidestep misses, rising launch and radial coverage, sphere interception with capture/startup exceptions, and held guard/parry. Character pose validation now traverses each technique through active frames and recovery.
+
+Local Chrome W+J input selected the new technique for Sol and Vesper. Screenshots showed the sphere and traveling ring without console errors. The corrected ring orientation was visually rechecked. Browser inputs also verified the other four techniques: Aegis, Tala, Morrow, and Rei dealt their expected damage, with Tala launching the target. Rei’s active spin was visually inspected. Training labels now distinguish extended ACTIVE periods from one-frame CONTACT. Launcher shortcuts remain covered by the existing directional-command tests. Physical-controller testing remains outstanding.
