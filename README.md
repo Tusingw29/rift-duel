@@ -6,7 +6,7 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 ## Included
 
-- Six playable fighters with different movement, reach, damage, and signature attacks.
+- Six original articulated fighters with distinct silhouettes, ready stances, movement, reach, damage, and signature attacks.
 - Arcade (six bouts), quick CPU duel, training, and same-device two-player versus.
 - Melee, projectiles, sidesteps, charge stocks, timed guard/reflection, capture breaks, launch/pursuit, cinematic bursts.
 - WASD keyboard controls, standard gamepads, and basic touch controls.

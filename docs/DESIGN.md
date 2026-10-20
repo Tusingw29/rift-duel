@@ -24,7 +24,7 @@ These are broad genre/archetype homages, not duplicate costumes or renamed extra
 | Fighter | Familiar role | Original silhouette | Actual signature behavior |
 |---|---|---|---|
 | Aegis | Armored tokusatsu hero | Cyan sentinel, split visor, pale cape | Fast narrow beam; balanced melee |
-| Rei | Spirit-linked swordswoman | Rose long coat, pale hair, narrow blade | Wide crescent shot, extended reach, fast movement |
+| Rei | Spirit-linked swordswoman | Rose split-tail coat, pale hair, narrow blade, translucent spirit | Wide crescent shot, extended reach, fast movement |
 | Tala | Martial arts rushdown | Amber wraps, headband, bare fists | Forward rush launches; fastest movement, short reach |
 | Morrow | Heavy weapon hunter | Sage armor, broad shoulders, greatsword | Three-shot spread, high damage, slow movement |
 | Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Twin shots, fast basic projectiles, low damage |
@@ -49,3 +49,11 @@ Not included: online multiplayer/rollback, production character art, full origin
 5. Online, only after stable local combat: deterministic input snapshots, rollback/resimulation, lobby/signaling infrastructure, latency tests.
 
 GitHub stores source, versions, CI, and publication. Development was done in a tiny local checkout; GitHub does not execute the interactive browser game on a server. Visitors run it on their own device. Future editing can use GitHub's web editor or Codespaces if available on the account. No Codespace or paid service was provisioned.
+
+## Original character rig pass (0.3)
+
+The six fighters now use articulated elbow/knee hierarchies, tapered torsos, facial meshes, individual hair/costume silhouettes, and hand-attached weapons. Rei has a translucent companion; Aegis has a sealed helmet and cape; Tala has hand wraps and a raised ready guard; Morrow has broad armor; Sol carries a staff; Vesper has a halo. Six separate stance/attack posing branches and shared running, guarding, charging, airborne and hurt clips replace the original uniform arm swing. Costume pieces sway independently.
+
+These are locally generated meshes and code-authored motion curves, with no downloaded character assets. They are still stylized alpha art and do not establish fan recognition or production animation quality. Strike curves begin at contact because damage currently resolves when the action triggers; introducing startup/active/recovery phases requires a combat-system change, not just decorative animation.
+
+For a six-character visual review, serve the repository root with `python3 -m http.server 4174`, then open `/tests/rig-review.html`. This development gallery is excluded from the public game artifact.

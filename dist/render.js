@@ -1,3 +1,5 @@
+import {buildCharacter} from './characters.js';
+import {animateCharacter} from './animation.js';
 import {capturePose} from './choreography.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
@@ -21,37 +23,7 @@ export function createView(canvas){
  const beam=new T.Mesh(new T.CylinderGeometry(.55,.9,12,8),new T.MeshBasicMaterial({color:'#6fe7ff',transparent:true,opacity:.65}));finisher.add(beam);
  const wheels=[];for(let j=0;j<5;j++){const wheel=new T.Mesh(new T.TorusGeometry(1.1+j*.25,.045,5,40),new T.MeshBasicMaterial({color:'#ffffff'}));finisher.add(wheel);wheels.push(wheel);}
  const models=[],bolts=[],sparks=[];let selection=0,time=0;
- function rig(id){
-  const f=fighters[id],g=new T.Group();const cloth=mat(f.dark),armor=mat(f.color,.35),black=mat('#18212a'),skin=mat('#cfa98c'),glow=new T.MeshBasicMaterial({color:f.color});
-  const mesh=(geo,material,x,y,z,parent=g)=>{const m=new T.Mesh(geo,material);m.position.set(x,y,z);m.castShadow=true;parent.add(m);return m;};
-  const box=(w,h,d,m,x,y,z,parent)=>mesh(new T.BoxGeometry(w,h,d),m,x,y,z,parent);
-  const wide=f.shape==='heavy'?1.3:f.shape==='mage'?.8:1;
-  const torso=box(.75*wide,.85,.4,cloth,0,1.65,0);torso.rotation.z=.03;
-  mesh(new T.CylinderGeometry(.28*wide,.4*wide,.42,6),cloth,0,1.05,0);
-  box(.75*wide,.09,.45,armor,0,1.23,0);box(.18,.24,.04,glow,0,1.68,.23);
-  const head=new T.Group();head.position.y=2.35;g.add(head);
-  mesh(new T.IcosahedronGeometry(.29,1),f.shape==='armor'?armor:skin,0,0,0,head);
-  if(f.shape==='armor'||f.shape==='heavy'){box(.49,.1,.13,black,0,.02,.24,head);box(.38,.035,.02,glow,0,.015,.32,head);mesh(new T.ConeGeometry(.1,.38,4),armor,.23,.29,0,head);}
-  else{const hair=mesh(new T.SphereGeometry(.3,7,5,0,Math.PI*2,0,Math.PI*.6),mat(f.id==='rei'?'#e7e4de':f.id==='tala'?'#232630':'#3c3551'),0,.08,-.025,head);hair.rotation.x=-.2;box(.33,.04,.02,black,0,0,.265,head);}
-  const limbs=[];
-  for(const side of [-1,1]){
-   const arm=new T.Group();arm.position.set(side*.48*wide,1.98,0);g.add(arm);limbs.push(arm);
-   mesh(new T.IcosahedronGeometry(f.shape==='heavy'?.3:.22,0),armor,0,-.03,0,arm);
-   box(.19,.43,.21,cloth,0,-.28,0,arm);box(.24,.35,.26,armor,0,-.6,.04,arm);mesh(new T.IcosahedronGeometry(.15,0),f.shape==='martial'?skin:black,0,-.82,.08,arm);
-   const leg=new T.Group();leg.position.set(side*.22,.97,0);g.add(leg);limbs.push(leg);box(.24,.48,.26,cloth,0,-.25,0,leg);box(.27,.4,.28,armor,0,-.64,.01,leg);box(.28,.16,.44,black,0,-.89,.09,leg);
-  }
-  if(['coat','mage','oracle'].includes(f.shape)){const coat=mesh(new T.CylinderGeometry(.35,.65,.9,6,1,true),cloth,0,.9,-.06);coat.material.side=T.DoubleSide;box(.17,.9,.07,armor,-.26,.9,.33);box(.17,.9,.07,armor,.26,.9,.33);}
-  if(f.shape==='martial'){box(.25,.9,.08,armor,.32,.85,-.1);box(.23,.12,.5,armor,0,2.42,0);}
-  if(f.weapon==='blade'||f.weapon==='katana'||f.weapon==='greatsword'){
-   const hand=limbs[2];const length=f.weapon==='greatsword'?1.9:1.45;const blade=box(f.weapon==='greatsword'?.24:.1,length,.065,armor,0,-.82,.25+length/2,hand);blade.rotation.x=Math.PI/2;box(.5,.08,.12,black,0,-.82,.25,hand);
-  }
-  if(f.weapon==='staff'){box(.07,2.4,.07,armor,0,-.4,.18,limbs[2]);mesh(new T.IcosahedronGeometry(.27,0),glow,0,.8,.18,limbs[2]);}
-  if(f.weapon==='halo'){const halo=new T.Mesh(new T.TorusGeometry(.65,.035,5,24),glow);halo.position.set(0,2.8,-.16);g.add(halo);}
-  if(f.shape==='armor'){const cape=mesh(new T.ConeGeometry(.6,1.5,3,1,true),mat('#657f86'),0,1.35,-.32);cape.rotation.x=.23;}
-  const shadow=new T.Mesh(new T.CircleGeometry(.65,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.4,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
-  const aura=new T.Mesh(new T.TorusGeometry(.85,.025,5,40),glow);aura.rotation.x=Math.PI/2;aura.position.y=.08;g.add(aura);
-  scene.add(g);return {g,limbs,head,aura,id};
- }
+ function rig(id){const model=buildCharacter(id);scene.add(model.g);return model;}
  function clear(){for(const r of models){scene.remove(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material)o.material.dispose();});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);}
  function match(m){clear();m.players.forEach(p=>models.push(rig(p.id)));}
@@ -63,11 +35,7 @@ export function createView(canvas){
    const p=m?.players[n],anim=p?.anim||'idle',run=anim==='run',attack=['strike','attack','launch','pursuit','jumpAttack'].includes(anim);
    if(p){r.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
-   r.limbs.forEach((limb,j)=>{limb.rotation.set(run?Math.sin(time*13+(j<2?0:Math.PI))*.55:Math.sin(time*2+j)*.06,0,j%2===0?(j===0?.12:-.12):0);});
-   if(attack){r.limbs[2].rotation.x=-1.4+Math.sin((p.animTime||0)*12)*.6;r.limbs[0].rotation.x=-.7;r.g.rotation.y+=Math.sin((p.animTime||0)*10)*.35;}
-   if(anim==='jump'||anim==='jumpAttack'||anim==='recover'){r.limbs[1].rotation.x=-.7;r.limbs[3].rotation.x=.6;}
-   if(p?.guard){r.limbs[0].rotation.x=-1.4;r.limbs[2].rotation.x=-1.4;}
-   if(anim==='charge'){r.limbs[0].rotation.z=.7;r.limbs[2].rotation.z=-.7;}
+   animateCharacter(r,p,time);
    if(anim==='hurt')r.g.rotation.z=.15;else r.g.rotation.z=0;
    r.aura.scale.setScalar(anim==='charge'?1.3+Math.sin(time*18)*.2:1);r.aura.material.color.set(anim==='charge'?'#ffffff':fighters[r.id].color);
    if(m?.cinematic){const c=m.cinematic;
@@ -93,5 +61,5 @@ export function createView(canvas){
   }else{target.set(-.8,1.5,0);pos.set(3.8,5.3,14);if(width<600){target.set(.9,1.8,0);pos.set(3,5.5,16);}}
   camera.position.lerp(pos,1-Math.exp(-dt*5));camera.lookAt(target);renderer.render(scene,camera);
  }
- select(0);return {select,match,render,burst,quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));}};
+ select(0);return {select,match,render,burst,quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

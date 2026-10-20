@@ -43,3 +43,13 @@ The runtime is about 2 MB before transfer compression; the small local source + 
 Browser input verified away-away + attack consumes a stock and enters the burst cinematic. A ranged capture retained its far context; visual inspection confirmed the victim levitates while the attacker gestures and rings surround the target. Camera distance was increased after inspection to provide more space for the elevated target and HUD. No browser console errors or warnings were reported during these checks. Physical gamepad checks remain outstanding.
 
 This update improves combat fidelity; it does not establish original-game frame accuracy or complete the authored animation/art milestone.
+
+## Character rig update (0.3)
+
+25 automated tests pass, including all previous combat checks and new checks across every fighter and pose for finite transforms and camera-scale bounds. Elbow/knee parent relationships and hand-mounted weapon attachments are verified.
+
+Browser review inspected all six original rigs together and separately inspected Aegis and Rei in the game menu. Adjustments from review: cover Aegis's exposed lower face with helmet armor; move Tala's costume panel outward so it is not buried in the torso; correct Morrow's hair palette. The roster review includes a visible translucent companion behind Rei. The game menu reported no console warnings or errors during this inspection. A temporary gallery favicon error was corrected; the retained gallery lives under `tests/` and is not published.
+
+A browser screenshot was inspected in the tool output. Saving the screenshot into the repository was denied by the browser tool's path access checks, so no screenshot file is claimed as a saved artifact. The reproducible gallery source is retained instead.
+
+A Tala/Morrow training scene was inspected with movement and held guard; no console warnings or errors were reported. Static mesh batching reduced each character from 50–59 meshes to 33–36. Short 45-frame browser samples averaged approximately 36 ms before and 37.5 ms after, so **no frame-rate improvement is claimed** from batching. Low quality now also disables dynamic shadows. Simulation catch-up permits up to 100 ms per frame to reduce slow motion on moderately slow devices; hidden-tab pause remains in place. A broad hardware performance pass is still needed.
