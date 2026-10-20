@@ -182,3 +182,7 @@ All six fighters now have free alternate forms for both horizontal specials. A s
 ## Alpha 0.20: stock-special roster coverage
 
 `stock-specials.js` centralizes eight stock forms. Every fighter has at least one; Aegis and Tala have two. The selected command is captured on attack press, holding beyond 0.24 seconds selects the stock form, and release consumes one stock at startup. Empty stock refuses it without charging. Neutral hold still charges. The common shot builder supports trails, spreads and timed streams; Morrow checks three advancing area centers. Paid techniques cannot transform into free follow-ups. Enlarged projectile visuals reflect their larger collision radius, and giant discs remain above the floor.
+
+## Input transitions (0.21)
+
+Keyboard and touch controls enqueue changed input snapshots independently for each player. The 60 Hz simulation consumes one snapshot per player per tick, preserving short taps and directional ordering even when several events arrive before rendering. Held states persist; repeated keydown events do not create actions. Pause, reset and focus-loss paths clear pending states. Queues are bounded at 64 snapshots; an extreme event flood resynchronizes to recent state. Gamepads continue to use browser polling. This is original input handling, not a reconstruction of PS1 input timing.

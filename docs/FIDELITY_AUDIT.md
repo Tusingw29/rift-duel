@@ -28,3 +28,5 @@ Secondary summaries report a button-contest event when simultaneous dashes meet.
 5. **Presentation and roster depth.** The six existing archetypes do not cover all ten original roles. Procedural animation and a single arena remain visibly alpha quality. Story staging and character-specific capture clips need work before claiming a full presentation match.
 
 Later features listed in `DESIGN.md` are development possibilities, not evidence of completion and not substitutes for the requested combat and character fidelity.
+
+Version 0.21 preserves short keyboard/touch transitions between rendered frames, with independent player queues and pause clearing. This improves execution reliability; it does not establish original-game input timing or resolve the documented combo-input conflict.

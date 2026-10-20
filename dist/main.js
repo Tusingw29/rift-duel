@@ -1,3 +1,4 @@
+import {createKeyboardInput} from './keyboard-input.js';
 import {stockSpecials} from './stock-specials.js';
 import {recordInput} from './training.js';
 import {normalizeOptions,readPad} from './options.js';
@@ -7,7 +8,7 @@ import {movePhase,canChain} from './moves.js';
 import {fighters} from './fighters.js';
 import {createMatch,update,aiInput,neutral,STEP} from './combat.js';
 import {createView} from './render.js';
-const $=s=>document.querySelector(s),keys=new Set();let selected=0,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,audio,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[];
+const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=0,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,audio,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[];
 let settings=normalizeOptions();try{settings=normalizeOptions(JSON.parse(localStorage.getItem('rift-options')||'{}'));}catch{}
 function save(){try{localStorage.setItem('rift-options',JSON.stringify(settings));}catch{}}
 try{view=createView($('#scene'));view.quality(settings.quality);}catch(e){$('#error').hidden=false;$('#error').textContent='Rift Duel needs WebGL 2. Enable hardware acceleration or try a current Chrome, Firefox, Edge, or Safari browser. '+e.message;throw e;}
@@ -67,7 +68,7 @@ const blocked=['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Tab'];
 window.addEventListener('keydown',e=>{if(e.code==='Escape'&&!$('#modal').open){pause();e.preventDefault();return;}if($('#modal').open)return;if(match&&blocked.includes(e.code))e.preventDefault();keys.add(e.code);});
 window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{keys.clear();if(match&&!paused&&match.phase==='fight')pause();});document.addEventListener('visibilitychange',()=>{if(document.hidden){keys.clear();if(match&&!paused)pause();}});
 for(const b of document.querySelectorAll('[data-key]')){b.onpointerdown=e=>{e.preventDefault();keys.add(b.dataset.key);b.setPointerCapture(e.pointerId);};b.onpointerup=b.onpointercancel=()=>keys.delete(b.dataset.key);}
-function keyboard(p){const i=neutral(),map=p?['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Numpad1','Numpad2','Numpad3','Numpad4','Numpad5','Numpad6']:['KeyA','KeyD','KeyW','KeyS','KeyJ','KeyK','KeyU','KeyI','KeyO','KeyL'];i.x=Number(keys.has(map[1]))-Number(keys.has(map[0]));i.z=Number(keys.has(map[3]))-Number(keys.has(map[2]));['attack','guard','capture','launch','pursuit','super'].forEach((k,n)=>i[k]=keys.has(map[n+4])||(p&&keys.has('Digit'+(n+1))));return i;}
+
 function padInput(pad){return readPad(pad,settings.deadzone);}
 function controllerMenu(pad,newly){
  if(!pad||match&&!paused&&!$('#modal').open)return;
@@ -107,8 +108,8 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
  previousPad=pButtons;
  if(match&&!paused&&match.phase==='fight'){
   const p0=mode==='local'&&pads.length===1?null:pads[0],p1=mode==='local'?(pads.length===1?pads[0]:pads[1]):null;
-  const a=merge(keyboard(0),padAwaitRelease?neutral():padInput(p0));acc+=dt;
-  while(acc>=STEP&&match.phase==='fight'&&!paused){const b=mode==='local'?merge(keyboard(1),padAwaitRelease?neutral():padInput(p1)):mode==='training'&&settings.trainingBehavior!=='cpu'?{...neutral(),guard:settings.trainingBehavior==='guard'}:aiInput(match,STEP);if(mode==='training')recordInput(inputHistory,a);update(match,[a,b]);events();acc-=STEP;}
+  acc+=dt;
+  while(acc>=STEP&&match.phase==='fight'&&!paused){const a=merge(keys.read(0),padAwaitRelease?neutral():padInput(p0));const b=mode==='local'?merge(keys.read(1),padAwaitRelease?neutral():padInput(p1)):mode==='training'&&settings.trainingBehavior!=='cpu'?{...neutral(),guard:settings.trainingBehavior==='guard'}:aiInput(match,STEP);if(mode==='training')recordInput(inputHistory,a);update(match,[a,b]);events();acc-=STEP;}
   const move=match.players[0].move,phase=movePhase(move);
   $('#training-readout').hidden=mode!=='training';
   $('#input-history').hidden=mode!=='training'||!settings.showInputs;$('#input-history').textContent=inputHistory.map(item=>`${item.label} [${item.frames}f]`).join('  |  ');

@@ -174,3 +174,9 @@ Chrome keyboard sequences selected all twelve variants while preserving stock. S
 107 tests pass. Expanded tests cover all eight stock forms, cost-on-release, emission counts, zero-stock refusal, no hidden charging, interruption without refund across every fighter, paid-technique follow-up refusal, advancing eruption hit locations and sidestep misses. Existing free variants, neutral charging and buffer tests continue to pass.
 
 Browser keyboard checks triggered all eight forms with one stock consumed each. Screenshots inspected giant discus, ground eruption and ring stream. The enlarged discus initially clipped the floor; its rendered height now scales with radius, and a second screenshot confirmed clearance. The selected-fighter guide displayed both Tala stock options. No console errors/warnings appeared during the initial browser sweep. Physical controller hardware remains untested.
+
+## Preserved short inputs (0.21)
+
+115 tests pass. Eight new tests cover press/release between ticks, ordered directional follow-ups, double-tap pursuit, independent simultaneous player attacks, held charging without repeat events, player-two key aliases, clearing pending actions, and bounded event floods.
+
+Chrome received a complete direction-plus-two-attack-taps sequence synchronously before a rendered frame. Sol selected her forward follow-up and the target finished at 89.68 HP in knockdown. Simultaneous short taps in local play produced both players’ projectiles. Pausing immediately after enqueueing an attack discarded it; after resume both fighters stayed idle with no projectiles. No console errors or warnings appeared. Physical controller hardware remains untested.
