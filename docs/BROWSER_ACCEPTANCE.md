@@ -1,6 +1,6 @@
 # Browser acceptance pass for alpha 0.26
 
-Status: **pending**. These are executable review steps, not passed-test claims.
+Status: **interaction pass completed; visual samples reviewed, polish still needed**. Results below distinguish executed checks from the broader review checklist.
 Target: https://tusingw29.github.io/rift-duel/?v=0.26
 Expected release: `4fd3bcc94374` (23 JavaScript modules).
 
@@ -37,3 +37,16 @@ For each shape, inspect near emission and near impact. Check visibility, floor c
 ## Evidence to record
 
 Record browser, release hash, keyboard steps actually executed, observed result, console failures, and any captured visual samples. Separate real controller hardware results from synthetic API tests. HTTP delivery checks and simulation tests do not substitute for these interactions.
+
+## Executed Chrome pass — October 20, 2026
+
+User explicitly authorized the available Chrome tools after the required plugin runtime was unavailable. Tested the public 0.26 release in owned tab 17; unrelated tabs were untouched.
+
+- Editor exposes 20 controls. Conflict with P1 Guard and P2 top-row Attack is rejected. Escape cancels capture while retaining the dialog and focus. Space remapping updates prompts and survives reload. J no longer attacks; Space attacks and charges from one to two stocks without a release shot.
+- P2 Guard remapped to P: a blocked shot leaves 99.16 HP, while the old Digit2 key leaves 93 HP. A real pointer click on the touch Attack button after P1 remapping deals another 7 damage. Restore defaults restores J and both P2 guard aliases after reload.
+- Narrow-window inspection reached an actual 500 × 636 viewport (the browser did not reach the requested 390-pixel width). No horizontal document overflow; the restore button was visible after scrolling. Screenshot inspected. This is not a 390-pixel-device claim.
+- Tab/Enter selects a binding and Escape cancels. Synthetic standard-gamepad Down moves focus, A starts binding capture, and B closes the dialog. This is not physical-controller testing.
+- Screenshots inspected Tala’s energy shot/discus, Morrow’s ground wave/eight-projectile barrage, Aegis’s lightning, Rei’s spirit/sword, Vesper’s ring, and Sol’s flame. Sol’s retreating clean hit leaves 91.4 HP and knockdown. A separate right-side Rei sword sample points left toward the opponent.
+- No console errors or warnings appeared. Default keys were restored and the page was left at character select. No gamepad override remained.
+
+Outstanding visual findings: the ground-wave arc reads too narrowly from the side camera, and the winged spirit looks flat in side view. The barrage pairs overlap in the neutral camera even though eight projectiles are emitted. These are alpha-art limitations, not completed polish. Exhaustive impact sampling, every projectile from both sides, sub-500-pixel layouts and physical controllers remain outside this pass.

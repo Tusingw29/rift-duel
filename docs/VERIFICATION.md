@@ -204,3 +204,7 @@ Fetched the public import map and all 23 referenced JavaScript modules. Every re
 ## Sol base-special resolution (0.26)
 
 138 tests pass. Four new tests require explicit base definitions for all twelve fighter/direction pairs, distinguish Sol’s single-shot stun and knockdown, verify damage and free cost, test held guard/reflection/sidestep responses, and preserve alternate and paid-spread selection. Existing Tala tests pass after moving her unchanged parameters into the shared definitions. Visual browser checks are still pending; this release reuses the flame geometry introduced in 0.24.
+
+## Public Chrome acceptance pass after 0.26
+
+The user authorized the available Chrome tools. The keyboard editor passed conflict, cancel/focus, remapping, reload persistence, combat, touch, restore-default and keyboard-navigation checks. Synthetic controller navigation also passed. Recent projectile shapes were inspected in screenshots, including a right-side sword; no console errors/warnings appeared. Actual narrow viewport was 500 × 636. See [executed cases and limits](BROWSER_ACCEPTANCE.md). Side-view wave and spirit silhouettes need polish; physical controllers remain untested. No gameplay code changed during this verification pass.
