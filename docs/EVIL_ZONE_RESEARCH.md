@@ -16,7 +16,7 @@ A third guide corroborates capture ranges and defensive escapes, and records Dan
 
 The contemporary review describes dynamic multi-angle capture sequences, cinematic defense shots, anime-style character stories, voiced scenes, and character-specific music. It contrasts these elaborate attacks with flat arenas and comparatively simple backgrounds. The useful design lesson is to reserve dramatic framing for confirmed attacks while preserving readability in neutral combat. [GameSpot review](https://www.gamespot.com/reviews/evil-zone-review/1900-2547442/).
 
-Footage located for a future measured animation pass: [capture compilation](https://www.youtube.com/watch?v=l0zNNcx8ejY), [full longplay](https://www.youtube.com/watch?v=O0reRdW-5fQ). These videos were located, not frame-by-frame analyzed. Do not present their camera timings as measured facts.
+Footage located for a future measured animation pass: [capture compilation](https://www.youtube.com/watch?v=l0zNNcx8ejY), [full longplay](https://www.youtube.com/watch?v=O0reRdW-5fQ). The capture compilation has now been visually sampled at the timestamps below. The longplay has not been analyzed. Neither supplies verified engine-frame timings.
 
 ## Original implementation decisions
 
@@ -51,3 +51,20 @@ Original balancing values—not Evil Zone frame data:
 - Add full voiced episode-style stories, survival, unlockables, arena variety, and music only with original assets.
 
 The alpha is not a complete remake, a ten-character reconstruction, or an exact balance replica.
+
+## Direct visual samples
+
+Viewed paused samples from [lcfreezer’s capture compilation](https://www.youtube.com/watch?v=l0zNNcx8ejY), October 20, 2026:
+
+| Video time | Visible observation |
+|---|---|
+| [0:05](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=5s) | Danzaiver capture impact fills much of the frame; both bodies overlap at ground level. |
+| [0:22](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=22s) | Wider framing shows the standing attacker and grounded victim. |
+| [0:30](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=30s) | Overhead view isolates the captured target. |
+| [0:33](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=33s) | Cutaway shows an orbital device against space. |
+| [0:39](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=39s) | Low-angle victim close-up. |
+| [3:00](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=180s) | Multiple Midori figures surround the victim. |
+| [3:28](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=208s) | Setsuna’s translucent companion overlaps the physical fighters. |
+| [3:55](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=235s) | Gally’s weapon and grounded victim dominate a close shot. |
+
+These are sampled visual observations, not continuous motion analysis or measured startup/recovery. The edited compilation cannot establish simulation timing. Design inference: distinct staged shots and character-specific choreography remain a larger fidelity gap than camera orbit smoothness.
