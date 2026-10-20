@@ -30,7 +30,7 @@ These are broad genre/archetype homages, not duplicate costumes or renamed extra
 | Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Twin shots, fast basic projectiles, low damage |
 | Vesper | Ring/space control caster | Lilac robe, floating halo | Wide slow projectile; longer stun on hit |
 
-Every fighter also has ordinary melee/projectiles, retreat specials, close/ranged captures, launch, pursuit, and a stock burst. Bursts share a cinematic base with different names, colors, ring orientations, and beam effects; they do not yet have six fully authored move animations. All balance is new.
+Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts share a cinematic base with different names, colors, ring orientations, and beam effects; they do not yet have six fully authored move animations. All balance is new.
 
 ## Release scope
 
@@ -44,7 +44,7 @@ Not included: online multiplayer/rollback, production character art, full origin
 
 1. Combat feedback: playtest readability, response time, recovery, guard/capture balance, camera comfort; gather controller hardware results.
 2. Art: commission original rigged characters; replace procedural motions with per-character attack and capture clips.
-3. Depth: direction-history parser, jump/air recovery, four capture contexts, expanded roster and authored stages.
+3. Depth: expand the implemented direction-history parser and capture choreography; expanded roster and authored stages.
 4. Presentation: original music, announcer, episode cards, story sequences, accessibility and input remapping.
 5. Online, only after stable local combat: deterministic input snapshots, rollback/resimulation, lobby/signaling infrastructure, latency tests.
 

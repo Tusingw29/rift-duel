@@ -29,6 +29,8 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 Player 2: arrows and Numpad 1–6 (or number row 1–6) for attack, guard, capture, launch, pursuit, burst. In local versus one controller controls P2; two controllers control both players. Other modes use the first controller for P1. Press a controller button after connecting it. Menus: left/right selects a fighter, A/Cross starts; mouse/keyboard selects mode/options.
 
+Directional commands work with keyboard or gamepad: tap a direction twice within 0.30 seconds, then attack. Toward = pursuit, away = burst, down = launcher, up = jumping crossover. Double-tap up + guard jumps. Press guard freshly in the air to recover. Toward + guard circles behind a nearby rival; capture before they turn for a back throw. Capture context (front/back/middle/far) changes damage, motion and camera framing.
+
 Tap means release within 0.24 seconds. Hold attack to charge. Captures defeat sustained guard, but a fresh guard breaks them. Launch at close range, then pursue immediately after recovery. Bursts can be guarded and miss at long range.
 
 ## Development without installs

@@ -35,3 +35,11 @@ The gamepad check used a synthetic standard mapping, **not a physical controller
 This is a playable alpha. Character meshes and animations are procedural. The implementation is not an exact reconstruction of Evil Zone timing or command rules. One arena, no network multiplayer, no recorded voices, no original soundtrack. Model/animation quality and competitive balance need playtesting and an authored art pass.
 
 The runtime is about 2 MB before transfer compression; the small local source + Git checkout was about 4.2 MB at initial publication. GitHub stores the committed source and runs deployment; gameplay runs in visitors' browsers. No large engine, dependency tree, ROM, or media library was installed.
+
+## Directional combat update (0.2)
+
+23 automated tests now pass. Added integration coverage for double-tap commands, side reversal, jump/air recovery, held-direction rejection, expired commands, press-time direction retention, circle-step into back capture, all four capture contexts, and symmetric simultaneous guard/capture handling. Motion samples are checked for finite output across each track.
+
+Browser input verified away-away + attack consumes a stock and enters the burst cinematic. A ranged capture retained its far context; visual inspection confirmed the victim levitates while the attacker gestures and rings surround the target. Camera distance was increased after inspection to provide more space for the elevated target and HUD. No browser console errors or warnings were reported during these checks. Physical gamepad checks remain outstanding.
+
+This update improves combat fidelity; it does not establish original-game frame accuracy or complete the authored animation/art milestone.

@@ -1,3 +1,4 @@
+import {capturePose} from './choreography.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
 const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -59,25 +60,36 @@ export function createView(canvas){
   time+=dt;portal.rotation.z=time*.04;portal.children[1].rotation.z=-time*.1;
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
   models.forEach((r,n)=>{
-   const p=m?.players[n],anim=p?.anim||'idle',run=anim==='run',attack=['strike','attack','launch','pursuit'].includes(anim);
-   if(p){r.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);const opponent=m.players[1-n];r.g.rotation.y=Math.atan2(opponent.x-p.x,opponent.z-p.z);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
+   const p=m?.players[n],anim=p?.anim||'idle',run=anim==='run',attack=['strike','attack','launch','pursuit','jumpAttack'].includes(anim);
+   if(p){r.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
    r.limbs.forEach((limb,j)=>{limb.rotation.set(run?Math.sin(time*13+(j<2?0:Math.PI))*.55:Math.sin(time*2+j)*.06,0,j%2===0?(j===0?.12:-.12):0);});
    if(attack){r.limbs[2].rotation.x=-1.4+Math.sin((p.animTime||0)*12)*.6;r.limbs[0].rotation.x=-.7;r.g.rotation.y+=Math.sin((p.animTime||0)*10)*.35;}
+   if(anim==='jump'||anim==='jumpAttack'||anim==='recover'){r.limbs[1].rotation.x=-.7;r.limbs[3].rotation.x=.6;}
    if(p?.guard){r.limbs[0].rotation.x=-1.4;r.limbs[2].rotation.x=-1.4;}
    if(anim==='charge'){r.limbs[0].rotation.z=.7;r.limbs[2].rotation.z=-.7;}
    if(anim==='hurt')r.g.rotation.z=.15;else r.g.rotation.z=0;
    r.aura.scale.setScalar(anim==='charge'?1.3+Math.sin(time*18)*.2:1);r.aura.material.color.set(anim==='charge'?'#ffffff':fighters[r.id].color);
-   if(m?.cinematic){const c=m.cinematic;if(n===c.a){r.limbs[2].rotation.x=-1.8;r.limbs[0].rotation.x=-1.2;r.g.position.y=Math.sin(c.t/c.duration*Math.PI)*1.2;}else{r.g.position.y=Math.sin(c.t/c.duration*Math.PI)*2;r.g.rotation.z=.45;}}
+   if(m?.cinematic){const c=m.cinematic;
+    if(c.kind==='capture'){
+     const pose=capturePose(c,m.players[c.a],m.players[c.b]),part=n===c.a?pose.actor:pose.victim;
+     r.g.position.set(part.x,part.y,part.z);r.g.rotation.x=part.tilt;r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+    }else if(n===c.a){r.limbs[2].rotation.x=-1.8;r.limbs[0].rotation.x=-1.2;r.g.position.y=Math.sin(c.t/c.duration*Math.PI)*1.2;}
+    else{r.g.position.y=Math.sin(c.t/c.duration*Math.PI)*2;r.g.rotation.z=.45;}
+   }else r.g.rotation.x=0;
   });
   while(bolts.length<(m?.projectiles.length||0)){const b=new T.Mesh(new T.IcosahedronGeometry(.3,1),new T.MeshBasicMaterial({color:'#ffffff'}));scene.add(b);bolts.push(b);}
   bolts.forEach((b,j)=>{const p=m?.projectiles[j];b.visible=!!p;if(p){b.position.set(p.x,1.4,p.z);b.material.color.set(fighters[m.players[p.owner].id].color);b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);if(p.kind==='capture'||p.kind==='snare')b.scale.setScalar(1.7);b.rotation.y=time*8;b.rotation.z=time*5;}});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   finisher.visible=!!m?.cinematic;
-  if(m?.cinematic){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];finisher.position.set(b.x,1,b.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
+  if(m?.cinematic){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
   const target=v(),pos=v();
   if(m){const [a,b]=m.players;target.set((a.x+b.x)/2,1.1,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
-   if(m.cinematic&&!settings.reduced){const c=m.cinematic,p=m.players[c.a];const angle=c.t*1.2;target.set(p.x,1.5,p.z);pos.set(p.x+Math.sin(angle)*6,2.8,p.z+Math.cos(angle)*6);}
+   if(m.cinematic&&!settings.reduced){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b];const angle=Math.sin(c.t/c.duration*Math.PI)*.3;
+    const capture=c.kind==='capture'?capturePose(c,a,b):null;
+    target.set(capture?.focus.x??(a.x+b.x)/2,capture?.focus.y??2,capture?.focus.z??(a.z+b.z)/2);
+    const span=capture?.span??Math.hypot(a.x-b.x,a.z-b.z),zoom=(9+span*.65+(c.context==='far'?2:0))/Math.min(1,camera.aspect/1.25);
+    pos.set(target.x+Math.sin(angle)*zoom,target.y+2.4,target.z+Math.cos(angle)*zoom);}
   }else{target.set(-.8,1.5,0);pos.set(3.8,5.3,14);if(width<600){target.set(.9,1.8,0);pos.set(3,5.5,16);}}
   camera.position.lerp(pos,1-Math.exp(-dt*5));camera.lookAt(target);renderer.render(scene,camera);
  }

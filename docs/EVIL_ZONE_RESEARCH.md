@@ -22,7 +22,7 @@ Footage located for a future measured animation pass: [capture compilation](http
 
 Rift Duel uses a 60 Hz simulation, movement on an X/Z plane, and independent rendering. The neutral camera follows the midpoint and widens with separation. Confirmed captures and stock bursts use a short orbit, then return to neutral. Reduced-motion mode retains neutral framing. Procedural animation separates idle, running, attacks, charging, guarding, hurt, launched, and cinematic states. Weapons, coat shapes, armor mass, and effects distinguish the roster.
 
-This alpha intentionally adapts inputs: WASD is world-oriented movement; toward/away attacks use the opponent's current side. J is tap attack / hold charge, K is guard, S+J captures, W+J launches. U/I/O/L are convenient capture/launcher/pursuit/burst shortcuts. Gamepad face buttons and bumpers provide equivalent actions. It does not reproduce the original's complete double-tap parser.
+This alpha intentionally adapts inputs: WASD is world-oriented movement; toward/away attacks use the opponent's current side. J is tap attack / hold charge, K is guard, S+J captures, W+J launches. U/I/O/L are convenient capture/launcher/pursuit/burst shortcuts. Gamepad face buttons and bumpers provide equivalent actions. Double taps now provide toward+attack pursuit, away+attack burst, down+attack launch, up+attack jumping crossover, and up+guard jump. Fresh airborne guard recovers, while toward+guard circles behind a nearby rival. The parser uses an original 18-frame window, not measured original-game timing.
 
 Original balancing values—not Evil Zone frame data:
 
@@ -46,7 +46,7 @@ Original balancing values—not Evil Zone frame data:
 - Measure startup, active frames, recovery, capture escape windows, and tracking from lawful gameplay access.
 - Verify regional differences, original default configurations, and conflicting translated move names.
 - Record neutral camera framing and cut timings at multiple distances.
-- Author proper animation clips with anticipation, contact, follow-through, and unique close/front/back/ranged capture choreography.
+- Replace the four implemented capture motion tracks with polished per-fighter animation clips, including anticipation, contact and follow-through.
 - Expand roster coverage for armored mercenary, shadow caster, cursed swordsman, and boss archetypes.
 - Add full voiced episode-style stories, survival, unlockables, arena variety, and music only with original assets.
 
