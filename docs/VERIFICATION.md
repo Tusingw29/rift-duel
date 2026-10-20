@@ -84,3 +84,10 @@ Local Chrome keyboard inputs produced three distinct contact states (steps 1, 2,
 Local Chrome W+J input selected the new technique for Sol and Vesper. Screenshots showed the sphere and traveling ring without console errors. The corrected ring orientation was visually rechecked. Browser inputs also verified the other four techniques: Aegis, Tala, Morrow, and Rei dealt their expected damage, with Tala launching the target. Rei’s active spin was visually inspected. Training labels now distinguish extended ACTIVE periods from one-frame CONTACT. Launcher shortcuts remain covered by the existing directional-command tests. Physical-controller testing remains outstanding.
 
 The first public 0.7 check exposed mixed cached assets: updated HTML with the previous W+attack command module. The release workflow now stamps a content hash into the entry script, stylesheet, and import-map URLs for every app module. This addresses the observed stale-controls failure.
+
+
+## Ground recovery (0.8)
+
+58 tests pass. New tests cover landing-to-standing recovery, airborne escape, both roll directions, gradual displacement, attack lockout, held-input rejection, arena bounds, brief invulnerability and its expiry, and capture-projectile avoidance. Pose tests check all six rolling bodies remain above the floor.
+
+In local versus, Chrome keyboard inputs moved player two into range, launched player one, and used S after landing. Debug state showed knockdown → roll → idle and final Z displacement of 2.4. The first screenshot exposed foot-pivot floor clipping; the torso-pivot correction was visually rechecked before release. Browser console reported no errors or warnings. Physical controllers remain untested.

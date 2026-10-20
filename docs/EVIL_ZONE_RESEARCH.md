@@ -78,3 +78,8 @@ The Otaku_Tom guide explicitly describes three close attacks, three ranged attac
 ## Third directional specials (0.7)
 
 The guide separates up-plus-attack character specials from the double-down launcher. Version 0.7 fixes the earlier shared-launcher placeholder: each current fighter now has a distinct third technique. Motion and defensive roles are informed by the guide; timings, reach, projectile interception, damage, and single-hit limits are original rules. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+
+## Ground recovery follow-up
+
+The Otaku_Tom guide lists depth-direction rolling while knocked down. Version 0.8 now includes an original recovery roll alongside airborne guard recovery. Exact original timing, displacement, and invulnerability remain unmeasured. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

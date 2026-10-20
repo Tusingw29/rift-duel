@@ -1,10 +1,12 @@
 import {fighters} from './fighters.js';
+import {Box3} from './vendor/three.module.js';
+const rollBounds=new Box3();
 const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){
  const f=fighters[r.id],state=p?.anim||'idle',run=state==='run';
  const breathing=Math.sin(time*2.4+r.id)*.014;
- r.body.position.y=breathing;r.body.rotation.set(0,0,0);r.spine.rotation.set(0,0,0);r.head.rotation.set(0,0,0);
+ r.body.position.set(0,breathing,0);r.body.rotation.set(0,0,0);r.spine.rotation.set(0,0,0);r.head.rotation.set(0,0,0);
  r.limbs.forEach((part,j)=>part.rotation.set(0,0,j===0?.08:j===2?-.08:0));
  r.elbows.forEach(elbow=>elbow.rotation.set(-.22,0,0));r.knees.forEach(knee=>knee.rotation.set(.05,0,0));
  const [leftArm,leftLeg,rightArm,rightLeg]=r.limbs;
@@ -54,6 +56,11 @@ export function animateCharacter(r,p,time){
  if((p?.air||0)>0){leftLeg.rotation.x=-.55;rightLeg.rotation.x=.3;r.knees[0].rotation.x=.9;r.knees[1].rotation.x=.5;}
  if(state==='hurt'){r.spine.rotation.x=-.22;r.head.rotation.x=-.15;leftArm.rotation.z=.5;rightArm.rotation.z=-.5;}
  if(state==='knockdown'){const down=smooth((p.animTime||0)/.35);r.body.rotation.z=Math.PI/2*down;r.body.position.y=.35*down;}
+ if(state==='roll'&&p.roll){const progress=Math.min(1,p.roll.elapsed/.3);const angle=progress*Math.PI*2*p.roll.direction*(p.face||1);r.body.rotation.z=angle;r.body.position.x=Math.sin(angle)*1.4;r.body.position.y=.3+1.4*(1-Math.cos(angle));leftLeg.rotation.x=-.8;rightLeg.rotation.x=-.8;r.knees[0].rotation.x=1.4;r.knees[1].rotation.x=1.4;leftArm.rotation.x=-1.3;rightArm.rotation.x=-1.3;}
  if(r.spirit){r.spirit.position.y=1.55+Math.sin(time*1.6)*.09;r.spirit.rotation.y=Math.sin(time)*.12;r.spirit.userData.material.opacity=state==='idle'?.22:.42;}
  for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(run?.25:0);part.rotation.z=Math.sin(time*2.3+i)*.07;}
+ if(state==='roll'){
+  r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);
+  if(rollBounds.min.y<.03)r.body.position.y+=(.03-rollBounds.min.y)/r.g.scale.y;
+ }
 }

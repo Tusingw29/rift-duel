@@ -110,3 +110,10 @@ W + tap J / controller Up + attack now selects the third signature; I / LB and d
 | Vesper | 14 / 1 / 25 | 12, projectile |
 
 Damage is multiplied by character power. All numbers are original tuning.
+
+
+## Ground recovery (0.8)
+
+An unrecovered launch now lands in a 0.55-second knockdown; a successful burst retains its 0.7-second knockdown. Fresh W/S or controller depth input can start a roll when at most 0.55 seconds remain. A held direction cannot trigger it. Rolls travel 2.4 units over 0.3 seconds, clamp to arena bounds, prevent attacks, and grant 0.22 seconds of invulnerability. The vulnerable ending can be punished. Air recovery avoids the landing knockdown. Captures cannot acquire an invulnerable target.
+
+The procedural roll rotates around the torso and applies render-only floor clearance for each character's body and weapon. These times and distances are original balance values. Directional ground recovery is informed by the researched guide, not measured frame parity.

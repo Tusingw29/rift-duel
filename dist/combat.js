@@ -6,7 +6,7 @@ export const STEP=1/60;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal') {
- const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
+ const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
  return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],time:90,tick:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
 }
 function event(m,type,values={}){m.events.push({type,...values});}
@@ -20,7 +20,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false){
   if(perfect){a.stun=.4;a.move=null;a.buffer=null;a.cool=0;b.charge+=.35;}
   return false;
  }
- b.move=null;b.buffer=null;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
+ b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32; b.air=launch?.85:0;
  b.anim=launch?'launch':'hurt';b.animTime=.42;
  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1;
@@ -111,6 +111,7 @@ function executeAction(m,a,b,move){
   }event(m,'shot',{color:f.color});return;
  }
  if(kind==='capture'){
+  if(b.inv>0)return;
   
   const close=d<3.1;
   if(close){
@@ -161,7 +162,12 @@ export function update(m,inputs,dt=STEP){
    if(a.turnDelay===0&&a.stun===0&&!a.move){const d=distance(a,b)||1;a.lookX=(b.x-a.x)/d;a.lookZ=(b.z-a.z)/d;a.face=b.x>=a.x?1:-1;}
    const command=readCommand(a.commands,i,a.prev,a.face,m.tick);
    const freshGuard=i.guard&&!a.prev.guard;
-   if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
+   const freshDepth=Math.abs(i.z)>.5&&(Math.abs(a.prev.z)<=.5||Math.sign(i.z)!==Math.sign(a.prev.z));
+   if(a.anim==='knockdown'&&a.stun>0&&a.stun<=.55&&freshDepth){
+    a.roll={direction:Math.sign(i.z),elapsed:0};a.stun=.3;a.cool=.3;a.inv=.22;a.anim='roll';a.animTime=.3;
+    event(m,'hint',{text:'RECOVERY ROLL'});
+   }
+   if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
    else if(command==='jump'&&a.stun<=0&&a.cool<=0){a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;event(m,'hint',{text:'JUMP'});}
    else if(freshGuard&&i.x*a.face>.5&&distance(a,b)<3.5&&a.stun<=0&&a.cool<=0){
     const d=distance(a,b)||1,dx=(b.x-a.x)/d,dz=(b.z-a.z)/d;
@@ -172,7 +178,10 @@ export function update(m,inputs,dt=STEP){
   });
   m.players.forEach((a,n)=>{
    const b=m.players[1-n],i=inputs[n]||neutral(),f=fighters[a.id];
+   const wasAir=a.air;
    for(const k of ['cool','stun','blockStun','air','inv','comboTime','animTime'])a[k]=Math.max(0,a[k]-dt);
+   if(a.launched&&wasAir>0&&a.air===0){a.launched=false;a.anim='knockdown';a.animTime=.55;a.stun=.55;a.move=null;a.buffer=null;a.cool=0;}
+   if(a.roll){a.z=clamp(a.z+a.roll.direction*8*dt,-6,6);a.roll.elapsed+=dt;if(a.roll.elapsed>=.3)a.roll=null;}
    if(a.animTime===0)a.anim='idle';
    if(a.stun<=0){
     if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
@@ -206,7 +215,7 @@ export function update(m,inputs,dt=STEP){
    const a=m.players[p.owner],b=m.players[1-p.owner];
    const barrier=b.move?.kind==='technique'&&b.move.effect==='sphere'&&b.move.frame>=b.move.startup&&b.move.frame<b.move.startup+b.move.active;
    if(barrier&&p.kind!=='capture'&&Math.hypot(p.x-b.x,p.z-b.z)<b.move.reach){p.life=0;event(m,'block',{x:p.x,z:p.z,color:fighters[b.id].color});continue;}
-   if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&b.air<.5){
+   if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&b.air<.5&&b.inv<=0){
     if(p.kind!=='capture'&&b.guard&&b.guardTime<.17){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&b.guard&&b.guardTime<.2){p.life=0;event(m,'hint',{text:'CAPTURE BREAK'});}
     else if(p.kind==='capture'&&!m.cinematic){beginCapture(m,a,b,p.context||captureContext(a,b));p.life=0;}

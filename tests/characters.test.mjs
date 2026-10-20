@@ -26,3 +26,13 @@ test('rigs have articulated elbows, knees and attached handheld weapons',()=>{
   if([0,1,3,4,5].includes(id))assert.ok(rig.limbs[2].userData.hand.children.length>1);
  }
 });
+test('recovery rolls keep all six bodies above the arena floor',()=>{
+ for(let id=0;id<6;id++)for(const direction of [-1,1]){
+  const r=buildCharacter(id);r.g.scale.setScalar(id===3?1.12:1);
+  for(let frame=0;frame<18;frame++){
+   animateCharacter(r,{anim:'roll',roll:{elapsed:frame/60,direction},face:1},frame/60);
+   r.g.updateMatrixWorld(true);
+   assert.ok(new T.Box3().setFromObject(r.body).min.y>=.029);
+  }
+ }
+});
