@@ -180,3 +180,7 @@ Browser keyboard checks triggered all eight forms with one stock consumed each. 
 115 tests pass. Eight new tests cover press/release between ticks, ordered directional follow-ups, double-tap pursuit, independent simultaneous player attacks, held charging without repeat events, player-two key aliases, clearing pending actions, and bounded event floods.
 
 Chrome received a complete direction-plus-two-attack-taps sequence synchronously before a rendered frame. Sol selected her forward follow-up and the target finished at 89.68 HP in knockdown. Simultaneous short taps in local play produced both players’ projectiles. Pausing immediately after enqueueing an attack discarded it; after resume both fighters stayed idle with no projectiles. No console errors or warnings appeared. Physical controller hardware remains untested.
+
+## Tala base-special correction (0.22)
+
+119 tests pass. New checks verify a travelling forward projectile without a teleporting lunge or launch, retreating ring geometry metadata, extended clean-hit stun, held-guard protection, fresh-guard reflection, and sidestep avoidance. The older signature test was updated because it explicitly required the replaced lunge. Existing alternate and stock-special tests remain passing. This release has simulation verification; a new visual browser check was unavailable because the required browser runtime tool could not be discovered.

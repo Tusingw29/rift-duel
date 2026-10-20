@@ -156,9 +156,10 @@ function executeAction(m,a,b,move){
   }
   event(m,'hint',{text:f.moves[kind==='forward'?0:1]});
   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
-  if(f.id==='tala'&&kind==='forward'){
-   a.x=clamp(a.x+dx*Math.min(3,Math.max(0,d-1.5)),-11,11);a.z=clamp(a.z+dz*Math.min(3,Math.max(0,d-1.5)),-6,6);
-   a.anim='pursuit';if(d<5.5)hit(m,a,b,11*f.power,'hit',true);return;
+  if(f.id==='tala'){
+   const disc=kind==='back';
+   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*(disc?9:12),dz:dz*(disc?9:12),life:2.3,owner:m.players.indexOf(a),damage:10*f.power,kind:disc?'wheel':'bolt',radius:disc?.7:.55,stun:disc?.65:0});
+   event(m,'shot',{color:f.color});return;
   }
   const count=f.id==='morrow'?3:f.id==='sol'?2:1;
   for(let j=0;j<count;j++){
@@ -290,7 +291,7 @@ export function update(m,inputs,dt=STEP){
     if(p.kind!=='capture'&&b.guard&&b.guardTime<.17){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&b.guard&&b.guardTime<.2){p.life=0;event(m,'hint',{text:'CAPTURE BREAK'});}
     else if(p.kind==='capture'&&!m.cinematic){beginCapture(m,a,b,p.context||captureContext(a,b));p.life=0;}
-    else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&p.kind==='snare')b.stun=.85;if(landed&&p.knockdown){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}p.life=0;}
+    else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&(p.kind==='snare'||p.stun))b.stun=Math.max(b.stun,p.kind==='snare'?.85:p.stun);if(landed&&p.knockdown){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}p.life=0;}
    }
   }
   m.projectiles=m.projectiles.filter(p=>p.life>0);

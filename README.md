@@ -88,3 +88,5 @@ Held stock specials (hold longer than 0.24 seconds, then release attack; one sto
 Neutral hold still builds stock. Empty stock refuses these specials, and interrupted startup does not refund their cost. The in-game guide shows the selected fighter’s options.
 
 Fast keyboard and touch taps are preserved between rendered frames. Each player has an independent input queue, and pausing clears pending actions.
+
+Tala’s base directional specials now fire an energy shot toward the rival and a stunning discus while retreating. Her up-special remains her rushing attack; tap follow-ups and held-stock forms keep their existing commands.

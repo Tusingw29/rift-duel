@@ -30,3 +30,5 @@ Secondary summaries report a button-contest event when simultaneous dashes meet.
 Later features listed in `DESIGN.md` are development possibilities, not evidence of completion and not substitutes for the requested combat and character fidelity.
 
 Version 0.21 preserves short keyboard/touch transitions between rendered frames, with independent player queues and pause clearing. This improves execution reliability; it does not establish original-game input timing or resolve the documented combo-input conflict.
+
+Version 0.22 corrects Tala’s two base horizontal specials to the energy-shot and stunning-disc identities documented for the martial artist inspiration. These replace an inaccurate lunge and generic bolt. Original tuning remains unmeasured; automated checks do not prove animation fidelity.

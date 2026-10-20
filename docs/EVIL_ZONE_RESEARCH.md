@@ -46,7 +46,7 @@ Original balancing values—not Evil Zone frame data:
 - Measure startup, active frames, recovery, capture escape windows, and tracking from lawful gameplay access.
 - Verify regional differences, original default configurations, and conflicting translated move names.
 - Record neutral camera framing and cut timings at multiple distances.
-- Replace the four implemented capture motion tracks with polished per-fighter animation clips, including anticipation, contact and follow-through.
+- Polish the 24 implemented capture profiles with authored per-fighter animation clips, including anticipation, contact and follow-through.
 - Expand roster coverage for armored mercenary, shadow caster, cursed swordsman, and boss archetypes.
 - Add full voiced episode-style stories, survival, unlockables, arena variety, and music only with original assets.
 
@@ -115,3 +115,7 @@ The PAL guide describes extra-tap horizontal alternatives that change beam durat
 ## Held forms across the roster
 
 The PAL guide describes larger energy shots/discs, multiple spirit projectiles, sequential explosions and projected rings on held inputs. Version 0.20 adapts those roles into eight stock specials. All cost one stock in Rift Duel; this uniform cost is an original rule, particularly where the guide omits a crystal marker for the spirit flock. Counts, damage, timing, spread and area checks are authored choices. Effects remain simplified procedural art. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Tala base-special correction (0.22)
+
+The PAL guide describes Midori’s forward special as a single energy shot and her retreating special as a stunning discus. Tala previously used a forward lunge and a generic retreating bolt. Version 0.22 changes these to Storm spark (one travelling energy shot) and Still-water discus (one ring with extended clean-hit stun). Her up-special retains the charging attack. Projectile speeds, damage, lifetime and the 0.65-second stun are original tuning, not measured source values. [Otaku_Tom guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
