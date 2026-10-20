@@ -198,3 +198,7 @@ Goal: make a round feel like Evil Zone before adding more systems. Four changes:
 ## Alpha 0.29: attack feel effects
 
 `trails.js` holds the attack-feel layer: pure helpers decide the trail anchor per fighter (`trailAnchors`), when a move is swinging (`swingWindow`), and when a fighter is dashing (`dashing`); `createTrailEffects` owns the Three.js ribbon, afterimage pool and guard shield per model and is driven from the renderer after animation. Main reads move phases to trigger swing, effort and dash sounds, so the simulation stays unchanged apart from hint events now naming the acting player. The launch tumble lives in the animator and only applies to launched fighters, not voluntary jumps.
+
+## Alpha 0.30: full-body animation sample (Tala)
+
+Direction: animate the whole body with distinct timing, believable footwork, blending between actions and per-fighter personality, finishing one fighter completely before touching the others. `tala-animation.js` implements it: channel poses, per-state blend rates (strikes near-snap, reactions snap on impact then ease), distance-driven stride phase, keyed strike timelines with per-segment easing, and a ponytail/head lag from chest-turn velocity. The shared animator delegates to it only for Tala's sample states and still handles her other states. If the approach holds up at normal speed, the next fighters get their own modules with the same channel scheme, and the shared animator shrinks to fallbacks.

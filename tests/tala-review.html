@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Tala animation review</title><style>body{margin:0;background:#10191c;color:#eef1df;font:13px monospace}canvas{position:absolute;inset:0}#labels{position:absolute;inset:0;pointer-events:none;z-index:1}#labels b{position:absolute;font-weight:400;color:#d9f975;background:#10191ccc;padding:2px 5px}</style></head><body><div id="labels"></div><script type="module">
+import * as T from '../dist/vendor/three.module.js';import {buildCharacter} from '../dist/characters.js';import {animateCharacter} from '../dist/animation.js';import {moveTiming} from '../dist/moves.js';import {fighters} from '../dist/fighters.js';
+// Pose sheet: each cell renders Tala in one state from the lock-on camera angle (?view=back) or the rival's view (default).
+const q=new URLSearchParams(location.search),view=q.get('view')||'front',timing=moveTiming(fighters[2],'strike');
+const strike=(chain,frame)=>({anim:'strike',move:{kind:'strike',...timing,chain,frame},x:0,z:0});
+const run=(x,z,phase)=>({anim:'run',x:0,z:0,prev:{x,z},stridePhase:phase});
+const cells=[
+ ['idle 0',{anim:'idle'},0],['idle .3',{anim:'idle'},.3],['idle .6',{anim:'idle'},.6],['guard',{anim:'idle',guard:true,blockStun:0}],['block',{anim:'idle',guard:true,blockStun:.2}],['charge',{anim:'charge'}],['hurt .42',{anim:'hurt',animTime:.42}],['hurt .25',{anim:'hurt',animTime:.25}],
+ ['fwd 0',run(1,0,0)],['fwd .25',run(1,0,Math.PI*.5)],['fwd .5',run(1,0,Math.PI)],['fwd .75',run(1,0,Math.PI*1.5)],['back .25',run(-1,0,Math.PI*.5)],['circle 0',run(0,1,0)],['circle .5',run(0,1,Math.PI)],['circle L',run(0,-1,Math.PI*.5)],
+ ['jab f0',strike(1,0)],['jab f2',strike(1,2)],['jab f5 HIT',strike(1,5)],['jab f8',strike(1,8)],['jab f13',strike(1,13)],['jab f19',strike(1,19)],['cross f5 HIT',strike(2,5)],['cross f9',strike(2,9)],
+ ['hook f0',strike(3,0)],['hook f3',strike(3,3)],['hook f5 HIT',strike(3,5)],['hook f8',strike(3,8)],['hook f12',strike(3,12)],['hook f16',strike(3,16)],['hook f19',strike(3,19)],['stance',{anim:'idle'},0]
+];
+const cols=8,rows=Math.ceil(cells.length/cols);
+const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.setScissorTest(true);document.body.append(renderer.domElement);
+const scene=new T.Scene();scene.background=new T.Color('#10191c');scene.add(new T.HemisphereLight('#dcf5ff','#444455',3));const light=new T.DirectionalLight('#fff5df',3);light.position.set(-3,8,9);scene.add(light);
+const floor=new T.Mesh(new T.CircleGeometry(3,32),new T.MeshStandardMaterial({color:'#283c40'}));floor.rotation.x=-Math.PI/2;scene.add(floor);
+const rig=buildCharacter(2);scene.add(rig.g);
+const w=innerWidth/cols,h=innerHeight/rows;const labels=document.getElementById('labels');
+cells.forEach(([name,p,t],i)=>{
+ // Each cell is a fresh rig state so blending does not leak between cells.
+ rig.pose=null;rig.lastTime=undefined;rig.prevTwist=undefined;rig.twistLag=0;
+ const time=t??1;for(let k=0;k<8;k++)animateCharacter(rig,p,time+k*1/60);
+ const col=i%cols,row=Math.floor(i/cols),x=col*w,y=innerHeight-(row+1)*h;
+ const camera=new T.PerspectiveCamera(36,w/h,.1,100);
+ if(view==='back')camera.position.set(1.9,2.5,-5.2);else camera.position.set(-1.6,1.9,5.4);
+ camera.lookAt(0,1,0);
+ renderer.setViewport(x,y,w,h);renderer.setScissor(x,y,w,h);renderer.render(scene,camera);
+ const b=document.createElement('b');b.textContent=name;b.style.left=(x+4)+'px';b.style.top=(row*h+4)+'px';labels.append(b);
+});
+</script></body></html>

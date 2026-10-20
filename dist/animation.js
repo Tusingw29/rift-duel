@@ -1,4 +1,5 @@
 import {applyMeleePose} from './melee-poses.js';
+import {animateTala} from './tala-animation.js';
 import {fighters} from './fighters.js';
 import {Box3} from './vendor/three.module.js';
 const rollBounds=new Box3();
@@ -21,6 +22,8 @@ export function animateCharacter(r,p,time){
  r.limbs.forEach((part,j)=>part.rotation.set(0,0,j===0?.08:j===2?-.08:0));
  r.elbows.forEach(elbow=>elbow.rotation.set(-.22,0,0));r.knees.forEach(knee=>knee.rotation.set(.05,0,0));
  const [leftArm,leftLeg,rightArm,rightLeg]=r.limbs;
+ // Tala runs on the blended full-body system for her sample states.
+ if(f.id==='tala'&&animateTala(r,p,time))return;
  // Readable silhouettes even before a move is used.
  if(f.id==='tala'){leftArm.rotation.x=-.75;rightArm.rotation.x=-.45;r.elbows[0].rotation.x=-1.15;r.elbows[1].rotation.x=-1.3;r.spine.rotation.y=-.16;}
  if(f.id==='rei'){rightArm.rotation.x=-.18;rightArm.rotation.y=-.22;leftArm.rotation.z=.15;r.spine.rotation.y=.12;}
