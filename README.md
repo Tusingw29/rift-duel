@@ -135,3 +135,7 @@ Tala now blends action transitions without damping every frame of her movement c
 ## Alpha 0.33: Tala authored body motion
 
 Tala's sinusoidal run poses are replaced by an eight-key looping clip: contact, compression, passing and push-off on each side. Continuous-velocity interpolation carries the body through the keys without stopping at every pose. Advance, retreat and circle variants keep the existing distance-driven foot support. Lateral pelvis travel adds actual weight transfer; punch preparation now includes hip-led drive and an elbow-led return. Inputs, simulation movement, hit frames and damage remain unchanged.
+
+## Alpha 0.34: Tala model rebuild
+
+Tala now uses original smooth-shaded, bone-weighted surfaces with sculpted torso, connected elbow/knee bends, shaped hands and shoes, layered hair, fitted navy-and-gold clothing, wraps and a small painted face texture. Her animation attachment points, movement and combat are unchanged. Afterimages and burst echoes clone their own skeletons so they do not borrow the live fighter's pose. The model is generated locally without external assets or downloads. The remaining roster retains its earlier models.

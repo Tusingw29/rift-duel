@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {buildTala} from './tala-model.js';
 import {fighters} from './fighters.js';
 
 // Combine static pieces on each joint by material; joints stay independently
@@ -24,6 +25,7 @@ function batchJointMeshes(root,keep){
 
 // Original low-poly character meshes. All geometry is generated locally.
 export function buildCharacter(id){
+ if(id===2)return buildTala();
  const f=fighters[id],g=new T.Group(),body=new T.Group();g.add(body);
  const materials={};
  const material=(name,color,metalness=0)=>materials[name]??(materials[name]=new T.MeshStandardMaterial({color,roughness:.7,metalness,flatShading:true}));

@@ -256,3 +256,9 @@ The public build hash matched the local release. A headless Chromium training se
 New tests cover clip endpoint sampling, position/velocity continuity across the loop seam in four movement directions, alternating pelvis weight transfer and hip commitment before punch contact. Existing tests cover exact contact poses, chained-punch continuity, fixed supporting feet and finite rig bounds. Shared airborne/capture animation and the simple segmented character models still limit the result; passing tests do not establish subjective equivalence to Evil Zone.
 
 176 tests pass. Chrome training check: circle in both directions, retreat, approach, and three-hit combo ending at rival HP 77.56; inspected a paused retreat pose. No console errors or warnings.
+
+## Tala model rebuild (0.34)
+
+Added normalized skin-weight and geometry-budget checks, finite deformed-vertex checks and independent skeleton checks for afterimages. Existing animation, bounds, recovery-roll and effects tests cover the replacement model. This is an original model and a visual iteration, not a recreation of an extracted Evil Zone asset.
+
+178 tests pass. Chrome inspected the rebuilt Tala in character select and at strike contact (frame 5; rival HP 93.88), then exercised pursuit and burst effects and returned to the menu without console errors. The other fighters still use their existing art.

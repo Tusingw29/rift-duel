@@ -1,3 +1,4 @@
+import {cloneRig,disposeSkeletons} from './rig-clone.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
 // Attack-feel effects: weapon swing trails, dash afterimages and guard flashes.
@@ -47,7 +48,7 @@ export function createTrailEffects(scene){
  }
  function makeGhost(model){
   const originals=[];model.g.traverse(n=>originals.push(n));
-  const g=model.g.clone(true),copies=[],materials=new Map();
+  const g=cloneRig(model.g),copies=[],materials=new Map();
   g.traverse(n=>{copies.push(n);if(n.isMesh){n.castShadow=false;n.receiveShadow=false;if(!materials.has(n.material)){const m=n.material.clone();m.transparent=true;m.depthWrite=false;m.opacity=0;if(m.color)m.color.set(fighters[model.id].color);materials.set(n.material,m);}n.material=materials.get(n.material);}});
   g.visible=false;scene.add(g);return {g,pairs:copies.map((c,i)=>[c,originals[i]]),materials:[...materials.values()],life:0};
  }
@@ -89,6 +90,6 @@ export function createTrailEffects(scene){
    }else e.shield.visible=false;
   });
  }
- function reset(){for(const e of all){scene.remove(e.ribbon);e.ribbon.geometry.dispose();e.ribbon.material.dispose();scene.remove(e.shield);e.shield.geometry.dispose();e.shield.material.dispose();for(const ghost of e.ghosts){scene.remove(ghost.g);for(const mat of ghost.materials)mat.dispose();}}all.length=0;}
+ function reset(){for(const e of all){scene.remove(e.ribbon);e.ribbon.geometry.dispose();e.ribbon.material.dispose();scene.remove(e.shield);e.shield.geometry.dispose();e.shield.material.dispose();for(const ghost of e.ghosts){scene.remove(ghost.g);disposeSkeletons(ghost.g);for(const mat of ghost.materials)mat.dispose();}}all.length=0;}
  return {update,reset,block,ghost:spawnGhost};
 }

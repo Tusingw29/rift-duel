@@ -1,3 +1,4 @@
+import {cloneRig,disposeSkeletons} from './rig-clone.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
 export function createBurstEffects(scene){
@@ -28,12 +29,12 @@ export function createBurstEffects(scene){
  const core=make(new T.IcosahedronGeometry(.22,1),energy,emitter);core.position.y=-.45;
  for(let i=0;i<3;i++){const fin=make(new T.BoxGeometry(.35,.12,1.5),casing,emitter);const angle=i*Math.PI*2/3;fin.position.set(Math.sin(angle)*.8,0,Math.cos(angle)*.8);fin.rotation.y=angle;}
  const echoes=[];let source=null;
- function reset(){for(const echo of echoes){scene.remove(echo.g);for(const material of echo.materials)material.dispose();}echoes.length=0;source=null;group.visible=false;}
+ function reset(){for(const echo of echoes){scene.remove(echo.g);disposeSkeletons(echo.g);for(const material of echo.materials)material.dispose();}echoes.length=0;source=null;group.visible=false;}
  function prepareEchoes(model){
   source=model;
   const originals=[];model.g.traverse(node=>originals.push(node));
   for(let j=0;j<3;j++){
-   const g=model.g.clone(true),copies=[],materials=new Map();g.traverse(node=>{copies.push(node);if(node.isMesh){node.castShadow=false;node.receiveShadow=false;if(!materials.has(node.material)){const mat=node.material.clone();mat.transparent=true;mat.depthWrite=false;materials.set(node.material,mat);}node.material=materials.get(node.material);}});
+   const g=cloneRig(model.g),copies=[],materials=new Map();g.traverse(node=>{copies.push(node);if(node.isMesh){node.castShadow=false;node.receiveShadow=false;if(!materials.has(node.material)){const mat=node.material.clone();mat.transparent=true;mat.depthWrite=false;materials.set(node.material,mat);}node.material=materials.get(node.material);}});
    scene.add(g);echoes.push({g,pairs:copies.map((node,i)=>[node,originals[i]]),materials:[...materials.values()]});
   }
  }
