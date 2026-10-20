@@ -87,3 +87,10 @@ Confirmed cinematic sequences pause the attack timelines until their presentatio
 `cinematics.js` samples render-only poses and camera shots; `burst-effects.js` owns reusable effects and temporary translucent fighter echoes. Combat remains authoritative: damage resolves once after presentation, and a successful burst ends in grounded knockdown. Guarded targets remain standing and receive chip damage. Reduced-motion mode retains the neutral camera.
 
 The six sequences use original 2.5–2.9 second durations and procedural motion. They draw on broad presentation ideas documented in the footage research, not copied animations or measured original timing. These are still alpha choreography, with further anticipation, impact, and recovery polish needed.
+
+
+## Three-step attack chains (0.6)
+
+Basic strikes and shots can cancel recovery into up to three steps. A strike must connect with the target or held guard; a projectile opens its chain window on release. The original tuning window runs from contact through the next ten simulation frames. Each follow-up retains its normal startup, and the third step must recover fully. A small, bounded step-in helps connected melee chains retain range without granting unlimited tracking. Whiffs, parries, and interruption prevent chaining.
+
+After the second basic attack, a launcher, capture, directional special, pursuit, crossover, or stocked burst can replace the final step. These still obey their normal resource/range rules. Holding attack charges normally; repeated taps are required for a chain. The training readout shows the current step and CHAIN NOW prompt. Damage is 6/6/10 for strikes and 7/7/9 for shots, multiplied by fighter power. These are new balancing choices, not measured Evil Zone damage or cancel windows.

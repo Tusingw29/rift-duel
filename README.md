@@ -8,7 +8,7 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 - Six original articulated fighters with distinct silhouettes, ready stances, movement, reach, damage, and signature attacks.
 - Arcade (six bouts), quick CPU duel, training, and same-device two-player versus.
-- Melee, projectiles, sidesteps, charge stocks, timed guard/reflection, capture breaks, launch/pursuit, six character-specific cinematic bursts (orbital beam, sword echoes, chi doubles, salvo, sun orb, and ring bind).
+- Three-step melee and projectile chains with optional special finishes; sidesteps, charge stocks, timed guard/reflection, capture breaks, launch/pursuit, six character-specific cinematic bursts (orbital beam, sword echoes, chi doubles, salvo, sun orb, and ring bind).
 - Frame-timed wind-up/contact/recovery, attack interruption, simultaneous hit trades, recovery buffering, and training phase feedback.
 - WASD keyboard controls, standard gamepads, and basic touch controls.
 - First-to-two rounds, restart/rematch, arcade endings, pause-on-blur, persistent options.

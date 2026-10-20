@@ -20,7 +20,7 @@ Footage located for a future measured animation pass: [capture compilation](http
 
 ## Original implementation decisions
 
-Rift Duel uses a 60 Hz simulation, movement on an X/Z plane, and independent rendering. The neutral camera follows the midpoint and widens with separation. Confirmed captures and stock bursts use a short orbit, then return to neutral. Reduced-motion mode retains neutral framing. Procedural animation separates idle, running, attacks, charging, guarding, hurt, launched, and cinematic states. Weapons, coat shapes, armor mass, and effects distinguish the roster.
+Rift Duel uses a 60 Hz simulation, movement on an X/Z plane, and independent rendering. The neutral camera follows the midpoint and widens with separation. Confirmed captures use contextual framing, and stock bursts use character-specific shot sequences before returning to neutral. Reduced-motion mode retains neutral framing. Procedural animation separates idle, running, attacks, charging, guarding, hurt, launched, and cinematic states. Weapons, coat shapes, armor mass, and effects distinguish the roster.
 
 This alpha intentionally adapts inputs: WASD is world-oriented movement; toward/away attacks use the opponent's current side. J is tap attack / hold charge, K is guard, S+J captures, W+J launches. U/I/O/L are convenient capture/launcher/pursuit/burst shortcuts. Gamepad face buttons and bumpers provide equivalent actions. Double taps now provide toward+attack pursuit, away+attack burst, down+attack launch, up+attack jumping crossover, and up+guard jump. Fresh airborne guard recovers, while toward+guard circles behind a nearby rival. The parser uses an original 18-frame window, not measured original-game timing.
 
@@ -68,3 +68,8 @@ Viewed paused samples from [lcfreezer’s capture compilation](https://www.youtu
 | [3:55](https://www.youtube.com/watch?v=l0zNNcx8ejY&t=235s) | Gally’s weapon and grounded victim dominate a close shot. |
 
 These are sampled visual observations, not continuous motion analysis or measured startup/recovery. The edited compilation cannot establish simulation timing. Design inference: distinct staged shots and character-specific choreography remain a larger fidelity gap than camera orbit smoothness.
+
+
+## Chain rules follow-up
+
+The Otaku_Tom guide explicitly describes three close attacks, three ranged attacks, and substituting another attack for the last close hit. Version 0.6 now supports this structure with original timing and damage. Whiff restrictions, the ten-frame follow-up window, and ranged special finishes are Rift Duel design decisions; their exact correspondence to the original is unverified. [Guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

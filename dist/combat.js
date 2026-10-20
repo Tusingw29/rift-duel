@@ -1,5 +1,5 @@
 import {BURST_DURATIONS} from './cinematics.js';
-import {moveTiming,INPUT_BUFFER_FRAMES} from './moves.js';
+import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 export const STEP=1/60;
@@ -43,16 +43,24 @@ function beginCapture(m,a,b,context){
 }
 function action(m,a,b,requested){
  if(a.stun>0||a.guard||m.cinematic)return;
- if(a.move||a.cool>0){
+ const previous=a.move;
+ const chaining=canChain(previous)&&(requested==='attack'||previous.chain===2&&['capture','launch','forward','back','pursuit','jumpAttack','super'].includes(requested));
+ if((a.move||a.cool>0)&&!chaining){
   const remaining=a.move?a.move.total-a.move.frame:Math.ceil(a.cool/STEP);
   if(remaining<=INPUT_BUFFER_FRAMES)a.buffer={kind:requested,expires:m.tick+INPUT_BUFFER_FRAMES+1};
   return;
  }
- const f=fighters[a.id],d=distance(a,b),kind=requested==='attack'?(d<f.reach?'strike':'shot'):requested;
+ const f=fighters[a.id],d=distance(a,b),kind=requested==='attack'?(chaining?previous.kind:d<f.reach?'strike':'shot'):requested;
  if(kind==='super'&&a.stocks<1){event(m,'hint',{text:'Hold attack to charge a power stock'});return;}
  if(kind==='super')a.stocks--;
  const timing=moveTiming(f,kind);
- a.move={kind,...timing,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ a.move={kind,...timing,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ a.buffer=null;
+ if(chaining&&previous.kind==='strike'&&d<f.reach+.5){
+  const advance=Math.min(.4,Math.max(0,d-1.2));
+  a.x=clamp(a.x+a.move.aimX*advance,-11,11);a.z=clamp(a.z+a.move.aimZ*advance,-6,6);
+ }
+ if(chaining)event(m,'hint',{text:`CHAIN ${a.move.chain} / 3`});
  a.cool=timing.total*STEP;a.anim=kind==='shot'?'attack':kind;a.animTime=timing.total*STEP;
  a.held=0;
 }
@@ -105,8 +113,8 @@ function executeAction(m,a,b,move){
  }
  if(kind==='launch') {if(d<f.reach+.3&&facing)hit(m,a,b,8*f.power,'hit',true);return;}
  
- if(kind==='strike'){if(d<f.reach&&facing)hit(m,a,b,(a.combo%3===2?10:6)*f.power);}
- else {m.projectiles.push({x:a.x+dx*.8,z:a.z+dz*.8,dx:dx*f.shotSpeed,dz:dz*f.shotSpeed,life:2,owner:m.players.indexOf(a),damage:7*f.power,kind:'bolt',radius:f.id==='vesper'?.7:.4});event(m,'shot',{color:f.color});}
+ if(kind==='strike'){if(d<f.reach&&facing&&b.inv<=0){move.connected=true;hit(m,a,b,(move.chain===3?10:6)*f.power);}}
+ else {move.connected=true;m.projectiles.push({x:a.x+dx*.8,z:a.z+dz*.8,dx:dx*f.shotSpeed,dz:dz*f.shotSpeed,life:2,owner:m.players.indexOf(a),damage:(move.chain===3?9:7)*f.power,kind:'bolt',radius:f.id==='vesper'?.7:.4});event(m,'shot',{color:f.color});}
 }
 export function aiInput(m,dt){
  m.aiClock-=dt;

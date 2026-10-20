@@ -68,3 +68,10 @@ These checks verify Rift Duel's implemented timing model. They do not establish 
 41 automated tests pass. Added checks cover all six pose tracks, reversed/zero separation, return to simulation positions, distinct effects and shot names, echo cleanup without source geometry disposal, character-specific duration, damage resolving once, guarded poses/chip, and grounded knockdown endings.
 
 Desktop Chrome visual checks sampled all six bursts: Aegis's orbital emitter, Rei's three sword echoes, Tala's surrounding doubles, Morrow's six missiles, Sol's descending orb, and Vesper's airborne ring bind. Vesper's camera was then widened/raised to improve HUD clearance. These sampled checks are not full frame-by-frame visual validation. No browser errors or warnings were reported in the initial checks. Physical controller validation and broader device performance checks remain outstanding.
+
+
+## Attack chains (0.6)
+
+47 tests pass. Six new tests cover three-step limits, required recovery after step three, melee whiffs, expired windows, launcher/capture finishes, ranged chains before impact, held guard and parry, and hold-to-charge behavior. The startup regression now verifies that a chained follow-up still waits its full startup before dealing damage.
+
+Local Chrome keyboard inputs produced three distinct contact states (steps 1, 2, 3) with target health 94, 88, 78. The training readout displayed CHAIN NOW during eligibility and removed it at step three. Screenshot inspection confirmed the three-hit feedback and readable recovery prompt. No console errors or warnings appeared in the initial browser check. These checks do not establish original-game frame parity or physical controller behavior.

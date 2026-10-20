@@ -3,10 +3,10 @@ import {createMatch,update,neutral,hit} from '../dist/combat.js';
 const step=(m,a={},b={},n=1)=>{for(let i=0;i<n;i++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const close=(a=0,b=1)=>{const m=createMatch(a,b);m.players[1].x=-2;return m;};
 const tap=(m,a=true,b=false)=>{step(m,{attack:a},{attack:b});step(m);};
-test('strike has eight startup frames, one contact, and recovery before another attack',()=>{
+test('strike has eight startup frames and a follow-up still needs its own startup',()=>{
  const m=close();tap(m);assert.equal(m.players[1].hp,100);step(m,{}, {},7);assert.equal(m.players[1].hp,100);
  step(m);assert.equal(m.players[1].hp,94);assert.equal(m.players[0].move.frame,8);
- tap(m);step(m,{}, {},10);assert.equal(m.players[1].hp,94);assert.ok(m.players[0].move);
+ tap(m);assert.equal(m.players[0].move.chain,2);step(m,{}, {},7);assert.equal(m.players[1].hp,94);step(m);assert.equal(m.players[1].hp,88);
 });
 test('leaving range during startup makes a melee strike whiff instead of changing to a shot',()=>{
  const m=close();m.players[1].x=-1.5;tap(m);step(m,{}, {x:1},8);assert.equal(m.players[1].hp,100);assert.equal(m.projectiles.length,0);

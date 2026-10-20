@@ -24,7 +24,7 @@ export function animateCharacter(r,p,time){
  if(p?.move||['strike','attack','forward','back','launch','pursuit','jumpAttack'].includes(state)){
   const move=p?.move;
   const strength=move?(move.frame<move.startup?0:1-smooth((move.frame-move.startup)/move.recovery)):smooth((p?.animTime||0)/.32);
-  if(f.id==='tala'){const arm=(p?.combo||0)%2; r.limbs[arm?2:0].rotation.x=-1.6*strength;r.elbows[arm].rotation.x=-.08;r.spine.rotation.y=(arm?-.35:.35)*strength;}
+  if(f.id==='tala'){const arm=((move?.chain||1)-1)%2; r.limbs[arm?2:0].rotation.x=-1.6*strength;r.elbows[arm].rotation.x=-.08;r.spine.rotation.y=(arm?-.35:.35)*strength;}
   else if(f.id==='rei'){rightArm.rotation.x=-1.0*strength;rightArm.rotation.z=.65*strength;rightArm.rotation.y=-.55*strength;r.spine.rotation.y=-.5*strength;r.elbows[1].rotation.x=-.4;}
   else if(f.id==='morrow'){rightArm.rotation.x=-1.3*strength;leftArm.rotation.x=-.8*strength;r.spine.rotation.x=.18*strength;r.spine.rotation.y=-.3*strength;}
   else if(f.id==='sol'){leftArm.rotation.x=-1.5*strength;rightArm.rotation.x=-.4*strength;r.elbows[0].rotation.x=-.1;}
