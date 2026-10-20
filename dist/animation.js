@@ -95,6 +95,11 @@ export function animateCharacter(r,p,time){
   r.body.position.z-=.1*recoil;r.elbows[0].rotation.x-=.25*recoil;r.elbows[1].rotation.x-=.25*recoil;
  }
  if((p?.air||0)>0){leftLeg.rotation.x=-.55;rightLeg.rotation.x=.3;r.knees[0].rotation.x=.9;r.knees[1].rotation.x=.5;}
+ if(p?.launched&&(p?.air||0)>0&&!p.move){
+  // Launched fighters tumble backward through the air before the knockdown.
+  const t=1-Math.min(1,p.air/.85);r.body.rotation.x=-smooth(t)*Math.PI*1.4;r.body.position.y+=.45;
+  leftArm.rotation.x=-1.9;rightArm.rotation.x=-1.6;leftArm.rotation.z=.6;rightArm.rotation.z=-.6;r.head.rotation.x=-.3;leftLeg.rotation.x=-.9;rightLeg.rotation.x=-.4;
+ }
  if(state==='hurt'){r.spine.rotation.x=-.22;r.head.rotation.x=-.15;leftArm.rotation.z=.5;rightArm.rotation.z=-.5;}
  if(state==='victory'){
   // Round-winning pose, held while the camera pushes in on the fallen rival.

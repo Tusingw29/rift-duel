@@ -12,6 +12,7 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 - Frame-timed wind-up/contact/recovery, attack interruption, simultaneous hit trades, recovery buffering, and training phase feedback.
 - WASD keyboard controls, standard gamepads, and basic touch controls.
 - First-to-two rounds, restart/rematch, arcade endings, pause-on-blur, persistent options.
+- Attack feel: weapon swing trails, dash and jump afterimages, a guard shield that flashes on blocks and deflects, launch tumbles, and swing, effort and dash sounds.
 - Round ceremony: versus card, round and fight calls with a camera sweep, hitstop and camera shake on contact, a held K.O. freeze with a push-in on the fallen fighter and a winner pose, and round-win pips.
 - Six home arenas (orbital relay, moonlit shrine, storm summit, iron wastes, ember archive, silent orbit), chosen by the opponent's home.
 - Procedural soundtrack per arena and menu, synthesized impact/KO/announcement effects, and an optional announcer voice; no audio files.
@@ -114,3 +115,7 @@ Every fighter has a home arena with its own palette, lighting, fog, decoration a
 Story-mode episode data (`story.js`) is authored and tested but not yet wired into the menu; arcade remains a six-bout journey for now.
 
 Alpha 0.28 adds authored melee pose tracks with wind-up, contact, follow-through and return to each fighter’s stance. Second strikes reverse weapon cuts or switch Tala’s punching arm. Advancing, retreating and circling now use different steps; grounded pursuit leans into the dash and blocked hits recoil against the guard. Combat timings and damage are unchanged. The key editor now labels Circle left/right and Close in/Retreat correctly, and the manual identifies A/D as recovery-roll directions.
+
+## Alpha 0.29: swing trails, afterimages and guard flashes
+
+Melee swings now draw an additive ribbon from the striking hand along the weapon (blade, katana, greatsword, staff, halo crescents, or a short fist arc) from late wind-up through the first part of the follow-through. Pursuit glides, techniques that travel, jumps, air recoveries and recovery rolls leave fading afterimages, and a circle step leaves one at the new position. Guarding shows a faint hexagonal shield in front of the fighter; blocks flash it in the fighter's color and perfect deflects flash it white. Launched fighters tumble backward through the air before the knockdown. Contact frames of strikes, launchers, techniques and directional specials play a swing and a short character-pitched effort sound; dashes, jumps, rolls and air recoveries play a dash sound. At close range the lock-on camera slides further to the side and up so the rival stays visible past your fighter's back. Reduce motion disables trails, afterimages and the shield flash.

@@ -194,3 +194,7 @@ A separate validated binding map stores two players and ten actions per player. 
 ## Alpha 0.27: lock-on presentation pass
 
 Goal: make a round feel like Evil Zone before adding more systems. Four changes: (1) a lock-on camera behind the player with opponent-relative movement in the simulation, so inputs keep meaning after side swaps; (2) hit feel through hitstop, camera shake, hurt flash, a K.O. hold with cut-in camera, winner and defeat poses, and a versus/round/fight ceremony with an orbiting sweep; (3) six home arenas built as disposable groups with per-stage lighting and fog; (4) a fully synthesized soundtrack and effects layer with optional speech-synthesis announcer. The round ceremony is a pure state machine (`presentation.js`) driven by `main.js`, and hitstop is applied by skipping simulation steps so tests and the combat module are unaffected. Story episode data is authored (`story.js`) for a later menu pass.
+
+## Alpha 0.29: attack feel effects
+
+`trails.js` holds the attack-feel layer: pure helpers decide the trail anchor per fighter (`trailAnchors`), when a move is swinging (`swingWindow`), and when a fighter is dashing (`dashing`); `createTrailEffects` owns the Three.js ribbon, afterimage pool and guard shield per model and is driven from the renderer after animation. Main reads move phases to trigger swing, effort and dash sounds, so the simulation stays unchanged apart from hint events now naming the acting player. The launch tumble lives in the animator and only applies to launched fighters, not voluntary jumps.

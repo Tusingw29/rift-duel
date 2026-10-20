@@ -225,14 +225,14 @@ export function update(m,inputs,dt=STEP){
    const freshDepth=Math.abs(i.z)>.5&&(Math.abs(a.prev.z)<=.5||Math.sign(i.z)!==Math.sign(a.prev.z));
    if(a.anim==='knockdown'&&a.stun>0&&a.stun<=.55&&freshDepth){
     a.roll={direction:Math.sign(i.z),elapsed:0};a.stun=.3;a.cool=.3;a.inv=.22;a.anim='roll';a.animTime=.3;
-    event(m,'hint',{text:'RECOVERY ROLL'});
+    event(m,'hint',{text:'RECOVERY ROLL',player:n});
    }
-   if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY'});}
-   else if(command==='jump'&&a.stun<=0&&a.cool<=0){a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;event(m,'hint',{text:'JUMP'});}
+   if(freshGuard&&a.air>0){a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
+   else if(command==='jump'&&a.stun<=0&&a.cool<=0){a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;event(m,'hint',{text:'JUMP',player:n});}
    else if(freshGuard&&i.x>.5&&distance(a,b)<3.5&&a.stun<=0&&a.cool<=0){
     const d=distance(a,b)||1,dx=(b.x-a.x)/d,dz=(b.z-a.z)/d;
     a.x=clamp(b.x+dx*1.6,-11,11);a.z=clamp(b.z+dz*1.6,-6,6);a.inv=.15;a.cool=.12;b.turnDelay=.45;
-    event(m,'hint',{text:'CIRCLE STEP'});
+    event(m,'hint',{text:'CIRCLE STEP',player:n});
    }
    a.guard=(i.guard||a.blockStun>0)&&a.stun<=0&&a.air===0&&!a.move;a.guardTime=a.guard?a.guardTime+dt:0;
   });

@@ -6,6 +6,7 @@ import {buildCharacter} from './characters.js';
 import {animateCharacter,applyStagedPose} from './animation.js';
 import {capturePose} from './choreography.js';
 import {arenas,arenaFor,createArena} from './arenas.js';
+import {createTrailEffects} from './trails.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
 const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -27,7 +28,7 @@ export function createView(canvas){
  const finisher=new T.Group();scene.add(finisher);
  const beam=new T.Mesh(new T.CylinderGeometry(.55,.9,12,8),new T.MeshBasicMaterial({color:'#6fe7ff',transparent:true,opacity:.65}));finisher.add(beam);
  const wheels=[];for(let j=0;j<5;j++){const wheel=new T.Mesh(new T.TorusGeometry(1.1+j*.25,.045,5,40),new T.MeshBasicMaterial({color:'#ffffff'}));finisher.add(wheel);wheels.push(wheel);}
- const burstFX=createBurstEffects(scene);
+ const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene);
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id);
@@ -36,7 +37,7 @@ export function createView(canvas){
   model.techniqueRing=new T.Mesh(new T.TorusGeometry(1,.035,6,48),material.clone());model.techniqueRing.material.opacity=.8;model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
   scene.add(model.g);return model;
  }
- function clear(){burstFX.reset();lastShot=null;lastCue=null;for(const r of models){scene.remove(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material)o.material.dispose();});}models.length=0;}
+ function clear(){burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){scene.remove(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material)o.material.dispose();});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
  function match(m,arenaIndex){clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
@@ -45,8 +46,9 @@ export function createView(canvas){
  // Lock-on camera: behind the first player, looking across at the rival, Evil Zone style.
  function lockCamera(m,pos,target,airHeight){
   const [a,b]=m.players;const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1,fx=dx/d,fz=dz/d,rx=-fz,rz=fx;
-  const widen=1/Math.min(1,camera.aspect/1.25),back=(6.6+d*.22)*widen,height=3.4+d*.1+airHeight*.6;
-  pos.set(a.x-fx*back+rx*1.9,height,a.z-fz*back+rz*1.9);
+  // At close range the camera slides further to the side and up so the rival stays visible past the player's back.
+  const widen=1/Math.min(1,camera.aspect/1.25),close=Math.max(0,4.5-d),back=(6.6+d*.22)*widen,height=3.4+d*.1+airHeight*.6+close*.3,side=1.9+close*.45;
+  pos.set(a.x-fx*back+rx*side,height,a.z-fz*back+rz*side);
   const ahead=Math.min(d,3.4+d*.4);target.set(a.x+fx*ahead+rx*.4,1.35+airHeight*.7,a.z+fz*ahead+rz*.4);
  }
  function sideCamera(m,pos,target,airHeight){
@@ -93,6 +95,7 @@ export function createView(canvas){
     }
    }else r.g.rotation.x=0;
   });
+  trailFX.update(models,m,dt,settings.reduced);
   while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
   bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',time);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
@@ -134,5 +137,5 @@ export function createView(canvas){
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

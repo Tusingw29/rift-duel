@@ -75,7 +75,10 @@ export function createAudio(){
   ko:()=>{tone(70,1,{type:'sine',to:22,gain:1});burst(.7,{gain:.6,cutoff:700});tone(1500,.5,{type:'sawtooth',to:200,gain:.12,at:.05});},
   time:()=>{[440,415,392].forEach((f,i)=>tone(f,.25,{type:'triangle',to:f,gain:.14,at:i*.2}));},
   win:()=>{[523,659,784,1046].forEach((f,i)=>tone(f,.3,{type:'triangle',to:f,gain:.14,at:i*.11}));},
-  lose:()=>{[392,349,311].forEach((f,i)=>tone(f,.4,{type:'triangle',to:f*.98,gain:.14,at:i*.22}));}
+  lose:()=>{[392,349,311].forEach((f,i)=>tone(f,.4,{type:'triangle',to:f*.98,gain:.14,at:i*.22}));},
+  swing:heavy=>{burst(heavy?.22:.14,{gain:heavy?.35:.22,filter:'bandpass',cutoff:heavy?500:1400});tone(heavy?180:320,heavy?.2:.12,{type:'sine',to:heavy?60:120,gain:.08});},
+  dash:()=>{burst(.18,{gain:.25,filter:'highpass',cutoff:2200});tone(240,.16,{type:'triangle',to:520,gain:.08});},
+  effort:pitch=>{const base=pitch||220;tone(base,.11,{type:'triangle',to:base*.8,gain:.11});tone(base*2.5,.09,{type:'sine',to:base*1.6,gain:.04,at:.01});}
  };
  function sfx(kind,arg){if(!ctx||volume===0)return;(effects[kind]||effects.ui)(arg);}
  function scheduleStep(theme,step,at){

@@ -141,10 +141,16 @@ function controllerMenu(pad,newly){
 function merge(a,b){return {...a,x:b.x||a.x,z:b.z||a.z,...Object.fromEntries(['attack','guard','capture','launch','pursuit','super'].map(k=>[k,a[k]||b[k]]))};}
 function events(){for(const e of match.events){
  if(e.type==='hit'){const heavy=e.damage>=12;view.burst(e.x,e.z,e.color,heavy?22:14);view.shake(heavy?.55:.25);hitstop=Math.max(hitstop,heavy?.1:.05);sound(heavy?'heavy':'hit');if(e.combo>1)$('#combo').textContent=`${e.combo} HIT CHAIN`;}
- if(e.type==='shot')sound('shot');if(e.type==='parry'){view.burst(e.x,e.z,'#ffffff');announce('PERFECT DEFLECT',.7);sound('parry');hitstop=Math.max(hitstop,.08);}if(e.type==='block'){sound('block');view.shake(.08);}if(e.type==='stock'){announce('POWER STOCK +1',.7);sound('stock');}
- if(e.type==='cinematic'){announce(e.text,1.5,'cinematic');sound(match.cinematic?.kind==='capture'?'capture':'cinematic');view.shake(.4);}if(e.type==='hint')announce(e.text,1);
+ if(e.type==='shot')sound('shot');if(e.type==='parry'){view.burst(e.x,e.z,'#ffffff');announce('PERFECT DEFLECT',.7);sound('parry');hitstop=Math.max(hitstop,.08);view.block(nearest(e),true);}if(e.type==='block'){sound('block');view.shake(.08);view.block(nearest(e),false);}if(e.type==='stock'){announce('POWER STOCK +1',.7);sound('stock');}
+ if(e.type==='cinematic'){announce(e.text,1.5,'cinematic');sound(match.cinematic?.kind==='capture'?'capture':'cinematic');view.shake(.4);}if(e.type==='hint'){announce(e.text,1);if(['JUMP','CIRCLE STEP','RECOVERY ROLL','AIR RECOVERY'].includes(e.text)){sound('dash');if(e.text==='CIRCLE STEP'&&e.player!==undefined)view.ghost(e.player);}}
  if(e.type==='over'){const winner=match.winner,reason=winner<0?'draw':match.time<=0?'time':'ko';const cue=beginKO(flow,{winner,loser:winner>=0?1-winner:-1,reason});announce(cue.text,flow.duration+.3,cue.kind);sound(reason==='ko'?'ko':'time');audio.say(cue.say);if(reason==='ko'){view.shake(1);hitstop=0;}audio.duck(true);}
 }}
+const nearest=e=>match.players.reduce((best,p,i)=>Math.hypot(p.x-e.x,p.z-e.z)<Math.hypot(match.players[best].x-e.x,match.players[best].z-e.z)?i:best,0);
+const voicePitch=[196,330,294,147,262,247];let swingSeen=[null,null];
+// Swings and dashes are read from move phases so the simulation stays unchanged.
+function moveSounds(){match.players.forEach((p,i)=>{const move=p.move;if(!move){swingSeen[i]=null;return;}
+ if(move.frame===move.startup&&swingSeen[i]!==move){swingSeen[i]=move;if(['strike','technique','launch','jumpAttack','forward','back'].includes(move.kind)&&move.kind!=='technique'|| (move.kind==='technique'&&!['sphere','wheel'].includes(move.effect))){sound('swing',fighters[p.id].shape==='heavy'||move.kind==='launch');sound('effort',voicePitch[p.id]);}}
+ if(move.kind==='pursuit'&&move.frame===1&&swingSeen[i]!==move){swingSeen[i]=move;sound('dash');}});}
 function handleCue(cue){
  if(cue.type==='callout'){announce(cue.text,cue.kind==='fight'?.8:1.3,cue.kind);sound(cue.kind);audio.say(cue.kind==='versus'?`${flow.names[0]} versus ${flow.names[1]}`:cue.say);}
  if(cue.type==='fight'){keys.clear();acc=0;}
@@ -162,7 +168,7 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
  if(match&&!paused&&match.phase==='fight'&&flow&&simulationRuns(flow)){
   const p0=mode==='local'&&pads.length===1?null:pads[0],p1=mode==='local'?(pads.length===1?pads[0]:pads[1]):null;
   if(hitstop>0){hitstop-=dt;acc=0;}else acc+=dt;
-  while(acc>=STEP&&match.phase==='fight'&&!paused){const a=relative(merge(keys.read(0),padAwaitRelease?neutral():padInput(p0)));const b=mode==='local'?relative(merge(keys.read(1),padAwaitRelease?neutral():padInput(p1))):mode==='training'&&settings.trainingBehavior!=='cpu'?{...neutral(),guard:settings.trainingBehavior==='guard'}:aiInput(match,STEP);if(mode==='training')recordInput(inputHistory,a);update(match,[a,b]);events();acc-=STEP;if(hitstop>0)break;}
+  while(acc>=STEP&&match.phase==='fight'&&!paused){const a=relative(merge(keys.read(0),padAwaitRelease?neutral():padInput(p0)));const b=mode==='local'?relative(merge(keys.read(1),padAwaitRelease?neutral():padInput(p1))):mode==='training'&&settings.trainingBehavior!=='cpu'?{...neutral(),guard:settings.trainingBehavior==='guard'}:aiInput(match,STEP);if(mode==='training')recordInput(inputHistory,a);update(match,[a,b]);events();moveSounds();acc-=STEP;if(hitstop>0)break;}
   const move=match.players[0].move,phase=movePhase(move);
   $('#training-readout').hidden=mode!=='training';
   $('#input-history').hidden=mode!=='training'||!settings.showInputs;$('#input-history').textContent=inputHistory.map(item=>`${item.label} [${item.frames}f]`).join('  |  ');
