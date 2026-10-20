@@ -262,3 +262,7 @@ New tests cover clip endpoint sampling, position/velocity continuity across the 
 Added normalized skin-weight and geometry-budget checks, finite deformed-vertex checks and independent skeleton checks for afterimages. Existing animation, bounds, recovery-roll and effects tests cover the replacement model. This is an original model and a visual iteration, not a recreation of an extracted Evil Zone asset.
 
 178 tests pass. Chrome inspected the rebuilt Tala in character select and at strike contact (frame 5; rival HP 93.88), then exercised pursuit and burst effects and returned to the menu without console errors. The other fighters still use their existing art.
+
+## Reference-led visual direction (0.35)
+
+178 tests pass. Chrome inspected Tala in character select and the new low side-camera view on Storm Summit; circling, approach and strike worked with no console errors. Restored the pre-test lock-on camera preference. Bright scenery exposed poor text contrast, addressed with menu/HUD backing rather than darkening the arena. Reference observations, source timestamps and remaining fidelity gaps are recorded in `EVIL_ZONE_ART_DIRECTION.md`.

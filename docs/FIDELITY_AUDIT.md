@@ -50,3 +50,5 @@ Version 0.27 moves the camera behind the player with opponent-relative movement,
 Version 0.28 replaces snapping basic melee poses with original authored pose tracks, differentiates advance/retreat/circling steps, and adds dash lean and guard recoil. These use the existing combat frame clock and preserve gameplay values. Local P2 relative keyboard movement is now browser-verified. Contact posing and broader animation polish remain ongoing; this is not measured Evil Zone animation reconstruction.
 
 Version 0.29 adds swing trails, afterimages, guard flashes, launch tumbles and swing/dash sounds. These are stylistic choices in the spirit of PS1 anime fighters, not reconstructions of specific Evil Zone effects.
+
+The 0.35 visual study corrects the earlier blanket description of the behind-player camera as Evil Zone's signature: sampled neutral and melee footage also uses low profile framing. See `EVIL_ZONE_ART_DIRECTION.md` for timestamps, observations and explicitly unfinished art work.

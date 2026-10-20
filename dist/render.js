@@ -53,7 +53,7 @@ export function createView(canvas){
   const ahead=Math.min(d,3.4+d*.4);target.set(a.x+fx*ahead+rx*.4,1.35+airHeight*.7,a.z+fz*ahead+rz*.4);
  }
  function sideCamera(m,pos,target,airHeight){
-  const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+airHeight*.5+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
+  const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25);pos.set(target.x-dz*back-dx*2,3+airHeight*.5+distance*.035,target.z+dx*back-dz*2);
  }
  function render(dt,m,settings,cue=null){
   time+=dt;stage?.update(time);

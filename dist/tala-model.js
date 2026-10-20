@@ -1,3 +1,4 @@
+import {clothPaint} from './painted-textures.js';
 import * as T from './vendor/three.module.js';
 
 // Original lightweight anime fighter, using the same animation attachment points.
@@ -16,23 +17,23 @@ export function buildTala(){
  const sash=joint(body,-.22,1.23,.16);clothParts.push(sash);
  g.updateMatrixWorld(true);const skeleton=new T.Skeleton(bones);
  const mats={skin:'#b97b59',top:'#243d49',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#944e39',hair:'#172b39'};
- const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshStandardMaterial({color,roughness:.88,metalness:0,vertexColors:true})]));
+ const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color,map:clothPaint(k),vertexColors:true})]));
  const index=b=>bones.indexOf(b),one=b=>[[index(b),1]],blend=(a,b,w)=>[[index(a),1-w],[index(b),w]];
  // Ring: x, y, z, lateral radius, depth radius, weights, optional painted shade.
  function surface(rings,mat,sides=12){
   if(rings.at(-1)[1]<rings[0][1])rings=[...rings].reverse();
   const cap=r=>[r[0],r[1],r[2],0,0,r[5],r[6]??1];
   rings=[cap(rings[0]),...rings,cap(rings.at(-1))];
-  const positions=[],weights=[],indices=[],skinIndices=[],colors=[];
+  const positions=[],weights=[],indices=[],skinIndices=[],colors=[],uvs=[];
   for(const [x,y,z,rx,rz,bind,shade=1] of rings){
    for(let i=0;i<=sides;i++){
-    const a=i/sides*Math.PI*2;positions.push(x+Math.cos(a)*rx,y,z+Math.sin(a)*rz);
+    const a=i/sides*Math.PI*2;positions.push(x+Math.cos(a)*rx,y,z+Math.sin(a)*rz);uvs.push(i/sides,(y-rings[0][1])/Math.max(.001,rings.at(-1)[1]-rings[0][1]));
     const ids=[0,0,0,0],ws=[0,0,0,0];bind.forEach(([id,w],n)=>{ids[n]=id;ws[n]=w;});skinIndices.push(...ids);weights.push(...ws);
     const tone=shade*(.91+.09*Math.sin(a));colors.push(tone,tone,tone);
    }
   }
   for(let j=0;j<rings.length-1;j++)for(let i=0;i<sides;i++){const a=j*(sides+1)+i,b=a+sides+1;indices.push(a,b,a+1,b,b+1,a+1);}
-  const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('skinIndex',new T.Uint16BufferAttribute(skinIndices,4));geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometry.setIndex(indices);geometry.computeVertexNormals();
+  const geometry=new T.BufferGeometry();geometry.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('skinIndex',new T.Uint16BufferAttribute(skinIndices,4));geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometry.setIndex(indices);geometry.computeVertexNormals();
   const mesh=new T.SkinnedMesh(geometry,materials[mat]);body.add(mesh);mesh.bind(skeleton);mesh.castShadow=true;mesh.frustumCulled=false;return mesh;
  }
  // Sculpted waist/ribcage instead of a single trapezoid. A fitted sleeveless tunic.
@@ -51,9 +52,10 @@ export function buildTala(){
   surface([[lx,.205,.015,.09,.105,one(knee)],[lx,.16,.045,.11,.145,one(knee)],[lx,.09,.08,.125,.2,one(knee)],[lx,.045,.08,.125,.2,one(knee)]],'shoe');
   surface([[lx,.05,.08,.128,.203,one(knee)],[lx,.025,.08,.125,.2,one(knee)]],'wrap');
  }
+ surface([[0,1.06,0,.25,.155,one(body)],[0,1.14,0,.29,.17,one(body)],[0,1.22,0,.275,.16,one(body)]],'pants',16);
  // Shaped hair cap and separate curved locks, all attached to head/ponytail bones.
  surface([[0,2.5,-.04,.215,.185,one(head)],[0,2.64,-.04,.225,.19,one(head)],[0,2.77,-.06,.16,.14,one(head)],[0,2.81,-.065,.025,.03,one(head)]],'hair',16);
- for(let i=-2;i<=2;i++)surface([[i*.075,2.7,.13,.055,.045,one(head)],[i*.075+.02,2.6,.17,.06,.04,one(head)],[i*.075+.045,2.46+Math.abs(i)*.04,.19,.008,.01,one(head)]],'hair',8);
+ for(let i=-2;i<=2;i++)surface([[i*.075,2.7,.13,.055,.045,one(head)],[i*.075+.02,2.6,.17,.06,.04,one(head)],[i*.075+.045,2.52+Math.abs(i)*.025,.19,.008,.01,one(head)]],'hair',8);
  for(const side of [-1,1])surface([[side*.2,2.65,-.04,.065,.075,one(head)],[side*.22,2.44,-.07,.06,.07,one(head)],[side*.215,2.26,-.09,.008,.015,one(head)]],'hair',8);
  surface([[0,2.67,-.2,.11,.10,one(pony)],[0,2.52,-.32,.125,.11,one(pony)],[.03,2.28,-.37,.10,.085,one(pony)],[.07,2.04,-.32,.06,.05,one(pony)],[.10,1.93,-.27,.005,.008,one(pony)]],'hair');
  surface([[-.22,1.24,.17,.07,.025,one(sash)],[-.24,1.01,.22,.065,.022,one(sash)],[-.32,.76,.20,.06,.02,one(sash)],[-.36,.62,.16,.04,.015,one(sash)]],'trim',6);
@@ -70,5 +72,6 @@ export function buildTala(){
  surface([[0,1.35,-.155,.035,.006,blend(body,spine,.5)],[0,1.64,-.184,.045,.006,one(spine)],[0,1.94,-.17,.045,.006,one(spine)]],'trim',8);
  const shadow=new T.Mesh(new T.CircleGeometry(.62,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.72,.016,5,40),new T.MeshBasicMaterial({color:'#f5b65d'}));aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);
+ head.scale.setScalar(.9);
  return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton};
 }

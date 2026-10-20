@@ -139,3 +139,7 @@ Tala's sinusoidal run poses are replaced by an eight-key looping clip: contact, 
 ## Alpha 0.34: Tala model rebuild
 
 Tala now uses original smooth-shaded, bone-weighted surfaces with sculpted torso, connected elbow/knee bends, shaped hands and shoes, layered hair, fitted navy-and-gold clothing, wraps and a small painted face texture. Her animation attachment points, movement and combat are unchanged. Afterimages and burst echoes clone their own skeletons so they do not borrow the live fighter's pose. The model is generated locally without external assets or downloads. The remaining roster retains its earlier models.
+
+## Alpha 0.35: reference-led visual direction
+
+Tala's clothing, hair and wraps now use small original paint maps, with diffuse shading, a clearer fringe and adjusted head scale. Storm Summit is a brighter stone courtyard with layered mountain scenery. Options → Camera → Side provides a low, opponent-relative duel view. Existing camera preferences and combat timing are unchanged. The reference observations and remaining gaps are in [the art-direction study](docs/EVIL_ZONE_ART_DIRECTION.md).
