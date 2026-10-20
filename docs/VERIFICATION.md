@@ -196,3 +196,7 @@ Chrome received a complete direction-plus-two-attack-taps sequence synchronously
 ## Keyboard remapping (0.25)
 
 134 tests pass. Seven new tests cover JSON persistence and copy isolation, malformed/conflicting layouts, reserved keys, cross-player and alias conflicts, remapped taps producing a real combat projectile, disabled former keys, held/queued state clearing, independent movement/action remaps, touch action resolution, and default alias restoration. JavaScript syntax checks pass. The options dialog, focus behavior and live hint rendering have not received a browser interaction pass because the required browser runtime tool is unavailable.
+
+## Published module audit after 0.25
+
+Fetched the public import map and all 23 referenced JavaScript modules. Every response matched the committed release bytes. This establishes complete module delivery for build `4313b6b1ed25`, not successful rendering or UI interaction. The outstanding manual cases are recorded in [browser acceptance](BROWSER_ACCEPTANCE.md).
