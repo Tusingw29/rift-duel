@@ -34,11 +34,11 @@ export function createBurstEffects(scene){
   if(e.beam>.01){beam.visible=true;beam.position.set(e.center.x,5,e.center.z);beam.scale.set(e.beam,1,e.beam);}
   if(e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
   if(e.rings>.01){
-   const pool=e.kind==='rei'?slashes:rings;
+   const blade=['rei','blade'].includes(e.kind),pool=blade?slashes:rings;
    pool.forEach((ring,i)=>{
     ring.visible=true;ring.position.set(e.center.x,e.center.y,e.center.z);
     if(e.kind==='sol'||e.kind==='morrow'||e.kind==='aegis'){ring.rotation.set(Math.PI/2,0,0);ring.position.y=.12+i*.14;ring.scale.setScalar(.6+e.rings*(1.4+i*.4));}
-    else{ring.rotation.set(e.kind==='rei'?i*.8:Math.PI/2+i*.6,e.t*3+i,e.t*2+i);ring.scale.setScalar((e.kind==='vesper'?2.2-e.t*1.2:1.4)+i*.17);}
+    else{ring.rotation.set(blade?i*.8:Math.PI/2+i*.6,e.t*3+i,e.t*2+i);ring.scale.setScalar((e.kind==='vesper'?2.2-e.t*1.2:1.4)+i*.17);}
    });
   }
   e.rays.forEach((ray,i)=>{const missile=missiles[i];missile.visible=ray.visible;missile.position.set(ray.position.x,ray.position.y,ray.position.z);const direction=new T.Vector3(e.center.x-ray.position.x,e.center.y-ray.position.y,e.center.z-ray.position.z).normalize();missile.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),direction);});

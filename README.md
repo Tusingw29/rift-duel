@@ -8,7 +8,7 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 - Six original articulated fighters with distinct silhouettes, ready stances, movement, reach, damage, and signature attacks.
 - Arcade (six bouts), quick CPU duel, training, and same-device two-player versus.
-- Three-step melee and projectile chains with optional special finishes; sidesteps, charge stocks, timed guard/reflection, capture breaks, launch/pursuit, six character-specific cinematic bursts (orbital beam, sword echoes, chi doubles, salvo, sun orb, and ring bind).
+- Three-step melee and projectile chains with optional special finishes; sidesteps, charge stocks, timed guard/reflection, capture breaks, launch/pursuit, six character-specific cinematic bursts (blade verdict, sword echoes, levitating strikes, salvo, sun orb, and ring bind).
 - Frame-timed wind-up/contact/recovery, attack interruption, simultaneous hit trades, recovery buffering, and training phase feedback.
 - WASD keyboard controls, standard gamepads, and basic touch controls.
 - First-to-two rounds, restart/rematch, arcade endings, pause-on-blur, persistent options.
@@ -63,3 +63,5 @@ Ground recovery: after an unrecovered launch or burst knockdown, tap W/S (contro
 Options include 60/90/120-second rounds, first to 1/2/3 wins, and three stick dead zones. Defaults remain 90 seconds and first to 2. Training stays untimed. Settings persist in your browser; controller menu confirmations must be released before gameplay inputs resume.
 
 Training: Pause → Practice Controls selects Stand still, Hold guard, or Fight back. Recent-input history shows the last six direction/action changes, newest first, with held simulation-frame counts. A dot marks neutral/release. The display can be hidden. See [fidelity audit](docs/FIDELITY_AUDIT.md) for verified scope and remaining research gaps.
+
+Aegis’s far capture calls an orbital emitter; Tala’s mid-range capture surrounds the rival with doubles. These captures are separate from their stock bursts and retain normal capture damage and stock rules.

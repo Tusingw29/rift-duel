@@ -1,5 +1,10 @@
 // Original, render-only burst direction. Game state and damage remain in combat.js.
 export const BURST_DURATIONS={aegis:2.8,rei:2.5,tala:2.6,morrow:2.9,sol:2.8,vesper:2.7};
+export function capturePresentation(id,context){
+ if(id==='aegis'&&context==='far')return {profile:'orbital',duration:2.8};
+ if(id==='tala'&&context==='mid')return {profile:'surround',duration:2.6};
+ return {profile:null,duration:context==='far'?1.5:context==='mid'?1.2:.95};
+}
 const clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
 const mix=(a,b,t)=>a+(b-a)*t;
@@ -14,7 +19,7 @@ export function burstPose(id,c,a,b){
  let camera={shot:'establish',target:wideTarget,position:point(wideTarget.x+px*2,6,wideTarget.z+14+d*.4)};
  const close=(who,y=2)=>({shot:'portrait',target:point(who.x,y,who.z),position:point(who.x+px*4.8-ux*2,y+1,who.z+pz*4.8-uz*2+4)});
  const returnHome=smooth((t-.82)/.18);
- if(id==='aegis'){
+ if(id==='aegis'&&c.kind==='capture'){
   actor.arm=-.8-smooth(t/.22)*1.8;
   victim.y=rise*1.6;victim.tilt=-rise*.25;
   effects.emitter=point(b.x,8,b.z);
@@ -22,6 +27,13 @@ export function burstPose(id,c,a,b){
   if(t<.25)camera=close(actor);
   else if(t<.48)camera={shot:'orbital',target:point(b.x,6.5,b.z),position:point(b.x+4,12,b.z+6)};
   else camera={shot:'verdict',target:point(b.x,3,b.z),position:point(b.x+px*4,7,b.z+15)};
+ }else if(id==='aegis'){
+  const approach=smooth((t-.18)/.18)*(1-returnHome),sweep=smooth((t-.4)/.3);
+  actor.x=mix(a.x,b.x-ux*1.3+px*(sweep-.5)*2,approach);actor.z=mix(a.z,b.z-uz*1.3+pz*(sweep-.5)*2,approach);
+  actor.arm=-.6-Math.sin(sweep*Math.PI)*1.8;actor.tilt=rise*.2;actor.yaw=Math.atan2(b.x-actor.x,b.z-actor.z);
+  victim.y=rise*1.2;victim.tilt=-rise*.35;
+  effects.kind='blade';effects.rings=rise;effects.center.y=1.5+victim.y;
+  camera=t<.2?close(actor):{shot:'sentinel-cleave',target:point(b.x,2.6,b.z),position:point(b.x+px*4,5,b.z+12)};
  }else if(id==='rei'){
   const attack=smooth((t-.2)/.12)*(1-returnHome),angle=(t-.2)*Math.PI*5;
   actor.x=mix(a.x,b.x+Math.cos(angle)*2.2,attack);actor.z=mix(a.z,b.z+Math.sin(angle)*2.2,attack);
@@ -30,7 +42,7 @@ export function burstPose(id,c,a,b){
   for(let j=0;j<3;j++){const angle=j*Math.PI*2/3+.3;effects.echoes.push({...point(b.x+Math.cos(angle)*2.5,rise*.9,b.z+Math.sin(angle)*2.5),yaw:Math.atan2(-Math.cos(angle),-Math.sin(angle)),opacity:attack*(.15+.15*(1+Math.sin(t*30+j*2))/2)});}
   effects.rings=attack;effects.center.y=1.4+victim.y;
   camera=t<.2?close(actor):{shot:'crossing',target:point(b.x,2.7,b.z),position:point(b.x+5,5.5,b.z+12)};
- }else if(id==='tala'){
+ }else if(id==='tala'&&c.kind==='capture'){
   const approach=smooth((t-.12)/.16)*(1-returnHome);
   actor.x=mix(a.x,b.x-ux*1.6,approach);actor.z=mix(a.z,b.z-uz*1.6,approach);
   actor.arm=-1.3-Math.sin(t*45)*.35;actor.tilt=.15*Math.sin(t*30);actor.y=rise*.2;
@@ -39,6 +51,13 @@ export function burstPose(id,c,a,b){
   for(let j=0;j<3;j++){const angle=j*Math.PI*2/3+.4;effects.echoes.push({...point(b.x+Math.cos(angle)*1.7,0,b.z+Math.sin(angle)*1.7),yaw:Math.atan2(-Math.cos(angle),-Math.sin(angle)),opacity:alpha*.3});}
   effects.rings=Math.abs(Math.sin(t*40))*alpha;effects.center.y=1.3+victim.y;
   camera=t<.68?{shot:'surround',target:point(b.x,1.8,b.z),position:point(b.x+5,4.4,b.z+10)}:{shot:'rising-palm',target:point(b.x,3,b.z),position:point(b.x+3,3.8,b.z+12)};
+ }else if(id==='tala'){
+  const approach=smooth((t-.12)/.18)*(1-returnHome);
+  actor.x=mix(a.x,b.x-ux*1.5,approach);actor.z=mix(a.z,b.z-uz*1.5,approach);
+  actor.arm=-1.5-Math.sin(t*36)*.4;actor.tilt=Math.sin(t*36)*.12;
+  victim.y=rise*2.4;victim.tilt=-rise*.2;
+  effects.rings=rise*(.45+Math.abs(Math.sin(t*36))*.55);effects.center.y=1.2+victim.y;
+  camera=t<.3?close(actor):{shot:'storm-lift',target:point(b.x,3.3,b.z),position:point(b.x+4,5,b.z+13)};
  }else if(id==='morrow'){
   actor.arm=t<.28?-2.1:-.8;actor.tilt=.16*arc;
   victim.y=Math.abs(Math.sin(t*38))*rise*.7;victim.tilt=-rise*.4;
@@ -61,7 +80,7 @@ export function burstPose(id,c,a,b){
   victim.y=rise*2.8;victim.roll=Math.sin(t*7)*rise*.25;effects.rings=rise;effects.center.y=1.1+victim.y;
   camera={shot:t<.34?'apparition':t<.62?'displacement':'collapse',target:point(b.x,3.6,b.z),position:point(b.x+(t<.34?-4:4),5.5,b.z+14)};
  }
- if(b.guard){victim.y=0;victim.tilt=0;victim.roll=0;victim.arm=-1.3;effects.center.y=1.3;}
+ if(b.guard&&c.kind!=='capture'){victim.y=0;victim.tilt=0;victim.roll=0;victim.arm=-1.3;effects.center.y=1.3;}
  // Blend positions home for a clean return to simulation state.
  if(t>.82){for(const [part,original] of [[actor,a],[victim,b]]){part.x=mix(part.x,original.x,returnHome);part.z=mix(part.z,original.z,returnHome);part.y*=1-returnHome;part.tilt*=1-returnHome;part.roll*=1-returnHome;}}
  return {actor,victim,effects,camera,t};

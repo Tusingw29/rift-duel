@@ -107,3 +107,10 @@ The first test exposed A-button carryover into combat. After adding a release ga
 65 tests pass. Added checks cover held-input duration and release markers, bounded history, diagonal/action labels, input immutability, and migration from the old training CPU setting.
 
 Chrome training checks selected Hold guard from the pause menu. A strike reduced target health from 100 to 99.28; a subsequent capture reduced it to 84.28. Input history displayed movement, release, attack, and release states with frame counts. Desktop and narrow-viewport screenshots were inspected for readability. Disabling the display hid it immediately on resuming. No console errors/warnings were reported in the initial browser check.
+
+
+## Capture identity (0.11)
+
+68 tests pass. New tests restrict authored profiles to Aegis/far and Tala/mid, distinguish those effects from stock bursts, check finite poses and clean return positions, and verify held-guard bypass, no stock cost, and exactly one damage resolution. Existing burst effect expectations were updated to reflect the intentional redistribution.
+
+Desktop Chrome screenshots verified the orbital beam during Aegis's far capture, the doubles during Tala's mid capture, the separate Aegis blade burst, and Tala's single-attacker levitating burst. The first capture check exposed misleading training READY text; the readout now identifies cinematic kind and remaining time. No console errors/warnings appeared during the initial browser checks. Other capture contexts remain shared alpha choreography.

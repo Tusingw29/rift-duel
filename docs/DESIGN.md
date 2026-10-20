@@ -30,7 +30,7 @@ These are broad genre/archetype homages, not duplicate costumes or renamed extra
 | Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Twin shots, fast basic projectiles, low damage |
 | Vesper | Ring/space control caster | Lilac robe, floating halo | Wide slow projectile; longer stun on hit |
 
-Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts have six original procedural sequences: an orbital emitter, sword echoes, martial doubles and rising palm, missile salvo, descending sun orb, and teleporting ring bind. Each has its own camera shots and effects. All balance is new.
+Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts have six original procedural sequences: a blade verdict, sword echoes, levitating strikes, missile salvo, descending sun orb, and teleporting ring bind. Aegis’s far capture uses the orbital emitter; Tala’s mid capture uses surrounding doubles. Each has its own camera shots and effects. All balance is new.
 
 ## Release scope
 
@@ -129,3 +129,10 @@ Controller menus use Up/Down to move focus, Left/Right to change values, A to co
 ## Training tools (0.10)
 
 Practice now offers standing, held guard, and active CPU behavior. Settings are available from the training pause dialog as well as the main Options dialog. The old active-CPU preference migrates to the new behavior selector. A toggleable input history shows the last six direction/action states, including neutral release markers and durations counted in 60 Hz simulation frames. Both keyboard and gamepad use the same merged input record. History resets when a round starts and does not advance while paused.
+
+
+## Capture identity pass (0.11)
+
+Aegis's far capture now invokes an orbital device with portrait, overhead-device, and beam-impact shots. Tala's mid capture invokes surrounding doubles followed by a rising palm. `capturePresentation` selects these profiles only for their intended fighter/range combinations. Both sequences use the existing render-only staged-pose/effect system, while capture damage still resolves once in combat. Held guard cannot suppress capture posing or damage; captures consume no stock. Their durations are original 2.8/2.6-second choices.
+
+The corresponding stock bursts are distinct: Aegis's renamed Sentinel Verdict approaches with a blade sweep, and Tala's burst levitates the rival with a single attacker. The other capture contexts still use the shared tracks. Training identifies cinematic kind/context and remaining time instead of displaying misleading ready/recovery text.

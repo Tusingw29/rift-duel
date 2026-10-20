@@ -21,7 +21,7 @@ Secondary summaries report a button-contest event when simultaneous dashes meet.
 
 ## Priority fidelity gaps
 
-1. **Capture versus burst identity.** The orbital and multiple-attacker imagery sampled in the capture compilation currently informs some Rift Duel bursts. This preserves broad visual themes but not move-context correspondence. Four shared capture tracks still need individual fighter direction.
+1. **Capture versus burst identity.** Version 0.11 moves the orbital imagery to Aegis’s far capture and surrounding doubles to Tala’s mid capture, with separate stock-burst choreography. The remaining fighter/context combinations still use shared capture tracks and need individual direction.
 2. **Special variants and stock economy.** The guide describes follow-up and held-input variants of character specials. Rift Duel has distinct base directional specials and a stock burst, but not this complete variation system.
 3. **Neutral and aerial movement.** Launch, pursuit, crossover, recovery, and sidestep exist. Original pursuit follow-ups, dash contests, tracking, and camera timing need direct observation.
 4. **Research confidence.** Measure only from lawful gameplay access or suitable footage. Preserve regional/version labels and distinguish observations from guide claims. Do not publish invented original-game frame data.

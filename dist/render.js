@@ -40,7 +40,7 @@ export function createView(canvas){
   time+=dt;portal.rotation.z=time*.04;portal.children[1].rotation.z=-time*.1;
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
   const cinema=m?.cinematic;
-  const burstState=cinema?.kind==='super'?burstPose(fighters[m.players[cinema.a].id].id,cinema,m.players[cinema.a],m.players[cinema.b]):null;
+  const burstState=cinema&&(cinema.kind==='super'||cinema.profile)?burstPose(fighters[m.players[cinema.a].id].id,cinema,m.players[cinema.a],m.players[cinema.b]):null;
   models.forEach((r,n)=>{
    const p=m?.players[n],anim=p?.anim||'idle',run=anim==='run',attack=['strike','attack','launch','pursuit','jumpAttack'].includes(anim);
    if(p){r.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
@@ -57,7 +57,7 @@ export function createView(canvas){
    if(anim==='hurt')r.g.rotation.z=.15;else r.g.rotation.z=0;
    r.aura.scale.setScalar(anim==='charge'?1.3+Math.sin(time*18)*.2:1);r.aura.material.color.set(anim==='charge'?'#ffffff':fighters[r.id].color);
    if(m?.cinematic){const c=m.cinematic;
-    if(c.kind==='capture'){
+    if(c.kind==='capture'&&!burstState){
      const pose=capturePose(c,m.players[c.a],m.players[c.b]),part=n===c.a?pose.actor:pose.victim;
      r.g.position.set(part.x,part.y,part.z);r.g.rotation.x=part.tilt;r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
     }else if(burstState){const part=n===c.a?burstState.actor:burstState.victim;
@@ -71,8 +71,8 @@ export function createView(canvas){
   bolts.forEach((b,j)=>{const p=m?.projectiles[j];b.visible=!!p;if(p){b.position.set(p.x,1.4,p.z);b.material.color.set(fighters[m.players[p.owner].id].color);b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);if(p.kind==='capture'||p.kind==='snare')b.scale.setScalar(1.7);b.userData.wheel.visible=p.kind==='wheel';b.userData.wheel.material.color.copy(b.material.color);if(p.kind==='wheel'){b.position.y=.9;b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}else{b.rotation.y=time*8;b.rotation.z=time*5;}}});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(burstState,burstState?models[cinema.a]:null,settings.reduced);
-  finisher.visible=cinema?.kind==='capture';
-  if(cinema?.kind==='capture'){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
+  finisher.visible=cinema?.kind==='capture'&&!burstState;
+  if(cinema?.kind==='capture'&&!burstState){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
   const target=v(),pos=v();
   if(m){const [a,b]=m.players;target.set((a.x+b.x)/2,1.1,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
    if(burstState&&!settings.reduced){

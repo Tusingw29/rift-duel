@@ -1,4 +1,4 @@
-import {BURST_DURATIONS} from './cinematics.js';
+import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
@@ -40,7 +40,7 @@ export function captureContext(a,b){
 }
 function beginCapture(m,a,b,context){
  const multiplier={front:1,back:1.2,mid:1.1,far:1.25}[context];
- m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:context==='far'?1.5:context==='mid'?1.2:.95,damage:15*fighters[a.id].power*multiplier,kind:'capture',context,name:fighters[a.id].capture};
+ m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,...capturePresentation(fighters[a.id].id,context),damage:15*fighters[a.id].power*multiplier,kind:'capture',context,name:fighters[a.id].capture};
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
 function action(m,a,b,requested){

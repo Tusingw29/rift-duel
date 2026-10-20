@@ -28,7 +28,7 @@ test('echo effects clean up without disposing the source fighter geometry',()=>{
   const scene=new T.Scene(),rig=buildCharacter(id);scene.add(rig.g);const fx=createBurstEffects(scene);let disposed=0;
   rig.g.traverse(n=>n.geometry?.addEventListener('dispose',()=>disposed++));
   const name=fighters[id].id,duration=BURST_DURATIONS[name];
-  const pose=burstPose(name,{t:duration*.5,duration},{x:-3,z:0},{x:3,z:0});
+  const pose=burstPose(name,{t:duration*.5,duration,kind:id===2?'capture':'super'},{x:-3,z:0},{x:3,z:0});
   fx.update(pose,rig);assert.equal(scene.children.length,5);fx.update(null,null);assert.equal(scene.children.length,2);assert.equal(disposed,0);
   fx.update(pose,rig);fx.reset();assert.equal(scene.children.length,2);assert.equal(disposed,0);
  }
@@ -43,8 +43,8 @@ test('longer bursts resolve damage exactly once for every fighter',()=>{
 });
 test('bursts show the six intended effects rather than only different labels',()=>{
  const sample=id=>burstPose(id,{t:BURST_DURATIONS[id]*.55,duration:BURST_DURATIONS[id]},{x:-4,z:0},{x:4,z:0});
- assert.ok(sample('aegis').effects.emitter&&sample('aegis').effects.beam>0);
- assert.equal(sample('rei').effects.echoes.length,3);assert.equal(sample('tala').effects.echoes.length,3);
+ assert.equal(sample('aegis').effects.kind,'blade');assert.equal(sample('aegis').effects.emitter,null);assert.ok(sample('aegis').effects.rings>0);
+ assert.equal(sample('rei').effects.echoes.length,3);assert.equal(sample('tala').effects.echoes.length,0);
  assert.notDeepEqual(sample('rei').effects.echoes,sample('tala').effects.echoes);
  assert.equal(sample('morrow').effects.rays.length,6);assert.ok(sample('sol').effects.orb.radius>0);assert.ok(sample('vesper').effects.rings>0);
 });
