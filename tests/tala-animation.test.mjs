@@ -74,3 +74,26 @@ test('grounded ankle plants survive torso weight shifts and release for airborne
  }
  animateCharacter(r,{...p,anim:'launch',air:.5},1);assert.equal(r.footPlants,null);
 });
+
+test('moving support foot holds its world position while the body advances',()=>{
+ const r=buildCharacter(2),p={anim:'run',x:0,z:0,prev:{x:1,z:0}};
+ animateCharacter(r,p,0);r.g.updateMatrixWorld(true);
+ const planted=r.knees[0].localToWorld(r.g.position.clone().set(0,-.48,0));
+ for(let i=1;i<=6;i++){
+  p.z=i*.04;r.g.position.z=p.z;animateCharacter(r,p,i/60);r.g.updateMatrixWorld(true);
+  const foot=r.knees[0].localToWorld(planted.clone().set(0,-.48,0));
+  assert.ok(foot.distanceTo(planted)<1e-6,'support leg does not skate while root moves');
+ }
+});
+test('settled locomotion preserves full cycle amplitude instead of smoothing every step',()=>{
+ const r=buildCharacter(2),p={anim:'run',x:0,z:0,prev:{x:1,z:0}};
+ for(let i=0;i<30;i++){p.z=i*.06;animateCharacter(r,p,i/60);}
+ assert.deepEqual(r.pose,movePose(1,0,r.stridePhase));
+ const before={...r.pose};animateCharacter(r,p,29/60);assert.deepEqual(r.pose,before,'paused frame does not advance transition');
+});
+test('chaining punches begins at the outgoing pose without an intervening neutral frame',()=>{
+ const r=buildCharacter(2),p={anim:'strike',x:0,z:0,move:strike(1,8)};
+ animateCharacter(r,p,0);const outgoing={...r.pose};p.move=strike(2,0);animateCharacter(r,p,1/60);
+ for(const k of CHANNELS)assert.ok(Math.abs(r.pose[k]-outgoing[k])<1e-9,k);
+ p.move.frame=p.move.startup;animateCharacter(r,p,6/60);assert.deepEqual(r.pose,strikePose(p.move));
+});

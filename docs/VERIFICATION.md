@@ -238,3 +238,11 @@ Visual: `tests/tala-review.html` was rendered headlessly from the rival's view a
 Added regression coverage for a moving player with no synthetic stridePhase, contact-frame pose equality for all three punches, and supporting ankles remaining stationary through idle torso shifts and releasing for airborne animation. Existing rig bounds and frozen-frame checks remain in the suite. The pose review resets plant and strike-transition state between cells.
 
 Chrome local training: selected Tala, advanced, circled, stopped, closed to melee, and landed a straight at frame 5 (rival HP 93.88, hitstop 0.05); inspected paused fight-camera views. This checks live integration and selected poses, not a claim that automated screenshots can establish subjective fluidity. Full walking foot locking, boot orientation, and transitions into the shared airborne/capture animations remain refinements.
+
+## Tala motion and weight (0.32)
+
+Reference inspected in Chrome: https://www.youtube.com/watch?v=wkltXOTfZa8 at 1:55, 2:00/2:00.25/2:00.5, 2:10/2:10.2/2:10.4 and 2:30. The 2:10 sequence shows a low crouch, rise into a wide stance, then another committed body turn. These sampled frames informed stance and weight changes; no original frame timings were measured.
+
+Added tests for a supporting foot holding world position while the root advances, preservation of full movement pose amplitude after transition, and direct continuity between chained punches. Chrome local training checks movement and a paused run pose from the fight camera. Subjective fluidity remains a playtest judgment. Shared aerial/capture animation transitions and boot orientation remain limitations.
+
+Final local build: 173 tests pass. Chrome training sequence circled both directions, retreated, approached and landed all three punches (rival HP 100 → 93.88 → 87.76 → 77.56). No console errors or warnings.

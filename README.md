@@ -127,3 +127,7 @@ Tala is the first fighter on a new full-body animation system, kept to one chara
 ## Alpha 0.31: Tala live-motion corrections
 
 Tala's distance-driven stride now feeds the actual live pose (0.30 computed it on the rig but read it from the player). Retreat reverses the steps, and stopping preserves the gait phase. Strike entry blends out by contact so the fist reaches its authored pose on the damage frame, instead of lagging behind combat timing. Grounded idle, guard, charge and strike poses use a two-bone supporting-ankle adjustment while the torso shifts; unreachable anchors release. Walking still uses procedural steps, not full terrain-aware foot locking. Ponytail lag now uses elapsed time. Other fighters and combat balance are unchanged.
+
+## Alpha 0.32: Tala motion and weight
+
+Tala now blends action transitions without damping every frame of her movement cycle. Longer steps, a lower/wider stance, stronger opposing shoulder/hip motion and deeper punch preparation replace the upright shuffle. Moving feet use alternating planted support and lifted return paths, with lateral bounds to avoid crossing through the other leg. Contact timing and combat balance are unchanged. This remains an original animation study; it does not establish parity with Evil Zone.
