@@ -87,7 +87,7 @@ export function createView(canvas){
   if(m){const [a,b]=m.players;target.set((a.x+b.x)/2,1.1,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);pos.set(target.x+1.2,7+distance*.15,target.z+(13+distance*.7)/Math.min(1,camera.aspect/1.25));
    if(m.cinematic&&!settings.reduced){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b];const angle=Math.sin(c.t/c.duration*Math.PI)*.3;
     const capture=c.kind==='capture'?capturePose(c,a,b):null;
-    target.set(capture?.focus.x??(a.x+b.x)/2,capture?.focus.y??2,capture?.focus.z??(a.z+b.z)/2);
+    target.set(capture?.focus.x??(a.x+b.x)/2,capture?capture.focus.y+1.2:2,capture?.focus.z??(a.z+b.z)/2);
     const span=capture?.span??Math.hypot(a.x-b.x,a.z-b.z),zoom=(9+span*.65+(c.context==='far'?2:0))/Math.min(1,camera.aspect/1.25);
     pos.set(target.x+Math.sin(angle)*zoom,target.y+2.4,target.z+Math.cos(angle)*zoom);}
   }else{target.set(-.8,1.5,0);pos.set(3.8,5.3,14);if(width<600){target.set(.9,1.8,0);pos.set(3,5.5,16);}}
