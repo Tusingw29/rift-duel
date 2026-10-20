@@ -2,12 +2,14 @@ import {BURST_DURATIONS} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
+import {normalizeOptions} from './options.js';
 export const STEP=1/60;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function createMatch(a=0,b=1,mode='duel',difficulty='normal') {
+export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
+ const rules=normalizeOptions(options);
  const fighter=(id,x)=>({id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
- return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],time:90,tick:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
+ return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded},time:rules.roundSeconds,tick:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}

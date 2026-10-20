@@ -91,3 +91,12 @@ The first public 0.7 check exposed mixed cached assets: updated HTML with the pr
 58 tests pass. New tests cover landing-to-standing recovery, airborne escape, both roll directions, gradual displacement, attack lockout, held-input rejection, arena bounds, brief invulnerability and its expiry, and capture-projectile avoidance. Pose tests check all six rolling bodies remain above the floor.
 
 In local versus, Chrome keyboard inputs moved player two into range, launched player one, and used S after landing. Debug state showed knockdown → roll → idle and final Z displacement of 2.4. The first screenshot exposed foot-pivot floor clipping; the torso-pivot correction was visually rechecked before release. Browser console reported no errors or warnings. Physical controllers remain untested.
+
+
+## Configuration and controller navigation (0.9)
+
+62 automated tests pass. New tests validate malformed saved options, custom round timeout versus untimed training, stick dead zones, D-pad priority, standard action mappings, and incomplete device data.
+
+A synthetic standard gamepad in Chrome navigated from fighter selection to mode, changed to duel, opened options, and saved 60 seconds / first to one / large dead zone. A screenshot confirmed visible focus and readable option labels. The controller started the match, paused with Start, and resumed with B. The CPU bout ended with MATCH RESULT at a 0–1 score, verifying the first-to-one result flow. Options survived reload.
+
+The first test exposed A-button carryover into combat. After adding a release gate, starting and resuming left the fighter idle, while a subsequent fresh A press produced a projectile. No browser console errors/warnings were reported. This is synthetic API testing, not a physical controller test.

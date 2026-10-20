@@ -117,3 +117,10 @@ Damage is multiplied by character power. All numbers are original tuning.
 An unrecovered launch now lands in a 0.55-second knockdown; a successful burst retains its 0.7-second knockdown. Fresh W/S or controller depth input can start a roll when at most 0.55 seconds remain. A held direction cannot trigger it. Rolls travel 2.4 units over 0.3 seconds, clamp to arena bounds, prevent attacks, and grant 0.22 seconds of invulnerability. The vulnerable ending can be punished. Air recovery avoids the landing knockdown. Captures cannot acquire an invulnerable target.
 
 The procedural roll rotates around the torso and applies render-only floor clearance for each character's body and weapon. These times and distances are original balance values. Directional ground recovery is informed by the researched guide, not measured frame parity.
+
+
+## Configuration and controller menus (0.9)
+
+Saved options now include round length (60, 90, 120 seconds), wins required (1, 2, 3), and stick dead zone (0.12, 0.22, 0.32). Defaults preserve 90-second, first-to-two matches. Training remains untimed. Match rules are snapshotted into each new round and the result flow uses the selected wins target. `options.js` validates persisted values, rejecting unsupported or malformed settings.
+
+Controller menus use Up/Down to move focus, Left/Right to change values, A to confirm, and B to close dialogs. Fighters preview when focused; A starts with the focused fighter. Selects, sliders, and checkboxes work without a mouse. Focus has a visible outline, and native focus scrolling brings off-screen options into view. D-pad directions override analog drift. Confirmation/pause buttons must be released before gameplay input resumes, preventing an accidental attack after starting a match. Physical hardware validation remains outstanding.
