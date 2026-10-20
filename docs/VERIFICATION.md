@@ -61,3 +61,10 @@ A Tala/Morrow training scene was inspected with movement and held guard; no cons
 The rig tests now exercise startup and recovery poses against the move clock. Browser keyboard checks observed startup → contact → recovery → ready for a shot. During startup the target retained 100 HP; after the projectile arrived it had 93 HP. The training readout matched the observed phases. Visual inspection of Morrow's close strike at startup frame 4 showed the raised weapon, undamaged target, and “WIND-UP · STRIKE · 8f” display. No console errors or warnings were reported in this check.
 
 These checks verify Rift Duel's implemented timing model. They do not establish original-game frame accuracy, competitive balance, or physical controller compatibility.
+
+
+## Character-specific bursts (0.5)
+
+41 automated tests pass. Added checks cover all six pose tracks, reversed/zero separation, return to simulation positions, distinct effects and shot names, echo cleanup without source geometry disposal, character-specific duration, damage resolving once, guarded poses/chip, and grounded knockdown endings.
+
+Desktop Chrome visual checks sampled all six bursts: Aegis's orbital emitter, Rei's three sword echoes, Tala's surrounding doubles, Morrow's six missiles, Sol's descending orb, and Vesper's airborne ring bind. Vesper's camera was then widened/raised to improve HUD clearance. These sampled checks are not full frame-by-frame visual validation. No browser errors or warnings were reported in the initial checks. Physical controller validation and broader device performance checks remain outstanding.

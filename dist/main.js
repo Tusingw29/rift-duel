@@ -78,4 +78,4 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
 }
 requestAnimationFrame(frame);
 // Read-only diagnostics for browser verification and bug reports.
-window.riftDebug=()=>({phase:match?.phase||'menu',mode,paused,selected,stage,wins:[...wins],players:match?.players.map(p=>({id:p.id,x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,anim:p.anim,move:p.move?.kind,moveFrame:p.move?.frame,movePhase:movePhase(p.move)})),projectiles:match?.projectiles.length,cinematic:match?.cinematic?.kind,captureContext:match?.cinematic?.context});
+window.riftDebug=()=>({phase:match?.phase||'menu',mode,paused,selected,stage,wins:[...wins],players:match?.players.map(p=>({id:p.id,x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,anim:p.anim,move:p.move?.kind,moveFrame:p.move?.frame,movePhase:movePhase(p.move)})),projectiles:match?.projectiles.length,cinematic:match?.cinematic?.kind,cinematicTime:match?.cinematic?.t,cinematicDuration:match?.cinematic?.duration,captureContext:match?.cinematic?.context});

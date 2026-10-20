@@ -30,7 +30,7 @@ These are broad genre/archetype homages, not duplicate costumes or renamed extra
 | Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Twin shots, fast basic projectiles, low damage |
 | Vesper | Ring/space control caster | Lilac robe, floating halo | Wide slow projectile; longer stun on hit |
 
-Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts share a cinematic base with different names, colors, ring orientations, and beam effects; they do not yet have six fully authored move animations. All balance is new.
+Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts have six original procedural sequences: an orbital emitter, sword echoes, martial doubles and rising palm, missile salvo, descending sun orb, and teleporting ring bind. Each has its own camera shots and effects. All balance is new.
 
 ## Release scope
 
@@ -80,3 +80,10 @@ Normal hits interrupt a pending move. Bursts spend stock at startup, so an inter
 | Burst | 22 | 1 | 42 |
 
 Confirmed cinematic sequences pause the attack timelines until their presentation finishes. Training reports wind-up/contact/recovery and remaining frames. The authoritative tuning lives in `dist/moves.js`. These are **not measured Evil Zone timings**; original-game timing research remains separate.
+
+
+## Burst direction pass (0.5)
+
+`cinematics.js` samples render-only poses and camera shots; `burst-effects.js` owns reusable effects and temporary translucent fighter echoes. Combat remains authoritative: damage resolves once after presentation, and a successful burst ends in grounded knockdown. Guarded targets remain standing and receive chip damage. Reduced-motion mode retains the neutral camera.
+
+The six sequences use original 2.5–2.9 second durations and procedural motion. They draw on broad presentation ideas documented in the footage research, not copied animations or measured original timing. These are still alpha choreography, with further anticipation, impact, and recovery polish needed.

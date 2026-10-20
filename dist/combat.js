@@ -1,3 +1,4 @@
+import {BURST_DURATIONS} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES} from './moves.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
@@ -67,7 +68,7 @@ function executeAction(m,a,b,move){
  if(kind==='super'){
 
   if(d>9||b.inv>0){event(m,'hint',{text:'Burst missed — close the distance'});return;}
-  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:1.65,damage:27*f.power,kind:'super',name:f.special};
+  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:BURST_DURATIONS[f.id],damage:27*f.power,kind:'super',name:f.special};
   event(m,'cinematic',{text:f.special});return;
  }
  if(kind==='forward'||kind==='back'){
@@ -129,7 +130,7 @@ export function update(m,inputs,dt=STEP){
  m.tick++;m.time-=m.mode==='training'?0:dt;
  if(m.cinematic){
   const c=m.cinematic;c.t+=dt;
-  if(c.t>=c.duration){const a=m.players[c.a],b=m.players[c.b];hit(m,a,b,c.damage,c.kind==='capture'?'capture':'hit',true);m.cinematic=null;}
+  if(c.t>=c.duration){const a=m.players[c.a],b=m.players[c.b];const landed=hit(m,a,b,c.damage,c.kind==='capture'?'capture':'hit',c.kind==='capture');if(landed&&c.kind==='super'){b.anim='knockdown';b.animTime=.7;b.stun=.7;b.air=0;}m.cinematic=null;}
  }else{
   m.players.forEach((a,n)=>{
    const i=inputs[n]||neutral(),b=m.players[1-n];
