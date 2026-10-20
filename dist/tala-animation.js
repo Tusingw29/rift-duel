@@ -2,8 +2,9 @@
 // Poses are flat channel objects blended toward a target each frame, so idle,
 // footwork, strikes, guard and hit reactions flow from the current pose instead
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
+import {sampleClip} from './pose-clips.js';
 import {Vector3} from './vendor/three.module.js';
-export const CHANNELS=['bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
+export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
@@ -31,20 +32,37 @@ const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
 // settles, and the recovery returns to stance under control.
 export function strikePose(move){
  const track=tracks[Math.min(3,Math.max(1,move.chain||1))],active=move.active||1,end=move.startup+active+move.recovery;
- const keys=[[0,stance,smooth],[move.startup*.55,track.wind,smooth],[move.startup,track.strike,snapOut],[move.startup+active+move.recovery*.22,track.follow,smooth],[end,stance,smooth]];
+ const hand=move.chain===2?'l':'r',sign=move.chain===2?1:-1;
+ const drive=pose({...mix(track.wind,track.strike,.74),hipYaw:track.strike.hipYaw*.98,bodyX:sign*.065});
+ const retract=pose({...mix(track.follow,stance,.6),[hand+'e']:-1.5,[hand+'ax']:-.85,bodyX:-sign*.035,bodyY:-.19});
+ const keys=[[0,stance,smooth],[move.startup*.55,track.wind,smooth],[move.startup*.8,drive,snapOut],[move.startup,track.strike,snapOut],[move.startup+active+move.recovery*.22,track.follow,smooth],[move.startup+active+move.recovery*.65,retract,smooth],[end,stance,smooth]];
  const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
-// Footwork: phase is distance based so feet plant instead of sliding.
+// Contact, compression, passing and push-off poses. The opposite step is
+// authored by mirroring the limbs, with chest/hips counter-rotating together.
+const stepKeys=[
+ {bodyX:-.045,bodyY:-.19,lean:.25,hipYaw:-.12,twist:.02,side:.035,hx:.03,hy:-.08,lax:-.48,rax:-1.02,le:-1.4,re:-1.02,llx:0,rlx:0,lk:.66,rk:.12},
+ {bodyX:-.065,bodyY:-.27,lean:.34,hipYaw:-.02,twist:-.10,side:.065,hx:.09,hy:.02,lax:-.62,rax:-.9,le:-1.48,re:-1.12,llx:-.43,rlx:.42,lk:.54,rk:.28},
+ {bodyX:-.025,bodyY:-.20,lean:.31,hipYaw:.15,twist:-.4,side:.025,hx:.035,hy:.19,lax:-1.03,rax:-.38,le:-1.1,re:-1.52,llx:-.65,rlx:.65,lk:.16,rk:.95},
+ {bodyX:.025,bodyY:-.16,lean:.23,hipYaw:.18,twist:-.43,side:-.02,hx:-.015,hy:.22,lax:-1.08,rax:-.3,le:-1.02,re:-1.45,llx:-.32,rlx:.32,lk:.08,rk:.8}
+].map(k=>pose({...stance,...k}));
+const mirrorStep=s=>pose({...s,bodyX:-s.bodyX,hipYaw:-s.hipYaw,twist:-.36-s.twist,side:-s.side,hy:.1-s.hy,
+ lax:s.rax,rax:s.lax,le:s.re,re:s.le,llx:s.rlx,rlx:s.llx,lk:s.rk,rk:s.lk});
+const steps=[...stepKeys,...stepKeys.map(mirrorStep)];
+const motionClip=transform=>{const k=steps.map((s,i)=>[i/8,pose(transform(s,i))]);return [...k,[1,k[0][1]]];};
+const advanceClip=motionClip(s=>s);
+const retreatClip=motionClip(s=>({...s,bodyX:s.bodyX*.7,bodyY:s.bodyY+.035,lean:-.10-(s.lean-.23)*.5,
+ llx:-s.llx*.65,rlx:-s.rlx*.65,lax:-.88+(s.lax+.75)*.35,rax:-.65+(s.rax+.65)*.35,twist:-.18+(s.twist+.18)*.65}));
+const circleClip=motionClip((s,i)=>({...s,bodyX:s.bodyX*.8,bodyY:s.bodyY+.02,lean:.13,side:.07+s.side,
+ hipYaw:s.hipYaw*.5,twist:-.18+(s.twist+.18)*.5,llx:-.1,rlx:.1,llz:.2+s.llx*.4,rlz:.2+s.rlx*.4,
+ lax:-.9+(s.lax+.75)*.18,rax:-.65+(s.rax+.65)*.18,le:-1.25,re:-1.35}));
 export function movePose(forward,side,phase){
- const strafe=Math.abs(side)>Math.abs(forward),s=Math.sin(phase),c=Math.cos(phase);
- if(strafe){
-  const dir=Math.sign(side)||1;
-  return pose({...stance,llz:dir*(.18+s*.32),rlz:dir*(.18-s*.32),llx:-.1,rlx:.1,lk:.3+Math.max(0,c)*.5,rk:.3+Math.max(0,-c)*.5,bodyY:-.23+Math.abs(s)*.065,side:dir*.1,lean:.1,lax:-.85,rax:-.6,le:-1.25,re:-1.35});
- }
- const retreat=forward<0,amp=retreat?-.38:.62,lift=retreat?.03:.07;
- return pose({...stance,llx:-s*amp,rlx:s*amp,lk:Math.max(0,c)*.95,rk:Math.max(0,-c)*.95,bodyY:-.22+Math.abs(s)*lift,lean:retreat?-.12:.32,hipYaw:s*.14,twist:-.18-s*.22,lax:-.75+s*.32,rax:-.55-s*.32,le:-1.2,re:-1.35,hy:.1});
+ const strafe=Math.abs(side)>Math.abs(forward);
+ const s=sampleClip(strafe?circleClip:forward<0?retreatClip:advanceClip,phase/(Math.PI*2),CHANNELS,true);
+ if(strafe&&side<0){s.bodyX=-s.bodyX;s.side=-s.side;s.llz=-s.llz;s.rlz=-s.rlz;}
+ return s;
 }
 export function idlePose(t){
  const bounce=Math.abs(Math.sin(t*5.2)),shift=Math.sin(t*2.6);
@@ -78,7 +96,7 @@ export function blendPose(current,target,rate,dt){
 export function applyPose(r,s){
  // Arms yaw after they swing, so a punch can aim at the target while the chest is turned.
  r.limbs[0].rotation.order='YXZ';r.limbs[2].rotation.order='YXZ';
- r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.y=s.hipYaw;
+ r.body.position.x=s.bodyX;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.y=s.hipYaw;
  r.spine.rotation.set(s.lean,s.twist,s.side);r.head.rotation.set(s.hx,s.hy,s.hz);
  r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
  r.limbs[1].rotation.set(s.llx,0,s.llz);r.limbs[3].rotation.set(s.rlx,0,s.rlz);r.knees[0].rotation.x=s.lk;r.knees[1].rotation.x=s.rk;

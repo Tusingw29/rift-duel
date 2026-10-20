@@ -131,3 +131,7 @@ Tala's distance-driven stride now feeds the actual live pose (0.30 computed it o
 ## Alpha 0.32: Tala motion and weight
 
 Tala now blends action transitions without damping every frame of her movement cycle. Longer steps, a lower/wider stance, stronger opposing shoulder/hip motion and deeper punch preparation replace the upright shuffle. Moving feet use alternating planted support and lifted return paths, with lateral bounds to avoid crossing through the other leg. Contact timing and combat balance are unchanged. This remains an original animation study; it does not establish parity with Evil Zone.
+
+## Alpha 0.33: Tala authored body motion
+
+Tala's sinusoidal run poses are replaced by an eight-key looping clip: contact, compression, passing and push-off on each side. Continuous-velocity interpolation carries the body through the keys without stopping at every pose. Advance, retreat and circle variants keep the existing distance-driven foot support. Lateral pelvis travel adds actual weight transfer; punch preparation now includes hip-led drive and an elbow-led return. Inputs, simulation movement, hit frames and damage remain unchanged.

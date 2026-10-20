@@ -250,3 +250,9 @@ Final local build: 173 tests pass. Chrome training sequence circled both directi
 ## Post-0.32 check from a second session
 
 The public build hash matched the local release. A headless Chromium training session as Tala against an idle Morrow advanced, stopped, circled, closed in and landed all three punches (rival HP 93.88 → 87.76 → 81.64) with no console errors; captured frames showed grounded feet while advancing and circling and a planted follow-through on the straight. Training input-history arrows were corrected to the lock-on meaning (↑ close, ↓ retreat, ← → circle). Fluidity at normal speed remains a live playtest judgment.
+
+## Tala authored body motion (0.33)
+
+New tests cover clip endpoint sampling, position/velocity continuity across the loop seam in four movement directions, alternating pelvis weight transfer and hip commitment before punch contact. Existing tests cover exact contact poses, chained-punch continuity, fixed supporting feet and finite rig bounds. Shared airborne/capture animation and the simple segmented character models still limit the result; passing tests do not establish subjective equivalence to Evil Zone.
+
+176 tests pass. Chrome training check: circle in both directions, retreat, approach, and three-hit combo ending at rival HP 77.56; inspected a paused retreat pose. No console errors or warnings.
