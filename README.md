@@ -90,3 +90,5 @@ Neutral hold still builds stock. Empty stock refuses these specials, and interru
 Fast keyboard and touch taps are preserved between rendered frames. Each player has an independent input queue, and pausing clears pending actions.
 
 Tala’s base directional specials now fire an energy shot toward the rival and a stunning discus while retreating. Her up-special remains her rushing attack; tap follow-ups and held-stock forms keep their existing commands.
+
+Morrow’s base toward special sends a stunning ground wave. His retreating special fires eight missiles in four pairs; interruption cancels later pairs. The second-tap forms remain a defensive eruption and two split ground missiles.

@@ -1,3 +1,8 @@
+// Researched base identities with original damage and frame tuning.
+export const baseSpecials={morrow:{
+ forward:{name:'Fault line',description:'A ground wave stuns on a clean hit.',type:'wave',count:1,speed:10,damage:10,radius:.7,low:true,stun:.7},
+ back:{name:'Siege salvo',description:'Retreat and fire eight missiles in four pairs. Interruption stops later pairs.',type:'bolt',count:2,spread:.06,pulses:4,interval:4,speed:12,damage:2,radius:.4,knockdown:true}
+}};
 // Original alternate special patterns, informed by the PAL move descriptions.
 export const specialVariants={
  aegis:{
@@ -38,7 +43,7 @@ export function specialShots(s,a,move,owner,power){
  for(let j=0;j<s.count;j++){
   const centered=j-(s.count-1)/2,angle=Math.atan2(dz,dx)+centered*(s.spread||0),offset=centered*2*(s.offset||0);
   const forward=1-j*(s.trail||0);
-  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,knockdown:!!s.knockdown});
+  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,stun:s.stun||0,knockdown:!!s.knockdown});
  }
  return shots;
 }

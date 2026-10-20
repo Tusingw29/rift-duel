@@ -1,3 +1,4 @@
+import {createProjectileVisual,updateProjectileVisual} from './projectile-visuals.js';
 import {burstPose} from './cinematics.js';
 import {stagedCapturePose} from './captures.js';
 import {createBurstEffects} from './burst-effects.js';
@@ -70,8 +71,8 @@ export function createView(canvas){
     }
    }else r.g.rotation.x=0;
   });
-  while(bolts.length<(m?.projectiles.length||0)){const b=new T.Mesh(new T.IcosahedronGeometry(.3,1),new T.MeshBasicMaterial({color:'#ffffff'}));const wheel=new T.Mesh(new T.TorusGeometry(.8,.09,6,24),b.material.clone());b.add(wheel);b.userData.wheel=wheel;scene.add(b);bolts.push(b);}
-  bolts.forEach((b,j)=>{const p=m?.projectiles[j];b.visible=!!p;if(p){b.position.set(p.x,p.low?.35:1.4,p.z);b.material.color.set(fighters[m.players[p.owner].id].color);b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);if(p.kind==='capture'||p.kind==='snare')b.scale.setScalar(1.7);if(p.radius>1)b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);b.userData.wheel.visible=p.kind==='wheel';b.userData.wheel.material.color.copy(b.material.color);if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}else{b.rotation.y=time*8;b.rotation.z=time*5;}}});
+  while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
+  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',time);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced);
   finisher.visible=cinema?.kind==='capture'&&!stagedState;

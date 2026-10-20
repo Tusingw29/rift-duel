@@ -184,3 +184,7 @@ Chrome received a complete direction-plus-two-attack-taps sequence synchronously
 ## Tala base-special correction (0.22)
 
 119 tests pass. New checks verify a travelling forward projectile without a teleporting lunge or launch, retreating ring geometry metadata, extended clean-hit stun, held-guard protection, fresh-guard reflection, and sidestep avoidance. The older signature test was updated because it explicitly required the replaced lunge. Existing alternate and stock-special tests remain passing. This release has simulation verification; a new visual browser check was unavailable because the required browser runtime tool could not be discovered.
+
+## Morrow base-special correction (0.23)
+
+124 tests pass. Added tests cover ground-wave damage/stun, stun-animation duration, blocking, reflection, sidestep avoidance, eight missiles grouped into four pairs, retreat happening only once, interruption cancelling future pairs, free-stock rules, and transformation into the existing alternate forms. A Three.js scene-object test checks the new low arc, projectile-pool reuse, hidden state, giant-ring height and finite transforms. These checks do not replace visual browser inspection; the required browser runtime remained unavailable for this release.

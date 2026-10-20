@@ -32,3 +32,5 @@ Later features listed in `DESIGN.md` are development possibilities, not evidence
 Version 0.21 preserves short keyboard/touch transitions between rendered frames, with independent player queues and pause clearing. This improves execution reliability; it does not establish original-game input timing or resolve the documented combo-input conflict.
 
 Version 0.22 corrects Tala’s two base horizontal specials to the energy-shot and stunning-disc identities documented for the martial artist inspiration. These replace an inaccurate lunge and generic bolt. Original tuning remains unmeasured; automated checks do not prove animation fidelity.
+
+Version 0.23 corrects Morrow’s base horizontal identities from duplicate bolt spreads to a stunning ground wave and an interruptible eight-missile barrage. The selected-fighter manual now explains both. Timing and spread remain original tuning, and visual browser inspection of the new wave is pending.
