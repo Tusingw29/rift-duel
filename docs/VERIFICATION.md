@@ -130,3 +130,9 @@ Chrome screenshots verified all four new captures. Vesper's back capture was tri
 Local Chrome keyboard checks triggered both specials. Aegis produced four projectiles, spent one stock, and dealt 16 total damage to an idle target. Sol retreated and produced five diverging projectiles for one stock. Screenshots inspected both patterns and the STOCK training readout. No console errors or warnings appeared. Hardware controller testing remains outstanding; the specials use the existing shared input pipeline.
 
 Public alpha 0.12 was also rechecked before this change: Rei’s far capture selected spirit-flight, finished with target health 83.125, and did not consume stock. Its deployment completed successfully.
+
+## Up-special alternate forms (0.14)
+
+Seven new tests cover all six alternate selections, holding or releasing Up between taps, two-hit limits, kick movement and no launch, stationary beam release, three ring directions, expanded barrier interception, late-input refusal, interruption and parry cancellation, and held-guard chip across both strikes. Chrome keyboard sequences selected all six variants with stock remaining at one. Screenshots inspected the flying kick and ring spread; no console errors/warnings appeared. Input windows are original tuning and have not been validated by external playtesters.
+
+Final suite: 83 tests passed. A synthetic standard-gamepad input through navigator.getGamepads selected Morrow’s alternate beam while keeping Up held across both attack taps; it produced one projectile and preserved stock. This verifies the browser API path, not physical controller hardware.

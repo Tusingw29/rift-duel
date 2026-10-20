@@ -1,5 +1,6 @@
 import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
+import {canFollowUp,applyTechniqueVariant} from './techniques.js';
 import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 import {normalizeOptions} from './options.js';
@@ -48,6 +49,11 @@ function beginCapture(m,a,b,context){
 function action(m,a,b,requested,empowered=false){
  if(a.stun>0||a.guard||m.cinematic)return;
  const previous=a.move;
+ if(['attack','technique'].includes(requested)&&!empowered&&canFollowUp(previous)){
+  applyTechniqueVariant(previous,fighters[a.id].id);
+  a.cool=(previous.total-previous.frame)*STEP;a.animTime=a.cool;a.held=0;
+  event(m,'hint',{text:previous.name.toUpperCase()});return;
+ }
  const chaining=canChain(previous)&&(requested==='attack'||previous.chain===2&&['capture','launch','forward','back','technique','pursuit','jumpAttack','super'].includes(requested));
  if((a.move||a.cool>0)&&!chaining){
   const remaining=a.move?a.move.total-a.move.frame:Math.ceil(a.cool/STEP);
@@ -73,9 +79,15 @@ function executeAction(m,a,b,move){
  const kind=move.kind,f=fighters[a.id],d=distance(a,b),dx=move.aimX,dz=move.aimZ;
  const facing=d<.01||((b.x-a.x)*dx+(b.z-a.z)*dz)/d>.55;
  if(kind==='technique'){
-  if(move.frame===move.startup)event(m,'hint',{text:f.moves[2]});
-  if(move.effect==='wheel'){
-   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*9,dz:dz*9,life:2.6,owner:m.players.indexOf(a),damage:move.damage*f.power,kind:'wheel',radius:.9});
+  if(move.frame===move.startup)event(m,'hint',{text:move.name||f.moves[2]});
+  if(move.secondHit&&move.frame===move.startup+move.secondHit)move.connected=false;
+  if(['wheel','fan','lance'].includes(move.effect)){
+   if(move.frame!==move.startup)return;
+   const count=move.effect==='fan'?3:1,speed=move.effect==='lance'?18:9;
+   for(let j=0;j<count;j++){
+    const angle=Math.atan2(dz,dx)+(j-(count-1)/2)*.3;
+    m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:Math.cos(angle)*speed,dz:Math.sin(angle)*speed,life:2.6,owner:m.players.indexOf(a),damage:move.damage*f.power,kind:move.effect==='lance'?'beam':'wheel',radius:move.effect==='lance'?.5:.9});
+   }
    event(m,'shot',{color:f.color});return;
   }
   if(!move.connected){

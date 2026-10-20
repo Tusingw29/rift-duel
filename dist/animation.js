@@ -36,12 +36,15 @@ export function animateCharacter(r,p,time){
  if(p?.move?.kind==='technique'&&p.move.frame>=p.move.startup){
   const move=p.move,progress=Math.min(1,(move.frame-move.startup)/move.active);
   const fade=1-smooth((move.frame-move.startup-move.active)/move.recovery);
-  if(f.id==='rei'){r.spine.rotation.y=progress*Math.PI*2;rightArm.rotation.z=.9*fade;leftArm.rotation.z=-.8*fade;r.body.position.y+=Math.sin(progress*Math.PI)*.5;}
+  if(f.id==='rei'){r.spine.rotation.y=progress*Math.PI*(move.followup?4:2);rightArm.rotation.z=.9*fade;leftArm.rotation.z=-.8*fade;r.body.position.y+=Math.sin(progress*Math.PI)*.5;}
   if(f.id==='aegis'){r.spine.rotation.x=.65*fade;rightArm.rotation.x=-1.8*fade;leftLeg.rotation.x=.5*fade;}
   if(f.id==='tala'){rightArm.rotation.x=-2.7*fade;leftLeg.rotation.x=-.7*fade;r.body.position.y+=Math.sin(progress*Math.PI)*.65;}
   if(f.id==='morrow'){r.spine.rotation.x=.4*fade;rightArm.rotation.x=-1.3*fade;leftArm.rotation.x=-1.3*fade;}
   if(f.id==='sol'){leftArm.rotation.z=1.1*fade;rightArm.rotation.z=-1.1*fade;}
   if(f.id==='vesper'){leftArm.rotation.x=-1.8*fade;rightArm.rotation.x=-.7*fade;r.spine.rotation.x=.2*fade;}
+  if(move.effect==='kick'){rightArm.rotation.x=.5*fade;rightLeg.rotation.x=-1.55*fade;r.knees[1].rotation.x=0;leftLeg.rotation.x=.6*fade;r.body.position.y+=.4*fade;r.spine.rotation.x=-.3*fade;}
+  if(move.effect==='lance'){r.spine.rotation.x=0;leftArm.rotation.x=-1.6*fade;rightArm.rotation.x=-1.6*fade;}
+  if(move.effect==='fan'){r.spine.rotation.y=progress*Math.PI*2;leftArm.rotation.z=.8*fade;rightArm.rotation.z=-.8*fade;}
  }
  if(p?.move&&p.move.frame<p.move.startup){
   const wind=smooth(p.move.frame/p.move.startup);

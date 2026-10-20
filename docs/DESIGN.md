@@ -154,3 +154,7 @@ These are original choreography and timing choices informed by the researched mo
 ## Alpha 0.13: first stock specials
 
 Aegis’s held forward attack produces four aligned shots; Sol’s held back attack retreats and produces a five-shot spread. Holding longer than 0.24 seconds selects the variant, and releasing spends one stock at startup. Empty stock refuses the action. Neutral holding still replenishes stock. Commands retain their direction from attack press, and the input buffer preserves the variant. These counts, timing, damage and fan angles are original balance choices. Other fighters retain their existing hold behavior.
+
+## Alpha 0.14: up-special variants
+
+A second attack tap completed during an up-special’s startup selects its alternate form once. Direction may remain Up or return to neutral. Aegis/Rei reset their hit latch once halfway through a longer active interval, giving at most two contacts; a parry or interruption cancels the remainder. Tala trades her launcher for a faster flying kick, Morrow fires a stationary beam, Sol gains a larger defensive sphere, and Vesper throws three diverging rings while spinning. These variants do not cost stock. Startup and recovery commitment remain; late taps cannot retroactively transform contact. Forward/back alternate specials remain future work.

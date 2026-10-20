@@ -87,3 +87,7 @@ The Otaku_Tom guide lists depth-direction rolling while knocked down. Version 0.
 ## Held specials follow-up
 
 The PAL guide lists stock-consuming held forward shots for Danzaiver and held retreating fire attacks for Alty. Version 0.13 adapts these roles into Aegis’s aligned volley and Sol’s fire fan. Shot counts, spacing, release threshold, damage, and spread angles are original tuning, not measured original behavior. Other held specials and tap follow-ups still need implementation. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Up-special alternate forms
+
+Version 0.14 adapts the PAL guide’s extra-tap up-special roles across the six archetypes: double contacts, a kick, a direct beam, a wider barrier, and spreading rings. The guide does not establish the input window. Rift Duel accepts the extra tap during startup; timings, hit limits, reach, damage, projectile counts and spread are original rules. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
