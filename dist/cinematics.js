@@ -1,6 +1,8 @@
 // Original, render-only burst direction. Game state and damage remain in combat.js.
+import {finishProfiles} from './capture-finishes.js';
 export const BURST_DURATIONS={aegis:2.8,rei:2.5,tala:2.6,morrow:2.9,sol:2.8,vesper:2.7};
 export function capturePresentation(id,context){
+ if(finishProfiles[id]?.[context])return {profile:finishProfiles[id][context],duration:context==='far'?2.8:2.4};
  if(context==='front'){
   const front={aegis:'vault-suplex',rei:'shoulder-turn',tala:'palm-slam',morrow:'pommel-turn',sol:'pivot-toss',vesper:'blink-shove'};
   if(front[id])return {profile:front[id],duration:2.3};

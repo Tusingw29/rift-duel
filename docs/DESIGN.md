@@ -166,3 +166,7 @@ All six front captures now have separate profiles: vault-suplex, shoulder-turn, 
 ## Alpha 0.16: complete mid-range capture identities
 
 Four new 2.5-second profiles complete mid-range coverage. Aegis approaches and extracts a blade sideways; Rei presses a sustained thrust; Sol casts a travelling fire spear; Vesper conjures and breaks an effigy to throw the rival. Sword captures can pose the weapon arm separately from the free arm. Spear and effigy meshes are pooled and hidden between effects. Sixteen of 24 fighter/context pairs now have individual choreography. Combat damage, range classification, held-guard bypass and stock rules are unchanged.
+
+## Alpha 0.17: complete capture coverage for the six-fighter roster
+
+`capture-finishes.js` adds five rear throws (bridge suplex, leg reap, cradle slam, inverted driver, scissors flip) and three distant attacks (rushing barrage, travelling siege orb, surrounding astral cuts). Rear captures last 2.4 seconds and far captures 2.8 seconds, using original timing. All 24 contexts now select distinct profiles. Staged poses can control one leg separately for sweeps and flips. The shared choreography remains only as an unknown-profile fallback. This closes profile coverage, not production-quality contact animation or historical frame matching.

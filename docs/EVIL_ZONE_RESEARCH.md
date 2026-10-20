@@ -99,3 +99,7 @@ The PAL guide describes close captures built around a suplex, judo throw, slam, 
 ## Remaining mid-range identities
 
 The PAL guide describes mid-range blade extraction, a sustained sword thrust, a fire spear and an effigy attack for these four archetypes. Version 0.16 adapts those descriptions into original staged captures. Trajectories, timing and camera cuts remain original choices, not measured original footage. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).
+
+## Rear and far capture completion
+
+The PAL guide describes rear suplex, leg-hook, wrestling-slam and scissors-style captures for the corresponding archetypes. Its far descriptions inform Tala’s rushing strikes, Morrow’s energy orb and Vesper’s staged cuts. Version 0.17 adapts these broad identities with original timing, trajectories, echoes and cameras. All current-roster contexts now have individual direction; this does not resolve the documented gaps in original-game timing and regional behavior. [Move guide](https://gamefaqs.gamespot.com/ps/197247-evil-zone/faqs/8087).

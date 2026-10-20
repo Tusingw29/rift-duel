@@ -1,4 +1,5 @@
 import {burstPose} from './cinematics.js';
+import {captureFinish} from './capture-finishes.js';
 const clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
 const mix=(a,b,t)=>t===1?b:a+(b-a)*t;
@@ -110,10 +111,12 @@ export function stagedCapturePose(id,c,a,b){
   effects.rings=lift*(1-smooth((t-.82)/.18));effects.center.y=1.3+victim.y;
   camera=t<.56?{shot:'astral-ascent',target:point(b.x,4.6,b.z),position:point(b.x+5,7,b.z+17)}:{shot:'astral-descent',target:point(b.x,2.9,b.z),position:point(b.x+3,7,b.z+14)};
  }
+ camera=captureFinish(c.profile,t,a,b,actor,victim,effects)||camera;
  const home=smooth((t-.82)/.18);
  for(const [part,original] of [[actor,a],[victim,b]]){
   part.x=mix(part.x,original.x,home);part.z=mix(part.z,original.z,home);part.y*=1-home;part.tilt*=1-home;part.roll*=1-home;
   part.yaw=mix(part.yaw,part===actor?Math.atan2(dx,dz):Math.atan2(-dx,-dz),home);
+  if(Number.isFinite(part.leftLeg))part.leftLeg*=1-home;
  }
  return {actor,victim,effects,camera,t};
 }

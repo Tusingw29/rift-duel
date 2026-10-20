@@ -150,3 +150,9 @@ Final alpha 0.15 regression suite: 86 tests passed.
 88 tests pass. Profile, damage, guard-bypass and single-resolution tests include the four added mid-range captures. Pose checks cover all sixteen authored contexts with reversed/diagonal/zero separation. New effect tests distinguish extraction, thrust, spear and effigy; check finite render matrices; and verify spear/effigy meshes hide on the next unrelated capture.
 
 Chrome keyboard sequences selected all four new mid-range profiles. Screenshots inspected each. The first sword check exposed a too-vertical blade; separate weapon-arm posing corrected it, and Rei was visually rechecked. No console errors/warnings appeared. These are sampled alpha-animation checks, not proof of frame-perfect historical fidelity.
+
+## Complete current-roster capture coverage (0.17)
+
+91 tests pass. The profile test requires 24 unique authored identities. All 24 receive finite-pose, camera-shot and return-home checks with normal, diagonal/reversed and zero-separation positions. Eight new acquisition cases check rear/far selection, held-guard bypass, one damage event and no stock consumption. Rig samples verify the new throws stay above the floor; distinct-effect assertions separate barrage, travelling orb and surrounding cuts.
+
+Chrome keyboard checks triggered all five rear captures through movement, circle-step and capture, plus the three far captures from initial spacing. Screenshots inspected all eight sequences. No console errors/warnings appeared. These samples establish working alpha choreography, not full animation quality or exact original-game fidelity.

@@ -2,13 +2,12 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {burstPose,capturePresentation} from '../dist/cinematics.js';
 import {stagedCapturePose} from '../dist/captures.js';
 import {createMatch,update,neutral} from '../dist/combat.js';
-test('authored capture identities apply only to the intended fighter and range',()=>{
- assert.equal(capturePresentation('aegis','far').profile,'orbital');
- assert.equal(capturePresentation('tala','mid').profile,'surround');
+test('all 24 fighter/context combinations have distinct authored profiles',()=>{
+ const profiles=new Set();
  for(const id of ['aegis','tala','rei','morrow','sol','vesper'])for(const context of ['front','back','mid','far']){
-  if(context==='front'||context==='mid'||{aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}[id]===context){assert.ok(capturePresentation(id,context).profile);continue;}
-  assert.equal(capturePresentation(id,context).profile,null);
+  const spec=capturePresentation(id,context);assert.ok(spec.profile);profiles.add(spec.profile);
  }
+ assert.equal(profiles.size,24);assert.equal(capturePresentation('unknown','front').profile,null);
 });
 test('orbital and surrounding captures remain distinct from stock bursts and bypass held-guard posing',()=>{
  const a={x:-4,z:0},b={x:4,z:0,guard:true};
@@ -36,7 +35,7 @@ test('authored captures bypass held guard, cost no stock, and resolve damage onc
  }
 });
 test('all authored capture tracks stay finite, change shots, and return to combat positions',()=>{
- for(const [id,context] of [...Object.entries({aegis:'far',tala:'mid',rei:'far',morrow:'mid',sol:'far',vesper:'back'}),...['aegis','rei','tala','morrow','sol','vesper'].flatMap(id=>[[id,'front'],[id,'mid']])]){
+ for(const [id,context] of ['aegis','rei','tala','morrow','sol','vesper'].flatMap(id=>['front','back','mid','far'].map(context=>[id,context]))){
   for(const [a,b] of [[{x:-4,z:0},{x:4,z:0,guard:true}],[{x:5,z:4},{x:-6,z:-3}],[{x:0,z:0},{x:0,z:0}]]){
    const spec=capturePresentation(id,context),shots=new Set(),before=JSON.stringify([a,b]);
    for(let i=0;i<=120;i++){
