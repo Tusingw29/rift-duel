@@ -25,6 +25,8 @@ Click any board for its full resolution.
 
 ## Build documents
 
+- [Modern workflow: faster authoring, baked detail, efficient effects and extras](WORKFLOW-UPGRADE.md)
+
 - [Production guide: face through export, ordered work and acceptance checks](PRODUCTION.md)
 - [Animation specification: local frames, foot support, all move families and transitions](ANIMATION.md)
 - [Research: sources, observations, limitations and decisions](RESEARCH.md)
