@@ -1,0 +1,302 @@
+[
+  {
+    "id": "aegis",
+    "name": "AEGIS",
+    "role": "adult male orbital knight, balanced blade and beam fighter",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Relay Knight",
+        "description": "ivory and navy fitted segmented armor, cyan slit visor, narrow angular helmet, short asymmetric blue cape, forearm beam emitter and straight energy-edged sword"
+      },
+      {
+        "letter": "B",
+        "name": "Signal Ranger",
+        "description": "exposed angular face, dark swept hair, white cropped military jacket over navy flexible armor, cyan shoulder antenna fins, long blue scarf and compact saber"
+      },
+      {
+        "letter": "C",
+        "name": "Eclipse Sentinel",
+        "description": "closed midnight-blue helmet with ivory cheek guards, long split ivory tabard, slim dark armored limbs, circular cyan chest lens and broad translucent sword"
+      }
+    ],
+    "moves": [
+      "Pulse lance",
+      "Thunder snare",
+      "Meteor drive"
+    ],
+    "capture": "Gravity sentence",
+    "burst": "SENTINEL VERDICT",
+    "combo": "cross cut, return cut, overhead blade finisher",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Pulse lance",
+      "Thunder snare",
+      "Meteor drive",
+      "Gravity sentence",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"AEGIS / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult male orbital knight, balanced blade and beam fighter. Options: A \u2014 Relay Knight: ivory and navy fitted segmented armor, cyan slit visor, narrow angular helmet, short asymmetric blue cape, forearm beam emitter and straight energy-edged sword; B \u2014 Signal Ranger: exposed angular face, dark swept hair, white cropped military jacket over navy flexible armor, cyan shoulder antenna fins, long blue scarf and compact saber; C \u2014 Eclipse Sentinel: closed midnight-blue helmet with ivory cheek guards, long split ivory tabard, slim dark armored limbs, circular cyan chest lens and broad translucent sword. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for AEGIS, adult male orbital knight, balanced blade and beam fighter. Reference image is the character comparison sheet: use ONLY option A (Relay Knight) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Pulse lance; 10: Thunder snare; 11: Meteor drive; 12: Gravity sentence; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: cross cut, return cut, overhead blade finisher. Signature actions in cells 9-11: brace and point blade for a narrow cyan beam; sweep free hand to cast a lightning snare; lean into a blade-first rushing thrust. Cell12 Gravity sentence should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive SENTINEL VERDICT release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A."
+  },
+  {
+    "id": "rei",
+    "name": "REI",
+    "role": "adult female agile swordswoman with a separate pale spirit companion",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Shrine Exile",
+        "description": "long black-plum hair tied low, ivory fitted short jacket, deep wine pleated split coat tails over dark fitted trousers, pink sash, curved sword, pale feminine spirit silhouette"
+      },
+      {
+        "letter": "B",
+        "name": "Midnight Courier",
+        "description": "short dark bob, plum high-collared military coat to the knees with asymmetrical slit, cream cuffs, rose lining, tall boots, sword and a translucent long-haired spirit"
+      },
+      {
+        "letter": "C",
+        "name": "Veil Duelist",
+        "description": "long swept indigo hair, pale lilac sleeveless overcoat over dark long sleeves, wide wine belt, narrow trousers, pale trailing veil attached at shoulders, sword and spirit"
+      }
+    ],
+    "moves": [
+      "Crescent wing",
+      "Echo blade",
+      "Spiral bloom"
+    ],
+    "capture": "Phantom crossing",
+    "burst": "THOUSANDTH ECHO",
+    "combo": "draw cut, reverse cut, stepping rising cut",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Crescent wing",
+      "Echo blade",
+      "Spiral bloom",
+      "Phantom crossing",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"REI / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult female agile swordswoman with a separate pale spirit companion. Options: A \u2014 Shrine Exile: long black-plum hair tied low, ivory fitted short jacket, deep wine pleated split coat tails over dark fitted trousers, pink sash, curved sword, pale feminine spirit silhouette; B \u2014 Midnight Courier: short dark bob, plum high-collared military coat to the knees with asymmetrical slit, cream cuffs, rose lining, tall boots, sword and a translucent long-haired spirit; C \u2014 Veil Duelist: long swept indigo hair, pale lilac sleeveless overcoat over dark long sleeves, wide wine belt, narrow trousers, pale trailing veil attached at shoulders, sword and spirit. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for REI, adult female agile swordswoman with a separate pale spirit companion. Reference image is the character comparison sheet: use ONLY option A (Shrine Exile) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Crescent wing; 10: Echo blade; 11: Spiral bloom; 12: Phantom crossing; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: draw cut, reverse cut, stepping rising cut. Signature actions in cells 9-11: cast a crescent sword wave; cut while a translucent spirit echoes the blade; pivot into a broad spinning sword arc. Cell12 Phantom crossing should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive THOUSANDTH ECHO release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A. CRITICAL: actual alpha transparency outside every figure. Absolutely no colored backdrop, no gradients, no glow haze, no atmospheric lighting. Effects are small flat inked shapes only. Strict equal 4x4 cells with empty gutters."
+  },
+  {
+    "id": "tala",
+    "name": "TALA",
+    "role": "adult athletic female martial artist, fast close-range rushdown, fists only",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Storm Circuit",
+        "description": "auburn high ponytail with jagged fringe, cropped ochre sleeveless martial vest over black athletic top, dark rust shorts, white hand and shin wraps, flat fighting shoes"
+      },
+      {
+        "letter": "B",
+        "name": "Temple Runner",
+        "description": "short windswept auburn hair, cream sleeveless wrap tunic with ochre sash, charcoal loose cropped trousers, red wrist bindings, soft split-toe boots"
+      },
+      {
+        "letter": "C",
+        "name": "Street Tempest",
+        "description": "auburn braid, open rust cropped training jacket over cream athletic shirt, navy knee-length fight shorts, ochre fingerless wraps, lightweight high-top shoes"
+      }
+    ],
+    "moves": [
+      "Storm spark",
+      "Still-water discus",
+      "Rising tempest"
+    ],
+    "capture": "Stormbreaker",
+    "burst": "EIGHTFOLD TEMPEST",
+    "combo": "straight punch, hip-driven cross, stepping hook",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Storm spark",
+      "Still-water discus",
+      "Rising tempest",
+      "Stormbreaker",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"TALA / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult athletic female martial artist, fast close-range rushdown, fists only. Options: A \u2014 Storm Circuit: auburn high ponytail with jagged fringe, cropped ochre sleeveless martial vest over black athletic top, dark rust shorts, white hand and shin wraps, flat fighting shoes; B \u2014 Temple Runner: short windswept auburn hair, cream sleeveless wrap tunic with ochre sash, charcoal loose cropped trousers, red wrist bindings, soft split-toe boots; C \u2014 Street Tempest: auburn braid, open rust cropped training jacket over cream athletic shirt, navy knee-length fight shorts, ochre fingerless wraps, lightweight high-top shoes. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot. Use only the requested English labels. No invented studio credits, dates, Japanese text or slogans.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for TALA, adult athletic female martial artist, fast close-range rushdown, fists only. Reference image is the character comparison sheet: use ONLY option A (Storm Circuit) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Storm spark; 10: Still-water discus; 11: Rising tempest; 12: Stormbreaker; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: straight punch, hip-driven cross, stepping hook. Signature actions in cells 9-11: drive an open palm into a compact amber chi shot; sweep a forearm to release a flat chi disc; spring from a compressed rear leg into a rising punch. Cell12 Stormbreaker should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive EIGHTFOLD TEMPEST release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A. CRITICAL: actual alpha transparency outside every figure. No backdrop or glow haze. Small flat effects only. Equal 4x4 cells with empty gutters. Each pose contained in its own cell."
+  },
+  {
+    "id": "morrow",
+    "name": "MORROW",
+    "role": "adult broad mature male mercenary, heavy sword and shoulder missiles, weathered angular face and short beard",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Iron Pilgrim",
+        "description": "steel olive fitted armor over charcoal ribbed suit, one heavy shoulder launcher, short weathered cream mantle, dark eyepatch, gray swept hair, long broad single-edged greatsword"
+      },
+      {
+        "letter": "B",
+        "name": "Wasteland Marshal",
+        "description": "olive armored longcoat split at hips, sand chest harness, gray cropped hair, cheek scar, exposed muscular forearms, compact back missile rack, heavy cleaver sword"
+      },
+      {
+        "letter": "C",
+        "name": "Siege Ronin",
+        "description": "dark green overlapping lamellar shoulder armor, cream scarf and split waist panels, gray tied-back hair, jaw beard, side-mounted rocket tubes, thick straight greatsword"
+      }
+    ],
+    "moves": [
+      "Fault line",
+      "Siege salvo",
+      "Iron advance"
+    ],
+    "capture": "Iron requiem",
+    "burst": "LAST HORIZON",
+    "combo": "heavy cross cut, weighty return cut, overhead slam",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Fault line",
+      "Siege salvo",
+      "Iron advance",
+      "Iron requiem",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"MORROW / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult broad mature male mercenary, heavy sword and shoulder missiles, weathered angular face and short beard. Options: A \u2014 Iron Pilgrim: steel olive fitted armor over charcoal ribbed suit, one heavy shoulder launcher, short weathered cream mantle, dark eyepatch, gray swept hair, long broad single-edged greatsword; B \u2014 Wasteland Marshal: olive armored longcoat split at hips, sand chest harness, gray cropped hair, cheek scar, exposed muscular forearms, compact back missile rack, heavy cleaver sword; C \u2014 Siege Ronin: dark green overlapping lamellar shoulder armor, cream scarf and split waist panels, gray tied-back hair, jaw beard, side-mounted rocket tubes, thick straight greatsword. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot. Use only the requested English labels. No invented studio credits, dates, Japanese text or slogans.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for MORROW, adult broad mature male mercenary, heavy sword and shoulder missiles, weathered angular face and short beard. Reference image is the character comparison sheet: use ONLY option A (Iron Pilgrim) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Fault line; 10: Siege salvo; 11: Iron advance; 12: Iron requiem; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: heavy cross cut, weighty return cut, overhead slam. Signature actions in cells 9-11: slam greatsword downward to drive a ground shock; brace wide and aim shoulder missiles; shoulder forward behind a guarded greatsword rush. Cell12 Iron requiem should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive LAST HORIZON release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A. CRITICAL: actual alpha transparency outside every figure. No backdrop or glow haze. Small flat effects only. Equal 4x4 cells with empty gutters. Each pose and long sword contained in its own cell."
+  },
+  {
+    "id": "sol",
+    "name": "SOL",
+    "role": "adult lean male fire caster and scholar, quick projectiles, staff user",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Ember Cartographer",
+        "description": "auburn swept spiked hair, rust-red split travelling coat with cream folded collar, dark fitted trousers, gold cuff trim, leather map satchel, slender staff with amber crystal inside a simple circular crown"
+      },
+      {
+        "letter": "B",
+        "name": "Sunlit Scholar",
+        "description": "dark auburn side-parted hair, ivory fitted long vest over burnt-orange sleeves, navy split cloak, dark boots, brass book clasp, staff with forked sun crest"
+      },
+      {
+        "letter": "C",
+        "name": "Ash Wanderer",
+        "description": "short copper hair, charcoal short cape over ochre wrap jacket, rust sash, loose cream trousers tucked into dark boots, staff with suspended ember bead"
+      }
+    ],
+    "moves": [
+      "Comet script",
+      "Ember familiar",
+      "Solar mantle"
+    ],
+    "capture": "Ember covenant",
+    "burst": "SUNFALL SCRIPTURE",
+    "combo": "staff jab, reverse butt strike, sweeping staff finish",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Comet script",
+      "Ember familiar",
+      "Solar mantle",
+      "Ember covenant",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"SOL / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult lean male fire caster and scholar, quick projectiles, staff user. Options: A \u2014 Ember Cartographer: auburn swept spiked hair, rust-red split travelling coat with cream folded collar, dark fitted trousers, gold cuff trim, leather map satchel, slender staff with amber crystal inside a simple circular crown; B \u2014 Sunlit Scholar: dark auburn side-parted hair, ivory fitted long vest over burnt-orange sleeves, navy split cloak, dark boots, brass book clasp, staff with forked sun crest; C \u2014 Ash Wanderer: short copper hair, charcoal short cape over ochre wrap jacket, rust sash, loose cream trousers tucked into dark boots, staff with suspended ember bead. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot. Use only the requested English labels. No invented studio credits, dates, Japanese text or slogans.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for SOL, adult lean male fire caster and scholar, quick projectiles, staff user. Reference image is the character comparison sheet: use ONLY option A (Ember Cartographer) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Comet script; 10: Ember familiar; 11: Solar mantle; 12: Ember covenant; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: staff jab, reverse butt strike, sweeping staff finish. Signature actions in cells 9-11: snap staff forward to cast a narrow fire comet; draw a curved rune with free hand to summon an ember familiar; sweep staff around body to form a protective solar sphere. Cell12 Ember covenant should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive SUNFALL SCRIPTURE release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A. CRITICAL: actual alpha transparency outside every figure. No backdrop or glow haze. Small flat effects only. Equal 4x4 cells with empty gutters. Each pose contained in its own cell. Sunfall Scripture burst release specifically raises the staff to guide a large overhead sun orb forward; show a small orb above the staff for readability."
+  },
+  {
+    "id": "vesper",
+    "name": "VESPER",
+    "role": "adult elegant female oracle, deliberate ring control and traps",
+    "options": [
+      {
+        "letter": "A",
+        "name": "Astral Mourner",
+        "description": "long lavender hair in two broad swept locks, ivory shoulder drape, midnight-purple fitted robe split over dark trousers, narrow gold edging, broken double halo behind head, two gold hand rings"
+      },
+      {
+        "letter": "B",
+        "name": "Eclipse Regent",
+        "description": "silver-lilac bob with long side lock, high plum collar and ivory angular shoulder mantle, long navy split skirt panels, purple gloves, offset crescent halo and gold hand rings"
+      },
+      {
+        "letter": "C",
+        "name": "Starless Seer",
+        "description": "long dark-violet braid, cream sleeveless long coat over plum bodysuit, lavender broad sash, floating three-piece gold crown, paired thin orbital hand rings"
+      }
+    ],
+    "moves": [
+      "Binary star",
+      "Event horizon",
+      "Astral wheel"
+    ],
+    "capture": "Astral confinement",
+    "burst": "SILENCE BETWEEN STARS",
+    "combo": "ring-hand palm strike, reverse ring sweep, two-handed push",
+    "pose_cells": [
+      "ready stance",
+      "forward push-off",
+      "circling step",
+      "braced guard",
+      "attack windup",
+      "first combo contact",
+      "second combo contact",
+      "third combo follow-through",
+      "Binary star",
+      "Event horizon",
+      "Astral wheel",
+      "Astral confinement",
+      "burst anticipation",
+      "burst release",
+      "hit recoil",
+      "settled recovery"
+    ],
+    "concept_prompt": "Use case: stylized-concept. Create a polished landscape concept design comparison sheet titled \"VESPER / THREE DIRECTIONS\" for Rift Duel. Three equally sized columns A, B, C. Each column contains ONE large complete head-to-toe front three-quarter standing character, a small rear silhouette and a face close-up; leave generous space. Same character identity and role across costume alternatives: adult elegant female oracle, deliberate ring control and traps. Options: A \u2014 Astral Mourner: long lavender hair in two broad swept locks, ivory shoulder drape, midnight-purple fitted robe split over dark trousers, narrow gold edging, broken double halo behind head, two gold hand rings; B \u2014 Eclipse Regent: silver-lilac bob with long side lock, high plum collar and ivory angular shoulder mantle, long navy split skirt panels, purple gloves, offset crescent halo and gold hand rings; C \u2014 Starless Seer: long dark-violet braid, cream sleeveless long coat over plum bodysuit, lavender broad sash, floating three-piece gold crown, paired thin orbital hand rings. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Warm ivory paper, small palette chips per option. Clear labels A, B, C and each option name. Weapons and feet fully in frame. Make the three silhouettes substantially distinct. No other characters except Rei spirit if specified. This is concept art, not a screenshot. Use only the requested English labels. No invented studio credits, dates, Japanese text or slogans.",
+    "sprite_prompt": "Use case: stylized-concept. Create a transparent-background 4-column by 4-row animation KEY-POSE SPRITE SHEET, exactly 16 distinct full-body drawings, for VESPER, adult elegant female oracle, deliberate ring control and traps. Reference image is the character comparison sheet: use ONLY option A (Astral Mourner) consistently in all 16 cells, preserve face, costume, colors and weapon. Original late-1990s Japanese cel-animation production art for a PS1 arena fighter. Confident tapered black ink contours, angular expressive eyes and noses, graphic hair clumps, anatomically convincing long limbs, 7 to 7.5 head adult proportions, flat opaque colors with one clean hard-edged shadow and sparse painted highlights. Evoke the period of Evil Zone, Slayers, Escaflowne and Gundam Wing without copying an existing character. Not modern glossy anime, not chibi, not voxel, not blocky 3D, no photorealistic rendering, no excessive belts, no tiny greebles. Every pose faces screen right in a consistent three-quarter combat view. Same figure scale and generous equal cell padding, consistent row ground line except airborne poses; no cropping, no overlapping cells, no lettering, no grid or background. Reading left to right then top to bottom, cells are: 1: ready stance; 2: forward push-off; 3: circling step; 4: braced guard; 5: attack windup; 6: first combo contact; 7: second combo contact; 8: third combo follow-through; 9: Binary star; 10: Event horizon; 11: Astral wheel; 12: Astral confinement; 13: burst anticipation; 14: burst release; 15: hit recoil; 16: settled recovery. Combo choreography: ring-hand palm strike, reverse ring sweep, two-handed push. Signature actions in cells 9-11: separate both hands to release paired violet stars; close one hand to form a dark ring trap at distance; rotate wrist and send a vertical gold astral wheel. Cell12 Astral confinement should show a readable binding or grappling gesture without a second character. Cell13 visibly coils before the distinct cell14 explosive SILENCE BETWEEN STARS release. Exaggerate whole-body anticipation, hip/shoulder opposition and recovery; not sixteen nearly identical standing poses. Effects restrained so limbs stay visible. This sheet is a pose atlas, not consecutive equally timed frames. Keep all 16 designs identical to option A. CRITICAL: actual alpha transparency outside every figure. No backdrop or glow haze. Small flat effects only. Equal 4x4 cells with empty gutters. Each pose contained in its own cell. Burst release specifically extends both ring-bearing hands toward an unseen distant foe, binding them inside orbital rings, keep the caster grounded."
+  }
+]

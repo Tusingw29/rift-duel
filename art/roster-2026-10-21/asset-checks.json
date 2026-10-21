@@ -1,0 +1,74 @@
+[
+  {
+    "file": "aegis-poses.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 22.02
+  },
+  {
+    "file": "rei-poses.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 52.45
+  },
+  {
+    "file": "tala-poses.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 52.13
+  },
+  {
+    "file": "morrow-poses.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 48.39
+  },
+  {
+    "file": "sol-poses.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "alpha_range": [
+      0,
+      254
+    ],
+    "fully_transparent_percent": 56.31
+  },
+  {
+    "file": "vesper-poses.png",
+    "size": [
+      1347,
+      1168
+    ],
+    "alpha_range": [
+      0,
+      255
+    ],
+    "fully_transparent_percent": 36.63
+  }
+]
