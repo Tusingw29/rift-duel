@@ -82,7 +82,7 @@ function flash(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList
 function updateHud(dt){
  match.players.forEach((p,i)=>{
   const n=i+1,trail=updateTrail(trails[i],p.hp,dt);
-  $('#hp'+n).style.width=p.hp+'%';$('#trail'+n).style.width=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
+  $('#hp'+n).style.height=p.hp+'%';$('#trail'+n).style.height=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
   const g=gaugeState(p),gauge=$('#gauge'+n);
   gauge.querySelectorAll('i').forEach((seg,k)=>seg.style.setProperty('--fill',g.segments[k]));
   gauge.classList.toggle('charging',g.charging);gauge.classList.toggle('full',g.full);$('#gauge-label'+n).textContent=gaugeLabel(g);

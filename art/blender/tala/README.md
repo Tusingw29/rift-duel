@@ -2,7 +2,7 @@
 
 Original model study based on Storm Circuit (concept A). The first pass has a fitted torso, open ochre vest with lapels, rust shorts, wrist/shin bindings, dark flat shoes and auburn ponytail. The painted face reuses the project's original generated Tala face asset.
 
-This is a separate review asset, not a replacement for the live fighter. The animation is an editable bake of the existing Tala authored motion, retaining the 60 Hz strike timing and foot solve, with two added foot bones to keep soles level. It is not a new motion-capture performance or a completed concept-art match.
+This is a separate review asset, not a replacement for the live fighter. Motion study 2 preserves the upper-body combo and its 60 Hz contact timing, while adding a crossed-forearm guard, staggered advancing/retreating/circling steps, ball-of-foot pivots with heel lift, hip weight shifts, and a rear-foot catch/recovery after recoil. Two-bone leg solves keep segment lengths fixed as the ankles articulate. This is original authored animation, not motion capture or a completed concept-art match.
 
 ## Files and reproduction
 
@@ -23,4 +23,10 @@ The script supports Blender 3.6 and newer export APIs; the complete export was v
 
 ## Review scope
 
-Inspect front, side and back, then all seven clips at normal and quarter speed. The timeline scrubs the actual GLB. Keep the game's contact times at 5/60, 25/60 and 45/60 seconds when editing the Combo action. The broad costume masses and deformation are the current focus; face integration, hand shape, cloth intersections and more expressive new choreography need further review. The game still handles procedural locomotion and combat; no runtime animation-controller migration is included here.
+Inspect front, side and back, then all seven clips at normal and quarter speed. The timeline scrubs the actual GLB. Keep the game's contact times at 5/60, 25/60 and 45/60 seconds when editing the Combo action. The model still falls short of the concept sheet: face integration, hands, garment intersections and proportions need further review. Movement smoothness and balance still need player judgment at normal speed. The game still handles procedural locomotion and combat; no runtime animation-controller migration is included here.
+
+## Movement reference
+
+[England Boxing Coaching Handbook, Part 1](https://www.englandboxing.org/wp-content/uploads/2026/02/EB_Boxing-Coaching-Handbook-Part-1_09_02_26.pdf), pages 68 and 75, informed the stance-preserving footwork and ball-of-foot/hip rotation. These are animation references, not a claim of biomechanical simulation. The crossed-arm shield is the user-requested stylized guard, distinct from the standard guard on page 67.
+
+Locomotion clips are in-place loops: their support feet move relative to the centered character to represent travel. They are not a demonstration of stationary world-space foot contacts without the corresponding game root movement. The live game still uses its original controller.

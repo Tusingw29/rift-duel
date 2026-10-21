@@ -344,3 +344,7 @@ Replaced the final generic primitive bodies with weighted caster models: Sol has
 ## Life bars and power gauge (0.47)
 
 197 tests pass. New checks cover gauge segments and labels (filled, partial, charging, max, empty), charge timing from the simulation (about two seconds per stock at full health, much faster at low health, capped at three stocks with no overflow), the damage trail delay and drain rate, healing snapping the trail up, and the low/critical/empty life states. A headless Chromium training run confirmed the charging label and class while holding attack, MAX POWER at three stocks, a trail wider than the live bar immediately after a landed punch, and the gauge returning to two stocks after a burst, with no console errors.
+
+## Side-mounted life gauges (0.48)
+
+197 tests pass unchanged; the HUD module is presentation only. A headless Chromium training run rendered both vertical gauges, the red trail at the top of the struck fighter's bar, the bottom-corner power gauges, and the clock centred, with no console errors. The 600-pixel layout was not inspected visually.

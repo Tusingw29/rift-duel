@@ -9,3 +9,10 @@
 - 193 project tests passed during the workflow; the GLB-specific tests are rerun after final asset corrections. GitHub Actions also runs the full suite before publication.
 
 The visual target remains unfinished. The silhouette is still a simplified model interpretation; facial integration, hands, garment folds and body proportions need further art review. No live combat rig, hitboxes or controls were replaced. The study page is the review deliverable; the saved blend file is the editable authoring source.
+
+
+## Motion study 2
+
+User feedback drove a crossed-body guard, asymmetric step-and-follow locomotion, ankle yaw/pitch around the ball of each shoe during punches, lateral pelvis shifts and a recoil catch step. Combo contact frames remain 5, 25 and 45. Clip lengths now allow 0.9s advance, 1.0s retreat, 1.1s circle, 1.6s guard entry/hold/release and 0.9s recoil/recovery.
+
+Four new tests check forearms crossing in front of the chest, fixed leg lengths, foot separation, stationary ball pivot during the driving punch, distinct foot lifts, loop closure and rear-foot restoration after recoil. Browser scrubbing sampled 25 times per clip with fresh skeleton updates and recomputed skinned bounds. Minimum mesh heights ranged from 0.009 to 0.031 units, above the floor. This replaces the first review's weaker cached-bounds measurement; it still does not establish collision-free clothing or aesthetic quality. Front guard and side combo were visually inspected.

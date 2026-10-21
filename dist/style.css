@@ -13,3 +13,28 @@ body.playing header{background:#10191c88}body.playing .health-row{text-shadow:0 
 /* Evil Zone-style life bars and power gauge */
 .health{position:relative;height:16px;background:#2a1d22;border:1px solid #ffffff55;transform:skewX(-15deg);overflow:hidden}.health i{position:absolute;top:0;left:0;height:100%;width:100%;display:block}.health i.trail{background:#ff5a4d;transition:none}.health #hp1,.health #hp2{background:linear-gradient(180deg,#eaffb0,var(--acid) 55%,#9fc43a);transition:width .06s}.right .health i{left:auto;right:0}.right .health #hp2{background:linear-gradient(180deg,#e6d4ff,#c9a6f6 55%,#8f6ad4)}.health[data-state=low] #hp1,.health[data-state=low] #hp2{background:linear-gradient(180deg,#ffd27a,#ff9a3c 55%,#c85a1e)}.health[data-state=critical] #hp1,.health[data-state=critical] #hp2{background:linear-gradient(180deg,#ffb4ad,#ff5a4d 55%,#b4231b);animation:life-critical .5s steps(2,end) infinite}.health[data-state=critical]{border-color:#ff5a4d}@keyframes life-critical{to{filter:brightness(1.6)}}
 .gauge{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:10px;height:9px;transform:skewX(-15deg)}.gauge i{display:block;position:relative;background:#1d2a2e;border:1px solid #ffffff33;overflow:hidden}.gauge i:after{content:'';position:absolute;inset:0;transform-origin:left;transform:scaleX(var(--fill,0));background:linear-gradient(90deg,#6fe7ff,var(--acid));transition:transform .08s linear}.right .gauge i:after{transform-origin:right;background:linear-gradient(90deg,#c9a6f6,#ffffff)}.fighter-hud .gauge-label{position:absolute;top:13px;left:0;font:600 9px/1 Barlow,Arial,sans-serif;letter-spacing:2px;color:var(--muted);transform:skewX(15deg);white-space:nowrap}.fighter-hud.right .gauge-label{left:auto;right:0}.gauge.charging i:after{animation:gauge-charge .25s linear infinite alternate}.gauge.charging .gauge-label{color:#ffffff}.gauge.full i:after{animation:gauge-full .8s ease-in-out infinite alternate}.gauge.full .gauge-label{color:var(--acid)}.right .gauge.full .gauge-label{color:#c9a6f6}@keyframes gauge-charge{to{filter:brightness(1.7)}}@keyframes gauge-full{from{filter:brightness(1)}to{filter:brightness(1.5) saturate(1.3)}}.gauge.gain i{animation:gauge-gain .45s ease-out}.gauge.spend i{animation:gauge-spend .35s ease-out}@keyframes gauge-gain{0%{box-shadow:0 0 0 0 #ffffff}50%{box-shadow:0 0 14px 2px #ffffffcc}100%{box-shadow:0 0 0 0 #ffffff00}}@keyframes gauge-spend{0%{background:#ffffff}100%{background:#1d2a2e}}@media(max-width:600px){.gauge{height:7px}.gauge-label{display:none}}@media(prefers-reduced-motion:reduce){.gauge i:after,.health i{animation:none!important}}
+
+/* Side-mounted vertical life gauges, as in Evil Zone */
+#hud .health-row{display:block;position:absolute;inset:0;pointer-events:none}
+#hud .clock{position:absolute;left:50%;top:0;transform:translateX(-50%)}
+#hud .fighter-hud{position:absolute;left:0;top:0;bottom:118px;width:150px;flex:none}
+#hud .fighter-hud.right{left:auto;right:0}
+#hud .fighter-hud>div:first-child{display:block;margin:0}
+#hud .fighter-hud b{display:block;font-size:30px;line-height:1}
+#hud .fighter-hud>div:first-child span{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:2px}
+#hud .fighter-hud.right>div:first-child{text-align:right}
+#hud .health{position:absolute;top:58px;bottom:34px;left:0;width:24px;height:auto;transform:skewY(-6deg);transform-origin:bottom left;border:1px solid #ffffff66;background:#2a1d22cc;box-shadow:0 0 0 2px #10191c88,inset 0 0 8px #000a}
+#hud .right .health{left:auto;right:0;transform:skewY(6deg);transform-origin:bottom right}
+#hud .health i{position:absolute;left:0;right:0;bottom:0;top:auto;width:auto;height:100%;display:block}
+#hud .health #hp1{background:linear-gradient(90deg,#eaffb0,var(--acid) 55%,#9fc43a);transition:height .06s}
+#hud .right .health #hp2{background:linear-gradient(90deg,#8f6ad4,#c9a6f6 45%,#e6d4ff)}
+#hud .health[data-state=low] #hp1,#hud .health[data-state=low] #hp2{background:linear-gradient(90deg,#c85a1e,#ff9a3c 45%,#ffd27a)}
+#hud .health[data-state=critical] #hp1,#hud .health[data-state=critical] #hp2{background:linear-gradient(90deg,#b4231b,#ff5a4d 45%,#ffb4ad)}
+#hud .health:after{content:'';position:absolute;left:0;right:0;top:25%;height:1px;background:#ffffff40;box-shadow:0 calc(25% * 1) 0 #ffffff40}
+#hud .health:before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#ffffff55;z-index:1}
+#hud .gauge{position:absolute;bottom:0;left:0;width:150px;margin:0;height:10px}
+#hud .right .gauge{left:auto;right:0}
+#hud .fighter-hud .gauge-label{top:14px;font-size:9px;line-height:1;font-family:Barlow,Arial,sans-serif;font-weight:600}
+#hud #training-readout,#hud #input-history{left:165px}@media(max-width:900px){#hud #training-readout,#hud #input-history{left:120px}}@media(max-width:600px){#hud #training-readout,#hud #input-history{left:78px}}
+@media(max-width:900px){#hud .fighter-hud{width:110px;bottom:110px}#hud .health{width:16px;top:52px}#hud .gauge{width:110px}}
+@media(max-width:600px){#hud .fighter-hud{width:70px;bottom:190px}#hud .fighter-hud b{font-size:20px}#hud .health{width:12px;top:30px;bottom:26px}#hud .gauge{width:70px;height:7px}#hud .clock{top:0}}

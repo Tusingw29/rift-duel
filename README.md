@@ -189,3 +189,7 @@ Morrow's three-hit chain is now a cross-body cut, return cut and overhead finish
 ## Alpha 0.47: Evil Zone-style life bars and power gauge
 
 The HUD now reads like the original: each life bar keeps a red damage trail that holds for a moment after a hit and then drains to the live value, turns amber below 30 health and flashes red below 12, and chip damage from guarding shows against the trail. Under each bar sits a segmented power gauge. Holding attack fills the next segment in real time (faster at low health, as before), a filled segment is one stock, gaining a stock flashes the gauge and spending one blinks it dark, and three stocks pulse as MAX POWER. The label states the stock count or the current charge multiplier while charging. Charging stops at three stocks instead of silently discarding progress.
+
+## Alpha 0.48: side-mounted life gauges
+
+Life gauges now stand vertically along the left and right edges of the screen, as in Evil Zone, draining from the top with the damage trail, quarter marks and the low/critical colours carried over. Fighter names and round pips sit above each gauge, the round clock stays top centre, and the power gauge moves to the bottom corner beneath its gauge. Training readouts shift inward so they never cover the player-one gauge.
