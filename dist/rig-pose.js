@@ -1,3 +1,4 @@
+import {retreatPhase,retreatLift} from './retreat-motion.js';
 import {Vector3,Quaternion} from './vendor/three.module.js';
 export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
 export const STRIDE=1.15;
@@ -49,6 +50,21 @@ export function plantSupportFeet(r,p,kind){
   }
   if(r.gaitPlants){r.footPlants=null;r.gaitPlants=null;}
   if(!r.footPlants)r.footPlants=[0,1].map(i=>r.g.localToWorld(new Vector3(i===0?-.25:.25,ankleHeight,i===0?.24:-.24)));
+ }
+ // During Tala's retreat hop the feet travel with the actual collision root.
+ // Store takeoff anchors once, then plant the landing instead of stretching
+ // grounded legs behind a moving pelvis.
+ if(kind==='back'&&p.move?.retreatTravel){
+  const u=retreatPhase(p.move);
+  if(u>0){
+   if(r.retreatFeet?.move!==p.move)r.retreatFeet={move:p.move,anchors:r.footPlants.map(at=>{const v=r.g.worldToLocal(at.clone());v.y=ankleHeight;return v;})};
+   if(!r.retreatFeet.landed)r.footPlants=r.retreatFeet.anchors.map(at=>r.g.localToWorld(at.clone().add(new Vector3(0,retreatLift(p.move),0))));
+   if(u>=1)r.retreatFeet.landed=true;
+  }
+ }else if(r.retreatFeet){
+  const ground=position.y+ankleHeight*r.g.scale.y;
+  if(r.footOffsets)r.gaitLanding={start:r.lastTime||0,heights:r.footPlants.map(at=>Math.max(0,at.y-ground)/r.g.scale.y)};
+  r.footPlants.forEach(at=>at.y=ground);r.retreatFeet=null;
  }
  // Articulated feet can pivot around the planted ball, moving the ankle and
  // solving the leg above it without sliding the contact point across the floor.

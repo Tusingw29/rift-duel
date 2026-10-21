@@ -1,3 +1,4 @@
+import {RETREAT_DISTANCE,retreatProgress} from './retreat-motion.js';
 import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
 import {canFollowUp,applyTechniqueVariant} from './techniques.js';
@@ -76,6 +77,7 @@ function action(m,a,b,requested,empowered=false){
  if(kind==='super'||empowered)a.stocks--;
  const timing=moveTiming(f,kind);
  a.move={kind,...timing,empowered,chain:chaining?previous.chain+1:1,connected:false,frame:0,started:m.tick,aimX:(b.x-a.x)/(d||1),aimZ:(b.z-a.z)/(d||1)};
+ if(f.id==='tala'&&kind==='back'&&!a.air)a.move.retreatTravel=true;
  if(!empowered&&baseSpecials[f.id]?.[kind]){
   const special=baseSpecials[f.id][kind];a.move.special=special;
   a.move.active=1+((special.pulses||1)-1)*(special.interval||1);a.move.total=timing.startup+a.move.active+timing.recovery;
@@ -106,7 +108,7 @@ function executeAction(m,a,b,move){
   const s=move.stockSpecial,offset=move.frame-move.startup;
   if(offset===0){
    event(m,'hint',{text:s.name.toUpperCase()+' · 1 STOCK'});
-   if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+   if(kind==='back'&&!move.retreatTravel){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
   }
   if(offset%(s.interval||1)!==0)return;
   if(s.area){
@@ -154,7 +156,7 @@ function executeAction(m,a,b,move){
    const s=move.special,offset=move.frame-move.startup;
    if(offset===0){
     event(m,'hint',{text:s.name});
-    if(kind==='back'){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+    if(kind==='back'&&!move.retreatTravel){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
     if(s.area){if(d<s.area)hit(m,a,b,s.damage*f.power);return;}
    }
    if(s.area)return;
@@ -266,6 +268,10 @@ export function update(m,inputs,dt=STEP){
   for(const a of m.players){
    const move=a.move;if(!move||move.started===m.tick)continue;
    move.frame++;a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
+   if(move.retreatTravel&&move.frame<=move.startup){
+    const distance=RETREAT_DISTANCE*(retreatProgress(move)-retreatProgress(move,move.frame-1));
+    a.x=clamp(a.x-move.aimX*distance,-11,11);a.z=clamp(a.z-move.aimZ*distance,-6,6);
+   }
    if(move.aerial&&move.frame<=move.startup){
     a.x=clamp(a.x+move.glideX,-11,11);a.z=clamp(a.z+move.glideZ,-6,6);
    }

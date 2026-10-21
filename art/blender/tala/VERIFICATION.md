@@ -94,3 +94,11 @@ Chrome training also reached Storm Spark contact at frame 9 and Discus contact
 at frame 12, each with a projectile present. Storm Spark damaged the opponent.
 Both were inspected from the lock-on camera; no console errors or warnings.
 Full suite: 221 tests pass.
+
+Retreat travel: Chrome sampled Discus from takeoff through landing. Root Z moves
+0 → -0.311 → -0.700 → -1.049 → -1.200, rather than jumping at release; minimum
+visible mesh height rises from 0.031 to 0.189 and returns to 0.031. The automated
+checks cover nine-frame travel, final distance, one projectile, interruption,
+wall clamping, actual exported shoe clearance and stable landing ankles.
+Live Chrome training confirmed successive retreat positions across frames 5–11,
+then one projectile at release, with no console warnings/errors. 224 tests pass.

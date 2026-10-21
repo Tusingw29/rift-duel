@@ -1,3 +1,4 @@
+import {retreatLift} from './retreat-motion.js';
 // Full-body authored animation for Tala, the first fighter on the new system.
 // Poses are flat channel objects blended toward a target each frame, so idle,
 // footwork, strikes, guard and hit reactions flow from the current pose instead
@@ -141,6 +142,7 @@ export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
  if(p)advanceStride(r,p);
  const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0);
+ if(target?.kind==='back'&&p.move?.retreatTravel)target.pose.bodyY+=retreatLift(p.move)*.8;
  if(target?.kind==='run'&&r.gaitTargets){
   // Fighting steps keep the hands ready; avoid the large jogging arm pump.
   for(const key of ['lax','rax','le','re'])target.pose[key]=stance[key]+(target.pose[key]-stance[key])*.22;

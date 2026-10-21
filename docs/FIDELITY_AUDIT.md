@@ -105,3 +105,14 @@ both actions. Stock and follow-up variants, and airborne actions, still use the
 shared fallback. The existing 1.2-unit instantaneous backward displacement on
 disc release remains a visible discontinuity to address separately; this pass
 does not claim smooth retreat travel or original-game frame correspondence.
+
+### Tala retreat travel correction
+Tala's grounded backward specials now travel the same 1.2 units over the final
+nine startup frames, instead of teleporting on release. Collision and projectile
+origins use the moving position. This changes spacing during startup: an opponent
+may miss earlier, but there is no added invulnerability, and interruption cancels
+remaining travel. Walls clamp each movement step. Other fighters retain their
+existing retreat behavior. The base Discus animation adds a brief two-foot hop
+and planted landing; stock/follow-up animation paths still need authored polish.
+This supersedes the base Discus displacement issue documented above and remains
+original game tuning, not measured Evil Zone motion.

@@ -4,6 +4,7 @@ const up=new Vector3(0,1,0),right=new Vector3(1,0,0);
 // Combat-frame driven: frozen hitstop frames retain the exact heel/ankle pose.
 export function talaFootPivot(player,kind){
  const rotations=[new Quaternion(),new Quaternion()],move=player?.move;
+ if(kind==='back'&&move?.retreatTravel)return rotations;
  if(!['strike','shot','forward','back'].includes(kind)||move?.kind!==kind)return rotations;
  const contact=move.startup,release=contact+(move.active||1);
  const drive=smooth(move.frame/Math.max(1,contact))*(1-smooth((move.frame-release)/Math.max(1,move.recovery)));

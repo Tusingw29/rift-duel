@@ -87,3 +87,14 @@ test('concept energy shot pivots rear heel without dragging the support ball',()
  assert.ok(r.feet[1].localToWorld(new Vector3(0,-.109,-.08)).y>heel.y+.06);
  for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const point=new Vector3();for(let v=0;v<mesh.geometry.attributes.position.count;v++){mesh.getVertexPosition(v,point).applyMatrix4(mesh.matrixWorld);assert.ok(point.y>-.005);}}
 });
+test('disc hop lifts both exported shoes and lands without further ankle drift',()=>{
+ const review=createLiveTalaReview(asset.scene),r=review.rig;let peak=0;
+ for(let frame=0;frame<=36;frame++){
+  review.sample('Still-water discus',frame/60);
+  for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const v=new Vector3();for(let i=0;i<mesh.geometry.attributes.position.count;i++){mesh.getVertexPosition(i,v).applyMatrix4(mesh.matrixWorld);assert.ok(v.y>-.005,'shoe clears floor');}}
+  peak=Math.max(peak,Math.min(...r.feet.map(f=>f.getWorldPosition(new Vector3()).y)));
+ }
+ assert.ok(peak>.28,'both feet leave the floor');
+ const landing=r.feet.map(f=>f.getWorldPosition(new Vector3()));review.sample('Still-water discus',.75);
+ r.feet.forEach((f,i)=>assert.ok(f.getWorldPosition(new Vector3()).distanceTo(landing[i])<.003,'landing stays planted'));
+});

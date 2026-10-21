@@ -1,3 +1,4 @@
+import {RETREAT_DISTANCE,retreatProgress} from './retreat-motion.js';
 import {buildTala} from './tala-model.js';
 import {attachTalaConcept} from './tala-concept.js';
 import {animateCharacter} from './animation.js';
@@ -15,7 +16,7 @@ export function createLiveTalaReview(source){
  function reset(name){
   for(const key of Object.keys(rig))if(!keys.has(key))delete rig[key];
   for(const {node,p,q,s} of rest){node.position.copy(p);node.quaternion.copy(q);node.scale.copy(s);}
-  const kind=name==='Still-water discus'?'back':'forward';signature={kind,chain:1,...moveTiming(fighters[2],kind),frame:0};
+  const kind=name==='Still-water discus'?'back':'forward';signature={kind,retreatTravel:kind==='back',chain:1,...moveTiming(fighters[2],kind),frame:0};
   shot={kind:'shot',chain:1,...shotTiming,frame:0};
   moves=[1,2,3].map(chain=>({kind:'strike',chain,...timing,frame:0}));selected=name;frame=-1;
  }
@@ -33,8 +34,7 @@ export function createLiveTalaReview(source){
   if(name==='Energy shot'&&f>=12&&f<12+shotTiming.total){p.move=shot;shot.frame=f-12;p.anim='attack';}
   if(['Storm spark','Still-water discus'].includes(name)){
    if(f>=12&&f<12+signature.total){p.move=signature;signature.frame=f-12;p.anim=signature.kind;}
-   // Match the existing simulation's retreat on the release frame.
-   if(signature.kind==='back'&&f>=12+signature.startup)p.z=-1.2;
+   if(signature.kind==='back')p.z=-RETREAT_DISTANCE*retreatProgress(signature,Math.max(0,f-12));
   }
   if(name==='Combo'){
    const attackFrame=f-12,chain=Math.floor(attackFrame/timing.total);
