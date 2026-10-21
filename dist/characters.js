@@ -1,3 +1,4 @@
+import {buildRei} from './rei-model.js';
 import {buildAegis} from './aegis-model.js';
 import * as T from './vendor/three.module.js';
 import {buildTala} from './tala-model.js';
@@ -27,6 +28,7 @@ function batchJointMeshes(root,keep){
 // Original low-poly character meshes. All geometry is generated locally.
 export function buildCharacter(id){
  if(id===2)return buildTala();
+ if(id===1)return buildRei();
  if(id===0)return buildAegis();
  const f=fighters[id],g=new T.Group(),body=new T.Group();g.add(body);
  const materials={};

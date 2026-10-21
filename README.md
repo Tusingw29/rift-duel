@@ -163,3 +163,7 @@ Aegis has a slash, return cut and overhead finisher, blended grounded poses, dis
 
 ### Alpha 0.41 — Animation handoffs
 Tala and Aegis blend between their grounded animation and shared action poses. Landing preserves the outgoing arm pose briefly, foot anchors remain fixed, and attacks still reach the exact contact frame. Also fixes inherited ankle angles and cloth drift during paused transitions.
+
+
+### Alpha 0.42 — Rei model rebuild
+Rei has a fitted split-tail coat, continuous weighted limbs, swept ivory hair, painted facial features and shaped boots. Her sword, spirit companion and burst copies use the new rig. This also updates the default training opponent. Movement choreography is unchanged.
