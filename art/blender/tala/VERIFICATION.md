@@ -32,3 +32,7 @@ Added opt-in `?tala=concept` surface replacement using the game's existing comba
 Two tests load actual exported GLB geometry/skin data (omitting bitmap decoding in Node), verify original surfaces hide, aura/hand anchors remain, separate fighter and afterimage bindings are independent, and sampled live poses/root travel produce finite bounded vertices. The preview deliberately uses live combat animation rather than claiming that inspection clips have been integrated.
 
 Final local suite: 206 tests passed. Chrome also accepted circle and guard input with the concept model loaded; no warning/error console messages were present during this training check. Physical controllers and every cinematic pose were not rechecked in this pass.
+
+## Live crossed-arm guard
+
+Replaced Tala's live fists-up guard with a crossed-body pose using the existing yaw/roll/elbow channels. Both forearms remain ahead of the chest during held guard and block recoil; entry and release use the existing transition system. New tests check opposite-side hand positions after world translation/rotation, depth separation, continuous release, and exact strike contact after guarding. All 208 tests passed. Chrome showed the guarding opponent in a Tala-versus-Tala concept-preview training match with no console warnings/errors. This closes the guard integration gap, not the separate locomotion/ankle/recoil gaps.
