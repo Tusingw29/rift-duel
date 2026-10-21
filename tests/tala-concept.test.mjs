@@ -23,3 +23,18 @@ test('concept surfaces follow combat pose and root travel without invalid or str
   }
  }
 });
+test('live concept shoes stay level at guard and pivot at the ball during each punch',()=>{
+ for(const chain of [1,2,3]){
+  const r=rig();attachTalaConcept(r,asset.scene);r.g.position.set(4,0,-3);r.g.rotation.y=.7;r.g.scale.setScalar(chain===2?1.6:1);
+  for(let f=0;f<20;f++)animateCharacter(r,{anim:'idle',guard:true,x:4,z:-3},f/60);
+  r.g.updateMatrixWorld(true);for(const foot of r.feet){const up=new Vector3(0,1,0).applyQuaternion(foot.getWorldQuaternion(new (foot.quaternion.constructor)()));assert.ok(up.y>.999);}
+  const move={kind:'strike',chain,startup:5,active:1,recovery:14,frame:0},player={anim:'strike',move,x:4,z:-3};
+  animateCharacter(r,player,.4);r.g.updateMatrixWorld(true);const driver=chain===2?0:1,ball=r.feet[driver].localToWorld(r.footBall.clone()),heel=r.feet[driver].localToWorld(new Vector3(0,-.109,-.08));
+  for(let frame=1;frame<=5;frame++){move.frame=frame;animateCharacter(r,player,.4+frame/60);}
+  r.g.updateMatrixWorld(true);assert.ok(r.feet[driver].localToWorld(r.footBall.clone()).distanceTo(ball)<.002,'support ball stays planted');
+  assert.ok(r.feet[driver].localToWorld(new Vector3(0,-.109,-.08)).y>heel.y+.08,'driving heel lifts');
+  for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const point=new Vector3();for(let v=0;v<mesh.geometry.attributes.position.count;v++){mesh.getVertexPosition(v,point).applyMatrix4(mesh.matrixWorld);assert.ok(point.y>-.005,'shoe stays above floor at contact');}}
+  const q=r.feet[driver].quaternion.clone();animateCharacter(r,player,.4+5/60);assert.ok(q.angleTo(r.feet[driver].quaternion)<1e-5,'hitstop freezes pivot');
+  move.frame=20;animateCharacter(r,player,.8);r.g.updateMatrixWorld(true);const up=new Vector3(0,1,0).applyQuaternion(r.feet[driver].getWorldQuaternion(q));assert.ok(up.y>.999,'recovery levels sole');
+ }
+});

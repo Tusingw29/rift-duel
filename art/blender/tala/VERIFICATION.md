@@ -36,3 +36,9 @@ Final local suite: 206 tests passed. Chrome also accepted circle and guard input
 ## Live crossed-arm guard
 
 Replaced Tala's live fists-up guard with a crossed-body pose using the existing yaw/roll/elbow channels. Both forearms remain ahead of the chest during held guard and block recoil; entry and release use the existing transition system. New tests check opposite-side hand positions after world translation/rotation, depth separation, continuous release, and exact strike contact after guarding. All 208 tests passed. Chrome showed the guarding opponent in a Tala-versus-Tala concept-preview training match with no console warnings/errors. This closes the guard integration gap, not the separate locomotion/ankle/recoil gaps.
+
+## Live concept-model ankle pivots
+
+Registered the concept foot bones with the existing grounded solver. A foot orientation profile offsets the ankle target around the ball of the shoe before the existing leg solve; the fighter's collision position and punch channels are unchanged. Normal grounded poses level the soles, and strike recovery levels them again. Shared airborne states retain the existing foot-reset path.
+
+All 209 tests passed. The asset test checks all three strike contacts, including translated/rotated/scaled rigs: planted ball drift under .002 units, driving heel rise over .08 units, frozen-frame quaternion stability, recovery leveling, and every vertex of the shoe mesh above the floor at contact. Chrome exercised advance/attack in Tala-versus-Tala training and showed grounded shoes with no console errors. A normal-speed visual assessment of every transition and the remaining step-and-follow/recoil choreography is still outstanding.

@@ -37,4 +37,9 @@ Open https://tusingw29.github.io/rift-duel/?tala=concept and select Tala. The pr
 
 The regular URL retains the original model while art review continues. The asset loads only for Tala in the preview; failure retains the original fighter and displays a message. Leaving a fighter before loading finishes prevents attachment to a disposed rig. A link on the inspection page opens this playable preview.
 
-The crossed-body guard is now authored in the live pose channels as well: hands cross in front of the upper torso, the chin tucks, and block recoil preserves coverage. This applies to both Tala models. Entry/release use the existing live transition system; no animation clip is played over the combat timeline. The study locomotion, ankle pivots and recoil catch-step remain separate work.
+The crossed-body guard is now authored in the live pose channels as well: hands cross in front of the upper torso, the chin tucks, and block recoil preserves coverage. This applies to both Tala models. Entry/release use the existing live transition system; no animation clip is played over the combat timeline. Study locomotion and the recoil catch-step remain separate work. The playable concept model now uses combat-frame-driven ankle pivots.
+
+
+## Live concept-model feet
+
+The concept model's two foot bones now participate in the grounded pose solver. Shoes remain level while the knees bend. During melee strikes the driving heel lifts and turns (right foot for hits 1/3, left for hit 2); the ankle and knee adjust around a fixed ball-of-foot contact. Recovery returns the shoe to level. Combat frames drive this motion, including hitstop, rather than a separate animation clock. This currently applies to the concept-model preview; the original Tala mesh lacks independent foot weights.

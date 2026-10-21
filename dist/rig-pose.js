@@ -43,16 +43,26 @@ export function plantSupportFeet(r,p,kind){
   if(r.gaitPlants){r.footPlants=null;r.gaitPlants=null;}
   if(!r.footPlants)r.footPlants=[0,1].map(i=>r.g.localToWorld(new Vector3(i===0?-.25:.25,ankleHeight,i===0?.24:-.24)));
  }
+ // Articulated feet can pivot around the planted ball, moving the ankle and
+ // solving the leg above it without sliding the contact point across the floor.
+ const facing=r.g.getWorldQuaternion(new Quaternion()),scale=r.g.getWorldScale(new Vector3());
+ const pivots=r.footPivot?.(p,kind);
+ const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
+ const targets=r.footPlants.map((plant,i)=>{
+  if(!r.footBall||!footRotations)return plant;
+  const ball=r.footBall.clone().multiply(scale);
+  return plant.clone().add(ball.clone().applyQuaternion(facing)).sub(ball.applyQuaternion(footRotations[i]));
+ });
  // Let the hips settle rather than pulling an anchored foot up during the bounce.
  let settle=0;
  for(let i=0;i<2;i++){
-  const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(r.limbs[i*2+1].position);
+  const v=r.body.worldToLocal(targets[i].clone()).sub(r.limbs[i*2+1].position);
   if(v.y<0&&v.x*v.x+v.z*v.z<(reach-.01)**2)settle=Math.max(settle,-v.y-Math.sqrt((reach-.01)**2-v.x*v.x-v.z*v.z));
  }
  r.body.position.y-=Math.min(.12,settle);r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
-  const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(leg.position),d=v.length();
+  const v=r.body.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
   if(d>reach-.005||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
   const bend=2*Math.acos(Math.min(1,d/reach));
   leg.rotation.order='ZXY';
@@ -61,6 +71,6 @@ export function plantSupportFeet(r,p,kind){
  }
  // Keep articulated boot soles level while the two leg bones bend above them.
  // Only rigs with independent feet participate; shared aerial poses reset them.
- if(r.feet){r.g.updateMatrixWorld(true);const facing=r.g.getWorldQuaternion(new Quaternion());for(const foot of r.feet){const parent=foot.parent.getWorldQuaternion(new Quaternion());foot.quaternion.copy(parent.invert().multiply(facing));}}
+ if(r.feet){r.g.updateMatrixWorld(true);for(const [i,foot] of r.feet.entries()){const parent=foot.parent.getWorldQuaternion(new Quaternion());foot.quaternion.copy(parent.invert().multiply(footRotations[i]));}}
 
 }
