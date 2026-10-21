@@ -24,3 +24,16 @@ test('every fighter rig upgrades without losing a surface and the environment ne
  assert.equal(createEnvironment(null),null);
  const m=tuneMaterial(new T.MeshStandardMaterial(),'metal');assert.equal(m.metalness,PROFILES.metal.metalness);
 });
+
+test('texture clarity respects device limits, low quality and existing mip filters',async()=>{
+ const {sharpenTextures}=await import('../dist/shading.js');
+ const root=new T.Group(),map=new T.Texture(),normal=new T.Texture();
+ const minFilter=map.minFilter,magFilter=map.magFilter;
+ const material=new T.MeshStandardMaterial({map,normalMap:normal});
+ root.add(new T.Mesh(new T.BoxGeometry(),[material,material]));
+ assert.equal(sharpenTextures(root,4),2);
+ assert.equal(map.anisotropy,4);assert.equal(normal.anisotropy,4);
+ assert.equal(map.minFilter,minFilter);assert.equal(map.magFilter,magFilter);
+ sharpenTextures(root,16);assert.equal(map.anisotropy,8);
+ sharpenTextures(root,16,'low');assert.equal(map.anisotropy,1);
+});

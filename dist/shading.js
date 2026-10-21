@@ -1,4 +1,18 @@
 import * as T from './vendor/three.module.js';
+// Keep oblique cloth/face textures legible; retain mipmaps to avoid shimmer.
+export function sharpenTextures(root,maxAnisotropy=1,quality='high'){
+ const amount=quality==='low'?1:Math.max(1,Math.min(8,maxAnisotropy||1)),seen=new Set();
+ root.traverse(node=>{
+  for(const material of (Array.isArray(node.material)?node.material:[node.material])){
+   if(!material)continue;
+   for(const key of ['map','normalMap','roughnessMap','metalnessMap','aoMap']){
+    const texture=material[key];if(!texture||seen.has(texture))continue;seen.add(texture);
+    if(texture.anisotropy!==amount){texture.anisotropy=amount;texture.needsUpdate=true;}
+   }
+  }
+ });
+ return seen.size;
+}
 // Rendering quality pass toward the early-2000s 3D fighter look: image-based
 // environment lighting, a key/fill/rim rig with crisp soft shadows, and physically
 // based materials with glossy skin, shiny hair and rough cloth. Pure helpers keep

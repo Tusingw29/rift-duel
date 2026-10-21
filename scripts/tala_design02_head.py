@@ -46,7 +46,10 @@ def build_head(ctx):
     z+=f*dz
    # Smooth neck weight ramp; connected rings avoid floating head/neck pieces.
    blend=max(0,min(1,(y-2.09)/.16));weights.append(B('chest','head',blend))
-   verts.append((x,y,z))
+   # Taper the jaw and cheeks without cropping the painted facial landmarks.
+   # Keep the cranium/hair fit and original UV projection intact.
+   taper=1-.10*math.exp(-((y-2.36)/.105)**2)
+   verts.append((x*taper,y,z))
    u=.5+x/.62
    v=1-(.861-(y-2.23)/.51*.845)
    if c<=0 or y<2.245:u,v=.035,.55
