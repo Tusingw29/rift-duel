@@ -1,7 +1,7 @@
 """Connected face/neck study in authored Tala coordinates, before proportion remap.
 A deliberately editable surface study, not automatic retopology or a final sculpt.
 """
-import math
+import math,sys
 import bpy
 
 def build_head(ctx):
@@ -81,13 +81,19 @@ def bake_face(obj,material,source,skin,atlas,masks,root):
  for poly in obj.data.polygons:
   for idx in poly.loop_indices:layer.data[idx].uv=atlas[obj.data.loops[idx].vertex_index]
  obj.data.uv_layers.active=layer;layer.active_render=True
- image=bpy.data.images.new('Tala_Design02_face_albedo',width=1024,height=1024,alpha=False)
- image.colorspace_settings.name='sRGB'
- target=nodes.new('ShaderNodeTexImage');target.image=image;nodes.active=target;target.select=True
- bpy.ops.object.select_all(action='DESELECT');obj.select_set(True);bpy.context.view_layer.objects.active=obj
- scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=1
- scene.render.bake.margin=8;bpy.ops.object.bake(type='EMIT')
- image.filepath_raw=str(root/'art/blender/tala-design02/face-baked.png');image.file_format='PNG';image.save();image.pack()
+ if '--reuse-face-atlas' in sys.argv:
+  # Explicit fast path for body-only iterations; a full build remains default.
+  cached=root/'art/blender/tala-design02/face-baked.png'
+  if not cached.exists():raise RuntimeError('No face atlas to reuse; run a full build first')
+  image=bpy.data.images.load(str(cached));image.pack()
+ else:
+  image=bpy.data.images.new('Tala_Design02_face_albedo',width=1024,height=1024,alpha=False)
+  image.colorspace_settings.name='sRGB'
+  target=nodes.new('ShaderNodeTexImage');target.image=image;nodes.active=target;target.select=True
+  bpy.ops.object.select_all(action='DESELECT');obj.select_set(True);bpy.context.view_layer.objects.active=obj
+  scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=1
+  scene.render.bake.margin=8;bpy.ops.object.bake(type='EMIT')
+  image.filepath_raw=str(root/'art/blender/tala-design02/face-baked.png');image.file_format='PNG';image.save();image.pack()
  authoring=material.copy();authoring.name='Design02_face_authoring';authoring.use_fake_user=True
  # Standard metallic/roughness material: no shader extension or runtime mask.
  nodes.clear();out=nodes.new('ShaderNodeOutputMaterial');shader=nodes.new('ShaderNodeBsdfPrincipled')

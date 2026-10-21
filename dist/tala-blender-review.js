@@ -3,7 +3,7 @@ import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {createLiveTalaReview,LIVE_TALA_CLIPS} from './tala-live-review.js';
 const $=s=>document.querySelector(s),host=$('#view');
 const design02=new URLSearchParams(location.search).get('model')==='design02';
-if(design02){document.querySelector('header span').textContent='Design 02 · face, body and costume study';const link=document.querySelector('a[download]');link.href='assets/models/tala-design02.glb';$('#model-note').textContent='Face, shorter neck, swept hair and connected shoulders. Includes a tailored vest, shorts and continuous wrapped fists. Shoulders and lower legs still need refinement. This is not yet the complete character.';document.querySelector('#play-model').hidden=true;}
+if(design02){document.querySelector('header span').textContent='Design 02 · face, body and costume study';const link=document.querySelector('a[download]');link.href='assets/models/tala-design02.glb';$('#model-note').textContent='Face, shorter neck, swept hair and connected shoulders. Includes a tailored vest, shorts, continuous fists and tapered cloth wraps. Shoulders, hair and shoes still need refinement. This is not yet the complete character.';document.querySelector('#play-model').hidden=true;}
 const renderer=new T.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));host.prepend(renderer.domElement);renderer.outputColorSpace=T.SRGBColorSpace;
 const scene=new T.Scene();scene.background=new T.Color('#323b49');
 const camera=new T.PerspectiveCamera(38,1,.01,100);let yaw=.35,pitch=.12,distance=5.3,focusY=1.35;
@@ -34,7 +34,7 @@ renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domEle
 renderer.domElement.onpointermove=e=>{if(drag){yaw-=(e.clientX-drag[0])*.008;pitch=Math.max(-.4,Math.min(.8,pitch+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY];}};
 renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(.7,Math.min(9,distance+e.deltaY*.004));},{passive:false});
 try{
- const gltf=await new GLTFLoader().loadAsync(design02?'./assets/models/tala-design02.glb?v=6':'./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
+ const gltf=await new GLTFLoader().loadAsync(design02?'./assets/models/tala-design02.glb?v=7':'./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
  live=createLiveTalaReview(model);scene.add(live.rig.g);let vertices=0,meshes=0;
  model.traverse(n=>{if(n.isMesh){meshes++;vertices+=n.geometry.attributes.position.count;n.frustumCulled=false;}});
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;

@@ -1,6 +1,6 @@
 # Design 02 — face, upper-body and costume study
 
-This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower legs remain from the previous study. The public fight continues to load the earlier model.
+This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower-leg anatomy and shoes remain from the previous study. The public fight continues to load the earlier model.
 
 ## What is implemented
 
@@ -74,3 +74,11 @@ The armhole refinement projects boundary vertices onto the authored oval and rem
 The separate finger blocks are replaced with a continuous wrapped palm, staggered knuckles, curled fingers and an opposing thumb. Blender voxel union joins these construction surfaces, then smoothing and reduction produce a compact surface. Both fists retain the existing one-bone hand mapping. This is a closed-fist sculpt, not articulated fingers; open-hand techniques still need dedicated shapes or finger bones. Guard and straight-punch renders are regenerated for this pass; the other images retain the previous hands.
 
 Hand-pass verification: 240 repository tests pass. New checks verify that each fist is one connected mesh, uses the correct hand bone and stays finite at guard and all three punch contacts. The full study now has 34,426 Blender vertices across 13 meshes; this is still an art prototype and needs mesh-budget refinement before becoming the default fighter.
+
+## Cloth wraps and faster body-only builds
+
+The forearm and shin wraps now use continuous tapered surfaces with shallow diagonal overlap and flat vertex-color seams. This replaces separate raised ring meshes. The lower forearm blends from hand to forearm influence; shin cloth follows the shin bone. Guard and full-body costume renders show this pass; older punch images retain the preceding wrap geometry.
+
+For body-only iterations with an unchanged face surface and source, add `--reuse-face-atlas` to the Design 02 build command. It explicitly loads the existing packed face atlas, retains the authoring material and UV mapping, and skips the CPU face bake. The default build still rebakes the face. Do not use this shortcut after changing the face geometry, UVs, source image or mask; it deliberately has no automatic stale-cache detection.
+
+Wrap-pass verification: 241 tests pass. Guard and full-body front/profile renders were inspected; the exported face atlas hash matches the preceding asset. The current study contains 39,270 Blender vertices across 15 meshes. Visual improvement is not a performance benchmark: mesh reduction, shoulder/elbow anatomy, hair and shoes remain outstanding, and real-time browser playback is still unverified.

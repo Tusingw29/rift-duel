@@ -149,6 +149,8 @@ if DESIGN02:
  build_costume(globals())
  from tala_design02_hands import build_hands
  build_hands(globals())
+ from tala_design02_wraps import build_wraps
+ build_wraps(globals())
  from tala_design02_hair import build_hair
  build_hair(globals())
 else:

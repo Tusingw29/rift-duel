@@ -111,3 +111,17 @@ test('both sculpted fists are connected and follow their own hand bone',()=>{
   }
  }
 });
+test('cloth wraps retain color detail and bend with the live guard and movement',()=>{
+ const material=json.materials.findIndex(m=>m.name==='Design02_wrap_cloth');assert.ok(material>=0);
+ const primitives=json.meshes.flatMap(m=>m.primitives).filter(p=>p.material===material);
+ assert.equal(primitives.length,4);
+ for(const p of primitives)assert.ok(p.attributes.COLOR_0!==undefined);
+ const review=createLiveTalaReview(asset.scene),point=new Vector3();
+ const wraps=review.rig.g.children.filter(n=>/Design02_(forearm|shin)_wrap/.test(n.name));assert.equal(wraps.length,4);
+ for(const clip of LIVE_TALA_CLIPS){
+  review.sample(clip.name,clip.duration*.5);review.rig.g.updateMatrixWorld(true);
+  for(const wrap of wraps){wrap.skeleton.update();
+   for(let i=0;i<wrap.geometry.attributes.position.count;i+=17){wrap.getVertexPosition(i,point);assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<7));}
+  }
+ }
+});
