@@ -26,6 +26,8 @@ test('baked face material points to an exported UV set without a custom shader e
 });
 // Geometry and live-animation checks do not pretend to validate browser texture decoding.
 json.buffers[0].uri='data:application/octet-stream;base64,'+bytes.subarray(28+len).toString('base64');
+// Connectivity across UV seams: vertices at the same position count as one.
+function connectedComponents(geometry){const pos=geometry.attributes.position,count=pos.count,key=new Map(),canon=new Array(count);for(let i=0;i<count;i++){const k=`${pos.getX(i).toFixed(4)},${pos.getY(i).toFixed(4)},${pos.getZ(i).toFixed(4)}`;if(!key.has(k))key.set(k,i);canon[i]=key.get(k);}const parent=Array.from({length:count},(_,i)=>canon[i]);const root=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};const index=geometry.index.array;for(let i=0;i<index.length;i+=3){parent[root(index[i+1])]=root(index[i]);parent[root(index[i+2])]=root(index[i]);}return new Set(parent.map((_,i)=>root(i))).size;}
 const geometryJson=structuredClone(json);delete geometryJson.images;delete geometryJson.textures;geometryJson.materials=geometryJson.materials.map(()=>({}));
 const asset=await new GLTFLoader().parseAsync(JSON.stringify(geometryJson),'');
 test('new connected head and neck bind and remain finite through actual review actions',()=>{
@@ -47,11 +49,8 @@ test('new connected head and neck bind and remain finite through actual review a
 test('upper body is one connected surface with normalized combat weights',()=>{
  let body;asset.scene.traverse(n=>{if(n.isSkinnedMesh&&n.name==='Design02_upper_body')body=n;});
  assert.ok(body,'connected torso/arms are exported separately for inspection');
- const geometry=body.geometry,count=geometry.attributes.position.count,index=geometry.index.array;
- const parent=Array.from({length:count},(_,i)=>i);
- const root=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};
- for(let i=0;i<index.length;i+=3){parent[root(index[i+1])]=root(index[i]);parent[root(index[i+2])]=root(index[i]);}
- assert.equal(new Set(parent.map((_,i)=>root(i))).size,1,'no disconnected shoulder or arm shells');
+ const geometry=body.geometry,count=geometry.attributes.position.count;
+ assert.equal(connectedComponents(geometry),1,'no disconnected shoulder or arm shells');
  const weights=geometry.attributes.skinWeight;
  for(let i=0;i<count;i++)assert.ok(Math.abs(weights.getX(i)+weights.getY(i)+weights.getZ(i)+weights.getW(i)-1)<1e-4);
 });
@@ -96,11 +95,7 @@ test('both sculpted fists are connected and follow their own hand bone',()=>{
   const hand=review.rig.g.children.find(n=>n.name==='concept-Design02_fist'+suffix||n.name==='concept-Design02_fist.'+suffix);
   assert.ok(hand,`separate ${suffix} fist`);
   const g=hand.geometry,weights=g.attributes.skinWeight,joints=g.attributes.skinIndex;
-  const parent=Array.from({length:g.attributes.position.count},(_,i)=>i);
-  const root=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};
-  const index=g.index.array;
-  for(let i=0;i<index.length;i+=3){parent[root(index[i+1])]=root(index[i]);parent[root(index[i+2])]=root(index[i]);}
-  assert.equal(new Set(parent.map((_,i)=>root(i))).size,1,'fingers and thumb connect to palm');
+  assert.equal(connectedComponents(g),1,'fingers and thumb connect to palm');
   for(let i=0;i<weights.count;i++){
    assert.ok(Math.abs(weights.getX(i)-1)<1e-5);
    assert.equal(hand.skeleton.bones[joints.getX(i)],review.rig.limbs[suffix==='L'?0:2].userData.hand);

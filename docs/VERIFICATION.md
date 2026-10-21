@@ -368,3 +368,7 @@ A repeatable headless Chromium check now lives in the repository and runs on Git
 ## Rendering quality pass (0.53)
 
 246 tests pass, including material classification, Lambert-to-physical conversion that preserves maps, vertex colours, transparency and sharing, idempotent upgrades, every rig upgrading without losing a surface, and the environment builder returning null without WebGL. Headless Chromium captures before and after the pass show shading volume, hair highlights and a balanced floor; cast-shadow softness and real frame cost on devices remain hands-on checks.
+
+## Baked textures for Tala (0.54)
+
+The Design 02 build with the texture bake ran locally end to end with Blender 3.6.22 (about six minutes), producing ten packed JPEG atlases and a 3.8 MB GLB, down from an 8 MB first attempt with PNG atlases. 246 tests pass; the two connectivity tests now merge coincident vertices so UV seams do not count as breaks. Headless captures showed the first bake blackening the fists, whose material had no vertex-colour layer, and darkening the cloth; both were corrected by gating the fold normalisation on the layer and centring the weave tone. Judgment of weave detail at close camera cuts and on real devices remains hands-on.

@@ -153,6 +153,8 @@ if DESIGN02:
  build_wraps(globals())
  from tala_design02_hair import build_hair
  build_hair(globals())
+ from tala_design02_textures import bake_textures
+ bake_textures(globals())
 else:
  # Hair cap plus broad tapered locks, no cone spikes for every strand.
  loft('Hair_cap',[R(0,2.52,-.055,.205,.17,'head'),R(0,2.66,-.04,.207,.175,'head'),R(0,2.76,-.06,.14,.13,'head'),R(0,2.79,-.06,.025,.03,'head')],'hair',20)
@@ -220,5 +222,5 @@ bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'tala-study.blend'))
 for track in rig.animation_data.nla_tracks:track.mute=False
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.gltf(filepath=str(ROOT/('dist/assets/models/tala-design02.glb' if DESIGN02 else 'dist/assets/models/tala-study.glb')),export_format='GLB',use_selection=True,export_animations=True,**({"export_animation_mode":"NLA_TRACKS"} if bpy.app.version>=(4,0,0) else {"export_nla_strips":True}),export_force_sampling=True,export_frame_range=False,export_materials='EXPORT',export_yup=True)
-report={'blender':bpy.app.version_string,'bones':len(arm.bones),'meshes':len([o for o in scene.objects if o.type=='MESH']),'vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),'clips':[c['name'] for c in DATA['clips']],'combo_contact_seconds':[5/60,25/60,45/60],'source':DATA['source']}
+report={'blender':bpy.app.version_string,'bones':len(arm.bones),'meshes':len([o for o in scene.objects if o.type=='MESH']),'vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),'clips':[c['name'] for c in DATA['clips']],'combo_contact_seconds':[5/60,25/60,45/60],'source':DATA['source'],'textures':globals().get('texture_report',{})}
 (OUT/'build-report.json').write_text(json.dumps(report,indent=2));print('RIFT_BUILD',json.dumps(report))

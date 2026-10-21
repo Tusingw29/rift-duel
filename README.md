@@ -223,3 +223,7 @@ Tala can now be rebuilt and rendered on GitHub through [Build Tala art in the cl
 ## Alpha 0.53: rendering quality pass
 
 A step toward the early-2000s 3D fighter look at the engine level, so every fighter and arena benefits. The scene now has image-based lighting from a prefiltered studio environment tinted to each arena's sky and ground, a key/fill/rim light rig with a 2048 shadow map and normal bias for crisp soft shadows, and physically based materials everywhere: Lambert surfaces on the older fighters are converted automatically, and surfaces are classified by name into glossy clearcoated skin, shiny hair, rough cloth and wraps, leather shoes, metal and stone profiles. High quality renders at up to 2× pixel ratio, exposure is rebalanced, and the CRT scanline overlay is reduced to a trace. Textures, hair strands and the remaining roster models are still the visible gap to that target.
+
+## Alpha 0.54: baked surface textures for Tala
+
+Tala's Design 02 surfaces are no longer flat colours. The Blender build now unwraps every object of each material into one atlas and bakes a procedural, object-space pattern into it with Cycles: a crossed twill weave with fold shading for the vest and shorts, wound linen with overlap bands and dust for the wraps and fists, two-scale tone mottling and a faint warm blush for skin, strand and clump streaks for hair, and grain with scuffs for the shoes. The atlases are packed into the GLB as JPEG so the download stays small. No photographs or outside assets are used; everything is generated from the authored colours.

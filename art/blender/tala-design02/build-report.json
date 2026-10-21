@@ -17,5 +17,88 @@
     0.4166666666666667,
     0.75
   ],
-  "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing"
+  "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing",
+  "textures": {
+    "top": {
+      "kind": "cloth",
+      "size": 512,
+      "objects": [
+        "Athletic_top"
+      ]
+    },
+    "skin": {
+      "kind": "skin",
+      "size": 768,
+      "objects": [
+        "Design02_ear",
+        "Design02_ear.001",
+        "Leg.L",
+        "Leg.R",
+        "Design02_upper_body"
+      ]
+    },
+    "sole": {
+      "kind": "leather",
+      "size": 256,
+      "objects": [
+        "Shoe.L",
+        "Shoe.R"
+      ]
+    },
+    "ochre": {
+      "kind": "cloth",
+      "size": 256,
+      "objects": [
+        "Shoe_trim.L",
+        "Shoe_trim.R",
+        "Design02_hair_tie"
+      ]
+    },
+    "Design02_ochre_cloth": {
+      "kind": "cloth",
+      "size": 768,
+      "objects": [
+        "Design02_vest"
+      ]
+    },
+    "Design02_rust_cloth": {
+      "kind": "cloth",
+      "size": 768,
+      "objects": [
+        "Design02_shorts"
+      ]
+    },
+    "wrap": {
+      "kind": "wrap",
+      "size": 384,
+      "objects": [
+        "Design02_fist.L",
+        "Design02_fist.R"
+      ]
+    },
+    "Design02_wrap_cloth": {
+      "kind": "wrap",
+      "size": 512,
+      "objects": [
+        "Design02_wraps"
+      ]
+    },
+    "hair": {
+      "kind": "hair",
+      "size": 512,
+      "objects": [
+        "Design02_hair_cap",
+        "Design02_fringe",
+        "Design02_fringe.001",
+        "Design02_fringe.002",
+        "Design02_fringe.003",
+        "Design02_fringe.004",
+        "Design02_side_lock",
+        "Design02_side_lock.001",
+        "Design02_ponytail",
+        "Design02_ponytail.001",
+        "Design02_ponytail.002"
+      ]
+    }
+  }
 }

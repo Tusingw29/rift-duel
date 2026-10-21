@@ -72,3 +72,7 @@ Thigh and shin are both 0.64. Other fighters still use their earlier proportions
 ## Rendering pass (0.53)
 
 What separated the Design 02 render from the Dead or Alive 3 / Tekken 4 / Soul Calibur 3 target, judged from a 1600-pixel training capture: matte flat-lit surfaces with no specular or reflections, washed shadows, a blown-out floor, and the scanline overlay. `shading.js` adds environment lighting, a three-light rig and material profiles (skin roughness 0.46 with clearcoat, hair 0.38, cloth 0.82, ground 0.9). Remaining gaps are asset work: painted cloth and skin detail maps, alpha-card hair with anisotropic highlights, and rebuilding the other five fighters to the proportion standard.
+
+## Surface detail (0.54)
+
+`scripts/tala_design02_textures.py` bakes object-space procedural patterns per material into packed atlases before the per-material join. Fold shading reuses the authored vertex colours, divided by the base tint so it only darkens. Sizes: cloth and skin 768, wraps and hair 512, trim and leather 256, small parts smaller. The next visible steps toward the Dead or Alive 3 target are alpha-card hair, modelled eyes and mouth, and seams and stitching painted in UV space rather than object space.
