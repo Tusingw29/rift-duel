@@ -227,3 +227,8 @@ A step toward the early-2000s 3D fighter look at the engine level, so every figh
 ## Alpha 0.54: baked surface textures for Tala
 
 Tala's Design 02 surfaces are no longer flat colours. The Blender build now unwraps every object of each material into one atlas and bakes a procedural, object-space pattern into it with Cycles: a crossed twill weave with fold shading for the vest and shorts, wound linen with overlap bands and dust for the wraps and fists, two-scale tone mottling and a faint warm blush for skin, strand and clump streaks for hair, and grain with scuffs for the shoes. The atlases are packed into the GLB as JPEG so the download stays small. No photographs or outside assets are used; everything is generated from the authored colours.
+
+## Project skills
+
+- `skills/ps1-anime-fighter-art`: concept art and pose-sheet generation for the roster.
+- `skills/blender-animation-threejs`: Blender scripting, rigging, glTF export, Three.js and game-architecture reference with Rift Duel-specific notes (Blender 3.6.22 pinned for this Mac, no Draco/Meshopt decoders vendored, bone-name contract for the game skeleton). Includes a headless `blender_gltf_export_validator.py` pre-flight. Audit against it on October 21, 2026: the export already uses Y-up, NLA tracks, forced sampling and packed textures; skinned meshes disable frustum culling; clones go through the project's skeleton-aware cloner; shadow bias and normal bias are set. Not adopted: Draco/KTX2 compression (no decoders in the vendored runtime) and tangent export (no normal maps yet).
