@@ -2,11 +2,14 @@
 Coordinates in surface definitions match the game's X/right Y/up Z/forward rig.
 The existing authored motion is baked as editable keys, not claimed as new animation.
 """
-import bpy,json,math
+import bpy,json,math,sys
 from pathlib import Path
 from mathutils import Matrix,Vector
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'art/blender/tala'; DATA=json.loads((OUT/'motion-source.json').read_text())
+DESIGN02='--design02' in sys.argv
+OUT=ROOT/('art/blender/tala-design02' if DESIGN02 else 'art/blender/tala')
+OUT.mkdir(parents=True,exist_ok=True)
+DATA=json.loads((ROOT/'art/blender/tala/motion-source.json').read_text())
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 C=Matrix.Rotation(math.pi/2,4,'X')
 def matrix(a):return Matrix([a[i::4] for i in range(4)])
@@ -91,12 +94,17 @@ for side in [-1,1]:
  bpy.context.view_layer.objects.active=panel;bpy.ops.object.modifier_apply(modifier=solid.name)
  verts=[(side*.095,2.13,.065),(side*.165,2.10,.108),(side*.14,1.94,.215),(side*.09,1.98,.19)]
  mesh('Standing_collar',verts,[tuple(range(4)) if side>0 else (3,2,1,0)],[W('chest')]*4,'ochre')
-loft('Neck',[R(0,2.05,0,.095,.088,'chest'),R(0,2.20,0,.09,.085,B('chest','head',.8)),R(0,2.28,0,.10,.09,'head')],'skin')
-loft('Head',[R(0,2.22,.018,.045,.065,'head'),R(0,2.29,.012,.13,.14,'head'),R(0,2.41,0,.193,.174,'head'),R(0,2.55,-.015,.198,.177,'head'),R(0,2.68,-.025,.145,.137,'head'),R(0,2.72,-.025,.03,.03,'head')],'skin',24)
-# Small modeled ears and nose give the painted face a readable side profile.
-for side in [-1,1]:
- loft('Ear',[R(side*.185,2.36,-.005,.025,.027,'head'),R(side*.203,2.415,-.005,.032,.038,'head'),R(side*.193,2.475,-.008,.023,.03,'head')],'skin',10)
-mesh('Nose',[(0,2.49,.183),(-.022,2.397,.181),(0,2.391,.218),(.022,2.397,.181),(0,2.377,.183)],[(0,1,2),(0,2,3),(1,4,2),(2,4,3)],[W('head')]*5,'skin')
+if DESIGN02:
+ sys.path.insert(0,str(ROOT/'scripts'))
+ from tala_design02_head import build_head
+ build_head(globals())
+else:
+ loft('Neck',[R(0,2.05,0,.095,.088,'chest'),R(0,2.20,0,.09,.085,B('chest','head',.8)),R(0,2.28,0,.10,.09,'head')],'skin')
+ loft('Head',[R(0,2.22,.018,.045,.065,'head'),R(0,2.29,.012,.13,.14,'head'),R(0,2.41,0,.193,.174,'head'),R(0,2.55,-.015,.198,.177,'head'),R(0,2.68,-.025,.145,.137,'head'),R(0,2.72,-.025,.03,.03,'head')],'skin',24)
+ # Small modeled ears and nose give the painted face a readable side profile.
+ for side in [-1,1]:
+  loft('Ear',[R(side*.185,2.36,-.005,.025,.027,'head'),R(side*.203,2.415,-.005,.032,.038,'head'),R(side*.193,2.475,-.008,.023,.03,'head')],'skin',10)
+ mesh('Nose',[(0,2.49,.183),(-.022,2.397,.181),(0,2.391,.218),(.022,2.397,.181),(0,2.377,.183)],[(0,1,2),(0,2,3),(1,4,2),(2,4,3)],[W('head')]*5,'skin')
 loft('Shorts_waist',[R(0,1.21,0,.22,.163,'root'),R(0,1.35,0,.258,.164,'root'),R(0,1.40,0,.24,.155,'root')],'rust',20)
 loft('Waistband',[R(0,1.36,0,.26,.17,'root'),R(0,1.40,0,.245,.161,'root')],'lining',20)
 for side,suffix in [(-1,'L'),(1,'R')]:
@@ -149,27 +157,28 @@ for i in range(5):
   R(offset*2.5+.11,2.00+abs(i-2)*.06,-.62,.047,.025,'ponytail'),
   R(offset*3.2+.15,1.77+abs(i-2)*.09,-.48,.002,.004,'ponytail')], 'hair',10)
 loft('Hair_tie',[R(0,2.70,-.20,.103,.105,'ponytail'),R(0,2.74,-.20,.104,.105,'ponytail')],'ochre',12)
-# Reuse the project's original painted face; curved, UV-mapped and packed in the GLB.
-m=bpy.data.materials.new('Painted_face');m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');tex=m.node_tree.nodes.new('ShaderNodeTexImage');tex.image=bpy.data.images.load(str(ROOT/'dist/assets/tala-face.png'));tex.image.pack();m.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color']);m.node_tree.links.new(tex.outputs['Alpha'],p.inputs['Alpha']);p.inputs['Roughness'].default_value=1
-if hasattr(m,'surface_render_method'):m.surface_render_method='DITHERED'
-else:m.blend_method='CLIP'
-m.use_backface_culling=True
-verts=[];uv=[];faces=[]
-profile=[(2.225,.05,.075,.018),(2.29,.13,.14,.012),(2.41,.193,.174,0),(2.55,.198,.177,-.015),(2.67,.15,.14,-.025)]
-rows=[a[0]+(b[0]-a[0])*step/5 for a,b in zip(profile,profile[1:]) for step in range(5)]+[profile[-1][0]]
-for j,y in enumerate(rows):
- v=(y-2.225)/.445
- low,high=next((a,b) for a,b in zip(profile,profile[1:]) if a[0]-1e-6<=y<=b[0]+1e-6)
- t=(y-low[0])/(high[0]-low[0]);rx,rz,cz=[low[k]+(high[k]-low[k])*t for k in (1,2,3)]
- wid=rx*.96
- for i in range(25):
-  u=i/24;x=(u*2-1)*wid;z=cz+rz*math.sqrt(max(0,1-(x/rx)**2))+.010;verts.append((x,y,z));uv.append((.5+x/.4,v))
-  if j<len(rows)-1 and i<24:a=j*25+i;faces.append((a,a+1,a+26,a+25))
-mesh('Painted_face',verts,faces,[W('head')]*len(verts),m,uv)
+if not DESIGN02:
+ # Reuse the project's original painted face; curved, UV-mapped and packed in the GLB.
+ m=bpy.data.materials.new('Painted_face');m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');tex=m.node_tree.nodes.new('ShaderNodeTexImage');tex.image=bpy.data.images.load(str(ROOT/'dist/assets/tala-face.png'));tex.image.pack();m.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color']);m.node_tree.links.new(tex.outputs['Alpha'],p.inputs['Alpha']);p.inputs['Roughness'].default_value=1
+ if hasattr(m,'surface_render_method'):m.surface_render_method='DITHERED'
+ else:m.blend_method='CLIP'
+ m.use_backface_culling=True
+ verts=[];uv=[];faces=[]
+ profile=[(2.225,.05,.075,.018),(2.29,.13,.14,.012),(2.41,.193,.174,0),(2.55,.198,.177,-.015),(2.67,.15,.14,-.025)]
+ rows=[a[0]+(b[0]-a[0])*step/5 for a,b in zip(profile,profile[1:]) for step in range(5)]+[profile[-1][0]]
+ for j,y in enumerate(rows):
+  v=(y-2.225)/.445
+  low,high=next((a,b) for a,b in zip(profile,profile[1:]) if a[0]-1e-6<=y<=b[0]+1e-6)
+  t=(y-low[0])/(high[0]-low[0]);rx,rz,cz=[low[k]+(high[k]-low[k])*t for k in (1,2,3)]
+  wid=rx*.96
+  for i in range(25):
+   u=i/24;x=(u*2-1)*wid;z=cz+rz*math.sqrt(max(0,1-(x/rx)**2))+.010;verts.append((x,y,z));uv.append((.5+x/.4,v))
+   if j<len(rows)-1 and i<24:a=j*25+i;faces.append((a,a+1,a+26,a+25))
+ mesh('Painted_face',verts,faces,[W('head')]*len(verts),m,uv)
 # Merge by material to keep the exported asset inexpensive to draw.
 bpy.ops.object.select_all(action='DESELECT')
 for material in list(mats.values()):
- group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and o.data.materials[0]==material]
+ group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and len(o.data.materials)==1 and o.data.materials[0]==material]
  if not group:continue
  for o in group:o.select_set(True)
  bpy.context.view_layer.objects.active=group[0];bpy.ops.object.join();bpy.ops.object.select_all(action='DESELECT')
@@ -194,6 +203,6 @@ bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'tala-study.blend'))
 for track in rig.animation_data.nla_tracks:track.mute=False
 bpy.ops.object.select_all(action='SELECT')
-bpy.ops.export_scene.gltf(filepath=str(ROOT/'dist/assets/models/tala-study.glb'),export_format='GLB',use_selection=True,export_animations=True,**({"export_animation_mode":"NLA_TRACKS"} if bpy.app.version>=(4,0,0) else {"export_nla_strips":True}),export_force_sampling=True,export_frame_range=False,export_materials='EXPORT',export_yup=True)
+bpy.ops.export_scene.gltf(filepath=str(ROOT/('dist/assets/models/tala-design02.glb' if DESIGN02 else 'dist/assets/models/tala-study.glb')),export_format='GLB',use_selection=True,export_animations=True,**({"export_animation_mode":"NLA_TRACKS"} if bpy.app.version>=(4,0,0) else {"export_nla_strips":True}),export_force_sampling=True,export_frame_range=False,export_materials='EXPORT',export_yup=True)
 report={'blender':bpy.app.version_string,'bones':len(arm.bones),'meshes':len([o for o in scene.objects if o.type=='MESH']),'vertices':sum(len(o.data.vertices) for o in scene.objects if o.type=='MESH'),'clips':[c['name'] for c in DATA['clips']],'combo_contact_seconds':[5/60,25/60,45/60],'source':DATA['source']}
 (OUT/'build-report.json').write_text(json.dumps(report,indent=2));print('RIFT_BUILD',json.dumps(report))

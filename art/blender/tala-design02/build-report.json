@@ -1,0 +1,21 @@
+{
+  "blender": "3.6.22",
+  "bones": 17,
+  "meshes": 11,
+  "vertices": 8913,
+  "clips": [
+    "Idle",
+    "Advance",
+    "Retreat",
+    "Circle",
+    "Guard",
+    "Combo",
+    "Recoil"
+  ],
+  "combo_contact_seconds": [
+    0.08333333333333333,
+    0.4166666666666667,
+    0.75
+  ],
+  "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing"
+}

@@ -23,6 +23,10 @@ Click any board for its full resolution.
 ### 5. Projectiles, rush, kick and aerial pursuit
 ![Signatures](05-signatures-corrected.png)
 
+## Partial 3D implementation
+
+[Head and neck study, actual renders and limitations](../blender/tala-design02/README.md). This is a work-in-progress variant; the public fighter still uses the earlier model.
+
 ## Build documents
 
 - [Modern workflow: faster authoring, baked detail, efficient effects and extras](WORKFLOW-UPGRADE.md)

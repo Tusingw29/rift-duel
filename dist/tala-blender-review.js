@@ -2,6 +2,8 @@ import * as T from './vendor/three.module.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
 import {createLiveTalaReview,LIVE_TALA_CLIPS} from './tala-live-review.js';
 const $=s=>document.querySelector(s),host=$('#view');
+const design02=new URLSearchParams(location.search).get('model')==='design02';
+if(design02){document.querySelector('header span').textContent='Design 02 · head and neck work in progress';const link=document.querySelector('a[download]');link.href='assets/models/tala-design02.glb';$('#model-note').textContent='Head and neck surface study. Body, costume and hair are still the earlier model. This is not yet the complete Design 02 character.';document.querySelector('#play-model').hidden=true;}
 const renderer=new T.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));host.prepend(renderer.domElement);renderer.outputColorSpace=T.SRGBColorSpace;
 const scene=new T.Scene();scene.background=new T.Color('#323b49');
 const camera=new T.PerspectiveCamera(38,1,.01,100);let yaw=.35,pitch=.12,distance=5.3,focusY=1.35;
@@ -30,14 +32,15 @@ $('#wire').onchange=()=>[model,live?.rig.g].filter(Boolean).forEach(root=>root.t
 for(const b of document.querySelectorAll('[data-angle]'))b.onclick=()=>{yaw=+b.dataset.angle;pitch=.12;focusY=1.35;distance=5.3;};
 renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId);};renderer.domElement.onpointerup=()=>drag=null;
 renderer.domElement.onpointermove=e=>{if(drag){yaw-=(e.clientX-drag[0])*.008;pitch=Math.max(-.4,Math.min(.8,pitch+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY];}};
-renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(2.2,Math.min(9,distance+e.deltaY*.004));},{passive:false});
+renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(.7,Math.min(9,distance+e.deltaY*.004));},{passive:false});
 try{
- const gltf=await new GLTFLoader().loadAsync('./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
+ const gltf=await new GLTFLoader().loadAsync(design02?'./assets/models/tala-design02.glb?v=1':'./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
  live=createLiveTalaReview(model);scene.add(live.rig.g);let vertices=0,meshes=0;
  model.traverse(n=>{if(n.isMesh){meshes++;vertices+=n.geometry.attributes.position.count;n.frustumCulled=false;}});
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;
  window.talaStudy=()=>{const root=activeModel(),bounds=new T.Box3();root.updateMatrixWorld(true);root.traverseVisible(n=>{if(n.isMesh){if(n.isSkinnedMesh){n.skeleton.update();n.computeBoundingBox();bounds.union(n.boundingBox.clone().applyMatrix4(n.matrixWorld));}else{n.geometry.computeBoundingBox();bounds.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld));}}});return {source:$('#source').value,clip:$('#clip').value,time:elapsed,clips:activeClips().map(c=>({name:c.name,duration:c.duration})),meshes,vertices,bounds:bounds.min.toArray(),root:root.position.toArray(),head:live.rig.head.rotation.toArray().slice(0,3)};};
 }catch(e){$('#error').textContent=e.message;$('#status').textContent='Model failed to load';console.error(e);}
+$('#face').onclick=()=>{yaw=0;pitch=0;focusY=2.65;distance=1.15;};
 $('#hands').onclick=()=>{yaw=-.35;pitch=.05;focusY=1.85;distance=2.5;};
 const clock=new T.Clock();renderer.setAnimationLoop(()=>{
  const dt=Math.min(.05,clock.getDelta());
