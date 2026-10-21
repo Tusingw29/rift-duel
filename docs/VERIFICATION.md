@@ -333,3 +333,10 @@ Morrow now has a dedicated weighted rig with broad fitted armor, overlapping sho
 Morrow now has a cross-body cut, return cut and overhead finisher with hip loading, carried follow-through and a braced recovery. His original 12-frame startup, active frames, recovery duration and damage remain unchanged. Grounded stance, advance/retreat/circling, guard and reactions use authored channels. Boots have separate weighted ankle joints and stay level under the planted-leg solve. Morrow participates in the authored/shared handoff blend. Aegis's unchanged driver was extracted to a reusable grounded-animation module.
 
 191 tests pass. New checks cover actual greatsword-tip position at all three contact frames, distinct windups, weighted boot-floor clearance at heavy scale, fixed ankles, distance-driven gait and chain continuity. Handoff/freeze tests now include Morrow; existing Aegis tests pass after extraction. Chrome landed all three cuts at frame 12 (rival HP 92.56 → 85.12 → 72.72), then exercised pursuit, jump and return to idle with no console errors. Shared missiles, captures, burst and aerial choreography remain separate original implementations; historical animation equivalence is not established.
+
+
+## Sol and Vesper weighted models (0.46)
+
+Replaced the final generic primitive bodies with weighted caster models: Sol has a split travelling coat, folded collar, auburn hair and a crystal staff; Vesper has a shoulder drape, long swept locks, independent robe panels and ring ornaments. Faces and costume maps are original code-authored textures. The old generic builder is removed.
+
+191 tests pass. Normalized skin weights, finite deformation and independent clone skeleton checks now cover both casters, alongside existing all-roster weapon, bounds and floor checks. Chrome inspected both menu models, fired each basic projectile (rival HP 93.98 for Sol and 92.79 for Vesper), and inspected Vesper's ring-bind burst after stock consumption. No console errors or warnings. Shared casting choreography, simple materials and early stages remain visible limitations; this is not an Evil Zone art-parity claim.

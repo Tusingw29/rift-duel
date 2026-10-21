@@ -4,6 +4,10 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 **Play:** https://tusingw29.github.io/rift-duel/
 
+## Alpha 0.46
+
+Sol and Vesper now use weighted character surfaces, painted faces and costume panels, independent hanging cloth, and distinct staff/ring silhouettes. All six fighters have dedicated model builds. Rei, Sol and Vesper still use shared choreography; visual fidelity remains unfinished.
+
 ## Included
 
 - Six original articulated fighters with distinct silhouettes, ready stances, movement, reach, damage, and signature attacks.
