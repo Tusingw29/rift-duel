@@ -37,3 +37,10 @@ def build_wraps(ctx):
    obj=ctx['mesh']('Design02_'+kind+'_wrap.'+suffix,v,faces,w,mat,mapped=True)
    attr=obj.data.color_attributes.new(name='WrapTone',type='FLOAT_COLOR',domain='POINT')
    for i,color in enumerate(colors):attr.data[i].color=color
+
+ # All four wraps share one cloth material. Join their surfaces while preserving
+ # vertex groups and point colors, so they submit together in the renderer.
+ parts=[o for o in bpy.context.scene.objects if o.type=='MESH' and o.name.startswith(('Design02_forearm_wrap.','Design02_shin_wrap.'))]
+ bpy.ops.object.select_all(action='DESELECT')
+ for obj in parts:obj.select_set(True)
+ bpy.context.view_layer.objects.active=parts[0];bpy.ops.object.join();parts[0].name='Design02_wraps'

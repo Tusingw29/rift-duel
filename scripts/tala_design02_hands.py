@@ -51,7 +51,7 @@ def build_hands(ctx):
   bpy.ops.object.modifier_apply(modifier=remesh.name)
   smooth=obj.modifiers.new('Soften wrapped knuckles','SMOOTH');smooth.factor=.55;smooth.iterations=3
   bpy.ops.object.modifier_apply(modifier=smooth.name)
-  decimate=obj.modifiers.new('Browser hand budget','DECIMATE');decimate.ratio=.55
+  decimate=obj.modifiers.new('Browser hand budget','DECIMATE');decimate.ratio=.22
   bpy.ops.object.modifier_apply(modifier=decimate.name)
   obj.vertex_groups.clear();group=obj.vertex_groups.new(name=bone);group.add(list(range(len(obj.data.vertices))),1,'REPLACE')
   for p in obj.data.polygons:p.use_smooth=True

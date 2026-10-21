@@ -1,8 +1,8 @@
 {
   "blender": "3.6.22",
   "bones": 17,
-  "meshes": 15,
-  "vertices": 39270,
+  "meshes": 12,
+  "vertices": 32970,
   "clips": [
     "Idle",
     "Advance",

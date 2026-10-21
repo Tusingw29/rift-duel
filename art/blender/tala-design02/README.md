@@ -106,3 +106,9 @@ Open [the Design 02 fight preview](https://tusingw29.github.io/rift-duel/?tala=d
 The asset loader caches each model separately, preserves the existing fallback on load failure and ignores completed loads for disposed fighters. The fight badge identifies Design 02 and links to its matching inspection page. Mirror-fighter and afterimage checks cover independent bones, materials and geometry; bitmap decoding, full match visuals and frame rate still need browser verification.
 
 Playable-preview integration: 243 repository tests pass. No browser session was available for an end-to-end match check, so the preview remains explicitly optional rather than the default release appearance.
+
+## Geometry optimization
+
+The two fists now use a lower-density mesh while retaining their silhouette; the four wraps share one draw primitive with all six required hand/forearm/shin influences preserved. Actual GLB accessor counts changed from 39,270 to 32,970 vertices and from 77,358 to 64,758 triangles. Draw primitives fell from 15 to 12, and the file shrank from 3,112,344 to 2,811,744 bytes. See `optimization-report.json` for measured counts. These reductions are not measured frame-rate improvements.
+
+Front guard renders were compared before and after; the knuckle/thumb silhouettes and cloth seams remain visually close. Guard images show the optimized model. Other stills and the motion video retain the preceding geometry. All 243 tests pass, including connected fists, cloth influences, mirror fighters and afterimages. Full-speed browser performance remains unverified.

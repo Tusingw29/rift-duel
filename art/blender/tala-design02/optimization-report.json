@@ -1,0 +1,15 @@
+{
+  "before": {
+    "bytes": 3112344,
+    "primitives": 15,
+    "vertices": 39270,
+    "triangles": 77358
+  },
+  "after": {
+    "bytes": 2811744,
+    "primitives": 12,
+    "vertices": 32970,
+    "triangles": 64758
+  },
+  "notes": "Counts from actual GLB accessors. Not a frame-rate benchmark."
+}
