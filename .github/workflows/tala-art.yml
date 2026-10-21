@@ -10,6 +10,10 @@ on:
         description: Render head, guard, full-body and combo review images
         type: boolean
         default: true
+      render_motion:
+        description: Render current-model guard and combo video
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -56,10 +60,16 @@ jobs:
           for pose in guard straight cross hook; do
             blender --background --threads 2 --python scripts/render-tala-design02.py -- --pose="$pose"
           done
+      - name: Render current-model motion review
+        if: inputs.render_motion
+        run: |
+          node scripts/sample-tala-motion-review.mjs
+          blender --background --threads 2 --python scripts/render-tala-motion-review.py
       - name: Record provenance and checksums
         env:
           RENDERED_REVIEW: ${{ inputs.render_review }}
           REBAKED_FACE: ${{ inputs.rebake_face }}
+          RENDERED_MOTION: ${{ inputs.render_motion }}
         run: node scripts/tala-art-manifest.mjs
       - name: Upload verified build for review
         uses: actions/upload-artifact@v4

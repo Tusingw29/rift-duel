@@ -43,6 +43,12 @@ def build_head(ctx):
      dz+=bump(x,y,s*.092,2.50,.047,.028,-.017)
      dz+=bump(x,y,s*.093,2.538,.054,.018,.009)
      dz+=bump(x,y,s*.112,2.419,.049,.043,.013)
+     # Orbital rim and lower-lid volume follow the painted eyes' landmarks.
+     orbit=((x-s*.092)/.052)**2+((y-2.50)/.024)**2
+     dz+=.0045*math.exp(-((orbit-1)/.45)**2)
+    # Philtrum and lip volume break the former flat mouth plane.
+    dz+=bump(x,y,0,2.353,.012,.018,-.004)
+    dz+=bump(x,y,0,2.315,.047,.013,.004)
     z+=f*dz
    # Smooth neck weight ramp; connected rings avoid floating head/neck pieces.
    blend=max(0,min(1,(y-2.09)/.16));weights.append(B('chest','head',blend))
@@ -61,9 +67,22 @@ def build_head(ctx):
     a=j*(cols+1)+i;faces.append((a,a+1,a+cols+2,a+cols+1))
  obj=mesh('Design02_connected_head_neck',verts,faces,weights,face,uv)
  bake_face(obj,face,tex,skin,atlas,masks,ROOT)
- # Small dimensional ears, tucked beneath side hair. Head remains a single surface.
- for s in [-1,1]:
-  loft('Design02_ear',[R(s*.178,2.37,-.025,.015,.025,'head'),R(s*.196,2.43,-.025,.025,.033,'head'),R(s*.188,2.48,-.028,.018,.025,'head')],'skin',12)
+ # Bowl-shaped pinnae with a raised helix and soft lobule, rather than blocks.
+ for side in [-1,1]:
+  ev=[];ef=[];ew=[];segments=40;rings=8
+  for j in range(rings+1):
+   r=j/rings
+   for i in range(segments+1):
+    angle=math.tau*i/segments
+    y=2.425+.059*r*math.cos(angle)
+    z=-.024+.031*r*math.sin(angle)
+    bowl=.012+.013*math.exp(-((r-.77)/.17)**2)-.007*math.exp(-((r-.25)/.3)**2)
+    x=side*(.177+bowl+.005*math.cos(angle))
+    ev.append((x,y,z));ew.append(W('head'))
+    if j<rings and i<segments:
+     n=j*(segments+1)+i;quad=(n,n+1,n+segments+2,n+segments+1)
+     ef.append(quad if side<0 else tuple(reversed(quad)))
+  mesh('Design02_ear',ev,ef,ew,'skin')
  return obj
 
 

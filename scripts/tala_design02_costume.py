@@ -27,7 +27,7 @@ def build_costume(ctx):
   skin=obj.modifiers.new('Skin','ARMATURE');skin.object=rig
   return obj
  # A single curved sleeveless shell, with genuine openings for both arms.
- profile=[(1.67,.267,.194),(1.79,.303,.207),(1.91,.333,.202),(1.98,.365,.165),(2.035,.32,.143),(2.085,.135,.104),(2.13,.115,.097)]
+ profile=[(1.67,.245,.184),(1.79,.291,.199),(1.91,.333,.202),(1.98,.365,.165),(2.035,.32,.143),(2.085,.135,.104),(2.13,.115,.097)]
  def shape(y):
   for (a,b,c),(d,e,f) in zip(profile,profile[1:]):
    if y<=d:
@@ -35,10 +35,10 @@ def build_costume(ctx):
   return profile[-1][1:]
  v=[];f=[];w=[];sh=[];params=[];cols=72;rows=40
  for j in range(rows+1):
-  t=j/rows;y=1.67+.46*t;rx,rz=shape(y);opening=math.asin((.10-.035*t)/rx)
+  t=j/rows;y=1.67+.46*t;rx,rz=shape(y);opening=math.asin((.135-.065*t)/rx)
   for i in range(cols+1):
    a=opening+(math.tau-2*opening)*i/cols
-   fold=.003*math.sin(a*8+t*6)*math.sin(math.pi*t)**2
+   fold=.004*math.sin(a*8+t*6)*math.sin(math.pi*t)**2
    v.append(((rx+fold)*math.sin(a),my(y),(rz+fold)*math.cos(a)))
    w.append({'chest':1});params.append((a,y))
    edge=min(i,cols-i,j,rows-j);sh.append(.72 if edge==0 else .88 if edge==1 else 1)
@@ -63,7 +63,16 @@ def build_costume(ctx):
   angle=center+.52*dx/length;y=1.985+.085*dy/length
   rx,rz=shape(y);t=(y-1.67)/.46;fold=.003*math.sin(angle*8+t*6)*math.sin(math.pi*t)**2
   v[i]=((rx+fold)*math.sin(angle),my(y),(rz+fold)*math.cos(angle));sh[i]=.78
- finish('Design02_vest',v,f,w,fabric('Design02_ochre_cloth','ochre'),sh)
+ vestmat=fabric('Design02_ochre_cloth','ochre')
+ finish('Design02_vest',v,f,w,vestmat,sh)
+ # Folded collar/lapels: actual thickness and separate planes catch the key light.
+ for side in [-1,1]:
+  points=[(side*.072,my(2.13),.102),(side*.145,my(2.125),.119),
+          (side*.178,my(2.02),.176),(side*.125,my(1.93),.211),
+          (side*.097,my(2.025),.164)]
+  faces=[(0,1,4),(1,2,4),(2,3,4)]
+  if side<0:faces=[tuple(reversed(f)) for f in faces]
+  finish('Design02_lapel',points,faces,[{'chest':1}]*5,vestmat,[.78,1,1,.87,.93])
  # Two tubes share their complete upper inseam: one waist, two leg openings.
  v=[];f=[];w=[];sh=[];shared={};cols=48;rows=16
  for side,suffix in [(-1,'L'),(1,'R')]:
@@ -82,7 +91,7 @@ def build_costume(ctx):
     else:
      index=len(v);v.append(p);weight=t*t*(3-2*t)
      w.append({'root':1-weight,'thigh.'+suffix:weight})
-     sh.append(.72 if j in (0,rows) else .86 if j in (1,rows-1) else .91 if abs(s)<.06 else 1)
+     sh.append(.68 if j==0 else .80 if j<=2 else .73 if j==rows else .87 if j==rows-1 else .86 if abs(s)<.065 else 1)
      if j==0 and c<=1e-6:shared[key]=index
     row.append(index)
    grid.append(row)

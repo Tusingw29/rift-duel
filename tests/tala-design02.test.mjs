@@ -140,3 +140,24 @@ test('Design 02 mirror fighters and afterimages keep independent skeletons',asyn
  assert.ok(before.distanceTo(after)<1e-7,'afterimage keeps the captured pose');
  assert.ok(b.rig.head.quaternion.angleTo(otherHead)<1e-7,'opponent is unaffected');
 });
+
+test('layered hair exports packed cutout strands and follows the live head/pony rig',()=>{
+ const index=json.materials.findIndex(m=>m.name==='Design02_hair_strands');
+ assert.ok(index>=0,'strand material exists');const material=json.materials[index];
+ assert.equal(material.alphaMode,'MASK');assert.ok(material.alphaCutoff>0&&material.alphaCutoff<1);
+ assert.equal(material.doubleSided,true);
+ const texture=material.pbrMetallicRoughness.baseColorTexture;
+ const image=json.images[json.textures[texture.index].source];assert.equal(image.mimeType,'image/png');
+ const primitives=json.meshes.flatMap(m=>m.primitives).filter(p=>p.material===index);
+ assert.ok(primitives.length>0);
+ for(const primitive of primitives)assert.ok(primitive.attributes['TEXCOORD_'+(texture.texCoord||0)]!==undefined);
+ const review=createLiveTalaReview(asset.scene),point=new Vector3();
+ const hair=review.rig.g.children.filter(n=>n.isSkinnedMesh&&/strand/.test(n.name));assert.ok(hair.length>0);
+ for(const name of ['Guard + block','Combo','Recoil']){
+  const clip=LIVE_TALA_CLIPS.find(c=>c.name===name);if(!clip)continue;
+  for(const t of [0,.25,.5,.75,1]){
+   review.sample(name,clip.duration*t);review.rig.g.updateMatrixWorld(true);
+   for(const mesh of hair){mesh.skeleton.update();for(let i=0;i<mesh.geometry.attributes.position.count;i+=19){mesh.getVertexPosition(i,point);assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<5));}}
+  }
+ }
+});

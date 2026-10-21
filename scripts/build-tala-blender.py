@@ -115,11 +115,13 @@ for side,suffix in [(-1,'L'),(1,'R')]:
  a='upper_arm.'+suffix;e='forearm.'+suffix;h='hand.'+suffix;l='thigh.'+suffix;k='shin.'+suffix;x=side*.43;lx=side*.20
  arm_rings=[R(side*.365,2.135,-.002,.012,.02,B('chest',a,.7)),R(side*.39,2.10,0,.078,.081,B('chest',a,.85)),R(side*.415,2.035,0,.122,.12,a),R(x,1.94,0,.122,.123,a),R(x,1.82,.005,.103,.105,a),R(x,1.68,0,.080,.085,B(a,e,.15)),R(x,1.59,0,.078,.08,B(a,e,.5)),R(x,1.51,0,.088,.09,B(a,e,.88)),R(x,1.36,0,.087,.085,e),R(x,1.22,0,.063,.07,h)]
  if DESIGN02:
-  # Reduce the elevated deltoid cap while retaining the shoulder attachment and
-  # hand anchors. Radius-only taper avoids changing combat reach or rig lengths.
-  for j,factor in enumerate([1,.90,.84,.87,.94,1,1,1,1,1]):
-   arm_rings[j][3]*=factor;arm_rings[j][4]*=factor
-  arm_rings[0][1]-=.045;arm_rings[1][1]-=.025
+  # Anatomical shoulder bridge: the trapezius slopes into the upper-arm pivot;
+  # the deltoid no longer projects above the joint like a separate balloon.
+  arm_rings[:4]=[
+   R(side*.29,2.045,-.004,.034,.038,B('chest',a,.20)),
+   R(side*.355,2.035,0,.064,.070,B('chest',a,.50)),
+   R(side*.415,2.005,0,.095,.100,B('chest',a,.85)),
+   R(x,1.925,0,.103,.105,a)]
  loft('Arm.'+suffix,arm_rings,'skin',16)
  # Compact palm, four curled fingers and an opposing thumb, rather than
  # one bulb-shaped mitten. All remain weighted to the existing hand bone.
