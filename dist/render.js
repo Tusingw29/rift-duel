@@ -37,10 +37,11 @@ export function createView(canvas,options={}){
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id);
   model.talaStatus=id===2?'classic':null;
-  if(id===2&&talaModel==='concept'){
+  if(id===2&&['concept','design02'].includes(talaModel)){
+   const variant=talaModel;
    model.talaStatus='loading';
    model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
-   loadTalaConcept().then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);model.talaStatus='concept';document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
+   loadTalaConcept(variant).then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);model.talaStatus=variant;document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:variant==='design02'?'Design 02 fight preview':'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
   }
   const material=new T.MeshBasicMaterial({color:fighters[id].color,transparent:true,opacity:.22,depthWrite:false,side:T.DoubleSide});
   model.techniqueFX=new T.Mesh(new T.SphereGeometry(1,16,10),material);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
@@ -147,5 +148,5 @@ export function createView(canvas,options={}){
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=value==='classic'?'classic':'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

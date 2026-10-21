@@ -26,3 +26,8 @@ test('standard controller actions remain available and incomplete devices are sa
   assert.equal(readPad(pad)[action],true);assert.equal(Object.values(readPad(pad)).filter(v=>v===true).length,1);
  }
 });
+test('Design 02 is an explicit appearance choice while the default stays unchanged',()=>{
+ assert.equal(normalizeOptions().talaModel,'concept');
+ assert.equal(normalizeOptions({talaModel:'design02'}).talaModel,'design02');
+ assert.equal(normalizeOptions({talaModel:'unknown'}).talaModel,'concept');
+});

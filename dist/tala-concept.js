@@ -2,10 +2,12 @@ import {talaFootPivot,talaFootOffsets,talaGaitTargets} from './tala-footwork.js'
 import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.js';
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
 const canonical=name=>name.replace(/^(upper_arm|forearm|hand|thigh|shin|foot)([LR])$/,'$1.$2');
-let asset;
-export function loadTalaConcept(){
- if(!asset)asset=import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync('./assets/models/tala-study.glb?v=4')).catch(error=>{asset=null;throw error;});
- return asset;
+const assets=new Map();
+export const talaAssetUrl=variant=>variant==='design02'?'./assets/models/tala-design02.glb?v=7':'./assets/models/tala-study.glb?v=4';
+export function loadTalaConcept(variant='concept'){
+ const key=variant==='design02'?'design02':'concept';
+ if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));
+ return assets.get(key);
 }
 // Keep the combat skeleton, hand anchors and state machine. Only exchange surfaces.
 export function attachTalaConcept(r,source){

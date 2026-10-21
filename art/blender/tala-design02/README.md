@@ -1,6 +1,6 @@
 # Design 02 — face, upper-body and costume study
 
-This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower-leg anatomy and shoes remain from the previous study. The public fight continues to load the earlier model.
+This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower-leg anatomy and shoes remain from the previous study. The normal game defaults to the earlier model. The optional `?tala=design02` fight preview loads this study.
 
 ## What is implemented
 
@@ -28,7 +28,7 @@ blender --background --python scripts/render-tala-design02.py -- --pose=hook
 
 The build flag writes this directory's editable `tala-study.blend`, baked albedo and report, plus `dist/assets/models/tala-design02.glb`. Omitting the flag retains the original study output. The current 17-bone combat mapping and contact timing are preserved. Live study-model ponytail roll is capped at 0.45 radians; the earlier public model retains its existing motion.
 
-Review at `/tala-blender.html?model=design02`. Use Inspect face, then compare front/profile and guard. The preview is explicitly labeled a study and does not offer a misleading play-with-this-model link.
+Review at `/tala-blender.html?model=design02`. Use Inspect face, then compare front/profile and guard. The preview is explicitly labeled a study and links to the optional Design 02 fight.
 
 ## Actual renders
 
@@ -98,3 +98,11 @@ blender --background --python scripts/render-tala-motion-review.py
 `motion-review.json` records all 120 pose samples and the source GLB SHA-256. The renderer inserts exact sampled keys and checks seven frames against runtime world matrices before rendering. It writes `dist/assets/tala-design02-motion.mp4` and a punch-frame image. Regenerate this video when the model or animator changes; it does not update dynamically with the game.
 
 Video verification: the MP4 contains 120 H.264 frames at 384×480 over exactly 4 seconds. The checked Blender keys match sampled runtime matrices with maximum element error 0.000000477. The rendered punch-frame framing was inspected and all 241 repository tests pass. Chrome still timed out while connecting, so browser playback and the full-speed visual verdict remain unverified; do not treat the encoded frame count as a fluidity assessment.
+
+## Optional playable fight preview
+
+Open [the Design 02 fight preview](https://tusingw29.github.io/rift-duel/?tala=design02) to use this model in the actual match renderer. Tala starts selected; choose Training to inspect movement, guard, punches, signatures and reactions with the usual keyboard or controller inputs. The default model remains unchanged. Opening this query link does not save the preview appearance merely because another setting is saved; explicitly choosing Design 02 in Options does save it.
+
+The asset loader caches each model separately, preserves the existing fallback on load failure and ignores completed loads for disposed fighters. The fight badge identifies Design 02 and links to its matching inspection page. Mirror-fighter and afterimage checks cover independent bones, materials and geometry; bitmap decoding, full match visuals and frame rate still need browser verification.
+
+Playable-preview integration: 243 repository tests pass. No browser session was available for an end-to-end match check, so the preview remains explicitly optional rather than the default release appearance.

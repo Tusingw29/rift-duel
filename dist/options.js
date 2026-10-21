@@ -1,7 +1,7 @@
 export const defaultOptions={volume:.25,difficulty:'normal',quality:'high',reduced:false,trainingAI:false,trainingBehavior:'idle',showInputs:true,roundSeconds:90,winsNeeded:2,deadzone:.22,music:true,announcer:true,camera:'lock',talaModel:'concept'};
 export function normalizeOptions(value={}){
  const v=value&&typeof value==='object'?value:{},out={...defaultOptions};
- for(const [key,allowed] of Object.entries({difficulty:['easy','normal','hard'],quality:['high','low'],roundSeconds:[60,90,120],winsNeeded:[1,2,3],deadzone:[.12,.22,.32],camera:['lock','side'],talaModel:['concept','classic']}))if(allowed.includes(v[key]))out[key]=v[key];
+ for(const [key,allowed] of Object.entries({difficulty:['easy','normal','hard'],quality:['high','low'],roundSeconds:[60,90,120],winsNeeded:[1,2,3],deadzone:[.12,.22,.32],camera:['lock','side'],talaModel:['concept','classic','design02']}))if(allowed.includes(v[key]))out[key]=v[key];
  if(Number.isFinite(v.volume))out.volume=Math.max(0,Math.min(1,v.volume));
  for(const key of ['reduced','trainingAI','showInputs','music','announcer'])if(typeof v[key]==='boolean')out[key]=v[key];
  if(['idle','guard','cpu'].includes(v.trainingBehavior))out.trainingBehavior=v.trainingBehavior;

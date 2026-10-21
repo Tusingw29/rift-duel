@@ -125,3 +125,20 @@ test('cloth wraps retain color detail and bend with the live guard and movement'
   }
  }
 });
+
+test('Design 02 mirror fighters and afterimages keep independent skeletons',async()=>{
+ const {cloneRig}=await import('../dist/rig-clone.js');
+ const a=createLiveTalaReview(asset.scene),b=createLiveTalaReview(asset.scene);
+ a.sample('Combo',17/60);b.sample('Guard + block',.95);
+ const find=r=>r.g.children.find(n=>n.name==='concept-Design02_upper_body');
+ const meshA=find(a.rig),meshB=find(b.rig);assert.notEqual(meshA.skeleton,meshB.skeleton);
+ assert.notEqual(meshA.material,meshB.material);assert.notEqual(meshA.geometry,meshB.geometry);
+ const ghost=cloneRig(a.rig.g),ghostMesh=ghost.children.find(n=>n.name===meshA.name);
+ ghost.updateMatrixWorld(true);ghostMesh.skeleton.update();
+ const index=100,before=new Vector3(),after=new Vector3();ghostMesh.getVertexPosition(index,before);
+ const otherHead=b.rig.head.quaternion.clone();
+ a.sample('Recoil',.5);a.rig.g.updateMatrixWorld(true);meshA.skeleton.update();
+ ghost.updateMatrixWorld(true);ghostMesh.skeleton.update();ghostMesh.getVertexPosition(index,after);
+ assert.ok(before.distanceTo(after)<1e-7,'afterimage keeps the captured pose');
+ assert.ok(b.rig.head.quaternion.angleTo(otherHead)<1e-7,'opponent is unaffected');
+});
