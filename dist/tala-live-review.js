@@ -12,8 +12,8 @@ const timing=moveTiming(fighters[2],'strike');
 export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
-export function createLiveTalaReview(source){
- const rig=buildTala();rig.conceptOriginalSurfaces=[];rig.g.traverse(n=>{if(n.isMesh&&n!==rig.aura)rig.conceptOriginalSurfaces.push(n);});attachTalaConcept(rig,source);rig.aura.visible=false;
+export function createLiveTalaReview(source,{variant='design02'}={}){
+ const rig=buildTala({variant});rig.conceptOriginalSurfaces=[];rig.g.traverse(n=>{if(n.isMesh&&n!==rig.aura)rig.conceptOriginalSurfaces.push(n);});attachTalaConcept(rig,source);rig.aura.visible=false;
  const keys=new Set(Object.keys(rig)),rest=[];rig.g.traverse(n=>{if(n.isBone||n===rig.g)rest.push({node:n,p:n.position.clone(),q:n.quaternion.clone(),s:n.scale.clone()});});
  let selected=null,frame=-1,moves,shot,signature,flight;
  function reset(name){

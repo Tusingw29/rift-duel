@@ -37,7 +37,7 @@ renderer.domElement.onpointermove=e=>{if(drag){yaw-=(e.clientX-drag[0])*.008;pit
 renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(.7,Math.min(9,distance+e.deltaY*.004));},{passive:false});
 try{
  const gltf=await new GLTFLoader().loadAsync(v3?'./assets/models/tala-v3.glb?v=2':design02?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4');model=gltf.scene;sharpenTextures(model,renderer.capabilities.getMaxAnisotropy(),'high',renderer.getContext().getContextAttributes().antialias);scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
- live=createLiveTalaReview(model);scene.add(live.rig.g);let vertices=0,meshes=0;
+ live=createLiveTalaReview(model,{variant:v3?'v3':'design02'});scene.add(live.rig.g);let vertices=0,meshes=0;
  model.traverse(n=>{if(n.isMesh){meshes++;vertices+=n.geometry.attributes.position.count;n.frustumCulled=false;}});
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;
  window.talaStudy=()=>{const root=activeModel(),bounds=new T.Box3();root.updateMatrixWorld(true);root.traverseVisible(n=>{if(n.isMesh){if(n.isSkinnedMesh){n.skeleton.update();n.computeBoundingBox();bounds.union(n.boundingBox.clone().applyMatrix4(n.matrixWorld));}else{n.geometry.computeBoundingBox();bounds.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld));}}});return {source:$('#source').value,clip:$('#clip').value,time:elapsed,clips:activeClips().map(c=>({name:c.name,duration:c.duration})),meshes,vertices,bounds:bounds.min.toArray(),root:root.position.toArray(),head:live.rig.head.rotation.toArray().slice(0,3)};};

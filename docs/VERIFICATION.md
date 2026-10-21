@@ -376,3 +376,9 @@ The Design 02 build with the texture bake ran locally end to end with Blender 3.
 ## Tala Design 03 anatomical body (0.57)
 
 249 tests pass. The build verifies that the straightened joints match the motion sample before skinning. A headless Chromium training capture in the side camera showed the new body attached (model status v3), standing in the guard stance beside Rei at the expected height with shoes on the floor and no console errors; earlier captures caught a sunk, stretched body caused by the suit's garment mask deleting the legs and the floor being measured at the knees, both fixed. Face close-ups, motion at normal speed and physical controllers remain hands-on checks.
+
+## Design 03 motion compatibility (0.57.1)
+
+The live foot solver previously treated both leg segments as the thigh length. Design 03 has a 0.8089 thigh and 0.6939 shin; the equal-length solve missed its support targets. It now solves unequal segments with the law of cosines, including true reach and ankle fallback. A regression checks actual ankle positions during nine hip offsets and fails with the previous solver. Equal-length rigs keep the same solution.
+
+The live model review now constructs the selected Design 03 skeleton instead of binding its surfaces to Design 02 joints. Tests check unchanged rest vertices and finite bone transforms across every live review action. These checks establish compatibility, not final animation aesthetics. No model surfaces, combat timings, or authored moves were replaced.

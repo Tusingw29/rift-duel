@@ -17,7 +17,7 @@ export function applyPose(r,s){
 const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
  const ankleHeight=r.ankleHeight??.14;
- const reach=(r.legLength||.48)*2;ankle.y=-(r.legLength||.48);
+ const upper=r.legLength||.48,lower=r.shinLength||upper,reach=upper+lower;ankle.y=-lower;
  if(!p||!(['idle','guard','charge','strike','shot','forward','back','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
@@ -88,10 +88,13 @@ export function plantSupportFeet(r,p,kind){
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
   const v=r.body.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
-  if(d>reach-.005||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.talaGait)r.talaGait.feet[i].at.copy(r.footPlants[i]);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
-  const bend=2*Math.acos(Math.min(1,d/reach));
+  if(d>reach-.005||d<Math.max(.2,Math.abs(upper-lower)+.005)){r.footPlants[i]=groundAnkle(knee);if(r.talaGait)r.talaGait.feet[i].at.copy(r.footPlants[i]);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
+  // Law of cosines preserves the planted ankle on rigs with unequal segments.
+  const clamp=v=>Math.max(-1,Math.min(1,v));
+  const bend=Math.PI-Math.acos(clamp((upper*upper+lower*lower-d*d)/(2*upper*lower)));
+  const hip=Math.acos(clamp((upper*upper+d*d-lower*lower)/(2*upper*d)));
   leg.rotation.order='ZXY';
-  leg.rotation.set(Math.atan2(-v.z,Math.hypot(v.x,v.y))-bend/2,0,Math.atan2(v.x,-v.y));
+  leg.rotation.set(Math.atan2(-v.z,Math.hypot(v.x,v.y))-hip,0,Math.atan2(v.x,-v.y));
   knee.rotation.x=bend;
  }
  // Keep articulated boot soles level while the two leg bones bend above them.
