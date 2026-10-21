@@ -97,3 +97,16 @@ test('chaining punches begins at the outgoing pose without an intervening neutra
  for(const k of CHANNELS)assert.ok(Math.abs(r.pose[k]-outgoing[k])<1e-9,k);
  p.move.frame=p.move.startup;animateCharacter(r,p,6/60);assert.deepEqual(r.pose,strikePose(p.move));
 });
+
+import {shotPose} from '../dist/tala-animation.js';
+test('Tala ranged release transfers weight and reaches its authored pose on the projectile frame',()=>{
+ const move={kind:'shot',chain:1,...moveTiming(fighters[2],'shot'),frame:0};
+ const wind=shotPose({...move,frame:move.startup*.55}),release=shotPose({...move,frame:move.startup});
+ assert.ok(wind.hipYaw>0&&release.hipYaw<0);assert.ok(wind.bodyZ<0&&release.bodyZ>0);
+ assert.ok(release.re>-.15&&release.rax< -1.5);assert.deepEqual(shotPose({...move,frame:move.total}),stance);
+ const r=buildCharacter(2),p={anim:'attack',move,x:0,z:0};
+ for(let frame=0;frame<=move.startup;frame++){move.frame=frame;animateCharacter(r,p,frame/60);}
+ assert.equal(r.animationFamily,'grounded');assert.deepEqual(r.pose,release);
+ const arm=r.limbs[2].quaternion.clone();animateCharacter(r,p,move.startup/60);assert.ok(arm.angleTo(r.limbs[2].quaternion)<1e-7);
+ assert.equal(targetFor({...p,air:1},0),null,'airborne shot retains aerial fallback');
+});

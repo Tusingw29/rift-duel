@@ -79,3 +79,11 @@ test('live review scrubbing resets animation history deterministically',()=>{
  review.sample('Advance',1.5);assert.ok(review.rig.g.position.z>3);
  review.sample('Retreat',1.5);assert.ok(review.rig.g.position.z< -3);
 });
+test('concept energy shot pivots rear heel without dragging the support ball',()=>{
+ const review=createLiveTalaReview(asset.scene),r=review.rig;
+ review.sample('Energy shot',.2);const ball=r.feet[1].localToWorld(r.footBall.clone()),heel=r.feet[1].localToWorld(new Vector3(0,-.109,-.08));
+ review.sample('Energy shot',23/60);
+ assert.ok(r.feet[1].localToWorld(r.footBall.clone()).distanceTo(ball)<.003);
+ assert.ok(r.feet[1].localToWorld(new Vector3(0,-.109,-.08)).y>heel.y+.06);
+ for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const point=new Vector3();for(let v=0;v<mesh.geometry.attributes.position.count;v++){mesh.getVertexPosition(v,point).applyMatrix4(mesh.matrixWorld);assert.ok(point.y>-.005);}}
+});

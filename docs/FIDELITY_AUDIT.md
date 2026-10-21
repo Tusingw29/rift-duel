@@ -89,3 +89,10 @@ baked clips. It offers eight scripted actions, including both circling direction
 and guard with an impact brace, with a following camera and close-up inspection.
 Earlier Blender clips remain explicitly labeled as a comparison source. This
 corrects review fidelity; it does not establish final concept-art parity.
+
+### Tala basic ranged animation
+Grounded basic shots now use an authored rear-leg load, hip-driven extension,
+follow-through and guarded recovery on the existing projectile frame clock.
+The concept model adds a rear-heel pivot around the support ball. Aerial shots
+and directional specials retain their existing paths. This replaces one shared
+pose fallback; it is original choreography, not measured Evil Zone frame data.

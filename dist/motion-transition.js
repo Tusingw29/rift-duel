@@ -28,7 +28,7 @@ export function finishMotion(r,p,time,previous){
  // The blend changes hip and knee orientation. Re-solve grounded support feet
  // after it so the transition cannot drag a planted ankle across the floor.
  if(family==='grounded'){
-  const kind=p?.move?.kind==='strike'?'strike':p?.guard?'guard':p?.anim==='run'?'run':p?.anim==='charge'?'charge':p?.anim==='hurt'?'hurt':'idle';
+  const kind=['strike','shot'].includes(p?.move?.kind)?p.move.kind:p?.guard?'guard':p?.anim==='run'?'run':p?.anim==='charge'?'charge':p?.anim==='hurt'?'hurt':'idle';
   plantSupportFeet(r,p,kind);
  }
 }

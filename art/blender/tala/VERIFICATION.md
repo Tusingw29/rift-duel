@@ -78,3 +78,9 @@ brace at 0.95 s increases that to about 0.505. All eight live actions sampled wi
 finite bounds, movement changes world position, and switching to the seven baked
 clips and back succeeds. Automated regression checks cover backward scrubbing,
 repeatable bone transforms, guard tuck and bracing.
+
+Basic ranged shot: inspected side-on at release in the live review and from the
+lock-on fight camera in Chrome. The training simulation reported shot contact at
+frame 11 with one projectile. The review includes Energy shot. Tests cover exact
+release pose, hip/weight reversal, recovery, frozen-frame stability, aerial
+fallback, rear support-ball position and exported shoe clearance.

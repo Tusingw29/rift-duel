@@ -43,6 +43,24 @@ export function strikePose(move){
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
+// Basic ranged fire: gather at the rear hip, drive the palm from the floor,
+// carry the shoulder past release, then recover behind the lead hand.
+// These are original keys; the projectile still fires on the combat startup frame.
+export function shotPose(move){
+ const wind=pose({...stance,twist:.32,hipYaw:.16,rax:.18,ray:-.12,re:-1.65,
+  bodyY:-.24,bodyZ:-.08,lean:-.03,hx:.14,hy:-.16,lk:.32,rk:.48});
+ const release=pose({...stance,twist:-.48,hipYaw:-.22,rax:-1.64,ray:.42,raz:-.12,re:-.1,
+  lax:-.9,le:-1.4,bodyY:-.14,bodyZ:.14,lean:.18,hx:.04,hy:.24,neckY:-.015,lk:.4,rk:.16});
+ const follow=pose({...release,twist:-.56,hipYaw:-.25,rax:-1.55,re:-.22,bodyZ:.18,hy:.28});
+ const gather=pose({...stance,rax:-.85,re:-1.5,bodyY:-.19,twist:-.28,hipYaw:-.06});
+ const end=move.startup+(move.active||1)+move.recovery;
+ const keys=[[0,stance,smooth],[move.startup*.55,wind,smooth],[move.startup,release,snapOut],
+  [move.startup+(move.active||1)+move.recovery*.2,follow,smooth],
+  [move.startup+(move.active||1)+move.recovery*.65,gather,smooth],[end,stance,smooth]];
+ const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
+ let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
+ const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
+}
 // Contact, compression, passing and push-off poses. The opposite step is
 // authored by mirroring the limbs, with chest/hips counter-rotating together.
 const stepKeys=[
@@ -78,6 +96,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(!p)return {pose:idlePose(t),rate:8,kind:'idle'};
  const move=p.move;
  if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
+ if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
@@ -109,7 +128,7 @@ export function animateTala(r,p,time){
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.
- if(target.kind==='strike'){
+ if(['strike','shot'].includes(target.kind)){
   r.flowBlend=null;
   const m=p.move,previous=r.strikeBlend;
   if(!previous||previous.move!==m||m.frame<previous.frame){
