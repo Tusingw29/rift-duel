@@ -14,6 +14,10 @@ on:
         description: Test the checked-out branch locally on the runner before publishing
         default: false
         type: boolean
+      review_model:
+        description: Also capture model-review face, side, back and guard views
+        default: false
+        type: boolean
   workflow_run:
     workflows: [Test and publish Rift Duel]
     types: [completed]
@@ -54,7 +58,8 @@ jobs:
         env:
           SMOKE_URL: ${{ inputs.preview_branch && 'http://127.0.0.1:4173/' || inputs.url || 'https://tusingw29.github.io/rift-duel/' }}
           SMOKE_TALA: ${{ inputs.tala || 'design02' }}
-        run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --out artifacts/browser-smoke
+          REVIEW_MODEL: ${{ inputs.review_model || 'false' }}
+        run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --review "$REVIEW_MODEL" --out artifacts/browser-smoke
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4

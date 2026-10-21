@@ -37,3 +37,12 @@ test('texture clarity respects device limits, low quality and existing mip filte
  sharpenTextures(root,16);assert.equal(map.anisotropy,8);
  sharpenTextures(root,16,'low');assert.equal(map.anisotropy,1);
 });
+
+test('hair cutouts use sample coverage only when the context supports antialiasing',async()=>{
+ const {sharpenTextures}=await import('../dist/shading.js');
+ const root=new T.Group(),material=new T.MeshStandardMaterial({map:new T.Texture(),alphaTest:.38,transparent:false,side:T.DoubleSide});
+ root.add(new T.Mesh(new T.PlaneGeometry(),material));
+ sharpenTextures(root,8,'high',true);assert.equal(material.alphaToCoverage,true);
+ assert.equal(material.transparent,false);assert.equal(material.alphaTest,.38);
+ sharpenTextures(root,8,'high',false);assert.equal(material.alphaToCoverage,false);
+});

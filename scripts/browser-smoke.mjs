@@ -52,6 +52,21 @@ try{
  check('HUD names and arena populated',hud.p1==='TALA'&&hud.p2==='REI'&&hud.arena.length>0,JSON.stringify(hud));
  const t0=Date.now();const rendered=await page.evaluate(()=>new Promise(r=>{let c=0;const start=performance.now();const f=()=>{c++;if(performance.now()-start>2000)r(c);else requestAnimationFrame(f);};requestAnimationFrame(f);}));
  console.log(`frames in 2 s: ${rendered} (software rendering; not a device frame rate)`,Date.now()-t0);
+ if(args.review==='true'){
+  const reviewUrl=new URL('tala-blender.html',url);reviewUrl.searchParams.set('model',tala);
+  await page.goto(reviewUrl.href,{waitUntil:'load'});
+  await page.waitForFunction(()=>typeof window.talaStudy==='function',null,{timeout:120000});
+  await page.click('#play');await page.selectOption('#clip','Idle');
+  await page.click('#face');await frames(2);await shot('review-face');
+  for(const [angle,name] of [['1.57','side'],['3.14','back']]){
+   await page.click(`[data-angle="${angle}"]`);await frames(2);await shot('review-'+name);
+  }
+  await page.selectOption('#clip','Guard + block');await page.click('#hands');
+  await page.locator('#time').evaluate(el=>{el.value='.95';el.dispatchEvent(new Event('input',{bubbles:true}));});
+  await frames(2);await shot('review-guard');
+  const review=await page.evaluate(()=>window.talaStudy());
+  check('current model review loads and samples guard',review.clip==='Guard + block'&&Math.abs(review.time-.95)<.001,JSON.stringify(review));
+ }
  const problems=console_.filter(m=>['error','pageerror'].includes(m.type)||m.type==='warning'&&!m.text.includes('GPU stall'));
  check('no console errors or warnings',problems.length===0,problems.map(p=>p.text).join(' | ').slice(0,300));
 }catch(error){check('smoke run completed',false,error.message);try{await shot('failure');}catch{}}

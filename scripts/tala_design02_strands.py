@@ -85,6 +85,7 @@ def build_strands(ctx,cap):
  # A narrow inner volume prevents see-through gaps between moving cards.
  ctx['loft']('Design02_pony_core',[
   ctx['R'](0,2.69,-.18,.038,.037,{'head':1}),
+  ctx['R'](.010,2.70,-.25,.064,.050,{'head':.6,'ponytail':.4}),
   ctx['R'](.015,2.59,-.29,.061,.049,{'head':.25,'ponytail':.75}),
   ctx['R'](.04,2.36,-.35,.061,.042,{'ponytail':1}),
   ctx['R'](.06,2.10,-.35,.042,.030,{'ponytail':1}),

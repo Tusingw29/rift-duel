@@ -148,6 +148,9 @@ test('layered hair exports packed cutout strands and follows the live head/pony 
  assert.equal(material.doubleSided,true);
  const texture=material.pbrMetallicRoughness.baseColorTexture;
  const image=json.images[json.textures[texture.index].source];assert.equal(image.mimeType,'image/png');
+ const scalp=json.materials.find(m=>m.name==='Design02_hair_base');assert.ok(scalp);
+ assert.equal(scalp.alphaMode||'OPAQUE','OPAQUE');
+ assert.notEqual(json.textures[scalp.pbrMetallicRoughness.baseColorTexture.index].source,json.textures[texture.index].source,'opaque scalp must not sample the cutout atlas margins');
  const primitives=json.meshes.flatMap(m=>m.primitives).filter(p=>p.material===index);
  assert.ok(primitives.length>0);
  for(const primitive of primitives)assert.ok(primitive.attributes['TEXCOORD_'+(texture.texCoord||0)]!==undefined);

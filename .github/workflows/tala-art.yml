@@ -60,6 +60,19 @@ jobs:
           for pose in guard straight cross hook; do
             blender --background --threads 2 --python scripts/render-tala-design02.py -- --pose="$pose"
           done
+      - name: Package model preview before motion rendering
+        env:
+          RENDERED_REVIEW: ${{ inputs.render_review }}
+          REBAKED_FACE: ${{ inputs.rebake_face }}
+          RENDERED_MOTION: 'false'
+        run: node scripts/tala-art-manifest.mjs
+      - name: Upload model preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: tala-preview-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: error
+          path: ${{ runner.temp }}/tala-art-package/
       - name: Render current-model motion review
         if: inputs.render_motion
         run: |

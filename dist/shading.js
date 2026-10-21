@@ -1,10 +1,12 @@
 import * as T from './vendor/three.module.js';
 // Keep oblique cloth/face textures legible; retain mipmaps to avoid shimmer.
-export function sharpenTextures(root,maxAnisotropy=1,quality='high'){
+export function sharpenTextures(root,maxAnisotropy=1,quality='high',antialias=false){
  const amount=quality==='low'?1:Math.max(1,Math.min(8,maxAnisotropy||1)),seen=new Set();
  root.traverse(node=>{
   for(const material of (Array.isArray(node.material)?node.material:[node.material])){
    if(!material)continue;
+   // MSAA coverage softens strand cutout edges without alpha-blend sorting.
+   if(material.alphaTest>0&&material.alphaToCoverage!==antialias){material.alphaToCoverage=antialias;material.needsUpdate=true;}
    for(const key of ['map','normalMap','roughnessMap','metalnessMap','aoMap']){
     const texture=material[key];if(!texture||seen.has(texture))continue;seen.add(texture);
     if(texture.anisotropy!==amount){texture.anisotropy=amount;texture.needsUpdate=true;}
