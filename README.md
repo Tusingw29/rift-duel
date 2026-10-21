@@ -215,3 +215,7 @@ The [concept and animation package](art/tala-design-02/README.md) defines the vi
 A [normal-speed Tala motion video](https://tusingw29.github.io/rift-duel/tala-motion.html) shows the current Design 02 guard and combo without loading the interactive 3D preview. This is an offline render of runtime poses, not a browser performance recording.
 
 Tala can now be rebuilt and rendered on GitHub through [Build Tala art in the cloud](https://github.com/Tusingw29/rift-duel/actions/workflows/tala-art.yml). See the [cloud-build guide](art/blender/tala-design02/CLOUD-BUILD.md) for options and artifact retrieval. This avoids running Blender on the laptop; outputs are reviewed before publication.
+
+## Browser smoke test on GitHub
+
+`scripts/browser-smoke.mjs` loads the game in headless Chromium, confirms Tala's Design 02 preview attaches in a training fight, checks W closes and D circles, lands a punch and verifies the life gauge shatters, reads the HUD, and fails on any console error. The **Browser smoke test** workflow runs it against the public page after every successful deployment and on demand (Actions → Browser smoke test → Run workflow, optionally with another URL or model). Screenshots, the console log and `report.json` are uploaded as the `browser-smoke` artifact. Locally: `node scripts/browser-smoke.mjs --url http://localhost:4173/dist/` with Playwright installed.

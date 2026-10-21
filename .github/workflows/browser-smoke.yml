@@ -1,0 +1,54 @@
+name: Browser smoke test
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Page to test
+        default: https://tusingw29.github.io/rift-duel/
+        type: string
+      tala:
+        description: Tala model that must attach (design02, concept)
+        default: design02
+        type: string
+  workflow_run:
+    workflows: [Test and publish Rift Duel]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: browser-smoke
+  cancel-in-progress: true
+jobs:
+  smoke:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Wait for the published page to serve the current build
+        if: github.event_name == 'workflow_run'
+        run: |
+          expected=$(node scripts/prepare-release.mjs >/dev/null && grep -o 'build=[a-f0-9]*' dist/index.html | head -1)
+          for i in $(seq 1 30); do
+            live=$(curl -fsSL "https://tusingw29.github.io/rift-duel/?smoke=$i" | grep -o 'build=[a-f0-9]*' | head -1 || true)
+            echo "attempt $i: live $live, expected $expected"
+            [ "$live" = "$expected" ] && exit 0
+            sleep 20
+          done
+          echo "Published page never served $expected; testing whatever is live."
+      - name: Run the smoke test against the public page
+        run: node scripts/browser-smoke.mjs --url "${{ inputs.url || 'https://tusingw29.github.io/rift-duel/' }}" --tala "${{ inputs.tala || 'design02' }}" --out artifacts/browser-smoke
+      - name: Upload screenshots, console log and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-smoke
+          path: artifacts/browser-smoke
+          retention-days: 14

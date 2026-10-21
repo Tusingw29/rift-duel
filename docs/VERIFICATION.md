@@ -360,3 +360,7 @@ Source check: the GameVortex review of Evil Zone states that when a character ta
 ## Tala proportion standard (0.51)
 
 233 tests pass after updating the study-motion leg-length expectation to 0.64. The motion sampler, Blender build and GLB export ran end to end with Blender 3.6.22 (4.5's bundled numpy fails to load on macOS 12). Concept-surface tests that check planted shoes, ball pivots, recoil catch steps and gait continuity pass against the rebuilt mesh. Headless Chromium training captures in the side and lock cameras show the taller, longer-legged silhouette with the costume and face intact and no console errors. Real-time judgment of the new proportions in motion is still a hands-on check.
+
+## Browser smoke test (0.52)
+
+A repeatable headless Chromium check now lives in the repository and runs on GitHub after each deployment: game load, Design 02 attach, lock-on movement, a landed punch with the gauge shatter, HUD contents and a clean console, with screenshots and a JSON report as workflow artifacts. The first local run passed 10/10 against the served build. Software rendering in the runner is slow, so frame rate is reported but not asserted; real-device frame pacing still needs a hands-on check.
