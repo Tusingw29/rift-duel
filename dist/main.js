@@ -202,3 +202,8 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
 requestAnimationFrame(frame);
 // Read-only diagnostics for browser verification and bug reports.
 window.riftDebug=()=>({phase:match?.phase||'menu',mode,paused,selected,stage,wins:[...wins],flow:flow?.state,arena:view.arenaName,camera:settings.camera,music:audio.playing,hitstop,rules:match?.rules,time:match?.time,players:match?.players.map(p=>({id:p.id,x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,air:p.air,anim:p.anim,move:p.move?.kind,pursuitHit:p.move?.pursuitHit,empowered:!!p.move?.empowered,followup:!!p.move?.followup,moveFrame:p.move?.frame,chain:p.move?.chain,canChain:canChain(p.move),movePhase:movePhase(p.move)})),projectiles:match?.projectiles.length,cinematic:match?.cinematic?.kind,cinematicTime:match?.cinematic?.t,cinematicDuration:match?.cinematic?.duration,captureProfile:match?.cinematic?.profile,captureContext:match?.cinematic?.context});
+
+if(new URLSearchParams(location.search).get('tala')==='concept'){
+ const badge=document.createElement('a');badge.href='./tala-blender.html?v=3';badge.textContent='Loading concept model…';badge.style.cssText='position:fixed;bottom:10px;left:10px;z-index:90;background:#171b22;color:#edbb68;padding:6px 10px;font:12px system-ui';document.body.append(badge);
+ document.addEventListener('tala-concept-status',e=>{badge.textContent=e.detail+' · inspect';});
+}

@@ -24,3 +24,11 @@ Rebuilt vest panels/armholes, rounded shoulder volumes, shorts coverage, continu
 Chrome inspection covered front idle, crossed guard, side combo contact and back views. The earlier thigh skin holes and jagged vest-back intersection were absent in those inspected poses. Sampled 25 points per clip with fresh skinned bounds: minimum Y remained 0.009 or higher. Six asset/motion tests passed on the final export. The full project suite passed 203 tests before the final geometry export; unrelated HUD work was concurrent and was not included in this art commit.
 
 This remains a simplified concept interpretation. Face shading/texture edges, mitten-like hands, cloth folds and shoulder integration are unfinished. Tests establish valid geometry and retained motion, not concept-art parity. The live game model is unchanged.
+
+## Playable concept-model preview
+
+Added opt-in `?tala=concept` surface replacement using the game's existing combat bones. Browser testing found that GLTFLoader sanitizes dotted bone names (`upper_arm.L` becomes `upper_armL`); the adapter normalizes these names. Chrome loaded the model in the menu and training and accepted advance/attack input from the lock-on camera. This verifies rendering and basic control flow, not final art quality or all cinematic poses.
+
+Two tests load actual exported GLB geometry/skin data (omitting bitmap decoding in Node), verify original surfaces hide, aura/hand anchors remain, separate fighter and afterimage bindings are independent, and sampled live poses/root travel produce finite bounded vertices. The preview deliberately uses live combat animation rather than claiming that inspection clips have been integrated.
+
+Final local suite: 206 tests passed. Chrome also accepted circle and guard input with the concept model loaded; no warning/error console messages were present during this training check. Physical controllers and every cinematic pose were not rechecked in this pass.

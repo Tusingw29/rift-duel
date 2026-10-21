@@ -1,3 +1,4 @@
+import {loadTalaConcept,attachTalaConcept} from './tala-concept.js';
 import {disposeSkeletons} from './rig-clone.js';
 import {createProjectileVisual,updateProjectileVisual} from './projectile-visuals.js';
 import {burstPose} from './cinematics.js';
@@ -33,12 +34,16 @@ export function createView(canvas){
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id);
+  if(id===2&&new URLSearchParams(location.search).get('tala')==='concept'){
+   model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
+   loadTalaConcept().then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){console.warn('Tala concept preview:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
+  }
   const material=new T.MeshBasicMaterial({color:fighters[id].color,transparent:true,opacity:.22,depthWrite:false,side:T.DoubleSide});
   model.techniqueFX=new T.Mesh(new T.SphereGeometry(1,16,10),material);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
   model.techniqueRing=new T.Mesh(new T.TorusGeometry(1,.035,6,48),material.clone());model.techniqueRing.material.opacity=.8;model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
   scene.add(model.g);return model;
  }
- function clear(){burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
+ function clear(){burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
  function match(m,arenaIndex){clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}

@@ -30,3 +30,9 @@ Inspect front, side and back, then all seven clips at normal and quarter speed. 
 [England Boxing Coaching Handbook, Part 1](https://www.englandboxing.org/wp-content/uploads/2026/02/EB_Boxing-Coaching-Handbook-Part-1_09_02_26.pdf), pages 68 and 75, informed the stance-preserving footwork and ball-of-foot/hip rotation. These are animation references, not a claim of biomechanical simulation. The crossed-arm shield is the user-requested stylized guard, distinct from the standard guard on page 67.
 
 Locomotion clips are in-place loops: their support feet move relative to the centered character to represent travel. They are not a demonstration of stationary world-space foot contacts without the corresponding game root movement. The live game still uses its original controller.
+
+## Playable model preview
+
+Open https://tusingw29.github.io/rift-duel/?tala=concept and select Tala. The preview replaces Tala's rendered surfaces with the exported Storm Circuit mesh while retaining the live combat skeleton, hand attachment points and combat animation/state machine. It works in training, versus and the menu. Both Tala instances receive separate geometry/materials/skeleton bindings. This does **not** import the study page's seven animation clips or its guard/footwork choreography into combat.
+
+The regular URL retains the original model while art review continues. The asset loads only for Tala in the preview; failure retains the original fighter and displays a message. Leaving a fighter before loading finishes prevents attachment to a disposed rig. A link on the inspection page opens this playable preview.
