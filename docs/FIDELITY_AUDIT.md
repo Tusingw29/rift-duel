@@ -96,3 +96,12 @@ follow-through and guarded recovery on the existing projectile frame clock.
 The concept model adds a rear-heel pivot around the support ball. Aerial shots
 and directional specials retain their existing paths. This replaces one shared
 pose fallback; it is original choreography, not measured Evil Zone frame data.
+
+### Tala base directional signatures
+Storm Spark now loads the hips into a two-arm discharge; Still-water Discus uses
+a left-arm sweep, opposite torso turn and rearward weight. Both follow the actual
+startup/contact/recovery clock and support-foot solver. The live review includes
+both actions. Stock and follow-up variants, and airborne actions, still use the
+shared fallback. The existing 1.2-unit instantaneous backward displacement on
+disc release remains a visible discontinuity to address separately; this pass
+does not claim smooth retreat travel or original-game frame correspondence.

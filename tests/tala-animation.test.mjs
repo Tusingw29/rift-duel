@@ -110,3 +110,20 @@ test('Tala ranged release transfers weight and reaches its authored pose on the 
  const arm=r.limbs[2].quaternion.clone();animateCharacter(r,p,move.startup/60);assert.ok(arm.angleTo(r.limbs[2].quaternion)<1e-7);
  assert.equal(targetFor({...p,air:1},0),null,'airborne shot retains aerial fallback');
 });
+
+import {specialPose} from '../dist/tala-animation.js';
+test('Tala base signatures have distinct release silhouettes and exact combat timing',()=>{
+ const poses=[];
+ for(const kind of ['forward','back']){
+  const move={kind,...moveTiming(fighters[2],kind),frame:0},r=buildCharacter(2),p={anim:kind,move,x:0,z:0};
+  const contact=specialPose({...move,frame:move.startup});poses.push(contact);
+  for(let frame=0;frame<=move.startup;frame++){move.frame=frame;animateCharacter(r,p,frame/60);}
+  assert.deepEqual(r.pose,contact);assert.equal(r.animationFamily,'grounded');
+  assert.deepEqual(specialPose({...move,frame:move.total}),stance);
+  for(const flag of ['empowered','followup'])assert.equal(targetFor({...p,move:{...move,[flag]:true}},0),null);
+  assert.equal(targetFor({...p,air:1},0),null);
+ }
+ assert.ok(poses[0].re>-.2&&poses[0].le>-.2,'spark extends both arms');
+ assert.ok(poses[1].re< -1&&poses[1].lay<-.5,'discus sweeps left while the right stays ready');
+ assert.ok(poses[0].lean>0&&poses[1].lean<0);
+});

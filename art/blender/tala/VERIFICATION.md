@@ -84,3 +84,13 @@ lock-on fight camera in Chrome. The training simulation reported shot contact at
 frame 11 with one projectile. The review includes Energy shot. Tests cover exact
 release pose, hip/weight reversal, recovery, frozen-frame stability, aerial
 fallback, rear support-ball position and exported shoe clearance.
+
+Base directional signatures: Chrome review renders both distinct contact poses
+with finite bounds and visible foot pivots. Automated checks verify exact release
+channels, return to stance, separate silhouettes and preserved stock/follow-up/
+airborne fallback. The review reproduces the simulation's backward displacement
+on disc release, rather than hiding that remaining movement discontinuity.
+Chrome training also reached Storm Spark contact at frame 9 and Discus contact
+at frame 12, each with a projectile present. Storm Spark damaged the opponent.
+Both were inspected from the lock-on camera; no console errors or warnings.
+Full suite: 221 tests pass.

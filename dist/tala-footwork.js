@@ -4,11 +4,11 @@ const up=new Vector3(0,1,0),right=new Vector3(1,0,0);
 // Combat-frame driven: frozen hitstop frames retain the exact heel/ankle pose.
 export function talaFootPivot(player,kind){
  const rotations=[new Quaternion(),new Quaternion()],move=player?.move;
- if(!['strike','shot'].includes(kind)||move?.kind!==kind)return rotations;
+ if(!['strike','shot','forward','back'].includes(kind)||move?.kind!==kind)return rotations;
  const contact=move.startup,release=contact+(move.active||1);
  const drive=smooth(move.frame/Math.max(1,contact))*(1-smooth((move.frame-release)/Math.max(1,move.recovery)));
- const left=kind==='strike'&&move.chain===2,driver=left?0:1,sign=left?1:-1;
- rotations[driver].setFromAxisAngle(up,sign*(kind==='shot'?.32:.5)*drive).multiply(new Quaternion().setFromAxisAngle(right,(kind==='shot'?.27:.38)*drive));
+ const left=kind==='back'||kind==='strike'&&move.chain===2,driver=left?0:1,sign=left?1:-1;
+ rotations[driver].setFromAxisAngle(up,sign*(kind==='strike'?.5:.32)*drive).multiply(new Quaternion().setFromAxisAngle(right,(kind==='strike'?.38:.27)*drive));
  rotations[1-driver].setFromAxisAngle(up,sign*.12*drive);
  return rotations;
 }

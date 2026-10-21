@@ -61,6 +61,26 @@ export function shotPose(move){
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
+// Distinct base signatures: a braced two-handed discharge and a sweeping
+// disc cast. Stock/follow-up variants retain their existing animation path.
+export function specialPose(move){
+ const disc=move.kind==='back';
+ const wind=pose({...stance,bodyY:-.25,hipYaw:disc?-.22:.18,twist:disc?-.48:.35,
+  lax:disc?-.9:.2,lay:disc?.6:0,le:-1.55,rax:.15,re:-1.6,lean:-.08,hy:disc?.24:-.18});
+ const release=pose({...stance,bodyY:-.17,bodyZ:disc?-.1:.18,hipYaw:disc?.23:-.12,
+  twist:disc?.5:-.12,lean:disc?-.12:.22,hy:disc?-.28:.12,hx:.08,
+  lax:disc?-1.4:-1.65,lay:disc?-.7:.12,laz:disc?.18:.08,le:disc?-.2:-.12,
+  rax:disc?-.8:-1.65,ray:disc?0:-.12,raz:-.08,re:disc?-1.35:-.12,
+  lk:disc?.2:.46,rk:disc?.5:.2});
+ const follow=pose({...release,twist:release.twist+(disc?.17:-.08),
+  lay:disc?-1:release.lay,le:disc?-.4:-.25,re:disc?-1.35:-.25,bodyY:-.21});
+ const end=move.startup+(move.active||1)+move.recovery;
+ const keys=[[0,stance,smooth],[move.startup*.55,wind,smooth],[move.startup,release,snapOut],
+  [move.startup+(move.active||1)+move.recovery*.25,follow,smooth],[end,stance,smooth]];
+ const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
+ let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
+ const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
+}
 // Contact, compression, passing and push-off poses. The opposite step is
 // authored by mirroring the limbs, with chest/hips counter-rotating together.
 const stepKeys=[
@@ -97,6 +117,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  const move=p.move;
  if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
  if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
+ if(['forward','back'].includes(move?.kind)&&!move.empowered&&!move.followup&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
@@ -128,7 +149,7 @@ export function animateTala(r,p,time){
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.
- if(['strike','shot'].includes(target.kind)){
+ if(['strike','shot','forward','back'].includes(target.kind)){
   r.flowBlend=null;
   const m=p.move,previous=r.strikeBlend;
   if(!previous||previous.move!==m||m.frame<previous.frame){

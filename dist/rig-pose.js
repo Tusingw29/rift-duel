@@ -17,7 +17,7 @@ const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
  const ankleHeight=r.ankleHeight??.14;
  const reach=(r.legLength||.48)*2;ankle.y=-(r.legLength||.48);
- if(!p||!(['idle','guard','charge','strike','shot','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
+ if(!p||!(['idle','guard','charge','strike','shot','forward','back','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
  if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5){r.footPlants=null;r.gaitPlants=null;r.talaGait=null;}
