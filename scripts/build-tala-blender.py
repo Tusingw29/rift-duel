@@ -34,10 +34,14 @@ def factors(group,y):
  center={'arm':1.06,'leg':.88,'hips':.88}.get(group,1)
  girth={'arm':.92,'leg':.93,'hips':.86,'head':1}.get(group,.88 if y<1.95 else 1.04)
  return center,girth
+def head_drop(bind):
+ if not DESIGN02:return 0
+ weights=bind if isinstance(bind,dict) else {bind:1}
+ return .09*sum(weights.get(b,0) for b in ['head','ponytail'])
 def remap_vertex(v,bind):
  x,y,z=v;group=group_of(bind);center,girth=factors(group,y)
  limb=0 if group not in('arm','leg') else math.copysign(.43 if group=='arm' else .2,x) if abs(x)>.02 else 0
- return (limb*center+(x-limb)*girth,map_y(y),z*girth)
+ return (limb*center+(x-limb)*girth,map_y(y)-head_drop(bind),z*girth)
 arm=bpy.data.armatures.new('Tala_Armature');rig=bpy.data.objects.new('Tala',arm);bpy.context.collection.objects.link(rig);bpy.context.view_layer.objects.active=rig;rig.select_set(True)
 bpy.ops.object.mode_set(mode='EDIT')
 for b in DATA['bones']:
@@ -80,7 +84,7 @@ def W(b):return {b:1}
 def B(a,b,t):return {a:1-t,b:t}
 def R(x,y,z,rx,rz,b):
  bind=W(b) if isinstance(b,str) else b;center,girth=factors(group_of(bind),y)
- return [x*center,map_y(y),z,rx*girth,rz*girth,bind]
+ return [x*center,map_y(y)-head_drop(bind),z,rx*girth,rz*girth,bind]
 loft('Torso', [R(0,1.37,0,.23,.15,'root'),R(0,1.43,0,.213,.14,B('root','chest',.5)),R(0,1.60,0,.238,.15,'chest'),R(0,1.72,0,.29,.175,'chest'),R(0,1.88,0,.325,.18,'chest'),R(0,2.01,0,.35,.13,'chest'),R(0,2.10,0,.10,.09,'chest')],'skin',20)
 loft('Athletic_top',[R(0,1.65,.003,.269,.17,'chest'),R(0,1.74,.005,.302,.185,'chest'),R(0,1.89,0,.33,.186,'chest'),R(0,1.98,0,.31,.135,'chest')],'top',20)
 # Tailored vest: broad back and separate front panels leave real shoulder armholes.
@@ -138,25 +142,29 @@ for side,suffix in [(-1,'L'),(1,'R')]:
  foot='foot.'+suffix
  loft('Shoe.'+suffix,[R(lx,.17,.015,.087,.10,foot),R(lx,.10,.085,.105,.18,foot),R(lx,.035,.085,.11,.18,foot)],'sole',16)
  loft('Shoe_trim.'+suffix,[R(lx,.031,.085,.113,.182,foot),R(lx,.052,.085,.113,.182,foot)],'ochre',16)
-# Hair cap plus broad tapered locks, no cone spikes for every strand.
-loft('Hair_cap',[R(0,2.52,-.055,.205,.17,'head'),R(0,2.66,-.04,.207,.175,'head'),R(0,2.76,-.06,.14,.13,'head'),R(0,2.79,-.06,.025,.03,'head')],'hair',20)
-loft('Back_hair',[R(0,2.30,-.02,.13,.15,'head'),R(0,2.46,-.03,.202,.184,'head'),R(0,2.65,-.04,.207,.18,'head')],'hair',16,start=math.pi,end=math.tau,caps=False)
-for i in range(-2,3):
- x=i*.067
- verts=[(x-.085,2.73,.10),(x+.035,2.73,.10),(x-.055,2.63,.185),(x+.055,2.64,.185),(x+.065,2.52+abs(i)*.018,.18),(x-.012,2.69,.205),(x,2.65,.12)]
- mesh('Angular_fringe',verts,[(0,2,5),(0,5,1),(1,5,3),(2,4,5),(5,4,3),(0,1,6),(1,3,6),(3,4,6),(4,2,6),(2,0,6)],[W('head')]*7,'hairlight' if i%2 else 'hair')
-for s in [-1,1]:loft('Side_lock',[R(s*.17,2.66,-.01,.065,.09,'head'),R(s*.20,2.46,-.04,.05,.065,'head'),R(s*.19,2.29,-.06,.004,.008,'head')],'hair',8)
-# Several swept, flattened locks produce the concept's wide fan and split tips.
-for i in range(5):
- offset=(i-2)*.055
- loft('Ponytail_lock',[
-  R(offset*.35,2.75,-.19,.065,.075,'ponytail'),
-  R(offset*.8,2.80-abs(i-2)*.018,-.34,.105,.065,'ponytail'),
-  R(offset*1.2+.035,2.59,-.54,.105,.055,'ponytail'),
-  R(offset*1.7+.075,2.29,-.65,.08,.04,'ponytail'),
-  R(offset*2.5+.11,2.00+abs(i-2)*.06,-.62,.047,.025,'ponytail'),
-  R(offset*3.2+.15,1.77+abs(i-2)*.09,-.48,.002,.004,'ponytail')], 'hair',10)
-loft('Hair_tie',[R(0,2.70,-.20,.103,.105,'ponytail'),R(0,2.74,-.20,.104,.105,'ponytail')],'ochre',12)
+if DESIGN02:
+ from tala_design02_hair import build_hair
+ build_hair(globals())
+else:
+ # Hair cap plus broad tapered locks, no cone spikes for every strand.
+ loft('Hair_cap',[R(0,2.52,-.055,.205,.17,'head'),R(0,2.66,-.04,.207,.175,'head'),R(0,2.76,-.06,.14,.13,'head'),R(0,2.79,-.06,.025,.03,'head')],'hair',20)
+ loft('Back_hair',[R(0,2.30,-.02,.13,.15,'head'),R(0,2.46,-.03,.202,.184,'head'),R(0,2.65,-.04,.207,.18,'head')],'hair',16,start=math.pi,end=math.tau,caps=False)
+ for i in range(-2,3):
+  x=i*.067
+  verts=[(x-.085,2.73,.10),(x+.035,2.73,.10),(x-.055,2.63,.185),(x+.055,2.64,.185),(x+.065,2.52+abs(i)*.018,.18),(x-.012,2.69,.205),(x,2.65,.12)]
+  mesh('Angular_fringe',verts,[(0,2,5),(0,5,1),(1,5,3),(2,4,5),(5,4,3),(0,1,6),(1,3,6),(3,4,6),(4,2,6),(2,0,6)],[W('head')]*7,'hairlight' if i%2 else 'hair')
+ for s in [-1,1]:loft('Side_lock',[R(s*.17,2.66,-.01,.065,.09,'head'),R(s*.20,2.46,-.04,.05,.065,'head'),R(s*.19,2.29,-.06,.004,.008,'head')],'hair',8)
+ # Several swept, flattened locks produce the concept's wide fan and split tips.
+ for i in range(5):
+  offset=(i-2)*.055
+  loft('Ponytail_lock',[
+   R(offset*.35,2.75,-.19,.065,.075,'ponytail'),
+   R(offset*.8,2.80-abs(i-2)*.018,-.34,.105,.065,'ponytail'),
+   R(offset*1.2+.035,2.59,-.54,.105,.055,'ponytail'),
+   R(offset*1.7+.075,2.29,-.65,.08,.04,'ponytail'),
+   R(offset*2.5+.11,2.00+abs(i-2)*.06,-.62,.047,.025,'ponytail'),
+   R(offset*3.2+.15,1.77+abs(i-2)*.09,-.48,.002,.004,'ponytail')], 'hair',10)
+ loft('Hair_tie',[R(0,2.70,-.20,.103,.105,'ponytail'),R(0,2.74,-.20,.104,.105,'ponytail')],'ochre',12)
 if not DESIGN02:
  # Reuse the project's original painted face; curved, UV-mapped and packed in the GLB.
  m=bpy.data.materials.new('Painted_face');m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');tex=m.node_tree.nodes.new('ShaderNodeTexImage');tex.image=bpy.data.images.load(str(ROOT/'dist/assets/tala-face.png'));tex.image.pack();m.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color']);m.node_tree.links.new(tex.outputs['Alpha'],p.inputs['Alpha']);p.inputs['Roughness'].default_value=1

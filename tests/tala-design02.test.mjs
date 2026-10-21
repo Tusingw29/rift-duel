@@ -7,12 +7,22 @@ import {createLiveTalaReview,LIVE_TALA_CLIPS} from '../dist/tala-live-review.js'
 globalThis.ProgressEvent??=class{constructor(type,data){this.type=type;Object.assign(this,data);}};
 const bytes=readFileSync(new URL('../dist/assets/models/tala-design02.glb',import.meta.url));
 const len=bytes.readUInt32LE(12),json=JSON.parse(bytes.subarray(20,20+len));
-test('Design 02 packs the new face source and retains the combat skeleton',()=>{
+test('Design 02 packs the baked face atlas and retains the combat skeleton',()=>{
  assert.ok(bytes.length<5_000_000);
  assert.ok(json.materials.some(m=>m.name==='Design02_face'&&m.pbrMetallicRoughness.baseColorTexture));
  assert.ok(!json.materials.some(m=>m.name==='Painted_face'));
  assert.ok(json.images.length>0&&json.images.every(i=>i.bufferView!==undefined));
  assert.equal(json.skins[0].joints.length,17);
+});
+test('baked face material points to an exported UV set without a custom shader extension',()=>{
+ const materialIndex=json.materials.findIndex(m=>m.name==='Design02_face');
+ const material=json.materials[materialIndex],map=material.pbrMetallicRoughness.baseColorTexture;
+ const image=json.images[json.textures[map.index].source];
+ assert.equal(image.name,'face-baked');
+ const primitives=json.meshes.flatMap(m=>m.primitives).filter(p=>p.material===materialIndex);
+ assert.ok(primitives.length>0);
+ for(const p of primitives)assert.ok(p.attributes['TEXCOORD_'+(map.texCoord||0)]!==undefined);
+ assert.equal(material.extensions,undefined);
 });
 // Geometry and live-animation checks do not pretend to validate browser texture decoding.
 json.buffers[0].uri='data:application/octet-stream;base64,'+bytes.subarray(28+len).toString('base64');
