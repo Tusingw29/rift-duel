@@ -24,6 +24,7 @@ export function animateCharacter(r,p,time){
 }
 function sampleCharacter(r,p,time){
  r.animationFamily='shared';
+ if(r.headRest)r.head.position.copy(r.headRest);
  r.feet?.forEach(foot=>foot.rotation.set(0,0,0));
  r.clothParts.forEach(part=>part.rotation.set(0,0,0));
  const f=fighters[r.id],state=p?.anim||'idle',run=state==='run';

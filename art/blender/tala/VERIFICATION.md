@@ -42,3 +42,9 @@ Replaced Tala's live fists-up guard with a crossed-body pose using the existing 
 Registered the concept foot bones with the existing grounded solver. A foot orientation profile offsets the ankle target around the ball of the shoe before the existing leg solve; the fighter's collision position and punch channels are unchanged. Normal grounded poses level the soles, and strike recovery levels them again. Shared airborne states retain the existing foot-reset path.
 
 All 209 tests passed. The asset test checks all three strike contacts, including translated/rotated/scaled rigs: planted ball drift under .002 units, driving heel rise over .08 units, frozen-frame quaternion stability, recovery leveling, and every vertex of the shoe mesh above the floor at contact. Chrome exercised advance/attack in Tala-versus-Tala training and showed grounded shoes with no console errors. A normal-speed visual assessment of every transition and the remaining step-and-follow/recoil choreography is still outstanding.
+
+## Neck motion and defensive tuck
+
+Tala's guard now retracts and lowers the head with a stronger chin-down angle. Block recoil deepens that brace instead of lifting the chin as the old pose did. Head pitch has a bounded delayed response to torso lean, and yaw lag is bounded to avoid excessive neck rotation. Head-position offsets participate in the transition between grounded and shared actions, preventing a positional pop when guard changes to an aerial/fallback pose.
+
+All 210 tests passed. Added assertions for neck retraction, stronger impact tuck, smooth handoff and restoration of the neutral neck position. Chrome displayed the defending Tala in live concept-preview training with no warning/error console messages. This changes the live pose system for both Tala models; the offline Blender study export has not been regenerated.

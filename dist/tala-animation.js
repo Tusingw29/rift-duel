@@ -14,7 +14,7 @@ export const stance=pose({lax:-.8,laz:.12,le:-1.2,rax:-.55,raz:-.14,re:-1.4,twis
 // Crossed forearms shield the upper torso. The arms use their full authored
 // yaw/roll channels so entry and release share the normal pose transition.
 // Hand targets in chest space: (+.22,.50,.34), (-.22,.50,.43).
-export const guard=pose({lax:-.946199,lay:1.495107,laz:-.452465,le:-.948834,rax:-1.054423,ray:-1.564860,raz:.610214,re:-.669577,twist:-.1,lean:.16,hx:.22,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18});
+export const guard=pose({lax:-.946199,lay:1.495107,laz:-.452465,le:-.948834,rax:-1.054423,ray:-1.564860,raz:.610214,re:-.669577,twist:-.1,lean:.16,hx:.42,neckY:-.055,neckZ:-.035,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18});
 export const charge=pose({lax:.25,laz:.45,le:-.6,rax:.25,raz:-.45,re:-.6,lean:-.08,hx:-.18,llx:-.1,llz:.32,rlx:.1,rlz:-.32,lk:.38,rk:.38,bodyY:-.12});
 // Impact snap: head whips back, chest arcs, rear foot catches the weight.
 export const impact=pose({hx:-.5,hz:.1,lean:-.38,twist:.28,lax:-.35,laz:.65,le:-.5,rax:-.15,raz:-.6,re:-.4,rlx:.6,rlz:-.1,llx:.25,rk:.35,lk:.1,bodyZ:-.22,bodyY:-.12});
@@ -69,10 +69,10 @@ export function movePose(forward,side,phase){
 }
 export function idlePose(t){
  const bounce=Math.abs(Math.sin(t*5.2)),shift=Math.sin(t*2.6);
- return pose({...stance,bodyY:-.15+bounce*.035,side:shift*.05,hz:shift*.03,hx:.08+Math.sin(t*5.2)*.02,llz:.1+shift*.03,rlz:-.12+shift*.03,lk:.28+(1-bounce)*.12,rk:.22+(1-bounce)*.1,lax:-.8+Math.sin(t*5.2+1)*.04,rax:-.55+Math.sin(t*5.2+2)*.04});
+ return pose({...stance,bodyY:-.15+bounce*.035,side:shift*.05,hz:shift*.045,hx:.08+Math.sin(t*5.2)*.035,llz:.1+shift*.03,rlz:-.12+shift*.03,lk:.28+(1-bounce)*.12,rk:.22+(1-bounce)*.1,lax:-.8+Math.sin(t*5.2+1)*.04,rax:-.55+Math.sin(t*5.2+2)*.04});
 }
 export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
-export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:-.1,hx:.05,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
+export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
 // Which states the sample handles; everything else falls back to the shared animator.
 export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(!p)return {pose:idlePose(t),rate:8,kind:'idle'};
@@ -133,7 +133,11 @@ export function animateTala(r,p,time){
  applyPose(r,r.pose);
  if(target.kind==='charge')r.body.position.y+=Math.sin(time*30)*.008;
  plantSupportFeet(r,p,target.kind);
- r.head.rotation.y-=r.twistLag*.6;
+ // Small delayed neck response lets the head settle after the ribcage turns.
+ // Guard keeps its deliberate chin tuck even when an impact checks the torso.
+ if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}
+ r.head.rotation.x-=(r.neckLag||0)*(target.kind==='guard'?.2:1);
+ r.head.rotation.y-=Math.max(-.16,Math.min(.16,r.twistLag*.6));
  for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(target.kind==='run'?.2:0);part.rotation.z=Math.sin(time*2.3+i)*.07-r.twistLag*(i===0?1.5:.6);}
  return true;
 }
