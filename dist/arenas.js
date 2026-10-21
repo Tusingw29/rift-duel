@@ -17,7 +17,7 @@ const mat=(color,metal=.1)=>new T.MeshStandardMaterial({color,roughness:.65,meta
 const glow=color=>new T.MeshBasicMaterial({color});
 // Builds the stage as one disposable group plus an animation hook.
 export function createArena(def){
- const group=new T.Group(),animated=[];
+ const group=new T.Group(),animated=[];let disposed=false;
  const ground=new T.Mesh(new T.CylinderGeometry(17,18,1,64),mat(def.ground,.3));ground.position.y=-.6;ground.receiveShadow=true;group.add(ground);
  const ring=(r,color,y=-.06)=>{const o=new T.Mesh(new T.TorusGeometry(r,.027,5,120),glow(color));o.rotation.x=Math.PI/2;o.position.y=y;group.add(o);return o;};
  if(def.deco!=='summit'){ring(13,def.rings[0]);ring(13.3,def.rings[1]);ring(6,def.rings[1]);ring(16.8,def.rings[2]);}
@@ -47,6 +47,14 @@ export function createArena(def){
   const skyClouds=new T.Group();group.add(skyClouds);
   for(let j=0;j<12;j++){const a=j/12*Math.PI*2;const cloud=new T.Mesh(new T.SphereGeometry(1,12,6),new T.MeshBasicMaterial({color:j%2?'#e8eef0':'#c5dae2'}));cloud.position.set(Math.cos(a)*48,16+(j%3)*2,Math.sin(a)*48);cloud.scale.set(9,1.3,3);skyClouds.add(cloud);}
   animated.push(t=>{skyClouds.rotation.y=t*.004;});
+  if(typeof document!=='undefined'){
+   new T.TextureLoader().load(new URL('./assets/courtyard-stone.jpg',import.meta.url).href,paint=>{if(disposed){paint.dispose();return;}paint.colorSpace=T.SRGBColorSpace;paint.wrapS=paint.wrapT=T.RepeatWrapping;paint.repeat.set(5,5);ground.material.map.dispose();ground.material.map=paint;ground.material.needsUpdate=true;});
+   const panorama=new T.Mesh(new T.CylinderGeometry(65,65,40,96,1,true),new T.MeshBasicMaterial({side:T.BackSide,fog:false,toneMapped:false}));panorama.position.y=8;panorama.visible=false;group.add(panorama);
+   new T.TextureLoader().load(new URL('./assets/storm-panorama.jpg',import.meta.url).href,paint=>{
+    if(disposed){paint.dispose();return;}paint.colorSpace=T.SRGBColorSpace;paint.wrapS=T.RepeatWrapping;paint.repeat.x=3;panorama.material.map=paint;panorama.material.needsUpdate=true;panorama.visible=true;
+    skyClouds.visible=false;for(const child of group.children)if(child!==panorama&&child.material?.side===T.DoubleSide)child.visible=false;
+   });
+  }
  }else if(def.deco==='wastes'){
   around(12,19,(g,j)=>{const girder=new T.Mesh(new T.BoxGeometry(1.6,5+(j%4)*2.5,1.6),mat('#2f2820',.5));girder.position.y=2;girder.rotation.z=(j%3-1)*.25;girder.castShadow=true;g.add(girder);const strip=new T.Mesh(new T.BoxGeometry(.06,4,.04),glow(def.strip));strip.position.set(0,2,.84);g.add(strip);});
   const gear=new T.Mesh(new T.TorusGeometry(6,.9,6,12),mat('#3a3025',.6));gear.position.set(4,8,-20);group.add(gear);animated.push(t=>{gear.rotation.z=t*.06;});
@@ -59,5 +67,5 @@ export function createArena(def){
   around(12,19,(g,j)=>{const shard=new T.Mesh(new T.OctahedronGeometry(1.1+(j%3)*.3),mat('#2d2347',.4));shard.position.y=4+(j%3)*1.5;shard.rotation.y=j;g.add(shard);animated.push(t=>{shard.position.y=4+(j%3)*1.5+Math.sin(t*.8+j)*.5;shard.rotation.y=t*.2+j;});const base=new T.Mesh(new T.ConeGeometry(.6,1.6,4),mat('#2d2347',.4));base.position.y=.4;g.add(base);});
   const halos=[];for(let j=0;j<4;j++){const halo=new T.Mesh(new T.TorusGeometry(8+j*2.2,.05,4,80),glow(j%2?def.strip:def.rings[0]));halo.rotation.x=Math.PI/2.3;halo.position.set(0,9+j*1.5,-14);group.add(halo);halos.push(halo);}animated.push(t=>{halos.forEach((h,j)=>{h.rotation.z=t*(.06+j*.02);});});
  }
- return {group,update(t){for(const fn of animated)fn(t);},dispose(){group.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}};
+ return {group,update(t){for(const fn of animated)fn(t);},dispose(){disposed=true;group.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}};
 }

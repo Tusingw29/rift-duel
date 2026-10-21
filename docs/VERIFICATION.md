@@ -266,3 +266,9 @@ Added normalized skin-weight and geometry-budget checks, finite deformed-vertex 
 ## Reference-led visual direction (0.35)
 
 178 tests pass. Chrome inspected Tala in character select and the new low side-camera view on Storm Summit; circling, approach and strike worked with no console errors. Restored the pre-test lock-on camera preference. Bright scenery exposed poor text contrast, addressed with menu/HUD backing rather than darkening the arena. Reference observations, source timestamps and remaining fidelity gaps are recorded in `EVIL_ZONE_ART_DIRECTION.md`.
+
+## Painted assets and Tala silhouette (0.36)
+
+178 tests pass, including skin-weight, deformed-vertex and independent afterimage skeleton checks after batching Tala's surfaces by material. Chrome loaded the painted face, stone floor and panorama in the actual game. Default selection now shows Tala and Storm Summit immediately. Local training verified approach and a connected strike (rival HP 93.88), pursuit, burst stock consumption and return to the menu, with no console errors or warnings. Inspected the character-select and fight views. These checks establish integration, not equivalence to Evil Zone's art or motion. Other fighters retain their existing models. Physical controllers and audio output were not retested.
+
+Asset paths and exact generation prompts are in `ART_ASSETS_036.md`.

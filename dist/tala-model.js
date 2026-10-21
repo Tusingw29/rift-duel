@@ -16,7 +16,7 @@ export function buildTala(){
  const pony=joint(head,0,.17,-.19);clothParts.push(pony);
  const sash=joint(body,-.22,1.23,.16);clothParts.push(sash);
  g.updateMatrixWorld(true);const skeleton=new T.Skeleton(bones);
- const mats={skin:'#b97b59',top:'#243d49',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#944e39',hair:'#172b39'};
+ const mats={skin:'#c58b65',top:'#243d49',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#963e35',hair:'#71342c'};
  const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color,map:clothPaint(k),vertexColors:true})]));
  const index=b=>bones.indexOf(b),one=b=>[[index(b),1]],blend=(a,b,w)=>[[index(a),1-w],[index(b),w]];
  // Ring: x, y, z, lateral radius, depth radius, weights, optional painted shade.
@@ -37,17 +37,22 @@ export function buildTala(){
   const mesh=new T.SkinnedMesh(geometry,materials[mat]);body.add(mesh);mesh.bind(skeleton);mesh.castShadow=true;mesh.frustumCulled=false;return mesh;
  }
  // Sculpted waist/ribcage instead of a single trapezoid. A fitted sleeveless tunic.
- surface([[0,1.17,0,.25,.155,one(body)],[0,1.3,0,.245,.15,blend(body,spine,.3)],[0,1.44,0,.255,.155,blend(body,spine,.75)],[0,1.61,.012,.31,.18,one(spine)],[0,1.8,.012,.37,.195,one(spine)],[0,1.94,0,.375,.17,one(spine)],[0,2.035,0,.27,.13,one(spine)],[0,2.07,0,.11,.09,one(spine)]],'top',16);
+ // Cropped athletic vest, exposed waist and fitted shorts break up the old tube silhouette.
+ surface([[0,1.24,0,.225,.145,one(body)],[0,1.38,0,.215,.14,blend(body,spine,.55)],[0,1.55,0,.25,.16,one(spine)],[0,1.68,0,.29,.17,one(spine)]],'skin',16);
+ surface([[0,1.54,0,.26,.17,one(spine)],[0,1.7,.012,.31,.19,one(spine)],[0,1.86,.01,.345,.185,one(spine)],[0,1.98,0,.32,.15,one(spine)],[0,2.065,0,.115,.095,one(spine)]],'top',12);
  surface([[0,1.17,0,.26,.16,one(body)],[0,1.22,0,.27,.17,one(body)],[0,1.29,0,.257,.162,blend(body,spine,.2)]],'trim',16);
  surface([[0,2.025,0,.105,.10,one(spine)],[0,2.17,0,.105,.095,blend(spine,head,.3)],[0,2.27,0,.11,.10,one(head)]],'skin');
  // Jaw, cheek and forehead rings preserve an anime silhouette without cube faces.
  surface([[0,2.21,.025,.04,.07,one(head)],[0,2.28,.022,.135,.14,one(head)],[0,2.41,0,.205,.192,one(head)],[0,2.55,-.01,.215,.19,one(head)],[0,2.68,-.02,.17,.15,one(head)],[0,2.74,-.02,.04,.04,one(head)]],'skin',20);
  for(let n=0;n<2;n++){
   const side=n?1:-1,arm=limbs[n*2],elbow=elbows[n],hand=arm.userData.hand,leg=limbs[n*2+1],knee=knees[n],x=side*.43,lx=side*.2;
-  surface([[x,2.14,0,.025,.03,blend(spine,arm,.5)],[x,2.07,0,.125,.13,blend(spine,arm,.85)],[x,1.98,0,.14,.14,one(arm)],[x,1.83,0,.105,.11,one(arm)],[x,1.67,0,.085,.09,blend(arm,elbow,.18)],[x,1.59,0,.085,.085,blend(arm,elbow,.5)],[x,1.52,0,.09,.095,blend(arm,elbow,.85)],[x,1.4,0,.11,.10,one(elbow)],[x,1.25,0,.073,.075,blend(elbow,hand,.1)],[x,1.18,0,.068,.07,one(hand)]],'skin');
+  surface([[x,2.14,0,.025,.03,blend(spine,arm,.5)],[x,2.07,0,.105,.11,blend(spine,arm,.85)],[x,1.98,0,.115,.12,one(arm)],[x,1.83,0,.09,.095,one(arm)],[x,1.67,0,.085,.09,blend(arm,elbow,.18)],[x,1.59,0,.085,.085,blend(arm,elbow,.5)],[x,1.52,0,.09,.095,blend(arm,elbow,.85)],[x,1.4,0,.095,.09,one(elbow)],[x,1.25,0,.073,.075,blend(elbow,hand,.1)],[x,1.18,0,.068,.07,one(hand)]],'skin');
   surface([[x,1.49,0,.105,.105,one(elbow)],[x,1.45,0,.112,.108,one(elbow),.88],[x,1.41,0,.11,.105,one(elbow)],[x,1.37,0,.103,.10,one(elbow),.88],[x,1.33,0,.094,.092,one(elbow)],[x,1.27,0,.083,.083,one(elbow),.9],[x,1.22,0,.079,.08,one(hand)]],'wrap');
   surface([[x,1.23,0,.065,.065,one(hand)],[x,1.17,.018,.095,.085,one(hand)],[x,1.08,.027,.095,.083,one(hand)],[x,1.04,.025,.035,.04,one(hand)]],'skin');
-  surface([[lx,1.22,0,.17,.17,blend(body,leg,.45)],[lx,1.09,0,.19,.18,one(leg)],[lx,.94,0,.18,.17,one(leg)],[lx,.78,0,.145,.135,blend(leg,knee,.05)],[lx,.65,0,.115,.12,blend(leg,knee,.4)],[lx,.57,0,.112,.12,blend(leg,knee,.75)],[lx,.46,0,.13,.125,one(knee)],[lx,.3,0,.108,.105,one(knee)],[lx,.17,0,.077,.08,one(knee)]],'pants');
+  surface([[lx,1.19,0,.145,.15,blend(body,leg,.45)],[lx,1.04,0,.15,.15,one(leg)],[lx,.85,0,.13,.13,one(leg)],[lx,.67,0,.095,.105,blend(leg,knee,.3)],[lx,.59,0,.095,.10,blend(leg,knee,.65)],[lx,.48,0,.105,.10,one(knee)],[lx,.31,0,.085,.085,one(knee)],[lx,.17,0,.075,.075,one(knee)]],'skin');
+  surface([[lx,1.22,0,.163,.165,blend(body,leg,.4)],[lx,1.08,0,.167,.165,one(leg)],[lx,.96,0,.15,.15,one(leg)]],'pants');
+  surface([[lx,.98,0,.155,.153,one(leg)],[lx,.945,0,.15,.15,one(leg)]],'trim');
+  surface([[lx,.57,0,.105,.11,one(knee)],[lx,.46,0,.116,.112,one(knee)],[lx,.32,0,.1,.1,one(knee)],[lx,.18,0,.09,.09,one(knee)]],'wrap');
   surface([[lx,.39,0,.12,.115,one(knee)],[lx,.34,0,.115,.11,one(knee),.85],[lx,.29,0,.105,.105,one(knee)],[lx,.24,0,.10,.10,one(knee),.87],[lx,.18,0,.095,.095,one(knee)]],'wrap');
   surface([[lx,.205,.015,.09,.105,one(knee)],[lx,.16,.045,.11,.145,one(knee)],[lx,.09,.08,.125,.2,one(knee)],[lx,.045,.08,.125,.2,one(knee)]],'shoe');
   surface([[lx,.05,.08,.128,.203,one(knee)],[lx,.025,.08,.125,.2,one(knee)]],'wrap');
@@ -55,6 +60,7 @@ export function buildTala(){
  surface([[0,1.06,0,.25,.155,one(body)],[0,1.14,0,.29,.17,one(body)],[0,1.22,0,.275,.16,one(body)]],'pants',16);
  // Shaped hair cap and separate curved locks, all attached to head/ponytail bones.
  surface([[0,2.5,-.04,.215,.185,one(head)],[0,2.64,-.04,.225,.19,one(head)],[0,2.77,-.06,.16,.14,one(head)],[0,2.81,-.065,.025,.03,one(head)]],'hair',16);
+ for(let j=0;j<5;j++){const x=(j-2)*.075;surface([[x,2.69,-.04,.075,.075,one(head)],[x*1.35,2.82+(j%2)*.045,-.06,.045,.045,one(head)],[x*1.65+.025,2.88+(j%2)*.07,-.085,.002,.005,one(head)]],'hair',5);}
  for(let i=-2;i<=2;i++)surface([[i*.075,2.7,.13,.055,.045,one(head)],[i*.075+.02,2.6,.17,.06,.04,one(head)],[i*.075+.045,2.52+Math.abs(i)*.025,.19,.008,.01,one(head)]],'hair',8);
  for(const side of [-1,1])surface([[side*.2,2.65,-.04,.065,.075,one(head)],[side*.22,2.44,-.07,.06,.07,one(head)],[side*.215,2.26,-.09,.008,.015,one(head)]],'hair',8);
  surface([[0,2.67,-.2,.11,.10,one(pony)],[0,2.52,-.32,.125,.11,one(pony)],[.03,2.28,-.37,.10,.085,one(pony)],[.07,2.04,-.32,.06,.05,one(pony)],[.10,1.93,-.27,.005,.008,one(pony)]],'hair');
@@ -66,12 +72,29 @@ export function buildTala(){
  for(const cx of [34,94]){oval(cx,76,22,11,[40,27,27,255]);oval(cx,74,20,8,[250,239,214,255]);oval(cx,74,8,9,[118,70,34,255]);oval(cx,74,4,8,[26,27,32,255]);oval(cx-3,78,3,3,[255,255,243,255]);for(let x=-20;x<=20;x++)for(let y=0;y<4;y++)pixel(cx+x,96+Math.round((cx<64?-x:x)*.13)+y,[38,32,31,255]);}
  oval(64,46,3,7,[135,78,57,110]);oval(64,23,12,2,[103,49,42,230]);oval(64,19,8,2,[217,136,108,150]);
  const texture=new T.DataTexture(data,size,size);texture.colorSpace=T.SRGBColorSpace;texture.needsUpdate=true;
- const face=new T.Mesh(new T.PlaneGeometry(.37,.25),new T.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false,side:T.FrontSide}));face.position.set(0,-.025,.195);head.add(face);
+ const faceGeo=new T.PlaneGeometry(.4,.5,16,16),fp=faceGeo.attributes.position;
+ for(let i=0;i<fp.count;i++){const x=fp.getX(i),y=fp.getY(i);fp.setZ(i,.122+.087*Math.sqrt(Math.max(0,1-(x/.235)**2))*Math.sqrt(Math.max(0,1-(y/.32)**2)));}
+ faceGeo.computeVertexNormals();const face=new T.Mesh(faceGeo,new T.MeshBasicMaterial({map:texture,transparent:true,alphaTest:.35,side:T.FrontSide}));face.position.y=-.015;head.add(face);
+ if(typeof document!=='undefined'){
+  let alive=true;face.material.addEventListener('dispose',()=>{alive=false;});
+  new T.TextureLoader().load(new URL('./assets/tala-face.png',import.meta.url).href,paint=>{if(!alive){paint.dispose();return;}paint.colorSpace=T.SRGBColorSpace;paint.magFilter=T.LinearFilter;face.material.map.dispose();face.material.map=paint;face.material.needsUpdate=true;});
+ }
  // Cloth front/back panels and seams, painted into vertex colors on fitted surfaces.
- surface([[0,1.33,.161,.055,.006,blend(body,spine,.5)],[0,1.55,.185,.08,.007,one(spine)],[0,1.8,.21,.095,.007,one(spine)],[0,1.97,.16,.06,.007,one(spine)]],'trim',8);
- surface([[0,1.35,-.155,.035,.006,blend(body,spine,.5)],[0,1.64,-.184,.045,.006,one(spine)],[0,1.94,-.17,.045,.006,one(spine)]],'trim',8);
+ for(const side of [-1,1])surface([[side*.09,1.55,.175,.045,.01,one(spine)],[side*.13,1.78,.192,.045,.012,one(spine)],[side*.13,1.95,.155,.04,.01,one(spine)],[side*.075,2.035,.105,.025,.01,one(spine)]],'trim',6);
+ surface([[0,1.6,-.17,.06,.008,one(spine)],[0,1.88,-.18,.09,.008,one(spine)],[0,2.02,-.12,.035,.008,one(spine)]],'trim',6);
  const shadow=new T.Mesh(new T.CircleGeometry(.62,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.72,.016,5,40),new T.MeshBasicMaterial({color:'#f5b65d'}));aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);
+ // Batch weighted surfaces by material, retaining every bone weight and UV.
+ // This keeps the fuller costume under the old character draw-call budget.
+ for(const material of Object.values(materials)){
+  const pieces=body.children.filter(n=>n.isSkinnedMesh&&n.material===material);if(pieces.length<2)continue;
+  const merged=new T.BufferGeometry(),attributes={};for(const name of Object.keys(pieces[0].geometry.attributes))attributes[name]=[];
+  const indices=[];let offset=0;
+  for(const piece of pieces){for(const [name,attribute] of Object.entries(piece.geometry.attributes))attributes[name].push(...attribute.array);for(const i of piece.geometry.index.array)indices.push(i+offset);offset+=piece.geometry.attributes.position.count;}
+  for(const [name,array] of Object.entries(attributes)){const old=pieces[0].geometry.attributes[name];merged.setAttribute(name,name==='skinIndex'?new T.Uint16BufferAttribute(array,old.itemSize):new T.Float32BufferAttribute(array,old.itemSize));}
+  merged.setIndex(indices);const mesh=new T.SkinnedMesh(merged,material);body.add(mesh);mesh.bind(skeleton);mesh.castShadow=true;mesh.frustumCulled=false;
+  for(const piece of pieces){body.remove(piece);piece.geometry.dispose();}
+ }
  head.scale.setScalar(.9);
  return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton};
 }

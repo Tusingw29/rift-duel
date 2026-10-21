@@ -12,7 +12,7 @@ import {createView} from './render.js';
 import {createAudio} from './audio.js';
 import {createFlow,advanceFlow,beginKO,simulationRuns,cameraCue} from './presentation.js';
 import {homeArena} from './arenas.js';
-const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=0,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
+const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
 keys.configure(bindings);
@@ -27,7 +27,7 @@ const sigils=['⌁','✧','ϟ','⟁','☼','◎'];
 $('#roster').innerHTML=fighters.map((f,i)=>`<button class="card" data-id="${i}" style="--c:${f.color}" aria-pressed="${i===0}"><span class="sigil">${sigils[i]}</span><b>${f.name}</b><small>${f.style.split(' / ')[0].toUpperCase()}</small></button>`).join('');
 $('#opponent').innerHTML=fighters.map((f,i)=>`<option value="${i}">${f.name}</option>`).join('');$('#opponent').value='1';
 function select(i){selected=(i+fighters.length)%fighters.length;const f=fighters[selected];document.documentElement.style.setProperty('--accent',f.color);$('#hero-name').textContent=f.name;$('#hero-title').textContent=f.title.toUpperCase();$('#hero-number').textContent=`0${selected+1} / 06`;$('#fighter-style').textContent=f.style;$('#fighter-bio').textContent=f.bio;$('#stats').innerHTML=[['SPEED',f.speed/7],['POWER',f.power/1.3],['REACH',f.reach/3.5]].map(([k,v])=>`<div>${k}<i><span style="width:${v*100}%"></span></i></div>`).join('');document.querySelectorAll('.card').forEach((c,i)=>c.setAttribute('aria-pressed',i===selected));view.select(selected);sound('select',selected);}
-$('#roster').onclick=e=>{const b=e.target.closest('button');if(b)select(Number(b.dataset.id));};select(0);
+$('#roster').onclick=e=>{const b=e.target.closest('button');if(b)select(Number(b.dataset.id));};select(selected);
 function modeChange(){$('#opponent-label').hidden=$('#mode').value==='arcade';}$('#mode').onchange=modeChange;modeChange();
 function showDialog(html){bindingCapture=null;$('#modal-body').innerHTML=html;if(!$('#modal').open)$('#modal').showModal();keys.clear();}
 function closeDialog(){bindingCapture=null;if(match?.phase==='over'){home();return;}$('#modal').close();paused=false;keys.clear();audio.duck(false);}

@@ -143,3 +143,7 @@ Tala now uses original smooth-shaded, bone-weighted surfaces with sculpted torso
 ## Alpha 0.35: reference-led visual direction
 
 Tala's clothing, hair and wraps now use small original paint maps, with diffuse shading, a clearer fringe and adjusted head scale. Storm Summit is a brighter stone courtyard with layered mountain scenery. Options → Camera → Side provides a low, opponent-relative duel view. Existing camera preferences and combat timing are unchanged. The reference observations and remaining gaps are in [the art-direction study](docs/EVIL_ZONE_ART_DIRECTION.md).
+
+## Alpha 0.36: visible character and arena art replacement
+
+The game now opens on Tala so the art upgrade is visible immediately. Her costume and silhouette have been rebuilt around a cropped vest, fitted shorts, tall wraps, slimmer arms and swept auburn hair. A generated painted face replaces the tiny procedural facial marks. Storm Summit uses a painted shrine/mountain panorama and weathered stone ground rather than flat ridge polygons and a regular tile grid. Assets are served by GitHub Pages with the game; no runtime generation service is required. Character surfaces are batched by material to retain the animation rig with fewer draw calls. The other fighters still use their earlier models. [Asset provenance and prompts](docs/ART_ASSETS_036.md).
