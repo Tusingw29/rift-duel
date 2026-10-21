@@ -1,0 +1,398 @@
+{
+  "schema": 1,
+  "fps": 60,
+  "source": "Current repository combat data; original Rift Duel timings, not measured source-game timings.",
+  "frameConvention": "Local frame 0 begins each action; total is its end boundary. Planning keys are suggestions, not a baked clip.",
+  "entries": [
+    {
+      "id": "right-straight",
+      "kind": "strike",
+      "startup": 5,
+      "recovery": 14,
+      "active": 1,
+      "total": 20,
+      "contactFrames": [
+        5
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 3,
+        "drive": 4,
+        "contact": 5,
+        "follow": 9,
+        "gather": 15,
+        "end": 20
+      }
+    },
+    {
+      "id": "left-cross",
+      "kind": "strike",
+      "startup": 5,
+      "recovery": 14,
+      "active": 1,
+      "total": 20,
+      "contactFrames": [
+        5
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 3,
+        "drive": 4,
+        "contact": 5,
+        "follow": 9,
+        "gather": 15,
+        "end": 20
+      }
+    },
+    {
+      "id": "right-hook",
+      "kind": "strike",
+      "startup": 5,
+      "recovery": 14,
+      "active": 1,
+      "total": 20,
+      "contactFrames": [
+        5
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 3,
+        "drive": 4,
+        "contact": 5,
+        "follow": 9,
+        "gather": 15,
+        "end": 20
+      }
+    },
+    {
+      "id": "energy-shot",
+      "kind": "shot",
+      "startup": 11,
+      "recovery": 18,
+      "active": 1,
+      "total": 30,
+      "contactFrames": [
+        11
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 6,
+        "drive": 10,
+        "contact": 11,
+        "follow": 16,
+        "gather": 24,
+        "end": 30
+      }
+    },
+    {
+      "id": "launcher",
+      "kind": "launch",
+      "startup": 10,
+      "recovery": 25,
+      "active": 1,
+      "total": 36,
+      "contactFrames": [
+        10
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 6,
+        "drive": 9,
+        "contact": 10,
+        "follow": 17,
+        "gather": 27,
+        "end": 36
+      }
+    },
+    {
+      "id": "rising-tempest",
+      "kind": "technique",
+      "startup": 8,
+      "active": 15,
+      "recovery": 24,
+      "speed": 10,
+      "reach": 1.8,
+      "damage": 10,
+      "launch": true,
+      "effect": "rise",
+      "total": 47,
+      "contactFrames": [
+        8
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 4,
+        "drive": 7,
+        "contact": 8,
+        "follow": 28,
+        "gather": 39,
+        "end": 47
+      }
+    },
+    {
+      "id": "jump-attack",
+      "kind": "jumpAttack",
+      "startup": 9,
+      "recovery": 25,
+      "active": 1,
+      "total": 35,
+      "contactFrames": [
+        9
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 5,
+        "drive": 8,
+        "contact": 9,
+        "follow": 16,
+        "gather": 26,
+        "end": 35
+      }
+    },
+    {
+      "id": "capture-start",
+      "kind": "capture",
+      "startup": 13,
+      "recovery": 40,
+      "active": 1,
+      "total": 54,
+      "contactFrames": [
+        13
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 7,
+        "drive": 12,
+        "contact": 13,
+        "follow": 23,
+        "gather": 40,
+        "end": 54
+      }
+    },
+    {
+      "id": "burst-start",
+      "kind": "super",
+      "startup": 22,
+      "recovery": 42,
+      "active": 1,
+      "total": 65,
+      "contactFrames": [
+        22
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 12,
+        "drive": 21,
+        "contact": 22,
+        "follow": 32,
+        "gather": 50,
+        "end": 65
+      }
+    },
+    {
+      "id": "skybreaker-kick",
+      "kind": "technique",
+      "startup": 8,
+      "active": 15,
+      "recovery": 24,
+      "speed": 14,
+      "reach": 2.2,
+      "damage": 13,
+      "launch": false,
+      "effect": "kick",
+      "total": 47,
+      "name": "Skybreaker kick",
+      "contactFrames": [
+        8
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 4,
+        "drive": 7,
+        "contact": 8,
+        "follow": 28,
+        "gather": 39,
+        "end": 47
+      }
+    },
+    {
+      "id": "aerial-pursuit",
+      "kind": "pursuit",
+      "startup": 7,
+      "recovery": 30,
+      "active": 19,
+      "total": 56,
+      "contactFrames": [
+        7,
+        16,
+        25
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 4,
+        "drive": 6,
+        "contact": 7,
+        "follow": 33,
+        "gather": 46,
+        "end": 56
+      }
+    },
+    {
+      "id": "storm-spark",
+      "kind": "forward",
+      "startup": 9,
+      "recovery": 22,
+      "active": 1,
+      "total": 32,
+      "variant": "base",
+      "contactFrames": [
+        9
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 5,
+        "drive": 8,
+        "contact": 9,
+        "follow": 15,
+        "gather": 24,
+        "end": 32
+      },
+      "effect": "bolt",
+      "projectileCount": 1
+    },
+    {
+      "id": "still-water-discus",
+      "kind": "back",
+      "startup": 12,
+      "recovery": 26,
+      "active": 1,
+      "total": 39,
+      "variant": "base",
+      "contactFrames": [
+        12
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 7,
+        "drive": 11,
+        "contact": 12,
+        "follow": 19,
+        "gather": 30,
+        "end": 39
+      },
+      "effect": "wheel",
+      "projectileCount": 1
+    },
+    {
+      "id": "twin-spark",
+      "kind": "forward",
+      "startup": 9,
+      "recovery": 22,
+      "active": 1,
+      "total": 32,
+      "variant": "followup",
+      "contactFrames": [
+        9
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 5,
+        "drive": 8,
+        "contact": 9,
+        "follow": 15,
+        "gather": 24,
+        "end": 32
+      },
+      "effect": "bolt",
+      "projectileCount": 2
+    },
+    {
+      "id": "crosswind-discs",
+      "kind": "back",
+      "startup": 12,
+      "recovery": 26,
+      "active": 1,
+      "total": 39,
+      "variant": "followup",
+      "contactFrames": [
+        12
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 7,
+        "drive": 11,
+        "contact": 12,
+        "follow": 19,
+        "gather": 30,
+        "end": 39
+      },
+      "effect": "wheel",
+      "projectileCount": 2
+    },
+    {
+      "id": "blazing-palm",
+      "kind": "forward",
+      "startup": 9,
+      "recovery": 22,
+      "active": 1,
+      "total": 32,
+      "variant": "stock",
+      "contactFrames": [
+        9
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 5,
+        "drive": 8,
+        "contact": 9,
+        "follow": 15,
+        "gather": 24,
+        "end": 32
+      },
+      "effect": "bolt",
+      "projectileCount": 1
+    },
+    {
+      "id": "giant-discus",
+      "kind": "back",
+      "startup": 12,
+      "recovery": 26,
+      "active": 1,
+      "total": 39,
+      "variant": "stock",
+      "contactFrames": [
+        12
+      ],
+      "planningFrames": {
+        "ready": 0,
+        "load": 7,
+        "drive": 11,
+        "contact": 12,
+        "follow": 19,
+        "gather": 30,
+        "end": 39
+      },
+      "effect": "wheel",
+      "projectileCount": 1
+    }
+  ],
+  "captureDurations": {
+    "front": {
+      "profile": "palm-slam",
+      "duration": 2.3
+    },
+    "back": {
+      "profile": "cradle-slam",
+      "duration": 2.4
+    },
+    "mid": {
+      "profile": "surround",
+      "duration": 2.6
+    },
+    "far": {
+      "profile": "meteor-rush",
+      "duration": 2.8
+    }
+  },
+  "burstDuration": 2.6
+}
