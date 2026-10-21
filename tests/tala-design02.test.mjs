@@ -71,3 +71,22 @@ test('connected shoulders remain bounded under guard and all combo contact poses
   }
  }
 });
+test('tailored garments export standard cloth colors and normalized skinning',()=>{
+ for(const name of ['Design02_ochre_cloth','Design02_rust_cloth']){
+  const material=json.materials.findIndex(m=>m.name===name);assert.ok(material>=0,name);
+  const primitives=json.meshes.flatMap(m=>m.primitives).filter(p=>p.material===material);
+  assert.ok(primitives.length>0);
+  for(const p of primitives)assert.ok(p.attributes.COLOR_0!==undefined,'cloth shading travels in standard vertex colors');
+ }
+ const review=createLiveTalaReview(asset.scene),point=new Vector3();
+ const garments=review.rig.g.children.filter(n=>n.isSkinnedMesh&&/Design02_(vest|shorts)/.test(n.name));
+ assert.equal(garments.length,2);
+ for(const garment of garments){
+  const weights=garment.geometry.attributes.skinWeight;
+  for(let i=0;i<weights.count;i++)assert.ok(Math.abs(weights.getX(i)+weights.getY(i)+weights.getZ(i)+weights.getW(i)-1)<1e-4);
+  for(const clip of LIVE_TALA_CLIPS){
+   review.sample(clip.name,clip.duration*.5);review.rig.g.updateMatrixWorld(true);garment.skeleton.update();
+   for(let i=0;i<weights.count;i+=11){garment.getVertexPosition(i,point);assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<7));}
+  }
+ }
+});

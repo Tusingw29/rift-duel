@@ -145,6 +145,8 @@ for side,suffix in [(-1,'L'),(1,'R')]:
 if DESIGN02:
  from tala_design02_body import connect_upper_body
  connect_upper_body(globals())
+ from tala_design02_costume import build_costume
+ build_costume(globals())
  from tala_design02_hair import build_hair
  build_hair(globals())
 else:
