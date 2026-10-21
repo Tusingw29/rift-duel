@@ -102,3 +102,10 @@ checks cover nine-frame travel, final distance, one projectile, interruption,
 wall clamping, actual exported shoe clearance and stable landing ankles.
 Live Chrome training confirmed successive retreat positions across frames 5–11,
 then one projectile at release, with no console warnings/errors. 224 tests pass.
+
+Signature variants: all four release poses rendered with finite bounds and
+positive floor clearance in Chrome. Live training confirmed Giant Discus as an
+empowered backward special with stock reduced from 1 to 0, and Twin Spark as a
+follow-up selected by another tap during wind-up. No console warnings/errors.
+The 225-test suite passes, including continuity at the upgrade frame, exact
+release channels, repeatable review scrubbing and all prior combat checks.

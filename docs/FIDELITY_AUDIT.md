@@ -116,3 +116,12 @@ existing retreat behavior. The base Discus animation adds a brief two-foot hop
 and planted landing; stock/follow-up animation paths still need authored polish.
 This supersedes the base Discus displacement issue documented above and remains
 original game tuning, not measured Evil Zone motion.
+
+### Tala signature variant animation
+All four grounded stock/follow-up variants now use Tala's authored signature
+system. Twin Spark and Crosswind Discs use paired release silhouettes; Blazing
+Palm and Giant Discus use deeper compression and stronger bracing. Backward
+variants share the retreat hop and planted landing. Upgrading a base move during
+wind-up blends from its current pose while preserving exact release timing.
+Aerial actions, rush techniques, captures and bursts remain separate unfinished
+choreography. These original keys do not establish source-game animation parity.

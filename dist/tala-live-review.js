@@ -4,9 +4,10 @@ import {attachTalaConcept} from './tala-concept.js';
 import {animateCharacter} from './animation.js';
 import {fighters} from './fighters.js';
 import {moveTiming} from './moves.js';
+const signatureClips={'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
 const shotTiming=moveTiming(fighters[2],'shot');
 const timing=moveTiming(fighters[2],'strike');
-export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},{name:'Storm spark',duration:1.4},{name:'Still-water discus',duration:1.4},{name:'Recoil',duration:1.6}];
+export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:1.4})),{name:'Recoil',duration:1.6}];
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
 export function createLiveTalaReview(source){
@@ -16,7 +17,7 @@ export function createLiveTalaReview(source){
  function reset(name){
   for(const key of Object.keys(rig))if(!keys.has(key))delete rig[key];
   for(const {node,p,q,s} of rest){node.position.copy(p);node.quaternion.copy(q);node.scale.copy(s);}
-  const kind=name==='Still-water discus'?'back':'forward';signature={kind,retreatTravel:kind==='back',chain:1,...moveTiming(fighters[2],kind),frame:0};
+  const spec=signatureClips[name]||{kind:'forward'};signature={...spec,retreatTravel:spec.kind==='back',chain:1,...moveTiming(fighters[2],spec.kind),frame:0};
   shot={kind:'shot',chain:1,...shotTiming,frame:0};
   moves=[1,2,3].map(chain=>({kind:'strike',chain,...timing,frame:0}));selected=name;frame=-1;
  }
@@ -32,7 +33,7 @@ export function createLiveTalaReview(source){
   if(name==='Guard + block'){p.guard=t>=.25&&t<1.65;p.blockStun=t>=.85&&t<1.07?1.07-t:0;}
   if(name==='Recoil'&&t>=.25&&t<.67){p.anim='hurt';p.animTime=.67-t;}
   if(name==='Energy shot'&&f>=12&&f<12+shotTiming.total){p.move=shot;shot.frame=f-12;p.anim='attack';}
-  if(['Storm spark','Still-water discus'].includes(name)){
+  if(signatureClips[name]){
    if(f>=12&&f<12+signature.total){p.move=signature;signature.frame=f-12;p.anim=signature.kind;}
    if(signature.kind==='back')p.z=-RETREAT_DISTANCE*retreatProgress(signature,Math.max(0,f-12));
   }

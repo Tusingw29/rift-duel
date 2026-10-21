@@ -120,10 +120,22 @@ test('Tala base signatures have distinct release silhouettes and exact combat ti
   for(let frame=0;frame<=move.startup;frame++){move.frame=frame;animateCharacter(r,p,frame/60);}
   assert.deepEqual(r.pose,contact);assert.equal(r.animationFamily,'grounded');
   assert.deepEqual(specialPose({...move,frame:move.total}),stance);
-  for(const flag of ['empowered','followup'])assert.equal(targetFor({...p,move:{...move,[flag]:true}},0),null);
+  for(const flag of ['empowered','followup'])assert.equal(targetFor({...p,move:{...move,[flag]:true}},0).kind,kind);
   assert.equal(targetFor({...p,air:1},0),null);
  }
  assert.ok(poses[0].re>-.2&&poses[0].le>-.2,'spark extends both arms');
  assert.ok(poses[1].re< -1&&poses[1].lay<-.5,'discus sweeps left while the right stays ready');
  assert.ok(poses[0].lean>0&&poses[1].lean<0);
+});
+test('special follow-up upgrades blend from the outgoing pose and still reach exact release',()=>{
+ for(const kind of ['forward','back']){
+  const r=buildCharacter(2),move={kind,...moveTiming(fighters[2],kind),frame:0},p={anim:kind,move,x:0,z:0};
+  for(let f=0;f<=4;f++){move.frame=f;animateCharacter(r,p,f/60);}
+  const before={...r.pose};move.followup=true;animateCharacter(r,p,4/60);
+  for(const key of CHANNELS)assert.ok(Math.abs(r.pose[key]-before[key])<1e-12,'upgrade preserves outgoing pose');
+  for(let f=5;f<=move.startup;f++){move.frame=f;animateCharacter(r,p,f/60);}
+  assert.deepEqual(r.pose,specialPose(move));
+  assert.notDeepEqual(specialPose(move),specialPose({...move,followup:false}));
+  assert.notDeepEqual(specialPose({...move,followup:false,empowered:true}),specialPose({...move,followup:false}));
+ }
 });

@@ -62,8 +62,8 @@ export function shotPose(move){
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
-// Distinct base signatures: a braced two-handed discharge and a sweeping
-// disc cast. Stock/follow-up variants retain their existing animation path.
+// Signature variants retain their combat identities: wider paired releases
+// for follow-ups and deeper compression for the larger stock projectiles.
 export function specialPose(move){
  const disc=move.kind==='back';
  const wind=pose({...stance,bodyY:-.25,hipYaw:disc?-.22:.18,twist:disc?-.48:.35,
@@ -73,8 +73,17 @@ export function specialPose(move){
   lax:disc?-1.4:-1.65,lay:disc?-.7:.12,laz:disc?.18:.08,le:disc?-.2:-.12,
   rax:disc?-.8:-1.65,ray:disc?0:-.12,raz:-.08,re:disc?-1.35:-.12,
   lk:disc?.2:.46,rk:disc?.5:.2});
+ if(move.empowered){
+  Object.assign(wind,{bodyY:-.32,lean:-.14,neckY:-.025,hx:.18,laz:.32,raz:-.32});
+  Object.assign(release,disc?{rax:-1.35,ray:-.18,re:-.45,lax:-1.52,lay:-.55,bodyY:-.22,twist:.35}:
+   {bodyY:-.23,bodyZ:.24,lean:.3,lax:-1.75,rax:-1.75,lay:.23,ray:-.23});
+ }else if(move.followup){
+  Object.assign(wind,{lax:-.25,rax:-.25,le:-1.6,re:-1.6,twist:disc?-.25:.15});
+  Object.assign(release,disc?{twist:0,hipYaw:0,hy:0,lax:-1.45,rax:-1.45,lay:-.38,ray:.38,laz:.15,raz:-.15,le:-.18,re:-.18}:
+   {twist:0,hipYaw:-.05,hy:0,lay:.25,ray:-.25,bodyZ:.16});
+ }
  const follow=pose({...release,twist:release.twist+(disc?.17:-.08),
-  lay:disc?-1:release.lay,le:disc?-.4:-.25,re:disc?-1.35:-.25,bodyY:-.21});
+  lay:disc?release.lay-.2:release.lay,le:disc?-.4:-.25,re:disc?release.re:-.25,bodyY:-.21});
  const end=move.startup+(move.active||1)+move.recovery;
  const keys=[[0,stance,smooth],[move.startup*.55,wind,smooth],[move.startup,release,snapOut],
   [move.startup+(move.active||1)+move.recovery*.25,follow,smooth],[end,stance,smooth]];
@@ -118,7 +127,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  const move=p.move;
  if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
  if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
- if(['forward','back'].includes(move?.kind)&&!move.empowered&&!move.followup&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
+ if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
@@ -153,12 +162,12 @@ export function animateTala(r,p,time){
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.
  if(['strike','shot','forward','back'].includes(target.kind)){
   r.flowBlend=null;
-  const m=p.move,previous=r.strikeBlend;
-  if(!previous||previous.move!==m||m.frame<previous.frame){
+  const m=p.move,previous=r.strikeBlend,variant=m.empowered?'stock':m.followup?'followup':'base';
+  if(!previous||previous.move!==m||m.frame<previous.frame||previous.variant!==variant){
    const from=r.pose||target.pose;
-   r.strikeBlend={move:m,frame:m.frame,offset:Object.fromEntries(CHANNELS.map(k=>[k,from[k]-target.pose[k]]))};
+   r.strikeBlend={move:m,frame:m.frame,variant,startFrame:previous?.move===m&&previous.variant!==variant?m.frame:0,offset:Object.fromEntries(CHANNELS.map(k=>[k,from[k]-target.pose[k]]))};
   }
-  const entry=1-smooth(m.frame/Math.max(1,m.startup));
+  const start=r.strikeBlend.startFrame,entry=m.frame>=m.startup?0:1-smooth((m.frame-start)/Math.max(1,m.startup-start));
   r.pose=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+r.strikeBlend.offset[k]*entry]));
   r.strikeBlend.frame=m.frame;
  }else{
