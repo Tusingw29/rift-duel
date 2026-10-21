@@ -38,3 +38,10 @@ test('live concept shoes stay level at guard and pivot at the ball during each p
   move.frame=20;animateCharacter(r,player,.8);r.g.updateMatrixWorld(true);const up=new Vector3(0,1,0).applyQuaternion(r.feet[driver].getWorldQuaternion(q));assert.ok(up.y>.999,'recovery levels sole');
  }
 });
+test('live concept recoil catches weight on the rear foot then restores stance',()=>{
+ const r=rig();attachTalaConcept(r,asset.scene);for(let i=0;i<15;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);
+ r.g.updateMatrixWorld(true);const front=r.feet[0].getWorldPosition(new Vector3()),rear=r.feet[1].getWorldPosition(new Vector3());let peakLift=0,caught;r.g.rotation.z=.15;
+ for(let f=0;f<=26;f++){const remaining=Math.max(0,.42-f/60);animateCharacter(r,{anim:'hurt',animTime:remaining,x:0,z:0},.3+f/60);r.g.updateMatrixWorld(true);const a=r.feet[0].getWorldPosition(new Vector3()),b=r.feet[1].getWorldPosition(new Vector3());assert.ok(a.distanceTo(front)<.003,'front support does not skate');peakLift=Math.max(peakLift,b.y-rear.y);if(f===10)caught=b.clone();}
+ assert.ok(caught.z<rear.z-.17,'rear foot catches behind the stance');assert.ok(peakLift>.04,'catch foot lifts instead of sliding');assert.ok(r.feet[1].getWorldPosition(new Vector3()).distanceTo(rear)<.003,'rear foot recovers');
+ const p={anim:'hurt',animTime:.3,x:0,z:0};animateCharacter(r,p,1);r.g.updateMatrixWorld(true);const frozen=r.feet[1].getWorldPosition(new Vector3());animateCharacter(r,p,1);r.g.updateMatrixWorld(true);assert.ok(r.feet[1].getWorldPosition(new Vector3()).distanceTo(frozen)<1e-6);
+});

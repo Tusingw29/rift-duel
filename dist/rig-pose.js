@@ -17,7 +17,7 @@ const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
  const ankleHeight=r.ankleHeight??.14;
  const reach=(r.legLength||.48)*2;ankle.y=-(r.legLength||.48);
- if(!p||!['idle','guard','charge','strike','run'].includes(kind)){r.footPlants=null;r.gaitPlants=null;return;}
+ if(!p||!(['idle','guard','charge','strike','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
  if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5){r.footPlants=null;r.gaitPlants=null;}
@@ -46,12 +46,14 @@ export function plantSupportFeet(r,p,kind){
  // Articulated feet can pivot around the planted ball, moving the ankle and
  // solving the leg above it without sliding the contact point across the floor.
  const facing=r.g.getWorldQuaternion(new Quaternion()),scale=r.g.getWorldScale(new Vector3());
- const pivots=r.footPivot?.(p,kind);
+ if(kind==='hurt'&&r.footOffsets){const forward=new Vector3(0,0,1).applyQuaternion(facing);facing.setFromAxisAngle(new Vector3(0,1,0),Math.atan2(forward.x,forward.z));}
+ const pivots=r.footPivot?.(p,kind),offsets=r.footOffsets?.(r,p,kind);
  const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
  const targets=r.footPlants.map((plant,i)=>{
-  if(!r.footBall||!footRotations)return plant;
+  const target=plant.clone();if(offsets?.[i])target.add(offsets[i].clone().multiply(scale).applyQuaternion(facing));
+  if(!r.footBall||!footRotations)return target;
   const ball=r.footBall.clone().multiply(scale);
-  return plant.clone().add(ball.clone().applyQuaternion(facing)).sub(ball.applyQuaternion(footRotations[i]));
+  return target.add(ball.clone().applyQuaternion(facing)).sub(ball.applyQuaternion(footRotations[i]));
  });
  // Let the hips settle rather than pulling an anchored foot up during the bounce.
  let settle=0;

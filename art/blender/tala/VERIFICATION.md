@@ -48,3 +48,9 @@ All 209 tests passed. The asset test checks all three strike contacts, including
 Tala's guard now retracts and lowers the head with a stronger chin-down angle. Block recoil deepens that brace instead of lifting the chin as the old pose did. Head pitch has a bounded delayed response to torso lean, and yaw lag is bounded to avoid excessive neck rotation. Head-position offsets participate in the transition between grounded and shared actions, preventing a positional pop when guard changes to an aerial/fallback pose.
 
 All 210 tests passed. Added assertions for neck retraction, stronger impact tuck, smooth handoff and restoration of the neutral neck position. Chrome displayed the defending Tala in live concept-preview training with no warning/error console messages. This changes the live pose system for both Tala models; the offline Blender study export has not been regenerated.
+
+## Live recoil catch-step
+
+The concept model now solves grounded hurt poses with a planted front support and rear catch/return step. Repeat hits retain the current offset rather than snapping back. Long stuns hold the caught stance until recovery. The renderer applies hurt tilt before the animation solve; hurt-foot orientation excludes the torso's sideways lean so the soles can stay level.
+
+All 212 tests passed. Tests verify front-foot drift under .003, rear-foot displacement over .17, foot lift over .04, restoration within .003, frozen-frame stability, repeated-hit continuity and long-stun hold. The live rig test includes the renderer's .15-radian hurt tilt. Chrome training accepted an attack against idle Tala, showed damage and return to stance, and emitted no console warnings/errors. That browser observation does not establish normal-speed artistic quality for every hit/recovery transition. Live step-and-follow locomotion remains unfinished.

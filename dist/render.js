@@ -76,6 +76,7 @@ export function createView(canvas){
    if(p){r.g.position.set(p.x,liftOf(p),p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
    if(r.spirit)r.spirit.scale.setScalar(1);
+   r.g.rotation.z=anim==='hurt'?.15:0;
    animateCharacter(r,p,time);
    const areaSpec=p?.move?.stockSpecial||p?.move?.special;
    const active=(p?.move?.kind==='technique'||!!areaSpec?.area)&&p.move.frame>=p.move.startup&&p.move.frame<p.move.startup+p.move.active;
@@ -87,7 +88,6 @@ export function createView(canvas){
     r.techniqueRing.scale.setScalar(areaSpec?.area|| (p.move.effect==='sphere'?p.move.reach:p.move.effect==='spin'?2.4:1.1));
     r.techniqueRing.rotation.set(p.move.effect==='spin'?Math.PI/2:0,0,settings.reduced?0:progress*Math.PI*2);
    }
-   if(anim==='hurt')r.g.rotation.z=.15;else r.g.rotation.z=0;
    // Hurt flash and charge glow share the aura.
    const flash=anim==='hurt'&&(p?.animTime||0)>.3;
    r.aura.scale.setScalar(anim==='charge'?1.3+Math.sin(time*18)*.2:flash?1.5:1);r.aura.material.color.set(anim==='charge'||flash?'#ffffff':fighters[r.id].color);
