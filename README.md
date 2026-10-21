@@ -185,3 +185,7 @@ Morrow has fitted heavy armor, launcher ports, an optical patch, shaped beard, s
 
 ### Alpha 0.45 — Morrow heavy motion
 Morrow's three-hit chain is now a cross-body cut, return cut and overhead finisher. Grounded motion uses planted feet, level boot soles and blended reactions. Existing damage and combat timing are unchanged.
+
+## Alpha 0.47: Evil Zone-style life bars and power gauge
+
+The HUD now reads like the original: each life bar keeps a red damage trail that holds for a moment after a hit and then drains to the live value, turns amber below 30 health and flashes red below 12, and chip damage from guarding shows against the trail. Under each bar sits a segmented power gauge. Holding attack fills the next segment in real time (faster at low health, as before), a filled segment is one stock, gaining a stock flashes the gauge and spending one blinks it dark, and three stocks pulse as MAX POWER. The label states the stock count or the current charge multiplier while charging. Charging stops at three stocks instead of silently discarding progress.

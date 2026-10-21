@@ -12,6 +12,7 @@ import {createView} from './render.js';
 import {createAudio} from './audio.js';
 import {createFlow,advanceFlow,beginKO,simulationRuns,cameraCue} from './presentation.js';
 import {homeArena} from './arenas.js';
+import {gaugeState,gaugeLabel,createTrail,updateTrail,healthClass} from './hud.js';
 const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
@@ -76,11 +77,23 @@ $('#settings').onclick=()=>{
  $('#volume').oninput=e=>{settings.volume=Number(e.target.value);enableSound();save();sound('select',0);};bindTrainingOptions();for(const key of ['reduced','music','announcer'])$('#'+key).onchange=e=>{settings[key]=e.target.checked;save();if(key==='music'&&settings.music&&!audio.playing)audio.play(match?fighters[arenaIndex].id:'menu');};
 };
 function announce(text,t=1.5,kind='note'){const c=$('#callout');c.textContent=text;c.dataset.kind=kind;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');calloutTime=t;}
+let trails=[createTrail(),createTrail()],lastStocks=[1,1];
+function flash(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
+function updateHud(dt){
+ match.players.forEach((p,i)=>{
+  const n=i+1,trail=updateTrail(trails[i],p.hp,dt);
+  $('#hp'+n).style.width=p.hp+'%';$('#trail'+n).style.width=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
+  const g=gaugeState(p),gauge=$('#gauge'+n);
+  gauge.querySelectorAll('i').forEach((seg,k)=>seg.style.setProperty('--fill',g.segments[k]));
+  gauge.classList.toggle('charging',g.charging);gauge.classList.toggle('full',g.full);$('#gauge-label'+n).textContent=gaugeLabel(g);
+  if(p.stocks>lastStocks[i])flash(gauge,'gain');else if(p.stocks<lastStocks[i])flash(gauge,'spend');lastStocks[i]=p.stocks;
+ });
+}
 function pips(){match?.players.forEach((p,i)=>{$('#pips'+(i+1)).textContent='●'.repeat(wins[i])+'○'.repeat(Math.max(0,match.rules.winsNeeded-wins[i]));});}
 function beginRound(){
  inputHistory=[];
  const opponent=mode==='arcade'?(selected+stage+1)%6:Number($('#opponent').value);
- match=createMatch(selected,opponent,mode,settings.difficulty,settings);round++;paused=false;keys.clear();hitstop=0;
+ match=createMatch(selected,opponent,mode,settings.difficulty,settings);round++;paused=false;keys.clear();hitstop=0;trails=[createTrail(),createTrail()];lastStocks=[1,1];
  arenaIndex=homeArena(mode,selected,opponent);view.match(match,arenaIndex);$('#menu').hidden=true;$('#hud').hidden=false;document.body.classList.add('playing');$('#modal').close();
  $('#p1-name').textContent=fighters[selected].name;$('#p2-name').textContent=fighters[opponent].name;$('#p2-label').textContent=mode==='local'?'PLAYER 02':mode==='training'?'TRAINING':'CPU';$('#round-label').textContent=mode==='arcade'?`BOUT ${stage+1} / 6`:mode==='training'?'FREE PRACTICE':`ROUND ${round}`;$('#arena-name').textContent=view.arenaName;pips();
  flow=createFlow({training:mode==='training',reduced:settings.reduced,round,names:[fighters[selected].name,fighters[opponent].name]});
@@ -175,7 +188,7 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
   $('#training-readout').textContent=match.cinematic?`${match.cinematic.kind==='capture'?'CAPTURE / '+match.cinematic.context.toUpperCase():'BURST'} · ${Math.max(0,match.cinematic.duration-match.cinematic.t).toFixed(1)}s`:move?`${phase==='startup'?'WIND-UP':phase==='contact'?(move.active>1?'ACTIVE':'CONTACT'):'RECOVERY'} · ${move.followup?'ALT ':move.empowered?'STOCK ':''}${move.kind.toUpperCase()}${move.aerial?' AIR '+(move.pursuitHit||0)+'/3':''}${['strike','shot'].includes(move.kind)||move.chain>1?' '+move.chain+'/3':''}${canChain(move)?' · CHAIN NOW':(canFollowUp(move)||canSpecialFollowUp(move))?' · FOLLOW-UP NOW':''} · ${phase==='startup'?move.startup-move.frame:move.total-move.frame}f`:'READY · Tap attack or hold to charge';
   $('#training-readout').dataset.phase=phase;
   }
- if(match){$('#timer').textContent=mode==='training'?'∞':Math.max(0,Math.ceil(match.time));match.players.forEach((p,i)=>{$('#hp'+(i+1)).style.width=p.hp+'%';$('#stock'+(i+1)).textContent='◆'.repeat(p.stocks)+'◇'.repeat(3-p.stocks);});if(match.players.every(p=>p.comboTime===0))$('#combo').textContent='';}
+ if(match){$('#timer').textContent=mode==='training'?'∞':Math.max(0,Math.ceil(match.time));updateHud(paused?0:dt);if(match.players.every(p=>p.comboTime===0))$('#combo').textContent='';}
  if(calloutTime>0){calloutTime-=dt;if(calloutTime<=0)$('#callout').textContent='';}view.render(paused?0:dt*(hitstop>0?.15:1),match,settings,flow?cameraCue(flow):null);requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);

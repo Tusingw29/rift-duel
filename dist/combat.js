@@ -7,6 +7,9 @@ import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 import {normalizeOptions} from './options.js';
 export const STEP=1/60;
+// Power gauge: holding attack fills one stock per CHARGE_PER_STOCK units; low health charges faster.
+export const CHARGE_PER_STOCK=1.8,MAX_STOCKS=3;
+export const chargeRate=hp=>1+(100-hp)/65;
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // Held stock variants are intentionally limited to these researched archetypes.
@@ -250,7 +253,7 @@ export function update(m,inputs,dt=STEP){
     // Lock-on movement: x closes or retreats along the line to the rival, z circles.
     const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
-    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.anim='charge';if(!hasStockVariant(a.id,a.commands.attack)){a.charge+=dt*(1+(100-a.hp)/65);if(a.charge>=1.8){a.charge=0;if(a.stocks<3){a.stocks++;event(m,'stock',{player:n});}}}}}
+    if(i.attack&&!a.guard){a.held+=dt;if(a.held>.24&&!a.move){a.anim='charge';if(!hasStockVariant(a.id,a.commands.attack)){if(a.stocks<MAX_STOCKS){a.charge+=dt*chargeRate(a.hp);if(a.charge>=CHARGE_PER_STOCK){a.charge=0;a.stocks++;event(m,'stock',{player:n});}}}}}
     if(!i.attack&&a.prev.attack){if(a.held>0&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))action(m,a,b,a.commands.attack||'attack',a.held>.24);a.held=0;}
     if(!i.attack)a.held=0;
     for(const kind of ['capture','launch','pursuit','super'])if(i[kind]&&!a.prev[kind])action(m,a,b,kind);
