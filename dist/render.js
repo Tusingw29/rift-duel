@@ -1,3 +1,4 @@
+import {airHeight} from './air-motion.js';
 import {loadTalaConcept,attachTalaConcept} from './tala-concept.js';
 import {disposeSkeletons} from './rig-clone.js';
 import {createProjectileVisual,updateProjectileVisual} from './projectile-visuals.js';
@@ -48,7 +49,7 @@ export function createView(canvas){
  function match(m,arenaIndex){clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
  function shake(amount){shakeAmount=Math.min(1.2,shakeAmount+amount);}
- const liftOf=p=>Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5;
+ const liftOf=airHeight;
  // Lock-on camera: behind the first player, looking across at the rival, Evil Zone style.
  function lockCamera(m,pos,target,airHeight){
   const [a,b]=m.players;const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1,fx=dx/d,fz=dz/d,rx=-fz,rz=fx;

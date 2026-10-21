@@ -141,3 +141,16 @@ support when the simulation's air timer expires. The review reproduces that
 existing timer-based height, including its abrupt changes when pursuit resets
 the timer; trajectory continuity is still a separate open issue. General jump/
 crossover attacks, captures and bursts retain shared choreography.
+
+### Continuous aerial height
+Airborne rendering now follows simulation-timed curves that start at the current
+height and vertical velocity when an air timer resets. Pursuit takes off toward
+opponent height during startup; repeated hits and air recovery no longer remap
+height directly from the new timer. Forced knockdown uses a short visual descent.
+Combat air eligibility, invulnerability, damage and collision rules remain based
+on the existing timers. This is visual trajectory work, not new vertical hitbox
+physics or measured original-game motion. It supersedes the timer-reset height
+jump noted in the launcher/pursuit entry above.
+Non-final pursuit hits additionally ease both fighters toward a common suspension
+height. This prevents a continuously falling victim from ending up visibly below
+the attacker's later strikes while retaining continuity at each hit event.

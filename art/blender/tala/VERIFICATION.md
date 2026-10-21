@@ -126,3 +126,12 @@ opponent knockdown and 77.56 HP, with no console errors/warnings. Tests verify
 exact pose channels at frames 7, 16 and 25, grounded launcher and return to stance.
 228 tests pass. The existing air-timer resets still cause visible height jumps;
 this pose pass does not claim continuous aerial trajectories.
+
+Continuous air trajectories: tests cover takeoff, timer resets, forced knockdown,
+pause/frozen-time behavior, normal landing and pursuit suspension. The first live
+check exposed victim/attacker height divergence; shared pursuit suspension now
+brings their visual trajectories together without teleporting either. A repeated
+Chrome combo measured attacker/victim heights 2.222/2.176 on hit 2 and 2.197/2.204
+on hit 3. Both subsequently reached height zero; opponent HP remained 77.56.
+No console errors/warnings. Full suite: 232 tests pass. Combat still uses the
+existing air timers; this does not introduce vertical collision physics.

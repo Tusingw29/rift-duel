@@ -1,3 +1,4 @@
+import {advanceAirMotion} from './air-motion.js';
 import {RETREAT_DISTANCE,retreatProgress} from './retreat-motion.js';
 import {BURST_DURATIONS,capturePresentation} from './cinematics.js';
 import {moveTiming,INPUT_BUFFER_FRAMES,canChain} from './moves.js';
@@ -185,7 +186,7 @@ function executeAction(m,a,b,move){
    const landed=hit(m,a,b,(last?6:4)*f.power,'hit',!last);
    if(!landed){move.aborted=true;return;}
    move.pursuitHit=beat/9+1;a.air=last?.16:.4;
-   if(!last)b.air=clamp(previousAir,.35,.65);
+   if(!last){b.air=clamp(previousAir,.35,.65);a.airMotionCue={height:2.2,duration:.15};b.airMotionCue={height:2.2,duration:.15};}
    if(last){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}
    event(m,'hint',{text:`AERIAL PURSUIT ${move.pursuitHit} / 3`});return;
   }
@@ -297,6 +298,7 @@ export function update(m,inputs,dt=STEP){
   }
   m.projectiles=m.projectiles.filter(p=>p.life>0);
  }
+ for(const p of m.players)advanceAirMotion(p,dt);
  if(m.mode==='training'){for(const p of m.players)if(p.hp<15){p.hp=100;event(m,'hint',{text:'Training health restored'});}}
  else if(m.players.some(p=>p.hp<=0)||m.time<=0){m.phase='over';m.winner=m.players[0].hp===m.players[1].hp?-1:m.players[0].hp>m.players[1].hp?0:1;event(m,'over');}
 }

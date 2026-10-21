@@ -1,3 +1,4 @@
+import {advanceAirMotion} from './air-motion.js';
 import {techniqueVariants} from './techniques.js';
 import {RETREAT_DISTANCE,retreatProgress} from './retreat-motion.js';
 import {buildTala} from './tala-model.js';
@@ -14,8 +15,9 @@ export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duratio
 export function createLiveTalaReview(source){
  const rig=buildTala();rig.conceptOriginalSurfaces=[];rig.g.traverse(n=>{if(n.isMesh&&n!==rig.aura)rig.conceptOriginalSurfaces.push(n);});attachTalaConcept(rig,source);rig.aura.visible=false;
  const keys=new Set(Object.keys(rig)),rest=[];rig.g.traverse(n=>{if(n.isBone||n===rig.g)rest.push({node:n,p:n.position.clone(),q:n.quaternion.clone(),s:n.scale.clone()});});
- let selected=null,frame=-1,moves,shot,signature;
+ let selected=null,frame=-1,moves,shot,signature,flight;
  function reset(name){
+  flight={air:0};
   for(const key of Object.keys(rig))if(!keys.has(key))delete rig[key];
   for(const {node,p,q,s} of rest){node.position.copy(p);node.quaternion.copy(q);node.scale.copy(s);}
   const spec=signatureClips[name]||{kind:'forward'};signature={...spec,retreatTravel:spec.kind==='back',chain:1,...moveTiming(fighters[2],spec.kind),frame:0};
@@ -50,7 +52,8 @@ export function createLiveTalaReview(source){
    const attackFrame=f-12,chain=Math.floor(attackFrame/timing.total);
    if(chain>=0&&chain<3){p.move=moves[chain];p.move.frame=attackFrame%timing.total;p.anim='strike';}
   }
-  rig.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
+  flight.air=p.air;flight.move=p.move;
+  if(signature.aerial&&[12+signature.startup,12+signature.startup+9].includes(f))flight.airMotionCue={height:2.2,duration:.15};rig.g.position.set(p.x,advanceAirMotion(flight,1/60),p.z);rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
  }
  function sample(name,time){
   const clip=LIVE_TALA_CLIPS.find(c=>c.name===name);if(!clip)throw new RangeError(`Unknown live review action: ${name}`);
