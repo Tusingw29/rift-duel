@@ -1,6 +1,6 @@
 ---
 name: blender-animation-threejs
-description: Architect, script, animate, optimize, and debug 3D assets, procedural scenes, shaders, and interactive web games across Blender 4.x+ (and this project's pinned Blender 3.6), glTF/GLB pipelines, vanilla Three.js (WebGL/WebGPU), and React Three Fiber. Use whenever work touches Blender, bpy, BMesh, Geometry Nodes, rigging, armatures, NLA animation, keyframes, shape keys, glTF/GLB export, Draco/Meshopt compression, Three.js, Drei, Rapier physics, GLSL/TSL shaders, character controllers, or 3D web games.
+description: Architect, script, animate, optimize, and debug 3D character art, alpha-card hair, normal maps, skeletal rigs, combat animations, shaders, and interactive web games across Blender 3.6 LTS and 4.x+, glTF/GLB pipelines, vanilla Three.js (WebGL/WebGPU), and React Three Fiber. Use whenever work touches Blender, bpy, BMesh, Geometry Nodes, character modeling, hair cards, skin weights, rigging, armatures, NLA animation, keyframes, shape keys, glTF/GLB export, Three.js, Drei, Rapier physics, GLSL/TSL shaders, character controllers, or 3D web games.
 ---
 # Blender, Animation, and Three.js
 
@@ -23,13 +23,16 @@ Provide end-to-end technical execution for 3D creation, skeletal/morph animation
 
 ## Reference Guides and Bundled Scripts
 
+- `references/character-art-hair-cards-and-normals.md`: concept proportion matching, `bmesh` alpha-card hair strips (MASK/CLIP) with proxy normal transfer, procedural tangent-space normal maps (`export_tangents=True`), anatomical joint skin-weight falloffs, and combat body mechanics (planted feet, weight shifts, tucked-chin guard).
 - `references/blender-4x-bpy-and-geonodes.md`: Blender 4.x API conventions, context-free `bpy.data` manipulation, `bmesh` topology, programmatic Geometry Nodes, Principled BSDF v2 socket mapping, EEVEE Next / Cycles.
 - `references/animation-rigging-gltf-pipeline.md`: armature design, bone collections, NLA actions, IK baking, shape keys, coordinate conventions, production glTF export and compression.
 - `references/threejs-r3f-and-shaders.md`: renderer and color management, WebGPU + TSL, `onBeforeCompile` PBR extension, R3F render-loop discipline, disposal.
 - `references/game-architecture-physics-optimization.md`: fixed timestep with interpolation, Rapier character controller, animation state machine, `three-mesh-bvh`, `InstancedMesh` / `BatchedMesh`, performance budget scorecard.
-- `scripts/blender_gltf_export_validator.py`: headless pre-flight that audits scale, UVs, bone influences and N-gons, then exports a GLB.
+- `scripts/blender_gltf_export_validator.py`: headless pre-flight with UV-seam-tolerant KDTree connectivity, required bone-list verification (`--required-bones`), weight clamping to 4 influences, automatic tangent export when normal maps are present, optional JPEG atlases, then GLB export.
 
 ## Steps
+
+0. **Character art order.** Lock proportions and silhouette first, then face, then materials, then hair, then secondary effects. Hair is built in three alpha-card tiers over a dark scalp cap (base volume, mid clumps, fringe and flyaways) with MASK alpha and normals transferred from a head proxy. Add tangent-space normal maps (Non-Color, OpenGL +Y) and export with `export_tangents=True` so weave, seams and pores catch light. Weight joints with smooth asymmetric falloffs (shoulders blend onto clavicle/chest, elbows 75/25-50/50-25/75 across three loops, neck 60/40 with head, ankles 2-3 rings) and keep at most four influences. Combat clips keep stance feet world-locked, shift hips over the support foot before strikes, and tuck the chin behind the lead shoulder.
 
 1. **Classify the layer and coordinate space.** 1 unit = 1 metre. Blender is Z-up; glTF/Three.js are Y-up (`export_yup=True`). This project's authored rig coordinates are X right, Y up, Z forward and are rotated into Blender by the build script.
 2. **Blender scripting.** Prefer `bpy.data` and `bmesh` over `bpy.ops`; apply scale and rotation; recalc normals; give every mesh a `UVMap`; feature-detect 4.x socket names.
@@ -38,6 +41,10 @@ Provide end-to-end technical execution for 3D creation, skeletal/morph animation
 5. **Game architecture.** Fixed 60 Hz simulation with render interpolation, crossfaded animation states with speed-matched locomotion, BVH for raycasts, instancing for props, and the budget table in the optimization reference.
 
 ## Gotchas
+
+- Alpha-blend hair flickers in Three.js; use MASK/CLIP (`alphaTest≈0.5`, `depthWrite=true`, `DoubleSide`).
+- Normal maps render flat or inverted without `export_tangents=True` or when the image is left in sRGB instead of Non-Color.
+- Older-computer budget for this game: 15-25k triangles per fighter including 800-2,000 for hair cards, under 55 bones, 5-10 draw calls per character, no multi-pass post-processing. Tala Design 02 is currently about 65k triangles and should come down when hair cards replace the sculpted masses.
 
 - `bsdf.inputs["Specular"]` / `["Clearcoat"]` raise `KeyError` on 4.x; `["Specular IOR Level"]` / `["Coat Weight"]` do not exist on 3.6. Use the candidate-list helper.
 - Unapplied scale skews `SkinnedMesh` bones and physics shapes. Apply before binding.

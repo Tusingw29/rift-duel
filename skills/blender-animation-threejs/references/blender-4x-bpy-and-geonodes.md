@@ -19,6 +19,40 @@ Production scripting patterns for Blender 4.0–4.3+ (headless automation, proce
 | Auto smooth (4.1+) | `mesh.use_auto_smooth` | "Smooth by Angle" modifier or custom split normals |
 | EEVEE id (4.2+) | `'BLENDER_EEVEE'` | `'BLENDER_EEVEE_NEXT'` |
 
+## 1b. Cross-version compatibility layer (3.6 LTS and 4.x+)
+
+```python
+IS_BLENDER_4_PLUS = bpy.app.version >= (4, 0, 0); IS_BLENDER_4_2_PLUS = bpy.app.version >= (4, 2, 0)
+BSDF_ALIASES = {"base_color": ("Base Color",), "metallic": ("Metallic",), "roughness": ("Roughness",),
+ "specular": ("Specular IOR Level", "Specular"), "coat": ("Coat Weight", "Clearcoat"), "coat_roughness": ("Coat Roughness", "Clearcoat Roughness"),
+ "transmission": ("Transmission Weight", "Transmission"), "sheen": ("Sheen Weight", "Sheen"), "subsurface": ("Subsurface Weight", "Subsurface"),
+ "emission_color": ("Emission Color", "Emission"), "emission_strength": ("Emission Strength",), "alpha": ("Alpha",)}
+def set_bsdf_socket(bsdf, aliases, value):
+    for name in aliases:
+        if name in bsdf.inputs: bsdf.inputs[name].default_value = value; return True
+    return False
+def set_material_alpha_mode(mat, mode='OPAQUE', clip_threshold=0.5):
+    if mode == 'MASK':
+        if hasattr(mat, "blend_method"): mat.blend_method = 'CLIP'
+        if hasattr(mat, "shadow_method"): mat.shadow_method = 'CLIP'
+        if hasattr(mat, "alpha_threshold"): mat.alpha_threshold = clip_threshold
+        if hasattr(mat, "surface_render_method"): mat.surface_render_method = 'DITHERED'
+    elif mode == 'BLEND':
+        if hasattr(mat, "blend_method"): mat.blend_method = 'BLEND'
+        if hasattr(mat, "surface_render_method"): mat.surface_render_method = 'BLENDED'
+    else:
+        if hasattr(mat, "blend_method"): mat.blend_method = 'OPAQUE'
+        if hasattr(mat, "surface_render_method"): mat.surface_render_method = 'DITHERED'
+def assign_bone_group_or_collection(arm_data, edit_bone, group_name, layer_idx=0):
+    if hasattr(arm_data, "collections"):
+        coll = arm_data.collections.get(group_name) or arm_data.collections.new(group_name); coll.assign(edit_bone)
+    elif hasattr(edit_bone, "layers"):
+        layers = [False] * 32; layers[layer_idx % 32] = True; edit_bone.layers = layers
+def add_node_group_socket(tree, name, in_out, socket_type):
+    if hasattr(tree, "interface"): return tree.interface.new_socket(name=name, in_out=in_out, socket_type=socket_type)
+    return (tree.inputs if in_out == 'INPUT' else tree.outputs).new(socket_type, name)
+```
+
 ## 2. Context-free scene reset
 
 Avoid `bpy.ops.object.select_all()` / `delete()` in headless scripts; use `bpy.data`:

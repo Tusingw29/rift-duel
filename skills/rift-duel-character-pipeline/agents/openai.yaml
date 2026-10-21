@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rift Duel Character Pipeline"
+  short_description: "Build and verify Tala art, rigs and combat motion"
+  default_prompt: "Use $rift-duel-character-pipeline to improve Tala while preserving the game rig and combat timing."

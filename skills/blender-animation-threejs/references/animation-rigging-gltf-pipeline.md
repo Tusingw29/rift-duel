@@ -27,7 +27,9 @@ Create `bpy.data.armatures.new`, enter edit mode, add `DEF-Root`, `DEF-Hips`, `D
 
 Create `Basis` first; name targets with ARKit/Three.js ids (`jawOpen`, `eyeBlinkLeft`, `mouthSmileLeft`…); apply vertex-count-changing modifiers before adding keys; in Three.js use `morphTargetDictionary` and `morphTargetInfluences`.
 
-## 6. Production GLB export (version-safe)
+## 6. Dual-mode production GLB export (version-safe)
+
+Mode A, decoder-free runtime (this project): uncompressed geometry with packed JPEG/PNG atlases, 2-4 MB per character. Mode B, compressed pipeline: Draco or Meshopt plus KTX2 when decoders are vendored. Pass `export_image_format='JPEG'` for smaller uncompressed GLBs and `export_tangents=True` whenever a normal map is attached; include both `export_animation_mode` (4.x) and `export_nla_strips` (3.6) and let the RNA filter drop whichever is unknown.
 
 ```python
 def export_production_glb(filepath, use_draco=False):
@@ -35,7 +37,7 @@ def export_production_glb(filepath, use_draco=False):
           "export_apply": True, "export_yup": True, "export_texcoords": True, "export_normals": True,
           "export_tangents": True, "export_materials": 'EXPORT', "export_colors": True, "export_skins": True,
           "export_def_bones": True, "export_all_influences": False, "export_morph": True, "export_morph_normal": True,
-          "export_animations": True, "export_animation_mode": 'NLA_TRACKS', "export_force_sampling": True,
+          "export_animations": True, "export_animation_mode": 'NLA_TRACKS', "export_nla_strips": True, "export_image_format": 'AUTO', "export_force_sampling": True,
           "export_optimize_animation_size": True}
     if use_draco:
         kw.update({"export_draco_mesh_compression_enable": True, "export_draco_mesh_compression_level": 6,
