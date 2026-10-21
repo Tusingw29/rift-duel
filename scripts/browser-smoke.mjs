@@ -17,7 +17,8 @@ const check=(name,ok,detail='')=>{checks.push({name,ok:!!ok,detail});console.log
 const shot=async name=>{const file=join(out,`${String(shots.length+1).padStart(2,'0')}-${name}.png`);await page.screenshot({path:file});shots.push(file);};
 const dbg=()=>page.evaluate(()=>window.riftDebug());
 const frames=n=>page.evaluate(n=>new Promise(r=>{let c=0;const f=()=>{if(++c>=n)r();else requestAnimationFrame(f);};requestAnimationFrame(f);}),n);
-const untilSim=async(seconds,max=240)=>{const t0=(await dbg()).time;for(let i=0;i<max;i++){await frames(1);if(t0-(await dbg()).time>=seconds)return true;}return false;};
+// Training has an infinite round timer: wait for observed movement, not countdown.
+const untilMoved=async(before,distance=.5,max=60)=>{for(let i=0;i<max;i++){await frames(1);const p=(await dbg()).players[0];if(Math.hypot(p.x-before.x,p.z-before.z)>=distance)return true;}return false;};
 try{
  if(args['review-only']!=='true'){
  await page.addInitScript(()=>{localStorage.setItem('rift-options',JSON.stringify({quality:'low',trainingBehavior:'idle',reduced:false,camera:'lock'}));});
@@ -34,9 +35,9 @@ try{
  check('training fight is running',(await dbg()).flow==='fight');
  await shot('fight-start');
  const before=(await dbg()).players[0];
- await page.keyboard.down('KeyW');await untilSim(.5);await page.keyboard.up('KeyW');const afterW=(await dbg()).players[0];
+ await page.keyboard.down('KeyW');await untilMoved(before);await page.keyboard.up('KeyW');const afterW=(await dbg()).players[0];
  check('W closes distance',afterW.x>before.x+.3,`x ${before.x.toFixed(2)} → ${afterW.x.toFixed(2)}`);
- await page.keyboard.down('KeyD');await untilSim(.5);await page.keyboard.up('KeyD');const afterD=(await dbg()).players[0];
+ await page.keyboard.down('KeyD');await untilMoved(afterW);await page.keyboard.up('KeyD');const afterD=(await dbg()).players[0];
  check('D circles the rival',Math.abs(afterD.z-afterW.z)>.3,`z ${afterW.z.toFixed(2)} → ${afterD.z.toFixed(2)}`);
  await shot('after-move');
  await page.keyboard.down('KeyW');for(let i=0;i<60;i++){await frames(1);const d=await dbg();if(Math.hypot(d.players[0].x-d.players[1].x,d.players[0].z-d.players[1].z)<2.4)break;}await page.keyboard.up('KeyW');
