@@ -312,3 +312,10 @@ Tala and Aegis retain their displayed joint orientations when crossing between a
 Rei now has a dedicated weighted model: fitted painted coat panels, separate split tails and hair joints, continuous elbow/knee surfaces, shaped boots and a curved painted face. The sword hand and translucent companion retain their animation attachment points. A reusable ring-surface builder batches weighted surfaces by material; existing Tala geometry is unchanged.
 
 187 tests pass. Existing normalized-weight, deformed-vertex and independent-clone-skeleton tests now cover both Tala and Rei. All-roster articulated weapon, combat-bound and recovery-floor tests also pass. Chrome inspected Rei in character select and a paused mirror-match burst, including the spirit and the independent surrounding copies. A basic strike left rival HP 94.6; pursuit and burst stock consumption worked; no console errors or warnings. Rei still uses shared choreography, so this does not establish animation fidelity. Morrow, Sol and Vesper retain the older generic models.
+
+
+## Moonlit Shrine courtyard (0.43)
+
+Replaced the sparse gate/grid stage with original 3D halls, curved tiled roofs, low stone balustrades, lanterns, planted trees, distant ridges and connected outer grounds. Reused the existing generated courtyard stone asset on the combat floor; wood, roof and masonry maps are small code-authored textures. Blue-gray moonlight replaces the earlier uniform pink lighting.
+
+188 tests pass. New stage tests enforce finite geometry, architecture outside the 17-unit fighting disc, approach surfaces below the combat floor (preventing observed coplanar flicker), no visible grid and a bounded mesh/vertex budget. The courtyard subscene uses 20 mesh draws and 26,772 vertices; the floor, sky/petals and characters are separate. Chrome inspected menu and several circling views, then approached and landed a strike (rival HP 94.6). No console errors. This is not a measured FPS claim or proof of parity with Evil Zone's environments.

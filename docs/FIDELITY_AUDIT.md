@@ -62,3 +62,5 @@ Version 0.40 gives Aegis authored grounded movement and three separate sword cut
 Version 0.41 blends Tala/Aegis handoffs between authored grounded and shared action poses while preserving contact frames and world-space action paths. It fixes an ankle-reset omission from 0.40. Shared choreography and cinematic root placement are still separate fidelity gaps.
 
 Version 0.42 replaces Rei's generic model with a weighted coat-and-hair rig and painted facial features. Her training-opponent appearance and burst copies use the new model. Three fighters now have separate authored model modules; Morrow, Sol and Vesper still use the older builder. Rei's animation remains shared.
+
+Version 0.43 replaces Moonlit Shrine's sparse grid-and-gates setting with a textured architectural courtyard and full surrounding grounds. Storm Summit and Moonlit Shrine now have substantive environment passes; Orbital Relay, Iron Wastes, Ember Archive and Silent Orbit retain their simpler settings. Visual fidelity remains unfinished.

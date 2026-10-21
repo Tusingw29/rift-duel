@@ -167,3 +167,7 @@ Tala and Aegis blend between their grounded animation and shared action poses. L
 
 ### Alpha 0.42 — Rei model rebuild
 Rei has a fitted split-tail coat, continuous weighted limbs, swept ivory hair, painted facial features and shaped boots. Her sword, spirit companion and burst copies use the new rig. This also updates the default training opponent. Movement choreography is unchanged.
+
+
+### Alpha 0.43 — Moonlit Shrine courtyard
+Select Rei to see the rebuilt stage: textured paving, three halls with curved roofs, lanterns, trees, stone railings and surrounding grounds. The grid is removed and lighting is cooler. Static architecture is batched to keep the added scene detail economical.
