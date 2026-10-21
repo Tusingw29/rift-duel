@@ -109,3 +109,12 @@ empowered backward special with stock reduced from 1 to 0, and Twin Spark as a
 follow-up selected by another tap during wind-up. No console warnings/errors.
 The 225-test suite passes, including continuity at the upgrade frame, exact
 release channels, repeatable review scrubbing and all prior combat checks.
+
+Rush/kick: an initial Chrome sample exposed foot penetration during recovery;
+the landing solve now brings captured ankle positions down to grounded support.
+Both review actions have positive mesh floor clearance at contact, carry,
+recovery and landing. Regression tests sample exported shoes through 72 frames
+and check distinct striking limbs and exact contact poses. In Chrome training,
+a second tap upgraded the technique to Skybreaker Kick, rendered during its
+active moving window from the lock-on camera without console errors/warnings.
+Full suite: 227 tests pass. This is original choreography, not source frame data.

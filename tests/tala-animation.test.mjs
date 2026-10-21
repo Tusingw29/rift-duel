@@ -139,3 +139,16 @@ test('special follow-up upgrades blend from the outgoing pose and still reach ex
   assert.notDeepEqual(specialPose({...move,followup:false,empowered:true}),specialPose({...move,followup:false}));
  }
 });
+
+import {techniquePose} from '../dist/tala-animation.js';
+import {techniqueVariants} from '../dist/techniques.js';
+test('Tala rush and kick retain their contact frame and distinct striking limbs',()=>{
+ for(const kick of [false,true]){
+  const move={kind:'technique',...moveTiming(fighters[2],'technique'),frame:0,...(kick?{...techniqueVariants.tala,followup:true}:{})};
+  const r=buildCharacter(2),p={anim:'technique',move,x:0,z:0};
+  for(let f=0;f<=move.startup;f++){move.frame=f;animateCharacter(r,p,f/60);}
+  assert.deepEqual(r.pose,techniquePose(move));assert.equal(r.footPlants,null,'flight releases support plants');
+  if(kick)assert.ok(r.pose.rlx< -1.3&&r.pose.rk<.2);else assert.ok(r.pose.rax< -2.3);
+  assert.deepEqual(techniquePose({...move,frame:move.total}),stance);
+ }
+});

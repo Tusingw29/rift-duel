@@ -125,3 +125,11 @@ variants share the retreat hop and planted landing. Upgrading a base move during
 wind-up blends from its current pose while preserving exact release timing.
 Aerial actions, rush techniques, captures and bursts remain separate unfinished
 choreography. These original keys do not establish source-game animation parity.
+
+### Tala rush and kick choreography
+The grounded-start rising rush and Skybreaker Kick now have authored compression,
+contact, carried flight, tucked recovery and landing poses. Their original combat
+movement, hit window and damage remain unchanged. Flying poses release the ankle
+plants; recovery lowers captured ankle positions to the floor before settling.
+The review scripts a missed rush at full travel; actual combat stops advancement
+on contact. General aerial attacks, captures and bursts remain unfinished.

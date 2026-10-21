@@ -98,3 +98,12 @@ test('disc hop lifts both exported shoes and lands without further ankle drift',
  const landing=r.feet.map(f=>f.getWorldPosition(new Vector3()));review.sample('Still-water discus',.75);
  r.feet.forEach((f,i)=>assert.ok(f.getWorldPosition(new Vector3()).distanceTo(landing[i])<.003,'landing stays planted'));
 });
+test('rush and flying kick keep exported shoes above floor through landing',()=>{
+ for(const name of ['Rising rush','Skybreaker kick']){
+  const review=createLiveTalaReview(asset.scene),r=review.rig;
+  for(let frame=0;frame<=72;frame++){
+   review.sample(name,frame/60);
+   for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const v=new Vector3();for(let i=0;i<mesh.geometry.attributes.position.count;i+=3){mesh.getVertexPosition(i,v).applyMatrix4(mesh.matrixWorld);assert.ok(v.y>-.015,`${name} frame ${frame}: ${v.y}`);}}
+  }
+ }
+});
