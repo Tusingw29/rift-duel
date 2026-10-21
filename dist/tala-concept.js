@@ -3,7 +3,7 @@ import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.j
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
 const canonical=name=>name.replace(/^(upper_arm|forearm|hand|thigh|shin|foot)([LR])$/,'$1.$2');
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='design02'?'./assets/models/tala-design02.glb?v=8':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='design02'?'./assets/models/tala-design02.glb?v=9':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
  const key=variant==='design02'?'design02':'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));

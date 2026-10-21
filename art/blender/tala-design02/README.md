@@ -52,9 +52,9 @@ These use the actual runtime contact poses, at local strike frame 5 in each of t
 
 The geometry tests check packed albedo, its referenced UV set, standard material export, retained 17-bone mapping, finite deformation across all live review actions and preserved guard tuck. Additional checks prove that the upper body is a single connected surface, its weights are normalized, and triangles remain bounded in guard and all three punch contact poses. They do not establish visual quality. Chrome's connection still timed out during this pass, so browser bitmap decoding, review controls and real-time playback remain unverified for this variant.
 
-Remaining art work: more anatomical shoulder/scapula definition and deformation refinement, garment fold and collision refinement, further wrist/hand refinement, expressive eyelids/mouth and closer matching of hair silhouette/painted strand detail. The face source still contains baked shading and fine pores. Hair still uses one moving ponytail bone rather than the proposed multi-segment rig. The head is an analytic surface study, not finished facial edge-loop retopology. The shorter neck is a surface adjustment, not a redesigned skeletal pivot; review extreme head motion before promoting the asset.
+Remaining art work: more anatomical shoulder/scapula definition and deformation refinement, garment fold and collision refinement, further wrist/hand refinement, expressive eyelids/mouth and closer matching of hair silhouette/painted strand detail. The revised face source reduces baked shading, shine and skin microtexture; it still retains some painted nose and eyelid shading. Hair still uses one moving ponytail bone rather than the proposed multi-segment rig. The head is an analytic surface study, not finished facial edge-loop retopology. The shorter neck is a surface adjustment, not a redesigned skeletal pivot; review extreme head motion before promoting the asset.
 
-Face source was created with the built-in image-generation tool from the original Design 02 reference. Exact prompt: [face-prompt.txt](face-prompt.txt). Blender performs the material bake. No third-party face texture is used.
+Face source was created with the built-in image-generation tool from the original Design 02 reference. Original prompt: [face-prompt.txt](face-prompt.txt). Revised painting prompts: [face-v2-prompt.txt](face-v2-prompt.txt). Blender performs the material bake. No third-party face texture is used.
 
 ## Tailored costume pass
 
@@ -112,3 +112,11 @@ Playable-preview integration: 243 repository tests pass. No browser session was 
 The two fists now use a lower-density mesh while retaining their silhouette; the four wraps share one draw primitive with all six required hand/forearm/shin influences preserved. Actual GLB accessor counts changed from 39,270 to 32,970 vertices and from 77,358 to 64,758 triangles. Draw primitives fell from 15 to 12, and the file shrank from 3,112,344 to 2,811,744 bytes. See `optimization-report.json` for measured counts. These reductions are not measured frame-rate improvements.
 
 Front guard renders were compared before and after; the knuckle/thumb silhouettes and cloth seams remain visually close. Guard images show the optimized model. Other stills and the motion video retain the preceding geometry. All 243 tests pass, including connected fists, cloth influences, mirror fighters and afterimages. Full-speed browser performance remains unverified.
+
+## Face painting revision 2
+
+The built-in image-generation tool edited the original face source while preserving the placement of the eyes, nose and mouth. A second focused edit removed more photographic shading and microtexture. The selected source is `face-source-v2.png`; the first revision is retained as `face-source-v2-draft.png`, and the original is retained as `face-source.png`. Exact prompts and references are in `face-v2-prompt.txt`.
+
+This revision uses a full Blender face bake, not the cached-atlas shortcut. Head geometry, skeleton, gameplay and animation timing are unchanged. Front/profile head and guard renders show the new painting; other stills and the video retain the previous painting. This remains a partial character study rather than a finished match to the concept.
+
+Revision-2 verification: front/profile head and crossed-arm guard renders were inspected. Head vertex positions and feature mapping are retained; the rendered skin is flatter and less glossy. All 243 repository tests pass. No real-time browser visual review was available for this pass.

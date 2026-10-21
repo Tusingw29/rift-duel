@@ -34,7 +34,7 @@ renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domEle
 renderer.domElement.onpointermove=e=>{if(drag){yaw-=(e.clientX-drag[0])*.008;pitch=Math.max(-.4,Math.min(.8,pitch+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY];}};
 renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(.7,Math.min(9,distance+e.deltaY*.004));},{passive:false});
 try{
- const gltf=await new GLTFLoader().loadAsync(design02?'./assets/models/tala-design02.glb?v=8':'./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
+ const gltf=await new GLTFLoader().loadAsync(design02?'./assets/models/tala-design02.glb?v=9':'./assets/models/tala-study.glb?v=4');model=gltf.scene;scene.add(model);clips=gltf.animations;mixer=new T.AnimationMixer(model);
  live=createLiveTalaReview(model);scene.add(live.rig.g);let vertices=0,meshes=0;
  model.traverse(n=>{if(n.isMesh){meshes++;vertices+=n.geometry.attributes.position.count;n.frustumCulled=false;}});
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;

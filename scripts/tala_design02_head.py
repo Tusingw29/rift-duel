@@ -12,7 +12,7 @@ def build_head(ctx):
  face=bpy.data.materials.new('Design02_face');face.use_nodes=True
  p=face.node_tree.nodes.get('Principled BSDF');p.inputs['Roughness'].default_value=.78
  tex=face.node_tree.nodes.new('ShaderNodeTexImage')
- tex.image=bpy.data.images.load(str(ROOT/'art/blender/tala-design02/face-source.png'));tex.image.pack()
+ tex.image=bpy.data.images.load(str(ROOT/'art/blender/tala-design02/face-source-v2.png'));tex.image.pack()
  face.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color'])
  # x radius, front/back depth and center build jaw, temples and cranium.
  profile=[(2.035,.105,.082,-.018),(2.10,.090,.080,-.015),
