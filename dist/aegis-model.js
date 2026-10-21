@@ -28,7 +28,7 @@ export function buildAegis(){
   }
   const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setAttribute('color',new T.Float32BufferAttribute(colors,3));geo.computeVertexNormals();return mesh(geo,shell,parent,x,y,z);
  }
- const spine=joint(body,0,1.25),head=joint(spine,0,1.23),limbs=[],elbows=[],knees=[],clothParts=[];
+ const spine=joint(body,0,1.25),head=joint(spine,0,1.23),limbs=[],elbows=[],knees=[],feet=[],clothParts=[];
  tube(body,.24,.27,.28,0,1.13);
  tube(spine,.29,.22,.69,0,.35);
  tube(spine,.1,.12,.2,0,.91);
@@ -66,7 +66,8 @@ export function buildAegis(){
   plate(knee,[[-.095,-.43],[.095,-.43],[.13,-.15],[.075,-.08],[-.075,-.08],[-.13,-.15]],.23,'#9dbfc7',0,0,.025);
   plate(knee,[[-.03,-.40],[.03,-.40],[.055,-.18],[-.055,-.18]],.03,'#296b85',0,0,.16);
   // Broad wedge toe; the dark sole stays separate from the shin armor.
-  plate(knee,[[-.12,-.53],[.12,-.53],[.13,-.44],[.075,-.37],[-.075,-.37],[-.13,-.44]],.38,'#244b60',0,0,.105);
+  const foot=joint(knee,0,-.48);feet.push(foot);
+  plate(foot,[[-.12,-.05],[.12,-.05],[.13,.04],[.075,.11],[-.075,.11],[-.13,.04]],.38,'#244b60',0,0,.105);
  }
  // Split cape with sculpted folds; both tails share the existing cloth anchor.
  plate(head,[[-.13,-.16],[.13,-.16],[.16,.13],[.08,.20],[-.08,.20],[-.16,.13]],.025,'#326f87',0,0,-.20).rotation.y=Math.PI;
@@ -97,7 +98,7 @@ export function buildAegis(){
  // the hip up and lengthening both leg segments. Gameplay reach is unchanged.
  const reshape=(root,scale)=>{for(const n of root.children)if(n.isMesh){n.updateMatrix();n.geometry.applyMatrix4(n.matrix);n.position.set(0,0,0);n.rotation.set(0,0,0);n.scale.set(1,1,1);const p=n.geometry.attributes.position;for(let i=0;i<p.count;i++)p.setY(i,p.getY(i)*scale);p.needsUpdate=true;n.geometry.computeVertexNormals();}};
  reshape(body,7/6);reshape(spine,.78);spine.position.y=1.435;head.position.y=1.045;head.scale.set(.86,.90,.8);
- for(let i=0;i<2;i++){limbs[i*2].position.y=.585;const leg=limbs[i*2+1],knee=knees[i];leg.position.y=1.26;knee.position.y=-.56;reshape(leg,7/6);reshape(knee,7/6);}
+ for(let i=0;i<2;i++){limbs[i*2].position.y=.585;const leg=limbs[i*2+1],knee=knees[i];leg.position.y=1.26;knee.position.y=-.56;reshape(leg,7/6);reshape(knee,7/6);feet[i].position.y=-.56;reshape(feet[i],7/6);}
  cape.position.y=.635;
- return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:0};
+ return {g,body,spine,head,limbs,elbows,knees,feet,clothParts,aura,spirit:null,id:0,legLength:.56,ankleHeight:.06};
 }

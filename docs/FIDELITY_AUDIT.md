@@ -56,3 +56,5 @@ The 0.35 visual study corrects the earlier blanket description of the behind-pla
 The 0.36–0.38 art passes add painted arena assets, revise Tala's proportions and face fit, and replace repeated vest shading with a front/back costume map. The user explicitly rejected the result as an Evil Zone art match. This is evidence that the visual target remains unmet, regardless of passing rig tests. The next art review must compare complete fighter silhouettes and animated fight views, including the older rival models, rather than counting added textures as success.
 
 Version 0.39 replaces Aegis's generic model with an original articulated plate-armor rig. Tala and Aegis now have separate model modules; Rei, Morrow, Sol and Vesper still use the shared older builder. Aegis still uses shared animation tracks, so the model change does not close his motion-fidelity gap.
+
+Version 0.40 gives Aegis authored grounded movement and three separate sword cuts, with planted ankles and level boot soles. His captures, aerial actions and burst choreography still use shared fallback paths. Original-game frame correspondence and subjective fidelity remain unproven.

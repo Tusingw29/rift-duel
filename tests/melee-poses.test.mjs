@@ -20,7 +20,7 @@ test('Tala switches punching arms for the second hit while sword users reverse t
  const a=sampleMeleePose('rei',{...move,chain:1}),b=sampleMeleePose('rei',{...move,chain:2});assert.equal(a.ry,-b.ry);assert.equal(a.twist,-b.twist);
 });
 test('advance, retreat and circle have distinct poses and guard recoil clears on the next frame',()=>{
- const r=buildCharacter(0),read=()=>[r.spine.rotation.x,r.spine.rotation.z,r.limbs[1].rotation.x,r.limbs[1].rotation.z];
+ const r=buildCharacter(1),read=()=>[r.spine.rotation.x,r.spine.rotation.z,r.limbs[1].rotation.x,r.limbs[1].rotation.z];
  animateCharacter(r,{anim:'run',prev:{x:1,z:0}},.13);const advance=read();
  animateCharacter(r,{anim:'run',prev:{x:-1,z:0}},.13);const retreat=read();
  animateCharacter(r,{anim:'run',prev:{x:0,z:1}},.13);const circle=read();assert.notDeepEqual(advance,retreat);assert.notDeepEqual(advance,circle);

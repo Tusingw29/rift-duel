@@ -155,3 +155,7 @@ Longer legs and a compact torso, improved shoulder joins, broader hair locks, fi
 
 ### Alpha 0.39 — Aegis armor rebuild
 Aegis now has a separate model with beveled chest plates, an inset visor, shaped gauntlets and greaves, articulated shoulder armor, longer leg proportions and a folded split cape. Select Aegis to see it. Shared combat animation remains in place; four fighters still use the older model builder.
+
+
+### Alpha 0.40 — Aegis grounded motion
+Aegis has a slash, return cut and overhead finisher, blended grounded poses, distance-driven footwork, and articulated ankles that keep boot soles level. Combat timing and controls are unchanged. Shared aerial/capture/burst animation remains a later refinement.
