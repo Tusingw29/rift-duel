@@ -143,3 +143,10 @@ checks continuity into the new lighter airborne chin tuck. Chrome keyboard input
 successfully triggered double-circle jump followed by airborne guard recovery;
 the recovery pose was inspected from the fight camera without console errors.
 Full suite: 233 tests pass.
+
+Default rollout: Chrome opened the normal URL with no Tala query and loaded the
+concept model. Options switched to the earlier model and retained that setting
+after reload. Switching back and starting Tala-versus-Tala training loaded both
+concept instances with no console warnings/errors. An injected 503 response for
+the GLB confirmed the earlier-model fallback and visible failure status; removing
+the injection restored normal loading. Existing suite: 233 tests pass.

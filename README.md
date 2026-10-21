@@ -4,7 +4,7 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 **Play:** https://tusingw29.github.io/rift-duel/
 
-**Blender art study:** [Inspect Tala’s editable model and seven animation clips](https://tusingw29.github.io/rift-duel/tala-blender.html). Separate preview; the live fighter is unchanged.
+**Tala art and motion:** [Inspect the current model and live animations](https://tusingw29.github.io/rift-duel/tala-blender.html). Storm Circuit is now the default in the public game. Options → Tala appearance retains the earlier model; failed asset loading also falls back to it. The art remains a work in progress.
 
 ## Alpha 0.46
 

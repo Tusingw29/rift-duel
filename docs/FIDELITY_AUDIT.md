@@ -161,3 +161,11 @@ a brief landing compression. Air recovery raises the forearms and tucks the chin
 instead of switching to the old shared pose. The transition respects the visual
 height curve and leaves jump/recovery combat rules unchanged. Crossover attacks,
 launched tumbles, captures and bursts still use shared choreography.
+
+### Public model rollout
+Storm Circuit is now Tala's default model on the normal public URL, including
+opponent Tala. Options → Tala appearance saves a choice of current art study or
+earlier model; it applies on character selection or the next fight. Explicit
+`tala=concept` and `tala=classic` URLs remain overrides. Missing asset loads fall
+back to the earlier rig with visible status. This supersedes the opt-in scope
+above; making the model public does not establish final art or user acceptance.
