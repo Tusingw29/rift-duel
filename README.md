@@ -6,6 +6,12 @@ An original browser-based 3D arena fighter inspired by the two-button combat and
 
 **Tala art and motion:** [Inspect the current model and live animations](https://tusingw29.github.io/rift-duel/tala-blender.html). Storm Circuit is now the default in the public game. Options → Tala appearance retains the earlier model; failed asset loading also falls back to it. The art remains a work in progress.
 
+## Alpha 0.56: Tala character pass
+
+[Play the rebuilt Tala preview](https://tusingw29.github.io/rift-duel/?tala=design02) · [Inspect the model](https://tusingw29.github.io/rift-duel/tala-blender.html?model=design02) · [Watch its motion](https://tusingw29.github.io/rift-duel/tala-motion.html).
+
+Layered auburn strand hair, curved ears, facial-plane detail, connected sloping shoulders, folded collar panels and a fitted vest form one combined asset revision. High-quality texture filtering and supported multisample cutout edges keep the image clear. The 4.3 MB asset preserves the 17-bone combat contract; it is still an art study, with face likeness, garment fit and lower-body detail unfinished. The default Storm Circuit model remains available separately.
+
 ## Alpha 0.46
 
 Sol and Vesper now use weighted character surfaces, painted faces and costume panels, independent hanging cloth, and distinct staff/ring silhouettes. All six fighters have dedicated model builds. Rei, Sol and Vesper still use shared choreography; visual fidelity remains unfinished.

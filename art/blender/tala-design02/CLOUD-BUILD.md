@@ -25,3 +25,10 @@ Official release/checksum source: https://ftp.blender.org/release/Blender3.6/ble
 - [Cached face, no review renders](https://github.com/Tusingw29/rift-duel/actions/runs/39630166610): 243 tests passed; all eight output checksums verified. The package contains only the face atlas image, with no old review images.
 
 Both used source commit `8e20f4bd0f9d9ccee3eb7e4f8f0518b933d2f45a`. Their manifests are retained alongside this guide. These runs prove the cloud asset-build path, not browser gameplay or full-speed performance. The live GLB was not replaced with an unreviewed cloud artifact.
+
+
+## Character-pass previews and motion
+
+The workflow now uploads `tala-preview-N` after model tests and still renders, before the optional video render. It has its own checksums and explicitly reports `motionReviewRendered: false`. This permits browser testing of the exact asset while the video renders. The final `tala-design02-N` artifact includes the current-model video, sampled matrices and punch poster when **Render current-model motion review** is enabled. Video output is 576×720, 30 fps, using the actual runtime guard and combo poses. It is a rendered review, not a browser performance recording.
+
+The browser smoke workflow also supports **Test the checked-out branch locally on the runner before publishing** and **Also capture model-review face, side, back and guard views**. Both are optional. The preview uses a local server on the GitHub runner; it does not publish the branch or control the user's Chrome session.

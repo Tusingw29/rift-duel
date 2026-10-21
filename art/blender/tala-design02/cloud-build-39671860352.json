@@ -1,0 +1,223 @@
+{
+  "motionReviewRendered": true,
+  "sourceCommit": "73be967b5c5a52e36fd52f83b2eb01bea19d4685",
+  "run": "https://github.com/Tusingw29/rift-duel/actions/runs/39671860352",
+  "faceRebaked": true,
+  "reviewImagesRendered": true,
+  "model": {
+    "blender": "3.6.22",
+    "bones": 17,
+    "meshes": 15,
+    "vertices": 36627,
+    "clips": [
+      "Idle",
+      "Advance",
+      "Retreat",
+      "Circle",
+      "Guard",
+      "Combo",
+      "Recoil"
+    ],
+    "combo_contact_seconds": [
+      0.08333333333333333,
+      0.4166666666666667,
+      0.75
+    ],
+    "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing",
+    "textures": {
+      "top": {
+        "kind": "cloth",
+        "size": 512,
+        "objects": [
+          "Athletic_top"
+        ]
+      },
+      "skin": {
+        "kind": "skin",
+        "size": 768,
+        "objects": [
+          "Design02_ear",
+          "Design02_ear.001",
+          "Leg.L",
+          "Leg.R",
+          "Design02_upper_body"
+        ]
+      },
+      "sole": {
+        "kind": "leather",
+        "size": 256,
+        "objects": [
+          "Shoe.L",
+          "Shoe.R"
+        ]
+      },
+      "ochre": {
+        "kind": "cloth",
+        "size": 256,
+        "objects": [
+          "Shoe_trim.L",
+          "Shoe_trim.R",
+          "Design02_hair_tie"
+        ]
+      },
+      "Design02_ochre_cloth": {
+        "kind": "cloth",
+        "size": 768,
+        "objects": [
+          "Design02_vest",
+          "Design02_lapel",
+          "Design02_lapel.001"
+        ]
+      },
+      "Design02_rust_cloth": {
+        "kind": "cloth",
+        "size": 768,
+        "objects": [
+          "Design02_shorts"
+        ]
+      },
+      "wrap": {
+        "kind": "wrap",
+        "size": 384,
+        "objects": [
+          "Design02_fist.L",
+          "Design02_fist.R"
+        ]
+      },
+      "Design02_wrap_cloth": {
+        "kind": "wrap",
+        "size": 512,
+        "objects": [
+          "Design02_wraps"
+        ]
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "dist/assets/models/tala-design02.glb",
+      "bytes": 4295164,
+      "sha256": "b36296d36b1546e3f588fb51175ecf1d3fadaa0b8b16e3292d3cf9a27a9427e9"
+    },
+    {
+      "path": "art/blender/tala-design02/tala-study.blend",
+      "bytes": 18021400,
+      "sha256": "4d5edb93cae231f294514f65a7e7eb52516ff60ce28170361a2063b1f793503b"
+    },
+    {
+      "path": "art/blender/tala-design02/face-baked.png",
+      "bytes": 275051,
+      "sha256": "ec151addb133be1e4803297bb0a799dab30dc2604fb4f8f058c36ed8059c733e"
+    },
+    {
+      "path": "art/blender/tala-design02/hair-strands.png",
+      "bytes": 258819,
+      "sha256": "b334d29876102f2915840777c68d91b4c28a86d4c2a88dcc3946b68aacd26ce3"
+    },
+    {
+      "path": "art/blender/tala-design02/hair-base.png",
+      "bytes": 214609,
+      "sha256": "d5bdce28b4de4577c80cf026d368c07af02961f812b49aae83e20d1f4c81c142"
+    },
+    {
+      "path": "art/blender/tala-design02/build-report.json",
+      "bytes": 1643,
+      "sha256": "86784cc06c860edf15b82810703c5afbada4715459a5cefeb28429a84fc49cc0"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-pose.json",
+      "bytes": 7505,
+      "sha256": "91f377cced1abd73591d377a7edce4750cc243b81f582b236f4fc3a15e9a5db2"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-pose.json",
+      "bytes": 7545,
+      "sha256": "c797db507ec80da59f5cd346a1432b7388cdb7ca3c7d9d1feed0e07003871140"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-pose.json",
+      "bytes": 7576,
+      "sha256": "ef9408cf068c836f7ca60cd016777497667584814f9aad655b43a6994a051801"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-pose.json",
+      "bytes": 7576,
+      "sha256": "1992d801ec2e3d17cb784ac09bc046df89bf3fc3ef3a51f18d8f7fd9f524560b"
+    },
+    {
+      "path": "art/blender/tala-design02/review-front.png",
+      "bytes": 517662,
+      "sha256": "e10c55647b21876d4335ad8a02cb000963872176bf259d06aaaacf5de7d03afd"
+    },
+    {
+      "path": "art/blender/tala-design02/review-side.png",
+      "bytes": 483160,
+      "sha256": "99f756c9f55bb19dc203fba8cd1502fddfe541f04eefb392ebcc9cc22938566a"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-front.png",
+      "bytes": 591484,
+      "sha256": "00e34448a9130cfb87aa8a3d1ad4be741f39bec42dbea9d3728b6c32e26ef503"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-side.png",
+      "bytes": 546893,
+      "sha256": "3af7350e6a38f93c50e491b2c6a82960e7b9db6ac22713d643e995d9d1423b0c"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-front.png",
+      "bytes": 438188,
+      "sha256": "71c3798c793bc3392697fe3c559783788c1ab8da4da5e33b817dcf58c59e43c6"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-side.png",
+      "bytes": 438166,
+      "sha256": "4c1c002beac5c50623e3b9da3429d02130f0042089ef48a9f51afd9d34774ffa"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-front.png",
+      "bytes": 437727,
+      "sha256": "3f95f1f8150e8d357a10bf9d214f80e7ea3555f7517e1cebd0a571436a155b44"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-side.png",
+      "bytes": 421505,
+      "sha256": "4b2cde46bd221800f55bfe50d895b9e5de439bc2933bde7af68ead122f004031"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-front.png",
+      "bytes": 450692,
+      "sha256": "30522f9e78dd03491f39903680834c3aed3991c8bee9552a0e66a5a32c3632d7"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-side.png",
+      "bytes": 447985,
+      "sha256": "c7e08ca67fb92b92ce10ba5c69c8271d161e6ee981611906ea7ea509389e79cd"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-front.png",
+      "bytes": 453025,
+      "sha256": "1e166418c2ca4fef351ee31f8dee9921de4d3844a47ee41f646b2d00292ed22b"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-side.png",
+      "bytes": 438786,
+      "sha256": "71c402baeafd9ef20966fd0f61db23645a31876f19aa1ee518564b46a948e61a"
+    },
+    {
+      "path": "dist/assets/tala-design02-motion.mp4",
+      "bytes": 305462,
+      "sha256": "e78632817aa769793c3e92fc875d180d9a4d8af04715809b4b1423533e5d4d8e"
+    },
+    {
+      "path": "art/blender/tala-design02/motion-review.json",
+      "bytes": 298494,
+      "sha256": "e75c0c1f942a2cfeabde09ca791d9cc73cb4ad354ae35b4d215d1920bb6c952f"
+    },
+    {
+      "path": "art/blender/tala-design02/motion-review-punch.png",
+      "bytes": 337460,
+      "sha256": "c377fc1b593d1b36d253294332fbd0ea75b8625cafbde1c3f7a761856b290305"
+    }
+  ]
+}

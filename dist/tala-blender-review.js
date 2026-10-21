@@ -41,7 +41,7 @@ try{
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;
  window.talaStudy=()=>{const root=activeModel(),bounds=new T.Box3();root.updateMatrixWorld(true);root.traverseVisible(n=>{if(n.isMesh){if(n.isSkinnedMesh){n.skeleton.update();n.computeBoundingBox();bounds.union(n.boundingBox.clone().applyMatrix4(n.matrixWorld));}else{n.geometry.computeBoundingBox();bounds.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld));}}});return {source:$('#source').value,clip:$('#clip').value,time:elapsed,clips:activeClips().map(c=>({name:c.name,duration:c.duration})),meshes,vertices,bounds:bounds.min.toArray(),root:root.position.toArray(),head:live.rig.head.rotation.toArray().slice(0,3)};};
 }catch(e){$('#error').textContent=e.message;$('#status').textContent='Model failed to load';console.error(e);}
-$('#face').onclick=()=>{yaw=0;pitch=0;focusY=2.65;distance=1.15;};
+$('#face').onclick=()=>{yaw=0;pitch=0;focusY=2.45;distance=1.35;};
 $('#hands').onclick=()=>{yaw=-.35;pitch=.05;focusY=1.85;distance=2.5;};
 const clock=new T.Clock();renderer.setAnimationLoop(()=>{
  const dt=Math.min(.05,clock.getDelta());

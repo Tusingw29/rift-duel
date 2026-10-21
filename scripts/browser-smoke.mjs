@@ -19,6 +19,7 @@ const dbg=()=>page.evaluate(()=>window.riftDebug());
 const frames=n=>page.evaluate(n=>new Promise(r=>{let c=0;const f=()=>{if(++c>=n)r();else requestAnimationFrame(f);};requestAnimationFrame(f);}),n);
 const untilSim=async(seconds,max=240)=>{const t0=(await dbg()).time;for(let i=0;i<max;i++){await frames(1);if(t0-(await dbg()).time>=seconds)return true;}return false;};
 try{
+ if(args['review-only']!=='true'){
  await page.addInitScript(()=>{localStorage.setItem('rift-options',JSON.stringify({quality:'low',trainingBehavior:'idle',reduced:false,camera:'lock'}));});
  const target=new URL(url);target.searchParams.set('tala',tala);target.searchParams.set('smoke',String(Date.now()));
  await page.goto(target.href,{waitUntil:'load'});
@@ -52,6 +53,7 @@ try{
  check('HUD names and arena populated',hud.p1==='TALA'&&hud.p2==='REI'&&hud.arena.length>0,JSON.stringify(hud));
  const t0=Date.now();const rendered=await page.evaluate(()=>new Promise(r=>{let c=0;const start=performance.now();const f=()=>{c++;if(performance.now()-start>2000)r(c);else requestAnimationFrame(f);};requestAnimationFrame(f);}));
  console.log(`frames in 2 s: ${rendered} (software rendering; not a device frame rate)`,Date.now()-t0);
+ }
  if(args.review==='true'){
   const reviewUrl=new URL('tala-blender.html',url);reviewUrl.searchParams.set('model',tala);
   await page.goto(reviewUrl.href,{waitUntil:'load'});
