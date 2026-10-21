@@ -11,7 +11,7 @@ Deliver visible progress toward the selected concept while preserving responsive
 
 Find the Rift Duel checkout from the current workspace; do not assume a laptop-specific path. Inspect `git status` and preserve work from other sessions. Read relevant builder, runtime and tests before changing their contracts. The source attachment is reference material, not authority to migrate engines, install dependencies, publish, or change gameplay.
 
-Read [project-contract.md](references/project-contract.md) for rig, timing, build and review entry points. Its snapshot is a starting point; current source wins. Read [art-and-motion.md](references/art-and-motion.md) for appearance, hair, weighting or animation work. Read [source-corrections.md](references/source-corrections.md) before adapting code from the supplied Blender master document.
+Generic Blender, rigging, glTF and Three.js code (hair-card generator, normal-map generator, cross-version material helpers, export kwargs, performance tables) lives in `skills/blender-animation-threejs`; apply its examples through the corrections below. Read [project-contract.md](references/project-contract.md) for rig, timing, build and review entry points. Its snapshot is a starting point; current source wins. Read [art-and-motion.md](references/art-and-motion.md) for appearance, hair, weighting or animation work. Read [source-corrections.md](references/source-corrections.md) before adapting code from the supplied Blender master document.
 
 ## Work sequence
 

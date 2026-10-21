@@ -8,6 +8,8 @@ Provide end-to-end technical execution for 3D creation, skeletal/morph animation
 
 ## Rift Duel project notes (read first)
 
+- For actual Tala work, follow `skills/rift-duel-character-pipeline` (the project workflow, with its tested metadata audit and source corrections). This skill is the generic code and reference library it draws on; where the two disagree, the project pipeline and current source win.
+
 - The build machine is macOS 12 with Intel graphics. Blender 4.5's bundled numpy fails to load there, so local and cloud builds run **Blender 3.6.22** (`scripts/build-tala-blender.py`, `.github/workflows/tala-art.yml`). Write `bpy` code that works on 3.6 and 4.x: use the `set_socket` helper pattern from the references for Principled sockets, guard `surface_render_method` vs `blend_method`, and avoid 4.x-only APIs (`armature.collections`, `interface.new_socket`) unless feature-detected.
 - The game vendors Three.js in `dist/vendor/` with no bundler. `GLTFLoader` is vendored; Draco, Meshopt and KTX2 decoders are **not**. Keep GLBs uncompressed, pack textures as JPEG/PNG inside the GLB, and keep each fighter under about 4 MB.
 - Skinned fighters are attached to the game's own JavaScript skeleton (`dist/tala-concept.js`), cloned with the project's `dist/rig-clone.js` (the SkeletonUtils equivalent), and rendered with `frustumCulled=false`. Bone names must match the sampler in `scripts/sample-tala-motion.mjs`.

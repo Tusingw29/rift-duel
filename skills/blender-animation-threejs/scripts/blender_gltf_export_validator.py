@@ -2,7 +2,7 @@
 """Blender 3.6 LTS and 4.x+ pre-flight validator and GLB exporter.
 Features: cross-version RNA-filtered export, UV-seam-tolerant KDTree connectivity report,
 optional fixed bone-name contract (--required-bones), weight clamping to <= 4 influences,
-automatic tangent export when normal maps are present, optional JPEG atlases.
+automatic tangent export when normal maps are present, optional JPEG atlases. Refuses to export when issues are found unless --allow-issues is passed.
 Usage: blender -b scene.blend -P blender_gltf_export_validator.py -- --output build/asset.glb [--apply-fixes] [--tangents] [--jpeg-quality 85] [--required-bones root,chest,...] [--no-export]
 """
 import sys, os, argparse
@@ -17,6 +17,7 @@ def parse_args():
     p.add_argument("--apply-fixes", action="store_true"); p.add_argument("--tangents", action="store_true")
     p.add_argument("--draco", action="store_true"); p.add_argument("--jpeg-quality", type=int, default=0)
     p.add_argument("--required-bones", type=str, default=""); p.add_argument("--no-export", action="store_true")
+    p.add_argument("--allow-issues", action="store_true", help="Export even when the audit reports issues (default: refuse)")
     return p.parse_args(argv)
 
 def count_welded_mesh_islands(mesh, weld_distance=1e-4):
@@ -95,6 +96,8 @@ def main():
     for item in fixed: print("  +", item)
     if not issues: print("Zero scene issues detected.")
     if args.no_export: return
+    if issues and not args.allow_issues:
+        print(f"Refusing to export: {len(issues)} issue(s). Fix them or pass --allow-issues."); sys.exit(2)
     out = os.path.abspath(args.output); os.makedirs(os.path.dirname(out), exist_ok=True)
     kw = {"filepath": out, "export_format": 'GLB', "export_yup": True, "export_apply": True, "export_texcoords": True,
           "export_normals": True, "export_tangents": tangents, "export_materials": 'EXPORT',
