@@ -133,3 +133,11 @@ movement, hit window and damage remain unchanged. Flying poses release the ankle
 plants; recovery lowers captured ankle positions to the floor before settling.
 The review scripts a missed rush at full travel; actual combat stops advancement
 on contact. General aerial attacks, captures and bursts remain unfinished.
+
+### Tala launcher and aerial pursuit poses
+Tala now has a grounded uppercut launcher and an aerial straight–cross–kick
+sequence aligned to pursuit damage beats 0, 9 and 18. Recovery restores grounded
+support when the simulation's air timer expires. The review reproduces that
+existing timer-based height, including its abrupt changes when pursuit resets
+the timer; trajectory continuity is still a separate open issue. General jump/
+crossover attacks, captures and bursts retain shared choreography.

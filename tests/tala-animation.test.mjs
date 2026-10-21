@@ -152,3 +152,16 @@ test('Tala rush and kick retain their contact frame and distinct striking limbs'
   assert.deepEqual(techniquePose({...move,frame:move.total}),stance);
  }
 });
+
+import {launcherPose,pursuitPose} from '../dist/tala-animation.js';
+test('launcher stays grounded and aerial pursuit poses align with all three damage beats',()=>{
+ const launch={kind:'launch',...moveTiming(fighters[2],'launch'),frame:10};
+ assert.ok(launcherPose(launch).rax< -2.3);assert.ok(launcherPose(launch).bodyY<0);
+ assert.deepEqual(launcherPose({...launch,frame:launch.total}),stance);
+ const move={kind:'pursuit',aerial:true,startup:7,active:19,recovery:30,total:56,frame:0},r=buildCharacter(2),p={anim:'pursuit',move,air:.4,x:0,z:0};
+ for(let f=0;f<=25;f++){move.frame=f;animateCharacter(r,p,f/60);if([7,16,25].includes(f))assert.deepEqual(r.pose,pursuitPose(move));}
+ assert.ok(pursuitPose({...move,frame:7}).re>-.1);
+ assert.ok(pursuitPose({...move,frame:16}).le>-.1);
+ const last=pursuitPose({...move,frame:25});assert.ok(last.rlx< -1.3&&last.rk<.2);
+ assert.equal(r.footPlants,null);assert.deepEqual(pursuitPose({...move,frame:56}),stance);
+});

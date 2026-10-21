@@ -5,10 +5,10 @@ import {attachTalaConcept} from './tala-concept.js';
 import {animateCharacter} from './animation.js';
 import {fighters} from './fighters.js';
 import {moveTiming} from './moves.js';
-const signatureClips={'Rising rush':{kind:'technique'},'Skybreaker kick':{kind:'technique',followup:true},'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
+const signatureClips={'Launcher':{kind:'launch'},'Aerial pursuit':{kind:'pursuit',aerial:true},'Rising rush':{kind:'technique'},'Skybreaker kick':{kind:'technique',followup:true},'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
 const shotTiming=moveTiming(fighters[2],'shot');
 const timing=moveTiming(fighters[2],'strike');
-export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:1.4})),{name:'Recoil',duration:1.6}];
+export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
 export function createLiveTalaReview(source){
@@ -19,6 +19,7 @@ export function createLiveTalaReview(source){
   for(const key of Object.keys(rig))if(!keys.has(key))delete rig[key];
   for(const {node,p,q,s} of rest){node.position.copy(p);node.quaternion.copy(q);node.scale.copy(s);}
   const spec=signatureClips[name]||{kind:'forward'};signature={...spec,retreatTravel:spec.kind==='back',chain:1,...moveTiming(fighters[2],spec.kind),frame:0};
+  if(spec.aerial){signature.active=19;signature.total=signature.startup+19+signature.recovery;}
   if(spec.kind==='technique'&&spec.followup){Object.assign(signature,techniqueVariants.tala);signature.total=signature.startup+signature.active+signature.recovery;}
   shot={kind:'shot',chain:1,...shotTiming,frame:0};
   moves=[1,2,3].map(chain=>({kind:'strike',chain,...timing,frame:0}));selected=name;frame=-1;
@@ -37,6 +38,11 @@ export function createLiveTalaReview(source){
   if(name==='Energy shot'&&f>=12&&f<12+shotTiming.total){p.move=shot;shot.frame=f-12;p.anim='attack';}
   if(signatureClips[name]){
    if(f>=12&&f<12+signature.total){p.move=signature;signature.frame=f-12;p.anim=signature.kind;}
+   if(signature.aerial&&f>=12){
+    const frame=f-12,start=signature.startup;
+    const last=frame>=start+18?start+18:frame>=start+9?start+9:frame>=start?start:0;
+    p.air=Math.max(0,(last===start+18?.16:last===0?.45:.4)-(frame-last)/60);p.z=Math.min(frame,start)/start*2;
+   }
    if(signature.kind==='technique')p.z=Math.min(signature.active,Math.max(0,f-12-signature.startup+1))*signature.speed/60;
    if(signature.kind==='back')p.z=-RETREAT_DISTANCE*retreatProgress(signature,Math.max(0,f-12));
   }
@@ -44,7 +50,7 @@ export function createLiveTalaReview(source){
    const attackFrame=f-12,chain=Math.floor(attackFrame/timing.total);
    if(chain>=0&&chain<3){p.move=moves[chain];p.move.frame=attackFrame%timing.total;p.anim='strike';}
   }
-  rig.g.position.set(p.x,0,p.z);rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
+  rig.g.position.set(p.x,Math.sin(Math.min(1,p.air/.85)*Math.PI)*2.5,p.z);rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
  }
  function sample(name,time){
   const clip=LIVE_TALA_CLIPS.find(c=>c.name===name);if(!clip)throw new RangeError(`Unknown live review action: ${name}`);

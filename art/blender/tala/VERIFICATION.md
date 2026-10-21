@@ -118,3 +118,11 @@ and check distinct striking limbs and exact contact poses. In Chrome training,
 a second tap upgraded the technique to Skybreaker Kick, rendered during its
 active moving window from the lock-on camera without console errors/warnings.
 Full suite: 227 tests pass. This is original choreography, not source frame data.
+
+Launcher/pursuit: Chrome review rendered the three contact poses and grounded
+recovery. Live keyboard training closed distance, launched the opponent, then
+completed all three pursuit hits. Debug state confirmed hit 3 at move frame 25,
+opponent knockdown and 77.56 HP, with no console errors/warnings. Tests verify
+exact pose channels at frames 7, 16 and 25, grounded launcher and return to stance.
+228 tests pass. The existing air-timer resets still cause visible height jumps;
+this pose pass does not claim continuous aerial trajectories.

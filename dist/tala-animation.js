@@ -109,6 +109,25 @@ export function techniquePose(move){
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
+export function launcherPose(move){
+ if(move.frame>=move.startup+(move.active||1)+move.recovery)return stance;
+ const s={...techniquePose({...move,effect:'rise'})};
+ // A grounded uppercut: drive up through the legs without a visual leap.
+ s.bodyY=Math.min(-.1,s.bodyY*.3-.1);s.llx=-.2;s.rlx=.25;s.lk=.4;s.rk=.2;
+ return s;
+}
+export function pursuitPose(move){
+ const air=pose({...stance,bodyY:0,llx:-.45,rlx:.2,lk:.85,rk:.65,lean:.12});
+ const right=pose({...strikePose({chain:1,startup:5,active:1,recovery:14,frame:5}),bodyY:0,llx:-.45,rlx:.2,lk:.85,rk:.65});
+ const left=pose({...strikePose({chain:2,startup:5,active:1,recovery:14,frame:5}),bodyY:0,llx:-.25,rlx:-.1,lk:.65,rk:.9});
+ const kick=pose({...air,rlx:-1.4,rk:.1,llx:.35,lk:.95,lean:-.2,twist:-.35,hipYaw:-.15,rax:-.6,re:-1.35,hy:.25});
+ const start=move.startup,end=start+move.active+move.recovery;
+ const keys=[[0,air,smooth],[start,right,snapOut],[start+4,air,smooth],[start+9,left,snapOut],
+  [start+13,air,smooth],[start+18,kick,snapOut],[start+move.active+5,air,smooth],[end,stance,smooth]];
+ const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
+ let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
+ const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
+}
 // Contact, compression, passing and push-off poses. The opposite step is
 // authored by mirroring the limbs, with chest/hips counter-rotating together.
 const stepKeys=[
@@ -147,6 +166,8 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
  if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
  if(move?.kind==='technique'&&['rise','kick'].includes(move.effect)&&!p.air)return {pose:techniquePose(move),rate:34,kind:'technique'};
+ if(move?.kind==='launch'&&!p.air)return {pose:launcherPose(move),rate:34,kind:'launch'};
+ if(move?.kind==='pursuit'&&move.aerial)return {pose:pursuitPose(move),rate:34,kind:'aerial'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
@@ -179,7 +200,7 @@ export function animateTala(r,p,time){
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.
- if(['strike','shot','forward','back','technique'].includes(target.kind)){
+ if(['strike','shot','forward','back','technique','launch','aerial'].includes(target.kind)){
   r.flowBlend=null;
   const m=p.move,previous=r.strikeBlend,variant=m.empowered?'stock':m.followup?'followup':'base';
   if(!previous||previous.move!==m||m.frame<previous.frame||previous.variant!==variant){
@@ -218,7 +239,7 @@ export function animateTala(r,p,time){
   const u=smooth((m.frame-m.startup-m.active)/Math.max(1,m.recovery*.3)),ground=r.g.position.y+(r.ankleHeight??.14)*r.g.scale.y;
   r.footPlants=r.techniqueLanding.anchors.map(at=>{const v=at.clone();v.y=ground+Math.max(0,at.y-ground)*(1-u);return v;});
  }else r.techniqueLanding=null;
- plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind);
+ plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind);
  // Small delayed neck response lets the head settle after the ribcage turns.
  // Guard keeps its deliberate chin tuck even when an impact checks the torso.
  if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}
