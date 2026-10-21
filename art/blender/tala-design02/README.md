@@ -1,6 +1,6 @@
 # Design 02 — face, upper-body and costume study
 
-This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Hands and lower legs remain from the previous study. The public fight continues to load the earlier model.
+This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower legs remain from the previous study. The public fight continues to load the earlier model.
 
 ## What is implemented
 
@@ -50,9 +50,9 @@ These use the actual runtime contact poses, at local strike frame 5 in each of t
 
 ## Verification and limitations
 
-The added tests check packed albedo, its referenced UV set, standard material export, retained 17-bone mapping, finite deformation across all live review actions and preserved guard tuck. Additional checks prove that the upper body is a single connected surface, its weights are normalized, and triangles remain bounded in guard and all three punch contact poses. They do not establish visual quality. Chrome's connection still timed out during this pass, so browser bitmap decoding, review controls and real-time playback remain unverified for this variant.
+The geometry tests check packed albedo, its referenced UV set, standard material export, retained 17-bone mapping, finite deformation across all live review actions and preserved guard tuck. Additional checks prove that the upper body is a single connected surface, its weights are normalized, and triangles remain bounded in guard and all three punch contact poses. They do not establish visual quality. Chrome's connection still timed out during this pass, so browser bitmap decoding, review controls and real-time playback remain unverified for this variant.
 
-Remaining art work: more anatomical shoulder/scapula definition and deformation refinement, garment fold and collision refinement, hand refinements, expressive eyelids/mouth and closer matching of hair silhouette/painted strand detail. The face source still contains baked shading and fine pores. Hair still uses one moving ponytail bone rather than the proposed multi-segment rig. The head is an analytic surface study, not finished facial edge-loop retopology. The shorter neck is a surface adjustment, not a redesigned skeletal pivot; review extreme head motion before promoting the asset.
+Remaining art work: more anatomical shoulder/scapula definition and deformation refinement, garment fold and collision refinement, further wrist/hand refinement, expressive eyelids/mouth and closer matching of hair silhouette/painted strand detail. The face source still contains baked shading and fine pores. Hair still uses one moving ponytail bone rather than the proposed multi-segment rig. The head is an analytic surface study, not finished facial edge-loop retopology. The shorter neck is a surface adjustment, not a redesigned skeletal pivot; review extreme head motion before promoting the asset.
 
 Face source was created with the built-in image-generation tool from the original Design 02 reference. Exact prompt: [face-prompt.txt](face-prompt.txt). Blender performs the material bake. No third-party face texture is used.
 
@@ -68,3 +68,9 @@ Rebuild with the command above, then render the whole character with `--full`.
 Costume verification: 239 repository tests pass, including standard vertex-color export and normalized garment weights through live actions. Full-body front/profile and guard renders were inspected. Armhole borders now follow oval curves instead of the cutout grid; shoulder fit and folds still need refinement; this pass is not a finished costume sculpt. Browser playback is still unverified.
 
 The armhole refinement projects boundary vertices onto the authored oval and removes unused vertices inside each opening. Full-body and guard images include this refinement; the earlier combo images document the preceding costume pass.
+
+## Closed-fist study
+
+The separate finger blocks are replaced with a continuous wrapped palm, staggered knuckles, curled fingers and an opposing thumb. Blender voxel union joins these construction surfaces, then smoothing and reduction produce a compact surface. Both fists retain the existing one-bone hand mapping. This is a closed-fist sculpt, not articulated fingers; open-hand techniques still need dedicated shapes or finger bones. Guard and straight-punch renders are regenerated for this pass; the other images retain the previous hands.
+
+Hand-pass verification: 240 repository tests pass. New checks verify that each fist is one connected mesh, uses the correct hand bone and stays finite at guard and all three punch contacts. The full study now has 34,426 Blender vertices across 13 meshes; this is still an art prototype and needs mesh-budget refinement before becoming the default fighter.

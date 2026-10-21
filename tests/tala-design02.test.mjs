@@ -90,3 +90,24 @@ test('tailored garments export standard cloth colors and normalized skinning',()
   }
  }
 });
+test('both sculpted fists are connected and follow their own hand bone',()=>{
+ const review=createLiveTalaReview(asset.scene),point=new Vector3();
+ for(const suffix of ['L','R']){
+  const hand=review.rig.g.children.find(n=>n.name==='concept-Design02_fist'+suffix||n.name==='concept-Design02_fist.'+suffix);
+  assert.ok(hand,`separate ${suffix} fist`);
+  const g=hand.geometry,weights=g.attributes.skinWeight,joints=g.attributes.skinIndex;
+  const parent=Array.from({length:g.attributes.position.count},(_,i)=>i);
+  const root=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};
+  const index=g.index.array;
+  for(let i=0;i<index.length;i+=3){parent[root(index[i+1])]=root(index[i]);parent[root(index[i+2])]=root(index[i]);}
+  assert.equal(new Set(parent.map((_,i)=>root(i))).size,1,'fingers and thumb connect to palm');
+  for(let i=0;i<weights.count;i++){
+   assert.ok(Math.abs(weights.getX(i)-1)<1e-5);
+   assert.equal(hand.skeleton.bones[joints.getX(i)],review.rig.limbs[suffix==='L'?0:2].userData.hand);
+  }
+  for(const [clip,time] of [['Guard + block',.95],['Combo',17/60],['Combo',37/60],['Combo',57/60]]){
+   review.sample(clip,time);review.rig.g.updateMatrixWorld(true);hand.skeleton.update();
+   for(let i=0;i<weights.count;i+=13){hand.getVertexPosition(i,point);assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<4));}
+  }
+ }
+});

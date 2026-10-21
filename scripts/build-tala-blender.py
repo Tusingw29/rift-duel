@@ -147,6 +147,8 @@ if DESIGN02:
  connect_upper_body(globals())
  from tala_design02_costume import build_costume
  build_costume(globals())
+ from tala_design02_hands import build_hands
+ build_hands(globals())
  from tala_design02_hair import build_hair
  build_hair(globals())
 else:
@@ -190,7 +192,7 @@ if not DESIGN02:
 # Merge by material to keep the exported asset inexpensive to draw.
 bpy.ops.object.select_all(action='DESELECT')
 for material in list(mats.values()):
- group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and o.name!='Design02_upper_body' and len(o.data.materials)==1 and o.data.materials[0]==material]
+ group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and o.name!='Design02_upper_body' and not o.name.startswith('Design02_fist.') and len(o.data.materials)==1 and o.data.materials[0]==material]
  if not group:continue
  for o in group:o.select_set(True)
  bpy.context.view_layer.objects.active=group[0];bpy.ops.object.join();bpy.ops.object.select_all(action='DESELECT')
