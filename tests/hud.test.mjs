@@ -25,3 +25,15 @@ test('life bar trail holds after damage, then drains to the live value, and rese
 test('life bar states warn at low and critical health',()=>{
  assert.equal(healthClass(100),'');assert.equal(healthClass(29),'low');assert.equal(healthClass(11),'critical');assert.equal(healthClass(0),'empty');
 });
+import {gemStates,shardPlan} from '../dist/hud.js';
+test('stocks appear as gems: lit when full, the next gem fills while charging',()=>{
+ const gems=gemStates(gaugeState({stocks:1,charge:.9,anim:'charge',hp:100}));
+ assert.deepEqual(gems.map(g=>g.lit),[true,false,false]);assert.deepEqual(gems.map(g=>g.filling),[false,true,false]);assert.equal(gems[1].fill,.5);
+ assert.deepEqual(gemStates(gaugeState({stocks:3,charge:0,anim:'charge',hp:100})).map(g=>g.filling),[false,false,false]);
+});
+test('shatter shards spread in every direction, deterministically for a seed',()=>{
+ const a=shardPlan(12,7,80),b=shardPlan(12,7,80);assert.deepEqual(a,b);assert.equal(a.length,12);
+ assert.ok(a.some(s=>s.dx>20)&&a.some(s=>s.dx<-20)&&a.some(s=>s.dy<-20),'shards fly left, right and up');
+ for(const s of a){assert.ok(Math.hypot(s.dx,s.dy)<=80*1.2*1.4);assert.ok(s.size>=6&&s.size<=16);assert.ok(s.delay>=0&&s.delay<.08);}
+ assert.notDeepEqual(shardPlan(12,8,80),a);
+});

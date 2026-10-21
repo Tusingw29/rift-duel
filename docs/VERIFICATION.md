@@ -348,3 +348,7 @@ Replaced the final generic primitive bodies with weighted caster models: Sol has
 ## Side-mounted life gauges (0.48)
 
 197 tests pass unchanged; the HUD module is presentation only. A headless Chromium training run rendered both vertical gauges, the red trail at the top of the struck fighter's bar, the bottom-corner power gauges, and the clock centred, with no console errors. The 600-pixel layout was not inspected visually.
+
+## Power gems and shatter (0.49)
+
+203 tests pass, adding gem states (lit, filling) and the deterministic shard layout. A headless Chromium pass checked the filling gem while charging, the shards spawned after a burst, and the life-gauge shatter at a knockout, with no console errors.

@@ -12,7 +12,7 @@ import {createView} from './render.js';
 import {createAudio} from './audio.js';
 import {createFlow,advanceFlow,beginKO,simulationRuns,cameraCue} from './presentation.js';
 import {homeArena} from './arenas.js';
-import {gaugeState,gaugeLabel,createTrail,updateTrail,healthClass} from './hud.js';
+import {gaugeState,gaugeLabel,gemStates,shardPlan,createTrail,updateTrail,healthClass} from './hud.js';
 const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
@@ -79,14 +79,17 @@ $('#settings').onclick=()=>{
 function announce(text,t=1.5,kind='note'){const c=$('#callout');c.textContent=text;c.dataset.kind=kind;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');calloutTime=t;}
 let trails=[createTrail(),createTrail()],lastStocks=[1,1];
 function flash(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
+// Glass-shatter burst: shards fly out from an element's box and fade.
+function shatter(el,color,count=10,spread=70){if(settings.reduced)return;const box=el.getBoundingClientRect(),hud=$('#hud').getBoundingClientRect();for(const s of shardPlan(count,Date.now()%1000,spread)){const shard=document.createElement('i');shard.className='shard';shard.style.cssText=`left:${box.left-hud.left+box.width/2}px;top:${box.top-hud.top+box.height/2}px;--dx:${s.dx}px;--dy:${s.dy}px;--rot:${s.rot}deg;--size:${s.size}px;animation-delay:${s.delay}s;background:${color}`;$('#hud').append(shard);setTimeout(()=>shard.remove(),900);}}
 function updateHud(dt){
  match.players.forEach((p,i)=>{
   const n=i+1,trail=updateTrail(trails[i],p.hp,dt);
   $('#hp'+n).style.height=p.hp+'%';$('#trail'+n).style.height=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
   const g=gaugeState(p),gauge=$('#gauge'+n);
-  gauge.querySelectorAll('i').forEach((seg,k)=>seg.style.setProperty('--fill',g.segments[k]));
+  const gems=gauge.querySelectorAll('.gem');gemStates(g).forEach((gem,k)=>{gems[k].style.setProperty('--fill',gem.fill);gems[k].classList.toggle('lit',gem.lit);gems[k].classList.toggle('filling',gem.filling);});
   gauge.classList.toggle('charging',g.charging);gauge.classList.toggle('full',g.full);$('#gauge-label'+n).textContent=gaugeLabel(g);
-  if(p.stocks>lastStocks[i])flash(gauge,'gain');else if(p.stocks<lastStocks[i])flash(gauge,'spend');lastStocks[i]=p.stocks;
+  if(p.stocks>lastStocks[i])flash(gems[p.stocks-1],'gain');else if(p.stocks<lastStocks[i]){const gem=gems[lastStocks[i]-1];flash(gem,'spend');shatter(gem,i?'#c9a6f6':'#d9f975',12,60);}lastStocks[i]=p.stocks;
+  if(p.hp<=0&&!trail.shattered){trail.shattered=true;const bar=$('#health'+n);bar.classList.add('shattered');shatter(bar,i?'#c9a6f6':'#d9f975',26,160);}
  });
 }
 function pips(){match?.players.forEach((p,i)=>{$('#pips'+(i+1)).textContent='●'.repeat(wins[i])+'○'.repeat(Math.max(0,match.rules.winsNeeded-wins[i]));});}

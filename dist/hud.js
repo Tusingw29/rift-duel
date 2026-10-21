@@ -25,3 +25,14 @@ export function updateTrail(t,hp,dt){
  return t;
 }
 export function healthClass(hp){return hp<=0?'empty':hp<CRITICAL_HEALTH?'critical':hp<LOW_HEALTH?'low':'';}
+
+// Gem view of the gauge: each stock is one gem, charge pours into the next one.
+export function gemStates(state){
+ return state.segments.map((fill,i)=>({fill,lit:fill>=1,filling:state.charging&&i===state.stocks}));
+}
+// Deterministic shard layout for shatter effects, so tests can check the spread.
+export function shardPlan(count=10,seed=1,spread=70){
+ let x=seed*9301+49297;const rand=()=>{x=(x*1103515245+12345)%2147483648;return x/2147483648;};
+ return Array.from({length:count},(_,i)=>{const angle=(i/count)*Math.PI*2+rand()*.6,distance=spread*(.5+rand()*.7);
+  return {dx:Math.cos(angle)*distance,dy:Math.sin(angle)*distance-spread*.3,rot:(rand()-.5)*540,size:6+rand()*10,delay:rand()*.08};});
+}

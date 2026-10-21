@@ -193,3 +193,7 @@ The HUD now reads like the original: each life bar keeps a red damage trail that
 ## Alpha 0.48: side-mounted life gauges
 
 Life gauges now stand vertically along the left and right edges of the screen, as in Evil Zone, draining from the top with the damage trail, quarter marks and the low/critical colours carried over. Fighter names and round pips sit above each gauge, the round clock stays top centre, and the power gauge moves to the bottom corner beneath its gauge. Training readouts shift inward so they never cover the player-one gauge.
+
+## Alpha 0.49: power gems and shatter effects
+
+Stocks are now gems instead of bars. Holding attack pours charge into the next gem, which lights when full with a flash; three lit gems pulse at max. Spending a stock on a burst or stock special shatters that gem into flying glass shards, and a knockout shatters the loser's life gauge the same way. Reduce motion disables the shards.

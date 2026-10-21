@@ -38,3 +38,22 @@ body.playing header{background:#10191c88}body.playing .health-row{text-shadow:0 
 #hud #training-readout,#hud #input-history{left:165px}@media(max-width:900px){#hud #training-readout,#hud #input-history{left:120px}}@media(max-width:600px){#hud #training-readout,#hud #input-history{left:78px}}
 @media(max-width:900px){#hud .fighter-hud{width:110px;bottom:110px}#hud .health{width:16px;top:52px}#hud .gauge{width:110px}}
 @media(max-width:600px){#hud .fighter-hud{width:70px;bottom:190px}#hud .fighter-hud b{font-size:20px}#hud .health{width:12px;top:30px;bottom:26px}#hud .gauge{width:70px;height:7px}#hud .clock{top:0}}
+
+/* Power gems and shatter effects */
+#hud .gauge{display:flex;gap:10px;height:26px;transform:none;align-items:flex-end}
+#hud .right .gauge{justify-content:flex-end}
+#hud .gauge .gem{position:relative;width:22px;height:26px;clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);background:#1a252c;box-shadow:inset 0 0 0 1px #ffffff40;overflow:hidden}
+#hud .gauge .gem i{position:absolute;left:0;right:0;bottom:0;height:calc(var(--fill,0) * 100%);background:linear-gradient(180deg,#ffffff,#6fe7ff 40%,var(--acid));transition:height .08s linear;animation:none}
+#hud .right .gauge .gem i{background:linear-gradient(180deg,#ffffff,#c9a6f6 40%,#8f6ad4)}
+#hud .gauge .gem:after{content:'';position:absolute;left:35%;top:8%;width:12%;height:40%;background:#ffffff66;transform:skewX(-20deg)}
+#hud .gauge .gem.lit{box-shadow:inset 0 0 0 1px #ffffffaa,0 0 12px 2px #d9f97588}#hud .right .gauge .gem.lit{box-shadow:inset 0 0 0 1px #ffffffaa,0 0 12px 2px #c9a6f688}
+#hud .gauge .gem.filling i{animation:gem-pour .2s linear infinite alternate}@keyframes gem-pour{to{filter:brightness(1.8)}}
+#hud .gauge.full .gem.lit{animation:gem-max .8s ease-in-out infinite alternate}@keyframes gem-max{to{filter:brightness(1.5) saturate(1.3);transform:scale(1.08)}}
+#hud .gauge .gem.gain{animation:gem-gain .45s ease-out}@keyframes gem-gain{0%{transform:scale(1.6);filter:brightness(3)}100%{transform:scale(1);filter:brightness(1)}}
+#hud .gauge .gem.spend{animation:gem-spend .35s ease-out}@keyframes gem-spend{0%{background:#ffffff;transform:scale(1.3)}100%{background:#1a252c;transform:scale(1)}}
+#hud .fighter-hud .gauge-label{top:30px}
+#hud .shard{position:absolute;width:var(--size);height:var(--size);clip-path:polygon(50% 0,100% 60%,30% 100%,0 40%);pointer-events:none;z-index:5;animation:shard-fly .8s cubic-bezier(.2,.7,.3,1) forwards;box-shadow:0 0 6px #ffffff88}
+@keyframes shard-fly{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 60px)) rotate(var(--rot));opacity:0}}
+#hud .health.shattered{animation:bar-crack .5s steps(3,end) forwards}@keyframes bar-crack{0%{filter:brightness(2)}60%{filter:brightness(2);opacity:1}100%{opacity:0}}
+@media(max-width:600px){#hud .gauge{gap:5px;height:16px}#hud .gauge .gem{width:14px;height:16px}}
+@media(prefers-reduced-motion:reduce){#hud .shard,#hud .gauge .gem{animation:none!important}}
