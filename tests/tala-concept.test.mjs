@@ -46,9 +46,9 @@ test('live concept recoil catches weight on the rear foot then restores stance',
  const p={anim:'hurt',animTime:.3,x:0,z:0};animateCharacter(r,p,1);r.g.updateMatrixWorld(true);const frozen=r.feet[1].getWorldPosition(new Vector3());animateCharacter(r,p,1);r.g.updateMatrixWorld(true);assert.ok(r.feet[1].getWorldPosition(new Vector3()).distanceTo(frozen)<1e-6);
 });
 test('live directional gait stays finite and settles a lifted foot after stopping',()=>{
- for(const [forward,side] of [[1,0],[-1,0],[0,1],[0,-1]]){
+ for(const step of [.03,.06,.11])for(const [forward,side] of [[1,0],[-1,0],[0,1],[0,-1]]){
   const r=rig();attachTalaConcept(r,asset.scene);
-  for(let f=0;f<45;f++){const x=-side*f*.06,z=forward*f*.06;r.g.position.set(x,0,z);animateCharacter(r,{anim:'run',prev:{x:forward,z:side},x,z},f/60);r.g.updateMatrixWorld(true);const a=r.feet[0].getWorldPosition(new Vector3()),b=r.feet[1].getWorldPosition(new Vector3());assert.ok(a.x<b.x,'feet do not cross in live solve');assert.ok([a,b].every(v=>Number.isFinite(v.y)&&v.y>.13&&v.y<.5),`${forward},${side} frame ${f}: ${a.toArray()} / ${b.toArray()}`);}
+  for(let f=0;f<45;f++){const x=-side*f*step,z=forward*f*step;r.g.position.set(x,0,z);animateCharacter(r,{anim:'run',prev:{x:forward,z:side},x,z},f/60);r.g.updateMatrixWorld(true);const a=r.feet[0].getWorldPosition(new Vector3()),b=r.feet[1].getWorldPosition(new Vector3());assert.ok(a.x<b.x,'feet do not cross in live solve');assert.ok([a,b].every(v=>Number.isFinite(v.y)&&v.y>.13&&v.y<.5),`${forward},${side} frame ${f}: ${a.toArray()} / ${b.toArray()}`);}
   const x=r.g.position.x,z=r.g.position.z;for(let f=45;f<65;f++)animateCharacter(r,{anim:'idle',x,z},f/60);r.g.updateMatrixWorld(true);for(const foot of r.feet)assert.ok(Math.abs(foot.getWorldPosition(new Vector3()).y-.14)<.003,'swing foot settles onto floor');
  }
 });
