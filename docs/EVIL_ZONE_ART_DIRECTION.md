@@ -51,3 +51,20 @@ original names, meshes, textures, portraits or sound recordings into this game.
 ## Applied in 0.38
 
 Tala's vest has an original 128×128 front/back diffuse map authored in `tala-costume.js`: blue panels, warm inner shirt, lapels, pocket flaps, hem, shoulder yoke and broken-lightning back crest. Raised gold tube strips were removed. Gloves include a small thumb silhouette. No original game assets were copied. This makes costume placement explicit; it does not close the overall visual-quality gap reported by the user.
+
+## Proportion standard (0.51)
+
+Target: the early-2000s 3D fighter silhouette (Dead or Alive 3, Tekken 4, Soul Calibur 3) rather than the squat PS1 figure. Numbers in game units for Tala, applied by the shared remap in `dist/tala-model.js` and `scripts/build-tala-blender.py`:
+
+| Landmark | Before | After |
+| --- | --- | --- |
+| Crown | 2.74 | 2.90 (head scaled 0.8 about the head joint) |
+| Shoulders | 2.02 | 2.32 |
+| Hips | 1.26 | 1.42 |
+| Knee | 0.70 | 0.78 |
+| Ankle | 0.22 | 0.14 |
+| Shoulder width | ×1.00 | ×1.06 |
+| Waist and hip girth | ×1.00 | ×0.86 to ×0.88 |
+| Limb girth | ×1.00 | ×0.92 to ×0.93 |
+
+Thigh and shin are both 0.64. Other fighters still use their earlier proportions until they are rebuilt to this standard.

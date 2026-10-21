@@ -14,8 +14,8 @@ test('study motion retains leg lengths and foot separation through every sampled
   assert.ok(f.flat().every(Number.isFinite));
   for(const side of ['L','R']){
    const thigh=pos(f,'thigh.'+side),knee=pos(f,'shin.'+side),foot=pos(f,'foot.'+side);
-   assert.ok(Math.abs(thigh.distanceTo(knee)-.56)<1e-5,c.name);
-   assert.ok(Math.abs(knee.distanceTo(foot)-.56)<1e-4,c.name);
+   assert.ok(Math.abs(thigh.distanceTo(knee)-.64)<1e-5,c.name);
+   assert.ok(Math.abs(knee.distanceTo(foot)-.64)<1e-4,c.name);
   }
   assert.ok(pos(f,'foot.R').x-pos(f,'foot.L').x>.25,c.name);
  }

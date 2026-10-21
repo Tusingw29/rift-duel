@@ -66,6 +66,6 @@ export function applyStudyMotion(r,kind,t,duration){
  // Lower the pelvis if a planted target would otherwise overextend a knee.
  let lower=0;for(let i=0;i<2;i++){const hip=r.limbs[i*2+1].getWorldPosition(new Vector3()),target=new Vector3().setFromMatrixPosition(matrices[i]),dx=hip.x-target.x,dz=hip.z-target.z;lower=Math.max(lower,hip.y-target.y-Math.sqrt(Math.max(.1,1.11**2-dx*dx-dz*dz)));}
  r.body.position.y-=Math.max(0,lower);r.g.updateMatrixWorld(true);
- for(let i=0;i<2;i++)solvePair(r.limbs[i*2+1],r.knees[i],new Vector3().setFromMatrixPosition(matrices[i]),.56,.56,V(i?.12:-.12,0,1));
+ for(let i=0;i<2;i++)solvePair(r.limbs[i*2+1],r.knees[i],new Vector3().setFromMatrixPosition(matrices[i]),r.legLength||.56,r.shinLength||r.legLength||.56,V(i?.12:-.12,0,1));
  r.g.updateMatrixWorld(true);return matrices;
 }

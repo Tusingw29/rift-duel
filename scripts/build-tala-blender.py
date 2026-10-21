@@ -11,6 +11,30 @@ bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=Fals
 C=Matrix.Rotation(math.pi/2,4,'X')
 def matrix(a):return Matrix([a[i::4] for i in range(4)])
 def point(p):return C@Vector(p)
+# Proportion standard shared with dist/tala-model.js: ~7.5 heads tall, legs half the
+# height, slim waist and hips, broad shoulders, long arms. Authored coordinates stay
+# in the original space and are remapped here so the mesh matches the remapped bones.
+Y=[(0,0),(.22,.14),(.70,.78),(1.26,1.42),(1.435,1.60),(2.02,2.32),(2.21,2.50),(2.74,2.90),(3.0,3.14)]
+def map_y(y):
+ for (a,b),(c,d) in zip(Y,Y[1:]):
+  if y<=c:return b+(y-a)*(d-b)/(c-a)
+ return y+Y[-1][1]-Y[-1][0]
+def group_of(bind):
+ name=max(bind,key=bind.get) if isinstance(bind,dict) else bind
+ base=name.split('.')[0]
+ if base in('upper_arm','forearm','hand'):return 'arm'
+ if base in('thigh','shin','foot'):return 'leg'
+ if base in('head','ponytail'):return 'head'
+ if base in('root','sash'):return 'hips'
+ return 'spine'
+def factors(group,y):
+ center={'arm':1.06,'leg':.88,'hips':.88}.get(group,1)
+ girth={'arm':.92,'leg':.93,'hips':.86,'head':1}.get(group,.88 if y<1.95 else 1.04)
+ return center,girth
+def remap_vertex(v,bind):
+ x,y,z=v;group=group_of(bind);center,girth=factors(group,y)
+ limb=0 if group not in('arm','leg') else math.copysign(.43 if group=='arm' else .2,x) if abs(x)>.02 else 0
+ return (limb*center+(x-limb)*girth,map_y(y),z*girth)
 arm=bpy.data.armatures.new('Tala_Armature');rig=bpy.data.objects.new('Tala',arm);bpy.context.collection.objects.link(rig);bpy.context.view_layer.objects.active=rig;rig.select_set(True)
 bpy.ops.object.mode_set(mode='EDIT')
 for b in DATA['bones']:
@@ -22,7 +46,8 @@ mats={}
 for name,h in colors.items():
  m=bpy.data.materials.new(name);m.diffuse_color=tuple(((int(h[i:i+2],16)/255+.055)/1.055)**2.4 for i in (0,2,4))+(1,);m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');p.inputs['Base Color'].default_value=m.diffuse_color;p.inputs['Roughness'].default_value=.92;mats[name]=m
 objects=[]
-def mesh(name,verts,faces,weights,mat,uv=None):
+def mesh(name,verts,faces,weights,mat,uv=None,mapped=False):
+ if not mapped:verts=[remap_vertex(v,w) for v,w in zip(verts,weights)]
  me=bpy.data.meshes.new(name);me.from_pydata([point(p) for p in verts],[],faces);me.update();o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);o.data.materials.append(mats[mat] if isinstance(mat,str) else mat)
  for bone in {b for w in weights for b in w}:
   g=o.vertex_groups.new(name=bone)
@@ -47,10 +72,12 @@ def loft(name,rings,mat,n=12,start=0,end=math.tau,caps=True):
  if caps and end-start>6:
   faces.extend([tuple(range(n,-1,-1)),tuple((len(rings)-1)*(n+1)+i for i in range(n+1))])
  if rings[-1][1]>rings[0][1]:faces=[tuple(reversed(f)) for f in faces]
- return mesh(name,v,faces,w,mat,uv)
+ return mesh(name,v,faces,w,mat,uv,mapped=True)
 def W(b):return {b:1}
 def B(a,b,t):return {a:1-t,b:t}
-def R(x,y,z,rx,rz,b):return [x,y,z,rx,rz,W(b) if isinstance(b,str) else b]
+def R(x,y,z,rx,rz,b):
+ bind=W(b) if isinstance(b,str) else b;center,girth=factors(group_of(bind),y)
+ return [x*center,map_y(y),z,rx*girth,rz*girth,bind]
 loft('Torso', [R(0,1.37,0,.23,.15,'root'),R(0,1.43,0,.213,.14,B('root','chest',.5)),R(0,1.60,0,.238,.15,'chest'),R(0,1.72,0,.29,.175,'chest'),R(0,1.88,0,.325,.18,'chest'),R(0,2.01,0,.35,.13,'chest'),R(0,2.10,0,.10,.09,'chest')],'skin',20)
 loft('Athletic_top',[R(0,1.65,.003,.269,.17,'chest'),R(0,1.74,.005,.302,.185,'chest'),R(0,1.89,0,.33,.186,'chest'),R(0,1.98,0,.31,.135,'chest')],'top',20)
 # Tailored vest: broad back and separate front panels leave real shoulder armholes.

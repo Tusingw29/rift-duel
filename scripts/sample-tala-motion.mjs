@@ -7,7 +7,7 @@ import {animateCharacter} from '../dist/animation.js';
 const r=buildTala(), names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
 r.g.updateMatrixWorld(true);
 const bones=r.skeleton.bones.map((b,i)=>({name:names[i],parent:r.skeleton.bones.indexOf(b.parent),matrix:b.matrixWorld.toArray()}));
-for(const [i,suffix] of ['L','R'].entries())bones.push({name:'foot.'+suffix,parent:bones.findIndex(b=>b.name==='shin.'+suffix),matrix:new Matrix4().makeTranslation(i? .2:-.2,.14,0).toArray()});
+for(const [i,suffix] of ['L','R'].entries()){const thigh=new Vector3();r.limbs[i*2+1].getWorldPosition(thigh);bones.push({name:'foot.'+suffix,parent:bones.findIndex(b=>b.name==='shin.'+suffix),matrix:new Matrix4().makeTranslation(thigh.x,r.ankleHeight??.14,0).toArray()});}
 const clips=[];
 for(const [name,duration,kind] of [['Idle',2.4,'idle'],['Advance',.9,'run'],['Retreat',1,'back'],['Circle',1.1,'circle'],['Guard',1.6,'guard'],['Combo',1,'combo'],['Recoil',.9,'hurt']]){
  const rig=buildTala(),frames=[];let move;

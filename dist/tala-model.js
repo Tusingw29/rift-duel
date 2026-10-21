@@ -7,24 +7,32 @@ import * as T from './vendor/three.module.js';
 export function buildTala(){
  const g=new T.Group(),bones=[];
  const joint=(parent,x=0,y=0,z=0)=>{const b=new T.Bone();b.position.set(x,y,z);parent.add(b);bones.push(b);return b;};
- const body=joint(g),spine=joint(body,0,1.435),head=joint(spine,0,1.045);
+ // Proportion standard (early-2000s 3D fighter look): about 7.5 heads tall, legs half
+ // the height, narrow waist and hips, broad shoulders, long arms, small head.
+ // Authored ring coordinates stay in the original space and are remapped here.
+ const Y=[[0,0],[.22,.14],[.70,.78],[1.26,1.42],[1.435,1.60],[2.02,2.32],[2.21,2.50],[2.74,2.90],[3.0,3.14]];
+ const mapY=y=>{for(let i=1;i<Y.length;i++)if(y<=Y[i][0]){const [a,b]=Y[i-1],[c,d]=Y[i];return b+(y-a)*(d-b)/(c-a);}return y+Y.at(-1)[1]-Y.at(-1)[0];};
+ const body=joint(g),spine=joint(body,0,1.60),head=joint(spine,0,1.104);
  const limbs=[],elbows=[],knees=[],clothParts=[];
  for(const side of [-1,1]){
-  const arm=joint(spine,side*.43,.585),elbow=joint(arm,0,-.43),hand=joint(elbow,0,-.4);
-  const leg=joint(body,side*.2,1.26),knee=joint(leg,0,-.56);
+  const arm=joint(spine,side*.456,.72),elbow=joint(arm,0,-.53),hand=joint(elbow,0,-.45);
+  const leg=joint(body,side*.176,1.42),knee=joint(leg,0,-.64);
   limbs.push(arm,leg);elbows.push(elbow);knees.push(knee);arm.userData.hand=hand;
  }
- const pony=joint(head,0,.17,-.19);clothParts.push(pony);
- const sash=joint(body,-.22,1.23,.16);clothParts.push(sash);
+ const pony=joint(head,0,.128,-.19);clothParts.push(pony);
+ const sash=joint(body,-.19,1.39,.16);clothParts.push(sash);
  g.updateMatrixWorld(true);const skeleton=new T.Skeleton(bones);
  const mats={skin:'#c58b65',top:'#37566b',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#963e35',hair:'#71342c'};
  const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color:k==='top'?'#ffffff':color,map:k==='top'?talaVestPaint():clothPaint(k),vertexColors:true})]));
  const index=b=>bones.indexOf(b),one=b=>[[index(b),1]],blend=(a,b,w)=>[[index(a),1-w],[index(b),w]];
  // Ring: x, y, z, lateral radius, depth radius, weights, optional painted shade.
  function surface(rings,mat,sides=12){
-  // Longer legs and a compact torso, preserving the head/hand contact height.
-  // Arms, head and hair retain their authored coordinates.
-  rings=rings.map(r=>{const c=[...r],bind=r[5];const upper=bind.some(([i])=>[...elbows,...limbs.filter((_,i)=>i%2===0),...limbs.filter((_,i)=>i%2===0).map(a=>a.userData.hand),head,pony].includes(bones[i]));if(!upper){const y=r[1];c[1]=y<=1.25?.14+(y-.14)*7/6:y+.185*Math.max(0,(2.065-y)/.815);}return c;});
+  // Remap authored rings into the proportion standard: longer legs and arms,
+  // slimmer waist and hips, broader shoulders. Head and hair keep their shape.
+  const groupOf=bind=>{const b=bones[bind[0][0]];if([...limbs.filter((_,i)=>i%2===0),...elbows,...limbs.filter((_,i)=>i%2===0).map(a=>a.userData.hand)].includes(b))return 'arm';if([...limbs.filter((_,i)=>i%2===1),...knees].includes(b))return 'leg';if(b===head||b===pony)return 'head';if(b===body||b===sash)return 'hips';return 'spine';};
+  rings=rings.map(r=>{const c=[...r],y=r[1],group=groupOf(r[5]);
+   const center=group==='arm'?1.06:group==='leg'||group==='hips'?.88:1,girth=group==='arm'?.92:group==='leg'?.93:group==='hips'?.86:group==='spine'?(y<1.95?.88:1.04):1;
+   c[0]=r[0]*center;c[1]=mapY(y);c[3]=r[3]*girth;c[4]=r[4]*girth;return c;});
   if(rings.at(-1)[1]<rings[0][1])rings=[...rings].reverse();
   const cap=r=>[r[0],r[1],r[2],0,0,r[5],r[6]??1];
   rings=[cap(rings[0]),...rings,cap(rings.at(-1))];
@@ -104,6 +112,6 @@ export function buildTala(){
   merged.setIndex(indices);const mesh=new T.SkinnedMesh(merged,material);body.add(mesh);mesh.bind(skeleton);mesh.castShadow=true;mesh.frustumCulled=false;
   for(const piece of pieces){body.remove(piece);piece.geometry.dispose();}
  }
- head.scale.setScalar(.9);
- return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton,legLength:.56};
+ head.scale.setScalar(.8);
+ return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton,legLength:.64,shinLength:.64,ankleHeight:.14};
 }

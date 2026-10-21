@@ -14,7 +14,7 @@ export function attachTalaConcept(r,source){
  const surfaces=[];source.traverse(n=>{if(n.isSkinnedMesh)surfaces.push(n);});
  if(!surfaces.length)throw new Error('Concept asset has no skinned surfaces');
  for(const n of surfaces)for(const b of n.skeleton.bones)if(!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
- for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-.56,0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
+ for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-(r.shinLength||.56),0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
  r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=talaFootOffsets;r.gaitTargets=talaGaitTargets;r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
  const skeletons=new Map(),replacement=[];
  for(const original of surfaces){

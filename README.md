@@ -201,3 +201,7 @@ Stocks are now gems instead of bars. Holding attack pours charge into the next g
 ## Alpha 0.50: the life gauge shatters on every hit
 
 Following the original, where a hit breaks part of the gauge "like glass", every landed attack now snaps the lost chunk of the vertical life gauge into glass shards that fly inward from the screen edge, with a white flash over the broken segment. The number of shards scales with the damage. The old red drain trail is gone; a pale glass remnant lingers for a fraction of a second where the chunk was. Knockouts still shatter the whole gauge.
+
+## Alpha 0.51: Tala proportion standard
+
+Tala is rebuilt to an early-2000s 3D fighter standard (the Dead or Alive 3, Tekken 4, Soul Calibur 3 look): about 7.5 heads tall, legs half her height, a smaller head, narrow waist and hips, broader shoulders and longer arms. The standard is a single remap applied to both the JavaScript skeleton and the Blender-built surfaces, so the costume, painted face and hands carry over unchanged. Leg lengths are now read from the rig by the foot-planting and study-motion code instead of being hard-coded. The GLB was rebuilt with Blender 3.6.22, which runs on this Mac where 4.5 does not.
