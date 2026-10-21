@@ -1,8 +1,8 @@
 {
   "blender": "3.6.22",
   "bones": 17,
-  "meshes": 12,
-  "vertices": 32775,
+  "meshes": 15,
+  "vertices": 36627,
   "clips": [
     "Idle",
     "Advance",
@@ -58,7 +58,9 @@
       "kind": "cloth",
       "size": 768,
       "objects": [
-        "Design02_vest"
+        "Design02_vest",
+        "Design02_lapel",
+        "Design02_lapel.001"
       ]
     },
     "Design02_rust_cloth": {
@@ -81,23 +83,6 @@
       "size": 512,
       "objects": [
         "Design02_wraps"
-      ]
-    },
-    "hair": {
-      "kind": "hair",
-      "size": 512,
-      "objects": [
-        "Design02_hair_cap",
-        "Design02_fringe",
-        "Design02_fringe.001",
-        "Design02_fringe.002",
-        "Design02_fringe.003",
-        "Design02_fringe.004",
-        "Design02_side_lock",
-        "Design02_side_lock.001",
-        "Design02_ponytail",
-        "Design02_ponytail.001",
-        "Design02_ponytail.002"
       ]
     }
   }
