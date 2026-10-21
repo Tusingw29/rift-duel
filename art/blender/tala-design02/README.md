@@ -120,3 +120,11 @@ The built-in image-generation tool edited the original face source while preserv
 This revision uses a full Blender face bake, not the cached-atlas shortcut. Head geometry, skeleton, gameplay and animation timing are unchanged. Front/profile head and guard renders show the new painting; other stills and the video retain the previous painting. This remains a partial character study rather than a finished match to the concept.
 
 Revision-2 verification: front/profile head and crossed-arm guard renders were inspected. Head vertex positions and feature mapping are retained; the rendered skin is flatter and less glossy. All 243 repository tests pass. No real-time browser visual review was available for this pass.
+
+## Swept fringe revision
+
+Five flattened locks now fan from an uneven side part with staggered tapered ends, replacing the parallel blunt fringe. Side locks move forward at the temple to meet the new front silhouette. The existing head and ponytail bones, face painting, mesh count and vertex count are retained. Head and guard images are refreshed for this pass; other stills and the video show previous hair.
+
+This is a silhouette improvement, not final hair art. The crown and ponytail remain broad simplified masses, painted strand detail is absent, and ponytail motion still uses one bone. The next visual comparisons should include the rear fight camera and rapid turns before promoting this study to the default fighter.
+
+Fringe-pass verification: the first render exposed a dark temple gap; moving the side lock forward closed it in the inspected front/profile views. Both eyes remain readable in the neutral pose; the longer lock partly covers one eye in the tucked guard view. The ear and rear hairline are still simplified and more exposed in profile. All 243 tests pass; real-time browser inspection remains unavailable.

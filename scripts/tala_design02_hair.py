@@ -51,11 +51,18 @@ def build_hair(ctx):
  # Increasing angle then height gives outward-facing winding.
  faces.append(tuple(rows*(columns+1)+i for i in range(columns)))
  mesh('Design02_hair_cap',verts,faces,weights,'hair',uv)
- for i in range(5):
-  x=(i-2)*.059;tip=2.515+abs(i-1.5)*.021
-  swept('Design02_fringe',[(x-.025,2.718,.080,.047,.026),(x-.014,2.665,.142,.048,.032),(x+.018,2.585,.170,.035,.026),(x+.043,tip,.161,.002,.004)],'hair','head')
+ # Uneven locks fan from a side part rather than forming a row of blunt bangs.
+ # Flattened sections and staggered tips keep the brow and face readable.
+ fringe=[
+  [(.025,2.73,.075,.040,.018),(-.07,2.67,.145,.047,.025),(-.155,2.55,.14,.035,.020),(-.185,2.40,.09,.001,.002)],
+  [(.06,2.73,.09,.040,.020),(-.005,2.66,.177,.045,.024),(-.07,2.57,.182,.033,.018),(-.125,2.49,.143,.001,.002)],
+  [(.08,2.71,.10,.025,.015),(.04,2.65,.18,.030,.020),(-.015,2.57,.195,.021,.016),(-.06,2.525,.175,.001,.002)],
+  [(.08,2.72,.08,.038,.020),(.145,2.65,.135,.045,.024),(.19,2.53,.09,.027,.018),(.20,2.40,.05,.001,.002)],
+  [(.065,2.72,.10,.028,.016),(.10,2.65,.185,.030,.018),(.14,2.56,.166,.020,.015),(.15,2.50,.13,.001,.002)]
+ ]
+ for points in fringe:swept('Design02_fringe',points,'hair','head')
  for s in [-1,1]:
-  swept('Design02_side_lock',[(s*.163,2.66,-.012,.047,.047),(s*.196,2.50,-.014,.038,.043),(s*.188,2.37,-.008,.028,.027),(s*.165,2.29,.015,.001,.002)],'hair','head')
+  swept('Design02_side_lock',[(s*.163,2.66,.065,.047,.047),(s*.196,2.50,.080,.038,.043),(s*.188,2.37,.035,.028,.027),(s*.165,2.29,.015,.001,.002)],'hair','head')
  # Three broad overlapping tapered masses; one retained ponytail bone drives them.
  for i in [-1,0,1]:
   swept('Design02_ponytail',[(i*.035,2.705,-.17,.054,.050),(i*.063,2.785,-.29,.085,.060),(i*.085+.025,2.67,-.43,.089,.055),(i*.10+.035,2.39,-.50,.077,.046),(i*.125+.06,2.13,-.46,.047,.027),(i*.15+.08,1.95+abs(i)*.09,-.32,.002,.003)],'hair','ponytail',14)
