@@ -61,3 +61,21 @@ test('an interrupted step preserves ankle position when guard, strike or hurt be
   animateCharacter(r,p,5/60);r.g.updateMatrixWorld(true);r.feet.forEach((foot,i)=>assert.ok(foot.getWorldPosition(new Vector3()).distanceTo(before[i])<.025,`${action} entry keeps foot ${i} continuous`));
  }
 });
+
+import {createLiveTalaReview,LIVE_TALA_CLIPS} from '../dist/tala-live-review.js';
+test('review uses live guard tuck and deeper impact brace',()=>{
+ const review=createLiveTalaReview(asset.scene),r=review.rig;
+ review.sample('Guard + block',.6);const normal=r.head.rotation.x;
+ assert.ok(normal>.38);assert.ok(r.head.position.y<r.headRest.y-.05);
+ review.sample('Guard + block',.95);assert.ok(r.head.rotation.x>normal+.06);
+});
+test('live review scrubbing resets animation history deterministically',()=>{
+ const review=createLiveTalaReview(asset.scene);
+ const snapshot=()=>{const out=[];review.rig.g.traverse(n=>{if(n.isBone)out.push(...n.position.toArray(),...n.quaternion.toArray());});return out;};
+ for(const clip of LIVE_TALA_CLIPS){
+  review.sample(clip.name,.8);const before=snapshot();review.sample(clip.name,.2);review.sample(clip.name,.8);assert.deepEqual(snapshot(),before,clip.name);
+  review.sample(clip.name,clip.duration);assert.ok(snapshot().every(Number.isFinite));
+ }
+ review.sample('Advance',1.5);assert.ok(review.rig.g.position.z>3);
+ review.sample('Retreat',1.5);assert.ok(review.rig.g.position.z< -3);
+});

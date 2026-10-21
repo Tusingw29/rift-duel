@@ -71,3 +71,10 @@ A regression test exposed a raised foot snapping down when hit during a step: th
 Rebuilt closed-fist surfaces and shoulder caps in Blender, kept the existing rig/motion source, and increased face-overlay sampling/clearance. Chrome close-ups exposed an initial palm/finger proportion problem; the final export extends the knuckle row into one fist silhouette. Inspected idle and crossed guard at close range. The final asset has 4,875 exported vertices, 11 meshes and 17 bones. The full 216-test suite passed before the last fist adjustment; the eight GLB/live-concept tests passed on the final asset. Deployment CI runs the complete suite again.
 
 The face still has rough shading/material boundaries and the hands remain simplified closed fists, not articulated fingers. No completed concept-art match is claimed. The inspection clips remain separate from the updated live animation controller.
+
+Live review update: Chrome rendered the actual concept mesh with the current
+runtime animator. Guard at 0.6 s pitches the head about 0.420 radians; the impact
+brace at 0.95 s increases that to about 0.505. All eight live actions sampled with
+finite bounds, movement changes world position, and switching to the seven baked
+clips and back succeeds. Automated regression checks cover backward scrubbing,
+repeatable bone transforms, guard tuck and bracing.

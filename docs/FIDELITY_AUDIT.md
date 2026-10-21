@@ -82,3 +82,10 @@ The playable art preview is https://tusingw29.github.io/rift-duel/?tala=concept.
 | Shared captures, aerial moves and burst | Shared fallback choreography | Same fallback choreography |
 
 Verification uses actual exported skin data, sampled live animation and Chrome interaction. Passing checks do not establish Evil Zone art or motion parity. The concept still has simplified face shading, hands, clothing detail and shoulder integration; user acceptance of the complete moving model remains unproven. Original-game frame correspondence, broader cinematic choreography, the remaining roster's motion and several arena presentations remain open. Story staging stays deferred at the user's request.
+
+### Live motion review correction
+The Tala review page now defaults to current runtime animation instead of older
+baked clips. It offers eight scripted actions, including both circling directions
+and guard with an impact brace, with a following camera and close-up inspection.
+Earlier Blender clips remain explicitly labeled as a comparison source. This
+corrects review fidelity; it does not establish final concept-art parity.

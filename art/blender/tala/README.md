@@ -56,3 +56,11 @@ In the concept preview, advance leads with the front foot, retreat with the rear
 ## Concept model study 4
 
 The model now has rounded shoulder caps and closed wrapped fists with four modeled fingers and an opposing thumb. These shapes stay bound to the existing hand bones; fingers are not independently animated. The face overlay follows more of the jaw profile's rows with additional surface clearance, but its shading/material transition still needs refinement. The inspection page adds an upper-body close-up button. The saved study clips are unchanged; use the playable preview for the latest live neck/guard/footwork behavior.
+
+### Current motion inspection
+The review page now defaults to the live game animator, including neck tuck,
+block bracing, directional footwork and weight transfer. Its eight demonstrations
+supply scripted player states to the same animator used in combat. Timeline
+scrubbing replays from a clean state, so pose history remains deterministic.
+The source selector retains the seven earlier baked Blender clips for comparison;
+those clips do not contain all current live animation fixes.
