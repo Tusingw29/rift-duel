@@ -128,6 +128,16 @@ export function pursuitPose(move){
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
 }
+export function freeFlightPose(player){
+ const recovering=player.anim==='recover',phase=1-Math.min(1,(player.air||0)/.85);
+ const tuck=pose({...stance,bodyY:.02,lean:.08,twist:-.22,hx:.15,neckY:-.02,
+  lax:-1.05,rax:-.9,le:-1.45,re:-1.5,llx:-.5,rlx:.18,lk:1.05,rk:.8});
+ const brace=pose({...tuck,lax:-1.15,lay:.4,laz:-.1,rax:-1.05,ray:-.35,raz:.12,
+  le:-1.35,re:-1.4,lean:.18,hx:.32,neckY:-.04,bodyY:-.03,llx:-.35,rlx:.1,lk:.85,rk:.7});
+ if(recovering)return brace;
+ const reach=pose({...tuck,bodyY:.03,llx:-.12,rlx:.12,lk:.28,rk:.28,hx:.18});
+ return phase<.2?mix(stance,tuck,smooth(phase/.2)):phase>.7?mix(tuck,reach,smooth((phase-.7)/.3)):tuck;
+}
 // Contact, compression, passing and push-off poses. The opposite step is
 // authored by mirroring the limbs, with chest/hips counter-rotating together.
 const stepKeys=[
@@ -168,6 +178,8 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(move?.kind==='technique'&&['rise','kick'].includes(move.effect)&&!p.air)return {pose:techniquePose(move),rate:34,kind:'technique'};
  if(move?.kind==='launch'&&!p.air)return {pose:launcherPose(move),rate:34,kind:'launch'};
  if(move?.kind==='pursuit'&&move.aerial)return {pose:pursuitPose(move),rate:34,kind:'aerial'};
+ if(!move&&!p.launched&&['jump','recover','idle','run'].includes(p.anim)&&(p.air>0||(p.airMotion?.height||0)>.01))return {pose:freeFlightPose(p),rate:20,kind:'freeFlight'};
+ if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
@@ -191,6 +203,13 @@ export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
  if(p)advanceStride(r,p);
  const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0);
+ if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
+ r.freeFlight=target?.kind==='freeFlight';
+ if(r.landingTime!==undefined){
+  r.landingTime+=dt;
+  if(r.landingTime>=.18||!target||p?.move)delete r.landingTime;
+  else if(['idle','run','guard'].includes(target.kind)){const absorb=Math.sin(Math.PI*r.landingTime/.18);target.pose.bodyY-=.12*absorb;target.pose.hx+=.1*absorb;target.pose.neckY-=.015*absorb;}
+ }
  if(target?.kind==='back'&&p.move?.retreatTravel)target.pose.bodyY+=retreatLift(p.move)*.8;
  if(target?.kind==='run'&&r.gaitTargets){
   // Fighting steps keep the hands ready; avoid the large jogging arm pump.
@@ -239,7 +258,7 @@ export function animateTala(r,p,time){
   const u=smooth((m.frame-m.startup-m.active)/Math.max(1,m.recovery*.3)),ground=r.g.position.y+(r.ankleHeight??.14)*r.g.scale.y;
   r.footPlants=r.techniqueLanding.anchors.map(at=>{const v=at.clone();v.y=ground+Math.max(0,at.y-ground)*(1-u);return v;});
  }else r.techniqueLanding=null;
- plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind);
+ plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind==='freeFlight'&&p.air>.6&&(p.airMotion?.height||0)<.16?'strike':target.kind);
  // Small delayed neck response lets the head settle after the ribcage turns.
  // Guard keeps its deliberate chin tuck even when an impact checks the torso.
  if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}

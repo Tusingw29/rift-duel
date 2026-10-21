@@ -154,3 +154,10 @@ jump noted in the launcher/pursuit entry above.
 Non-final pursuit hits additionally ease both fighters toward a common suspension
 height. This prevents a continuously falling victim from ending up visibly below
 the attacker's later strikes while retaining continuity at each hit event.
+
+### Tala jump and air recovery
+Free jumps now use supported push-off, tucked flight, extended landing legs and
+a brief landing compression. Air recovery raises the forearms and tucks the chin
+instead of switching to the old shared pose. The transition respects the visual
+height curve and leaves jump/recovery combat rules unchanged. Crossover attacks,
+launched tumbles, captures and bursts still use shared choreography.

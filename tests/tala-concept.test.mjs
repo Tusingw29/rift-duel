@@ -107,3 +107,13 @@ test('rush and flying kick keep exported shoes above floor through landing',()=>
   }
  }
 });
+test('jump and air recovery clear the floor and settle into planted support',()=>{
+ for(const name of ['Jump + land','Air recovery']){
+  const review=createLiveTalaReview(asset.scene),r=review.rig;
+  for(let frame=0;frame<=78;frame++){
+   review.sample(name,frame/60);
+   for(const mesh of r.g.children.filter(n=>n.name.startsWith('concept-Shoe'))){mesh.skeleton.update();const v=new Vector3();for(let i=0;i<mesh.geometry.attributes.position.count;i+=3){mesh.getVertexPosition(i,v).applyMatrix4(mesh.matrixWorld);assert.ok(v.y>-.015,`${name} ${frame}: ${v.y}`);}}
+  }
+  assert.ok(r.footPlants);assert.equal(r.g.position.y,0);assert.ok(r.head.rotation.x<.2,'landing releases chin brace');
+ }
+});

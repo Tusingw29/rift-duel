@@ -9,7 +9,7 @@ import {moveTiming} from './moves.js';
 const signatureClips={'Launcher':{kind:'launch'},'Aerial pursuit':{kind:'pursuit',aerial:true},'Rising rush':{kind:'technique'},'Skybreaker kick':{kind:'technique',followup:true},'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
 const shotTiming=moveTiming(fighters[2],'shot');
 const timing=moveTiming(fighters[2],'strike');
-export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
+export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
 export function createLiveTalaReview(source){
@@ -35,6 +35,10 @@ export function createLiveTalaReview(source){
    else{const direction=name==='Advance'?1:-1;p.z=travel*direction;p.prev={x:direction,z:0};}
    p.anim=moving?'run':'idle';
   }
+  if(['Jump + land','Air recovery'].includes(name)&&f>=12){
+   p.air=Math.max(0,.85-(f-12)/60);p.anim=p.air>0?'jump':'idle';
+   if(name==='Air recovery'&&f>=30){p.air=Math.max(0,.16-(f-30)/60);p.anim=f<45?'recover':'idle';}
+  }
   if(name==='Guard + block'){p.guard=t>=.25&&t<1.65;p.blockStun=t>=.85&&t<1.07?1.07-t:0;}
   if(name==='Recoil'&&t>=.25&&t<.67){p.anim='hurt';p.animTime=.67-t;}
   if(name==='Energy shot'&&f>=12&&f<12+shotTiming.total){p.move=shot;shot.frame=f-12;p.anim='attack';}
@@ -53,7 +57,7 @@ export function createLiveTalaReview(source){
    if(chain>=0&&chain<3){p.move=moves[chain];p.move.frame=attackFrame%timing.total;p.anim='strike';}
   }
   flight.air=p.air;flight.move=p.move;
-  if(signature.aerial&&[12+signature.startup,12+signature.startup+9].includes(f))flight.airMotionCue={height:2.2,duration:.15};rig.g.position.set(p.x,advanceAirMotion(flight,1/60),p.z);rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
+  if(signature.aerial&&[12+signature.startup,12+signature.startup+9].includes(f))flight.airMotionCue={height:2.2,duration:.15};rig.g.position.set(p.x,advanceAirMotion(flight,1/60),p.z);p.airMotion=flight.airMotion;rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
  }
  function sample(name,time){
   const clip=LIVE_TALA_CLIPS.find(c=>c.name===name);if(!clip)throw new RangeError(`Unknown live review action: ${name}`);

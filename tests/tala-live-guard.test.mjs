@@ -16,5 +16,5 @@ test('guard retracts the neck, tucks the chin further on impact and releases wit
  const r=buildTala(),rest=r.head.position.clone();sample(r,{anim:'idle',x:0,z:0},0,15);sample(r,{anim:'idle',guard:true,x:0,z:0},.25,20);
  const guardY=r.head.position.y,guardPitch=r.head.rotation.x;assert.ok(guardY<rest.y-.04);assert.ok(r.head.position.z<rest.z-.02);assert.ok(guardPitch>.38);
  sample(r,{anim:'idle',guard:true,blockStun:.22,x:0,z:0},.6,20);assert.ok(r.head.position.y<guardY-.01);assert.ok(r.head.rotation.x>guardPitch+.1);
- const before=r.head.position.clone();animateCharacter(r,{anim:'jump',air:.5,x:0,z:0},.94);assert.ok(r.head.position.distanceTo(before)<.025,'fallback starts at the braced neck position');sample(r,{anim:'jump',air:.5,x:0,z:0},.96,20);assert.ok(r.head.position.distanceTo(rest)<1e-6,'airborne fallback restores neck');
+ const before=r.head.position.clone();animateCharacter(r,{anim:'jump',air:.5,x:0,z:0},.94);assert.ok(r.head.position.distanceTo(before)<.025,'jump starts at the braced neck position');sample(r,{anim:'jump',air:.5,x:0,z:0},.96,20);assert.ok(Math.abs(r.head.position.y-(rest.y-.02))<1e-6,'jump settles into its lighter chin tuck');assert.ok(Math.abs(r.head.position.z-rest.z)<1e-6);
 });

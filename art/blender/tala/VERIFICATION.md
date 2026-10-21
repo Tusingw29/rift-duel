@@ -135,3 +135,11 @@ Chrome combo measured attacker/victim heights 2.222/2.176 on hit 2 and 2.197/2.2
 on hit 3. Both subsequently reached height zero; opponent HP remained 77.56.
 No console errors/warnings. Full suite: 232 tests pass. Combat still uses the
 existing air timers; this does not introduce vertical collision physics.
+
+Jump/air recovery: initial mesh checks found takeoff shoe penetration, corrected
+by retaining support during the first low-height push-off. Both clips now pass
+exported shoe clearance checks through landing. The guard-to-jump regression
+checks continuity into the new lighter airborne chin tuck. Chrome keyboard input
+successfully triggered double-circle jump followed by airborne guard recovery;
+the recovery pose was inspected from the fight camera without console errors.
+Full suite: 233 tests pass.
