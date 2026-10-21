@@ -284,3 +284,10 @@ Compared the 2:30 Midori gameplay reference again. Changed Tala's leg-to-torso p
 ## Tala costume map (0.38)
 
 178 tests pass, including weighted rig bounds and independent cloned skeletons with the new glove surfaces. Chrome inspected the front costume in character select and the back crest in the actual lock-on training view. The existing rig and animation attachment points are retained. Overall art fidelity remains incomplete, particularly the older rival models.
+
+
+## Aegis armor model (0.39)
+
+Replaced Aegis's generic primitive model with authored beveled contour plates, an inset visor, fitted chest/abdomen armor, articulated shoulder shells, gauntlets, greaves and a split folded cape. Joint/material batching preserves vertex colors and uses 28 mesh draws and 5,214 vertices before the final rear helmet panel (the budget test caps the result at 32 draws and 8,000 vertices). The rear panel and cape clearance were corrected after browser inspection.
+
+179 tests pass, including all-roster combat bounds, recovery-floor clearance and a new armor vertex-color/draw-budget check. Chrome training verified approach, strike contact (rival HP 94), front capture profile `vault-suplex`, burst stock consumption and a paused burst pose. Menu, rear fight view and burst screenshot were inspected; no console errors or warnings. These checks establish rig integration, not Evil Zone visual equivalence. Four fighters still use the older generic rigs.

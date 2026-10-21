@@ -151,3 +151,7 @@ The game now opens on Tala so the art upgrade is visible immediately. Her costum
 
 ### Alpha 0.37 — Tala model corrections
 Longer legs and a compact torso, improved shoulder joins, broader hair locks, fitted facial geometry and calmer costume panels replace several toy-like features. Foot planting follows the revised leg length. This remains an art study; the roster does not yet meet the Evil Zone visual target.
+
+
+### Alpha 0.39 — Aegis armor rebuild
+Aegis now has a separate model with beveled chest plates, an inset visor, shaped gauntlets and greaves, articulated shoulder armor, longer leg proportions and a folded split cape. Select Aegis to see it. Shared combat animation remains in place; four fighters still use the older model builder.

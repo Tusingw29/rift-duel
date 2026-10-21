@@ -36,3 +36,10 @@ test('recovery rolls keep all six bodies above the arena floor',()=>{
   }
  }
 });
+
+test('Aegis armor keeps face colors and a bounded draw budget after joint batching',()=>{
+ const rig=buildCharacter(0);let meshes=0,vertices=0,colored=0;
+ rig.g.traverse(n=>{if(!n.isMesh)return;meshes++;vertices+=n.geometry.attributes.position.count;if(n.material.vertexColors){const c=n.geometry.attributes.color;assert.equal(c.count,n.geometry.attributes.position.count);assert.ok([...c.array].every(v=>Number.isFinite(v)&&v>=0&&v<=1));colored++;}});
+ assert.ok(colored>10,'armor colors survive every articulated plate batch');
+ assert.ok(meshes<=32,'armor does not add one draw per plate');assert.ok(vertices<8000);
+});
