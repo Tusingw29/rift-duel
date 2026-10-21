@@ -213,3 +213,5 @@ The [separate Design 02 preview](https://tusingw29.github.io/rift-duel/tala-blen
 The [concept and animation package](art/tala-design-02/README.md) defines the visual target. [Blender sources and actual pose renders](art/blender/tala-design02/README.md) document what is implemented and what remains. This is a partial art study, not a claim that the concept or reference-game quality has been reached. The exported model runs in the browser; Blender is only needed to rebuild the source asset.
 
 A [normal-speed Tala motion video](https://tusingw29.github.io/rift-duel/tala-motion.html) shows the current Design 02 guard and combo without loading the interactive 3D preview. This is an offline render of runtime poses, not a browser performance recording.
+
+Tala can now be rebuilt and rendered on GitHub through [Build Tala art in the cloud](https://github.com/Tusingw29/rift-duel/actions/workflows/tala-art.yml). See the [cloud-build guide](art/blender/tala-design02/CLOUD-BUILD.md) for options and artifact retrieval. This avoids running Blender on the laptop; outputs are reviewed before publication.

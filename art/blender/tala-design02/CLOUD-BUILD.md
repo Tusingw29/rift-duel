@@ -18,3 +18,10 @@ gh run list --workflow tala-art.yml
 No Blender installation or API key is required on the laptop. Downloading the artifact is optional; the workflow runs entirely on GitHub. GitHub's account-specific Actions/storage limits still apply.
 
 Official release/checksum source: https://ftp.blender.org/release/Blender3.6/blender-3.6.22.sha256
+
+## Verified runs
+
+- [Full bake and twelve review renders](https://github.com/Tusingw29/rift-duel/actions/runs/39629519553): 243 tests passed against the rebuilt asset; all 20 output checksums verified after download. Head and full-body cloud renders were visually inspected.
+- [Cached face, no review renders](https://github.com/Tusingw29/rift-duel/actions/runs/39630166610): 243 tests passed; all eight output checksums verified. The package contains only the face atlas image, with no old review images.
+
+Both used source commit `8e20f4bd0f9d9ccee3eb7e4f8f0518b933d2f45a`. Their manifests are retained alongside this guide. These runs prove the cloud asset-build path, not browser gameplay or full-speed performance. The live GLB was not replaced with an unreviewed cloud artifact.

@@ -1,0 +1,129 @@
+{
+  "sourceCommit": "8e20f4bd0f9d9ccee3eb7e4f8f0518b933d2f45a",
+  "run": "https://github.com/Tusingw29/rift-duel/actions/runs/39629519553",
+  "faceRebaked": true,
+  "reviewImagesRendered": true,
+  "model": {
+    "blender": "3.6.22",
+    "bones": 17,
+    "meshes": 12,
+    "vertices": 32970,
+    "clips": [
+      "Idle",
+      "Advance",
+      "Retreat",
+      "Circle",
+      "Guard",
+      "Combo",
+      "Recoil"
+    ],
+    "combo_contact_seconds": [
+      0.08333333333333333,
+      0.4166666666666667,
+      0.75
+    ],
+    "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing"
+  },
+  "files": [
+    {
+      "path": "dist/assets/models/tala-design02.glb",
+      "bytes": 2684936,
+      "sha256": "f5c15874817a002a087c4ef0c79903a1f8bcf6db1de0d1e635c99986f0b17dc6"
+    },
+    {
+      "path": "art/blender/tala-design02/tala-study.blend",
+      "bytes": 15300688,
+      "sha256": "8d9f4b5e82b101c1233ffc2bb3fd85ad5b2ad4f4008483301e196ba6b68399d1"
+    },
+    {
+      "path": "art/blender/tala-design02/face-baked.png",
+      "bytes": 275051,
+      "sha256": "ec151addb133be1e4803297bb0a799dab30dc2604fb4f8f058c36ed8059c733e"
+    },
+    {
+      "path": "art/blender/tala-design02/build-report.json",
+      "bytes": 426,
+      "sha256": "d478a50d6ac6c0ba912edd3630ecff991bb60e0721ffcc739e3f60d166e237c1"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-pose.json",
+      "bytes": 7505,
+      "sha256": "91f377cced1abd73591d377a7edce4750cc243b81f582b236f4fc3a15e9a5db2"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-pose.json",
+      "bytes": 7545,
+      "sha256": "c797db507ec80da59f5cd346a1432b7388cdb7ca3c7d9d1feed0e07003871140"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-pose.json",
+      "bytes": 7576,
+      "sha256": "ef9408cf068c836f7ca60cd016777497667584814f9aad655b43a6994a051801"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-pose.json",
+      "bytes": 7576,
+      "sha256": "1992d801ec2e3d17cb784ac09bc046df89bf3fc3ef3a51f18d8f7fd9f524560b"
+    },
+    {
+      "path": "art/blender/tala-design02/review-front.png",
+      "bytes": 499124,
+      "sha256": "41fe70a819090a307965cfa8410b81c3aba98a62be586a837860f09ca51d5fb8"
+    },
+    {
+      "path": "art/blender/tala-design02/review-side.png",
+      "bytes": 462123,
+      "sha256": "f3a866969ee41ec15e0746fa8a4888b2745ac9a04d026b53bed76bce2657e784"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-front.png",
+      "bytes": 556425,
+      "sha256": "92642947df207a6290bb204d28b7ebfff3d4daaee6213ad0f0ec5759c7bbfe85"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-side.png",
+      "bytes": 520121,
+      "sha256": "fa109c1811ca868e4bf87154d8403a2490bae1810d5ff177692f6589e815d91a"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-front.png",
+      "bytes": 437190,
+      "sha256": "cb21e4768a6893784dbf5fc7a3560532ca570e619902eb4742c8d67c6c720092"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-side.png",
+      "bytes": 436206,
+      "sha256": "68ba7a999435ccf600851499a2fe8fdea9a3f867aabc29746f730c089c95646f"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-front.png",
+      "bytes": 435260,
+      "sha256": "6497db5abc423859cc9329297863f10d6b9201084a11a4f465761f8e8e31838b"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-side.png",
+      "bytes": 421704,
+      "sha256": "47226d6e341b3b55319078788c894a7b82c4d3344c7cc5a9bbbea27642bc993e"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-front.png",
+      "bytes": 444805,
+      "sha256": "d5f3fca635510bfbcfe3284edc3624db6feb792986b34694775a4c5e633a055c"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-side.png",
+      "bytes": 448230,
+      "sha256": "7f2c01390608dd0b55dbb01ad38f19dcfe35fc14be35b8e7adf29f061e5cfeb4"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-front.png",
+      "bytes": 447079,
+      "sha256": "fffcce66cabdb1752ae512fe0d54f9c1b124bfb647720c68afa5b439a10feb36"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-side.png",
+      "bytes": 436505,
+      "sha256": "078650eae0c923197948e2dcf91dd25c06655d27052d15f8dc37f8e0598ec028"
+    }
+  ]
+}
