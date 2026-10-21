@@ -82,3 +82,19 @@ The forearm and shin wraps now use continuous tapered surfaces with shallow diag
 For body-only iterations with an unchanged face surface and source, add `--reuse-face-atlas` to the Design 02 build command. It explicitly loads the existing packed face atlas, retains the authoring material and UV mapping, and skips the CPU face bake. The default build still rebakes the face. Do not use this shortcut after changing the face geometry, UVs, source image or mask; it deliberately has no automatic stale-cache detection.
 
 Wrap-pass verification: 241 tests pass. Guard and full-body front/profile renders were inspected; the exported face atlas hash matches the preceding asset. The current study contains 39,270 Blender vertices across 15 meshes. Visual improvement is not a performance benchmark: mesh reduction, shoulder/elbow anatomy, hair and shoes remain outstanding, and real-time browser playback is still unverified.
+
+## Normal-speed motion video
+
+The [motion video page](https://tusingw29.github.io/rift-duel/tala-motion.html) plays a four-second, 30 fps study without loading WebGL: 2.4 seconds of guard/block, then 1.6 seconds of the three-punch combo. These are poses from the actual runtime review driver, rendered offline in Blender. It is not a recording of browser gameplay, a browser performance measurement, or a full combat animation review. The source animator advances at 60 Hz; the video samples every second simulation frame, so use the existing pose checks for exact contact timing.
+
+Reproduce:
+
+```
+node scripts/sample-tala-motion-review.mjs
+blender --background --python scripts/render-tala-motion-review.py -- --validate-only
+blender --background --python scripts/render-tala-motion-review.py
+```
+
+`motion-review.json` records all 120 pose samples and the source GLB SHA-256. The renderer inserts exact sampled keys and checks seven frames against runtime world matrices before rendering. It writes `dist/assets/tala-design02-motion.mp4` and a punch-frame image. Regenerate this video when the model or animator changes; it does not update dynamically with the game.
+
+Video verification: the MP4 contains 120 H.264 frames at 384×480 over exactly 4 seconds. The checked Blender keys match sampled runtime matrices with maximum element error 0.000000477. The rendered punch-frame framing was inspected and all 241 repository tests pass. Chrome still timed out while connecting, so browser playback and the full-speed visual verdict remain unverified; do not treat the encoded frame count as a fluidity assessment.

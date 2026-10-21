@@ -211,3 +211,5 @@ Tala is rebuilt to an early-2000s 3D fighter standard (the Dead or Alive 3, Tekk
 The [separate Design 02 preview](https://tusingw29.github.io/rift-duel/tala-blender.html?model=design02) carries the newer face atlas, shorter visible neck, swept hair, connected shoulders, tailored vest/shorts and continuous wrapped fists. It uses the actual live review animator. The main fight still uses the earlier model while this character is refined.
 
 The [concept and animation package](art/tala-design-02/README.md) defines the visual target. [Blender sources and actual pose renders](art/blender/tala-design02/README.md) document what is implemented and what remains. This is a partial art study, not a claim that the concept or reference-game quality has been reached. The exported model runs in the browser; Blender is only needed to rebuild the source asset.
+
+A [normal-speed Tala motion video](https://tusingw29.github.io/rift-duel/tala-motion.html) shows the current Design 02 guard and combo without loading the interactive 3D preview. This is an offline render of runtime poses, not a browser performance recording.
