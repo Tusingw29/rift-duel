@@ -27,8 +27,8 @@ for frame in [1,29,72,81,91,101,120]:
 if max_error>1e-4:raise RuntimeError('Motion bake differs from runtime matrices: '+str(max_error))
 print('RUNTIME_POSE_MATRIX_MAX_ERROR',max_error,flush=True)
 if '--validate-only' in sys.argv:sys.exit(0)
-scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=4
-scene.render.resolution_x=384;scene.render.resolution_y=480;scene.render.resolution_percentage=100
+scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=8
+scene.render.resolution_x=576;scene.render.resolution_y=720;scene.render.resolution_percentage=100
 scene.render.fps=data['fps'];scene.frame_start=1;scene.frame_end=len(data['frames'])
 scene.world.color=(.22,.22,.22)
 scene.view_settings.view_transform='Standard';scene.view_settings.look='Medium High Contrast'
@@ -43,7 +43,7 @@ label=bpy.data.objects.new('Motion label',font);scene.collection.objects.link(la
 mat=bpy.data.materials.new('Label');mat.use_nodes=True;nodes=mat.node_tree.nodes;nodes.clear();em=nodes.new('ShaderNodeEmission');em.inputs['Color'].default_value=(.9,.9,.9,1);out=nodes.new('ShaderNodeOutputMaterial');mat.node_tree.links.new(em.outputs[0],out.inputs['Surface']);font.materials.append(mat)
 def update_label(scene):font.body=data['frames'][scene.frame_current-1]['clip']+' | normal speed'
 bpy.app.handlers.frame_change_pre.append(update_label)
-scene.render.image_settings.file_format='FFMPEG';scene.render.ffmpeg.format='MPEG4';scene.render.ffmpeg.codec='H264';scene.render.ffmpeg.constant_rate_factor='MEDIUM';scene.render.ffmpeg.ffmpeg_preset='GOOD'
+scene.render.image_settings.file_format='FFMPEG';scene.render.ffmpeg.format='MPEG4';scene.render.ffmpeg.codec='H264';scene.render.ffmpeg.constant_rate_factor='HIGH';scene.render.ffmpeg.ffmpeg_preset='GOOD'
 scene.render.filepath=str(ROOT/'dist/assets/tala-design02-motion.mp4')
 scene.frame_set(1);bpy.ops.render.render(animation=True)
 # Save a real punch frame for a browser video poster and inspection.
