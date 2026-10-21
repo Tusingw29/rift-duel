@@ -76,8 +76,8 @@ def build_head(ctx):
     angle=math.tau*i/segments
     y=2.425+.059*r*math.cos(angle)
     z=-.024+.031*r*math.sin(angle)
-    bowl=.012+.013*math.exp(-((r-.77)/.17)**2)-.007*math.exp(-((r-.25)/.3)**2)
-    x=side*(.177+bowl+.005*math.cos(angle))
+    bowl=.006+.008*math.exp(-((r-.77)/.17)**2)-.003*math.exp(-((r-.25)/.3)**2)
+    x=side*(.186+bowl+.004*r*math.cos(angle))
     ev.append((x,y,z));ew.append(W('head'))
     if j<rings and i<segments:
      n=j*(segments+1)+i;quad=(n,n+1,n+segments+2,n+segments+1)

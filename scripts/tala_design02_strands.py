@@ -20,16 +20,22 @@ def strand_materials(ctx):
  tip=np.clip((1-v)*55-.35*(1-strand),0,1)
  alpha=edge*tip
  pixels=np.empty((size*2,size,4),dtype=np.float32)
- for i,base in enumerate((.22,.05,.022)):pixels[:,:,i]=base*tone
+ for i,base in enumerate((.52,.225,.125)):pixels[:,:,i]=base*tone
  pixels[:,:,3]=alpha
  image=bpy.data.images.new('Tala_strand_atlas',width=size,height=size*2,alpha=True)
  image.colorspace_settings.name='sRGB';image.pixels.foreach_set(pixels.ravel())
- image.filepath_raw=str(ctx['OUT']/'hair-strands.png');image.file_format='PNG';image.save();image.pack()
+ image.update();image.filepath_raw=str(ctx['OUT']/'hair-strands.png');image.file_format='PNG';image.save();image.pack()
+ # Opaque scalp must not sample transparent card margins (they turn black in
+ # Blender's color output). Keep its RGB atlas independent from strand alpha.
+ base_image=bpy.data.images.new('Tala_hair_base',width=size,height=size*2,alpha=False)
+ base_image.colorspace_settings.name='sRGB';pixels[:,:,3]=1
+ base_image.pixels.foreach_set(pixels.ravel());base_image.update()
+ base_image.filepath_raw=str(ctx['OUT']/'hair-base.png');base_image.file_format='PNG';base_image.save();base_image.pack()
  result=[]
  for name,cutout in [('Design02_hair_base',False),('Design02_hair_strands',True)]:
   mat=bpy.data.materials.new(name);mat.use_nodes=True;mat.diffuse_color=(.20,.06,.027,1)
   shader=mat.node_tree.nodes.get('Principled BSDF');shader.inputs['Roughness'].default_value=.48
-  tex=mat.node_tree.nodes.new('ShaderNodeTexImage');tex.image=image
+  tex=mat.node_tree.nodes.new('ShaderNodeTexImage');tex.image=image if cutout else base_image
   mat.node_tree.links.new(tex.outputs['Color'],shader.inputs['Base Color'])
   if cutout:
    mat.node_tree.links.new(tex.outputs['Alpha'],shader.inputs['Alpha'])
@@ -71,11 +77,18 @@ def build_strands(ctx,cap):
  for layer in range(3):
   for i in range(7):
    offset=(i-3)*.029;depth=layer*.025
-   points=[(offset*.35,2.70,-.17),(offset*.8,2.72,-.255-depth),
+   points=[(offset*.25,2.685,-.18),(offset*.8,2.70,-.255-depth),
            (offset*1.4+.025,2.51,-.34-depth),(offset*1.7+.04,2.20,-.36-depth),
            (offset*2+.055,1.87+abs(i-3)*.035+layer*.045,-.30-depth)]
-   ribbon('Design02_pony_strand',points,[.036,.047,.050,.039,.012],'ponytail',
+   ribbon('Design02_pony_strand',points,[.014,.043,.050,.039,.012],'ponytail',
           roll=(layer-1)*.55+(i-3)*.12)
+ # A narrow inner volume prevents see-through gaps between moving cards.
+ ctx['loft']('Design02_pony_core',[
+  ctx['R'](0,2.69,-.18,.038,.037,{'head':1}),
+  ctx['R'](.015,2.59,-.29,.061,.049,{'head':.25,'ponytail':.75}),
+  ctx['R'](.04,2.36,-.35,.061,.042,{'ponytail':1}),
+  ctx['R'](.06,2.10,-.35,.042,.030,{'ponytail':1}),
+  ctx['R'](.08,1.94,-.31,.002,.002,{'ponytail':1})],opaque,20)
  # The part opens above the right brow; tip lengths avoid covering both eyes.
  front=[
   [(.055,2.735,.10),(-.04,2.68,.182),(-.13,2.56,.183),(-.19,2.38,.09)],

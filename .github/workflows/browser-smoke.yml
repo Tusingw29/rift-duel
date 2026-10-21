@@ -10,6 +10,10 @@ on:
         description: Tala model that must attach (design02, concept)
         default: design02
         type: string
+      preview_branch:
+        description: Test the checked-out branch locally on the runner before publishing
+        default: false
+        type: boolean
   workflow_run:
     workflows: [Test and publish Rift Duel]
     types: [completed]
@@ -43,8 +47,14 @@ jobs:
             sleep 20
           done
           echo "Published page never served $expected; testing whatever is live."
-      - name: Run the smoke test against the public page
-        run: node scripts/browser-smoke.mjs --url "${{ inputs.url || 'https://tusingw29.github.io/rift-duel/' }}" --tala "${{ inputs.tala || 'design02' }}" --out artifacts/browser-smoke
+      - name: Serve branch preview
+        if: inputs.preview_branch
+        run: python3 -m http.server 4173 --directory dist > /tmp/rift-preview.log 2>&1 &
+      - name: Run the browser smoke test
+        env:
+          SMOKE_URL: ${{ inputs.preview_branch && 'http://127.0.0.1:4173/' || inputs.url || 'https://tusingw29.github.io/rift-duel/' }}
+          SMOKE_TALA: ${{ inputs.tala || 'design02' }}
+        run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --out artifacts/browser-smoke
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4
