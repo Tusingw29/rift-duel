@@ -175,3 +175,7 @@ Select Rei to see the rebuilt stage: textured paving, three halls with curved ro
 
 ### Alpha 0.44 — Morrow model rebuild
 Morrow has fitted heavy armor, launcher ports, an optical patch, shaped beard, short mantle and beveled greatsword. Weighted limbs preserve elbow and knee continuity. His existing moves, damage and animation timing are unchanged.
+
+
+### Alpha 0.45 — Morrow heavy motion
+Morrow's three-hit chain is now a cross-body cut, return cut and overhead finisher. Grounded motion uses planted feet, level boot soles and blended reactions. Existing damage and combat timing are unchanged.

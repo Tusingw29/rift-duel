@@ -1,4 +1,5 @@
-import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
+import {CHANNELS} from './rig-pose.js';
+import {animateGroundedRig} from './grounded-animation.js';
 import {sampleClip} from './pose-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -40,22 +41,4 @@ function targetFor(player,time,phase){
  if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(player.prev?.x??1,player.prev?.z||0,phase)};
  return {kind:'idle',pose:p({bodyY:-.12+Math.sin(time*2.1)*.008,twist:.12+Math.sin(time*1.5)*.018})};
 }
-export function animateAegis(r,player,time){
- const dt=Math.max(0,Math.min(.1,r.aegisTime===undefined?0:time-r.aegisTime));r.aegisTime=time;
- if(Number.isFinite(player?.x)&&Number.isFinite(player?.z)){
-  if(r.aegisPos&&player.anim==='run')r.stridePhase=(r.stridePhase||0)+Math.min(.5,Math.hypot(player.x-r.aegisPos[0],player.z-r.aegisPos[1]))/STRIDE*Math.PI;
-  r.aegisPos=[player.x,player.z];
- }
- const target=targetFor(player,time,player?.stridePhase??r.stridePhase??0);
- if(!target){r.aegisPose=null;r.aegisEntry=null;r.footPlants=null;r.gaitPlants=null;return false;}
- const move=player?.move,key=target.kind+(target.kind==='run'?`${Math.sign(player.prev?.x||0)},${Math.sign(player.prev?.z||0)}`:'');
- const old=r.aegisEntry;
- if(!old||old.key!==key||target.kind==='strike'&&(old.move!==move||move.frame<old.frame))r.aegisEntry={key,move,frame:move?.frame,elapsed:0,offset:Object.fromEntries(CHANNELS.map(k=>[k,(r.aegisPose||target.pose)[k]-target.pose[k]]))};
- const entry=r.aegisEntry;entry.elapsed+=dt;entry.frame=move?.frame;
- const weight=1-smooth(target.kind==='strike'?move.frame/Math.max(1,move.startup):entry.elapsed/(target.kind==='run'?.1:.14));
- r.aegisPose=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
- applyPose(r,r.aegisPose);plantSupportFeet(r,player,target.kind);
- // Cloth follows the authored body turn; sampling a frozen time is deterministic.
- for(const cloth of r.clothParts){cloth.rotation.x=.04+Math.sin(time*2)*.035+(target.kind==='run'?.2:0);cloth.rotation.z=-r.aegisPose.twist*.13;}
- return true;
-}
+export function animateAegis(r,player,time){return animateGroundedRig(r,player,time,'aegis',targetFor);}

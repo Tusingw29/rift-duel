@@ -28,8 +28,8 @@ function facePaint(){
 }
 export function buildMorrow(){
  const g=new T.Group(),bones=[],joint=(parent,x=0,y=0,z=0)=>{const n=new T.Bone();n.position.set(x,y,z);parent.add(n);bones.push(n);return n;};
- const body=joint(g),spine=joint(body,0,1.4),head=joint(spine,0,1.08),limbs=[],elbows=[],knees=[],clothParts=[];
- for(const side of [-1,1]){const arm=joint(spine,side*.52,.62),elbow=joint(arm,0,-.43),hand=joint(elbow,0,-.4),leg=joint(body,side*.25,1.26),knee=joint(leg,0,-.56);arm.userData.hand=hand;limbs.push(arm,leg);elbows.push(elbow);knees.push(knee);}
+ const body=joint(g),spine=joint(body,0,1.4),head=joint(spine,0,1.08),limbs=[],elbows=[],knees=[],feet=[],clothParts=[];
+ for(const side of [-1,1]){const arm=joint(spine,side*.52,.62),elbow=joint(arm,0,-.43),hand=joint(elbow,0,-.4),leg=joint(body,side*.25,1.26),knee=joint(leg,0,-.56);arm.userData.hand=hand;limbs.push(arm,leg);elbows.push(elbow);knees.push(knee);feet.push(joint(knee,0,-.56));}
  const mantle=joint(spine,0,.72,-.22);clothParts.push(mantle);
  const colors={skin:'#bd9875',armor:'#ffffff',plate:'#6c826e',edge:'#b6ab7d',cloth:'#35413b',boot:'#303b37',hair:'#687063'};
  const materials=Object.fromEntries(Object.entries(colors).map(([name,color])=>[name,new T.MeshLambertMaterial({color,vertexColors:true,...(name==='armor'?{map:armorPaint()}: {})})]));
@@ -54,7 +54,7 @@ export function buildMorrow(){
   s([[lx,1.4,0,.19,.19,b(body,leg,.3)],[lx,1.21,0,.18,.18,o(leg)],[lx,.98,0,.15,.15,o(leg)],[lx,.77,0,.115,.12,b(leg,knee,.2)],[lx,.70,0,.115,.12,b(leg,knee,.5)],[lx,.60,0,.13,.13,o(knee)],[lx,.39,0,.115,.12,o(knee)],[lx,.18,0,.10,.10,o(knee)]],'cloth');
   s([[lx,.77,.07,.135,.13,o(knee)],[lx,.69,.08,.155,.15,o(knee)],[lx,.60,.06,.13,.12,o(knee)]],'plate',8);
   s([[lx,.58,.02,.135,.135,o(knee)],[lx,.37,.025,.14,.14,o(knee)],[lx,.18,.03,.11,.12,o(knee)]],'plate',8);
-  s([[lx,.21,.025,.115,.12,o(knee)],[lx,.14,.07,.14,.19,o(knee)],[lx,.055,.10,.155,.23,o(knee)],[lx,.025,.10,.155,.23,o(knee)]],'boot',8);
+  s([[lx,.21,.025,.115,.12,o(feet[i])],[lx,.14,.07,.14,.19,o(feet[i])],[lx,.055,.10,.155,.23,o(feet[i])],[lx,.025,.10,.155,.23,o(feet[i])]],'boot',8);
  }
  s([[0,1.12,0,.30,.19,o(body)],[0,1.27,0,.35,.21,o(body)],[0,1.35,0,.33,.20,o(body)]],'cloth');
  s([[0,2.10,-.23,.32,.04,o(mantle)],[0,1.87,-.29,.37,.035,o(mantle)],[0,1.53,-.31,.32,.03,o(mantle)],[0,1.30,-.33,.27,.025,o(mantle)]],'cloth',8);
@@ -75,5 +75,5 @@ export function buildMorrow(){
  const bladeGeo=new T.BufferGeometry();bladeGeo.setAttribute('position',new T.Float32BufferAttribute(pos,3));bladeGeo.setIndex(indices);bladeGeo.computeVertexNormals();const blade=new T.Mesh(bladeGeo,steel);blade.position.set(0,.12,.24);blade.castShadow=true;hand.add(blade);
  const shadow=new T.Mesh(new T.CircleGeometry(.75,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.82,.018,5,40),new T.MeshBasicMaterial({color:'#a5c69e'}));aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);
- batch();return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:3,skeleton,legLength:.56};
+ batch();return {g,body,spine,head,limbs,elbows,knees,feet,clothParts,aura,spirit:null,id:3,skeleton,legLength:.56};
 }

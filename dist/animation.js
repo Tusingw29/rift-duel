@@ -1,3 +1,4 @@
+import {animateMorrow} from './morrow-animation.js';
 import {captureMotion,finishMotion} from './motion-transition.js';
 import {animateAegis} from './aegis-animation.js';
 import {applyMeleePose} from './melee-poses.js';
@@ -18,7 +19,7 @@ export function applyStagedPose(r,part){
 const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){
- if(r.id!==0&&r.id!==2){sampleCharacter(r,p,time);return;}
+ if(![0,2,3].includes(r.id)){sampleCharacter(r,p,time);return;}
  const previous=captureMotion(r);sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
 }
 function sampleCharacter(r,p,time){
@@ -34,6 +35,7 @@ function sampleCharacter(r,p,time){
  // Tala runs on the blended full-body system for her sample states.
  if(f.id==='tala'&&animateTala(r,p,time)){r.animationFamily='grounded';return;}
  if(f.id==='aegis'&&animateAegis(r,p,time)){r.animationFamily='grounded';return;}
+ if(f.id==='morrow'&&animateMorrow(r,p,time)){r.animationFamily='grounded';return;}
  // Readable silhouettes even before a move is used.
  if(f.id==='tala'){leftArm.rotation.x=-.75;rightArm.rotation.x=-.45;r.elbows[0].rotation.x=-1.15;r.elbows[1].rotation.x=-1.3;r.spine.rotation.y=-.16;}
  if(f.id==='rei'){rightArm.rotation.x=-.18;rightArm.rotation.y=-.22;leftArm.rotation.z=.15;r.spine.rotation.y=.12;}

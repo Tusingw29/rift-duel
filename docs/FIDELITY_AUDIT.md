@@ -66,3 +66,5 @@ Version 0.42 replaces Rei's generic model with a weighted coat-and-hair rig and 
 Version 0.43 replaces Moonlit Shrine's sparse grid-and-gates setting with a textured architectural courtyard and full surrounding grounds. Storm Summit and Moonlit Shrine now have substantive environment passes; Orbital Relay, Iron Wastes, Ember Archive and Silent Orbit retain their simpler settings. Visual fidelity remains unfinished.
 
 Version 0.44 replaces Morrow's generic model with weighted armor and a distinct heavy-weapon silhouette. Four fighters have dedicated model modules; Sol and Vesper retain the older builder. Morrow's committed heavy choreography and Iron Wastes presentation remain open.
+
+Version 0.45 gives Morrow distinct heavy melee cuts, grounded footwork and reactions, with weighted ankle joints and shared-action handoff blending. His special/capture/burst choreography and Iron Wastes environment remain open refinement areas.

@@ -4,7 +4,7 @@ import {Quaternion,Vector3} from '../dist/vendor/three.module.js';
 import {moveTiming} from '../dist/moves.js';import {fighters} from '../dist/fighters.js';
 const matrices=r=>{r.g.updateMatrixWorld(true);const a=[];r.g.traverse(n=>a.push([...n.matrixWorld.elements]));return a;};
 test('authored fighters return from aerial poses without a one-frame arm snap',()=>{
- for(const id of [0,2]){
+ for(const id of [0,2,3]){
   const r=buildCharacter(id);animateCharacter(r,{anim:'launch',air:.5,x:0,z:0},0);
   const before=r.limbs[2].quaternion.clone();animateCharacter(r,{anim:'idle',x:0,z:0},1/60);
   const blended=before.angleTo(r.limbs[2].quaternion);
@@ -15,7 +15,7 @@ test('authored fighters return from aerial poses without a one-frame arm snap',(
  }
 });
 test('handoff blending cannot move a strike away from its contact pose',()=>{
- for(const id of [0,2]){
+ for(const id of [0,2,3]){
   const r=buildCharacter(id),ref=buildCharacter(id),m={kind:'strike',...moveTiming(fighters[id],'strike'),chain:1};m.frame=m.startup;
   animateCharacter(r,{anim:'launch',air:.5,x:0,z:0},0);
   const p={anim:'strike',x:0,z:0,move:m};animateCharacter(r,p,1/60);animateCharacter(ref,p,1/60);
@@ -24,7 +24,7 @@ test('handoff blending cannot move a strike away from its contact pose',()=>{
  }
 });
 test('handoff freezes and grounded foot anchors survive the return blend',()=>{
- for(const id of [0,2]){
+ for(const id of [0,2,3]){
   const r=buildCharacter(id);animateCharacter(r,{anim:'launch',air:.5,x:0,z:0},0);const p={anim:'idle',x:0,z:0};animateCharacter(r,p,1/60);
   const first=matrices(r);animateCharacter(r,p,1/60);assert.deepEqual(matrices(r),first);
   for(let i=0;i<2;i++){const ankle=r.knees[i].localToWorld(new Vector3(0,-(r.legLength||.48),0));assert.ok(ankle.distanceTo(r.footPlants[i])<1e-6);}

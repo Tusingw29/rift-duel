@@ -326,3 +326,10 @@ Replaced the sparse gate/grid stage with original 3D halls, curved tiled roofs, 
 Morrow now has a dedicated weighted rig with broad fitted armor, overlapping shoulder shells, recessed launcher mouths, a short mantle, a painted optical patch, shaped beard and a beveled greatsword. The joint and weapon attachment contract is retained. Browser review caught the beard inside the jaw, corrected before release; blade face winding was also corrected.
 
 188 tests pass. Skin-weight, deformation and independent-clone tests now cover Morrow as well as Rei and Tala. Existing all-roster bounds, weapon articulation and recovery-floor checks pass. Chrome training verified approach and sword contact (rival HP 92.56), retreating missile emission and burst stock consumption; inspected a paused salvo burst with no console errors. His animation and Iron Wastes stage remain shared/early versions. Sol and Vesper still use the older generic model builder.
+
+
+## Morrow heavy grounded motion (0.45)
+
+Morrow now has a cross-body cut, return cut and overhead finisher with hip loading, carried follow-through and a braced recovery. His original 12-frame startup, active frames, recovery duration and damage remain unchanged. Grounded stance, advance/retreat/circling, guard and reactions use authored channels. Boots have separate weighted ankle joints and stay level under the planted-leg solve. Morrow participates in the authored/shared handoff blend. Aegis's unchanged driver was extracted to a reusable grounded-animation module.
+
+191 tests pass. New checks cover actual greatsword-tip position at all three contact frames, distinct windups, weighted boot-floor clearance at heavy scale, fixed ankles, distance-driven gait and chain continuity. Handoff/freeze tests now include Morrow; existing Aegis tests pass after extraction. Chrome landed all three cuts at frame 12 (rival HP 92.56 → 85.12 → 72.72), then exercised pursuit, jump and return to idle with no console errors. Shared missiles, captures, burst and aerial choreography remain separate original implementations; historical animation equivalence is not established.
