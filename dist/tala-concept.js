@@ -1,4 +1,4 @@
-import {talaFootPivot,talaFootOffsets} from './tala-footwork.js';
+import {talaFootPivot,talaFootOffsets,talaGaitTargets} from './tala-footwork.js';
 import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.js';
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
 const canonical=name=>name.replace(/^(upper_arm|forearm|hand|thigh|shin|foot)([LR])$/,'$1.$2');
@@ -15,7 +15,7 @@ export function attachTalaConcept(r,source){
  if(!surfaces.length)throw new Error('Concept asset has no skinned surfaces');
  for(const n of surfaces)for(const b of n.skeleton.bones)if(!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
  for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-.56,0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
- r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=talaFootOffsets;r.footBall=new Vector3(0,-.109,.22);
+ r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=talaFootOffsets;r.gaitTargets=talaGaitTargets;r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
  const skeletons=new Map(),replacement=[];
  for(const original of surfaces){
   let skeleton=skeletons.get(original.skeleton);

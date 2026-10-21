@@ -87,7 +87,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
 }
 export function advanceStride(r,p){
  if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.z))return r.stridePhase||0;
- if(r.lastPos&&p.anim==='run'){const d=Math.hypot(p.x-r.lastPos[0],p.z-r.lastPos[1]);r.stridePhase=(r.stridePhase||0)+Math.min(d,.5)/STRIDE*Math.PI;}
+ if(r.lastPos&&p.anim==='run'){const d=Math.hypot(p.x-r.lastPos[0],p.z-r.lastPos[1]);r.stridePhase=(r.stridePhase||0)+Math.min(d,.5)/((r.strideLength||STRIDE)*(r.gaitTargets&&Math.abs(p.prev?.z||0)>Math.abs(p.prev?.x||0)?.65:1))*Math.PI;}
  // Keep the step phase when stopping so a brief pause does not restart the gait.
  r.lastPos=[p.x,p.z];return r.stridePhase||0;
 }
@@ -101,6 +101,11 @@ export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
  if(p)advanceStride(r,p);
  const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0);
+ if(target?.kind==='run'&&r.gaitTargets){
+  // Fighting steps keep the hands ready; avoid the large jogging arm pump.
+  for(const key of ['lax','rax','le','re'])target.pose[key]=stance[key]+(target.pose[key]-stance[key])*.22;
+  target.pose.lean*=.6;target.pose.side*=.7;
+ }
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.

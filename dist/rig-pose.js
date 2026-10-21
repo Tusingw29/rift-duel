@@ -17,13 +17,15 @@ const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
  const ankleHeight=r.ankleHeight??.14;
  const reach=(r.legLength||.48)*2;ankle.y=-(r.legLength||.48);
- if(!p||!(['idle','guard','charge','strike','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;return;}
+ if(!p||!(['idle','guard','charge','strike','run'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
- if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5){r.footPlants=null;r.gaitPlants=null;}
+ if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5){r.footPlants=null;r.gaitPlants=null;r.talaGait=null;}
  r.plantRoot=position;
  const groundAnkle=k=>{const v=k.localToWorld(ankle.clone());v.y=position.y+ankleHeight*r.g.scale.y;return v;};
- if(kind==='run'){
+ if(kind==='run'&&r.gaitTargets){
+  r.footPlants=r.gaitTargets(r,p,p.stridePhase??r.stridePhase??0,ankleHeight);
+ }else if(kind==='run'){
   const forward=p.prev?.x??1,side=-(p.prev?.z||0),length=Math.hypot(forward,side)||1;
   const phase=p.stridePhase??r.stridePhase??0;
   if(!r.gaitPlants)r.gaitPlants=[null,null];
@@ -40,6 +42,11 @@ export function plantSupportFeet(r,p,kind){
    return support?r.gaitPlants[i].clone():target;
   });
  }else{
+  if(r.talaGait){
+   const ground=position.y+ankleHeight*r.g.scale.y;
+   r.gaitLanding={start:r.lastTime||0,heights:r.talaGait.feet.map(foot=>Math.max(0,foot.at.y-ground)/r.g.scale.y)};
+   r.footPlants=r.talaGait.feet.map(foot=>{const at=foot.at.clone();at.y=ground;return at;});r.gaitPlants=null;r.talaGait=null;
+  }
   if(r.gaitPlants){r.footPlants=null;r.gaitPlants=null;}
   if(!r.footPlants)r.footPlants=[0,1].map(i=>r.g.localToWorld(new Vector3(i===0?-.25:.25,ankleHeight,i===0?.24:-.24)));
  }
@@ -65,7 +72,7 @@ export function plantSupportFeet(r,p,kind){
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
   const v=r.body.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
-  if(d>reach-.005||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
+  if(d>reach-.005||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.talaGait)r.talaGait.feet[i].at.copy(r.footPlants[i]);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
   const bend=2*Math.acos(Math.min(1,d/reach));
   leg.rotation.order='ZXY';
   leg.rotation.set(Math.atan2(-v.z,Math.hypot(v.x,v.y))-bend/2,0,Math.atan2(v.x,-v.y));

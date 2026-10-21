@@ -37,7 +37,7 @@ Open https://tusingw29.github.io/rift-duel/?tala=concept and select Tala. The pr
 
 The regular URL retains the original model while art review continues. The asset loads only for Tala in the preview; failure retains the original fighter and displays a message. Leaving a fighter before loading finishes prevents attachment to a disposed rig. A link on the inspection page opens this playable preview.
 
-The crossed-body guard is now authored in the live pose channels as well: hands cross in front of the upper torso, the chin tucks, and block recoil preserves coverage. This applies to both Tala models. Entry/release use the existing live transition system; no animation clip is played over the combat timeline. Study locomotion remains separate work; the concept preview now includes a live recoil catch-step. The playable concept model now uses combat-frame-driven ankle pivots.
+The crossed-body guard is now authored in the live pose channels as well: hands cross in front of the upper torso, the chin tucks, and block recoil preserves coverage. This applies to both Tala models. Entry/release use the existing live transition system; no animation clip is played over the combat timeline. The concept preview now includes live directional step-and-follow locomotion and a recoil catch-step. The playable concept model now uses combat-frame-driven ankle pivots.
 
 
 ## Live concept-model feet
@@ -46,3 +46,8 @@ The concept model's two foot bones now participate in the grounded pose solver. 
 
 
 On grounded hits the concept model keeps its front foot planted and lifts the rear foot into a short backward catch. It holds that support through longer stuns and steps back into stance as stun ends. A repeat hit continues from the current catch position. Recoil offsets follow remaining stun time, so frozen frames remain still. This changes only the visual support solve, not knockback, stun duration or player controls.
+
+
+## Live directional gait
+
+In the concept preview, advance leads with the front foot, retreat with the rear foot, and circling with the foot nearest the direction of travel. The first steps are shorter to leave fighting stance without overextending the support leg. Circling uses a shorter stride than advance/retreat. Swing feet start from their last contact, land on the floor, and maintain lateral spacing; a released movement input settles a raised foot over 0.08 seconds. Hands stay nearer fighting stance instead of pumping like a jog. Step phase remains tied to distance travelled, so hitstop does not keep the legs running in place. These are live controller-aware paths, not direct playback of the inspection page's in-place clips.
