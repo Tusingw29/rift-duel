@@ -26,5 +26,6 @@ export function attachTalaConcept(r,source){
  // Hide only original character surfaces; keep the aura, guard and effect objects.
  for(const n of r.conceptOriginalSurfaces||[])n.visible=false;
  for(const mesh of replacement)r.g.add(mesh);
+ if(surfaces.some(n=>n.name.includes('Design02_')))r.ponytailMaxAngle=.45;
  r.conceptModel=true;r.g.userData.conceptModel=true;return true;
 }

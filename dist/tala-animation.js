@@ -264,6 +264,6 @@ export function animateTala(r,p,time){
  if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}
  r.head.rotation.x-=(r.neckLag||0)*(target.kind==='guard'?.2:1);
  r.head.rotation.y-=Math.max(-.16,Math.min(.16,r.twistLag*.6));
- for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(target.kind==='run'?.2:0);part.rotation.z=Math.sin(time*2.3+i)*.07-r.twistLag*(i===0?1.5:.6);}
+ for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(target.kind==='run'?.2:0);part.rotation.z=Math.sin(time*2.3+i)*.07-r.twistLag*(i===0?1.5:.6);if(i===0&&r.ponytailMaxAngle!==undefined)part.rotation.z=Math.max(-r.ponytailMaxAngle,Math.min(r.ponytailMaxAngle,part.rotation.z));}
  return true;
 }

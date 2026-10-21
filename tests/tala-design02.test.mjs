@@ -44,3 +44,30 @@ test('new connected head and neck bind and remain finite through actual review a
  }
  assert.ok(samples[0]>.3,'live guard still tucks the head');
 });
+test('upper body is one connected surface with normalized combat weights',()=>{
+ let body;asset.scene.traverse(n=>{if(n.isSkinnedMesh&&n.name==='Design02_upper_body')body=n;});
+ assert.ok(body,'connected torso/arms are exported separately for inspection');
+ const geometry=body.geometry,count=geometry.attributes.position.count,index=geometry.index.array;
+ const parent=Array.from({length:count},(_,i)=>i);
+ const root=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};
+ for(let i=0;i<index.length;i+=3){parent[root(index[i+1])]=root(index[i]);parent[root(index[i+2])]=root(index[i]);}
+ assert.equal(new Set(parent.map((_,i)=>root(i))).size,1,'no disconnected shoulder or arm shells');
+ const weights=geometry.attributes.skinWeight;
+ for(let i=0;i<count;i++)assert.ok(Math.abs(weights.getX(i)+weights.getY(i)+weights.getZ(i)+weights.getW(i)-1)<1e-4);
+});
+test('connected shoulders remain bounded under guard and all combo contact poses',()=>{
+ const review=createLiveTalaReview(asset.scene),point=new Vector3();
+ const body=review.rig.g.children.find(n=>n.name==='concept-Design02_upper_body');assert.ok(body);
+ for(const [clip,time] of [['Guard + block',.95],['Combo',17/60],['Combo',37/60],['Combo',57/60]]){
+  review.sample(clip,time);review.rig.g.updateMatrixWorld(true);body.skeleton.update();
+  assert.ok(Math.abs(review.rig.clothParts[0].rotation.z)<=.45,'fuller study ponytail keeps restrained swing');
+  const positions=[];
+  for(let i=0;i<body.geometry.attributes.position.count;i++){
+   body.getVertexPosition(i,point);assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<4));positions.push(point.clone());
+  }
+  const index=body.geometry.index.array;
+  for(let i=0;i<index.length;i+=3)for(const [a,b] of [[index[i],index[i+1]],[index[i+1],index[i+2]],[index[i+2],index[i]]]){
+   assert.ok(positions[a].distanceTo(positions[b])<.3,`${clip}: stretched shoulder triangle`);
+  }
+ }
+});

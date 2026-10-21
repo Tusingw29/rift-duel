@@ -143,6 +143,8 @@ for side,suffix in [(-1,'L'),(1,'R')]:
  loft('Shoe.'+suffix,[R(lx,.17,.015,.087,.10,foot),R(lx,.10,.085,.105,.18,foot),R(lx,.035,.085,.11,.18,foot)],'sole',16)
  loft('Shoe_trim.'+suffix,[R(lx,.031,.085,.113,.182,foot),R(lx,.052,.085,.113,.182,foot)],'ochre',16)
 if DESIGN02:
+ from tala_design02_body import connect_upper_body
+ connect_upper_body(globals())
  from tala_design02_hair import build_hair
  build_hair(globals())
 else:
@@ -186,7 +188,7 @@ if not DESIGN02:
 # Merge by material to keep the exported asset inexpensive to draw.
 bpy.ops.object.select_all(action='DESELECT')
 for material in list(mats.values()):
- group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and len(o.data.materials)==1 and o.data.materials[0]==material]
+ group=[o for o in list(bpy.context.scene.objects) if o.type=='MESH' and o.name!='Design02_upper_body' and len(o.data.materials)==1 and o.data.materials[0]==material]
  if not group:continue
  for o in group:o.select_set(True)
  bpy.context.view_layer.objects.active=group[0];bpy.ops.object.join();bpy.ops.object.select_all(action='DESELECT')
