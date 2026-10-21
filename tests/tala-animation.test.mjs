@@ -69,7 +69,7 @@ test('grounded ankle plants survive torso weight shifts and release for airborne
  for(let i=1;i<20;i++)animateCharacter(r,p,i/60);
  r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
-  const foot=r.knees[i].localToWorld(plants[i].clone().set(0,-.48,0));
+  const foot=r.knees[i].localToWorld(plants[i].clone().set(0,-r.legLength,0));
   assert.ok(foot.distanceTo(plants[i])<1e-6,'support ankle stays in world space');
  }
  animateCharacter(r,{...p,anim:'launch',air:.5},1);assert.equal(r.footPlants,null);
@@ -78,10 +78,10 @@ test('grounded ankle plants survive torso weight shifts and release for airborne
 test('moving support foot holds its world position while the body advances',()=>{
  const r=buildCharacter(2),p={anim:'run',x:0,z:0,prev:{x:1,z:0}};
  animateCharacter(r,p,0);r.g.updateMatrixWorld(true);
- const planted=r.knees[0].localToWorld(r.g.position.clone().set(0,-.48,0));
+ const planted=r.knees[0].localToWorld(r.g.position.clone().set(0,-r.legLength,0));
  for(let i=1;i<=6;i++){
   p.z=i*.04;r.g.position.z=p.z;animateCharacter(r,p,i/60);r.g.updateMatrixWorld(true);
-  const foot=r.knees[0].localToWorld(planted.clone().set(0,-.48,0));
+  const foot=r.knees[0].localToWorld(planted.clone().set(0,-r.legLength,0));
   assert.ok(foot.distanceTo(planted)<1e-6,'support leg does not skate while root moves');
  }
 });

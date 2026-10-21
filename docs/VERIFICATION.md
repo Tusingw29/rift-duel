@@ -272,3 +272,10 @@ Added normalized skin-weight and geometry-budget checks, finite deformed-vertex 
 178 tests pass, including skin-weight, deformed-vertex and independent afterimage skeleton checks after batching Tala's surfaces by material. Chrome loaded the painted face, stone floor and panorama in the actual game. Default selection now shows Tala and Storm Summit immediately. Local training verified approach and a connected strike (rival HP 93.88), pursuit, burst stock consumption and return to the menu, with no console errors or warnings. Inspected the character-select and fight views. These checks establish integration, not equivalence to Evil Zone's art or motion. Other fighters retain their existing models. Physical controllers and audio output were not retested.
 
 Asset paths and exact generation prompts are in `ART_ASSETS_036.md`.
+
+
+## Tala proportion and surface corrections (0.37)
+
+Compared the 2:30 Midori gameplay reference again. Changed Tala's leg-to-torso proportions, shoulder joins, broad hair locks and fringe opening. Replaced repeated fabric stripes with broad panels, pocket lines and folds. The face follows jaw/cheek rings and uses the character lighting instead of an unlit rectangular overlay. The ankle solve now uses the model's actual segment length; existing world-space foot-plant tests were updated to sample the actual ankle.
+
+178 tests pass. Chrome local training verified approach and a connected strike (rival HP 93.88), inspected the paused recovery stance and menu silhouette. These are corrective model changes, not a completed Evil Zone art match. The remaining roster and detailed arena background still differ substantially in treatment.

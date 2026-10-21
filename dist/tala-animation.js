@@ -148,6 +148,7 @@ export function animateTala(r,p,time){
 // a leg or moving the fighter's collision body. Airborne/shared states clear plants.
 const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
+ const reach=(r.legLength||.48)*2;ankle.y=-(r.legLength||.48);
  if(!p||!['idle','guard','charge','strike','run'].includes(kind)){r.footPlants=null;r.gaitPlants=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
@@ -178,14 +179,14 @@ export function plantSupportFeet(r,p,kind){
  let settle=0;
  for(let i=0;i<2;i++){
   const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(r.limbs[i*2+1].position);
-  if(v.y<0&&v.x*v.x+v.z*v.z<.95**2)settle=Math.max(settle,-v.y-Math.sqrt(.95**2-v.x*v.x-v.z*v.z));
+  if(v.y<0&&v.x*v.x+v.z*v.z<(reach-.01)**2)settle=Math.max(settle,-v.y-Math.sqrt((reach-.01)**2-v.x*v.x-v.z*v.z));
  }
  r.body.position.y-=Math.min(.12,settle);r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
   const v=r.body.worldToLocal(r.footPlants[i].clone()).sub(leg.position),d=v.length();
-  if(d>.955||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
-  const bend=2*Math.acos(Math.min(1,d/.96));
+  if(d>reach-.005||d<.2){r.footPlants[i]=groundAnkle(knee);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
+  const bend=2*Math.acos(Math.min(1,d/reach));
   leg.rotation.order='ZXY';
   leg.rotation.set(Math.atan2(-v.z,Math.hypot(v.x,v.y))-bend/2,0,Math.atan2(v.x,-v.y));
   knee.rotation.x=bend;

@@ -147,3 +147,7 @@ Tala's clothing, hair and wraps now use small original paint maps, with diffuse 
 ## Alpha 0.36: visible character and arena art replacement
 
 The game now opens on Tala so the art upgrade is visible immediately. Her costume and silhouette have been rebuilt around a cropped vest, fitted shorts, tall wraps, slimmer arms and swept auburn hair. A generated painted face replaces the tiny procedural facial marks. Storm Summit uses a painted shrine/mountain panorama and weathered stone ground rather than flat ridge polygons and a regular tile grid. Assets are served by GitHub Pages with the game; no runtime generation service is required. Character surfaces are batched by material to retain the animation rig with fewer draw calls. The other fighters still use their earlier models. [Asset provenance and prompts](docs/ART_ASSETS_036.md).
+
+
+### Alpha 0.37 — Tala model corrections
+Longer legs and a compact torso, improved shoulder joins, broader hair locks, fitted facial geometry and calmer costume panels replace several toy-like features. Foot planting follows the revised leg length. This remains an art study; the roster does not yet meet the Evil Zone visual target.

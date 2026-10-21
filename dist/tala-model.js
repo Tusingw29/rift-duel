@@ -6,21 +6,24 @@ import * as T from './vendor/three.module.js';
 export function buildTala(){
  const g=new T.Group(),bones=[];
  const joint=(parent,x=0,y=0,z=0)=>{const b=new T.Bone();b.position.set(x,y,z);parent.add(b);bones.push(b);return b;};
- const body=joint(g),spine=joint(body,0,1.25),head=joint(spine,0,1.23);
+ const body=joint(g),spine=joint(body,0,1.435),head=joint(spine,0,1.045);
  const limbs=[],elbows=[],knees=[],clothParts=[];
  for(const side of [-1,1]){
-  const arm=joint(spine,side*.43,.77),elbow=joint(arm,0,-.43),hand=joint(elbow,0,-.4);
-  const leg=joint(body,side*.2,1.1),knee=joint(leg,0,-.48);
+  const arm=joint(spine,side*.43,.585),elbow=joint(arm,0,-.43),hand=joint(elbow,0,-.4);
+  const leg=joint(body,side*.2,1.26),knee=joint(leg,0,-.56);
   limbs.push(arm,leg);elbows.push(elbow);knees.push(knee);arm.userData.hand=hand;
  }
  const pony=joint(head,0,.17,-.19);clothParts.push(pony);
  const sash=joint(body,-.22,1.23,.16);clothParts.push(sash);
  g.updateMatrixWorld(true);const skeleton=new T.Skeleton(bones);
- const mats={skin:'#c58b65',top:'#243d49',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#963e35',hair:'#71342c'};
+ const mats={skin:'#c58b65',top:'#37566b',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#963e35',hair:'#71342c'};
  const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color,map:clothPaint(k),vertexColors:true})]));
  const index=b=>bones.indexOf(b),one=b=>[[index(b),1]],blend=(a,b,w)=>[[index(a),1-w],[index(b),w]];
  // Ring: x, y, z, lateral radius, depth radius, weights, optional painted shade.
  function surface(rings,mat,sides=12){
+  // Longer legs and a compact torso, preserving the head/hand contact height.
+  // Arms, head and hair retain their authored coordinates.
+  rings=rings.map(r=>{const c=[...r],bind=r[5];const upper=bind.some(([i])=>[...elbows,...limbs.filter((_,i)=>i%2===0),...limbs.filter((_,i)=>i%2===0).map(a=>a.userData.hand),head,pony].includes(bones[i]));if(!upper){const y=r[1];c[1]=y<=1.25?.14+(y-.14)*7/6:y+.185*Math.max(0,(2.065-y)/.815);}return c;});
   if(rings.at(-1)[1]<rings[0][1])rings=[...rings].reverse();
   const cap=r=>[r[0],r[1],r[2],0,0,r[5],r[6]??1];
   rings=[cap(rings[0]),...rings,cap(rings.at(-1))];
@@ -39,42 +42,43 @@ export function buildTala(){
  // Sculpted waist/ribcage instead of a single trapezoid. A fitted sleeveless tunic.
  // Cropped athletic vest, exposed waist and fitted shorts break up the old tube silhouette.
  surface([[0,1.24,0,.225,.145,one(body)],[0,1.38,0,.215,.14,blend(body,spine,.55)],[0,1.55,0,.25,.16,one(spine)],[0,1.68,0,.29,.17,one(spine)]],'skin',16);
- surface([[0,1.54,0,.26,.17,one(spine)],[0,1.7,.012,.31,.19,one(spine)],[0,1.86,.01,.345,.185,one(spine)],[0,1.98,0,.32,.15,one(spine)],[0,2.065,0,.115,.095,one(spine)]],'top',12);
+ surface([[0,1.54,0,.26,.17,one(spine)],[0,1.7,.012,.31,.19,one(spine)],[0,1.86,.01,.345,.185,one(spine)],[0,1.98,0,.39,.15,one(spine)],[0,2.065,0,.115,.095,one(spine)]],'top',12);
  surface([[0,1.17,0,.26,.16,one(body)],[0,1.22,0,.27,.17,one(body)],[0,1.29,0,.257,.162,blend(body,spine,.2)]],'trim',16);
  surface([[0,2.025,0,.105,.10,one(spine)],[0,2.17,0,.105,.095,blend(spine,head,.3)],[0,2.27,0,.11,.10,one(head)]],'skin');
  // Jaw, cheek and forehead rings preserve an anime silhouette without cube faces.
  surface([[0,2.21,.025,.04,.07,one(head)],[0,2.28,.022,.135,.14,one(head)],[0,2.41,0,.205,.192,one(head)],[0,2.55,-.01,.215,.19,one(head)],[0,2.68,-.02,.17,.15,one(head)],[0,2.74,-.02,.04,.04,one(head)]],'skin',20);
  for(let n=0;n<2;n++){
   const side=n?1:-1,arm=limbs[n*2],elbow=elbows[n],hand=arm.userData.hand,leg=limbs[n*2+1],knee=knees[n],x=side*.43,lx=side*.2;
-  surface([[x,2.14,0,.025,.03,blend(spine,arm,.5)],[x,2.07,0,.105,.11,blend(spine,arm,.85)],[x,1.98,0,.115,.12,one(arm)],[x,1.83,0,.09,.095,one(arm)],[x,1.67,0,.085,.09,blend(arm,elbow,.18)],[x,1.59,0,.085,.085,blend(arm,elbow,.5)],[x,1.52,0,.09,.095,blend(arm,elbow,.85)],[x,1.4,0,.095,.09,one(elbow)],[x,1.25,0,.073,.075,blend(elbow,hand,.1)],[x,1.18,0,.068,.07,one(hand)]],'skin');
+  surface([[side*.32,2.10,0,.055,.06,blend(spine,arm,.5)],[side*.38,2.04,0,.095,.10,blend(spine,arm,.85)],[x,1.98,0,.10,.105,one(arm)],[x,1.83,0,.09,.095,one(arm)],[x,1.67,0,.085,.09,blend(arm,elbow,.18)],[x,1.59,0,.085,.085,blend(arm,elbow,.5)],[x,1.52,0,.09,.095,blend(arm,elbow,.85)],[x,1.4,0,.095,.09,one(elbow)],[x,1.25,0,.073,.075,blend(elbow,hand,.1)],[x,1.18,0,.068,.07,one(hand)]],'skin');
   surface([[x,1.49,0,.105,.105,one(elbow)],[x,1.45,0,.112,.108,one(elbow),.88],[x,1.41,0,.11,.105,one(elbow)],[x,1.37,0,.103,.10,one(elbow),.88],[x,1.33,0,.094,.092,one(elbow)],[x,1.27,0,.083,.083,one(elbow),.9],[x,1.22,0,.079,.08,one(hand)]],'wrap');
   surface([[x,1.23,0,.065,.065,one(hand)],[x,1.17,.018,.095,.085,one(hand)],[x,1.08,.027,.095,.083,one(hand)],[x,1.04,.025,.035,.04,one(hand)]],'skin');
   surface([[lx,1.19,0,.145,.15,blend(body,leg,.45)],[lx,1.04,0,.15,.15,one(leg)],[lx,.85,0,.13,.13,one(leg)],[lx,.67,0,.095,.105,blend(leg,knee,.3)],[lx,.59,0,.095,.10,blend(leg,knee,.65)],[lx,.48,0,.105,.10,one(knee)],[lx,.31,0,.085,.085,one(knee)],[lx,.17,0,.075,.075,one(knee)]],'skin');
   surface([[lx,1.22,0,.163,.165,blend(body,leg,.4)],[lx,1.08,0,.167,.165,one(leg)],[lx,.96,0,.15,.15,one(leg)]],'pants');
   surface([[lx,.98,0,.155,.153,one(leg)],[lx,.945,0,.15,.15,one(leg)]],'trim');
   surface([[lx,.57,0,.105,.11,one(knee)],[lx,.46,0,.116,.112,one(knee)],[lx,.32,0,.1,.1,one(knee)],[lx,.18,0,.09,.09,one(knee)]],'wrap');
-  surface([[lx,.39,0,.12,.115,one(knee)],[lx,.34,0,.115,.11,one(knee),.85],[lx,.29,0,.105,.105,one(knee)],[lx,.24,0,.10,.10,one(knee),.87],[lx,.18,0,.095,.095,one(knee)]],'wrap');
   surface([[lx,.205,.015,.09,.105,one(knee)],[lx,.16,.045,.11,.145,one(knee)],[lx,.09,.08,.125,.2,one(knee)],[lx,.045,.08,.125,.2,one(knee)]],'shoe');
   surface([[lx,.05,.08,.128,.203,one(knee)],[lx,.025,.08,.125,.2,one(knee)]],'wrap');
  }
  surface([[0,1.06,0,.25,.155,one(body)],[0,1.14,0,.29,.17,one(body)],[0,1.22,0,.275,.16,one(body)]],'pants',16);
  // Shaped hair cap and separate curved locks, all attached to head/ponytail bones.
  surface([[0,2.5,-.04,.215,.185,one(head)],[0,2.64,-.04,.225,.19,one(head)],[0,2.77,-.06,.16,.14,one(head)],[0,2.81,-.065,.025,.03,one(head)]],'hair',16);
- for(let j=0;j<5;j++){const x=(j-2)*.075;surface([[x,2.69,-.04,.075,.075,one(head)],[x*1.35,2.82+(j%2)*.045,-.06,.045,.045,one(head)],[x*1.65+.025,2.88+(j%2)*.07,-.085,.002,.005,one(head)]],'hair',5);}
- for(let i=-2;i<=2;i++)surface([[i*.075,2.7,.13,.055,.045,one(head)],[i*.075+.02,2.6,.17,.06,.04,one(head)],[i*.075+.045,2.52+Math.abs(i)*.025,.19,.008,.01,one(head)]],'hair',8);
+ for(const [x,h,tip] of [[-.13,.14,-.28],[0,.22,.035],[.13,.12,.29]])surface([[x,2.64,-.04,.11,.09,one(head)],[x,2.77,-.055,.09,.065,one(head)],[tip,2.8+h,-.075,.003,.005,one(head)]],'hair',5);
+ for(let i=-2;i<=2;i++)surface([[i*.075,2.7,.13,.055,.045,one(head)],[i*.075+.02,2.6,.17,.06,.04,one(head)],[i*.075+.045,2.60+Math.abs(i)*.015,.19,.008,.01,one(head)]],'hair',8);
  for(const side of [-1,1])surface([[side*.2,2.65,-.04,.065,.075,one(head)],[side*.22,2.44,-.07,.06,.07,one(head)],[side*.215,2.26,-.09,.008,.015,one(head)]],'hair',8);
  surface([[0,2.67,-.2,.11,.10,one(pony)],[0,2.52,-.32,.125,.11,one(pony)],[.03,2.28,-.37,.10,.085,one(pony)],[.07,2.04,-.32,.06,.05,one(pony)],[.10,1.93,-.27,.005,.008,one(pony)]],'hair');
  surface([[-.22,1.24,.17,.07,.025,one(sash)],[-.24,1.01,.22,.065,.022,one(sash)],[-.32,.76,.20,.06,.02,one(sash)],[-.36,.62,.16,.04,.015,one(sash)]],'trim',6);
- // Painted facial features: one small transparent texture, no external downloads.
+ // Painted facial features conform to the jaw and cheek rings.
  const size=128,data=new Uint8Array(size*size*4);
  const pixel=(x,y,c)=>{if(x<0||y<0||x>=size||y>=size)return;const at=(y*size+x)*4;data.set(c,at);};
  const oval=(cx,cy,rx,ry,c)=>{for(let y=0;y<size;y++)for(let x=0;x<size;x++)if(((x-cx)/rx)**2+((y-cy)/ry)**2<=1)pixel(x,y,c);};
  for(const cx of [34,94]){oval(cx,76,22,11,[40,27,27,255]);oval(cx,74,20,8,[250,239,214,255]);oval(cx,74,8,9,[118,70,34,255]);oval(cx,74,4,8,[26,27,32,255]);oval(cx-3,78,3,3,[255,255,243,255]);for(let x=-20;x<=20;x++)for(let y=0;y<4;y++)pixel(cx+x,96+Math.round((cx<64?-x:x)*.13)+y,[38,32,31,255]);}
  oval(64,46,3,7,[135,78,57,110]);oval(64,23,12,2,[103,49,42,230]);oval(64,19,8,2,[217,136,108,150]);
  const texture=new T.DataTexture(data,size,size);texture.colorSpace=T.SRGBColorSpace;texture.needsUpdate=true;
- const faceGeo=new T.PlaneGeometry(.4,.5,16,16),fp=faceGeo.attributes.position;
- for(let i=0;i<fp.count;i++){const x=fp.getX(i),y=fp.getY(i);fp.setZ(i,.122+.087*Math.sqrt(Math.max(0,1-(x/.235)**2))*Math.sqrt(Math.max(0,1-(y/.32)**2)));}
- faceGeo.computeVertexNormals();const face=new T.Mesh(faceGeo,new T.MeshBasicMaterial({map:texture,transparent:true,alphaTest:.35,side:T.FrontSide}));face.position.y=-.015;head.add(face);
+ const faceRows=[[-.265,.04,.095],[-.195,.135,.162],[-.065,.205,.192],[.075,.215,.18],[.205,.17,.13]];
+ const pos=[],uv=[],ix=[];
+ for(let j=0;j<faceRows.length;j++){const [y,width,depth]=faceRows[j];for(let i=0;i<=12;i++){const u=i/12,x=(u*2-1)*width;pos.push(x,y,depth*Math.sqrt(Math.max(0,1-(x/width)**2))+.008);uv.push(.5+x/.43,(y+.265)/.52);if(j<faceRows.length-1&&i<12){const a=j*13+i,b=a+13;ix.push(a,a+1,b,a+1,b+1,b);}}}
+ const faceGeo=new T.BufferGeometry();faceGeo.setAttribute('position',new T.Float32BufferAttribute(pos,3));faceGeo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));faceGeo.setIndex(ix);faceGeo.computeVertexNormals();
+ const face=new T.Mesh(faceGeo,new T.MeshLambertMaterial({map:texture,transparent:true,alphaTest:.35,side:T.FrontSide}));head.add(face);
  if(typeof document!=='undefined'){
   let alive=true;face.material.addEventListener('dispose',()=>{alive=false;});
   new T.TextureLoader().load(new URL('./assets/tala-face.png',import.meta.url).href,paint=>{if(!alive){paint.dispose();return;}paint.colorSpace=T.SRGBColorSpace;paint.magFilter=T.LinearFilter;face.material.map.dispose();face.material.map=paint;face.material.needsUpdate=true;});
@@ -96,5 +100,5 @@ export function buildTala(){
   for(const piece of pieces){body.remove(piece);piece.geometry.dispose();}
  }
  head.scale.setScalar(.9);
- return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton};
+ return {g,body,spine,head,limbs,elbows,knees,clothParts,aura,spirit:null,id:2,skeleton,legLength:.56};
 }
