@@ -68,3 +68,17 @@ Version 0.43 replaces Moonlit Shrine's sparse grid-and-gates setting with a text
 Version 0.44 replaces Morrow's generic model with weighted armor and a distinct heavy-weapon silhouette. Four fighters have dedicated model modules; Sol and Vesper retain the older builder. Morrow's committed heavy choreography and Iron Wastes presentation remain open.
 
 Version 0.45 gives Morrow distinct heavy melee cuts, grounded footwork and reactions, with weighted ankle joints and shared-action handoff blending. His special/capture/burst choreography and Iron Wastes environment remain open refinement areas.
+
+## Current Tala concept-preview scope (October 21, 2026)
+
+The playable art preview is https://tusingw29.github.io/rift-duel/?tala=concept. It uses the exported Storm Circuit study surfaces on the existing live combat skeleton. The regular URL retains the earlier Tala model. The inspection page's seven baked clips are not the live animation controller.
+
+| Area | Regular build | Concept preview |
+| --- | --- | --- |
+| Crossed guard, chin tuck and neck release | Live | Live |
+| Independent shoes and strike ankle pivots | Earlier mesh lacks foot weights | Live |
+| Rear-foot recoil catch/recovery | Earlier reaction | Live |
+| Directional step-and-follow and stop settling | Earlier locomotion | Live |
+| Shared captures, aerial moves and burst | Shared fallback choreography | Same fallback choreography |
+
+Verification uses actual exported skin data, sampled live animation and Chrome interaction. Passing checks do not establish Evil Zone art or motion parity. The concept still has simplified face shading, hands, clothing detail and shoulder integration; user acceptance of the complete moving model remains unproven. Original-game frame correspondence, broader cinematic choreography, the remaining roster's motion and several arena presentations remain open. Story staging stays deferred at the user's request.

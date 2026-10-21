@@ -16,12 +16,9 @@ export function talaFootPivot(player,kind){
 // Remaining stun time drives entry/return; long stuns hold the caught stance.
 export function talaFootOffsets(r,player,kind){
  const offsets=[new Vector3(),new Vector3()];
- if(kind!=='hurt'){
-  r.recoilStep=null;
-  if(kind==='run')r.gaitLanding=null;
-  if(r.gaitLanding){const remaining=1-smooth(((r.lastTime||0)-r.gaitLanding.start)/.08);offsets.forEach((v,i)=>{v.y=r.gaitLanding.heights[i]*remaining;});if(!remaining)r.gaitLanding=null;}
-  return offsets;
- }
+ if(kind==='run')r.gaitLanding=null;
+ if(r.gaitLanding){const remaining=1-smooth(((r.lastTime||0)-r.gaitLanding.start)/.08);offsets.forEach((v,i)=>{v.y=r.gaitLanding.heights[i]*remaining;});if(!remaining)r.gaitLanding=null;}
+ if(kind!=='hurt'){r.recoilStep=null;return offsets;}
  const remaining=Math.max(0,player.animTime||0),old=r.recoilStep;
  if(!old||remaining>old.remaining+1e-5)r.recoilStep={start:remaining,remaining,from:old?.offset?.clone()||new Vector3()};
  const state=r.recoilStep;state.remaining=remaining;
@@ -29,7 +26,7 @@ export function talaFootOffsets(r,player,kind){
  const depart=smooth(elapsed/Math.max(.001,out)),returning=1-smooth(remaining/Math.max(.001,back));
  const liftOut=elapsed<out?Math.sin(Math.PI*elapsed/Math.max(.001,out)):0;
  const liftBack=remaining<back?Math.sin(Math.PI*remaining/Math.max(.001,back)):0;
- offsets[1].set(0,state.from.y*(1-depart)+.055*Math.max(0,liftOut+liftBack),(state.from.z+(-.20-state.from.z)*depart)*(1-returning));state.offset=offsets[1].clone();return offsets;
+ state.offset=new Vector3(0,state.from.y*(1-depart)+.055*Math.max(0,liftOut+liftBack),(state.from.z+(-.20-state.from.z)*depart)*(1-returning));offsets[1].add(state.offset);return offsets;
 }
 // Directional step-and-follow gait. Swing starts at the last contact, rather
 // than teleporting to the beginning of a precomputed walking arc.

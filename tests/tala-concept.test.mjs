@@ -52,3 +52,12 @@ test('live directional gait stays finite and settles a lifted foot after stoppin
   const x=r.g.position.x,z=r.g.position.z;for(let f=45;f<65;f++)animateCharacter(r,{anim:'idle',x,z},f/60);r.g.updateMatrixWorld(true);for(const foot of r.feet)assert.ok(Math.abs(foot.getWorldPosition(new Vector3()).y-.14)<.003,'swing foot settles onto floor');
  }
 });
+test('an interrupted step preserves ankle position when guard, strike or hurt begins',()=>{
+ for(const action of ['guard','strike','hurt']){
+  const r=rig();attachTalaConcept(r,asset.scene);
+  for(let f=0;f<=4;f++){r.g.position.z=f*.04;animateCharacter(r,{anim:'run',prev:{x:1,z:0},x:0,z:r.g.position.z},f/60);}
+  r.g.updateMatrixWorld(true);const before=r.feet.map(foot=>foot.getWorldPosition(new Vector3()));
+  const p={anim:action==='guard'?'idle':action,guard:action==='guard',animTime:.42,x:0,z:r.g.position.z};if(action==='strike')p.move={kind:'strike',chain:1,startup:5,active:1,recovery:14,frame:0};
+  animateCharacter(r,p,5/60);r.g.updateMatrixWorld(true);r.feet.forEach((foot,i)=>assert.ok(foot.getWorldPosition(new Vector3()).distanceTo(before[i])<.025,`${action} entry keeps foot ${i} continuous`));
+ }
+});
