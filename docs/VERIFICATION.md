@@ -364,3 +364,7 @@ Source check: the GameVortex review of Evil Zone states that when a character ta
 ## Browser smoke test (0.52)
 
 A repeatable headless Chromium check now lives in the repository and runs on GitHub after each deployment: game load, Design 02 attach, lock-on movement, a landed punch with the gauge shatter, HUD contents and a clean console, with screenshots and a JSON report as workflow artifacts. The first local run passed 10/10 against the served build. Software rendering in the runner is slow, so frame rate is reported but not asserted; real-device frame pacing still needs a hands-on check.
+
+## Rendering quality pass (0.53)
+
+246 tests pass, including material classification, Lambert-to-physical conversion that preserves maps, vertex colours, transparency and sharing, idempotent upgrades, every rig upgrading without losing a surface, and the environment builder returning null without WebGL. Headless Chromium captures before and after the pass show shading volume, hair highlights and a balanced floor; cast-shadow softness and real frame cost on devices remain hands-on checks.

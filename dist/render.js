@@ -10,22 +10,26 @@ import {animateCharacter,applyStagedPose} from './animation.js';
 import {capturePose} from './choreography.js';
 import {arenas,arenaFor,createArena} from './arenas.js';
 import {createTrailEffects} from './trails.js';
+import {createLighting,createEnvironment,upgradeMaterials} from './shading.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
 const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function createView(canvas,options={}){
  let talaModel=options.talaModel||'concept';
- const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;
+ const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
  const scene=new T.Scene();scene.background=new T.Color('#10191c');scene.fog=new T.FogExp2('#10191c',.023);
  const camera=new T.PerspectiveCamera(40,1,.1,130);camera.position.set(14,9,18);
- const hemisphere=new T.HemisphereLight('#bad8de','#252b32',2.5);scene.add(hemisphere);const sun=new T.DirectionalLight('#fff0cd',3);sun.position.set(-8,16,8);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-18;sun.shadow.camera.right=18;sun.shadow.camera.top=15;sun.shadow.camera.bottom=-15;scene.add(sun);
- const rim=new T.DirectionalLight('#8cfaff',3);rim.position.set(5,7,-9);scene.add(rim);
+ const {hemisphere,sun,rim}=createLighting(scene);
+ // Image-based lighting: a prefiltered studio tinted toward each arena's sky and ground.
+ let environment=null;
+ function environmentFor(def){environment?.dispose();const sky=new T.Color(def?.sky||'#8fb8d8').lerp(new T.Color('#ffffff'),.45),ground=new T.Color(def?.ground||'#6b5a46').lerp(new T.Color('#ffffff'),.15);environment=createEnvironment(renderer,'#'+sky.getHexString(),'#'+ground.getHexString(),def?.sun||'#fff2d0');scene.environment=environment;}
+ environmentFor(null);
  let stage=null,stageId=null;
  function arena(fighterIndex){
   const id=fighters[fighterIndex].id;if(stageId===id)return;stageId=id;
   if(stage){scene.remove(stage.group);stage.dispose();}
-  const def=arenas[id];stage=createArena(def);scene.add(stage.group);
+  const def=arenas[id];stage=createArena(def);upgradeMaterials(stage.group,'arena');scene.add(stage.group);environmentFor(def);
   scene.background.set(def.sky);scene.fog.color.set(def.sky);scene.fog.density=def.fog;
   hemisphere.color.set(def.hemisphere[0]);hemisphere.groundColor.set(def.hemisphere[1]);sun.color.set(def.sun);rim.color.set(def.rim);
  }
@@ -35,13 +39,13 @@ export function createView(canvas,options={}){
  const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene);
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
- function rig(id){const model=buildCharacter(id);
+ function rig(id){const model=buildCharacter(id);upgradeMaterials(model.g,'cloth');
   model.talaStatus=id===2?'classic':null;
   if(id===2&&['concept','design02'].includes(talaModel)){
    const variant=talaModel;
    model.talaStatus='loading';
    model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
-   loadTalaConcept(variant).then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);model.talaStatus=variant;document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:variant==='design02'?'Design 02 fight preview':'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
+   loadTalaConcept(variant).then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);upgradeMaterials(model.g,'cloth');model.talaStatus=variant;document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:variant==='design02'?'Design 02 fight preview':'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
   }
   const material=new T.MeshBasicMaterial({color:fighters[id].color,transparent:true,opacity:.22,depthWrite:false,side:T.DoubleSide});
   model.techniqueFX=new T.Mesh(new T.SphereGeometry(1,16,10),material);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
@@ -148,5 +152,5 @@ export function createView(canvas,options={}){
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,1.7));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

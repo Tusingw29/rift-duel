@@ -68,3 +68,7 @@ Target: the early-2000s 3D fighter silhouette (Dead or Alive 3, Tekken 4, Soul C
 | Limb girth | ×1.00 | ×0.92 to ×0.93 |
 
 Thigh and shin are both 0.64. Other fighters still use their earlier proportions until they are rebuilt to this standard.
+
+## Rendering pass (0.53)
+
+What separated the Design 02 render from the Dead or Alive 3 / Tekken 4 / Soul Calibur 3 target, judged from a 1600-pixel training capture: matte flat-lit surfaces with no specular or reflections, washed shadows, a blown-out floor, and the scanline overlay. `shading.js` adds environment lighting, a three-light rig and material profiles (skin roughness 0.46 with clearcoat, hair 0.38, cloth 0.82, ground 0.9). Remaining gaps are asset work: painted cloth and skin detail maps, alpha-card hair with anisotropic highlights, and rebuilding the other five fighters to the proportion standard.

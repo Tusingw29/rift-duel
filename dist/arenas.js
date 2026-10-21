@@ -19,7 +19,7 @@ const glow=color=>new T.MeshBasicMaterial({color});
 // Builds the stage as one disposable group plus an animation hook.
 export function createArena(def){
  const group=new T.Group(),animated=[];let disposed=false;
- const ground=new T.Mesh(new T.CylinderGeometry(17,18,1,64),mat(def.ground,.3));ground.position.y=-.6;ground.receiveShadow=true;group.add(ground);
+ const ground=new T.Mesh(new T.CylinderGeometry(17,18,1,64),mat(def.ground,.3));ground.name='ground';ground.position.y=-.6;ground.receiveShadow=true;group.add(ground);
  const ring=(r,color,y=-.06)=>{const o=new T.Mesh(new T.TorusGeometry(r,.027,5,120),glow(color));o.rotation.x=Math.PI/2;o.position.y=y;group.add(o);return o;};
  if(!['summit','shrine'].includes(def.deco)){ring(13,def.rings[0]);ring(13.3,def.rings[1]);ring(6,def.rings[1]);ring(16.8,def.rings[2]);}
  const grid=new T.GridHelper(25,20,def.rings[1],def.rings[1]);grid.visible=!['summit','shrine'].includes(def.deco);grid.position.y=-.08;grid.material.opacity=.55;grid.material.transparent=true;group.add(grid);
