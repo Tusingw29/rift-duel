@@ -4,7 +4,7 @@ The solid hair masses are replaced with a fitted scalp, layered UV-directed stra
 
 Cloud run [39671860352](https://github.com/Tusingw29/rift-duel/actions/runs/39671860352) rebuilt the asset, passed 249 game tests, rendered twelve stills and a fresh 576×720, 30 fps guard/combo video. The manifest records source `73be967` and 25 file checksums. The early preview and final GLB were byte-identical. The model is 4,295,164 bytes, 15 mesh parts, 36,627 Blender mesh vertices (42,414 loaded GLB vertices after export splits) and the same 17 bones. No new combat timing or animation choreography is claimed.
 
-Branch Chromium run [39672755553](https://github.com/Tusingw29/rift-duel/actions/runs/39672755553) passed all 11 gameplay/review checks without console errors. Its screenshots cover the fight, face, side, back and guard; see `browser-056/`. This software-rendered run is not a frame-rate measurement on the user’s computer.
+Branch Chromium run [39674289748](https://github.com/Tusingw29/rift-duel/actions/runs/39674289748) passed all 11 gameplay/review checks without console errors. The face preset was lowered and widened after the first browser review cropped the chin. Its final screenshots cover the fight, face, side, back and guard; see `browser-056/`. This software-rendered run is not a frame-rate measurement on the user’s computer.
 
 Visual review caught and corrected dark scalp margins and an open ponytail root before promotion. The face still needs a closer concept match; collar/shoulder fit, lower-body anatomy and shoe detail are not finished. The head still uses a painted face on shaped geometry, not a facial-expression rig. The historical sections below describe earlier revisions; the checked-in stills and motion video now correspond to 0.56.
 

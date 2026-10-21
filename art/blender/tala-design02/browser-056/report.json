@@ -1,12 +1,12 @@
 {
   "url": "http://127.0.0.1:4173/",
   "tala": "design02",
-  "when": "2026-10-21T20:49:17.781Z",
+  "when": "2026-10-21T20:56:01.065Z",
   "checks": [
     {
       "name": "game loads and exposes riftDebug",
       "ok": true,
-      "detail": "http://127.0.0.1:4173/?tala=design02&smoke=1792615440611"
+      "detail": "http://127.0.0.1:4173/?tala=design02&smoke=1792616081850"
     },
     {
       "name": "Tala design02 model attached in the fight",
@@ -21,12 +21,12 @@
     {
       "name": "W closes distance",
       "ok": true,
-      "detail": "x -4.00 → 9.91"
+      "detail": "x -4.00 → -3.36"
     },
     {
       "name": "D circles the rival",
       "ok": true,
-      "detail": "z 0.00 → 1.26"
+      "detail": "z 0.00 → 0.53"
     },
     {
       "name": "punch lands on the rival",
