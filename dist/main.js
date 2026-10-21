@@ -12,7 +12,7 @@ import {createView} from './render.js';
 import {createAudio} from './audio.js';
 import {createFlow,advanceFlow,beginKO,simulationRuns,cameraCue} from './presentation.js';
 import {homeArena} from './arenas.js';
-import {gaugeState,gaugeLabel,gemStates,shardPlan,createTrail,updateTrail,healthClass} from './hud.js';
+import {gaugeState,gaugeLabel,gemStates,shardPlan,damageShards,createTrail,updateTrail,healthClass} from './hud.js';
 const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
@@ -77,13 +77,18 @@ $('#settings').onclick=()=>{
  $('#volume').oninput=e=>{settings.volume=Number(e.target.value);enableSound();save();sound('select',0);};bindTrainingOptions();for(const key of ['reduced','music','announcer'])$('#'+key).onchange=e=>{settings[key]=e.target.checked;save();if(key==='music'&&settings.music&&!audio.playing)audio.play(match?fighters[arenaIndex].id:'menu');};
 };
 function announce(text,t=1.5,kind='note'){const c=$('#callout');c.textContent=text;c.dataset.kind=kind;c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');calloutTime=t;}
-let trails=[createTrail(),createTrail()],lastStocks=[1,1];
+let trails=[createTrail(),createTrail()],lastStocks=[1,1],lastHp=[100,100];
 function flash(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
 // Glass-shatter burst: shards fly out from an element's box and fade.
+// The lost part of a life gauge breaks away on every hit.
+function crackBar(n,oldHp,newHp){if(settings.reduced)return;const bar=$('#health'+n),box=bar.getBoundingClientRect(),hud=$('#hud').getBoundingClientRect(),color=n===1?'#d9f975':'#c9a6f6';const top=box.top-hud.top+(1-oldHp/100)*box.height,bottom=box.top-hud.top+(1-newHp/100)*box.height;
+ const crack=document.createElement('i');crack.className='crack';crack.style.cssText=`left:${box.left-hud.left}px;top:${top}px;width:${box.width}px;height:${Math.max(3,bottom-top)}px`;$('#hud').append(crack);setTimeout(()=>crack.remove(),400);
+ for(const s of damageShards(oldHp-newHp,n===1?'left':'right',Date.now()%1000)){const shard=document.createElement('i');shard.className='shard';shard.style.cssText=`left:${box.left-hud.left+box.width/2}px;top:${top+(bottom-top)*s.t}px;--dx:${s.dx}px;--dy:${s.dy}px;--rot:${s.rot}deg;--size:${s.size}px;animation-delay:${s.delay}s;background:${color}`;$('#hud').append(shard);setTimeout(()=>shard.remove(),900);}}
 function shatter(el,color,count=10,spread=70){if(settings.reduced)return;const box=el.getBoundingClientRect(),hud=$('#hud').getBoundingClientRect();for(const s of shardPlan(count,Date.now()%1000,spread)){const shard=document.createElement('i');shard.className='shard';shard.style.cssText=`left:${box.left-hud.left+box.width/2}px;top:${box.top-hud.top+box.height/2}px;--dx:${s.dx}px;--dy:${s.dy}px;--rot:${s.rot}deg;--size:${s.size}px;animation-delay:${s.delay}s;background:${color}`;$('#hud').append(shard);setTimeout(()=>shard.remove(),900);}}
 function updateHud(dt){
  match.players.forEach((p,i)=>{
   const n=i+1,trail=updateTrail(trails[i],p.hp,dt);
+  if(p.hp<lastHp[i]-.5)crackBar(n,lastHp[i],p.hp);lastHp[i]=p.hp;
   $('#hp'+n).style.height=p.hp+'%';$('#trail'+n).style.height=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
   const g=gaugeState(p),gauge=$('#gauge'+n);
   const gems=gauge.querySelectorAll('.gem');gemStates(g).forEach((gem,k)=>{gems[k].style.setProperty('--fill',gem.fill);gems[k].classList.toggle('lit',gem.lit);gems[k].classList.toggle('filling',gem.filling);});
@@ -96,7 +101,7 @@ function pips(){match?.players.forEach((p,i)=>{$('#pips'+(i+1)).textContent='●
 function beginRound(){
  inputHistory=[];
  const opponent=mode==='arcade'?(selected+stage+1)%6:Number($('#opponent').value);
- match=createMatch(selected,opponent,mode,settings.difficulty,settings);round++;paused=false;keys.clear();hitstop=0;trails=[createTrail(),createTrail()];lastStocks=[1,1];
+ match=createMatch(selected,opponent,mode,settings.difficulty,settings);round++;paused=false;keys.clear();hitstop=0;trails=[createTrail(),createTrail()];lastStocks=[1,1];lastHp=[100,100];
  arenaIndex=homeArena(mode,selected,opponent);view.match(match,arenaIndex);$('#menu').hidden=true;$('#hud').hidden=false;document.body.classList.add('playing');$('#modal').close();
  $('#p1-name').textContent=fighters[selected].name;$('#p2-name').textContent=fighters[opponent].name;$('#p2-label').textContent=mode==='local'?'PLAYER 02':mode==='training'?'TRAINING':'CPU';$('#round-label').textContent=mode==='arcade'?`BOUT ${stage+1} / 6`:mode==='training'?'FREE PRACTICE':`ROUND ${round}`;$('#arena-name').textContent=view.arenaName;pips();
  flow=createFlow({training:mode==='training',reduced:settings.reduced,round,names:[fighters[selected].name,fighters[opponent].name]});

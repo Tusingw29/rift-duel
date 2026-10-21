@@ -57,3 +57,9 @@ body.playing header{background:#10191c88}body.playing .health-row{text-shadow:0 
 #hud .health.shattered{animation:bar-crack .5s steps(3,end) forwards}@keyframes bar-crack{0%{filter:brightness(2)}60%{filter:brightness(2);opacity:1}100%{opacity:0}}
 @media(max-width:600px){#hud .gauge{gap:5px;height:16px}#hud .gauge .gem{width:14px;height:16px}}
 @media(prefers-reduced-motion:reduce){#hud .shard,#hud .gauge .gem{animation:none!important}}
+
+/* Life gauge breaks like glass on every hit */
+#hud .health i.trail{background:linear-gradient(90deg,#ffffffcc,#ffffff55);mix-blend-mode:screen}
+#hud .crack{position:absolute;z-index:4;pointer-events:none;background:#ffffff;box-shadow:0 0 10px 2px #ffffff;animation:crack-flash .35s ease-out forwards;transform:skewY(-6deg)}
+@keyframes crack-flash{0%{opacity:1}100%{opacity:0;transform:skewY(-6deg) scaleX(1.6)}}
+@media(prefers-reduced-motion:reduce){#hud .crack{animation:none;display:none}}

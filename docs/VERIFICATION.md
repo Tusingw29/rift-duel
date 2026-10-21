@@ -352,3 +352,7 @@ Replaced the final generic primitive bodies with weighted caster models: Sol has
 ## Power gems and shatter (0.49)
 
 203 tests pass, adding gem states (lit, filling) and the deterministic shard layout. A headless Chromium pass checked the filling gem while charging, the shards spawned after a burst, and the life-gauge shatter at a knockout, with no console errors.
+
+## Life gauge shatter on hit (0.50)
+
+Source check: the GameVortex review of Evil Zone states that when a character takes damage "part of the character's power gauge shatters like glass", and the manual ties power-crystal charging to remaining life. Tests cover shard counts scaling with damage, inward direction by side, and positions spread along the lost segment. A headless Chromium training run spawned shards and a crack flash on each landed punch with no console errors.

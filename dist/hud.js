@@ -2,7 +2,7 @@ import {CHARGE_PER_STOCK,MAX_STOCKS,chargeRate} from './combat.js';
 // Evil Zone-style fight HUD state: a life bar with a delayed damage trail, a low-life
 // warning, and a segmented power gauge that fills while attack is held. Pure helpers
 // so the presentation rules can be tested without a browser.
-export const LOW_HEALTH=30,CRITICAL_HEALTH=12,TRAIL_DELAY=.6,TRAIL_RATE=45;
+export const LOW_HEALTH=30,CRITICAL_HEALTH=12,TRAIL_DELAY=.18,TRAIL_RATE=400;
 export function gaugeState(p){
  const stocks=Math.max(0,Math.min(MAX_STOCKS,p.stocks|0)),partial=stocks<MAX_STOCKS?Math.max(0,Math.min(1,p.charge/CHARGE_PER_STOCK)):0;
  const segments=Array.from({length:MAX_STOCKS},(_,i)=>i<stocks?1:i===stocks?partial:0);
@@ -35,4 +35,11 @@ export function shardPlan(count=10,seed=1,spread=70){
  let x=seed*9301+49297;const rand=()=>{x=(x*1103515245+12345)%2147483648;return x/2147483648;};
  return Array.from({length:count},(_,i)=>{const angle=(i/count)*Math.PI*2+rand()*.6,distance=spread*(.5+rand()*.7);
   return {dx:Math.cos(angle)*distance,dy:Math.sin(angle)*distance-spread*.3,rot:(rand()-.5)*540,size:6+rand()*10,delay:rand()*.08};});
+}
+
+// Every hit breaks the lost chunk of the life gauge off as glass: shards start along
+// that chunk and fly inward from the screen edge. Count scales with the damage.
+export function damageShards(damage,side='left',seed=1){
+ const count=Math.max(4,Math.min(18,Math.round(damage*1.2))),plan=shardPlan(count,seed,55);
+ return plan.map((s,i)=>({...s,t:(i+.5)/count,dx:(side==='left'?1:-1)*(20+Math.abs(s.dx)),dy:s.dy+10}));
 }

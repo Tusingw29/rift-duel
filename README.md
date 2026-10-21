@@ -197,3 +197,7 @@ Life gauges now stand vertically along the left and right edges of the screen, a
 ## Alpha 0.49: power gems and shatter effects
 
 Stocks are now gems instead of bars. Holding attack pours charge into the next gem, which lights when full with a flash; three lit gems pulse at max. Spending a stock on a burst or stock special shatters that gem into flying glass shards, and a knockout shatters the loser's life gauge the same way. Reduce motion disables the shards.
+
+## Alpha 0.50: the life gauge shatters on every hit
+
+Following the original, where a hit breaks part of the gauge "like glass", every landed attack now snaps the lost chunk of the vertical life gauge into glass shards that fly inward from the screen edge, with a white flash over the broken segment. The number of shards scales with the damage. The old red drain trail is gone; a pale glass remnant lingers for a fraction of a second where the chunk was. Knockouts still shatter the whole gauge.
