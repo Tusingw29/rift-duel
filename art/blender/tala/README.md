@@ -1,6 +1,6 @@
 # Tala Blender study
 
-Original model study based on Storm Circuit (concept A). The first pass has a fitted torso, open ochre vest with lapels, rust shorts, wrist/shin bindings, dark flat shoes and auburn ponytail. The painted face reuses the project's original generated Tala face asset.
+Original model study based on Storm Circuit (concept A). Concept model study 3 reshapes the shoulders, separates the open ochre vest into front and back panels with armholes, replaces stacked binding rings with continuous wraps, and fans the auburn ponytail into five swept locks. Shorts cover the upper thighs with revised skin boundaries; a small nose and ears give the face a modeled profile. The face texture now follows the jaw and cheek surface rather than sitting on a separate cylindrical mask. The painted face reuses the project's original generated Tala face asset.
 
 This is a separate review asset, not a replacement for the live fighter. Motion study 2 preserves the upper-body combo and its 60 Hz contact timing, while adding a crossed-forearm guard, staggered advancing/retreating/circling steps, ball-of-foot pivots with heel lift, hip weight shifts, and a rear-foot catch/recovery after recoil. Two-bone leg solves keep segment lengths fixed as the ankles articulate. This is original authored animation, not motion capture or a completed concept-art match.
 
