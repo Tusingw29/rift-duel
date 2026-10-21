@@ -4,7 +4,7 @@ const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L',
 const canonical=name=>name.replace(/^(upper_arm|forearm|hand|thigh|shin|foot)([LR])$/,'$1.$2');
 let asset;
 export function loadTalaConcept(){
- if(!asset)asset=import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync('./assets/models/tala-study.glb?v=3')).catch(error=>{asset=null;throw error;});
+ if(!asset)asset=import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync('./assets/models/tala-study.glb?v=4')).catch(error=>{asset=null;throw error;});
  return asset;
 }
 // Keep the combat skeleton, hand anchors and state machine. Only exchange surfaces.

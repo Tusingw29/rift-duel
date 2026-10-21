@@ -74,9 +74,17 @@ loft('Shorts_waist',[R(0,1.21,0,.22,.163,'root'),R(0,1.35,0,.258,.164,'root'),R(
 loft('Waistband',[R(0,1.36,0,.26,.17,'root'),R(0,1.40,0,.245,.161,'root')],'lining',20)
 for side,suffix in [(-1,'L'),(1,'R')]:
  a='upper_arm.'+suffix;e='forearm.'+suffix;h='hand.'+suffix;l='thigh.'+suffix;k='shin.'+suffix;x=side*.43;lx=side*.20
- loft('Arm.'+suffix,[R(side*.36,2.075,0,.085,.085,B('chest',a,.7)),R(side*.415,2.025,0,.125,.12,a),R(x,1.94,0,.122,.123,a),R(x,1.82,.005,.103,.105,a),R(x,1.68,0,.080,.085,B(a,e,.15)),R(x,1.59,0,.078,.08,B(a,e,.5)),R(x,1.51,0,.088,.09,B(a,e,.88)),R(x,1.36,0,.087,.085,e),R(x,1.22,0,.063,.07,h)],'skin',16)
- loft('Hand.'+suffix,[R(x,1.23,0,.066,.068,h),R(x,1.16,.018,.088,.076,h),R(x,1.08,.027,.089,.077,h),R(x,1.045,.025,.045,.045,h)],'wrap',12)
- loft('Thumb.'+suffix,[R(x-side*.077,1.18,.06,.033,.035,h),R(x-side*.08,1.10,.07,.027,.03,h)],'wrap',10)
+ loft('Arm.'+suffix,[R(side*.365,2.135,-.002,.012,.02,B('chest',a,.7)),R(side*.39,2.10,0,.078,.081,B('chest',a,.85)),R(side*.415,2.035,0,.122,.12,a),R(x,1.94,0,.122,.123,a),R(x,1.82,.005,.103,.105,a),R(x,1.68,0,.080,.085,B(a,e,.15)),R(x,1.59,0,.078,.08,B(a,e,.5)),R(x,1.51,0,.088,.09,B(a,e,.88)),R(x,1.36,0,.087,.085,e),R(x,1.22,0,.063,.07,h)],'skin',16)
+ # Compact palm, four curled fingers and an opposing thumb, rather than
+ # one bulb-shaped mitten. All remain weighted to the existing hand bone.
+ loft('Palm.'+suffix,[R(x,1.23,0,.064,.063,h),R(x,1.18,.008,.078,.065,h),R(x,1.105,.012,.079,.062,h),R(x,1.085,.015,.074,.05,h)],'wrap',12)
+ for finger in range(4):
+  fx=x+(finger-1.5)*.039
+  shorten=abs(finger-1.25)*.006
+  loft('Curled_finger.'+suffix,[R(fx,1.14+shorten,.065,.017,.018,h),R(fx,1.10+shorten,.065,.020,.03,h),R(fx,1.052+shorten,.035,.020,.055,h),R(fx,1.027+shorten,.015,.018,.04,h),R(fx,1.025+shorten,0,.010,.02,h)],'wrap',8)
+  # A small crease separates the curled fingertip from its knuckle pad.
+  loft('Finger_wrap_crease',[R(fx,1.103+shorten,.065,.0202,.0302,h),R(fx,1.107+shorten,.065,.0202,.0302,h)],'lining',8)
+ loft('Opposing_thumb.'+suffix,[R(x-side*.071,1.185,.044,.025,.024,h),R(x-side*.084,1.153,.081,.026,.027,h),R(x-side*.056,1.120,.105,.024,.024,h),R(x-side*.027,1.107,.106,.017,.018,h)],'wrap',10)
  # A continuous wrap surface avoids the old stack-of-washers silhouette.
  loft('Wrist_wrap.'+suffix,[R(x,1.21,0,.071,.074,h),R(x,1.30,0,.084,.086,e),R(x,1.40,0,.094,.094,e),R(x,1.46,0,.094,.096,e)],'wrap',16)
  for j in range(7):
@@ -121,14 +129,15 @@ else:m.blend_method='CLIP'
 m.use_backface_culling=True
 verts=[];uv=[];faces=[]
 profile=[(2.225,.05,.075,.018),(2.29,.13,.14,.012),(2.41,.193,.174,0),(2.55,.198,.177,-.015),(2.67,.15,.14,-.025)]
-for j in range(13):
- v=j/12;y=2.225+v*.445
+rows=[a[0]+(b[0]-a[0])*step/5 for a,b in zip(profile,profile[1:]) for step in range(5)]+[profile[-1][0]]
+for j,y in enumerate(rows):
+ v=(y-2.225)/.445
  low,high=next((a,b) for a,b in zip(profile,profile[1:]) if a[0]-1e-6<=y<=b[0]+1e-6)
  t=(y-low[0])/(high[0]-low[0]);rx,rz,cz=[low[k]+(high[k]-low[k])*t for k in (1,2,3)]
  wid=rx*.96
- for i in range(17):
-  u=i/16;x=(u*2-1)*wid;z=cz+rz*math.sqrt(max(0,1-(x/rx)**2))+.004;verts.append((x,y,z));uv.append((.5+x/.4,v))
-  if j<12 and i<16:a=j*17+i;faces.append((a,a+1,a+18,a+17))
+ for i in range(25):
+  u=i/24;x=(u*2-1)*wid;z=cz+rz*math.sqrt(max(0,1-(x/rx)**2))+.010;verts.append((x,y,z));uv.append((.5+x/.4,v))
+  if j<len(rows)-1 and i<24:a=j*25+i;faces.append((a,a+1,a+26,a+25))
 mesh('Painted_face',verts,faces,[W('head')]*len(verts),m,uv)
 # Merge by material to keep the exported asset inexpensive to draw.
 bpy.ops.object.select_all(action='DESELECT')

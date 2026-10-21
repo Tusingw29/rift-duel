@@ -51,3 +51,8 @@ On grounded hits the concept model keeps its front foot planted and lifts the re
 ## Live directional gait
 
 In the concept preview, advance leads with the front foot, retreat with the rear foot, and circling with the foot nearest the direction of travel. The first steps are shorter to leave fighting stance without overextending the support leg. Circling uses a shorter stride than advance/retreat. Swing feet start from their last contact, land on the floor, and maintain lateral spacing; a released movement input settles a raised foot over 0.08 seconds. Hands stay nearer fighting stance instead of pumping like a jog. Step phase remains tied to distance travelled, so hitstop does not keep the legs running in place. These are live controller-aware paths, not direct playback of the inspection page's in-place clips.
+
+
+## Concept model study 4
+
+The model now has rounded shoulder caps and closed wrapped fists with four modeled fingers and an opposing thumb. These shapes stay bound to the existing hand bones; fingers are not independently animated. The face overlay follows more of the jaw profile's rows with additional surface clearance, but its shading/material transition still needs refinement. The inspection page adds an upper-body close-up button. The saved study clips are unchanged; use the playable preview for the latest live neck/guard/footwork behavior.

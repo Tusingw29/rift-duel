@@ -64,3 +64,10 @@ All 215 tests passed. New tests exercise directional lead selection, retained su
 ## Movement interrupted by recoil
 
 A regression test exposed a raised foot snapping down when hit during a step: the recoil offset branch skipped the gait's landing offset. Landing height now carries into recoil and settles over the same short interval used by guard/attack transitions. Catch-step offsets remain separate so repeated hits do not double-count the landing height. Actual concept-rig tests cover transition-frame ankle continuity for guard, strike and hurt; broader artistic acceptance is still outstanding.
+
+
+## Concept model study 4 — fists and shoulder silhouette
+
+Rebuilt closed-fist surfaces and shoulder caps in Blender, kept the existing rig/motion source, and increased face-overlay sampling/clearance. Chrome close-ups exposed an initial palm/finger proportion problem; the final export extends the knuckle row into one fist silhouette. Inspected idle and crossed guard at close range. The final asset has 4,875 exported vertices, 11 meshes and 17 bones. The full 216-test suite passed before the last fist adjustment; the eight GLB/live-concept tests passed on the final asset. Deployment CI runs the complete suite again.
+
+The face still has rough shading/material boundaries and the hands remain simplified closed fists, not articulated fingers. No completed concept-art match is claimed. The inspection clips remain separate from the updated live animation controller.
