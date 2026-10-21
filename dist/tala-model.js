@@ -1,3 +1,4 @@
+import {talaVestPaint} from './tala-costume.js';
 import {clothPaint} from './painted-textures.js';
 import * as T from './vendor/three.module.js';
 
@@ -17,7 +18,7 @@ export function buildTala(){
  const sash=joint(body,-.22,1.23,.16);clothParts.push(sash);
  g.updateMatrixWorld(true);const skeleton=new T.Skeleton(bones);
  const mats={skin:'#c58b65',top:'#37566b',trim:'#e6b45e',pants:'#39444f',wrap:'#e1d8bd',shoe:'#963e35',hair:'#71342c'};
- const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color,map:clothPaint(k),vertexColors:true})]));
+ const materials=Object.fromEntries(Object.entries(mats).map(([k,color])=>[k,new T.MeshLambertMaterial({color:k==='top'?'#ffffff':color,map:k==='top'?talaVestPaint():clothPaint(k),vertexColors:true})]));
  const index=b=>bones.indexOf(b),one=b=>[[index(b),1]],blend=(a,b,w)=>[[index(a),1-w],[index(b),w]];
  // Ring: x, y, z, lateral radius, depth radius, weights, optional painted shade.
  function surface(rings,mat,sides=12){
@@ -83,9 +84,13 @@ export function buildTala(){
   let alive=true;face.material.addEventListener('dispose',()=>{alive=false;});
   new T.TextureLoader().load(new URL('./assets/tala-face.png',import.meta.url).href,paint=>{if(!alive){paint.dispose();return;}paint.colorSpace=T.SRGBColorSpace;paint.magFilter=T.LinearFilter;face.material.map.dispose();face.material.map=paint;face.material.needsUpdate=true;});
  }
- // Cloth front/back panels and seams, painted into vertex colors on fitted surfaces.
- for(const side of [-1,1])surface([[side*.09,1.55,.175,.045,.01,one(spine)],[side*.13,1.78,.192,.045,.012,one(spine)],[side*.13,1.95,.155,.04,.01,one(spine)],[side*.075,2.035,.105,.025,.01,one(spine)]],'trim',6);
- surface([[0,1.6,-.17,.06,.008,one(spine)],[0,1.88,-.18,.09,.008,one(spine)],[0,2.02,-.12,.035,.008,one(spine)]],'trim',6);
+ // Lapels, seams and back crest are painted in the vest UVs rather than
+ // attached as raised tubes. Small gloves break up the hand/wrap silhouette.
+ for(let n=0;n<2;n++){
+  const x=(n?1:-1)*.43,hand=limbs[n*2].userData.hand;
+  surface([[x,1.2,.015,.075,.075,one(hand)],[x,1.16,.025,.10,.088,one(hand)],[x,1.09,.03,.10,.086,one(hand)],[x,1.07,.03,.075,.07,one(hand)]],'shoe',8);
+  surface([[x+(n?-1:1)*.074,1.17,.07,.04,.04,one(hand)],[x+(n?-1:1)*.082,1.105,.075,.035,.035,one(hand)]],'skin',8);
+ }
  const shadow=new T.Mesh(new T.CircleGeometry(.62,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.72,.016,5,40),new T.MeshBasicMaterial({color:'#f5b65d'}));aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);
  // Batch weighted surfaces by material, retaining every bone weight and UV.

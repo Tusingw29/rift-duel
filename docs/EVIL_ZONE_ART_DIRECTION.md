@@ -47,3 +47,7 @@ more distinctive architecture and painted backdrops. Tala's generated texture
 maps are a first pass, not finished hand-painted production art. Shared aerial
 and capture animation still needs separate choreography review. Do not copy
 original names, meshes, textures, portraits or sound recordings into this game.
+
+## Applied in 0.38
+
+Tala's vest has an original 128×128 front/back diffuse map authored in `tala-costume.js`: blue panels, warm inner shirt, lapels, pocket flaps, hem, shoulder yoke and broken-lightning back crest. Raised gold tube strips were removed. Gloves include a small thumb silhouette. No original game assets were copied. This makes costume placement explicit; it does not close the overall visual-quality gap reported by the user.

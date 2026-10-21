@@ -279,3 +279,8 @@ Asset paths and exact generation prompts are in `ART_ASSETS_036.md`.
 Compared the 2:30 Midori gameplay reference again. Changed Tala's leg-to-torso proportions, shoulder joins, broad hair locks and fringe opening. Replaced repeated fabric stripes with broad panels, pocket lines and folds. The face follows jaw/cheek rings and uses the character lighting instead of an unlit rectangular overlay. The ankle solve now uses the model's actual segment length; existing world-space foot-plant tests were updated to sample the actual ankle.
 
 178 tests pass. Chrome local training verified approach and a connected strike (rival HP 93.88), inspected the paused recovery stance and menu silhouette. These are corrective model changes, not a completed Evil Zone art match. The remaining roster and detailed arena background still differ substantially in treatment.
+
+
+## Tala costume map (0.38)
+
+178 tests pass, including weighted rig bounds and independent cloned skeletons with the new glove surfaces. Chrome inspected the front costume in character select and the back crest in the actual lock-on training view. The existing rig and animation attachment points are retained. Overall art fidelity remains incomplete, particularly the older rival models.

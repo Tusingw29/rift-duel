@@ -24,21 +24,21 @@ These are broad genre/archetype homages, not duplicate costumes or renamed extra
 | Fighter | Familiar role | Original silhouette | Actual signature behavior |
 |---|---|---|---|
 | Aegis | Armored tokusatsu hero | Cyan sentinel, split visor, pale cape | Fast narrow beam; balanced melee |
-| Rei | Spirit-linked swordswoman | Rose split-tail coat, pale hair, narrow blade, translucent spirit | Wide crescent shot, extended reach, fast movement |
-| Tala | Martial arts rushdown | Amber wraps, headband, bare fists | Forward rush launches; fastest movement, short reach |
-| Morrow | Heavy weapon hunter | Sage armor, broad shoulders, greatsword | Three-shot spread, high damage, slow movement |
-| Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Twin shots, fast basic projectiles, low damage |
-| Vesper | Ring/space control caster | Lilac robe, floating halo | Wide slow projectile; longer stun on hit |
+| Rei | Spirit-linked swordswoman | Rose split-tail coat, pale hair, narrow blade, translucent spirit | Winged spirit shot, spectral sword; extended reach, fast movement |
+| Tala | Martial arts rushdown | Auburn hair, blue cropped vest, wraps and red gloves | Forward energy shot, retreating stun discus; fastest movement, short reach |
+| Morrow | Heavy weapon hunter | Sage armor, broad shoulders, greatsword | Stunning ground wave, interruptible eight-missile barrage; high damage, slow movement |
+| Sol | Young fire-caster role | Coral robes, crystal-tipped staff | Stunning fire shot, retreating knockdown flame; fast basic projectiles |
+| Vesper | Ring/space control caster | Lilac robe, floating halo | Fire shot, trapping ring; longer stun on hit |
 
 Every fighter also has ordinary melee/projectiles, retreat specials, front/back/middle/far captures, launch, pursuit, jumping crossover, air recovery, and a stock burst. Captures now use four original render-only motion tracks: front toss, back overhead throw, middle-distance lunge, and far levitation. Bursts have six original procedural sequences: a blade verdict, sword echoes, levitating strikes, missile salvo, descending sun orb, and teleporting ring bind. Aegis’s far capture uses the orbital emitter; Tala’s mid capture uses surrounding doubles. Each has its own camera shots and effects. All balance is new.
 
 ## Release scope
 
-Playable: six fighters; one procedural arena; solo arcade ladder (five rivals plus a mirror finale); quick CPU duel; training with optional active CPU; same-device versus; first-to-two rounds; results, rematches and arcade endings; keyboard and standard gamepads; touch fallback; pause on blur; sound/quality/difficulty/reduced-motion options.
+Playable: six fighters; six home arenas; solo arcade ladder (five rivals plus a mirror finale); quick CPU duel; training with optional active CPU; same-device versus; first-to-two rounds; results, rematches and arcade endings; keyboard and standard gamepads; touch fallback; pause on blur; sound/music/announcer/quality/difficulty/reduced-motion options, camera choice, and saved keyboard remapping.
 
 Gamepad buttons follow the browser standard mapping. Browser permission, controller compatibility, and connection behavior vary; press a controller button to expose it. One pad in local mode controls P2; two pads control P1/P2. Physical controller testing remains a separate hardware check. [Gamepad API](https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API).
 
-Not included: online multiplayer/rollback, production character art, full original-game command parity, ten-character roster, story voice acting, soundtrack, survival, remapping UI, downloadable console builds. Those are later production milestones rather than hidden features.
+Not included: online multiplayer/rollback, production character art, full original-game command parity, ten-character roster, authored story voice acting, recorded soundtrack, survival, downloadable console builds. Those are later production milestones rather than hidden features.
 
 ## Next milestones
 
