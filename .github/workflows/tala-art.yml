@@ -1,0 +1,70 @@
+name: Build Tala art in the cloud
+on:
+  workflow_dispatch:
+    inputs:
+      rebake_face:
+        description: Rebuild the face atlas (leave enabled after any face edit)
+        type: boolean
+        default: true
+      render_review:
+        description: Render head, guard, full-body and combo review images
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: tala-art-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      BLENDER_ARCHIVE: blender-3.6.22-linux-x64.tar.xz
+      BLENDER_SHA256: 5953c87f6d483605061a7839758527c67cb82138d0d3590f92d8c76abc757600
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Blender runtime libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libxi6 libxrender1 libxfixes3 libxkbcommon0 libsm6 libgl1
+      - name: Download and verify Blender 3.6.22
+        run: |
+          curl --fail --location --retry 3 "https://ftp.blender.org/release/Blender3.6/$BLENDER_ARCHIVE" --output "$RUNNER_TEMP/$BLENDER_ARCHIVE"
+          echo "$BLENDER_SHA256  $RUNNER_TEMP/$BLENDER_ARCHIVE" | sha256sum --check --strict
+          tar -xJf "$RUNNER_TEMP/$BLENDER_ARCHIVE" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/blender-3.6.22-linux-x64" >> "$GITHUB_PATH"
+      - name: Build the editable model and browser asset
+        env:
+          REBAKE_FACE: ${{ inputs.rebake_face }}
+        run: |
+          args=(--design02)
+          if [ "$REBAKE_FACE" != "true" ]; then args+=(--reuse-face-atlas); fi
+          blender --background --threads 2 --python scripts/build-tala-blender.py -- "${args[@]}"
+      - name: Test the rebuilt asset with the game
+        run: npm test
+      - name: Sample actual game poses
+        run: node scripts/sample-tala-design02-guard.mjs
+      - name: Render review images
+        if: inputs.render_review
+        run: |
+          blender --background --threads 2 --python scripts/render-tala-design02.py
+          blender --background --threads 2 --python scripts/render-tala-design02.py -- --full
+          for pose in guard straight cross hook; do
+            blender --background --threads 2 --python scripts/render-tala-design02.py -- --pose="$pose"
+          done
+      - name: Record provenance and checksums
+        env:
+          RENDERED_REVIEW: ${{ inputs.render_review }}
+          REBAKED_FACE: ${{ inputs.rebake_face }}
+        run: node scripts/tala-art-manifest.mjs
+      - name: Upload verified build for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: tala-design02-${{ github.run_number }}
+          retention-days: 14
+          if-no-files-found: error
+          path: ${{ runner.temp }}/tala-art-package/
