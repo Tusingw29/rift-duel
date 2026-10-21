@@ -159,3 +159,7 @@ Aegis now has a separate model with beveled chest plates, an inset visor, shaped
 
 ### Alpha 0.40 — Aegis grounded motion
 Aegis has a slash, return cut and overhead finisher, blended grounded poses, distance-driven footwork, and articulated ankles that keep boot soles level. Combat timing and controls are unchanged. Shared aerial/capture/burst animation remains a later refinement.
+
+
+### Alpha 0.41 — Animation handoffs
+Tala and Aegis blend between their grounded animation and shared action poses. Landing preserves the outgoing arm pose briefly, foot anchors remain fixed, and attacks still reach the exact contact frame. Also fixes inherited ankle angles and cloth drift during paused transitions.

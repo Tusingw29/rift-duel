@@ -134,4 +134,3 @@ export function animateTala(r,p,time){
  for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(target.kind==='run'?.2:0);part.rotation.z=Math.sin(time*2.3+i)*.07-r.twistLag*(i===0?1.5:.6);}
  return true;
 }
-

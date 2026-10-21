@@ -58,3 +58,5 @@ The 0.36–0.38 art passes add painted arena assets, revise Tala's proportions a
 Version 0.39 replaces Aegis's generic model with an original articulated plate-armor rig. Tala and Aegis now have separate model modules; Rei, Morrow, Sol and Vesper still use the shared older builder. Aegis still uses shared animation tracks, so the model change does not close his motion-fidelity gap.
 
 Version 0.40 gives Aegis authored grounded movement and three separate sword cuts, with planted ankles and level boot soles. His captures, aerial actions and burst choreography still use shared fallback paths. Original-game frame correspondence and subjective fidelity remain unproven.
+
+Version 0.41 blends Tala/Aegis handoffs between authored grounded and shared action poses while preserving contact frames and world-space action paths. It fixes an ankle-reset omission from 0.40. Shared choreography and cinematic root placement are still separate fidelity gaps.

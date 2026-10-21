@@ -1,3 +1,4 @@
+import {captureMotion,finishMotion} from './motion-transition.js';
 import {animateAegis} from './aegis-animation.js';
 import {applyMeleePose} from './melee-poses.js';
 import {animateTala} from './tala-animation.js';
@@ -17,6 +18,13 @@ export function applyStagedPose(r,part){
 const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){
+ if(r.id!==0&&r.id!==2){sampleCharacter(r,p,time);return;}
+ const previous=captureMotion(r);sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
+}
+function sampleCharacter(r,p,time){
+ r.animationFamily='shared';
+ r.feet?.forEach(foot=>foot.rotation.set(0,0,0));
+ r.clothParts.forEach(part=>part.rotation.set(0,0,0));
  const f=fighters[r.id],state=p?.anim||'idle',run=state==='run';
  const breathing=Math.sin(time*2.4+r.id)*.014;
  r.body.position.set(0,breathing,0);r.body.rotation.set(0,0,0);r.spine.rotation.set(0,0,0);r.head.rotation.set(0,0,0);
@@ -24,8 +32,8 @@ export function animateCharacter(r,p,time){
  r.elbows.forEach(elbow=>elbow.rotation.set(-.22,0,0));r.knees.forEach(knee=>knee.rotation.set(.05,0,0));
  const [leftArm,leftLeg,rightArm,rightLeg]=r.limbs;
  // Tala runs on the blended full-body system for her sample states.
- if(f.id==='tala'&&animateTala(r,p,time))return;
- if(f.id==='aegis'&&animateAegis(r,p,time))return;
+ if(f.id==='tala'&&animateTala(r,p,time)){r.animationFamily='grounded';return;}
+ if(f.id==='aegis'&&animateAegis(r,p,time)){r.animationFamily='grounded';return;}
  // Readable silhouettes even before a move is used.
  if(f.id==='tala'){leftArm.rotation.x=-.75;rightArm.rotation.x=-.45;r.elbows[0].rotation.x=-1.15;r.elbows[1].rotation.x=-1.3;r.spine.rotation.y=-.16;}
  if(f.id==='rei'){rightArm.rotation.x=-.18;rightArm.rotation.y=-.22;leftArm.rotation.z=.15;r.spine.rotation.y=.12;}
