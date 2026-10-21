@@ -319,3 +319,10 @@ Rei now has a dedicated weighted model: fitted painted coat panels, separate spl
 Replaced the sparse gate/grid stage with original 3D halls, curved tiled roofs, low stone balustrades, lanterns, planted trees, distant ridges and connected outer grounds. Reused the existing generated courtyard stone asset on the combat floor; wood, roof and masonry maps are small code-authored textures. Blue-gray moonlight replaces the earlier uniform pink lighting.
 
 188 tests pass. New stage tests enforce finite geometry, architecture outside the 17-unit fighting disc, approach surfaces below the combat floor (preventing observed coplanar flicker), no visible grid and a bounded mesh/vertex budget. The courtyard subscene uses 20 mesh draws and 26,772 vertices; the floor, sky/petals and characters are separate. Chrome inspected menu and several circling views, then approached and landed a strike (rival HP 94.6). No console errors. This is not a measured FPS claim or proof of parity with Evil Zone's environments.
+
+
+## Morrow weighted armor model (0.44)
+
+Morrow now has a dedicated weighted rig with broad fitted armor, overlapping shoulder shells, recessed launcher mouths, a short mantle, a painted optical patch, shaped beard and a beveled greatsword. The joint and weapon attachment contract is retained. Browser review caught the beard inside the jaw, corrected before release; blade face winding was also corrected.
+
+188 tests pass. Skin-weight, deformation and independent-clone tests now cover Morrow as well as Rei and Tala. Existing all-roster bounds, weapon articulation and recovery-floor checks pass. Chrome training verified approach and sword contact (rival HP 92.56), retreating missile emission and burst stock consumption; inspected a paused salvo burst with no console errors. His animation and Iron Wastes stage remain shared/early versions. Sol and Vesper still use the older generic model builder.

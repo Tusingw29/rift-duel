@@ -171,3 +171,7 @@ Rei has a fitted split-tail coat, continuous weighted limbs, swept ivory hair, p
 
 ### Alpha 0.43 — Moonlit Shrine courtyard
 Select Rei to see the rebuilt stage: textured paving, three halls with curved roofs, lanterns, trees, stone railings and surrounding grounds. The grid is removed and lighting is cooler. Static architecture is batched to keep the added scene detail economical.
+
+
+### Alpha 0.44 — Morrow model rebuild
+Morrow has fitted heavy armor, launcher ports, an optical patch, shaped beard, short mantle and beveled greatsword. Weighted limbs preserve elbow and knee continuity. His existing moves, damage and animation timing are unchanged.
