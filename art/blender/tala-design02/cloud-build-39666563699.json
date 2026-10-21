@@ -1,0 +1,212 @@
+{
+  "sourceCommit": "3c4d11d5d74a33d7ceb8a51a1d5981d1c294328f",
+  "run": "https://github.com/Tusingw29/rift-duel/actions/runs/39666563699",
+  "faceRebaked": true,
+  "reviewImagesRendered": true,
+  "model": {
+    "blender": "3.6.22",
+    "bones": 17,
+    "meshes": 12,
+    "vertices": 32775,
+    "clips": [
+      "Idle",
+      "Advance",
+      "Retreat",
+      "Circle",
+      "Guard",
+      "Combo",
+      "Recoil"
+    ],
+    "combo_contact_seconds": [
+      0.08333333333333333,
+      0.4166666666666667,
+      0.75
+    ],
+    "source": "Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing",
+    "textures": {
+      "top": {
+        "kind": "cloth",
+        "size": 512,
+        "objects": [
+          "Athletic_top"
+        ]
+      },
+      "skin": {
+        "kind": "skin",
+        "size": 768,
+        "objects": [
+          "Design02_ear",
+          "Design02_ear.001",
+          "Leg.L",
+          "Leg.R",
+          "Design02_upper_body"
+        ]
+      },
+      "sole": {
+        "kind": "leather",
+        "size": 256,
+        "objects": [
+          "Shoe.L",
+          "Shoe.R"
+        ]
+      },
+      "ochre": {
+        "kind": "cloth",
+        "size": 256,
+        "objects": [
+          "Shoe_trim.L",
+          "Shoe_trim.R",
+          "Design02_hair_tie"
+        ]
+      },
+      "Design02_ochre_cloth": {
+        "kind": "cloth",
+        "size": 768,
+        "objects": [
+          "Design02_vest"
+        ]
+      },
+      "Design02_rust_cloth": {
+        "kind": "cloth",
+        "size": 768,
+        "objects": [
+          "Design02_shorts"
+        ]
+      },
+      "wrap": {
+        "kind": "wrap",
+        "size": 384,
+        "objects": [
+          "Design02_fist.L",
+          "Design02_fist.R"
+        ]
+      },
+      "Design02_wrap_cloth": {
+        "kind": "wrap",
+        "size": 512,
+        "objects": [
+          "Design02_wraps"
+        ]
+      },
+      "hair": {
+        "kind": "hair",
+        "size": 512,
+        "objects": [
+          "Design02_hair_cap",
+          "Design02_fringe",
+          "Design02_fringe.001",
+          "Design02_fringe.002",
+          "Design02_fringe.003",
+          "Design02_fringe.004",
+          "Design02_side_lock",
+          "Design02_side_lock.001",
+          "Design02_ponytail",
+          "Design02_ponytail.001",
+          "Design02_ponytail.002"
+        ]
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "dist/assets/models/tala-design02.glb",
+      "bytes": 3723140,
+      "sha256": "2fcd70e7ac858b9600105c4eff766f2f477b255233ff2e12b54fe590f5221ab4"
+    },
+    {
+      "path": "art/blender/tala-design02/tala-study.blend",
+      "bytes": 17004060,
+      "sha256": "a5a941e61f2df62eaad092cf7f4ae73ce78be88258d2eeefca3affd456d87d47"
+    },
+    {
+      "path": "art/blender/tala-design02/face-baked.png",
+      "bytes": 275051,
+      "sha256": "ec151addb133be1e4803297bb0a799dab30dc2604fb4f8f058c36ed8059c733e"
+    },
+    {
+      "path": "art/blender/tala-design02/build-report.json",
+      "bytes": 2014,
+      "sha256": "8007f3dacec3ac958a0713cf732777e7bc05b711675ee85b1ec1272ae37e8f8b"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-pose.json",
+      "bytes": 7505,
+      "sha256": "91f377cced1abd73591d377a7edce4750cc243b81f582b236f4fc3a15e9a5db2"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-pose.json",
+      "bytes": 7545,
+      "sha256": "c797db507ec80da59f5cd346a1432b7388cdb7ca3c7d9d1feed0e07003871140"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-pose.json",
+      "bytes": 7576,
+      "sha256": "ef9408cf068c836f7ca60cd016777497667584814f9aad655b43a6994a051801"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-pose.json",
+      "bytes": 7576,
+      "sha256": "1992d801ec2e3d17cb784ac09bc046df89bf3fc3ef3a51f18d8f7fd9f524560b"
+    },
+    {
+      "path": "art/blender/tala-design02/review-front.png",
+      "bytes": 520902,
+      "sha256": "ff67ef08bf42138a063b85354bbdb9b07f0c232c9bb4080cc0aa06b15e3e5966"
+    },
+    {
+      "path": "art/blender/tala-design02/review-side.png",
+      "bytes": 472332,
+      "sha256": "478cbc7a001fab4da36d43521e222fe0cb1d14d3c42da920c4843a3aa17a324b"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-front.png",
+      "bytes": 582401,
+      "sha256": "5aa4fbc836c75d8e809c86577643fff672caba14b7111ed6fe4de8ee9fbd2b55"
+    },
+    {
+      "path": "art/blender/tala-design02/guard-side.png",
+      "bytes": 536290,
+      "sha256": "449845ca58fb8017a67cb3109af0210fe0e2cee73b27d1820fc1a4a4b6889f94"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-front.png",
+      "bytes": 438820,
+      "sha256": "81404d8b5528f851e8b843def9064fc16fc7856b64fc60064023a7285203df4a"
+    },
+    {
+      "path": "art/blender/tala-design02/costume-side.png",
+      "bytes": 438779,
+      "sha256": "20beaf57977e3e902101e0298fc42f218aa5f6905fc7b79798d6fbb2af2fac73"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-front.png",
+      "bytes": 437471,
+      "sha256": "5d25c61299862a7e12664385fc04e54516536c2225a87f8cfe3827d111ac6318"
+    },
+    {
+      "path": "art/blender/tala-design02/straight-side.png",
+      "bytes": 425109,
+      "sha256": "f5b5a567c0c1e5a419ac3f3b1132b8d809d7b81e1d0dc6aed32effd6352ce359"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-front.png",
+      "bytes": 448441,
+      "sha256": "c9df3ccb9371091171e004b9637504e02d96b1abdbc3a1b48ca41868987824cc"
+    },
+    {
+      "path": "art/blender/tala-design02/cross-side.png",
+      "bytes": 450872,
+      "sha256": "a48f0fd5abdffc1b92ff9a1403e5a51132042212ee542511b36c04c4d3d075d1"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-front.png",
+      "bytes": 450287,
+      "sha256": "b7cba7ab9efc9db16885fb6f3df5c1b2eaed810b33417872e2ff15a488b5e2c1"
+    },
+    {
+      "path": "art/blender/tala-design02/hook-side.png",
+      "bytes": 442038,
+      "sha256": "9d4f3b2d71719d51ba223af5952b6a5e999fa98876f9d04eb48b8a9bcfef2276"
+    }
+  ]
+}

@@ -1,3 +1,9 @@
+## Alpha 0.55: face taper, shoulder refinement and texture clarity
+
+Cloud build 39666563699 rebuilt the face atlas and body textures from source 3c4d11d. The lower face tapers by up to 10% without changing its source UV landmarks. Design 02 shoulder caps are lower and narrower; skeleton lengths, hand anchors and combat reach are unchanged. High quality now uses device-capped anisotropic filtering (up to 8x); Low stays at 1x. The model review supports up to 2x pixel density and the same texture filtering. All twelve stills below are refreshed from this build. The older motion video is not evidence of this revision.
+
+Reviewed neutral face front/side, full-body front, guard front/side and all three front contact poses. The jaw and cap silhouette are improved; chunky hair, blocky ears, shoulder/vest junctions and the remaining concept gap still need work. This is an incremental model revision, not a final DOA3-quality character or a new animation pass. All 247 tests passed against the rebuilt cloud asset.
+
 # Design 02 — face, upper-body and costume study
 
 This is a partial 3D implementation of the Design 02 concept, not the finished replacement character. Lower-leg anatomy and shoes remain from the previous study. The normal game defaults to the earlier model. The optional `?tala=design02` fight preview loads this study.
