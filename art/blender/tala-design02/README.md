@@ -65,4 +65,6 @@ Rebuild with the command above, then render the whole character with `--full`.
 ![Full costume front](costume-front.png)
 ![Full costume side](costume-side.png)
 
-Costume verification: 239 repository tests pass, including standard vertex-color export and normalized garment weights through live actions. Full-body front/profile and guard renders were inspected. Armhole borders remain visibly stepped and need manual edge-loop refinement; this pass is not a finished costume sculpt. Browser playback is still unverified.
+Costume verification: 239 repository tests pass, including standard vertex-color export and normalized garment weights through live actions. Full-body front/profile and guard renders were inspected. Armhole borders now follow oval curves instead of the cutout grid; shoulder fit and folds still need refinement; this pass is not a finished costume sculpt. Browser playback is still unverified.
+
+The armhole refinement projects boundary vertices onto the authored oval and removes unused vertices inside each opening. Full-body and guard images include this refinement; the earlier combo images document the preceding costume pass.

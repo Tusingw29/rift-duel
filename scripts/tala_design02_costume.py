@@ -12,6 +12,10 @@ def build_costume(ctx):
   mat.node_tree.links.new(color.outputs['Color'],nodes.get('Principled BSDF').inputs['Base Color'])
   return mat
  def finish(name,v,f,w,mat,shades):
+  # Discard grid vertices inside the cutouts before exporting or thickening.
+  used=sorted({i for face in f for i in face});remap={old:new for new,old in enumerate(used)}
+  v=[v[i] for i in used];w=[w[i] for i in used];shades=[shades[i] for i in used]
+  f=[tuple(remap[i] for i in face) for face in f]
   obj=mesh(name,v,f,w,mat,mapped=True)
   colors=obj.data.color_attributes.new(name='ClothColor',type='FLOAT_COLOR',domain='POINT')
   base=mat.diffuse_color
@@ -43,6 +47,22 @@ def build_costume(ctx):
    n=j*(cols+1)+i;a,y=params[n];a2,y2=params[n+cols+2];a=(a+a2)/2;y=(y+y2)/2
    hole=any(((a-center)/.52)**2+((y-1.985)/.085)**2<1 for center in [math.pi/2,3*math.pi/2])
    if not hole:f.append((n,n+cols+1,n+cols+2,n+1))
+ # Project the stair-stepped grid boundary onto the actual oval opening.
+ # This preserves the shoulder straps while giving the sewn edge a smooth arc.
+ edge_use={}
+ for face in f:
+  for a,b in zip(face,face[1:]+face[:1]):
+   edge=tuple(sorted((a,b)));edge_use[edge]=edge_use.get(edge,0)+1
+ boundary={i for edge,count in edge_use.items() if count==1 for i in edge}
+ for i in boundary:
+  j,col=divmod(i,cols+1)
+  if j in (0,rows) or col in (0,cols):continue
+  angle,y=params[i];center=min([math.pi/2,3*math.pi/2],key=lambda c:abs(angle-c))
+  dx=(angle-center)/.52;dy=(y-1.985)/.085;length=math.hypot(dx,dy)
+  if not length:continue
+  angle=center+.52*dx/length;y=1.985+.085*dy/length
+  rx,rz=shape(y);t=(y-1.67)/.46;fold=.003*math.sin(angle*8+t*6)*math.sin(math.pi*t)**2
+  v[i]=((rx+fold)*math.sin(angle),my(y),(rz+fold)*math.cos(angle));sh[i]=.78
  finish('Design02_vest',v,f,w,fabric('Design02_ochre_cloth','ochre'),sh)
  # Two tubes share their complete upper inseam: one waist, two leg openings.
  v=[];f=[];w=[];sh=[];shared={};cols=48;rows=16

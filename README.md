@@ -205,3 +205,9 @@ Following the original, where a hit breaks part of the gauge "like glass", every
 ## Alpha 0.51: Tala proportion standard
 
 Tala is rebuilt to an early-2000s 3D fighter standard (the Dead or Alive 3, Tekken 4, Soul Calibur 3 look): about 7.5 heads tall, legs half her height, a smaller head, narrow waist and hips, broader shoulders and longer arms. The standard is a single remap applied to both the JavaScript skeleton and the Blender-built surfaces, so the costume, painted face and hands carry over unchanged. Leg lengths are now read from the rig by the foot-planting and study-motion code instead of being hard-coded. The GLB was rebuilt with Blender 3.6.22, which runs on this Mac where 4.5 does not.
+
+## Tala Design 02 review model
+
+The [separate Design 02 preview](https://tusingw29.github.io/rift-duel/tala-blender.html?model=design02) carries the newer face atlas, shorter visible neck, swept hair, connected shoulders and tailored vest/shorts. It uses the actual live review animator. The main fight still uses the earlier model while this character is refined.
+
+The [concept and animation package](art/tala-design-02/README.md) defines the visual target. [Blender sources and actual pose renders](art/blender/tala-design02/README.md) document what is implemented and what remains. This is a partial art study, not a claim that the concept or reference-game quality has been reached. The exported model runs in the browser; Blender is only needed to rebuild the source asset.
