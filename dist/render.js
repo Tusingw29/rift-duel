@@ -39,9 +39,9 @@ export function createView(canvas,options={}){
  const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene);
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
- function rig(id){const model=buildCharacter(id);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);
+ function rig(id){const model=buildCharacter(id,id===2?{variant:talaModel}:{});upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);
   model.talaStatus=id===2?'classic':null;
-  if(id===2&&['concept','design02'].includes(talaModel)){
+  if(id===2&&['concept','design02','v3'].includes(talaModel)){
    const variant=talaModel;
    model.talaStatus='loading';
    model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
@@ -152,5 +152,5 @@ export function createView(canvas,options={}){
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

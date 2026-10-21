@@ -372,3 +372,7 @@ A repeatable headless Chromium check now lives in the repository and runs on Git
 ## Baked textures for Tala (0.54)
 
 The Design 02 build with the texture bake ran locally end to end with Blender 3.6.22 (about six minutes), producing ten packed JPEG atlases and a 3.8 MB GLB, down from an 8 MB first attempt with PNG atlases. 246 tests pass; the two connectivity tests now merge coincident vertices so UV seams do not count as breaks. Headless captures showed the first bake blackening the fists, whose material had no vertex-colour layer, and darkening the cloth; both were corrected by gating the fold normalisation on the layer and centring the weave tone. Judgment of weave detail at close camera cuts and on real devices remains hands-on.
+
+## Tala Design 03 anatomical body (0.57)
+
+249 tests pass. The build verifies that the straightened joints match the motion sample before skinning. A headless Chromium training capture in the side camera showed the new body attached (model status v3), standing in the guard stance beside Rei at the expected height with shoes on the floor and no console errors; earlier captures caught a sunk, stretched body caused by the suit's garment mask deleting the legs and the floor being measured at the knees, both fixed. Face close-ups, motion at normal speed and physical controllers remain hands-on checks.

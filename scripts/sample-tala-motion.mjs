@@ -4,13 +4,14 @@ import {applyStudyMotion} from './tala-study-motion.mjs';
 import {writeFileSync} from 'node:fs';
 import {buildTala} from '../dist/tala-model.js';
 import {animateCharacter} from '../dist/animation.js';
-const r=buildTala(), names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
+const variant=process.argv.includes('--variant')?process.argv[process.argv.indexOf('--variant')+1]:'design02';
+const r=buildTala({variant}), names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
 r.g.updateMatrixWorld(true);
 const bones=r.skeleton.bones.map((b,i)=>({name:names[i],parent:r.skeleton.bones.indexOf(b.parent),matrix:b.matrixWorld.toArray()}));
-for(const [i,suffix] of ['L','R'].entries()){const thigh=new Vector3();r.limbs[i*2+1].getWorldPosition(thigh);bones.push({name:'foot.'+suffix,parent:bones.findIndex(b=>b.name==='shin.'+suffix),matrix:new Matrix4().makeTranslation(thigh.x,r.ankleHeight??.14,0).toArray()});}
+for(const [i,suffix] of ['L','R'].entries()){const knee=new Vector3();r.knees[i].getWorldPosition(knee);bones.push({name:'foot.'+suffix,parent:bones.findIndex(b=>b.name==='shin.'+suffix),matrix:new Matrix4().makeTranslation(knee.x,r.ankleHeight??.14,knee.z).toArray()});}
 const clips=[];
 for(const [name,duration,kind] of [['Idle',2.4,'idle'],['Advance',.9,'run'],['Retreat',1,'back'],['Circle',1.1,'circle'],['Guard',1.6,'guard'],['Combo',1,'combo'],['Recoil',.9,'hurt']]){
- const rig=buildTala(),frames=[];let move;
+ const rig=buildTala({variant}),frames=[];let move;
  for(let f=0;f<=Math.round(duration*60);f++){
   const t=f/60,p={anim:kind,x:0,z:0,prev:{x:1,z:0},air:0};
   if(['run','back','circle'].includes(kind)){p.anim='idle';p.prev=kind==='back'?{x:-1,z:0}:kind==='circle'?{x:0,z:1}:{x:1,z:0};p.stridePhase=t/.72*Math.PI*2;}
@@ -29,5 +30,5 @@ for(const [name,duration,kind] of [['Idle',2.4,'idle'],['Advance',.9,'run'],['Re
  if(['Idle','Advance','Retreat','Circle','Guard'].includes(name))frames[frames.length-1]=frames[0];
  clips.push({name,fps:60,frames,loop:['Idle','Advance','Retreat','Circle','Guard'].includes(name)});
 }
-writeFileSync(new URL('../art/blender/tala/motion-source.json',import.meta.url),JSON.stringify({bones,clips,source:'Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing',contacts:[5,25,45]}));
+writeFileSync(new URL(variant==='v3'?'../art/blender/tala-v3/motion-source.json':'../art/blender/tala/motion-source.json',import.meta.url),JSON.stringify({bones,clips,source:'Tala study v2: crossed guard, step-and-recover locomotion, ball-of-foot pivots, recoil catch step; original combo contact timing',contacts:[5,25,45]}));
 console.log('Sampled',bones.map(b=>b.name).join(', '));
