@@ -26,6 +26,13 @@ test('Design 03 review uses its actual bind skeleton and every live action remai
  for(const clip of LIVE_TALA_CLIPS)for(const fraction of [0,.25,.5,.75,1]){
   review.sample(clip.name,clip.duration*fraction);
   for(const bone of r.skeleton.bones)assert.ok(bone.matrixWorld.elements.every(Number.isFinite),clip.name);
+  for(const mesh of r.g.children.filter(n=>n.isSkinnedMesh&&n.name.startsWith('concept-'))){
+   mesh.skeleton.update();
+   for(let i=0;i<mesh.geometry.attributes.position.count;i+=41){
+    const point=mesh.getVertexPosition(i,new Vector3());
+    assert.ok(point.toArray().every(v=>Number.isFinite(v)&&Math.abs(v)<9),clip.name+' '+mesh.name);
+   }
+  }
  }
 });
 test('unequal Design 03 legs reach planted ankles while hips shift',()=>{
@@ -38,4 +45,17 @@ test('unequal Design 03 legs reach planted ankles while hips shift',()=>{
   plantSupportFeet(r,{anim:'idle'},'idle');r.g.updateMatrixWorld(true);
   r.feet.forEach((foot,i)=>assert.ok(foot.getWorldPosition(new Vector3()).distanceTo(r.footPlants[i])<1e-5,'ankle stays on support target'));
  }
+});
+
+test('tailored costume and fringe retain normalized weights and embedded cloth textures',()=>{
+ const packed=JSON.parse(bytes.subarray(20,20+length));
+ assert.ok(packed.images.some(i=>i.name.includes('Tala_ochre_vest')));
+ assert.ok(packed.images.every(i=>i.bufferView!==undefined));
+ const names=json.nodes.map(m=>m.name||'').join(' ');
+ for(const name of ['Tala_tailored_vest','Tala_fitted_wraps','Tala_standing_collar','Tala_swept_fringe'])assert.ok(names.includes(name),name);
+ asset.scene.traverse(mesh=>{
+  if(!mesh.isSkinnedMesh)return;
+  const w=mesh.geometry.attributes.skinWeight;
+  for(let i=0;i<w.count;i++)assert.ok(Math.abs(w.getX(i)+w.getY(i)+w.getZ(i)+w.getW(i)-1)<1e-4,mesh.name+' weights');
+ });
 });
