@@ -39,3 +39,9 @@ test('two-hand grip closes on every cut without stretching bones or drifting in 
   animateCharacter(r,{anim:'hurt',x:0,z:0,animTime:.1},1);assert.equal(r.morrowGrip,null,'interrupt releases grip');
  }
 });
+test('buffered second cut retains the two-hand position at its entry frame',()=>{
+ const r=buildCharacter(3),m=move(1,0);for(let frame=0;frame<=15;frame++){m.frame=frame;animateCharacter(r,{anim:'strike',x:0,z:0,move:m},frame/60);}
+ const before=[r.limbs[0],r.limbs[2]].map(a=>a.userData.hand.getWorldPosition(new Vector3()));
+ animateCharacter(r,{anim:'strike',x:0,z:0,move:move(2,0)},16/60);
+ [r.limbs[0],r.limbs[2]].forEach((a,i)=>assert.ok(a.userData.hand.getWorldPosition(new Vector3()).distanceTo(before[i])<.015,'grip does not reopen between buffered cuts'));
+});

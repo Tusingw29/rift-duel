@@ -18,10 +18,13 @@ function aim(bone,child,target){
 // The striking wrist keeps its authored orientation; models may supply a grip anchor.
 export function finishMorrowAttack(r,p){
  r.morrowHandRest??=[r.limbs[0],r.limbs[2]].map(arm=>arm.userData.hand.quaternion.clone());
- const m=p?.move;r.morrowGrip=null;
- if(m?.kind!=='strike'||p.air>0||r.animationFamily!=='grounded')return;
+ const previousWeight=r.morrowGrip?.weight||0,m=p?.move;r.morrowGrip=null;
+ if(m?.kind!=='strike'||p.air>0||r.animationFamily!=='grounded'){r.morrowGripEntry=null;return;}
+ if(!r.morrowGripEntry||r.morrowGripEntry.move!==m||r.morrowGripEntry.chain!==m.chain||m.frame<r.morrowGripEntry.frame)r.morrowGripEntry={move:m,chain:m.chain,frame:m.frame,weight:previousWeight};
+ r.morrowGripEntry.frame=m.frame;
  const end=m.startup+(m.active||1)+m.recovery;
- const weight=smooth(m.frame/Math.max(1,m.startup*.42))*(1-smooth((m.frame-(end-m.recovery*.28))/Math.max(1,m.recovery*.28)));
+ const entry=smooth(m.frame/Math.max(1,m.startup*.42));
+ const weight=(r.morrowGripEntry.weight+(1-r.morrowGripEntry.weight)*entry)*(1-smooth((m.frame-(end-m.recovery*.28))/Math.max(1,m.recovery*.28)));
  if(!weight)return;
  r.g.updateMatrixWorld(true);
  const arm=r.limbs[0],elbow=r.elbows[0],hand=arm.userData.hand,weaponHand=r.limbs[2].userData.hand;
@@ -50,4 +53,14 @@ function solveArm(arm,elbow,hand,desired,pole){
  const along=(upper*upper-lower*lower+distance*distance)/(2*distance),height=Math.sqrt(Math.max(0,upper*upper-along*along));
  const joint=shoulder.clone().addScaledVector(axis,along).addScaledVector(pole,height);
  aim(arm,elbow,joint);aim(elbow,hand,reachable);return rawDistance>upper+lower-.001;
+}
+// Carry the planted ankle turn into a buffered cut instead of resetting it.
+export function morrowFootTransition(r,player,kind){
+ const target=morrowFootPivot(player,kind),m=player?.move;
+ if(kind!=='strike'||m?.kind!=='strike'){r.morrowFootEntry=null;r.morrowFootLast=target;return target;}
+ const old=r.morrowFootEntry;
+ if(!old||old.move!==m||old.chain!==m.chain||m.frame<old.frame)r.morrowFootEntry={move:m,chain:m.chain,frame:m.frame,from:(r.morrowFootLast||target).map(q=>q.clone())};
+ const entry=r.morrowFootEntry;entry.frame=m.frame;
+ const blend=smooth(m.frame/Math.max(1,m.startup*.65));
+ r.morrowFootLast=target.map((q,i)=>entry.from[i].clone().slerp(q,blend));return r.morrowFootLast;
 }

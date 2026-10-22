@@ -1,4 +1,4 @@
-import {morrowFootPivot} from './morrow-attack-motion.js';
+import {morrowFootTransition} from './morrow-attack-motion.js';
 import {Vector3} from './vendor/three.module.js';
 import {CHANNELS} from './rig-pose.js';
 import {sampleClip} from './pose-clips.js';
@@ -59,6 +59,6 @@ function targetFor(player,time,phase){
  return {kind:'idle',pose:p({bodyY:-.19+Math.sin(time*1.8)*.006,twist:.14+Math.sin(time*1.3)*.014})};
 }
 export function animateMorrow(r,player,time){
- r.footPivot=morrowFootPivot;r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
+ r.footPivot??=(p,kind)=>morrowFootTransition(r,p,kind);r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
  return animateGroundedRig(r,player,time,'morrow',targetFor);
 }
