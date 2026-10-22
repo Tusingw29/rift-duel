@@ -242,3 +242,7 @@ Tala's Design 02 surfaces are no longer flat colours. The Blender build now unwr
 ## Alpha 0.57: Tala Design 03, an anatomical body
 
 Tala's default appearance is now a real anatomical character instead of scripted ring geometry: a MakeHuman (CC0) base shaped to the 7.5-head standard, with a modelled face, eyes, brows and lashes, a tinted ponytail, a cropped top, shorts cut from leggings, and shoes, straightened into the game's rest pose and skinned to the game's 17-bone skeleton so every existing animation, foot plant and combat pose drives it unchanged. The previous models remain selectable under Options → Tala appearance. The build is reproducible from `art/blender/tala-v3/README.md`. Wraps, costume tailoring, face likeness and a weight pass are the next steps.
+
+## Alpha 0.58: Tala costume and hair geometry
+
+The anatomical Tala now wears a separate open ochre vest and collar over a charcoal top, shortened rust shorts, fitted forearm and shin wraps, dark footwear and a first swept fringe. The original skeleton and live moves are retained, including the unequal-leg foot-planting fix. This is actual model work toward the concept, not completed likeness or production-quality art. Face, combat hand poses, garment fit and finer hair remain unfinished. Source, neutral renders and reproducible cloud build: `art/blender/tala-v3-refined/`.

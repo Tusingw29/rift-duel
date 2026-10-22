@@ -1,0 +1,9 @@
+{
+  "run": 39786156936,
+  "sourceCommit": "7399e44",
+  "files": {
+    "art/blender/tala-v3/tala-v3.blend": "aec9f5db0edced4c07b9adb504a10bb42ae0e45b4a93955f96cf503abb5b2e37",
+    "art/blender/tala-v3-refined/tala-refined.blend": "f9d2c111051e118c005e24cf344c50e61f880a9851f8fc6046a76d73ea355db3",
+    "dist/assets/models/tala-v3.glb": "f485157be6fe5b13d4c5b193dc60b279864cd67c6e8db2dd36c2ec451061522c"
+  }
+}

@@ -384,3 +384,11 @@ The live foot solver previously treated both leg segments as the thigh length. D
 The live model review now constructs the selected Design 03 skeleton instead of binding its surfaces to Design 02 joints. Tests check unchanged rest vertices and finite bone transforms across every live review action. These checks establish compatibility, not final animation aesthetics. No model surfaces, combat timings, or authored moves were replaced.
 
 Validation: 251 tests passed. GitHub Chromium run 39695329873 passed all 11 checks on the Design 03 branch preview with no console errors or warnings. Inspected movement and crossed-arm guard captures. The new asset still has spread fingers during combat and garment/shoulder deformation issues; these are not corrected by the foot solver. Normal-speed human review remains outstanding.
+
+## Tailored Tala model (0.58)
+
+Built actual vest, collar, shortened shorts, fitted wraps, dark footwear and swept fringe from the committed anatomical source using Blender 3.6.22 on GitHub (run 39786156936). The original source, skeleton, live move timing and foot solver are preserved. Asset: 3,966,904 bytes, 17 glTF meshes / 20 rendered primitives, 17 bones, seven retained embedded clips; the live viewer supplies the broader runtime move set.
+
+252 tests pass, including rest-pose binding, normalized weights, finite sampled surface deformation throughout all live actions, embedded new textures, and unequal-leg support targets. GitHub Chromium run 39787264982 passed all 11 checks with no console errors or warnings. Inspected actual guard, straight and hook captures; extended captures also include cross, advance and recoil. This is automated browser pose review, not a human normal-speed fluidity or frame-rate verdict. Captures and build provenance are in `art/blender/tala-v3-refined/`.
+
+Remaining visual limits: generic face, spread fingers during attacks, coarse swept fringe, broad vest fit and unfinished garment edge detailing. The new costume moves with the rig but does not establish DOA3/Tekken4/Soulcalibur quality. Earlier browser run 39786645816 was cancelled during stalled Azure apt dependency downloads; the Ubuntu-22.04 rerun succeeded. The workflow now uses the main Ubuntu archive for that dependency URL.
