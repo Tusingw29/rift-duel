@@ -72,6 +72,9 @@ jobs:
           REVIEW_MODEL: ${{ inputs.review_model || 'false' }}
           REVIEW_ONLY: ${{ inputs.review_only || 'false' }}
         run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --review "$REVIEW_MODEL" --review-only "$REVIEW_ONLY" --out artifacts/browser-smoke
+      - name: Review Morrow Gravebound
+        if: inputs.preview_branch
+        run: node scripts/morrow-art-smoke.mjs
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4

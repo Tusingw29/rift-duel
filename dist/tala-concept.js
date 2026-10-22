@@ -1,3 +1,4 @@
+import {dressMorrow} from './morrow-gravebound.js';
 import {talaFootPivot,talaFootOffsets,talaGaitTargets} from './tala-footwork.js';
 import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.js';
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
@@ -67,5 +68,6 @@ export function attachFighterModel(r,source){
   const material=original.material.clone();if(material.map)material.map=material.map.clone();
   const mesh=new SkinnedMesh(original.geometry.clone(),material);mesh.name='concept-'+original.name;mesh.bind(skeleton,new Matrix4());mesh.castShadow=true;mesh.frustumCulled=false;r.g.add(mesh);
  }
+ if(r.id===3)dressMorrow(r,roles);
  r.conceptModel=true;r.g.userData.conceptModel=true;return true;
 }
