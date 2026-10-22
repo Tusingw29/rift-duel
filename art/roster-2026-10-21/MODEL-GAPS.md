@@ -26,3 +26,7 @@ The original roster document says A/B/C are alternatives and the pose sheets use
 For each fighter, check silhouette without color, then large color masses, face/hair, costume construction, weapons/accessories, and movement. Automated tests verify compatibility and stability; they cannot establish concept fidelity. Do not expand the next art change across the entire roster before inspecting the first character's actual rendered result.
 
 No model or public game was changed by this audit.
+
+## Morrow sword update
+
+The user subsequently requested a much larger Cloud-scale / Berserk-weight original sword and a matching concept redesign. [Morrow — Gravebound](../morrow-gravebound/README.md) is the new sword-and-character working direction, retaining Iron Pilgrim armor and identity. It supersedes the original board’s smaller sword, not the rest of the roster.
