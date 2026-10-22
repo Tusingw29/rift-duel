@@ -18,6 +18,10 @@ on:
         description: Also capture model-review face, side, back and guard views
         default: false
         type: boolean
+      morrow_only:
+        description: Only review the Gravebound model on a branch preview
+        default: false
+        type: boolean
       review_only:
         description: Only run model-review checks (enable review_model too)
         default: false
@@ -66,6 +70,7 @@ jobs:
         if: inputs.preview_branch
         run: python3 -m http.server 4173 --directory dist > /tmp/rift-preview.log 2>&1 &
       - name: Run the browser smoke test
+        if: ${{ !inputs.morrow_only }}
         env:
           SMOKE_URL: ${{ inputs.preview_branch && 'http://127.0.0.1:4173/' || inputs.url || 'https://tusingw29.github.io/rift-duel/' }}
           SMOKE_TALA: ${{ inputs.tala || 'design02' }}
