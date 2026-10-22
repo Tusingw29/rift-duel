@@ -258,3 +258,11 @@ Design 03's costume is tailored in the Node builder: the shorts get a straight h
 ## Alpha 0.59: Tala built with Three.js, no Blender
 
 The character pipeline is now a single Node script using the vendored Three.js (`npm run build:tala`). It reads the CC0 MakeHuman data directly, shapes the athletic body, poses it into the game's rest pose with closed fists, fits the eyes, brows, lashes, auburn ponytail, shoes and a sportswear base, generates the tailoring (forearm and shin wraps, open ochre vest and collar over a charcoal top, rust shorts, swept fringe), folds the weights into the game's 17 bones and writes the GLB itself in about six seconds. Blender is no longer required anywhere; a Node-only cloud workflow builds and tests the model on GitHub. Details and limits in `art/blender/tala-v3/README.md`.
+
+## Alpha 0.62: Morrow / Gravebound
+
+Morrow's Design 03 model now wears olive armor, a wrapped ivory mantle and torn tail, an eyepatch, fitted gray beard, swept silver hair and a four-port shoulder launcher. His old sword is replaced by the original oversized **Gravebound** slab blade with a long wrapped grip, worn cutting edge and three diagonal forge grooves. These costume pieces follow the existing combat rig; damage timings and gameplay reach are unchanged.
+
+[Inspect Morrow in motion](https://tusingw29.github.io/rift-duel/morrow-review.html) or select Morrow in the game. The review loads the same runtime model and offers idle, guard, movement, recoil and the three cuts. See [the design specification and concept](art/morrow-gravebound/README.md).
+
+This pass translates the concept's silhouette and costume into the current anatomical model. Facial likeness, detailed fabric/armor painting and dedicated two-hand sword choreography remain unfinished. The existing charcoal clothing supplies the deforming underlayer. The downloadable base GLB alone does not contain the runtime costume; its source is `dist/morrow-gravebound.js`.
