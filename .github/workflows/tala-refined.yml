@@ -1,0 +1,37 @@
+name: Refine Tala anatomical character
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: tala-refined-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      BLENDER_ARCHIVE: blender-3.6.22-linux-x64.tar.xz
+      BLENDER_SHA256: 5953c87f6d483605061a7839758527c67cb82138d0d3590f92d8c76abc757600
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Blender runtime libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libxi6 libxrender1 libxfixes3 libxkbcommon0 libsm6 libgl1
+      - name: Download and verify Blender 3.6.22
+        run: |
+          curl --fail --location --retry 3 "https://ftp.blender.org/release/Blender3.6/$BLENDER_ARCHIVE" --output "$RUNNER_TEMP/$BLENDER_ARCHIVE"
+          echo "$BLENDER_SHA256  $RUNNER_TEMP/$BLENDER_ARCHIVE" | sha256sum --check --strict
+          tar -xJf "$RUNNER_TEMP/$BLENDER_ARCHIVE" -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/blender-3.6.22-linux-x64" >> "$GITHUB_PATH"
+      - name: Build and render tailored character
+        run: blender --background --threads 2 --python scripts/refine-tala-v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tala-refined
+          path: art/blender/tala-v3-refined/
+          retention-days: 14
