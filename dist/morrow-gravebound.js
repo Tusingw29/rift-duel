@@ -77,7 +77,7 @@ export function dressMorrow(r,roles){
   const rim=mesh(pod,new T.TorusGeometry(.055,.012,4,12),edge,'Morrow missile rim',[x,y,.105]);
   const port=mesh(pod,new T.CircleGeometry(.047,12),red,'Morrow missile recess',[x,y,.125]);
  }
- addVeteranDetails(r,head);
+ addVeteranDetails(r,head);sweptHair(head);
  const patch=mesh(head,new T.SphereGeometry(.052,12,8),black,'Morrow right eyepatch',[-.065,.075,.183]);patch.scale.set(1,.78,.25);
  const strap=mesh(head,new T.BoxGeometry(.29,.014,.012),black,'Morrow eyepatch strap',[0,.102,.16]);strap.rotation.z=-.20;
  // Replace only Morrow's tagged old weapon surfaces, retaining hand anchors and effects.
@@ -113,4 +113,19 @@ function addVeteranDetails(r,head){
   // Preserve the existing alpha hair texture while lifting its baked dark tint.
   if(typeof document!=='undefined'&&n.material.map?.image){const img=n.material.map.image,canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);for(let i=0;i<pixels.data.length;i+=4){const l=.3*pixels.data[i]+.59*pixels.data[i+1]+.11*pixels.data[i+2],v=Math.min(225,80+l*1.65);pixels.data[i]=v;pixels.data[i+1]=v;pixels.data[i+2]=v*.94;}ctx.putImageData(pixels,0,0);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;texture.flipY=n.material.map.flipY;n.material.map=texture;n.material.color.set('#ffffff');n.material.needsUpdate=true;}
  }});
+}
+
+function sweptHair(head){
+ const silver=material('Morrow silver hair locks','#aaa89a',.92);
+ const lock=(start,mid,end,width)=>{
+  const curve=new T.QuadraticBezierCurve3(new T.Vector3(...start),new T.Vector3(...mid),new T.Vector3(...end)),points=[],indices=[];
+  for(let j=0;j<=6;j++){
+   const t=j/6,c=curve.getPoint(t),tangent=curve.getTangent(t),u=new T.Vector3(1,0,0).cross(tangent).normalize(),v=tangent.clone().cross(u).normalize(),w=width*Math.pow(1-t,.7)+.0005;
+   for(let k=0;k<6;k++){const a=k/6*Math.PI*2,p=c.clone().addScaledVector(u,Math.cos(a)*w*.48).addScaledVector(v,Math.sin(a)*w);points.push(p.x,p.y,p.z);}
+  }
+  for(let j=0;j<6;j++)for(let k=0;k<6;k++){const a=j*6+k,b=j*6+(k+1)%6;indices.push(a,b,a+6,b,b+6,a+6);}
+  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points,3));g.setIndex(indices);g.computeVertexNormals();mesh(head,g,silver,'Morrow swept silver lock');
+ };
+ for(let i=0;i<7;i++){const x=(i-3)*.035;lock([x,.16,.015],[x+.025,.29,.01],[x+.06,.25+Math.sin(i*2)*.035,-.16],.039);}
+ for(const side of [-1,1])for(let i=0;i<3;i++)lock([side*.12,.11-i*.03,-.02],[side*.17,.18-i*.03,-.09],[side*(.16+i*.014),.12-i*.04,-.23],.032);
 }

@@ -27,6 +27,8 @@ for(const f of roster)test(`${f.name}: Design 03 asset binds to the combat rig, 
   assert.ok(r.graveboundCostume);assert.equal(r.gravebound.parent,hands[1]);
   assert.equal(r.g.getObjectsByProperty('name','Morrow missile recess').length,4);
   assert.equal(r.g.getObjectsByProperty('name','Morrow torn ivory mantle').length,1);
+  assert.ok(r.g.getObjectByName('Morrow fitted beard').geometry.attributes.position.count>30,'beard conforms to actual face triangles');
+  assert.ok(r.g.getObjectByName('Morrow wrapped shoulder mantle'),'shoulder wrap present');
   for(const old of weapons.filter(n=>n.userData.weapon))assert.equal(old.parent,null,'old blade is removed');
   const size=new Box3().setFromObject(r.gravebound).getSize(new Vector3());
   assert.ok(size.z>2.7&&size.z<3.1,'near body-height sword');assert.ok(size.x>.7&&size.x<1,'broad blade and guard');
