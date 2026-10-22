@@ -94,10 +94,10 @@ for i in range(steps):faces.append((i,i+1,i+steps+2,i+steps+1))
 collar=mesh('Tala_standing_collar',verts,faces,ochre,'chest');s=collar.modifiers.new('Collar thickness','SOLIDIFY');s.thickness=.008
 # Closed tapered curved hair clumps. Broad masses read at the fight camera.
 for i in range(7):
- x=-.13+i*.041;verts=[];faces=[];rows=16;cols=8
+ x=-.065+i*.014;end_x=-.13+i*.047;verts=[];faces=[];rows=20;cols=10
  for j in range(rows+1):
-  t=j/rows;cx=x*(1-.22*t)+.07*t;cy=-.10-.153*math.sin(t*math.pi*.65);cz=2.89-abs(x)*.25-(.20+(.035 if i in [1,4] else 0))*t
-  radius=(.019 if i in [0,6] else .026)*(.025+math.sin(math.pi*t)**.65)
+  t=j/rows;cx=x*(1-t)+end_x*t;cy=-.08-.155*math.sin(t*math.pi*.5);cz=2.91-(.12 if i not in [0,6] else .17)*t
+  radius=(.017 if i in [0,6] else .022)*(.025+math.sin(math.pi*t)**.65)
   for k in range(cols):
    a=2*math.pi*k/cols;verts.append((cx+math.cos(a)*radius,cy+math.sin(a)*radius*.38,cz))
  for j in range(rows):

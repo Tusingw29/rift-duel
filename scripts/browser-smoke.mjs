@@ -68,6 +68,13 @@ try{
   await page.locator('#time').evaluate(el=>{el.value='.95';el.dispatchEvent(new Event('input',{bubbles:true}));});
   await frames(2);await shot('review-guard');
   const review=await page.evaluate(()=>window.talaStudy());
+  if(tala==='v3'){
+   for(const [clip,time,label] of [['Combo',17/60,'straight'],['Combo',37/60,'cross'],['Combo',57/60,'hook'],['Advance',.65,'advance'],['Recoil',.45,'recoil']]){
+    await page.selectOption('#clip',clip);
+    await page.locator('#time').evaluate((el,t)=>{el.value=String(t);el.dispatchEvent(new Event('input',{bubbles:true}));},time);
+    await frames(2);await shot('review-'+label);
+   }
+  }
   check('current model review loads and samples guard',review.clip==='Guard + block'&&Math.abs(review.time-.95)<.001,JSON.stringify(review));
  }
  const problems=console_.filter(m=>['error','pageerror'].includes(m.type)||m.type==='warning'&&!m.text.includes('GPU stall'));
