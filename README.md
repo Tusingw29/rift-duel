@@ -247,6 +247,10 @@ Tala's default appearance is now a real anatomical character instead of scripted
 
 The anatomical Tala now wears a separate open ochre vest and collar over a charcoal top, shortened rust shorts, fitted forearm and shin wraps, dark footwear and a first swept fringe. The original skeleton and live moves are retained, including the unequal-leg foot-planting fix. This is actual model work toward the concept, not completed likeness or production-quality art. Face, combat hand poses, garment fit and finer hair remain unfinished. Source, neutral renders and reproducible cloud build: `art/blender/tala-v3-refined/`.
 
+## Alpha 0.60: Tala costume tailoring
+
+Design 03's costume is tailored in the Node builder: the shorts get a straight hem and a dark waistband, the vest is sleeveless with an open front and a straight hem above the midriff, the body hidden under the suit is removed so skin no longer pokes through tight cloth, and the fringe and new temple locks are textured strand cards from the hair atlas instead of flat colour. Rebuild with `npm run build:tala`; the review page shows the result at `tala-blender.html?model=v3`.
+
 ## Alpha 0.59: Tala built with Three.js, no Blender
 
 The character pipeline is now a single Node script using the vendored Three.js (`npm run build:tala`). It reads the CC0 MakeHuman data directly, shapes the athletic body, poses it into the game's rest pose with closed fists, fits the eyes, brows, lashes, auburn ponytail, shoes and a sportswear base, generates the tailoring (forearm and shin wraps, open ochre vest and collar over a charcoal top, rust shorts, swept fringe), folds the weights into the game's 17 bones and writes the GLB itself in about six seconds. Blender is no longer required anywhere; a Node-only cloud workflow builds and tests the model on GitHub. Details and limits in `art/blender/tala-v3/README.md`.

@@ -157,8 +157,12 @@ for(const k of Object.keys(joints))joints[k]=joints[k].map(v=>+v.toFixed(4));
 // Shorts: drop the leggings below mid-thigh and split the suit into top and shorts materials.
 const hipY=joints['thigh.L'][1],kneeY=joints['shin.L'][1],cutY=hipY-(hipY-kneeY)*.42,waistY=hipY+.16;
 suit.faces=suit.faces.filter(f=>!f.v.every(i=>suit.positions[i][1]<cutY));
+// Straight hem: vertices of kept faces that fall below the cut plane are lifted onto it.
+for(const f of suit.faces)for(const i of f.v)if(suit.positions[i][1]<cutY)suit.positions[i][1]=cutY;
 const shorts={...suit,name:'shorts',material:'shorts',faces:suit.faces.filter(f=>f.v.every(i=>suit.positions[i][1]<waistY))};
 suit.faces=suit.faces.filter(f=>!f.v.every(i=>suit.positions[i][1]<waistY));parts.push(shorts);
+// Body under the suit above the hem is hidden; dropping it stops skin poking through tight cloth.
+body.faces=body.faces.filter(f=>!f.v.some(i=>suit.del.has(i)&&body.positions[i][1]>cutY+.04));
 // ---- Tailoring: wraps, vest, collar, under-top and fringe (generated geometry) ------------------
 const faceNormal=(part,f)=>{const a=new Vector3(...part.positions[f.v[0]]),b=new Vector3(...part.positions[f.v[1]]),c=new Vector3(...part.positions[f.v[2]]);return b.sub(a).cross(c.sub(a)).normalize();};
 function vertexNormals(part){const n=part.positions.map(()=>new Vector3());for(const f of part.faces){const fn=faceNormal(part,f);for(const i of f.v)n[i].add(fn);}return n.map(v=>v.normalize());}
@@ -180,7 +184,11 @@ for(const S of ['L','R']){
 // Vest: the sleeveless outer layer of the top, open down the front, over a charcoal under-top.
 const shoulderY=joints['upper_arm.L'][1];
 suit.material='undertop';
-shell(suit,'vest',f=>inRange(f,suit,p=>!(Math.abs(p[0])<.075&&p[2]>0)&&!(Math.abs(p[0])>.25&&p[1]>shoulderY-.12)),.018,'vest',p=>[p[0]*2+.5,p[1]*2]);
+const hemY=joints.chest[1]-.06;
+const vest=shell(suit,'vest',f=>inRange(f,suit,p=>!(Math.abs(p[0])<.07&&p[2]>0)&&!(Math.abs(p[0])>.215&&p[1]>shoulderY-.16)&&p[1]>hemY),.02,'vest',p=>[p[0]*2+.5,p[1]*2]);
+// Straight hem: lift the vest vertices below the hem plane onto it.
+for(const p of vest.positions)if(p[1]<hemY)p[1]=hemY;
+shell(shorts,'waistband',f=>inRange(f,shorts,p=>p[1]>hipY+.09),.012,'waistband',p=>[p[0]*2+.5,p[1]*2]);
 // Standing collar: an open ring around the neck base.
 {const headJ=joints.head,y0=joints.chest[1]+.58,y1=y0+.11,positions=[],uvs=[],faces=[],rawWeights=[],n=14;
  for(let row=0;row<2;row++)for(let i=0;i<=n;i++){const a=(.18+ .64*i/n)*2*Math.PI;const r=row?.135:.15;positions.push([Math.cos(a)*r*1.05,row?y1:y0,Math.sin(a)*r*.9+.02]);uvs.push([i/n,row]);rawWeights.push({chest:1});}
@@ -192,10 +200,17 @@ shell(suit,'vest',f=>inRange(f,suit,p=>!(Math.abs(p[0])<.075&&p[2]>0)&&!(Math.ab
  // Cards start at the hairline and sweep to the right, ending above the brow line.
  const cards=[[-.13,.0,-.02],[-.09,.01,-.01],[-.05,.02,.01],[-.01,.025,.02],[.03,.025,.03],[.07,.02,.03],[.11,.01,.02]];
  cards.forEach(([x0,lift,sweep],c)=>{const base=positions.length;const w=.028,len=.11+c*.006,z0=.19-Math.abs(x0)*.6;
-  const pts=[[x0-w,top-.055+lift,z0],[x0+w,top-.055+lift,z0+.004],[x0+sweep+w*.6,top-.055+lift-len*.55,z0+.03],[x0+sweep-w*.6,top-.055+lift-len*.55,z0+.03],[x0+sweep*1.5+.01,top-.055+lift-len,z0+.045],[x0+sweep*1.5+.02,top-.055+lift-len-.015,z0+.047]];
-  for(const p of pts){positions.push(p);uvs.push([.3+(positions.length%2)*.1,.2+c*.08]);rawWeights.push({head:1});}
+  const pts=[[x0-w,top-.085+lift,z0],[x0+w,top-.085+lift,z0+.004],[x0+sweep+w*.6,top-.085+lift-len*.55,z0+.03],[x0+sweep-w*.6,top-.085+lift-len*.55,z0+.03],[x0+sweep*1.5+.01,top-.085+lift-len,z0+.045],[x0+sweep*1.5+.02,top-.085+lift-len-.015,z0+.047]];
+  const strand=[[.03,.46],[.09,.46],[.085,.25],[.035,.25],[.055,.05],[.065,.05]];// a tapered strand card from the hair atlas
+  pts.forEach((p,k)=>{positions.push(p);uvs.push(strand[k]);rawWeights.push({head:1});});
   faces.push({v:[base,base+1,base+2,base+3],vt:[base,base+1,base+2,base+3],group:'fringe'},{v:[base+3,base+2,base+4,base+5],vt:[base+3,base+2,base+4,base+5],group:'fringe'});});
- parts.push({name:'fringe',positions,uvs,faces,rawWeights,material:'hairflat',headOnly:true,twoSided:true});
+ // Temple locks: side-facing cards just ahead of each ear, hanging to the cheekbone and hugging the skull.
+ for(const sx of [-1,1]){const base=positions.length,x=sx*.148,y0=top-.1;
+  const pts=[[x,y0,.07],[x,y0,.115],[x+sx*.008,y0-.1,.075],[x+sx*.008,y0-.1,.11],[x-sx*.004,y0-.2,.085],[x-sx*.004,y0-.2,.1]];
+  const strand=[[.03,.46],[.09,.46],[.035,.25],[.085,.25],[.055,.05],[.065,.05]];
+  pts.forEach((p,k)=>{positions.push(p);uvs.push(strand[k]);rawWeights.push({head:1});});
+  faces.push({v:[base,base+1,base+3,base+2],vt:[base,base+1,base+3,base+2],group:'fringe'},{v:[base+2,base+3,base+5,base+4],vt:[base+2,base+3,base+5,base+4],group:'fringe'});}
+ parts.push({name:'fringe',positions,uvs,faces,rawWeights,material:'hair',headOnly:true,twoSided:true});
 }
 // ---- Weights into the game's 17 bones ---------------------------------------------------------
 const mapping={};for(const [our,src] of Object.entries(CONSOLIDATE)){if(['root','chest','head'].includes(our))for(const s of src)mapping[s]=our;else for(const s of src)for(const mhs of ['l','r'])mapping[`${s}_${mhs}`]=`${our}.${SIDE[mhs]}`;}
@@ -214,7 +229,9 @@ for(const part of parts)consolidate(part);
 // ---- Images ---------------------------------------------------------------------------------------
 function decode(path){return PNG.sync.read(readFileSync(path));}
 function resize(img,size){if(img.width<=size)return img;const f=img.width/size,out=new PNG({width:size,height:size});for(let y=0;y<size;y++)for(let x=0;x<size;x++){const acc=[0,0,0,0];let n=0;for(let yy=Math.floor(y*f);yy<Math.floor((y+1)*f);yy++)for(let xx=Math.floor(x*f);xx<Math.floor((x+1)*f);xx++){const i=(yy*img.width+xx)*4;for(let k=0;k<4;k++)acc[k]+=img.data[i+k];n++;}const o=(y*size+x)*4;for(let k=0;k<4;k++)out.data[o+k]=acc[k]/n;}return out;}
-function tint(img,rgb){for(let i=0;i<img.data.length;i+=4){const l=(.2126*img.data[i]+.7152*img.data[i+1]+.0722*img.data[i+2])*1.9;img.data[i]=Math.min(255,l*rgb[0]);img.data[i+1]=Math.min(255,l*rgb[1]);img.data[i+2]=Math.min(255,l*rgb[2]);}return img;}
+function tint(img,rgb){for(let i=0;i<img.data.length;i+=4){const r=img.data[i],g=img.data[i+1],b=img.data[i+2];let l=(.2126*r+.7152*g+.0722*b)*1.9;
+ // Neutral light pixels are the atlas background bleeding at seams (and the white piping): fold them into the fabric luminance.
+ if(r>140&&Math.abs(r-g)<12&&Math.abs(g-b)<12)l=70*1.9;img.data[i]=Math.min(255,l*rgb[0]);img.data[i+1]=Math.min(255,l*rgb[1]);img.data[i+2]=Math.min(255,l*rgb[2]);}return img;}
 function warm(img,rgb){for(let i=0;i<img.data.length;i+=4){img.data[i]=Math.min(255,img.data[i]*rgb[0]);img.data[i+1]=Math.min(255,img.data[i+1]*rgb[1]);img.data[i+2]=Math.min(255,img.data[i+2]*rgb[2]);}return img;}
 const toJpeg=(img,q=86)=>jpeg.encode({data:img.data,width:img.width,height:img.height},q).data,toPng=img=>PNG.sync.write(img);
 function bands(width,height,count){const img=new PNG({width,height});for(let y=0;y<height;y++){const t=(y/height*count)%1,edge=t<.08||t>.92,shade=edge?168:(t<.5?232:222);for(let x=0;x<width;x++){const i=(y*width+x)*4;const grain=((x*7+y*3)%11)*1.2;img.data[i]=shade-grain;img.data[i+1]=shade-6-grain;img.data[i+2]=shade-28-grain;img.data[i+3]=255;}}return img;}
@@ -232,7 +249,7 @@ const images={
 };
 const materials={
  skin:{image:'skin',roughness:.55},eyes:{image:'eyes',roughness:.25,alpha:true},eyebrows:{image:'eyebrows',roughness:.8,alpha:true,double:true},eyelashes:{image:'eyelashes',roughness:.8,alpha:true,double:true},
- hair:{image:'hair',roughness:.45,alpha:true,double:true},hairflat:{color:[.36,.11,.06],roughness:.5,double:true},top:{image:'top',roughness:.85},vest:{color:[.56,.31,.07],roughness:.8,double:true},undertop:{image:'undertop',roughness:.9},shorts:{image:'shorts',roughness:.85},wraps:{image:'wraps',roughness:.95},shoes:{image:'shoes',roughness:.6,color:[.35,.3,.3]}
+ hair:{image:'hair',roughness:.45,alpha:true,double:true},hairflat:{color:[.36,.11,.06],roughness:.5,double:true},top:{image:'top',roughness:.85},vest:{color:[.56,.31,.07],roughness:.8,double:true},undertop:{image:'undertop',roughness:.9},shorts:{image:'shorts',roughness:.85},wraps:{image:'wraps',roughness:.95},waistband:{color:[.3,.09,.05],roughness:.85},shoes:{image:'shoes',roughness:.6,color:[.35,.3,.3]}
 };
 // ---- Geometry buffers (split vertices per unique position/uv pair, smooth normals) ---------
 function buildGeometry(part){
