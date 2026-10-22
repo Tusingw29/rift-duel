@@ -12,24 +12,25 @@ function paint(base){
 }
 const material=(name,color,roughness=.75,metalness=0)=>{const m=new T.MeshStandardMaterial({color,roughness,metalness});m.name=name;return m;};
 function mesh(parent,geo,mat,name,pos=[0,0,0]){const m=new T.Mesh(geo,mat);m.name=name;m.position.set(...pos);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;}
-function plate(parent,outline,depth,mat,name,pos=[0,0,0],bevel=.012){
+function plate(parent,outline,depth,mat,name,pos=[0,0,0],bevel=.006){
  const shape=new T.Shape();outline.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();
  return mesh(parent,new T.ExtrudeGeometry(shape,{depth,bevelEnabled:bevel>0,bevelThickness:bevel,bevelSize:bevel,bevelSegments:1,steps:1}),mat,name,pos);
 }
 export function buildGravebound(hand){
  const sword=new T.Group();sword.name='Gravebound';sword.userData.weapon=true;hand.add(sword);
- const dark=material('Gravebound forged steel','#ffffff',.74,.35);dark.map=paint([83,86,82]);
+ const dark=material('Gravebound forged steel','#ffffff',.74,.35);dark.map=paint([105,108,102]);
  const edge=material('Gravebound worn cutting bevel','#b3b2a1',.49,.55),brass=material('Gravebound dark brass','#756442',.65,.4),leather=material('Gravebound wrapped grip','#302921');
  // Author in XY then rotate to the existing +Z weapon direction.
  const blade=plate(sword,[[-.31,0],[.31,0],[.31,1.91],[.19,2.24],[-.31,1.98]],.078,dark,'Gravebound blade',[0,0,.28],.025);blade.rotation.x=Math.PI/2;
  const cutting=plate(sword,[[.25,.04],[.31,.04],[.31,1.91],[.19,2.24],[.15,2.10],[.25,1.86]],.003,edge,'Gravebound cutting bevel',[0,.004,.28],.001);cutting.rotation.x=Math.PI/2;
+ const reverseCutting=cutting.clone();reverseCutting.geometry=cutting.geometry.clone();reverseCutting.position.y=-.082;sword.add(reverseCutting);
  const spine=mesh(sword,new T.BoxGeometry(.035,.12,1.92),brass,'Gravebound spine reinforcement',[-.30,-.035,1.24]);
  const guard=mesh(sword,new T.BoxGeometry(.82,.13,.13),brass,'Gravebound guard',[.035,-.02,.23]);guard.rotation.y=-.04;
  const grip=mesh(sword,new T.CylinderGeometry(.046,.046,.42,10),leather,'Gravebound two-hand grip',[0,-.02,-.045]);grip.rotation.x=Math.PI/2;
  for(let i=0;i<9;i++){const band=mesh(sword,new T.TorusGeometry(.047,.004,3,10),brass,'Gravebound grip wrap',[0,-.02,-.23+i*.043]);}
  mesh(sword,new T.BoxGeometry(.13,.13,.12),brass,'Gravebound counterweight',[0,-.02,-.30]);
  const groove=material('Gravebound forge grooves','#171b19');
- for(let i=0;i<3;i++){const line=mesh(sword,new T.BoxGeometry(.24,.006,.026),groove,'Gravebound diagonal forge groove',[-.05,.006,.48+i*.09]);line.rotation.y=-.48;}
+ for(let i=0;i<3;i++){const line=mesh(sword,new T.BoxGeometry(.24,.006,.026),groove,'Gravebound diagonal forge groove',[-.05,.006,.48+i*.09]);line.rotation.y=-.48;const reverse=line.clone();reverse.geometry=line.geometry.clone();reverse.position.y=-.087;sword.add(reverse);}
  sword.traverse(n=>{if(n.isMesh)n.userData.weapon=true;});
  sword.userData.totalLength=2.90;sword.userData.bladeLength=2.24;return sword;
 }
@@ -38,7 +39,7 @@ function mantle(parent,mat){
  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){
   const u=i/cols,v=j/rows,x=-.50+u*.91;
   const end=1.02+.22*Math.sin(u*13)+.08*Math.sin(u*41);
-  p.push(x*(1+.1*v),.49-v*end,-.21-.13*v-.035*Math.sin(u*8*Math.PI)*v);
+  p.push(x*(1+.1*v),.49-v*end,-.31-.13*v-.035*Math.sin(u*8*Math.PI)*v);
   uv.push(u,v);
  }
  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+cols+1;idx.push(a,b,a+1,a+1,b,b+1);}
@@ -89,7 +90,7 @@ function shawl(parent,mat){
  const p=[],uv=[],indices=[],cols=48,rows=8;
  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){
   const a=i/cols*Math.PI*2,t=j/rows,front=Math.max(0,Math.cos(a));
-  const radius=.15+.34*t,x=Math.sin(a)*radius,z=Math.cos(a)*(.13+.14*t);
+  const radius=.15+.34*t,x=Math.sin(a)*radius,z=Math.cos(a)*(.20+.16*t);
   const folds=Math.sin(a*9+t*7)*.018*Math.sin(t*Math.PI);
   const y=.70-.27*t-front*.16*t+folds+.035*Math.sin(a*2)*t;
   p.push(x,y,z);uv.push(i/cols,t);
