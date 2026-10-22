@@ -61,7 +61,7 @@ export function buildRei(){
  const hand=limbs[2].userData.hand,dark=new T.MeshLambertMaterial({color:'#263341'}),gold=new T.MeshLambertMaterial({color:'#c5ab7b'}),steel=new T.MeshLambertMaterial({color:'#c3d5d7'});
  const grip=new T.Mesh(new T.CylinderGeometry(.037,.037,.23,8),dark);grip.position.z=.12;hand.add(grip);
  const guard=new T.Mesh(new T.TorusGeometry(.115,.018,5,12),gold);guard.rotation.x=Math.PI/2;guard.position.set(0,.10,.12);hand.add(guard);
- const blade=new T.Mesh(new T.ConeGeometry(.065,1.5,4),steel);blade.rotation.x=Math.PI/2;blade.scale.z=.28;blade.position.set(0,.12,.99);hand.add(blade);
+ const blade=new T.Mesh(new T.ConeGeometry(.065,1.5,4),steel);blade.rotation.x=Math.PI/2;blade.scale.z=.28;blade.position.set(0,.12,.99);hand.add(blade);for(const n of [grip,guard,blade])n.userData.weapon=true;
  const ether=new T.MeshLambertMaterial({color:'#91dce0',transparent:true,opacity:.25,depthWrite:false,side:T.DoubleSide});
  const spirit=new T.Group();spirit.position.set(.55,1.55,-.38);body.add(spirit);spirit.userData.material=ether;
  const shroud=new T.Mesh(new T.CylinderGeometry(.22,.035,.75,8),ether);shroud.position.y=.2;spirit.add(shroud);

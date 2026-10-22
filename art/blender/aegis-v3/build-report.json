@@ -1,0 +1,155 @@
+{
+ "generator": "build-tala-threejs.mjs (Three.js + Node, no Blender)",
+ "glb": {
+  "bytes": 4024244,
+  "meshes": 7
+ },
+ "parts": [
+  {
+   "name": "body",
+   "vertices": 19158,
+   "faces": 7746
+  },
+  {
+   "name": "eyes",
+   "vertices": 96,
+   "faces": 86
+  },
+  {
+   "name": "eyebrows",
+   "vertices": 124,
+   "faces": 96
+  },
+  {
+   "name": "eyelashes",
+   "vertices": 250,
+   "faces": 184
+  },
+  {
+   "name": "hair",
+   "vertices": 2984,
+   "faces": 1839
+  },
+  {
+   "name": "suit",
+   "vertices": 3195,
+   "faces": 2998
+  },
+  {
+   "name": "shoes",
+   "vertices": 1594,
+   "faces": 1532
+  }
+ ],
+ "joints": {
+  "root": [
+   0,
+   0,
+   0
+  ],
+  "chest": [
+   0,
+   1.8649,
+   -0.0224
+  ],
+  "head": [
+   0,
+   2.6556,
+   0.0678
+  ],
+  "upper_arm.R": [
+   0.3112,
+   2.3485,
+   0.0282
+  ],
+  "forearm.R": [
+   0.3112,
+   1.9081,
+   0.0282
+  ],
+  "hand.R": [
+   0.3112,
+   1.4955,
+   0.0282
+  ],
+  "thigh.R": [
+   0.1673,
+   1.6161,
+   -0.0047
+  ],
+  "shin.R": [
+   0.1673,
+   0.795,
+   -0.0047
+  ],
+  "foot.R": [
+   0.1673,
+   0.1181,
+   -0.0047
+  ],
+  "upper_arm.L": [
+   -0.3112,
+   2.3485,
+   0.0282
+  ],
+  "forearm.L": [
+   -0.3112,
+   1.9081,
+   0.0282
+  ],
+  "hand.L": [
+   -0.3112,
+   1.4955,
+   0.0282
+  ],
+  "thigh.L": [
+   -0.1673,
+   1.6161,
+   -0.0047
+  ],
+  "shin.L": [
+   -0.1673,
+   0.795,
+   -0.0047
+  ],
+  "foot.L": [
+   -0.1673,
+   0.1181,
+   -0.0047
+  ],
+  "ponytail": [
+   0,
+   2.82,
+   -0.1222
+  ],
+  "sash": [
+   -0.19,
+   1.5861,
+   0.16
+  ]
+ },
+ "metrics": {
+  "legLength": 0.8211,
+  "shinLength": 0.6769,
+  "ankleHeight": 0.1181,
+  "gameHeight": 2.9,
+  "scale": 0.13753422685519462
+ },
+ "macro": {
+  "race": {
+   "asian": 0.2,
+   "african": 0.1,
+   "caucasian": 0.7
+  },
+  "gender": 1,
+  "age": 0.38,
+  "muscle": 0.82,
+  "weight": 0.58,
+  "proportions": 0.7,
+  "height": 0.88,
+  "cupsize": 0.5,
+  "firmness": 0.5
+ },
+ "targets": 22,
+ "sources": "MakeHuman base mesh, targets, game-engine rig and weights (MPFB 2.0 alpha 3, CC0); MakeHuman system assets (CC0)"
+}

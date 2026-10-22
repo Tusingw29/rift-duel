@@ -247,6 +247,10 @@ Tala's default appearance is now a real anatomical character instead of scripted
 
 The anatomical Tala now wears a separate open ochre vest and collar over a charcoal top, shortened rust shorts, fitted forearm and shin wraps, dark footwear and a first swept fringe. The original skeleton and live moves are retained, including the unequal-leg foot-planting fix. This is actual model work toward the concept, not completed likeness or production-quality art. Face, combat hand poses, garment fit and finer hair remain unfinished. Source, neutral renders and reproducible cloud build: `art/blender/tala-v3-refined/`.
 
+## Alpha 0.61: the whole roster on the Design 03 pipeline
+
+`npm run build:tala -- --fighter <id>` now builds any fighter: Aegis, Rei, Morrow, Sol and Vesper each get an anatomical CC0 MakeHuman body shaped by their own sliders and detail targets in `scripts/fighter-specs.mjs`, dressed from the CC0 wardrobe and recoloured to their palette, and written to `dist/assets/models/<id>-v3.glb` with the joint positions and leg metrics embedded in the scene extras. In the game the Design 03 appearance option now applies to everyone: each fighter's combat bones are moved onto the model's joints when it loads, weapons tagged in the classic models stay in the hands, and the classic model remains the fallback if the download fails. The wardrobe is modern casual wear, so the costumes read as placeholders until each fighter gets a tailoring pass like Tala's.
+
 ## Alpha 0.60: Tala costume tailoring
 
 Design 03's costume is tailored in the Node builder: the shorts get a straight hem and a dark waistband, the vest is sleeveless with an open front and a straight hem above the midriff, the body hidden under the suit is removed so skin no longer pokes through tight cloth, and the fringe and new temple locks are textured strand cards from the hair atlas instead of flat colour. Rebuild with `npm run build:tala`; the review page shows the result at `tala-blender.html?model=v3`.

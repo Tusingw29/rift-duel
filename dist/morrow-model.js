@@ -72,7 +72,7 @@ export function buildMorrow(){
  pos.push(0,.065,.72,0,-.065,.72);
  for(let i=0;i<6;i++){const j=(i+1)%6;indices.push(12,6+i,6+j,13,j,i,i,j,6+j,i,6+j,6+i);}
  for(let i=0;i<indices.length;i+=3)[indices[i+1],indices[i+2]]=[indices[i+2],indices[i+1]];
- const bladeGeo=new T.BufferGeometry();bladeGeo.setAttribute('position',new T.Float32BufferAttribute(pos,3));bladeGeo.setIndex(indices);bladeGeo.computeVertexNormals();const blade=new T.Mesh(bladeGeo,steel);blade.position.set(0,.12,.24);blade.castShadow=true;hand.add(blade);
+ const bladeGeo=new T.BufferGeometry();bladeGeo.setAttribute('position',new T.Float32BufferAttribute(pos,3));bladeGeo.setIndex(indices);bladeGeo.computeVertexNormals();const blade=new T.Mesh(bladeGeo,steel);blade.position.set(0,.12,.24);for(const n of [grip,guard,blade])n.userData.weapon=true;blade.castShadow=true;hand.add(blade);
  const shadow=new T.Mesh(new T.CircleGeometry(.75,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.82,.018,5,40),new T.MeshBasicMaterial({color:'#a5c69e'}));aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);
  batch();return {g,body,spine,head,limbs,elbows,knees,feet,clothParts,aura,spirit:null,id:3,skeleton,legLength:.56};

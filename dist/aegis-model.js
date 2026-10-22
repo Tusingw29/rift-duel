@@ -79,15 +79,16 @@ export function buildAegis(){
   const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setIndex(indices);geo.computeVertexNormals();mesh(geo,capeMat,cape);
  }
  const hand=limbs[2].userData.hand;
- tube(hand,.045,.045,.25,0,0,.12);
- plate(hand,[[-.19,.075],[.19,.075],[.15,.14],[-.15,.14]],.10,'#d9b86e',0,0,.13);
+ const grip=tube(hand,.045,.045,.25,0,0,.12);
+ const guard=plate(hand,[[-.19,.075],[.19,.075],[.15,.14],[-.15,.14]],.10,'#d9b86e',0,0,.13);
  const blade=plate(hand,[[-.065,0],[.065,0],[.045,.97],[0,1.24],[-.045,.97]],.035,'#b9edf0');blade.rotation.x=Math.PI/2;blade.position.set(0,.12,.24);
+ for(const n of [grip,guard,blade])if(n)n.userData.weapon=true;
  const shadow=mesh(new T.CircleGeometry(.62,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}),g,0,.015);shadow.rotation.x=-Math.PI/2;shadow.castShadow=false;
  const aura=mesh(new T.TorusGeometry(.72,.016,5,40),glow,g,0,.025);aura.rotation.x=-Math.PI/2;aura.castShadow=false;
  // Merge fixed surfaces per joint/material while retaining beveled face colors.
  const batch=root=>{
   for(const child of [...root.children])if(child.isGroup)batch(child);
-  const groups=new Map();for(const child of root.children)if(child.isMesh){const list=groups.get(child.material)||[];list.push(child);groups.set(child.material,list);}
+  const groups=new Map();for(const child of root.children)if(child.isMesh&&!child.userData.weapon){const list=groups.get(child.material)||[];list.push(child);groups.set(child.material,list);}
   for(const [mat,list] of groups){if(list.length<2)continue;const pos=[],normal=[],color=[];
    for(const original of list){original.updateMatrix();const geo=original.geometry.index?original.geometry.toNonIndexed():original.geometry.clone();geo.applyMatrix4(original.matrix);pos.push(...geo.attributes.position.array);normal.push(...geo.attributes.normal.array);if(geo.attributes.color)color.push(...geo.attributes.color.array);else for(let i=0;i<geo.attributes.position.count;i++)color.push(1,1,1);geo.dispose();}
    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setAttribute('normal',new T.Float32BufferAttribute(normal,3));geo.setAttribute('color',new T.Float32BufferAttribute(color,3));mesh(geo,mat,root);

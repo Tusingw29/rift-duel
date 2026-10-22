@@ -1,5 +1,5 @@
 import {airHeight} from './air-motion.js';
-import {loadTalaConcept,attachTalaConcept} from './tala-concept.js';
+import {loadTalaConcept,attachTalaConcept,loadFighterModel,attachFighterModel} from './tala-concept.js';
 import {disposeSkeletons} from './rig-clone.js';
 import {createProjectileVisual,updateProjectileVisual} from './projectile-visuals.js';
 import {burstPose} from './cinematics.js';
@@ -46,6 +46,11 @@ export function createView(canvas,options={}){
    model.talaStatus='loading';
    model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
    loadTalaConcept(variant).then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);model.talaStatus=variant;document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:variant==='design02'?'Design 02 fight preview':'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
+  }
+  if(id!==2&&talaModel==='v3'){
+   // The rest of the roster shares the Design 03 pipeline; their classic model stays as the fallback.
+   model.talaStatus='loading';model.conceptPending=true;
+   loadFighterModel(fighters[id].id).then(asset=>{if(model.conceptPending){attachFighterModel(model,asset.scene);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);model.talaStatus='v3';}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn(fighters[id].name+' model fallback:',error);}});
   }
   const material=new T.MeshBasicMaterial({color:fighters[id].color,transparent:true,opacity:.22,depthWrite:false,side:T.DoubleSide});
   model.techniqueFX=new T.Mesh(new T.SphereGeometry(1,16,10),material);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
@@ -152,5 +157,5 @@ export function createView(canvas,options={}){
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

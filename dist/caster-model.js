@@ -63,12 +63,12 @@ export function buildCaster(id){
  const ring=(parent,r,x,y,z,material=gold)=>{const mesh=new T.Mesh(new T.TorusGeometry(r,.022,5,32),material);mesh.position.set(x,y,z);parent.add(mesh);return mesh;};
  if(oracle){
   ring(head,.48,0,.16,-.24);const outer=ring(head,.54,0,.16,-.24);outer.rotation.y=.25;
-  for(const side of [-1,1]){const orbit=ring(hand,.25,side*.03,.12,.11,side<0?gold:light);orbit.rotation.y=side*.65;}
+  for(const side of [-1,1]){const orbit=ring(hand,.25,side*.03,.12,.11,side<0?gold:light);orbit.rotation.y=side*.65;orbit.userData.weapon=true;}
   const jewel=new T.Mesh(new T.OctahedronGeometry(.065),light);jewel.position.set(0,.23,.16);head.add(jewel);
  }else{
-  const shaft=new T.Mesh(new T.CylinderGeometry(.035,.035,2.05,8),dark);shaft.position.set(0,.49,.06);hand.add(shaft);
-  for(const y of [-.45,.12,1.38]){const band=new T.Mesh(new T.CylinderGeometry(.05,.05,.08,8),gold);band.position.set(0,y,.06);hand.add(band);}
-  ring(hand,.23,0,1.55,.06);const crystal=new T.Mesh(new T.OctahedronGeometry(.17),light);crystal.scale.y=1.5;crystal.position.set(0,1.55,.06);hand.add(crystal);
+  const shaft=new T.Mesh(new T.CylinderGeometry(.035,.035,2.05,8),dark);shaft.position.set(0,.49,.06);hand.add(shaft);shaft.userData.weapon=true;
+  for(const y of [-.45,.12,1.38]){const band=new T.Mesh(new T.CylinderGeometry(.05,.05,.08,8),gold);band.position.set(0,y,.06);hand.add(band);band.userData.weapon=true;}
+  ring(hand,.23,0,1.55,.06).userData.weapon=true;const crystal=new T.Mesh(new T.OctahedronGeometry(.17),light);crystal.scale.y=1.5;crystal.position.set(0,1.55,.06);hand.add(crystal);crystal.userData.weapon=true;
  }
  const shadow=new T.Mesh(new T.CircleGeometry(.62,24),new T.MeshBasicMaterial({color:'#090f16',transparent:true,opacity:.35,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;g.add(shadow);
  const aura=new T.Mesh(new T.TorusGeometry(.72,.016,5,40),light);aura.rotation.x=-Math.PI/2;aura.position.y=.025;g.add(aura);

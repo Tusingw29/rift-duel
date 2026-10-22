@@ -3,18 +3,21 @@
 // clothing fit files, textures), shapes the body to Tala's standard, poses it into the game's
 // rest pose with closed fists, folds the weights into the game's 17-bone rig, dresses it, and
 // writes dist/assets/models/tala-v3.glb plus the rig constants the JavaScript skeleton uses.
-// Usage: node scripts/build-tala-threejs.mjs --sources <dir from scripts/fetch-tala-v3-sources.sh> --tools <dir with node_modules containing pngjs and jpeg-js>
+// Usage: node scripts/build-tala-threejs.mjs --sources <dir from scripts/fetch-tala-v3-sources.sh> --tools <dir with node_modules containing pngjs and jpeg-js> [--fighter tala|aegis|rei|morrow|sol|vesper]
+// Every fighter shares this pipeline; scripts/fighter-specs.mjs holds the per-fighter shape, assets and colours.
 import {readFileSync,writeFileSync,existsSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createRequire} from 'node:module';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Vector3,Quaternion,Matrix4} from '../dist/vendor/three.module.js';
+import {specFor} from './fighter-specs.mjs';
 const ROOT=join(dirname(fileURLToPath(import.meta.url)),'..');
 const args=Object.fromEntries(process.argv.slice(2).map((a,i,all)=>a.startsWith('--')?[a.slice(2),all[i+1]]:[]).filter(Boolean));
 const SOURCES=args.sources||process.env.TALA_SOURCES,TOOLS=args.tools||process.env.TALA_TOOLS||SOURCES;
 if(!SOURCES)throw new Error('--sources <dir> is required');
-const DATA=join(SOURCES,'addon/mpfb/data'),ASSETS=join(SOURCES,'assets'),OUT=join(ROOT,'art/blender/tala-v3');mkdirSync(OUT,{recursive:true});
+const spec=specFor(args.fighter||'tala'),FIGHTER=spec.id;
+const DATA=join(SOURCES,'addon/mpfb/data'),ASSETS=join(SOURCES,'assets'),OUT=join(ROOT,'art/blender',FIGHTER+'-v3');mkdirSync(OUT,{recursive:true});
 const require=createRequire(join(TOOLS,'package.json'));const {PNG}=require('pngjs');const jpeg=require('jpeg-js');
 const GAME_HEIGHT=2.9;
 const OUR_BONES=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash','foot.L','foot.R'];
@@ -23,15 +26,7 @@ const PARENT={root:null,chest:'root',head:'chest',ponytail:'head',sash:'root','u
 const SIDE={l:'R',r:'L'};
 const CONSOLIDATE={root:['Root','pelvis','spine_01'],chest:['spine_02','spine_03','clavicle_l','clavicle_r'],head:['neck_01','head'],
  upper_arm:['upperarm'],forearm:['lowerarm'],hand:['hand','thumb_01','thumb_02','thumb_03','index_01','index_02','index_03','middle_01','middle_02','middle_03','ring_01','ring_02','ring_03','pinky_01','pinky_02','pinky_03'],thigh:['thigh'],shin:['calf'],foot:['foot','ball']};
-// Tala: tall, athletic, long-legged young woman; face toward the art target.
-const MACRO={race:{asian:.45,african:.15,caucasian:.40},gender:0,age:.3,muscle:.86,weight:.52,proportions:.75,height:.82,cupsize:.55,firmness:.8};
-const TARGETS=[['head/head-oval',.5],['chin/chin-width-decr',.35],['chin/chin-prominent-incr',.15],['chin/chin-triangle',.35],['cheek/l-cheek-bones-incr',.35],['cheek/r-cheek-bones-incr',.35],['cheek/l-cheek-volume-decr',.25],['cheek/r-cheek-volume-decr',.25],
- ['eyes/l-eye-scale-incr',.35],['eyes/r-eye-scale-incr',.35],['eyes/l-eye-height2-incr',.2],['eyes/r-eye-height2-incr',.2],['eyes/l-eye-corner1-up',.2],['eyes/r-eye-corner1-up',.2],['eyebrows/eyebrows-angle-up',.3],['eyebrows/eyebrows-trans-down',.25],
- ['nose/nose-scale-horiz-decr',.3],['nose/nose-scale-vert-decr',.15],['nose/nose-point-width-decr',.2],['mouth/mouth-scale-horiz-decr',.15],['mouth/mouth-lowerlip-volume-incr',.2],['mouth/mouth-upperlip-volume-incr',.2],['neck/neck-scale-vert-decr',.15],['neck/neck-scale-horiz-decr',.05],
- ['legs/lowerlegs-height-incr',.35],['legs/upperlegs-height-incr',.3],['torso/measure-waist-circ-decr',.45],['torso/measure-shoulder-dist-incr',.6],['torso/torso-muscle-dorsi-incr',.5],['torso/torso-muscle-pectoral-incr',.35],['hip/hip-scale-horiz-decr',.1],
- ['arms/l-upperarm-muscle-incr',.7],['arms/r-upperarm-muscle-incr',.7],['arms/l-lowerarm-muscle-incr',.55],['arms/r-lowerarm-muscle-incr',.55],['arms/l-upperarm-shoulder-muscle-incr',.5],['arms/r-upperarm-shoulder-muscle-incr',.5],
- ['legs/l-upperleg-muscle-incr',.55],['legs/r-upperleg-muscle-incr',.55],['legs/l-lowerleg-muscle-incr',.45],['legs/r-lowerleg-muscle-incr',.45]];
-
+const MACRO=spec.macro,TARGETS=spec.targets;
 // ---- MakeHuman readers ---------------------------------------------------------------
 function parseObj(path){
  const positions=[],uvs=[],faces=[];let group='default';
@@ -138,13 +133,14 @@ function addAsset(name,rel,opts={}){
 const body={name:'body',positions:shaped.map((p,i)=>skin(p,bodyWeights[i])),uvs:base.uvs,faces:base.faces.filter(f=>f.group==='body'),rawWeights:bodyWeights,material:'skin'};
 parts.push(body);
 addAsset('eyes','eyes/low-poly/low-poly.mhclo',{material:'eyes',headOnly:true});
-addAsset('eyebrows','eyebrows/eyebrow001/eyebrow001.mhclo',{material:'eyebrows',headOnly:true});
-addAsset('eyelashes','eyelashes/eyelashes01/eyelashes01.mhclo',{material:'eyelashes',headOnly:true});
-addAsset('hair','hair/ponytail01/ponytail01.mhclo',{material:'hair',hair:true});
-const suit=addAsset('suit','clothes/female_sportsuit01/female_sportsuit01.mhclo',{material:'top'});
-const shoes=addAsset('shoes','clothes/shoes01/shoes01.mhclo',{material:'shoes'});
-// Shoes hide the feet under them; the suit's mask is ignored because the leggings become shorts.
+addAsset('eyebrows',spec.eyebrows+'.mhclo',{material:'eyebrows',headOnly:true});
+addAsset('eyelashes',spec.eyelashes+'.mhclo',{material:'eyelashes',headOnly:true});
+addAsset('hair',spec.hair.asset+'.mhclo',{material:'hair',hair:true});
+const suit=addAsset('suit',spec.outfit.asset+'.mhclo',{material:spec.tailor==='tala'?'top':'outfit'});
+const shoes=addAsset('shoes',spec.shoes.asset+'.mhclo',{material:'shoes'});
+// Shoes hide the feet under them. Tala's suit mask is ignored because her leggings become shorts; other outfits hide the body under them.
 body.faces=body.faces.filter(f=>!f.v.some(i=>shoes.del.has(i)));
+if(spec.tailor!=='tala')body.faces=body.faces.filter(f=>!f.v.some(i=>suit.del.has(i)));
 // ---- Scale to game units ---------------------------------------------------------------------
 const bodyY=body.positions.filter((_,i)=>bodyVerts.has(i)).map(p=>p[1]);const floor=Math.min(...bodyY),crown=Math.max(...bodyY),scale=GAME_HEIGHT/(crown-floor);
 const toGame=p=>[p[0]*scale,(p[1]-floor)*scale,p[2]*scale];
@@ -154,6 +150,7 @@ const joints={root:[0,0,0],chest:posedHead('spine_02'),head:posedHead('head')};
 for(const s of ['l','r']){const S=SIDE[s];joints['upper_arm.'+S]=posedHead('upperarm_'+s);joints['forearm.'+S]=posedHead('lowerarm_'+s);joints['hand.'+S]=posedHead('hand_'+s);joints['thigh.'+S]=posedHead('thigh_'+s);joints['shin.'+S]=posedHead('calf_'+s);joints['foot.'+S]=posedHead('foot_'+s);}
 joints.ponytail=[0,GAME_HEIGHT-.08,joints.head[2]-.19];joints.sash=[-.19,joints['thigh.L'][1]-.03,.16];
 for(const k of Object.keys(joints))joints[k]=joints[k].map(v=>+v.toFixed(4));
+if(spec.tailor==='tala'){
 // Shorts: drop the leggings below mid-thigh and split the suit into top and shorts materials.
 const hipY=joints['thigh.L'][1],kneeY=joints['shin.L'][1],cutY=hipY-(hipY-kneeY)*.42,waistY=hipY+.16;
 suit.faces=suit.faces.filter(f=>!f.v.every(i=>suit.positions[i][1]<cutY));
@@ -212,6 +209,7 @@ shell(shorts,'waistband',f=>inRange(f,shorts,p=>p[1]>hipY+.09),.012,'waistband',
   faces.push({v:[base,base+1,base+3,base+2],vt:[base,base+1,base+3,base+2],group:'fringe'},{v:[base+2,base+3,base+5,base+4],vt:[base+2,base+3,base+5,base+4],group:'fringe'});}
  parts.push({name:'fringe',positions,uvs,faces,rawWeights,material:'hair',headOnly:true,twoSided:true});
 }
+}// end of Tala's tailoring
 // ---- Weights into the game's 17 bones ---------------------------------------------------------
 const mapping={};for(const [our,src] of Object.entries(CONSOLIDATE)){if(['root','chest','head'].includes(our))for(const s of src)mapping[s]=our;else for(const s of src)for(const mhs of ['l','r'])mapping[`${s}_${mhs}`]=`${our}.${SIDE[mhs]}`;}
 function consolidate(part){
@@ -235,22 +233,27 @@ function tint(img,rgb){for(let i=0;i<img.data.length;i+=4){const r=img.data[i],g
 function warm(img,rgb){for(let i=0;i<img.data.length;i+=4){img.data[i]=Math.min(255,img.data[i]*rgb[0]);img.data[i+1]=Math.min(255,img.data[i+1]*rgb[1]);img.data[i+2]=Math.min(255,img.data[i+2]*rgb[2]);}return img;}
 const toJpeg=(img,q=86)=>jpeg.encode({data:img.data,width:img.width,height:img.height},q).data,toPng=img=>PNG.sync.write(img);
 function bands(width,height,count){const img=new PNG({width,height});for(let y=0;y<height;y++){const t=(y/height*count)%1,edge=t<.08||t>.92,shade=edge?168:(t<.5?232:222);for(let x=0;x<width;x++){const i=(y*width+x)*4;const grain=((x*7+y*3)%11)*1.2;img.data[i]=shade-grain;img.data[i+1]=shade-6-grain;img.data[i+2]=shade-28-grain;img.data[i+3]=255;}}return img;}
-const suitSrc=resize(decode(join(ASSETS,'clothes/female_sportsuit01/female_sportsuit01_diffuse.png')),1024);
-const clonePng=img=>{const c=new PNG({width:img.width,height:img.height});img.data.copy(c.data);return c;};
+const suitSrc=resize(decode(join(ASSETS,spec.outfit.asset+'_diffuse.png')),1024);
+const clonePng=src=>{const out=new PNG({width:src.width,height:src.height});src.data.copy(out.data);return out;};
 const images={
- top:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.86,.56,.2]))},shorts:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.66,.2,.12]))},undertop:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.22,.22,.24]))},
- wraps:{mime:'image/png',data:toPng(bands(64,512,8))},
- skin:{mime:'image/jpeg',data:toJpeg(warm(resize(decode(join(ASSETS,'skins/young_asian_female/young_lightskinned_female_diffuse3.png')),2048),[1,.94,.86]))},
- eyes:{mime:'image/png',data:toPng(decode(join(ASSETS,'eyes/materials/brownlight_eye.png')))},
- eyebrows:{mime:'image/png',data:toPng(decode(join(ASSETS,'eyebrows/eyebrow001/eyebrow001.png')))},
- eyelashes:{mime:'image/png',data:toPng(decode(join(ASSETS,'eyelashes/eyelashes01/eyelashes01.png')))},
- hair:{mime:'image/png',data:toPng(tint(resize(decode(join(ASSETS,'hair/ponytail01/ponytail01_diffuse.png')),1024),[.62,.26,.16]))},
- shoes:{mime:'image/jpeg',data:toJpeg(resize(decode(join(ASSETS,'clothes/shoes01/shoes01_diffuse.png')),512))}
+ skin:{mime:'image/jpeg',data:toJpeg(warm(resize(decode(join(ASSETS,spec.skin.file)),2048),spec.skin.warm))},
+ eyes:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyes)))},
+ eyebrows:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyebrows+'.png')))},
+ eyelashes:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyelashes+'.png')))},
+ hair:{mime:'image/png',data:toPng(tint(resize(decode(join(ASSETS,spec.hair.asset+'_diffuse.png')),1024),spec.hair.tint))},
+ shoes:{mime:'image/jpeg',data:toJpeg(resize(decode(join(ASSETS,spec.shoes.asset+'_diffuse.png')),512))}
 };
 const materials={
  skin:{image:'skin',roughness:.55},eyes:{image:'eyes',roughness:.25,alpha:true},eyebrows:{image:'eyebrows',roughness:.8,alpha:true,double:true},eyelashes:{image:'eyelashes',roughness:.8,alpha:true,double:true},
- hair:{image:'hair',roughness:.45,alpha:true,double:true},hairflat:{color:[.36,.11,.06],roughness:.5,double:true},top:{image:'top',roughness:.85},vest:{color:[.56,.31,.07],roughness:.8,double:true},undertop:{image:'undertop',roughness:.9},shorts:{image:'shorts',roughness:.85},wraps:{image:'wraps',roughness:.95},waistband:{color:[.3,.09,.05],roughness:.85},shoes:{image:'shoes',roughness:.6,color:[.35,.3,.3]}
+ hair:{image:'hair',roughness:.45,alpha:true,double:true},shoes:{image:'shoes',roughness:.6,color:spec.shoes.color}
 };
+if(spec.tailor==='tala'){
+ Object.assign(images,{top:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.86,.56,.2]))},shorts:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.66,.2,.12]))},undertop:{mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),[.22,.22,.24]))},wraps:{mime:'image/png',data:toPng(bands(64,512,8))}});
+ Object.assign(materials,{hairflat:{color:[.36,.11,.06],roughness:.5,double:true},top:{image:'top',roughness:.85},vest:{color:[.56,.31,.07],roughness:.8,double:true},undertop:{image:'undertop',roughness:.9},shorts:{image:'shorts',roughness:.85},wraps:{image:'wraps',roughness:.95},waistband:{color:[.3,.09,.05],roughness:.85}});
+}else{
+ images.outfit={mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),spec.outfit.tint))};
+ materials.outfit={image:'outfit',roughness:.85};
+}
 // ---- Geometry buffers (split vertices per unique position/uv pair, smooth normals) ---------
 function buildGeometry(part){
  const key=new Map(),pos=[],uv=[],jnt=[],wgt=[],idx=[],src=[];
@@ -263,6 +266,7 @@ function buildGeometry(part){
  return {positions:new Float32Array(pos),normals,uvs:new Float32Array(uv),joints:new Uint8Array(jnt),weights:new Float32Array(wgt),indices:new Uint32Array(idx)};
 }
 // ---- GLB writer ---------------------------------------------------------------------------------
+const metrics={legLength:+(joints['thigh.L'][1]-joints['shin.L'][1]).toFixed(4),shinLength:+(joints['shin.L'][1]-joints['foot.L'][1]).toFixed(4),ankleHeight:joints['foot.L'][1],gameHeight:GAME_HEIGHT,scale};
 function writeGlb(path){
  const buffers=[],bufferViews=[],accessors=[];let offset=0;
  const push=(typed,target)=>{const bytes=Buffer.from(typed.buffer,typed.byteOffset,typed.byteLength);const pad=(4-bytes.length%4)%4;buffers.push(bytes,Buffer.alloc(pad));const view={buffer:0,byteOffset:offset,byteLength:bytes.length};if(target)view.target=target;bufferViews.push(view);offset+=bytes.length+pad;return bufferViews.length-1;};
@@ -270,18 +274,18 @@ function writeGlb(path){
  const nodes=OUR_BONES.map(name=>{const parent=PARENT[name],t=joints[name],pt=parent?joints[parent]:[0,0,0];return {name,translation:[t[0]-pt[0],t[1]-pt[1],t[2]-pt[2]]};});
  OUR_BONES.forEach((name,i)=>{const p=PARENT[name];if(p){const pi=OUR_BONES.indexOf(p);(nodes[pi].children??=[]).push(i);}});
  const ibm=new Float32Array(OUR_BONES.length*16);OUR_BONES.forEach((name,i)=>{new Matrix4().makeTranslation(-joints[name][0],-joints[name][1],-joints[name][2]).toArray(ibm,i*16);});
- const skinIndex=0,skins=[{joints:OUR_BONES.map((_,i)=>i),inverseBindMatrices:accessor(ibm,'MAT4',5126,OUR_BONES.length),skeleton:0,name:'Tala'}];
+ const skinIndex=0,skins=[{joints:OUR_BONES.map((_,i)=>i),inverseBindMatrices:accessor(ibm,'MAT4',5126,OUR_BONES.length),skeleton:0,name:spec.label}];
  const imageList=[],textures=[],imageIndex={};for(const [name,img] of Object.entries(images)){const bv=push(new Uint8Array(img.data));imageList.push({name,mimeType:img.mime,bufferView:bv});textures.push({source:imageList.length-1,sampler:0});imageIndex[name]=textures.length-1;}
  const materialList=[],materialIndex={};for(const [name,m] of Object.entries(materials)){const pbr={metallicFactor:0,roughnessFactor:m.roughness,baseColorFactor:[...(m.color||[1,1,1]),1]};if(m.image)pbr.baseColorTexture={index:imageIndex[m.image]};const mat={name,pbrMetallicRoughness:pbr};if(m.alpha){mat.alphaMode='MASK';mat.alphaCutoff=.4;}if(m.double)mat.doubleSided=true;if(m.image&&m.color===undefined)pbr.baseColorFactor=[1,1,1,1];materialList.push(mat);materialIndex[name]=materialList.length-1;}
  const meshes=[];
  for(const part of parts){const g=buildGeometry(part);if(!g.indices.length)continue;
   const bounds=[[Infinity,Infinity,Infinity],[-Infinity,-Infinity,-Infinity]];for(let i=0;i<g.positions.length;i+=3)for(let k=0;k<3;k++){bounds[0][k]=Math.min(bounds[0][k],g.positions[i+k]);bounds[1][k]=Math.max(bounds[1][k],g.positions[i+k]);}
   const attributes={POSITION:accessor(g.positions,'VEC3',5126,g.positions.length/3,{min:bounds[0],max:bounds[1]}),NORMAL:accessor(g.normals,'VEC3',5126,g.normals.length/3),TEXCOORD_0:accessor(g.uvs,'VEC2',5126,g.uvs.length/2),JOINTS_0:accessor(g.joints,'VEC4',5121,g.joints.length/4),WEIGHTS_0:accessor(g.weights,'VEC4',5126,g.weights.length/4)};
-  meshes.push({name:'TalaV3_'+part.name,primitives:[{attributes,indices:accessor(g.indices,'SCALAR',5125,g.indices.length),material:materialIndex[part.material]}]});
+  meshes.push({name:spec.prefix+part.name,primitives:[{attributes,indices:accessor(g.indices,'SCALAR',5125,g.indices.length),material:materialIndex[part.material]}]});
   if(part.twoSided)materialList[materialIndex[part.material]].doubleSided=true;
-  nodes.push({name:'TalaV3_'+part.name,mesh:meshes.length-1,skin:skinIndex});
+  nodes.push({name:spec.prefix+part.name,mesh:meshes.length-1,skin:skinIndex});
  }
- const scene={nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=OUR_BONES.length)]};
+ const scene={nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=OUR_BONES.length)],extras:{fighter:FIGHTER,joints,metrics}};
  const json={asset:{version:'2.0',generator:'Rift Duel build-tala-threejs.mjs'},scene:0,scenes:[scene],nodes,meshes,skins,materials:materialList,textures,images:imageList,samplers:[{magFilter:9729,minFilter:9987,wrapS:10497,wrapT:10497}],accessors,bufferViews,buffers:[{byteLength:offset}]};
  const jsonBytes=Buffer.from(JSON.stringify(json));const jsonPad=(4-jsonBytes.length%4)%4;const bin=Buffer.concat(buffers);
  const header=Buffer.alloc(12);header.write('glTF',0);header.writeUInt32LE(2,4);header.writeUInt32LE(12+8+jsonBytes.length+jsonPad+8+bin.length,8);
@@ -290,10 +294,10 @@ function writeGlb(path){
  writeFileSync(path,Buffer.concat([header,jsonChunk,jsonBytes,Buffer.alloc(jsonPad,0x20),binChunk,bin]));
  return {bytes:12+8+jsonBytes.length+jsonPad+8+bin.length,meshes:meshes.length};
 }
-const glb=writeGlb(join(ROOT,'dist/assets/models/tala-v3.glb'));
-const metrics={legLength:+(joints['thigh.L'][1]-joints['shin.L'][1]).toFixed(4),shinLength:+(joints['shin.L'][1]-joints['foot.L'][1]).toFixed(4),ankleHeight:joints['foot.L'][1],gameHeight:GAME_HEIGHT,scale};
+const glb=writeGlb(join(ROOT,`dist/assets/models/${FIGHTER}-v3.glb`));
 writeFileSync(join(OUT,'joints.json'),JSON.stringify({joints,...metrics,game_height:GAME_HEIGHT,side_map:{l:SIDE.l}},null,1));
-writeFileSync(join(ROOT,'dist/tala-v3-joints.js'),`// Generated by scripts/build-tala-threejs.mjs. Do not edit by hand.\nexport const talaV3Joints=${JSON.stringify(joints)};\nexport const talaV3Metrics=${JSON.stringify(metrics)};\n`);
+if(FIGHTER==='tala')writeFileSync(join(ROOT,'dist/tala-v3-joints.js'),`// Generated by scripts/build-tala-threejs.mjs. Do not edit by hand.\nexport const talaV3Joints=${JSON.stringify(joints)};\nexport const talaV3Metrics=${JSON.stringify(metrics)};\n`);
+else writeFileSync(join(ROOT,`dist/${FIGHTER}-v3-joints.js`),`// Generated by scripts/build-tala-threejs.mjs --fighter ${FIGHTER}. Do not edit by hand.\nexport const joints=${JSON.stringify(joints)};\nexport const metrics=${JSON.stringify(metrics)};\n`);
 const report={generator:'build-tala-threejs.mjs (Three.js + Node, no Blender)',glb,parts:parts.map(p=>({name:p.name,vertices:p.positions.length,faces:p.faces.length})),joints,metrics,macro:MACRO,targets:TARGETS.length,sources:'MakeHuman base mesh, targets, game-engine rig and weights (MPFB 2.0 alpha 3, CC0); MakeHuman system assets (CC0)'};
 writeFileSync(join(OUT,'build-report.json'),JSON.stringify(report,null,1));
-console.log('RIFT_BUILD',JSON.stringify({bytes:glb.bytes,meshes:glb.meshes,metrics,parts:report.parts.map(p=>`${p.name}:${p.faces}`).join(' ')}));
+console.log('RIFT_BUILD',JSON.stringify({fighter:FIGHTER,bytes:glb.bytes,meshes:glb.meshes,metrics,parts:report.parts.map(p=>`${p.name}:${p.faces}`).join(' ')}));

@@ -393,6 +393,11 @@ Built actual vest, collar, shortened shorts, fitted wraps, dark footwear and swe
 
 Remaining visual limits: generic face, spread fingers during attacks, coarse swept fringe, broad vest fit and unfinished garment edge detailing. The new costume moves with the rig but does not establish DOA3/Tekken4/Soulcalibur quality. Earlier browser run 39786645816 was cancelled during stalled Azure apt dependency downloads; the Ubuntu-22.04 rerun succeeded. The workflow now uses the main Ubuntu archive for that dependency URL.
 
+## Roster Design 03 models (0.61)
+
+- `node --test tests/fighter-v3.test.mjs` loads every `dist/assets/models/<id>-v3.glb`, attaches it to the fighter's real combat rig, and checks the bind pose reproduces the authored body within a millimetre, tagged weapons stay visible, and all shared animations keep every vertex finite and inside the arena height.
+- In a browser, `?tala=v3` (the default appearance) loads the Design 03 body for both fighters in any match; `window.riftDebug().fighterModels` reports `v3`, `loading` or `fallback` per fighter.
+
 ## Three.js character pipeline (0.59)
 
 The costume test now checks the Node build's contract (embedded fabric, wrap, skin and hair textures; separate vest, wrap, collar, fringe, shorts and hair meshes; normalised weights). Live captures in the fight camera and the review page showed the fitted hair (an early build placed it inside the head because the fit-file parser stopped at an interleaved key; fixed), the tinted garments, wraps, fists, and a face whose texture lands on its features; a first fringe was far too long and floated off the forehead, then shortened. Bind-pose displacement is zero for every part after negative fit weights were dropped. Judgement at normal speed and face likeness remain hands-on.
