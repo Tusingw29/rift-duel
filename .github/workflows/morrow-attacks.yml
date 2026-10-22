@@ -1,0 +1,31 @@
+name: Review Morrow attacks
+on:
+  push:
+    branches: [anim/morrow-gravebound-attacks]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - name: Install browser
+        run: |
+          sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Render attack study
+        run: |
+          python3 -m http.server 4173 --directory dist >/tmp/preview.log 2>&1 &
+          node scripts/morrow-attack-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: morrow-attacks
+          path: artifacts/morrow-attacks

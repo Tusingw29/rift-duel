@@ -1,3 +1,4 @@
+import {finishMorrowAttack} from './morrow-attack-motion.js';
 import {animateMorrow} from './morrow-animation.js';
 import {captureMotion,finishMotion} from './motion-transition.js';
 import {animateAegis} from './aegis-animation.js';
@@ -20,7 +21,10 @@ const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){
  if(![0,2,3].includes(r.id)){sampleCharacter(r,p,time);return;}
- const previous=captureMotion(r);sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
+ const previous=captureMotion(r);
+ if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
+ sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
+ if(r.id===3)finishMorrowAttack(r,p);
 }
 function sampleCharacter(r,p,time){
  r.animationFamily='shared';
