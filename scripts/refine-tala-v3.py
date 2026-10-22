@@ -25,10 +25,10 @@ def fabric(m,color,bands=False):
  image=bpy.data.images.new(m.name+'_paint',n,n);image.pixels.foreach_set(px.ravel());image.pack()
  tex=m.node_tree.nodes.new('ShaderNodeTexImage');tex.image=image;m.node_tree.links.new(tex.outputs['Color'],m.node_tree.nodes.get('Principled BSDF').inputs['Base Color'])
 for m,c,b in [(cloth,(.10,.12,.15),False),(rust,(.56,.25,.17),False),(ochre,(.78,.52,.19),False),(wrap,(.88,.84,.72),True)]:fabric(m,c,b)
-def subset(source,name,keep,material,offset=0):
+def subset(source,name,keep,material,offset=0,face_keep=None):
  obj=source.copy();obj.data=source.data.copy();obj.name=name;bpy.context.collection.objects.link(obj)
  bm=bmesh.new();bm.from_mesh(obj.data)
- bmesh.ops.delete(bm,geom=[f for f in bm.faces if not keep(f.calc_center_median())],context='FACES');bm.to_mesh(obj.data);bm.free()
+ bmesh.ops.delete(bm,geom=[f for f in bm.faces if not (face_keep(f) if face_keep else keep(f.calc_center_median()))],context='FACES');bm.to_mesh(obj.data);bm.free()
  obj.data.update()
  for v in obj.data.vertices:v.co+=v.normal*offset
  obj.data.materials.clear();obj.data.materials.append(material)
@@ -40,11 +40,29 @@ for p in suit.data.polygons:p.material_index=1 if p.center.z<1.76 else 0
 # Remove sleeve shells from the top to expose shoulders and create vest armholes.
 bm=bmesh.new();bm.from_mesh(suit.data)
 bmesh.ops.delete(bm,geom=[f for f in bm.faces if f.calc_center_median().z>1.85 and abs(f.calc_center_median().x)>.275],context='FACES');bm.to_mesh(suit.data);bm.free();suit.data.update()
+# Cut the shorts at a clean plane rather than leaving knee-length leggings.
+bm=bmesh.new();bm.from_mesh(suit.data)
+bmesh.ops.bisect_plane(bm,geom=list(bm.verts)+list(bm.edges)+list(bm.faces),dist=.00001,plane_co=(0,0,1.28),plane_no=(0,0,1),clear_inner=True)
+bm.to_mesh(suit.data);bm.free();suit.data.update()
+def smooth_edges(obj):
+ bm=bmesh.new();bm.from_mesh(obj.data)
+ for _ in range(5):
+  changes={}
+  for v in bm.verts:
+   neighbors=[e.other_vert(v) for e in v.link_edges if e.is_boundary]
+   if len(neighbors)==2:changes[v]=v.co.lerp((neighbors[0].co+neighbors[1].co)*.5,.55)
+  for v,co in changes.items():v.co=co
+ bm.to_mesh(obj.data);bm.free();obj.data.update()
+smooth_edges(suit)
 for v in suit.data.vertices:v.co+=v.normal*.009
-vest=subset(suit,'Tala_tailored_vest',lambda c:c.z>1.94 and not(c.y<-.035 and abs(c.x)<.085),ochre,.018)
+vest=subset(suit,'Tala_tailored_vest',lambda c:c.z>1.94 and not(c.y<-.035 and abs(c.x)<.085),ochre,.010)
+smooth_edges(vest)
 solid=vest.modifiers.new('Sewn hem thickness','SOLIDIFY');solid.thickness=.009;solid.offset=0
 # Fitted wraps follow original arm and shin skin weights rather than rigid cylinders.
-wraps=subset(body,'Tala_fitted_wraps',lambda c:(abs(c.x)>.20 and 1.53<c.z<1.86) or (.22<c.z<.69),wrap,.007)
+arm_groups={g.index for g in body.vertex_groups if g.name in ['forearm.L','forearm.R']}
+wrap_indices={v.index for v in body.data.vertices if ((1.53<v.co.z<1.86 and sum(g.weight for g in v.groups if g.group in arm_groups)>.50) or .22<v.co.z<.69)}
+wraps=subset(body,'Tala_fitted_wraps',lambda c:True,wrap,.007,lambda f:sum(v.index in wrap_indices for v in f.verts)>=len(f.verts)*.75)
+smooth_edges(wraps)
 uv=wraps.data.uv_layers.active or wraps.data.uv_layers.new(name='UVMap')
 for p in wraps.data.polygons:
  for li in p.loop_indices:
@@ -66,10 +84,10 @@ for i in range(steps):faces.append((i,i+1,i+steps+2,i+steps+1))
 collar=mesh('Tala_standing_collar',verts,faces,ochre,'chest');s=collar.modifiers.new('Collar thickness','SOLIDIFY');s.thickness=.008
 # Closed tapered curved hair clumps. Broad masses read at the fight camera.
 for i in range(7):
- x=-.145+i*.045;verts=[];faces=[];rows=16;cols=8
+ x=-.13+i*.041;verts=[];faces=[];rows=16;cols=8
  for j in range(rows+1):
-  t=j/rows;cx=x*(1-.22*t)+.07*t;cy=-.07-.10*math.sin(t*math.pi*.65);cz=2.89-.23*t
-  radius=(.025 if i in [0,6] else .033)*(1-t*.93)
+  t=j/rows;cx=x*(1-.22*t)+.07*t;cy=-.10-.153*math.sin(t*math.pi*.65);cz=2.925-abs(x)*.35-(.20+(.035 if i in [1,4] else 0))*t
+  radius=(.019 if i in [0,6] else .026)*(1-t*.93)
   for k in range(cols):
    a=2*math.pi*k/cols;verts.append((cx+math.cos(a)*radius,cy+math.sin(a)*radius*.38,cz))
  for j in range(rows):
@@ -77,7 +95,7 @@ for i in range(7):
  mesh('Tala_swept_fringe_%02d'%i,verts,faces,hair)
 # Save the dressed source, then retain original animation actions for export.
 for obj in list(bpy.data.objects):
- if obj.type not in ['MESH','ARMATURE']:bpy.data.objects.remove(obj,do_unlink=True)
+ if obj.type not in ['MESH','ARMATURE'] or (obj.type=='MESH' and obj.parent!=rig):bpy.data.objects.remove(obj,do_unlink=True)
 rig.animation_data_create()
 for name in ['Idle','Advance','Retreat','Circle','Guard','Combo','Recoil']:
  action=bpy.data.actions.get(name)
