@@ -1,140 +1,195 @@
 {
- "blender": "3.6.22",
- "bones": 17,
- "parts": {
-  "body": {
-   "vertices": 11134,
-   "faces": 11114,
-   "unweighted": 0
-  },
-  "eyes": {
-   "vertices": 96,
-   "faces": 86,
-   "unweighted": 0
-  },
-  "eyebrows": {
-   "vertices": 124,
-   "faces": 96,
-   "unweighted": 0
-  },
-  "eyelashes": {
-   "vertices": 250,
-   "faces": 184,
-   "unweighted": 0
-  },
-  "hair": {
-   "vertices": 3718,
-   "faces": 2676,
-   "unweighted": 0
-  },
-  "suit": {
-   "vertices": 1329,
-   "faces": 1250,
-   "unweighted": 0
-  },
-  "shoes": {
-   "vertices": 1722,
-   "faces": 1660,
-   "unweighted": 0
-  }
+ "generator": "build-tala-threejs.mjs (Three.js + Node, no Blender)",
+ "glb": {
+  "bytes": 4309392,
+  "meshes": 15
  },
- "rest_joints": {
+ "parts": [
+  {
+   "name": "body",
+   "vertices": 19158,
+   "faces": 11074
+  },
+  {
+   "name": "eyes",
+   "vertices": 96,
+   "faces": 86
+  },
+  {
+   "name": "eyebrows",
+   "vertices": 124,
+   "faces": 96
+  },
+  {
+   "name": "eyelashes",
+   "vertices": 250,
+   "faces": 184
+  },
+  {
+   "name": "hair",
+   "vertices": 3718,
+   "faces": 2676
+  },
+  {
+   "name": "suit",
+   "vertices": 1797,
+   "faces": 862
+  },
+  {
+   "name": "shoes",
+   "vertices": 1722,
+   "faces": 1660
+  },
+  {
+   "name": "shorts",
+   "vertices": 1797,
+   "faces": 388
+  },
+  {
+   "name": "wrap_arm_L",
+   "vertices": 237,
+   "faces": 195
+  },
+  {
+   "name": "wrap_shin_L",
+   "vertices": 119,
+   "faces": 97
+  },
+  {
+   "name": "wrap_arm_R",
+   "vertices": 237,
+   "faces": 195
+  },
+  {
+   "name": "wrap_shin_R",
+   "vertices": 119,
+   "faces": 97
+  },
+  {
+   "name": "vest",
+   "vertices": 700,
+   "faces": 588
+  },
+  {
+   "name": "collar",
+   "vertices": 30,
+   "faces": 14
+  },
+  {
+   "name": "fringe",
+   "vertices": 42,
+   "faces": 14
+  }
+ ],
+ "joints": {
   "root": [
-   0.0,
-   0.0,
-   0.0
+   0,
+   0,
+   0
   ],
   "chest": [
-   0.0,
-   1.8413,
-   -0.004
+   0,
+   1.8439,
+   -0.0044
   ],
   "head": [
-   0.0,
-   2.6505,
-   0.0581
-  ],
-  "upper_arm.L": [
-   -0.2618,
-   2.3442,
-   0.029
-  ],
-  "forearm.L": [
-   -0.2618,
-   1.9068,
-   0.029
-  ],
-  "hand.L": [
-   -0.2618,
-   1.5216,
-   0.029
-  ],
-  "thigh.L": [
-   -0.1477,
-   1.6094,
-   0.0346
-  ],
-  "shin.L": [
-   -0.1477,
-   0.8005,
-   0.0346
+   0,
+   2.6476,
+   0.0578
   ],
   "upper_arm.R": [
-   0.2618,
-   2.3442,
-   0.029
+   0.2744,
+   2.3418,
+   0.0281
   ],
   "forearm.R": [
-   0.2618,
-   1.9068,
-   0.029
+   0.2744,
+   1.9069,
+   0.0281
   ],
   "hand.R": [
-   0.2618,
-   1.5216,
-   0.029
+   0.2744,
+   1.521,
+   0.0281
   ],
   "thigh.R": [
-   0.1477,
-   1.6094,
-   0.0346
+   0.1482,
+   1.616,
+   0.0367
   ],
   "shin.R": [
-   0.1477,
-   0.8005,
-   0.0346
+   0.1482,
+   0.8093,
+   0.0367
+  ],
+  "foot.R": [
+   0.1482,
+   0.1159,
+   0.0367
+  ],
+  "upper_arm.L": [
+   -0.2744,
+   2.3418,
+   0.0281
+  ],
+  "forearm.L": [
+   -0.2744,
+   1.9069,
+   0.0281
+  ],
+  "hand.L": [
+   -0.2744,
+   1.521,
+   0.0281
+  ],
+  "thigh.L": [
+   -0.1482,
+   1.616,
+   0.0367
+  ],
+  "shin.L": [
+   -0.1482,
+   0.8093,
+   0.0367
+  ],
+  "foot.L": [
+   -0.1482,
+   0.1159,
+   0.0367
   ],
   "ponytail": [
-   0.0,
+   0,
    2.82,
-   -0.1319
+   -0.1322
   ],
   "sash": [
    -0.19,
-   1.5794,
+   1.586,
    0.16
-  ],
-  "foot.L": [
-   -0.1477,
-   0.1066,
-   0.0346
-  ],
-  "foot.R": [
-   0.1477,
-   0.1066,
-   0.0346
   ]
  },
- "scale": 0.15631380355492774,
- "game_height": 2.9,
- "clips": [
-  "Idle",
-  "Advance",
-  "Retreat",
-  "Circle",
-  "Guard",
-  "Combo",
-  "Recoil"
- ],
- "source": "MakeHuman CC0 base (MPFB 2.0 alpha 3) + CC0 system assets, straightened rest pose, weights consolidated to the game skeleton"
+ "metrics": {
+  "legLength": 0.8067,
+  "shinLength": 0.6934,
+  "ankleHeight": 0.1159,
+  "gameHeight": 2.9,
+  "scale": 0.15979354323056177
+ },
+ "macro": {
+  "race": {
+   "asian": 0.45,
+   "african": 0.15,
+   "caucasian": 0.4
+  },
+  "gender": 0,
+  "age": 0.3,
+  "muscle": 0.86,
+  "weight": 0.52,
+  "proportions": 0.75,
+  "height": 0.82,
+  "cupsize": 0.55,
+  "firmness": 0.8
+ },
+ "targets": 41,
+ "sources": "MakeHuman base mesh, targets, game-engine rig and weights (MPFB 2.0 alpha 3, CC0); MakeHuman system assets (CC0)"
 }

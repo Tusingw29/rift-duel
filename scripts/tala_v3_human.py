@@ -18,13 +18,17 @@ CONSOLIDATE={
  'upper_arm':['upperarm'],'forearm':['lowerarm'],'hand':['hand','thumb_01','thumb_02','thumb_03','index_01','index_02','index_03','middle_01','middle_02','middle_03','ring_01','ring_02','ring_03','pinky_01','pinky_02','pinky_03'],
  'thigh':['thigh'],'shin':['calf'],'foot':['foot','ball']}
 # Tala: tall, slim, athletic young woman. Macro values are MakeHuman 0..1 sliders.
-MACRO={'race':{'asian':0.45,'african':0.15,'caucasian':0.40},'gender':0.0,'age':0.33,'muscle':0.62,'weight':0.42,'proportions':0.72,'height':0.82,'cupsize':0.5,'firmness':0.7}
+MACRO={'race':{'asian':0.45,'african':0.15,'caucasian':0.40},'gender':0.0,'age':0.3,'muscle':0.86,'weight':0.52,'proportions':0.75,'height':0.82,'cupsize':0.55,'firmness':0.8}
 # Detail targets (name, weight) toward the concept: oval face, defined cheekbones, larger eyes, small nose, long legs, narrow waist.
 TARGETS=[('head/head-oval',0.5),('chin/chin-width-decr',0.35),('chin/chin-prominent-incr',0.15),('cheek/l-cheek-bones-incr',0.35),('cheek/r-cheek-bones-incr',0.35),
  ('eyes/l-eye-scale-incr',0.35),('eyes/r-eye-scale-incr',0.35),('eyes/l-eye-height2-incr',0.2),('eyes/r-eye-height2-incr',0.2),('nose/nose-scale-horiz-decr',0.3),('nose/nose-scale-vert-decr',0.15),
  ('mouth/mouth-scale-horiz-decr',0.15),('mouth/mouth-lowerlip-volume-incr',0.2),('neck/neck-scale-vert-decr',0.15),('neck/neck-scale-horiz-decr',0.05),
- ('legs/lowerlegs-height-incr',0.35),('legs/upperlegs-height-incr',0.3),('torso/measure-waist-circ-decr',0.4),('torso/measure-shoulder-dist-incr',0.25),('torso/torso-muscle-dorsi-incr',0.2),('hip/hip-scale-horiz-decr',0.15),
- ('arms/l-upperarm-muscle-incr',0.3),('arms/r-upperarm-muscle-incr',0.3),('arms/l-lowerarm-muscle-incr',0.2),('arms/r-lowerarm-muscle-incr',0.2)]
+ ('legs/lowerlegs-height-incr',0.35),('legs/upperlegs-height-incr',0.3),('torso/measure-waist-circ-decr',0.45),('torso/measure-shoulder-dist-incr',0.6),('torso/torso-muscle-dorsi-incr',0.5),('torso/torso-muscle-pectoral-incr',0.35),('hip/hip-scale-horiz-decr',0.1),
+ ('arms/l-upperarm-muscle-incr',0.7),('arms/r-upperarm-muscle-incr',0.7),('arms/l-lowerarm-muscle-incr',0.55),('arms/r-lowerarm-muscle-incr',0.55),('arms/l-upperarm-shoulder-muscle-incr',0.5),('arms/r-upperarm-shoulder-muscle-incr',0.5),
+ ('legs/l-upperleg-muscle-incr',0.55),('legs/r-upperleg-muscle-incr',0.55),('legs/l-lowerleg-muscle-incr',0.45),('legs/r-lowerleg-muscle-incr',0.45),
+ # Face toward the art target: tapered jaw, strong brow line, almond eyes, warm lips.
+ ('chin/chin-triangle',0.35),('cheek/l-cheek-volume-decr',0.25),('cheek/r-cheek-volume-decr',0.25),('eyebrows/eyebrows-angle-up',0.3),('eyebrows/eyebrows-trans-down',0.25),
+ ('eyes/l-eye-corner1-up',0.2),('eyes/r-eye-corner1-up',0.2),('eyes/l-eye-corner2-down',0.1),('eyes/r-eye-corner2-down',0.1),('mouth/mouth-upperlip-volume-incr',0.2),('nose/nose-point-width-decr',0.2)]
 
 def install_mpfb(zip_path):
  if 'mpfb' not in bpy.context.preferences.addons:

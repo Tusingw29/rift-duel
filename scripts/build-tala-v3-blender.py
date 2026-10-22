@@ -75,6 +75,18 @@ def report_bone(tag,name):
  print('RIFT_POSE',tag,name,'head',[round(c,2) for c in h],'dir',[round(c,2) for c in d])
 for side in ['l','r']:
  for bone in ['thigh_'+side,'calf_'+side,'upperarm_'+side,'lowerarm_'+side]:report_bone('before',bone);straighten(bone);report_bone('after',bone)
+# Combat fists: curl the fingers and tuck the thumb outside them before the bake, so the
+# consolidated hand bone carries closed hands (the game never animates fingers).
+import math as _m
+for side in ['l','r']:
+ for finger in ['index','middle','ring','pinky']:
+  for seg,deg in [('01',-62),('02',-78),('03',-55)]:
+   pb=game_rig.pose.bones.get(f'{finger}_{seg}_{side}')
+   if pb:pb.rotation_mode='XYZ';pb.rotation_euler=(_m.radians(deg),0,0)
+ for seg,deg in [('01',-20),('02',-45),('03',-35)]:
+  pb=game_rig.pose.bones.get(f'thumb_{seg}_{side}')
+  if pb:pb.rotation_mode='XYZ';pb.rotation_euler=(_m.radians(deg),0,0)
+bpy.context.view_layer.update()
 bpy.ops.object.mode_set(mode='OBJECT')
 _zs=[c.z for c in evaluated_coords(basemesh)];print('RIFT_POSE body evaluated z',round(min(_zs),2),round(max(_zs),2))
 rest=joints['joints']
@@ -178,12 +190,22 @@ def material(name,image,roughness=.75,alpha=False,normal=None,double=False):
  for img in [image,normal]:
   if img is not None and not img.packed_file:img.pack()
  return m
-skin=jpeg(load_image(ASSETS/'skins/young_asian_female/young_lightskinned_female_diffuse3.png',2048))
+def warm(img,rgb=(1.0,.86,.72)):
+ """Warm tan skin toward the art target."""
+ try:
+  import numpy as np
+  px=np.empty(len(img.pixels),dtype=np.float32);img.pixels.foreach_get(px);px=px.reshape(-1,4);px[:,0]*=rgb[0];px[:,1]*=rgb[1];px[:,2]*=rgb[2];np.clip(px,0,1,out=px);img.pixels.foreach_set(px.ravel())
+ except Exception as e:
+  print('RIFT_WARN numpy skin tint unavailable',e);px=list(img.pixels)
+  for i in range(0,len(px),4):px[i]*=rgb[0];px[i+1]*=rgb[1];px[i+2]*=rgb[2]
+  img.pixels=px
+ return img
+skin=jpeg(warm(load_image(ASSETS/'skins/young_asian_female/young_lightskinned_female_diffuse3.png',2048)))
 hair_img=tinted(load_image(ASSETS/'hair/ponytail01/ponytail01_diffuse.png',1024),(.62,.26,.16),'tala_hair_auburn')
 suit_src=load_image(ASSETS/'clothes/female_sportsuit01/female_sportsuit01_diffuse.png')
 suit_img=tinted(suit_src,(.85,.55,.22),'tala_suit_ochre',keep_alpha=False)
 suit_normal=None
-mats={'body':material('skin',skin,.55),'eyes':material('eyes',load_image(ASSETS/'eyes/materials/brown_eye.png'),.25,alpha=True),
+mats={'body':material('skin',skin,.55),'eyes':material('eyes',load_image(ASSETS/'eyes/materials/brownlight_eye.png'),.25,alpha=True),
  'eyebrows':material('eyebrows',load_image(ASSETS/'eyebrows/eyebrow001/eyebrow001.png'),.8,alpha=True,double=True),
  'eyelashes':material('eyelashes',load_image(ASSETS/'eyelashes/eyelashes01/eyelashes01.png'),.8,alpha=True,double=True),
  'hair':material('hair',hair_img,.45,alpha=True,double=True),'suit':material('Design03_top',suit_img,.8),

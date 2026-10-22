@@ -1,18 +1,18 @@
-# Tala v3 (Design 03): anatomical body build
+# Tala Design 03: built with Three.js and Node, no Blender
 
-Built from the MakeHuman base mesh through the MPFB 2.0 alpha 3 Blender add-on and the MakeHuman system assets. Both are released under CC0, so the result is free to ship in Rift Duel; the body, face, eyes, brows, lashes, hair, clothing and shoe meshes and textures are derived from them, recoloured and recut for Tala. MPFB alpha 3 is the last build that declares Blender 3.0+, which is why it runs on the project's pinned Blender 3.6.22; current MPFB releases need Blender 4.2+.
+`npm run build:tala -- --sources <dir> --tools <dir>` produces `dist/assets/models/tala-v3.glb`, `dist/tala-v3-joints.js` (the joint constants the game's JavaScript skeleton uses), `joints.json` and `build-report.json` in about six seconds.
 
-## Pipeline
+Sources: `sh scripts/fetch-tala-v3-sources.sh <dir>` downloads and checksum-verifies the MPFB 2.0 alpha 3 zip (for its CC0 MakeHuman data: base mesh, shape targets, game-engine skeleton and weights) and the CC0 MakeHuman system assets (skins, eyes, brows, lashes, hair, clothing, shoes). Tools: a directory whose `node_modules` holds `pngjs` and `jpeg-js` (the only non-vendored dependencies, used for texture resizing, tinting and JPEG encoding).
 
-1. `sh scripts/fetch-tala-v3-sources.sh <dir>` downloads and checksum-verifies the add-on zip and the 267 MB asset pack.
-2. `blender --background --python scripts/build-tala-v3-blender.py -- --mpfb <dir> --joints` shapes the body (macro sliders plus face, leg, waist and shoulder targets in `scripts/tala_v3_human.py`), fits MakeHuman's game-engine skeleton, straightens the limb chains into the game's hanging rest pose, and writes `joints.json` in game units.
-3. `node scripts/tala-v3-joints.mjs` writes `dist/tala-v3-joints.js`, the joint constants the JavaScript rig uses for the v3 variant.
-4. `node scripts/sample-tala-motion.mjs --variant v3` samples the game's own animation on that rig into `motion-source.json`.
-5. `blender --background --python scripts/build-tala-v3-blender.py -- --mpfb <dir>` adds the assets, bakes shape keys, pose and garment masks into plain meshes, consolidates MakeHuman's 53-bone weights into the game's 17 bones, cuts the leggings into shorts, tints hair, top and shorts, builds the game skeleton from the straightened joints (verified against the motion sample), bakes the clips, and exports `dist/assets/models/tala-v3.glb` plus `tala-v3.blend` and `build-report.json`.
+## What the build does (`scripts/build-tala-threejs.mjs`)
 
-## Decisions and limits
+1. Reads the base mesh and applies the macro sliders (ported from MPFB's slider-to-target interpolation) and Tala's detail targets: tall, athletic, long-legged, tapered jaw, strong brow, almond eyes.
+2. Derives MakeHuman's game-engine skeleton from the shaped mesh's joint cubes, straightens the limb chains into the game's hanging rest pose and curls the fingers into fists with the thumb outside, all with Three.js quaternions and linear blend skinning in Node.
+3. Fits the CC0 assets with MakeHuman's fit files (reference triangle, weights, scaled offsets), poses them with interpolated weights, hides the feet under the shoes, cuts the leggings into shorts, and generates the tailoring: wraps lifted off the forearms and shins with a banded texture, a sleeveless open vest and standing collar over a charcoal under-top, and swept fringe cards.
+4. Folds the 53-bone weights into the game's 17 bones (four influences, normalised, negative fit weights ignored), scales to the 7.5-head standard, and writes the GLB itself: skinned primitives, one skin with translation-only inverse bind matrices, embedded JPEG/PNG textures with luminance tints, MASK alpha for hair, brows, lashes and eyes.
 
-- Limb chains hang straight down in the rest pose because every game animation and the foot-planting code assume it; segment lengths come from the fitted skeleton.
-- Garment masks that hide body vertices are kept for the shoes and removed for the suit, since the leggings become shorts.
-- Textures ship as 2K skin and 1K hair and clothing, JPEG where opaque, inside a 3.9 MB GLB. Normal maps are not exported yet.
-- Not done: forearm and shin wraps, costume tailoring toward the concept vest, face likeness to the concept, hair movement beyond the ponytail bone, and a fresh skin-weight pass at the shoulders and elbows.
+The MakeHuman data is Y-up and faces +Z, the same space the game authors in, so no axis conversion exists anywhere in the pipeline. The earlier Blender scripts (`build-tala-v3-blender.py`, `tala_v3_human.py`, `refine-tala-v3.py`) are kept for reference but are no longer the source of truth.
+
+## Not done yet
+
+Face likeness to the concept beyond target sliders, finer hair strands, vest and shorts tailoring (hem shaping, side vents, waistband), a shoulder and elbow weight pass, and a cloth-detail pass on the shorts cut edge.

@@ -1,0 +1,37 @@
+name: Build Tala with Three.js
+on:
+  workflow_dispatch:
+  push:
+    paths: [scripts/build-tala-threejs.mjs, scripts/fetch-tala-v3-sources.sh, .github/workflows/tala-build.yml]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache MakeHuman sources
+        uses: actions/cache@v4
+        with:
+          path: ~/tala-sources
+          key: tala-sources-mpfb-a3-system-assets-v1
+      - name: Fetch and verify CC0 sources
+        run: sh scripts/fetch-tala-v3-sources.sh ~/tala-sources
+      - name: Install build codecs
+        run: mkdir -p ~/tala-tools && cd ~/tala-tools && npm init -y >/dev/null && npm install --no-package-lock pngjs@7.0.0 jpeg-js@0.4.4
+      - name: Build the model
+        run: node scripts/build-tala-threejs.mjs --sources ~/tala-sources --tools ~/tala-tools
+      - name: Test against the game
+        run: npm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tala-v3
+          path: |
+            dist/assets/models/tala-v3.glb
+            dist/tala-v3-joints.js
+            art/blender/tala-v3/joints.json
+            art/blender/tala-v3/build-report.json

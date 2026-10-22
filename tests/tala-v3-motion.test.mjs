@@ -49,10 +49,11 @@ test('unequal Design 03 legs reach planted ankles while hips shift',()=>{
 
 test('tailored costume and fringe retain normalized weights and embedded cloth textures',()=>{
  const packed=JSON.parse(bytes.subarray(20,20+length));
- assert.ok(packed.images.some(i=>i.name.includes('Tala_ochre_vest')));
+ // Three.js/Node build: fabric and wrap textures are embedded, and the tailored parts are separate skinned meshes.
+ for(const name of ['top','shorts','undertop','wraps','skin','hair'])assert.ok(packed.images.some(i=>i.name===name),'image '+name);
  assert.ok(packed.images.every(i=>i.bufferView!==undefined));
  const names=json.nodes.map(m=>m.name||'').join(' ');
- for(const name of ['Tala_tailored_vest','Tala_fitted_wraps','Tala_standing_collar','Tala_swept_fringe'])assert.ok(names.includes(name),name);
+ for(const name of ['TalaV3_vest','TalaV3_wrap_arm_L','TalaV3_wrap_shin_R','TalaV3_collar','TalaV3_fringe','TalaV3_shorts','TalaV3_hair'])assert.ok(names.includes(name),name);
  asset.scene.traverse(mesh=>{
   if(!mesh.isSkinnedMesh)return;
   const w=mesh.geometry.attributes.skinWeight;
