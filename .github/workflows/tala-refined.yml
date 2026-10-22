@@ -1,5 +1,8 @@
 name: Refine Tala anatomical character
 on:
+  push:
+    branches: [art/tala-tailored-model]
+    paths: [scripts/refine-tala-v3.py, .github/workflows/tala-refined.yml]
   workflow_dispatch:
 permissions:
   contents: read
