@@ -28,3 +28,11 @@ Exact image-generation prompt is stored beside the board. Based on the original 
 ## Image review
 
 The hero view establishes the enlarged blade and retains the veteran identity, mantle, armor and shoulder launcher. Front/rear and sword detail views support model planning. The action thumbnails vary blade proportions and exaggerate the follow-through lunge; use the hero/isolated blade and written ratios to establish the model rather than treating every drawing as measured geometry. The narrow profile is illustrative, not a technical cross-section. Fix guard handedness and groove count in the model specification if the generated views disagree.
+
+## Runtime implementation
+
+`dist/morrow-gravebound.js` dresses the existing Design 03 anatomical model when Morrow attaches. It adds independent joint-parented armor shells, an ivory cloth tail on the existing mantle joint, a four-port shoulder launcher, an eyepatch and the Gravebound sword. The old weapon meshes are removed. Stock clothes remain beneath the armor as a charcoal deforming underlayer because the source body is masked beneath them.
+
+`dist/morrow-review.html` loads exactly this attachment and the game's animation; it is not a separate showcase model. Front, side and back views and idle, guard, movement, recoil and three cuts are available. The weapon's long axis follows the existing hand's +Z convention. Its visual bounds are approximately 2.9 units on a 2.9-unit standing fighter; the blade is 2.24 units long and 0.62 units wide before bevels. Gameplay reach and damage timing are unchanged.
+
+This is a runtime costume interpretation, not a newly sculpted likeness. The source face and swept hair still need a dedicated likeness pass; the animation retains the existing right-hand weapon grip rather than implementing the concept's two-hand choreography. Those differences must remain visible in review notes.
