@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync,existsSync} from 'node:fs';
 import {GLTFLoader} from '../dist/vendor/GLTFLoader.js';
-import {Matrix4,Vector3} from '../dist/vendor/three.module.js';
+import {Matrix4,Vector3,Box3} from '../dist/vendor/three.module.js';
 import {buildCharacter} from '../dist/characters.js';import {attachFighterModel} from '../dist/tala-concept.js';import {animateCharacter} from '../dist/animation.js';
 import {fighters} from '../dist/fighters.js';
 globalThis.ProgressEvent??=class ProgressEvent{constructor(type,data){this.type=type;Object.assign(this,data);}};
@@ -23,6 +23,15 @@ for(const f of roster)test(`${f.name}: Design 03 asset binds to the combat rig, 
  const weapons=[];r.g.traverse(n=>{if(n.isMesh){for(let p=n;p;p=p.parent)if(hands.includes(p)){weapons.push(n);break;}}});
  assert.equal(attachFighterModel(r,asset.scene),true);assert.equal(attachFighterModel(r,asset.scene),false);
  assert.ok(weapons.filter(n=>n.userData.weapon).every(n=>n.visible)&&weapons.some(n=>n.userData.weapon),'weapons parented to the hands stay visible');
+ if(f.id==='morrow'){
+  assert.ok(r.graveboundCostume);assert.equal(r.gravebound.parent,hands[1]);
+  assert.equal(r.g.getObjectsByProperty('name','Morrow missile recess').length,4);
+  assert.equal(r.g.getObjectsByProperty('name','Morrow torn ivory mantle').length,1);
+  for(const old of weapons.filter(n=>n.userData.weapon))assert.equal(old.parent,null,'old blade is removed');
+  const size=new Box3().setFromObject(r.gravebound).getSize(new Vector3());
+  assert.ok(size.z>2.7&&size.z<3.1,'near body-height sword');assert.ok(size.x>.7&&size.x<1,'broad blade and guard');
+  assert.equal(r.g.getObjectsByProperty('name','Gravebound').length,1,'no duplicate attachment');
+ }
  assert.ok(r.conceptOriginalSurfaces.length>0&&r.conceptOriginalSurfaces.every(n=>!n.visible));
  assert.equal(r.shinLength,json.scenes[0].extras.metrics.shinLength);
  const surfaces=r.g.children.filter(n=>n.name.startsWith('concept-'));assert.ok(surfaces.length>=5,f.id);
