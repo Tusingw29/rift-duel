@@ -210,6 +210,8 @@ shell(shorts,'waistband',f=>inRange(f,shorts,p=>p[1]>hipY+.09),.012,'waistband',
  parts.push({name:'fringe',positions,uvs,faces,rawWeights,material:'hair',headOnly:true,twoSided:true});
 }
 }// end of Tala's tailoring
+// Other fighters may split the outfit at the waist so top and trousers take different colours.
+if(spec.tailor!=='tala'&&spec.outfit.lower){const waistY=joints['thigh.L'][1]+.16;const lower={...suit,name:'lower',material:'outfitLower',faces:suit.faces.filter(f=>f.v.every(i=>suit.positions[i][1]<waistY))};suit.faces=suit.faces.filter(f=>!f.v.every(i=>suit.positions[i][1]<waistY));parts.push(lower);}
 // ---- Weights into the game's 17 bones ---------------------------------------------------------
 const mapping={};for(const [our,src] of Object.entries(CONSOLIDATE)){if(['root','chest','head'].includes(our))for(const s of src)mapping[s]=our;else for(const s of src)for(const mhs of ['l','r'])mapping[`${s}_${mhs}`]=`${our}.${SIDE[mhs]}`;}
 function consolidate(part){
@@ -227,9 +229,15 @@ for(const part of parts)consolidate(part);
 // ---- Images ---------------------------------------------------------------------------------------
 function decode(path){return PNG.sync.read(readFileSync(path));}
 function resize(img,size){if(img.width<=size)return img;const f=img.width/size,out=new PNG({width:size,height:size});for(let y=0;y<size;y++)for(let x=0;x<size;x++){const acc=[0,0,0,0];let n=0;for(let yy=Math.floor(y*f);yy<Math.floor((y+1)*f);yy++)for(let xx=Math.floor(x*f);xx<Math.floor((x+1)*f);xx++){const i=(yy*img.width+xx)*4;for(let k=0;k<4;k++)acc[k]+=img.data[i+k];n++;}const o=(y*size+x)*4;for(let k=0;k<4;k++)out.data[o+k]=acc[k]/n;}return out;}
-function tint(img,rgb){for(let i=0;i<img.data.length;i+=4){const r=img.data[i],g=img.data[i+1],b=img.data[i+2];let l=(.2126*r+.7152*g+.0722*b)*1.9;
- // Neutral light pixels are the atlas background bleeding at seams (and the white piping): fold them into the fabric luminance.
- if(r>140&&Math.abs(r-g)<12&&Math.abs(g-b)<12)l=70*1.9;img.data[i]=Math.min(255,l*rgb[0]);img.data[i+1]=Math.min(255,l*rgb[1]);img.data[i+2]=Math.min(255,l*rgb[2]);}return img;}
+function tint(img,rgb,fold=true){
+ // Neutral light pixels are the atlas background bleeding at seams, white piping and printed logos: fold them into the fabric's median luminance.
+ const lum=i=>.2126*img.data[i]+.7152*img.data[i+1]+.0722*img.data[i+2];
+ // Grey or white pixels above the dark range, and strongly saturated accents (piping, printed logos), are not fabric.
+ const neutral=i=>{const r=img.data[i],g=img.data[i+1],b=img.data[i+2];const grey=Math.abs(r-g)<14&&Math.abs(g-b)<14&&lum(i)>90,accent=Math.max(r,g,b)-Math.min(r,g,b)>170;return fold&&(grey||accent);};
+ const hist=new Uint32Array(256);let n=0;for(let i=0;i<img.data.length;i+=4)if(!neutral(i)&&img.data[i+3]>0){hist[Math.round(lum(i))]++;n++;}
+ let fabric=70,acc=0;for(let v=0;v<256;v++){acc+=hist[v];if(acc>=n/2){fabric=v;break;}}
+ for(let i=0;i<img.data.length;i+=4){const r=img.data[i],g=img.data[i+1],b=img.data[i+2];let l=lum(i)*1.9;
+ if(neutral(i))l=fabric*1.9;img.data[i]=Math.min(255,l*rgb[0]);img.data[i+1]=Math.min(255,l*rgb[1]);img.data[i+2]=Math.min(255,l*rgb[2]);}return img;}
 function warm(img,rgb){for(let i=0;i<img.data.length;i+=4){img.data[i]=Math.min(255,img.data[i]*rgb[0]);img.data[i+1]=Math.min(255,img.data[i+1]*rgb[1]);img.data[i+2]=Math.min(255,img.data[i+2]*rgb[2]);}return img;}
 const toJpeg=(img,q=86)=>jpeg.encode({data:img.data,width:img.width,height:img.height},q).data,toPng=img=>PNG.sync.write(img);
 function bands(width,height,count){const img=new PNG({width,height});for(let y=0;y<height;y++){const t=(y/height*count)%1,edge=t<.08||t>.92,shade=edge?168:(t<.5?232:222);for(let x=0;x<width;x++){const i=(y*width+x)*4;const grain=((x*7+y*3)%11)*1.2;img.data[i]=shade-grain;img.data[i+1]=shade-6-grain;img.data[i+2]=shade-28-grain;img.data[i+3]=255;}}return img;}
@@ -240,7 +248,7 @@ const images={
  eyes:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyes)))},
  eyebrows:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyebrows+'.png')))},
  eyelashes:{mime:'image/png',data:toPng(decode(join(ASSETS,spec.eyelashes+'.png')))},
- hair:{mime:'image/png',data:toPng(tint(resize(decode(join(ASSETS,spec.hair.asset+'_diffuse.png')),1024),spec.hair.tint))},
+ hair:{mime:'image/png',data:toPng(tint(resize(decode(join(ASSETS,spec.hair.asset+'_diffuse.png')),1024),spec.hair.tint,false))},
  shoes:{mime:'image/jpeg',data:toJpeg(resize(decode(join(ASSETS,spec.shoes.asset+'_diffuse.png')),512))}
 };
 const materials={
@@ -253,6 +261,7 @@ if(spec.tailor==='tala'){
 }else{
  images.outfit={mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),spec.outfit.tint))};
  materials.outfit={image:'outfit',roughness:.85};
+ if(spec.outfit.lower){images.outfitLower={mime:'image/jpeg',data:toJpeg(tint(clonePng(suitSrc),spec.outfit.lower))};materials.outfitLower={image:'outfitLower',roughness:.85};}
 }
 // ---- Geometry buffers (split vertices per unique position/uv pair, smooth normals) ---------
 function buildGeometry(part){

@@ -393,6 +393,11 @@ Built actual vest, collar, shortened shorts, fitted wraps, dark footwear and swe
 
 Remaining visual limits: generic face, spread fingers during attacks, coarse swept fringe, broad vest fit and unfinished garment edge detailing. The new costume moves with the rig but does not establish DOA3/Tekken4/Soulcalibur quality. Earlier browser run 39786645816 was cancelled during stalled Azure apt dependency downloads; the Ubuntu-22.04 rerun succeeded. The workflow now uses the main Ubuntu archive for that dependency URL.
 
+## Roster concept costumes (0.63)
+
+- `tests/fighter-v3.test.mjs` also asserts that each fighter's concept costume attached (`r.conceptCostume`) and that named signature pieces exist (helmet, visor and cape for Aegis; sash, panels, collar and boots for Rei; coat, collar, satchel and skirts for Sol; gown panels, drape, halo and wrist rings for Vesper), then runs the shared animations with the costume attached.
+- Visual check: `dist/fighter-review.html?fighter=aegis|rei|morrow|sol|vesper` beside the A column of the matching board in `art/roster-2026-10-21`. Reviewed front, side and back in idle on October 22, 2026 with headless Chromium captures.
+
 ## Roster Design 03 models (0.61)
 
 - `node --test tests/fighter-v3.test.mjs` loads every `dist/assets/models/<id>-v3.glb`, attaches it to the fighter's real combat rig, and checks the bind pose reproduces the authored body within a millimetre, tagged weapons stay visible, and all shared animations keep every vertex finite and inside the arena height.

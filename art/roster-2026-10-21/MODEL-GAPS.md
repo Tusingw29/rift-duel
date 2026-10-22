@@ -27,6 +27,10 @@ For each fighter, check silhouette without color, then large color masses, face/
 
 No model or public game was changed by this audit.
 
+## Implementation status (Alpha 0.63)
+
+Aegis, Rei, Sol and Vesper now carry runtime concept costumes from direction A (`dist/roster-costumes.js`), reviewed in `dist/fighter-review.html`. Remaining gaps: Rei's blouse has short sleeves (stock tee under-layer) and a faint logo ghost; Sol's hair is swept locks over a stock cap rather than the full spiky silhouette; Vesper's drape is a simple shawl; Aegis's armour plates are flat extrusions without panel lines; none has a facial likeness pass.
+
 ## Morrow sword update
 
 The user subsequently requested a much larger Cloud-scale / Berserk-weight original sword and a matching concept redesign. [Morrow — Gravebound](../morrow-gravebound/README.md) is the new sword-and-character working direction, retaining Iron Pilgrim armor and identity. It supersedes the original board’s smaller sword, not the rest of the roster.

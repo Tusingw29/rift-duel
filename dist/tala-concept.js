@@ -1,4 +1,6 @@
 import {dressMorrow} from './morrow-gravebound.js';
+import {costumes} from './roster-costumes.js';
+import {fighters} from './fighters.js';
 import {talaFootPivot,talaFootOffsets,talaGaitTargets} from './tala-footwork.js';
 import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.js';
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
@@ -37,7 +39,7 @@ export function attachTalaConcept(r,source){
 // positions and leg metrics it was bound with. Attaching moves the fighter's existing combat
 // bones onto those joints, so the skin binds exactly, while weapons parented to the hands and
 // the aura and effect objects stay as they were.
-export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=1`;
+export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=4`;
 const fighterAssets=new Map();
 export function loadFighterModel(fighterId){
  if(!fighterAssets.has(fighterId))fighterAssets.set(fighterId,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(fighterModelUrl(fighterId))).catch(error=>{fighterAssets.delete(fighterId);throw error;}));
@@ -69,5 +71,6 @@ export function attachFighterModel(r,source){
   const mesh=new SkinnedMesh(original.geometry.clone(),material);mesh.name='concept-'+original.name;mesh.bind(skeleton,new Matrix4());mesh.castShadow=true;mesh.frustumCulled=false;r.g.add(mesh);
  }
  if(r.id===3)dressMorrow(r,roles);
+ else costumes[fighters[r.id]?.id]?.(r,roles);
  r.conceptModel=true;r.g.userData.conceptModel=true;return true;
 }

@@ -27,9 +27,10 @@ export const specs={
   targets:[...face([['chin/chin-width-incr',.2],['chin/chin-prominent-incr',.25],['eyebrows/eyebrows-trans-down',.2]]),...athletic(.6),['torso/measure-shoulder-dist-incr',.6],['torso/measure-waist-circ-decr',.3],['legs/upperlegs-height-incr',.2]],
   skin:{file:'skins/young_caucasian_male/young_lightskinned_male_diffuse.png',warm:[1,.96,.92]},
   eyes:'eyes/materials/blue_eye.png',eyebrows:'eyebrows/eyebrow003/eyebrow003',eyelashes:'eyelashes/eyelashes02/eyelashes02',
-  hair:{asset:'hair/short01/short01',tint:[.3,.32,.36]},
-  outfit:{asset:'clothes/male_casualsuit05/male_casualsuit05',tint:[.3,.42,.56]},
-  shoes:{asset:'clothes/shoes02/shoes02',color:[.3,.32,.36]},
+  hair:{asset:'hair/short01/short01',tint:[.1,.12,.2]},
+  // Relay Knight: a navy flexible undersuit; the ivory segmented armour, helmet and cape are added at runtime (dist/roster-costumes.js).
+  outfit:{asset:'clothes/male_casualsuit01/male_casualsuit01',tint:[.1,.13,.24]},
+  shoes:{asset:'clothes/shoes02/shoes02',color:[.12,.14,.2]},
  },
  rei:{
   // The echo bearer: slight, quick, ivory hair, white fitted coat.
@@ -38,9 +39,10 @@ export const specs={
   targets:[...face([['chin/chin-triangle',.3],['eyes/l-eye-height2-incr',.2],['eyes/r-eye-height2-incr',.2],['mouth/mouth-scale-horiz-decr',.15]]),...athletic(.3),['torso/measure-waist-circ-decr',.4],['legs/lowerlegs-height-incr',.3],['legs/upperlegs-height-incr',.25],['neck/neck-scale-vert-decr',.1]],
   skin:{file:'skins/young_asian_female/young_lightskinned_female_diffuse3.png',warm:[1,.97,.95]},
   eyes:'eyes/materials/brown_eye.png',eyebrows:'eyebrows/eyebrow002/eyebrow002',eyelashes:'eyelashes/eyelashes01/eyelashes01',
-  hair:{asset:'hair/long01/long01',tint:[.88,.84,.74]},
-  outfit:{asset:'clothes/female_elegantsuit01/female_elegantsuit01',tint:[1,.98,.95]},
-  shoes:{asset:'clothes/shoes04/shoes04',color:[.28,.22,.3]},
+  hair:{asset:'hair/long01/long01',tint:[.09,.07,.09]},
+  // Shrine Exile: ivory blouse over dark trousers; the plum sash, wine panels, collar and boots are added at runtime.
+  outfit:{asset:'clothes/female_casualsuit01/female_casualsuit01',tint:[.95,.9,.8],lower:[.1,.09,.1]},
+  shoes:{asset:'clothes/shoes04/shoes04',color:[.12,.1,.1]},
  },
  morrow:{
   // The iron pilgrim: heavy, weathered, olive-iron travelling clothes.
@@ -60,9 +62,10 @@ export const specs={
   targets:[...face([['chin/chin-triangle',.3],['nose/nose-scale-vert-incr',.1],['eyebrows/eyebrows-angle-up',.3]]),...athletic(.3),['torso/measure-waist-circ-decr',.3],['neck/neck-scale-vert-incr',.1]],
   skin:{file:'skins/young_caucasian_male2/young_lightskinned_male_diffuse2.png',warm:[1,.9,.8]},
   eyes:'eyes/materials/brown_eye.png',eyebrows:'eyebrows/eyebrow004/eyebrow004',eyelashes:'eyelashes/eyelashes02/eyelashes02',
-  hair:{asset:'hair/short03/short03',tint:[.62,.3,.14]},
-  outfit:{asset:'clothes/male_elegantsuit01/male_elegantsuit01',tint:[.6,.2,.14]},
-  shoes:{asset:'clothes/shoes03/shoes03',color:[.3,.2,.14]},
+  hair:{asset:'hair/short03/short03',tint:[.7,.28,.1]},
+  // Ember Cartographer: dark shirt and trousers under the runtime rust coat, ivory collar, gold cuffs and satchel.
+  outfit:{asset:'clothes/male_casualsuit01/male_casualsuit01',tint:[.14,.11,.1]},
+  shoes:{asset:'clothes/shoes03/shoes03',color:[.26,.16,.1]},
  },
  vesper:{
   // The hollow oracle: tall, pale, long violet-black hair, deep violet gown.
@@ -71,9 +74,10 @@ export const specs={
   targets:[...face([['chin/chin-triangle',.35],['eyes/l-eye-corner1-up',.2],['eyes/r-eye-corner1-up',.2],['mouth/mouth-lowerlip-volume-incr',.15]]),...athletic(.2),['torso/measure-waist-circ-decr',.35],['legs/lowerlegs-height-incr',.3],['legs/upperlegs-height-incr',.3],['neck/neck-scale-vert-incr',.15]],
   skin:{file:'skins/young_caucasian_female2/young_lightskinned_female_diffuse2.png',warm:[.96,.94,.98]},
   eyes:'eyes/materials/blue_eye.png',eyebrows:'eyebrows/eyebrow002/eyebrow002',eyelashes:'eyelashes/eyelashes01/eyelashes01',
-  hair:{asset:'hair/long01/long01',tint:[.28,.2,.4]},
-  outfit:{asset:'clothes/female_elegantsuit01/female_elegantsuit01',tint:[.34,.22,.5]},
-  shoes:{asset:'clothes/shoes06/shoes06',color:[.3,.24,.38]},
+  hair:{asset:'hair/long01/long01',tint:[.72,.64,.9]},
+  // Astral Mourner: dark violet fitted bodice and trousers under the runtime gown panels, ivory drape, gold trim and broken halo.
+  outfit:{asset:'clothes/female_elegantsuit01/female_elegantsuit01',tint:[.2,.12,.3]},
+  shoes:{asset:'clothes/shoes06/shoes06',color:[.14,.1,.18]},
  },
 };
 export const specFor=id=>{const spec=specs[id];if(!spec)throw new Error(`Unknown fighter spec "${id}" (known: ${Object.keys(specs).join(', ')})`);return {id,...spec};};

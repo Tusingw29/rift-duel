@@ -34,6 +34,8 @@ for(const f of roster)test(`${f.name}: Design 03 asset binds to the combat rig, 
   assert.ok(size.z>2.7&&size.z<3.1,'near body-height sword');assert.ok(size.x>.7&&size.x<1,'broad blade and guard');
   assert.equal(r.g.getObjectsByProperty('name','Gravebound').length,1,'no duplicate attachment');
  }
+ const expected={aegis:['Aegis helmet','Aegis visor','Aegis short cape','Aegis breastplate L'],rei:['Rei waist sash','Rei wine panel L','Rei boot R','Rei high collar'],sol:['Sol coat body','Sol high collar','Sol atlas satchel','Sol coat skirt 2'],vesper:['Vesper gown panel 0','Vesper shoulder drape','Vesper broken halo','Vesper wrist ring L']}[f.id];
+ if(expected){assert.equal(r.conceptCostume,f.id);for(const name of expected)assert.ok(r.g.getObjectByName(name),`${f.id} costume piece ${name}`);}
  assert.ok(r.conceptOriginalSurfaces.length>0&&r.conceptOriginalSurfaces.every(n=>!n.visible));
  assert.equal(r.shinLength,json.scenes[0].extras.metrics.shinLength);
  const surfaces=r.g.children.filter(n=>n.name.startsWith('concept-'));assert.ok(surfaces.length>=5,f.id);

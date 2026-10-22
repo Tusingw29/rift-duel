@@ -1,14 +1,14 @@
 {
  "generator": "build-tala-threejs.mjs (Three.js + Node, no Blender)",
  "glb": {
-  "bytes": 3582528,
+  "bytes": 3614376,
   "meshes": 7
  },
  "parts": [
   {
    "name": "body",
    "vertices": 19158,
-   "faces": 7618
+   "faces": 7658
   },
   {
    "name": "eyes",
@@ -32,8 +32,8 @@
   },
   {
    "name": "suit",
-   "vertices": 7613,
-   "faces": 7478
+   "vertices": 8426,
+   "faces": 8336
   },
   {
    "name": "shoes",
