@@ -68,6 +68,16 @@ for p in wraps.data.polygons:
  for li in p.loop_indices:
   co=wraps.data.vertices[wraps.data.loops[li].vertex_index].co
   uv.data[li].uv=(co.x*3,co.z*2)
+# Repaint shoe uppers and the attached sock geometry as dark martial footwear and wraps.
+shoes=bpy.data.objects['TalaV3_shoes'];shoe_mat=mat('Tala_charcoal_shoes',(.035,.039,.046),.68);sole_mat=mat('Tala_rubber_sole',(.12,.075,.035),.85)
+shoes.data.materials.clear()
+for m in [shoe_mat,wrap,sole_mat]:shoes.data.materials.append(m)
+for p in shoes.data.polygons:p.material_index=1 if p.center.z>.19 else 2 if p.center.z<.04 else 0
+uv=shoes.data.uv_layers.active
+for p in shoes.data.polygons:
+ if p.material_index==1:
+  for li in p.loop_indices:
+   co=shoes.data.vertices[shoes.data.loops[li].vertex_index].co;uv.data[li].uv=(co.x*3,co.z*2)
 # Authored collar and swept fringe; all points are in the source's Blender Z-up coordinates.
 def mesh(name,verts,faces,material,bone='head'):
  me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.update();obj=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(obj);obj.parent=rig;obj.data.materials.append(material)
@@ -79,15 +89,15 @@ verts=[];faces=[];steps=40
 for j in range(2):
  for i in range(steps+1):
   a=.60+(2*math.pi-1.20)*i/steps
-  verts.append((math.sin(a)*(.137+j*.009),-math.cos(a)*(.105+j*.008),2.40+j*.09))
+  verts.append((math.sin(a)*(.137+j*.009),-.045-math.cos(a)*(.105+j*.008),2.47+j*.075))
 for i in range(steps):faces.append((i,i+1,i+steps+2,i+steps+1))
 collar=mesh('Tala_standing_collar',verts,faces,ochre,'chest');s=collar.modifiers.new('Collar thickness','SOLIDIFY');s.thickness=.008
 # Closed tapered curved hair clumps. Broad masses read at the fight camera.
 for i in range(7):
  x=-.13+i*.041;verts=[];faces=[];rows=16;cols=8
  for j in range(rows+1):
-  t=j/rows;cx=x*(1-.22*t)+.07*t;cy=-.10-.153*math.sin(t*math.pi*.65);cz=2.925-abs(x)*.35-(.20+(.035 if i in [1,4] else 0))*t
-  radius=(.019 if i in [0,6] else .026)*(1-t*.93)
+  t=j/rows;cx=x*(1-.22*t)+.07*t;cy=-.10-.153*math.sin(t*math.pi*.65);cz=2.89-abs(x)*.25-(.20+(.035 if i in [1,4] else 0))*t
+  radius=(.019 if i in [0,6] else .026)*(.025+math.sin(math.pi*t)**.65)
   for k in range(cols):
    a=2*math.pi*k/cols;verts.append((cx+math.cos(a)*radius,cy+math.sin(a)*radius*.38,cz))
  for j in range(rows):
