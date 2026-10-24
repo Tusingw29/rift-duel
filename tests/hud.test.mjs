@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {gaugeState,gaugeLabel,createTrail,updateTrail,healthClass,TRAIL_DELAY,TRAIL_RATE} from '../dist/hud.js';
+import {barShatterEvent,gaugeState,gaugeLabel,createTrail,updateTrail,healthClass,TRAIL_DELAY,TRAIL_RATE} from '../dist/hud.js';
 import {createMatch,update,neutral,CHARGE_PER_STOCK,MAX_STOCKS,chargeRate} from '../dist/combat.js';
 test('power gauge shows filled stocks, the partial charge of the next segment, and charging state',()=>{
  const idle={stocks:1,charge:.9,anim:'idle',hp:100};const g=gaugeState(idle);
@@ -42,4 +42,10 @@ test('each hit breaks off shards along the lost chunk, scaling with damage and f
  const small=damageShards(3,'left',1),big=damageShards(14,'left',1);assert.equal(small.length,4);assert.equal(big.length,17);assert.equal(damageShards(90,'left').length,18);
  assert.ok(big.every(s=>s.dx>0),'left gauge shards fly right');assert.ok(damageShards(14,'right',1).every(s=>s.dx<0),'right gauge shards fly left');
  assert.ok(big.every(s=>s.t>0&&s.t<1));assert.ok(big[0].t<big[big.length-1].t);
+});
+
+test('the life bar shatters once at zero and reforms when the next round refills it',()=>{
+ const t=createTrail();
+ assert.equal(barShatterEvent(t,40),null);assert.equal(barShatterEvent(t,0),'shatter');assert.equal(barShatterEvent(t,0),null);
+ assert.equal(barShatterEvent(t,100),'reform');assert.equal(barShatterEvent(t,100),null);assert.equal(barShatterEvent(t,0),'shatter');
 });

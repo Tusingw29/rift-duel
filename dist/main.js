@@ -12,7 +12,7 @@ import {createView} from './render.js';
 import {createAudio} from './audio.js';
 import {createFlow,advanceFlow,beginKO,simulationRuns,cameraCue} from './presentation.js';
 import {homeArena} from './arenas.js';
-import {gaugeState,gaugeLabel,gemStates,shardPlan,damageShards,createTrail,updateTrail,healthClass} from './hud.js';
+import {gaugeState,gaugeLabel,gemStates,shardPlan,damageShards,createTrail,updateTrail,healthClass,barShatterEvent} from './hud.js';
 const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
@@ -97,7 +97,8 @@ function updateHud(dt){
   const gems=gauge.querySelectorAll('.gem');gemStates(g).forEach((gem,k)=>{gems[k].style.setProperty('--fill',gem.fill);gems[k].classList.toggle('lit',gem.lit);gems[k].classList.toggle('filling',gem.filling);});
   gauge.classList.toggle('charging',g.charging);gauge.classList.toggle('full',g.full);$('#gauge-label'+n).textContent=gaugeLabel(g);
   if(p.stocks>lastStocks[i])flash(gems[p.stocks-1],'gain');else if(p.stocks<lastStocks[i]){const gem=gems[lastStocks[i]-1];flash(gem,'spend');shatter(gem,i?'#c9a6f6':'#d9f975',12,60);}lastStocks[i]=p.stocks;
-  if(p.hp<=0&&!trail.shattered){trail.shattered=true;const bar=$('#health'+n);bar.classList.add('shattered');shatter(bar,i?'#c9a6f6':'#d9f975',26,160);}
+  const event=barShatterEvent(trail,p.hp),bar=$('#health'+n);
+  if(event==='shatter'){bar.classList.add('shattered');shatter(bar,i?'#c9a6f6':'#d9f975',26,160);}else if(event==='reform')bar.classList.remove('shattered');
  });
 }
 function pips(){match?.players.forEach((p,i)=>{$('#pips'+(i+1)).textContent='●'.repeat(wins[i])+'○'.repeat(Math.max(0,match.rules.winsNeeded-wins[i]));});}

@@ -14,7 +14,13 @@ export function gaugeLabel(state){
  if(state.charging)return `CHARGING ×${state.rate.toFixed(1)}`;
  return state.stocks?`${state.stocks} STOCK${state.stocks>1?'S':''}`:'NO STOCK';
 }
-export function createTrail(hp=100){return {hp,trail:hp,delay:0};}
+export function createTrail(hp=100){return {hp,trail:hp,delay:0,shattered:false};}
+// The life bar shatters once when health reaches zero and reforms when the next round or bout refills it.
+export function barShatterEvent(t,hp){
+ if(hp<=0&&!t.shattered){t.shattered=true;return 'shatter';}
+ if(hp>0&&t.shattered){t.shattered=false;return 'reform';}
+ return null;
+}
 // The trail holds for a moment after damage, then drains down to the live value.
 export function updateTrail(t,hp,dt){
  if(hp<t.hp){t.delay=TRAIL_DELAY;}
