@@ -8,7 +8,7 @@ await page.route('**/travel-review',r=>r.fulfill({contentType:'text/html',body:'
 await page.goto('http://127.0.0.1:4173/travel-review');
 await page.evaluate(async()=>{
  const combat=await import('/combat.js'),{createView}=await import('/render.js');
- const view=createView(document.querySelector('canvas'));view.quality('low');
+ const view=createView(document.querySelector('canvas'),{talaModel:'v3'});view.quality('low');
  window.review={view,combat,reset(kind){
   this.m=combat.createMatch(2,1,'training');this.m.players[0].x=0;this.m.players[1].x=kind==='pursuit'?3.5:2;
   view.match(this.m);this.kind=kind;this.frame=0;
