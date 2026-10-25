@@ -41,3 +41,14 @@ for(const [id,name,anim] of roster){
   }
  });
 }
+
+import {HURT_TIME} from '../dist/grounded-animation.js';
+for(const [id,name] of [[0,'aegis'],[1,'rei'],[3,'morrow'],[4,'sol'],[5,'vesper']])test(`${name}: a fresh hit snaps the body back and the reaction settles to stance as the hurt timer runs out`,()=>{
+ const r=buildCharacter(id),poseOf=()=>r[name+'Pose'];
+ animateCharacter(r,{anim:'idle',x:0,z:0},0);const stance={...poseOf()};
+ const sample=t=>{for(let i=0;i<6;i++)animateCharacter(r,{anim:'hurt',x:0,z:0,animTime:t},1+i*.03);return {...poseOf()};};
+ const fresh=sample(HURT_TIME-.08),late=sample(.02);
+ assert.ok(fresh.lean<stance.lean-.15,`${name} fresh hit leans back (${fresh.lean.toFixed(2)} vs ${stance.lean.toFixed(2)})`);
+ assert.ok(fresh.bodyZ<-.08,`${name} fresh hit is pushed back`);
+ assert.ok(Math.abs(late.lean-stance.lean)<.05&&Math.abs(late.bodyZ)<.03,`${name} settles to stance (${late.lean.toFixed(2)})`);
+});

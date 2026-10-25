@@ -11,6 +11,7 @@ Frame strips from `dist/fighter-review.html` after the EZ-02 first pass and the 
 | `strip-rei-guard-front.jpg` | .05, .2, .5 | Forearms cross the chest, chin tucked, blade upright. |
 | `strip-rei-pursuit-side.jpg` | 0 → .45 | Load low, drive forward with the blade leading, first cut on the contact frame, then recovery. |
 | `strip-rei-crossover-side.jpg` | 0 → .55 | Crouch, tucked flight with the blade raised, extension, overhead strike on landing. The review page does not lift the body; in the game the air height applies. |
+| `strip-rei-hurt-side.jpg`, `strip-aegis-hurt-side.jpg` | .42 → .04 (the hurt timer counts down) | Fresh hit snaps the head and chest back and pushes the body away, a deeper catch, then a settle to stance. Before this fix those four fighters showed the stance on the hit and the snap as the stun ended. |
 | `strip-sol-run-side.jpg` | 0 → .35 | Stepping cycle with the staff over the shoulder and the casting hand forward. |
 | `strip-sol-strike1-side.jpg` | 0 → .35 | Staff sweeps round to a horizontal forward thrust on the contact frame, then returns upright. |
 
