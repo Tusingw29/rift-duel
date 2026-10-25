@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget} from './grounded-animation.js';
 import {sampleClip} from './pose-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -32,13 +32,14 @@ export function aegisMovePose(forward,side,phase){
  if(forward<0)return p({...s,lean:-.08,llx:-s.llx*.6,rlx:-s.rlx*.6,lax:-.6,rax:-.3,twist:.12+s.twist*.5});
  return s;
 }
-function targetFor(player,time,phase){
+function targetFor(player,time,phase,motion){
  if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:aegisStrikePose(player.move)};
+ const travel=travelTarget(player,aegisStance,aegisStrikePose);if(travel)return travel;
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
  if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:p({lax:-1.1,le:-1.6,laz:.2,rax:-.5,re:-.55,twist:.2,lean:.12-.24*recoil,bodyZ:-.12*recoil,hx:-.15*recoil,bodyY:-.19})};}
  if(player?.anim==='hurt')return {kind:'hurt',pose:mix(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,smooth((player.animTime||0)/.4))};
  if(player?.anim==='charge')return {kind:'charge',pose:p({laz:.4,raz:-.35,le:-1,re:-.5,lean:-.08,bodyY:-.2})};
- if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(player.prev?.x??1,player.prev?.z||0,phase)};
+ if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
  return {kind:'idle',pose:p({bodyY:-.12+Math.sin(time*2.1)*.008,twist:.12+Math.sin(time*1.5)*.018})};
 }
 export function animateAegis(r,player,time){return animateGroundedRig(r,player,time,'aegis',targetFor);}
