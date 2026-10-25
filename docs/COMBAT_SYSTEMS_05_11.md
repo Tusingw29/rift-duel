@@ -87,6 +87,6 @@ The first cloud review passed UI movement/charge completion, remapped controls, 
 
 ## Validation and remaining polish
 
-Initial implementation: `b115ac8`, 385 tests and [browser review 40233415645](https://github.com/Tusingw29/rift-duel/actions/runs/40233415645). Final integrated validation is recorded on the shared task board.
+Initial implementation: `b115ac8`, 385 tests and [browser review 40233415645](https://github.com/Tusingw29/rift-duel/actions/runs/40233415645). Final integrated build: **390 tests pass**; [browser review 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passes, including 21 camera/capture/ring comparisons plus portrait framing. Claude’s sandbox/rig schema `e2c8699` is preserved.
 
 Deferred: authored recovery/capture/clash choreography, full-speed camera and timing polish, physical-controller testing and Adam's usability verdict. Those are not established by headless screenshots. No copyrighted reference video or extracted game assets were committed.

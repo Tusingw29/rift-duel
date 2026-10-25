@@ -144,7 +144,7 @@ Reference: [down/recovery, 5:17](https://www.youtube.com/watch?v=7AqlL6_7as8&t=3
 - [x] Test held versus fresh input, repeated inputs, late escape, wall limits, and interrupted recovery.
 - [ ] Review grounded weight, landing, roll, and get-up continuity; update controls/manual.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-06 — Guard/charge/attack transition rules
 
@@ -159,7 +159,7 @@ Current gap: charge stocks and life-dependent charging exist. The tutorial disti
 - [x] Test partial charge, full stocks, damaged life, interruption, held specials, and keyboard/controller input.
 - [x] Make the timing difference visible in practice and document it.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## Priority 3 — distinctive attack interactions
 
@@ -177,7 +177,7 @@ Current gap: long capture is a fixed-radius travelling projectile. The tutorial 
 - [x] Test no extra input, valid extra input, held input, miss, timed escape, interruption, and simultaneous captures.
 - [ ] Review effect readability at fight-camera distance and document the command.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-08 — Audit and complete combo branches
 
@@ -191,7 +191,7 @@ Reference: [additional blows and continuous attacks, 6:34](https://www.youtube.c
 - [x] Test hit, block, whiff, interruption, stock cost, and side changes for affected routes.
 - [ ] Update move lists and verify each new route reads as one connected sequence.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-09 — Pressure Dash contest
 
@@ -207,7 +207,7 @@ Current gap: simultaneous capture/super contacts can display POWER CLASH, but th
 - [x] Test keyboard and controller equivalence, held-button rejection, pause/blur, simultaneous inputs, ties, and round end.
 - [ ] Add clash/release animation and feedback; review real-time usability and consider an accessible input alternative.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## Priority 4 — framing and learnability
 
@@ -223,7 +223,7 @@ Current gap: earlier documentation called the behind-fighter lock-on view Evil Z
 - [x] Test both fighters' visibility, arena edges, aerial height, effects, HUD overlap, and reduced motion.
 - [ ] Review full-speed exchanges and update documentation to avoid unsupported camera-fidelity claims.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-11 — Guided practice lessons
 
@@ -237,7 +237,7 @@ Current gap: training has dummy choices, input history, and move-phase feedback,
 - [x] Allow immediate retry and free practice without long interruptions.
 - [ ] Test success, common wrong inputs, reset, input-device change, and leaving the lesson; have Adam try it without external instructions.
 
-Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Final integrated review: **390 tests pass**, [browser run 40237435218](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) passed. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## EZ-01 motion contract for EZ-02
 
@@ -247,6 +247,7 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
 | 2026-10-25 | Claude | EZ-02 | First pass merged: Rei, Sol and Vesper moved from the time-based shared animator to the grounded whole-body system (authored stance, crossed guard, hit reaction, charge, distance-driven footwork, three keyed strikes each). Status Review. Next: Adam's normal-speed verdict; then recoil momentum and push-off weight across the roster. |
 | 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |
 | 2026-10-25 | Codex | EZ-03 | Rules, HUD, training feedback and CPU recovery implemented. Integrated Claude’s travel choreography `a80ce24`. Cloud review: [40229272655](https://github.com/Tusingw29/rift-duel/actions/runs/40229272655). Normal-speed balance and dedicated stagger/recovery posing remain open. Next mechanics task: EZ-04 third-hit defensive reversal. |

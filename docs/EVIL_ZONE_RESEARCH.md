@@ -135,3 +135,8 @@ A targeted reading of all three guides resolves the broad behavior: Alty’s for
 ## HUD shatter (October 21, 2026)
 
 The GameVortex review describes damage visuals directly: "part of the character's power gauge shatters like glass", power crystals appearing beside the gauge when it fills (up to three), and faster crystal gain at low life. The manual transcription confirms the three-crystal cap and the life link. No source read states the gauge's exact orientation or colour; the vertical side gauge in Rift Duel follows the user's recollection. [GameVortex review](https://psillustrated.com/gamevortex/soft_rev.php/2177), [manual transcription](https://gamesurge.com/playstation/strategy/psx_man/Evilz.shtml).
+
+
+## EZ-05–11 follow-up (October 25, 2026)
+
+Saved tutorial sheets were re-inspected for recovery, charge, capture growth, continuous attacks, Pressure Dash and camera composition. Broad three-quarter/side compositions occur throughout; the earlier behind-fighter camera should not be described as the exact source camera. The new Duel view is an original adaptation with a stable viewing side and whole-body framing. [Rules, mappings and evidence](COMBAT_SYSTEMS_05_11.md) distinguish implemented behavior from unmeasured source timings and deferred animation acceptance.
