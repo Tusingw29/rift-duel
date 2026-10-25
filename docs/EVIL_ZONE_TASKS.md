@@ -104,18 +104,30 @@ Animation handoff: `player.staggerState` supplies `elapsed`, `remaining`, `input
 
 ### EZ-04 — Third-hit defensive reversal
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-04-reversal`; Claude can refine the return-strike pose separately.
+Owner: **Codex** · Status: **Review** · Branch: `codex/ez-04-reversal`; Claude can refine the return-strike pose separately.
 
 Reference: [short defense, 4:52](https://www.youtube.com/watch?v=7AqlL6_7as8&t=292s).
 
 Current gap: generic perfect guard stuns the attacker, but the tutorial describes returning the third attack of the close sequence.
 
-- [ ] Define eligible sequence hits and distinguish this reversal from projectile reflection and generic perfect guard.
-- [ ] Implement a deliberate defensive timing window, reversal outcome, and interruptible follow-through as appropriate.
-- [ ] Test early, correct, and late guard against eligible and ineligible attacks, including both players.
+- [x] Define eligible sequence hits and distinguish this reversal from projectile reflection and generic perfect guard.
+- [x] Implement a deliberate defensive timing window, reversal outcome, and interruptible follow-through as appropriate.
+- [x] Test early, correct, and late guard against eligible and ineligible attacks, including both players.
 - [ ] Add readable motion and feedback; document the command and review in combat.
 
-Completion evidence: _Pending._
+Implementation: new `reversal.js`, contact provenance in `combat.js`, dedicated callout/deflect effect, and training/manual guidance. **18 focused tests pass**, including complete guarded chains for every fighter and both player slots. Full-suite/browser evidence will be recorded in the handoff log. Normal-speed visual acceptance remains open.
+
+First-pass rules (Rift Duel tuning, not measured PS1 frame data):
+
+- Only the grounded third **basic melee strike** of a connected chain qualifies. Special third-hit branches, shots, captures, launches, airborne attacks, and return strikes do not.
+- Guard must be available. Release and tap guard again within six simulation frames of contact (tap age 0–5). A fresh tap is tracked independently of the pose's guard timer, including during blockstun. This cannot escape ordinary hitstun or stagger.
+- A successful deflect prevents damage and interrupts the attacker for 0.18 seconds. It starts one return strike: six-frame startup, one active frame, eighteen recovery frames; eight base damage multiplied by defender power. No stock cost or extra charge award.
+- The defender advances up to 1.2 units through the startup using a committed continuous path. Damage requires actual range/facing at contact. No invulnerability is granted: another hit can interrupt the return, and an escaping target can make it miss.
+- The return uses the existing first-strike pose, cannot chain, and cannot itself trigger another third-hit reversal. Buffered actions near the end of recovery still work normally.
+- Outside the six-frame window, ordinary block/perfect-guard rules apply. Projectile reflection retains its existing separate behavior.
+
+Animation handoff: `move.reversal` identifies the return; it uses the normal strike timeline and `move.travel`. Combat owns world movement and the damage frame. Claude can author a distinct deflect/return silhouette without changing eligibility. Guard input remains the bound guard action (default K / B or Circle).
+
 
 ### EZ-05 — Downed defense and get-up transitions
 

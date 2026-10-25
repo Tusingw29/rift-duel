@@ -26,5 +26,5 @@ export function movePhase(move){
 export const INPUT_BUFFER_FRAMES=8;
 export const CHAIN_WINDOW_FRAMES=10;
 export function canChain(move){
- return !!move&&['strike','shot'].includes(move.kind)&&move.chain<3&&move.connected&&move.frame>=move.startup&&move.frame<=move.startup+CHAIN_WINDOW_FRAMES;
+ return !!move&&!move.reversal&&['strike','shot'].includes(move.kind)&&move.chain<3&&move.connected&&move.frame>=move.startup&&move.frame<=move.startup+CHAIN_WINDOW_FRAMES;
 }

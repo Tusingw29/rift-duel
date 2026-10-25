@@ -1,3 +1,4 @@
+import {reversalEligible,beginReversal,REVERSAL_DAMAGE} from './reversal.js';
 import {freshStagger,clearStagger,staggerHit,advanceStagger} from './stagger.js';
 import {lineTravel,orbitTravel,advanceTravel,faceOpponent,CIRCLE_FRAMES,CROSSOVER_FRAMES} from './combat-travel.js';
 import {advanceAirMotion} from './air-motion.js';
@@ -23,13 +24,18 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[command];
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
- const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
+ const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null});
  return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded},time:rules.roundSeconds,tick:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
-export function hit(m,a,b,damage,kind='hit',launch=false){
+export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  if(b.inv>0||b.hp<=0)return false;
+ if(kind==='hit'&&!launch&&a.air<=0&&reversalEligible(b,sourceMove,m.tick)){
+  beginReversal(a,b,m.tick);
+  event(m,'reversal',{player:m.players.indexOf(b),x:b.x,z:b.z,color:fighters[b.id].color});
+  return false;
+ }
  const perfect=b.guard&&b.guardTime<.17;
  if(b.guard&&kind!=='capture'){
   event(m,perfect?'parry':'block',{x:b.x,z:b.z,color:fighters[b.id].color});
@@ -220,7 +226,7 @@ function executeAction(m,a,b,move){
  }
  if(kind==='launch') {if(d<f.reach+.3&&facing)hit(m,a,b,8*f.power,'hit',true);return;}
  
- if(kind==='strike'){if(d<f.reach&&facing&&b.inv<=0){move.connected=true;hit(m,a,b,((move.chain===3?10:6)+(move.counter?2:0))*f.power);}}
+ if(kind==='strike'){if(d<f.reach&&facing&&b.inv<=0){move.connected=true;hit(m,a,b,((move.reversal?REVERSAL_DAMAGE:move.chain===3?10:6)+(move.counter?2:0))*f.power,'hit',false,move);}}
  else {move.connected=true;m.projectiles.push({x:a.x+dx*.8,z:a.z+dz*.8,dx:dx*f.shotSpeed,dz:dz*f.shotSpeed,life:2,owner:m.players.indexOf(a),damage:(move.chain===3?9:7)*f.power,kind:'bolt',radius:f.id==='vesper'?.7:.4});event(m,'shot',{color:f.color});}
 }
 export function aiInput(m,dt){
@@ -262,6 +268,7 @@ export function update(m,inputs,dt=STEP){
    if(recovering)return;
    const command=readCommand(a.commands,i,a.prev,1,m.tick);
    const freshGuard=i.guard&&!a.prev.guard;
+   if(freshGuard&&a.stun<=0&&a.air<=0&&!a.move&&!a.travel)a.guardTapTick=m.tick;
    const freshDepth=Math.abs(i.z)>.5&&(Math.abs(a.prev.z)<=.5||Math.sign(i.z)!==Math.sign(a.prev.z));
    if(a.anim==='knockdown'&&a.stun>0&&a.stun<=.55&&freshDepth){
     a.roll={direction:Math.sign(i.z),elapsed:0};a.stun=.3;a.cool=.3;a.inv=.22;a.anim='roll';a.animTime=.3;
