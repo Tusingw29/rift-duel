@@ -24,6 +24,7 @@ const audio=createAudio();
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
 keys.configure(bindings);
 let settings=normalizeOptions();try{settings=normalizeOptions(JSON.parse(localStorage.getItem('rift-options')||'{}'));}catch{}
+if(new URLSearchParams(location.search).has('sandbox'))location.replace('./sandbox.html'+location.search);
 const talaOverride=new URLSearchParams(location.search).get('tala');if(['classic','concept'].includes(talaOverride))settings.talaModel=talaOverride;
 let activeTalaModel=['design02','v3'].includes(talaOverride)?talaOverride:settings.talaModel;
 function save(){audio.configure(settings);try{localStorage.setItem('rift-options',JSON.stringify(settings));}catch{}}

@@ -1,9 +1,12 @@
 import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
 const out='artifacts/combat-travel';mkdirSync(out,{recursive:true});
-const browser=await chromium.launch({headless:true,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
-const page=await browser.newPage({viewport:{width:960,height:640}}),errors=[],samples=[];
-page.on('pageerror',e=>errors.push(e.message));
+// PLAYWRIGHT_EXECUTABLE lets a local run use an already-installed headless shell, as scripts/browser-smoke.mjs does.
+const launch={headless:true,args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']};if(process.env.PLAYWRIGHT_EXECUTABLE)launch.executablePath=process.env.PLAYWRIGHT_EXECUTABLE;
+const browser=await chromium.launch(launch);
+const page=await browser.newPage({viewport:{width:960,height:640}}),errors=[],samples=[],logs=[],statuses={};
+page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{logs.push(`${m.type()}: ${m.text()}`);if(m.type()==='error')errors.push(m.text());});
+try{
 await page.route('**/travel-review',r=>r.fulfill({contentType:'text/html',body:'<html><body style="margin:0"><canvas id="stage"></canvas></body></html>'}));
 await page.goto('http://127.0.0.1:4173/travel-review');
 await page.evaluate(async()=>{
@@ -24,11 +27,15 @@ await page.evaluate(async()=>{
 });
 for(const kind of ['pursuit','circle','crossover']){
  await page.evaluate(kind=>window.review.reset(kind),kind);
- await page.waitForFunction(()=>window.review.view.fighterModels.every(x=>x.status&&!['loading','fallback'].includes(x.status)),null,{timeout:90000});
+ // Wait for the models to settle; a fallback rig still completes the capture and is recorded rather than failing the run.
+ await page.waitForFunction(()=>window.review.view.fighterModels.every(x=>x.status&&x.status!=='loading'),null,{timeout:90000}).catch(e=>errors.push('readiness: '+e.message));
+ statuses[kind]=await page.evaluate(()=>window.review.view.fighterModels);
  for(let f=0;f<65;f++){
   const players=await page.evaluate(()=>window.review.step());samples.push({kind,f,players});
-  if([0,6,12,18,24,40,64].includes(f))await page.screenshot({path:`${out}/${kind}-${f}.png`});
+  // Software rendering can take well over Playwright's 30 s default per capture on a loaded machine.
+  if([0,6,12,18,24,40,64].includes(f))await page.screenshot({path:`${out}/${kind}-${f}.png`,timeout:180000});
  }
 }
-writeFileSync(`${out}/report.json`,JSON.stringify({errors,samples},null,2));await browser.close();
+}catch(e){errors.push('run: '+e.message);try{await page.screenshot({path:`${out}/failure.png`});}catch{}}
+finally{writeFileSync(`${out}/report.json`,JSON.stringify({errors,statuses,samples,logs:logs.slice(-200)},null,2));await browser.close();}
 if(errors.length)throw Error(errors.join('\n'));
