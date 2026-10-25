@@ -69,19 +69,38 @@ Completion evidence: `dist/roster-animation.js` + `tests/roster-animation.test.m
 
 ### EZ-03 — Accumulated stagger and recovery opportunity
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-03-stagger`
+Owner: **Codex** · Status: **Review** · Branch: `codex/ez-03-stagger`
 
 Reference: [knockdown/recovery, 5:30](https://www.youtube.com/watch?v=7AqlL6_7as8&t=330s).
 
 Current gap: ordinary hitstun and launch stun exist, but no accumulated stagger system. The tutorial shows sustained attacks producing a vulnerable state, directional recovery, and a stronger glide opportunity. Exact thresholds are not established by sampled frames.
 
-- [ ] Specify stagger buildup, reset/decay, triggering hits, recovery levels, and visible cues; label unverified values as Rift Duel tuning choices.
-- [ ] Implement the stagger state and recovery inputs without confusing them with normal hitstun or knockdown.
-- [ ] Add the associated glide/counter opportunity with clear vulnerability and escape windows.
-- [ ] Test accumulation, recovery success/failure, round resets, and prevention of unintended permanent stun loops.
+- [x] Specify stagger buildup, reset/decay, triggering hits, recovery levels, and visible cues; label unverified values as Rift Duel tuning choices.
+- [x] Implement the stagger state and recovery inputs without confusing them with normal hitstun or knockdown.
+- [x] Add the associated glide/counter opportunity with clear vulnerability and escape windows.
+- [x] Test accumulation, recovery success/failure, round resets, and prevention of unintended permanent stun loops.
 - [ ] Review attacker and defender feedback at normal speed; attach evidence.
 
-Completion evidence: _Pending._
+Implementation: `80f811b`, integrated with Claude's travel-animation pass in `6276516`. **23 focused stagger tests pass.** The [integrated cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40229272655) passed 325 tests before the final counter-invalidation regression was added, loaded the actual game HUD/training readout, and rendered stagger, clean recovery, pursuit knockdown, and narrow-screen HUD samples with no JavaScript exceptions. Release CI reruns the complete suite including the additional regression. Normal-speed animation and balance acceptance remain open; no physical controller was tested.
+
+Current rules are original Rift Duel tuning choices. The reference demonstrates sustained-hit stagger, directional recovery, and a glide opportunity; it does not establish these exact values.
+
+| Rule | First-pass value / behavior |
+| --- | --- |
+| Buildup | 24-point threshold. Unblocked grounded damage adds up to 12 per hit; projectiles add half. Guarded/invulnerable hits add nothing. |
+| Decay | Starts 0.9 seconds after the last contributing hit; loses 12 points per second. |
+| Stagger window | 1.2 seconds; movement, guard, charge, and attacks locked. Existing recoil pose is held; HUD shows recovery progress/time. |
+| Recovery | After the first 0.1 seconds, alternate circle left/right three times. Held inputs and repeated same-direction taps do not count. Default A/D or controller Left/Right; remapped keys work through existing input mapping. |
+| Recovery quality | Three taps by 0.6 seconds grant a 0.65-second counter window. Later taps or automatic expiry restore control without the counter bonus. |
+| Counter | Next close strike started within the window gains 2 base damage, multiplied by fighter power. Starting it consumes the bonus, even on a miss/block; a new hit also removes unused bonus. |
+| Escape safety | Manual recovery gives 0.18 seconds invulnerability; automatic expiry gives 0.12. Both have a 0.12-second settle. |
+| Repeat protection | Recovery or taking a follow-up hit clears buildup and grants 2 seconds of resistance to another stagger. Ordinary damage and ordinary hitstun still apply after escape invulnerability. |
+| Pursuit opening | Start pursuit against a staggered target within 5.6 units: up to 4 units of committed travel, 12-frame startup. If target is still staggered at contact, 12 base damage and 0.55-second knockdown; otherwise normal pursuit rules apply. |
+| Interruptions/reset | A follow-up hit consumes the opening instead of refreshing it. Launch, airborne/knockdown hits, captures, and bursts do not create grounded stagger. New rounds and training health refill clear buildup/recovery state. Cinematics freeze its clock. |
+| CPU | Alternates recovery inputs at difficulty-dependent intervals and can pursue a staggered rival. It does not recover instantly. |
+
+Animation handoff: `player.staggerState` supplies `elapsed`, `remaining`, `inputs`, and last accepted direction. `player.counterWindow` signals clean recovery; `move.staggerPursuit` identifies the stronger pursuit attempt. Combat owns timers, damage, and root movement. Dedicated bracing/escape choreography can replace the initial held recoil without changing these rules.
+
 
 ### EZ-04 — Third-hit defensive reversal
 
@@ -216,6 +235,7 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 | --- | --- | --- | --- |
 | 2026-10-25 | Claude | EZ-02 | First pass merged: Rei, Sol and Vesper moved from the time-based shared animator to the grounded whole-body system (authored stance, crossed guard, hit reaction, charge, distance-driven footwork, three keyed strikes each). Status Review. Next: Adam's normal-speed verdict; then recoil momentum and push-off weight across the roster. |
 | 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |
+| 2026-10-25 | Codex | EZ-03 | Rules, HUD, training feedback and CPU recovery implemented. Integrated Claude’s travel choreography `a80ce24`. Cloud review: [40229272655](https://github.com/Tusingw29/rift-duel/actions/runs/40229272655). Normal-speed balance and dedicated stagger/recovery posing remain open. Next mechanics task: EZ-04 third-hit defensive reversal. |
 | 2026-10-25 | Codex | Integration | Merged Claude’s EZ-02 commit `1622f2e` into EZ-01 (`c3e99b5`). Preserved both implementations and regenerated page import maps. No duplicate simulation displacement added. |
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |

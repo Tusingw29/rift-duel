@@ -12,7 +12,7 @@ await page.waitForFunction(()=>window.riftDebug().flow==='fight',null,{timeout:6
 await page.waitForFunction(()=>document.querySelector('#stagger-status1 strong').textContent==='STAGGER 0%');
 if(!await page.locator('#training-readout').textContent().then(t=>t.includes('Stagger: P1')))throw Error('Training stagger readout missing');
 const hud=readFileSync('dist/index.html','utf8').match(/<section id="hud".*?<\/section>/s)[0].replace(' hidden','');
-await page.route('**/stagger-review',r=>r.fulfill({contentType:'text/html',body:`<html><head><link rel="stylesheet" href="/style.css"></head><body><canvas id="stage"></canvas>${hud}</body></html>`}));
+await page.route('**/stagger-review',r=>r.fulfill({contentType:'text/html',body:`<html><head><meta charset="utf-8"><link rel="stylesheet" href="/style.css"></head><body><canvas id="stage"></canvas>${hud}</body></html>`}));
 await page.goto('http://127.0.0.1:4173/stagger-review');
 await page.evaluate(async()=>{
  const combat=await import('/combat.js'),{createView}=await import('/render.js'),{updateStaggerHud}=await import('/hud.js');

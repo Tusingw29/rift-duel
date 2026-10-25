@@ -141,3 +141,7 @@ test('default keyboard and controller left/right map to the same stagger escape 
   assert.equal(s.b.staggerState,null);assert.ok(s.b.counterWindow>0);
  }
 });
+test('a new hit removes an unused clean-recovery counter reward',()=>{
+ const s=breakGuard();recover(s);step(s.m,s.n,{},13);assert.ok(s.b.counterWindow>0);
+ hit(s.m,s.a,s.b,1);assert.equal(s.b.counterWindow,0);
+});
