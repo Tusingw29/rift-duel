@@ -108,14 +108,14 @@ Owner: **Codex** · Status: **Review** · Branch: `codex/ez-04-reversal`; Claude
 
 Reference: [short defense, 4:52](https://www.youtube.com/watch?v=7AqlL6_7as8&t=292s).
 
-Current gap: generic perfect guard stuns the attacker, but the tutorial describes returning the third attack of the close sequence.
+Addressed gap: generic perfect guard previously only stunned the attacker; the third close basic hit now has a separate timed deflect and return strike.
 
 - [x] Define eligible sequence hits and distinguish this reversal from projectile reflection and generic perfect guard.
 - [x] Implement a deliberate defensive timing window, reversal outcome, and interruptible follow-through as appropriate.
 - [x] Test early, correct, and late guard against eligible and ineligible attacks, including both players.
 - [ ] Add readable motion and feedback; document the command and review in combat.
 
-Implementation: new `reversal.js`, contact provenance in `combat.js`, dedicated callout/deflect effect, and training/manual guidance. **20 focused tests pass**, including complete guarded chains for every fighter and both player slots. Training → Pause → Practice Controls → Repeat three-hit combo provides a repeatable real-input opponent. Full-suite/browser evidence will be recorded in the handoff log. Normal-speed visual acceptance remains open.
+Implementation: new `reversal.js`, contact provenance in `combat.js`, dedicated callout/deflect effect, and training/manual guidance. **20 focused tests pass**, including complete guarded chains for every fighter and both player slots. Training → Pause → Practice Controls → Repeat three-hit combo provides a repeatable real-input opponent. Cloud review verifies the practice menu, a real dummy chain, deflection, one delayed return hit, recovery, and no browser exceptions; see the handoff log. Normal-speed visual acceptance remains open.
 
 First-pass rules (Rift Duel tuning, not measured PS1 frame data):
 
@@ -250,6 +250,7 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 | 2026-10-25 | Codex | EZ-03 | Rules, HUD, training feedback and CPU recovery implemented. Integrated Claude’s travel choreography `a80ce24`. Cloud review: [40229272655](https://github.com/Tusingw29/rift-duel/actions/runs/40229272655). Normal-speed balance and dedicated stagger/recovery posing remain open. Next mechanics task: EZ-04 third-hit defensive reversal. |
 | 2026-10-25 | Codex | Integration | Merged Claude’s EZ-02 commit `1622f2e` into EZ-01 (`c3e99b5`). Preserved both implementations and regenerated page import maps. No duplicate simulation displacement added. |
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
+| 2026-10-25 | Codex | EZ-04 | Third-hit reversal, 20 focused tests, repeat-three-hit practice dummy and controls/manual implemented. Integrated Claude’s hit-reaction fix `84c1d96`. 351 tests pass; browser review passed without exceptions. Review: [40231237705](https://github.com/Tusingw29/rift-duel/actions/runs/40231237705). Existing first-strike pose is reused; distinct reversal posing, normal-speed timing acceptance and physical-controller review remain open. Next mechanics task: EZ-05 downed defense/get-up transitions. |
 | 2026-10-25 | Claude | EZ-02 | Hit reaction: inverted hurt timer fixed on five fighters, shared recoil timeline with foot catch (`84c1d96`); 331 tests pass. |
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |
 
