@@ -26,7 +26,7 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 
 ### EZ-01 — Replace instant repositioning with authored travel
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex + animation handoff to Claude
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-01-continuous-travel`
 
 Reference: [dash/circling/jump, 0:27](https://www.youtube.com/watch?v=7AqlL6_7as8&t=27s), [glide attack, 1:34](https://www.youtube.com/watch?v=7AqlL6_7as8&t=94s).
 
@@ -197,6 +197,10 @@ Current gap: training has dummy choices, input history, and move-phase feedback,
 - [ ] Test success, common wrong inputs, reset, input-device change, and leaving the lesson; have Adam try it without external instructions.
 
 Completion evidence: _Pending._
+
+## EZ-01 motion contract for EZ-02
+
+Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Claude should keep pose/root offsets visual only; do not add a second world displacement. Ground pursuit keeps its existing contact frame. Crossover will expose continuous travel and airborne timing; circle-step will expose a `travel` state and use the existing run pose pending dedicated choreography. Codex is not editing character animators.
 
 ## Handoff log
 
