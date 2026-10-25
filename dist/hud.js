@@ -1,3 +1,4 @@
+import {staggerFeedback} from './stagger.js';
 import {CHARGE_PER_STOCK,MAX_STOCKS,CHARGE_FLOOR_HP,chargeRate} from './combat.js';
 // Evil Zone-style fight HUD state: a life bar with a delayed damage trail, a low-life
 // warning, and a segmented power gauge that fills while attack is held. Pure helpers
@@ -50,4 +51,12 @@ export function shardPlan(count=10,seed=1,spread=70){
 export function damageShards(damage,side='left',seed=1){
  const count=Math.max(4,Math.min(18,Math.round(damage*1.2))),plan=shardPlan(count,seed,55);
  return plan.map((s,i)=>({...s,t:(i+.5)/count,dx:(side==='left'?1:-1)*(20+Math.abs(s.dx)),dy:s.dy+10}));
+}
+
+export function updateStaggerHud(element,player){
+ const feedback=staggerFeedback(player);
+ element.dataset.state=feedback.state;
+ element.querySelector('strong').textContent=feedback.label;
+ element.querySelector('progress').value=feedback.fill;
+ element.querySelector('span').textContent=feedback.detail;
 }
