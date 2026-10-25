@@ -65,6 +65,7 @@ Open http://localhost:4173. No npm install, editor download, engine export, data
 
 ## Documentation
 
+- [Shared Evil Zone feel task checklist — ownership, priorities, and acceptance checks](docs/EVIL_ZONE_TASKS.md)
 - [Reference study and evidence limitations](docs/EVIL_ZONE_RESEARCH.md)
 - [Engine decision, original roster, and production plan](docs/DESIGN.md)
 - [Verification and known limitations](docs/VERIFICATION.md)
