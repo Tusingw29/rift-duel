@@ -93,10 +93,10 @@ function updateHud(dt){
   const n=i+1,trail=updateTrail(trails[i],p.hp,dt);
   if(p.hp<lastHp[i]-.5)crackBar(n,lastHp[i],p.hp);lastHp[i]=p.hp;
   $('#hp'+n).style.height=p.hp+'%';$('#trail'+n).style.height=trail.trail+'%';$('#health'+n).dataset.state=healthClass(p.hp);
-  const g=gaugeState(p),gauge=$('#gauge'+n);
+  const g=gaugeState(p),gauge=$('#gauge'+n);$('#charge'+n).style.height=g.sweep+'%';$('#health'+n).classList.toggle('charging',g.charging);
   const gems=gauge.querySelectorAll('.gem');gemStates(g).forEach((gem,k)=>{gems[k].style.setProperty('--fill',gem.fill);gems[k].classList.toggle('lit',gem.lit);gems[k].classList.toggle('filling',gem.filling);});
   gauge.classList.toggle('charging',g.charging);gauge.classList.toggle('full',g.full);$('#gauge-label'+n).textContent=gaugeLabel(g);
-  if(p.stocks>lastStocks[i])flash(gems[p.stocks-1],'gain');else if(p.stocks<lastStocks[i]){const gem=gems[lastStocks[i]-1];flash(gem,'spend');shatter(gem,i?'#c9a6f6':'#d9f975',12,60);}lastStocks[i]=p.stocks;
+  if(p.stocks>lastStocks[i]){flash(gems[p.stocks-1],'gain');shatter($('#health'+n),'#fff2b0',10,90);}else if(p.stocks<lastStocks[i]){const gem=gems[lastStocks[i]-1];flash(gem,'spend');shatter(gem,i?'#c9a6f6':'#d9f975',12,60);}lastStocks[i]=p.stocks;
   const event=barShatterEvent(trail,p.hp),bar=$('#health'+n);
   if(event==='shatter'){bar.classList.add('shattered');shatter(bar,i?'#c9a6f6':'#d9f975',26,160);}else if(event==='reform')bar.classList.remove('shattered');
  });

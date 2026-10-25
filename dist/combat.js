@@ -9,9 +9,12 @@ import {createCommandState,readCommand} from './commands.js';
 import {fighters} from './fighters.js';
 import {normalizeOptions} from './options.js';
 export const STEP=1/60;
-// Power gauge: holding attack fills one stock per CHARGE_PER_STOCK units; low health charges faster.
-export const CHARGE_PER_STOCK=1.8,MAX_STOCKS=3;
-export const chargeRate=hp=>1+(100-hp)/65;
+// Power gauge, Evil Zone style: holding attack sweeps a charge up the life bar from the bottom
+// to the current life line; when the sweep reaches it a crystal (stock) appears. The sweep covers
+// only the life that is left, so a full-life fighter takes CHARGE_PER_STOCK seconds and a fighter
+// at a quarter life takes a quarter of that. The floor stops near-dead fighters charging instantly.
+export const CHARGE_PER_STOCK=1.8,MAX_STOCKS=3,CHARGE_FLOOR_HP=25;
+export const chargeRate=hp=>100/Math.max(CHARGE_FLOOR_HP,Math.min(100,hp));
 export const neutral=()=>({x:0,z:0,attack:false,guard:false,capture:false,launch:false,pursuit:false,super:false});
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // Held stock variants are intentionally limited to these researched archetypes.

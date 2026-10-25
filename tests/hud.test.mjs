@@ -4,7 +4,7 @@ import {createMatch,update,neutral,CHARGE_PER_STOCK,MAX_STOCKS,chargeRate} from 
 test('power gauge shows filled stocks, the partial charge of the next segment, and charging state',()=>{
  const idle={stocks:1,charge:.9,anim:'idle',hp:100};const g=gaugeState(idle);
  assert.deepEqual(g.segments,[1,.5,0]);assert.equal(g.charging,false);assert.equal(gaugeLabel(g),'1 STOCK');
- const charging=gaugeState({...idle,anim:'charge',hp:35});assert.equal(charging.charging,true);assert.equal(gaugeLabel(charging),`CHARGING ×${chargeRate(35).toFixed(1)}`);assert.ok(charging.rate>1.9);
+ const charging=gaugeState({...idle,anim:'charge',hp:35});assert.equal(charging.charging,true);assert.equal(gaugeLabel(charging),'CHARGING 50%');assert.ok(charging.rate>1.9);
  const full=gaugeState({stocks:3,charge:1.7,anim:'charge',hp:100});assert.deepEqual(full.segments,[1,1,1]);assert.equal(full.charging,false);assert.equal(gaugeLabel(full),'MAX POWER');
  assert.equal(gaugeLabel(gaugeState({stocks:0,charge:0,anim:'idle',hp:100})),'NO STOCK');assert.deepEqual(gaugeState({stocks:9,charge:-1,anim:'idle',hp:100}).segments,[1,1,1]);
 });
@@ -48,4 +48,15 @@ test('the life bar shatters once at zero and reforms when the next round refills
  const t=createTrail();
  assert.equal(barShatterEvent(t,40),null);assert.equal(barShatterEvent(t,0),'shatter');assert.equal(barShatterEvent(t,0),null);
  assert.equal(barShatterEvent(t,100),'reform');assert.equal(barShatterEvent(t,100),null);assert.equal(barShatterEvent(t,0),'shatter');
+});
+
+test('the charge sweeps up the life bar to the life line, so less life crystallises sooner',()=>{
+ const half=gaugeState({stocks:1,charge:CHARGE_PER_STOCK/2,anim:'charge',hp:60});
+ assert.ok(Math.abs(half.sweep-30)<1e-9,'half charge reaches half of the remaining life');
+ const done=gaugeState({stocks:1,charge:CHARGE_PER_STOCK,anim:'charge',hp:60});assert.ok(Math.abs(done.sweep-60)<1e-9);
+ assert.ok(gaugeState({stocks:1,charge:CHARGE_PER_STOCK*.7,anim:'charge',hp:90}).sweep<=90);
+ assert.equal(chargeRate(100),1);assert.equal(chargeRate(50),2);assert.equal(chargeRate(25),4);assert.equal(chargeRate(5),4,'a floor keeps near-dead fighters from instant crystals');
+ const m=createMatch(2,1,'versus','normal');const a=m.players[0];a.hp=25;const hold={...neutral(),attack:true};
+ let frames=0;while(a.stocks<2&&frames<600){update(m,[hold,neutral()]);frames++;}
+ assert.ok(frames<=Math.ceil((CHARGE_PER_STOCK/4+.24)*60)+2,`quarter life crystallises in about a quarter of the time (${frames} frames)`);
 });

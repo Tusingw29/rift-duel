@@ -30,6 +30,7 @@ body.playing header{background:#10191c88}body.playing .health-row{text-shadow:0 
 #hud .right .health #hp2{background:linear-gradient(90deg,#8f6ad4,#c9a6f6 45%,#e6d4ff)}
 #hud .health[data-state=low] #hp1,#hud .health[data-state=low] #hp2{background:linear-gradient(90deg,#c85a1e,#ff9a3c 45%,#ffd27a)}
 #hud .health[data-state=critical] #hp1,#hud .health[data-state=critical] #hp2{background:linear-gradient(90deg,#b4231b,#ff5a4d 45%,#ffb4ad)}
+#hud .health .charge{height:0;background:linear-gradient(180deg,#ffffff,#fff7c2 30%,#ffd86a88);mix-blend-mode:screen;box-shadow:0 -2px 10px #fff2b0;transition:height .05s linear;opacity:0}#hud .health.charging .charge{opacity:1}#hud .health.charging .charge:after{content:'';position:absolute;left:0;right:0;top:-2px;height:3px;background:#ffffff;box-shadow:0 0 8px #ffffff}
 #hud .health:after{content:'';position:absolute;left:0;right:0;top:25%;height:1px;background:#ffffff40;box-shadow:0 calc(25% * 1) 0 #ffffff40}
 #hud .health:before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#ffffff55;z-index:1}
 #hud .gauge{position:absolute;bottom:0;left:0;width:150px;margin:0;height:10px}

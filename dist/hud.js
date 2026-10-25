@@ -1,4 +1,4 @@
-import {CHARGE_PER_STOCK,MAX_STOCKS,chargeRate} from './combat.js';
+import {CHARGE_PER_STOCK,MAX_STOCKS,CHARGE_FLOOR_HP,chargeRate} from './combat.js';
 // Evil Zone-style fight HUD state: a life bar with a delayed damage trail, a low-life
 // warning, and a segmented power gauge that fills while attack is held. Pure helpers
 // so the presentation rules can be tested without a browser.
@@ -7,11 +7,13 @@ export function gaugeState(p){
  const stocks=Math.max(0,Math.min(MAX_STOCKS,p.stocks|0)),partial=stocks<MAX_STOCKS?Math.max(0,Math.min(1,p.charge/CHARGE_PER_STOCK)):0;
  const segments=Array.from({length:MAX_STOCKS},(_,i)=>i<stocks?1:i===stocks?partial:0);
  const charging=p.anim==='charge'&&stocks<MAX_STOCKS;
- return {stocks,segments,partial,charging,full:stocks===MAX_STOCKS,rate:chargeRate(p.hp)};
+ // The charge sweep climbs the life bar from the bottom and crystallises when it reaches the life line.
+ const life=Math.max(0,Math.min(100,p.hp)),sweep=stocks<MAX_STOCKS?partial*Math.max(CHARGE_FLOOR_HP,life):0;
+ return {stocks,segments,partial,charging,full:stocks===MAX_STOCKS,rate:chargeRate(p.hp),sweep:Math.min(sweep,Math.max(life,sweep*(life>0))),life};
 }
 export function gaugeLabel(state){
  if(state.full)return 'MAX POWER';
- if(state.charging)return `CHARGING ×${state.rate.toFixed(1)}`;
+ if(state.charging)return `CHARGING ${Math.round(state.partial*100)}%`;
  return state.stocks?`${state.stocks} STOCK${state.stocks>1?'S':''}`:'NO STOCK';
 }
 export function createTrail(hp=100){return {hp,trail:hp,delay:0,shattered:false};}
