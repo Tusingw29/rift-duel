@@ -70,3 +70,8 @@ test('fresh air recovery cancels crossover travel',()=>{
  const x=a.x,z=a.z;for(let i=0;i<40;i++)tick(m);
  assert.equal(a.x,x);assert.equal(a.z,z);assert.equal(b.hp,100);
 });
+test('crossover commits its path and misses a target that leaves the landing area',()=>{
+ const {m,a,b}=setup();start(m,0,'crossover');b.z=5;
+ for(let i=0;i<60;i++)tick(m);
+ assert.equal(b.hp,100);assert.ok(Math.abs(a.z)<.3);
+});

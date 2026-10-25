@@ -63,11 +63,11 @@ export function createView(canvas,options={}){
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
  function shake(amount){shakeAmount=Math.min(1.2,shakeAmount+amount);}
  const liftOf=airHeight;
- // Lock-on camera: behind the first player, looking across at the rival, Evil Zone style.
+ // Lock-on camera: behind the first player, looking across at the rival.
  function lockCamera(m,pos,target,airHeight){
   const [a,b]=m.players;const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1,fx=dx/d,fz=dz/d,rx=-fz,rz=fx;
   // At close range the camera slides further to the side and up so the rival stays visible past the player's back.
-  const widen=1/Math.min(1,camera.aspect/1.25),close=Math.max(0,4.5-d),back=(6.6+d*.22)*widen,height=3.4+d*.1+airHeight*.6+close*.3,side=1.9+close*.45;
+  const widen=1/Math.min(1,camera.aspect/1.25),close=Math.max(0,4.5-d),back=(6.6+d*.22+(m.players.some(p=>p.move?.kind==='jumpAttack')?3.5:0))*widen,height=3.4+d*.1+airHeight*.6+close*.3,side=1.9+close*.45;
   pos.set(a.x-fx*back+rx*side,height,a.z-fz*back+rz*side);
   const ahead=Math.min(d,3.4+d*.4);target.set(a.x+fx*ahead+rx*.4,1.35+airHeight*.7,a.z+fz*ahead+rz*.4);
  }

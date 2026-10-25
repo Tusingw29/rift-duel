@@ -40,7 +40,7 @@ Current gap: grounded pursuit, jumping crossover, and close circle-step can chan
 - [x] Test both player slots, swapped sides, edge-of-arena cases, and interrupted travel.
 - [ ] Review at normal speed: no unintentional teleport, skating, or discontinuous facing; record clip and commit.
 
-Implementation: `3ce8a17`; 13 new travel regression tests plus the existing command/pursuit coverage. Full suite: **276 passing** locally and in GitHub Actions. Final recovery-steering adjustment: 30 focused travel/command/pursuit tests passing; release CI reruns the full suite. Cloud rendering evidence will be recorded below. **Visual acceptance remains open**: simulation paths are implemented, but normal-speed footwork, camera response, and dedicated circle choreography need review with EZ-02.
+Implementation: `3ce8a17`; 14 new travel regression tests plus the existing command/pursuit coverage. Full suite: **276 passing** locally and in GitHub Actions. Final recovery-steering adjustment: 30 focused travel/command/pursuit tests passing; release CI reruns the full suite. The first successful [cloud render review](https://github.com/Tusingw29/rift-duel/actions/runs/40226406516) produced 21 frames and no JavaScript exceptions; it exposed close-camera clipping during crossover. A move-specific 3.5-unit camera pullback is included in the follow-up review. **Visual acceptance remains open**: simulation paths are implemented, but normal-speed footwork, camera response, and dedicated circle choreography need review with EZ-02.
 
 | Move | Before | Current implementation |
 | --- | --- | --- |
