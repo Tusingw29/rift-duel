@@ -5,7 +5,7 @@
 <label>Scenario (scripted inputs, deterministic)</label><select id="scenario"></select>
 <label id="frame-label">frame 0</label><input id="frame" type="range" min="0" max="64" value="0" step="1">
 <div class="row"><button id="back">◀ frame</button><button id="play">Play</button><button id="step">frame ▶</button></div>
-<div class="row"><div><label>Speed</label><select id="speed"><option value="1">60 Hz</option><option value=".5">0.5×</option><option value=".25">0.25×</option></select></div><div><label>Camera</label><select id="camera"><option value="side">Side</option><option value="lock">Lock-on</option></select></div><div><label>&nbsp;</label><button id="reset">Reset</button></div></div>
+<div class="row"><div><label>Speed</label><select id="speed"><option value="1">60 Hz</option><option value=".5">0.5×</option><option value=".25">0.25×</option></select></div><div><label>Camera</label><select id="camera"><option value="side">Side</option><option value="lock">Lock-on</option></select></div><div><label>Zoom</label><select id="zoom"><option value=".55">Close</option><option value=".7" selected>Near</option><option value=".85">Mid</option><option value="1">Game</option></select></div><div><label>&nbsp;</label><button id="reset">Reset</button></div></div>
 <div class="checks" style="margin-top:8px"><label><input id="skeleton" type="checkbox">Skeleton</label><label><input id="hurtbox" type="checkbox">Hurtboxes</label><label><input id="hitbox" type="checkbox">Hit arcs</label></div>
 <div id="readout"></div>
 <p class="hint">Space play/pause · ← → step · R reset. Scrubbing replays the simulation from the reset, so frame N is always the same frame N the game would show. URL: ?p1=2&p2=1&scenario=strike3</p>
