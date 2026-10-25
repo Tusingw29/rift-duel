@@ -267,7 +267,7 @@ export function update(m,inputs,dt=STEP){
    if(a.stun<=0&&!a.travel){
     if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
     if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
-    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.move?.travel?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
+    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.move?.travel&&a.move.frame<a.move.startup?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     // Lock-on movement: x closes or retreats along the line to the rival, z circles.
     const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';

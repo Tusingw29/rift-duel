@@ -26,21 +26,29 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 
 ### EZ-01 — Replace instant repositioning with authored travel
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-01-continuous-travel`
+Owner: **Codex** · Status: **Review** · Branch: `codex/ez-01-continuous-travel`
 
 Reference: [dash/circling/jump, 0:27](https://www.youtube.com/watch?v=7AqlL6_7as8&t=27s), [glide attack, 1:34](https://www.youtube.com/watch?v=7AqlL6_7as8&t=94s).
 
 Current gap: grounded pursuit, jumping crossover, and close circle-step can change the simulation position instantly. Aerial pursuit already has continuous travel; preserve it.
 
-- [ ] Record current paths, duration, contact frame, and attack/defense windows before changing them.
-- [ ] Give grounded pursuit a continuous approach path with readable acceleration, contact, and braking.
-- [ ] Give crossover a continuous takeoff, arc, side change, and landing.
-- [ ] Give close circle-step a continuous opponent-relative arc with consistent facing.
+- [x] Record current paths, duration, contact frame, and attack/defense windows before changing them.
+- [x] Give grounded pursuit a continuous approach path with readable acceleration, contact, and braking.
+- [x] Give crossover a continuous takeoff, arc, side change, and landing.
+- [x] Give close circle-step a continuous opponent-relative arc with consistent facing.
 - [ ] Keep collision, arena limits, hit detection, interruption, and camera tracking synchronized with actual travel.
-- [ ] Test both player slots, swapped sides, edge-of-arena cases, and interrupted travel.
+- [x] Test both player slots, swapped sides, edge-of-arena cases, and interrupted travel.
 - [ ] Review at normal speed: no unintentional teleport, skating, or discontinuous facing; record clip and commit.
 
-Completion evidence: _Pending._
+Implementation: `3ce8a17`; 13 new travel regression tests plus the existing command/pursuit coverage. Full suite: **276 passing** locally and in GitHub Actions. Final recovery-steering adjustment: 30 focused travel/command/pursuit tests passing; release CI reruns the full suite. Cloud rendering evidence will be recorded below. **Visual acceptance remains open**: simulation paths are implemented, but normal-speed footwork, camera response, and dedicated circle choreography need review with EZ-02.
+
+| Move | Before | Current implementation |
+| --- | --- | --- |
+| Ground pursuit | Instant 2-unit advance at frame 7; damage based on pre-move distance | Eased travel during the same 7-frame startup; stops 1.6 units short of original target, up to 2 units; damage checks actual contact distance/facing |
+| Crossover | Instant side swap at frame 9, then air timer starts | 18-frame committed half-circle at close range, 2.5-unit leap at distance; takeoff begins with move, landing follows; contact checks actual distance |
+| Circle-step | Instant side swap, 0.12-second lock | 24-frame half-circle, smooth facing toward opponent, 0.15-second initial evasion, no attack during travel; 0.45-second back-capture opportunity after arrival |
+
+Travel chooses the side with more arena clearance and clamps positions to arena bounds. Target positions are committed at departure rather than homing after evasion. Hits and air recovery cancel the remaining path. Crossover's initial 0.12-second invulnerability now starts at takeoff. Durations and reach are **original tuning choices**, not verified Evil Zone frame data. Normal hit knockback, chain micro-steps, and unrelated specials are outside this pass.
 
 ### EZ-02 — Connect whole-body animation through actions and reactions
 
@@ -200,13 +208,14 @@ Completion evidence: _Pending._
 
 ## EZ-01 motion contract for EZ-02
 
-Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Claude should keep pose/root offsets visual only; do not add a second world displacement. Ground pursuit keeps its existing contact frame. Crossover will expose continuous travel and airborne timing; circle-step will expose a `travel` state and use the existing run pose pending dedicated choreography. Codex is not editing character animators.
+Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Claude should keep pose/root offsets visual only; do not add a second world displacement. Ground pursuit keeps its existing contact frame. Pursuit/crossover expose `move.travel` (kind, frame, frames), and crossover exposes `move.crossover` with startup 18 and air timer set at departure. Circle-step exposes `player.travel` (orbit, frame, frames), uses the existing run pose, and faces the rival continuously; dedicated choreography remains EZ-02. World X/Z travel is applied before rendering; do not repeat it in the rig. Codex is not editing character animators.
 
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
 | 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |
+| 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |
 
 Do not commit the downloaded reference video. Link to the source and store original game captures or small review artifacts only when appropriate. Research notes are evidence, not exact source-game frame data.
