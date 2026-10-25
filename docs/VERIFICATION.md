@@ -393,6 +393,12 @@ Built actual vest, collar, shortened shorts, fitted wraps, dark footwear and swe
 
 Remaining visual limits: generic face, spread fingers during attacks, coarse swept fringe, broad vest fit and unfinished garment edge detailing. The new costume moves with the rig but does not establish DOA3/Tekken4/Soulcalibur quality. Earlier browser run 39786645816 was cancelled during stalled Azure apt dependency downloads; the Ubuntu-22.04 rerun succeeded. The workflow now uses the main Ubuntu archive for that dependency URL.
 
+## Animation sandbox and determinism (25 October 2026)
+
+- `dist/sandbox.html?p1=2&p2=1&scenario=strike3` loads the real renderer and simulation with scripted inputs; the frame slider replays from reset so every frame is reproducible. `window.sandbox.snapshot()` returns both players' state for scripted checks.
+- `tests/sandbox-determinism.test.mjs`: every scenario replays identically for three fighter pairings; scrubbing to frames 0, 6, 12, 18, 24, 40 and 64 equals stepping; each scenario reaches the state it is named for (third chain hit, pursuit travel, crossover takeoff, circle-step orbit, hurt, block stun, stagger, third-hit reversal, burst stock cost); animating the same frames on two fresh rigs gives identical bone world positions for all six fighters; bone aliases normalise onto the canonical rig.
+- `scripts/combat-travel-smoke.mjs` writes `artifacts/combat-travel/report.json` (errors, per-scenario model statuses, 195 samples, recent console lines) in a `finally` block and captures a failure screenshot; run locally against a `dist`-rooted server on port 4173 with `PLAYWRIGHT_EXECUTABLE` pointing at an installed headless shell.
+
 ## Roster concept costumes (0.63)
 
 - `tests/fighter-v3.test.mjs` also asserts that each fighter's concept costume attached (`r.conceptCostume`) and that named signature pieces exist (helmet, visor and cape for Aegis; sash, panels, collar and boots for Rei; coat, collar, satchel and skirts for Sol; gown panels, drape, halo and wrist rings for Vesper), then runs the shared animations with the costume attached.

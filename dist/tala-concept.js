@@ -4,7 +4,9 @@ import {fighters} from './fighters.js';
 import {talaFootPivot,talaFootOffsets,talaGaitTargets} from './tala-footwork.js';
 import {Bone,Matrix4,Skeleton,SkinnedMesh,Vector3} from './vendor/three.module.js';
 const names=['root','chest','head','upper_arm.L','forearm.L','hand.L','thigh.L','shin.L','upper_arm.R','forearm.R','hand.R','thigh.R','shin.R','ponytail','sash'];
-const canonical=name=>name.replace(/^(upper_arm|forearm|hand|thigh|shin|foot)([LR])$/,'$1.$2');
+import {canonicalBone} from './rig-schema.js';
+// Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
+const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
 export const talaAssetUrl=variant=>variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
