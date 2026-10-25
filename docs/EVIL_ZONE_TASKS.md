@@ -104,7 +104,7 @@ Animation handoff: `player.staggerState` supplies `elapsed`, `remaining`, `input
 
 ### EZ-04 — Third-hit defensive reversal
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex + Claude reaction animation
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-04-reversal`; Claude can refine the return-strike pose separately.
 
 Reference: [short defense, 4:52](https://www.youtube.com/watch?v=7AqlL6_7as8&t=292s).
 
