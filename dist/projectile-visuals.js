@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.js';
-const custom=['wave','lightning','spirit','sword','snare'];
+const custom=['wave','lightning','spirit','sword','snare','capture'];
 export function createProjectileVisual(){
  const b=new T.Mesh(new T.IcosahedronGeometry(.3,1),new T.MeshBasicMaterial({color:'#ffffff'}));
  const material=()=>b.material.clone();
@@ -14,7 +14,8 @@ export function createProjectileVisual(){
  for(const side of [-1,1]){const wing=new T.Mesh(new T.ConeGeometry(.25,.85,3),material());wing.position.x=side*.45;wing.rotation.z=-side*Math.PI/2;wing.rotation.y=Math.PI/2;spirit.add(wing);}
  const snare=new T.Mesh(new T.TorusGeometry(.65,.08,6,24),material());
  const fire=new T.Mesh(new T.ConeGeometry(.26,.9,5),material());fire.rotation.x=-Math.PI/2;fire.position.z=-.45;
- for(const [kind,mesh] of Object.entries({wheel,wave,lightning,sword,spirit,snare,fire})){b.add(mesh);b.userData[kind]=mesh;mesh.visible=false;}
+ const capture=new T.Mesh(new T.TorusGeometry(1,.055,6,40),material());
+ for(const [kind,mesh] of Object.entries({wheel,wave,lightning,sword,spirit,snare,fire,capture})){b.add(mesh);b.userData[kind]=mesh;mesh.visible=false;}
  return b;
 }
 export function updateProjectileVisual(b,p,color,time){
@@ -22,8 +23,8 @@ export function updateProjectileVisual(b,p,color,time){
  b.position.set(p.x,p.low?.35:1.4,p.z);b.rotation.set(0,0,0);
  b.material.color.set(color);b.material.visible=!custom.includes(p.kind);
  b.scale.set(p.kind==='crescent'?2.5:p.kind==='beam'?.5:1,p.kind==='beam'?.5:1,p.kind==='beam'?2.5:1);
- if(p.kind==='capture')b.scale.setScalar(1.7);
- if(p.radius>1)b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);
+ if(p.kind==='capture')b.scale.setScalar(p.radius);
+ if(p.radius>1&&p.kind!=='capture')b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);
  for(const kind of ['wheel',...custom,'fire']){const mesh=b.userData[kind];mesh.visible=p.kind===kind;mesh.traverse(o=>{if(o.material)o.material.color.copy(b.material.color);});}
  if(p.kind==='wave'){b.position.y=.16;b.rotation.y=Math.atan2(p.dx,p.dz);}
  else if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}

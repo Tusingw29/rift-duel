@@ -1,3 +1,4 @@
+import {duelCamera,fitFighters} from './fight-camera.js';
 import {airHeight} from './air-motion.js';
 import {loadTalaConcept,attachTalaConcept,loadFighterModel,attachFighterModel} from './tala-concept.js';
 import {disposeSkeletons} from './rig-clone.js';
@@ -59,10 +60,10 @@ export function createView(canvas,options={}){
  }
  function clear(){burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
- function match(m,arenaIndex){clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
+ function match(m,arenaIndex){delete duelState.dx;delete duelState.dz;clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
  function shake(amount){shakeAmount=Math.min(1.2,shakeAmount+amount);}
- const liftOf=airHeight;
+ const liftOf=airHeight;const duelState={};
  // Lock-on camera: behind the first player, looking across at the rival.
  function lockCamera(m,pos,target,airHeight){
   const [a,b]=m.players;const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1,fx=dx/d,fz=dz/d,rx=-fz,rz=fx;
@@ -124,7 +125,8 @@ export function createView(canvas,options={}){
   if(cinema?.kind==='capture'&&!stagedState){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
   const target=v(),pos=v();let cut=false;
   if(m){const [a,b]=m.players;const airHeight=Math.max(liftOf(a),liftOf(b));
-   (settings.camera==='side'?sideCamera:lockCamera)(m,pos,target,airHeight);
+   if(settings.camera==='duel'){const shot=duelCamera(m.players,camera.aspect,duelState);pos.copy(shot.position);target.copy(shot.target);}
+   else (settings.camera==='side'?sideCamera:lockCamera)(m,pos,target,airHeight);
    if(stagedState&&!settings.reduced){
     const shot=stagedState.camera;target.set(shot.target.x,shot.target.y,shot.target.z);
     const aspectScale=1/Math.min(1,camera.aspect/1.25);
@@ -156,18 +158,8 @@ export function createView(canvas,options={}){
   if(shakeAmount>0&&!settings.reduced){const s=shakeAmount*.25;camera.position.x+=(Math.random()-.5)*s;camera.position.y+=(Math.random()-.5)*s;camera.position.z+=(Math.random()-.5)*s;}
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);
-  // Fast crossovers can outrun camera smoothing. Fit both fighters after smoothing,
-  // using camera-space bounds, so the jumping player's head cannot leave the frame.
-  if(m?.players.some(p=>p.move?.kind==='jumpAttack')){
-   camera.updateMatrixWorld(true);
-   const tanY=Math.tan(camera.fov*Math.PI/360)*.88,tanX=tanY*camera.aspect;
-   let pullback=0;
-   for(const p of m.players)for(const x of [-.7,.7])for(const z of [-.7,.7])for(const y of [0,3.5]){
-    const q=v(p.x+x,liftOf(p)+y,p.z+z).applyMatrix4(camera.matrixWorldInverse);
-    pullback=Math.max(pullback,Math.abs(q.x)/tanX+q.z,Math.abs(q.y)/tanY+q.z);
-   }
-   if(pullback>0)camera.translateZ(pullback);
-  }
+  // Fit after smoothing/shake; keep clear of the HUD in ordinary combat.
+  if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
   renderer.render(scene,camera);
  }
  select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};

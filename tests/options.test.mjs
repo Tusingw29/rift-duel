@@ -8,7 +8,7 @@ test('saved options accept supported values and recover from corrupt storage',()
  const invalid=normalizeOptions({roundSeconds:-1,winsNeeded:0,deadzone:NaN});assert.equal(invalid.roundSeconds,90);assert.equal(invalid.winsNeeded,2);assert.equal(invalid.deadzone,.22);
 });
 test('custom rounds time out at the configured limit while training remains untimed',()=>{
- const m=createMatch(0,1,'duel','normal',{roundSeconds:60,winsNeeded:1});assert.deepEqual(m.rules,{roundSeconds:60,winsNeeded:1});
+ const m=createMatch(0,1,'duel','normal',{roundSeconds:60,winsNeeded:1});assert.deepEqual(m.rules,{roundSeconds:60,winsNeeded:1,pressureAssist:false});
  for(let i=0;i<3599;i++)update(m,[neutral(),neutral()]);assert.equal(m.phase,'fight');
  for(let i=0;i<2;i++)update(m,[neutral(),neutral()]);assert.equal(m.phase,'over');assert.equal(m.winner,-1);
  const n=createMatch(0,1,'training','normal',{roundSeconds:60});for(let i=0;i<4000;i++)update(n,[neutral(),neutral()]);assert.equal(n.time,60);assert.equal(n.phase,'fight');

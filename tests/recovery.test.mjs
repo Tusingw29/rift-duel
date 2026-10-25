@@ -29,3 +29,22 @@ test('roll avoids hits and capture projectiles during its brief invulnerability'
  step(m);assert.equal(m.cinematic,null);assert.equal(p.hp,hp);
  m.projectiles=[];step(m,{}, {},13);assert.equal(p.inv,0);assert.equal(hit(m,m.players[1],p,5),true);assert.equal(p.roll,null);
 });
+test('roll direction follows the opponent for either slot, swapped sides and depth alignment',()=>{
+ for(const slot of [0,1])for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])for(const key of ['x','z']){
+  const m=createMatch(),p=m.players[slot],r=m.players[1-slot];Object.assign(p,{x:0,z:0,anim:'knockdown',stun:.5});r.x=dx*4;r.z=dz*4;
+  const inputs=[neutral(),neutral()];inputs[slot][key]=1;update(m,inputs);
+  const expected=key==='x'?[dx,dz]:[-dz,dx];assert.ok(p.x*expected[0]+p.z*expected[1]>0);assert.ok(p.roll);
+ }
+});
+test('fresh guard rises with a brief safe start and vulnerable finish; held guard does not repeat',()=>{
+ const m=grounded(),p=m.players[0];step(m,{guard:true});assert.equal(p.anim,'recover');assert.ok(p.inv>0);assert.equal(p.guard,false);
+ step(m,{guard:true},{},7);assert.equal(p.inv,0);assert.ok(p.stun>0);
+ step(m,{guard:true},{},5);assert.equal(p.stun,0);step(m,{guard:true});assert.equal(p.guard,true);
+ const n=grounded();n.players[0].prev.guard=true;step(n,{guard:true});assert.equal(n.players[0].anim,'knockdown');
+});
+test('late get-up attack cancels only the final window and has no invulnerability',()=>{
+ const m=grounded(),p=m.players[0];step(m,{attack:true});step(m);assert.equal(p.move,null);
+ while(p.stun>.12)step(m);
+ step(m,{attack:true});step(m);assert.ok(p.move);assert.equal(p.inv,0);
+ const n=grounded();step(n,{attack:true},{},40);assert.equal(n.players[0].move,null);
+});
