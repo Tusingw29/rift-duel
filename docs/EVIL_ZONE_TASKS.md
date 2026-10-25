@@ -22,6 +22,8 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 - [x] Morrow's grounded three-cut redesign has a [playable review page](https://tusingw29.github.io/rift-duel/morrow-attacks.html). This does not establish full-roster animation quality.
 - [x] Life-bar charge sweep and gem creation landed in `c4f798d`. Charging transitions still need EZ-06.
 
+Implementation plan (Adam, 2026-10-25): complete EZ-05 through EZ-11 before detailed animation polish. Preserve readable contact and fix broken poses as needed; dedicated animation acceptance remains a separate final pass.
+
 ## Priority 1 — continuous motion and readable combat
 
 ### EZ-01 — Replace instant repositioning with authored travel
@@ -131,7 +133,7 @@ Animation handoff: `move.reversal` identifies the return; it uses the normal str
 
 ### EZ-05 — Downed defense and get-up transitions
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex + Claude recovery animation
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex + Claude recovery animation
 
 Reference: [down/recovery, 5:17](https://www.youtube.com/watch?v=7AqlL6_7as8&t=317s), [passive defense, 6:00](https://www.youtube.com/watch?v=7AqlL6_7as8&t=360s), [get-up cancellation, 8:00](https://www.youtube.com/watch?v=7AqlL6_7as8&t=480s).
 
@@ -146,7 +148,7 @@ Completion evidence: _Pending._
 
 ### EZ-06 — Guard/charge/attack transition rules
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
 
 Reference: [charging, 2:54](https://www.youtube.com/watch?v=7AqlL6_7as8&t=174s), [guard charging, 7:46](https://www.youtube.com/watch?v=7AqlL6_7as8&t=466s).
 
@@ -163,7 +165,7 @@ Completion evidence: _Pending._
 
 ### EZ-07 — Expanding long-capture circle
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex mechanics; Claude effects
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude effects
 
 Reference: [long capture, 4:05](https://www.youtube.com/watch?v=7AqlL6_7as8&t=245s), circle enlargement around 4:19–4:22.
 
@@ -179,7 +181,7 @@ Completion evidence: _Pending._
 
 ### EZ-08 — Audit and complete combo branches
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex; Claude for newly needed poses
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; Claude for newly needed poses
 
 Reference: [additional blows and continuous attacks, 6:34](https://www.youtube.com/watch?v=7AqlL6_7as8&t=394s), [counterattack, 7:19](https://www.youtube.com/watch?v=7AqlL6_7as8&t=439s).
 
@@ -193,7 +195,7 @@ Completion evidence: _Pending._
 
 ### EZ-09 — Pressure Dash contest
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex mechanics; Claude clash motion/effects
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude clash motion/effects
 
 Reference: [Pressure Dash, 6:16](https://www.youtube.com/watch?v=7AqlL6_7as8&t=376s).
 
@@ -211,7 +213,7 @@ Completion evidence: _Pending._
 
 ### EZ-10 — Reassess the fight camera against reference footage
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
 
 Current gap: earlier documentation called the behind-fighter lock-on view Evil Zone's signature camera. The tutorial frequently uses broadside/three-quarter framing; the exact camera algorithm is not established.
 
@@ -225,7 +227,7 @@ Completion evidence: _Pending._
 
 ### EZ-11 — Guided practice lessons
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex; implement after affected mechanics stabilize
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; implement after affected mechanics stabilize
 
 Current gap: training has dummy choices, input history, and move-phase feedback, but no guided objectives, demonstrations, or pass/fail feedback.
 
