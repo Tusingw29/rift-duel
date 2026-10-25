@@ -4,6 +4,7 @@ import {captureMotion,finishMotion} from './motion-transition.js';
 import {animateAegis} from './aegis-animation.js';
 import {applyMeleePose} from './melee-poses.js';
 import {animateTala} from './tala-animation.js';
+import {animateRei,animateSol,animateVesper} from './roster-animation.js';
 import {fighters} from './fighters.js';
 import {Box3} from './vendor/three.module.js';
 const rollBounds=new Box3();
@@ -20,7 +21,8 @@ export function applyStagedPose(r,part){
 const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 // Animation phases read the same frame clock that resolves combat contact.
 export function animateCharacter(r,p,time){
- if(![0,2,3].includes(r.id)){sampleCharacter(r,p,time);return;}
+ // Every fighter now has a grounded whole-body animator; the motion bridge smooths handoffs to shared states.
+
  const previous=captureMotion(r);
  if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
@@ -41,6 +43,9 @@ function sampleCharacter(r,p,time){
  if(f.id==='tala'&&animateTala(r,p,time)){r.animationFamily='grounded';return;}
  if(f.id==='aegis'&&animateAegis(r,p,time)){r.animationFamily='grounded';return;}
  if(f.id==='morrow'&&animateMorrow(r,p,time)){r.animationFamily='grounded';return;}
+ if(f.id==='rei'&&animateRei(r,p,time)){r.animationFamily='grounded';return;}
+ if(f.id==='sol'&&animateSol(r,p,time)){r.animationFamily='grounded';return;}
+ if(f.id==='vesper'&&animateVesper(r,p,time)){r.animationFamily='grounded';return;}
  // Readable silhouettes even before a move is used.
  if(f.id==='tala'){leftArm.rotation.x=-.75;rightArm.rotation.x=-.45;r.elbows[0].rotation.x=-1.15;r.elbows[1].rotation.x=-1.3;r.spine.rotation.y=-.16;}
  if(f.id==='rei'){rightArm.rotation.x=-.18;rightArm.rotation.y=-.22;leftArm.rotation.z=.15;r.spine.rotation.y=.12;}

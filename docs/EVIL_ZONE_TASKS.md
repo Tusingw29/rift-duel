@@ -52,18 +52,18 @@ Travel chooses the side with more arena clearance and clamps positions to arena 
 
 ### EZ-02 — Connect whole-body animation through actions and reactions
 
-Owner: **Claude** · Branch: `claude/ez-02-whole-body` · Status: **In progress** (claimed 2026-10-25) · Coordinating EZ-01 travel contract with Codex: Claude will not change root travel in `dist/combat.js`; pose code reads the simulation position and only adds body motion on top.
+Owner: **Claude** · Branch: `claude/ez-02-whole-body` (merged to main) · Status: **Review** (awaiting Adam's normal-speed verdict; claimed and first pass landed 2026-10-25) · Coordinating EZ-01 travel contract with Codex: Claude will not change root travel in `dist/combat.js`; pose code reads the simulation position and only adds body motion on top.
 
 Reference: movement and attack demonstrations throughout the tutorial. This is a visual-quality task, not a claim that every current animation is missing.
 
-- [ ] Align pose timing to actual travel and contact; document which system owns root movement so it is not applied twice.
-- [ ] Show planted push-off, ankle/leg weight transfer, torso rotation, and controlled settling in approach, retreat, and circling.
-- [ ] Make guard brace with crossed/covering forearms, tucked chin, and responsive neck motion without concealing attack readability.
-- [ ] Carry momentum through chained attacks and interrupted recoil; avoid snapping to neutral or holding a frozen walking pose.
-- [ ] Review one fighter from front, side, and actual fight camera before extending changes across the roster.
+- [x] Align pose timing to actual travel and contact; document which system owns root movement so it is not applied twice. Root travel is owned by `dist/combat.js`; every grounded animator (`tala-animation.js`, `aegis-animation.js`, `morrow-animation.js`, `roster-animation.js`) only adds body offsets on top of the reported position and keys strikes to the combat frame.
+- [~] Show planted push-off, ankle/leg weight transfer, torso rotation, and controlled settling in approach, retreat, and circling. Rei, Sol and Vesper now use the distance-driven step clips with planted support feet (previously time-based sine bobbing); Tala, Aegis and Morrow already did. Push-off emphasis still to review at normal speed.
+- [x] Make guard brace with crossed/covering forearms, tucked chin, and responsive neck motion without concealing attack readability. Rei and Vesper cross the forearms with the chin tucked; Sol blocks behind the staff held across the chest; block recoil eases the torso back. Tested in `tests/roster-animation.test.mjs`.
+- [~] Carry momentum through chained attacks and interrupted recoil; avoid snapping to neutral or holding a frozen walking pose. Rei, Sol and Vesper strikes are keyed wind → drive → contact → follow → retract with entry blends from the current pose; the three cuts differ per fighter and contact lands on the combat frame. Interrupted-recoil polish still open.
+- [~] Review one fighter from front, side, and actual fight camera before extending changes across the roster. Rei reviewed front and side on `fighter-review.html` (idle, guard, run, three cuts) from headless captures; fight-camera and normal-speed review by Adam pending.
 - [ ] Verify approved concept silhouettes, weapon grip, foot contact, and hitstop remain intact; record normal-speed clips and Adam's visual verdict.
 
-Completion evidence: _Pending._
+Completion evidence: `dist/roster-animation.js` + `tests/roster-animation.test.mjs` (12 tests: contact pose exact on the startup frame, distinct cuts, crossed-forearm guard with chin tuck, planted ankles, distance-driven stride, finite rig in all shared states); 275 tests pass; review page `fighter-review.html?fighter=rei|sol|vesper`. Remaining: normal-speed verdict, interrupted-recoil polish, push-off emphasis, EZ-01 travel handoff.
 
 ## Priority 2 — defense, stagger, and recovery
 
@@ -214,6 +214,7 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-25 | Claude | EZ-02 | First pass merged: Rei, Sol and Vesper moved from the time-based shared animator to the grounded whole-body system (authored stance, crossed guard, hit reaction, charge, distance-driven footwork, three keyed strikes each). Status Review. Next: Adam's normal-speed verdict; then recoil momentum and push-off weight across the roster. |
 | 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |
