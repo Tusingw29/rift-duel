@@ -33,13 +33,15 @@ await page.click('#lesson-exit');await page.waitForFunction(()=>!window.riftDebu
 // Render the same neutral, close, circling, airborne and recovery setups with each camera.
 await page.route('**/camera-review',r=>r.fulfill({contentType:'text/html',body:'<html><body style="margin:0"><canvas id="scene"></canvas></body></html>'}));
 await page.goto('http://127.0.0.1:4173/camera-review');
-await page.evaluate(async()=>{const {createView}=await import('/render.js'),{createMatch}=await import('/combat.js');window.review={view:createView(document.querySelector('canvas'),{talaModel:'v3'}),m:createMatch(2,1)};review.view.quality('low');review.view.match(review.m,2);});
+await page.evaluate(async()=>{const {createView}=await import('/render.js'),{createMatch}=await import('/combat.js');const {capturePresentation}=await import('/cinematics.js');window.review={capturePresentation,view:createView(document.querySelector('canvas'),{talaModel:'v3'}),m:createMatch(2,1)};review.view.quality('low');review.view.match(review.m,2);});
 await page.waitForFunction(()=>window.review.view.fighterModels.every(p=>p.status==='v3'),null,{timeout:90000});
-for(const setup of ['neutral','close','circle','air','recovery'])for(const camera of ['lock','side','duel']){
- await page.evaluate(({setup,camera})=>{const {m,view}=review,[a,b]=m.players;Object.assign(a,{x:-4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});Object.assign(b,{x:4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});
+for(const setup of ['neutral','close','circle','air','recovery','capture','ring'])for(const camera of ['lock','side','duel']){
+ await page.evaluate(({setup,camera})=>{const {m,view}=review,[a,b]=m.players;m.cinematic=null;m.projectiles=[];Object.assign(a,{x:-4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});Object.assign(b,{x:4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});
  if(setup==='close')b.x=-2.3;if(setup==='circle'){a.x=0;a.z=-2;b.x=0;b.z=2;}if(setup==='air'){a.x=-2;b.x=1;b.air=.6;b.airMotion={height:3};b.anim='launch';b.animTime=.4;}if(setup==='recovery'){b.x=0;b.anim='knockdown';b.animTime=.4;}
- for(let j=0;j<25;j++)view.render(1/30,m,{camera,reduced:true});
+ if(setup==='capture'){a.x=-1;b.x=1;m.cinematic={kind:'capture',a:0,b:1,t:.7,context:'front',...review.capturePresentation('tala','front')};}
+ if(setup==='ring')m.projectiles=[{kind:'capture',owner:0,x:0,z:0,dx:7,dz:0,radius:1.35,life:1}];
+ for(let j=0;j<25;j++)view.render(1/30,m,{camera,reduced:setup!=='capture'});
  },{setup,camera});await page.screenshot({path:`${out}/${setup}-${camera}.png`});
 }
 await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{for(let j=0;j<25;j++)review.view.render(1/30,review.m,{camera:'duel',reduced:true});});await page.screenshot({path:`${out}/duel-portrait.png`});
-writeFileSync(`${out}/report.json`,JSON.stringify({errors,checks:['real movement lesson','remapped charge success','retry','controller prompt','pressure trigger and pause','failure feedback','exit to free practice','15 camera comparisons','portrait fit']},null,2));await browser.close();if(errors.length)throw Error(errors.join('\n'));
+writeFileSync(`${out}/report.json`,JSON.stringify({errors,checks:['real movement lesson','remapped charge success','retry','controller prompt','pressure trigger and pause','failure feedback','exit to free practice','21 camera comparisons','portrait fit']},null,2));await browser.close();if(errors.length)throw Error(errors.join('\n'));

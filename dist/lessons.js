@@ -1,3 +1,4 @@
+import {canChain} from './moves.js';
 import {createMatch,neutral} from './combat.js';
 import {keyName} from './key-bindings.js';
 export const lessons=[
@@ -77,5 +78,6 @@ export function lessonText(m,bindings,controller=false){
   ground:`Tap ${left} or ${right} now to roll out of the knockdown.`,
   pressure:`Press ${pursuit} to meet the rival’s dash, then ${m.rules.pressureAssist?'hold':'repeatedly tap'} ${attack}.`
  };
- return `${lessons.find(x=>x.id===l.id).title} · ${l.status==='passed'?'COMPLETE':l.status==='retry'?'TRY AGAIN':instructions[l.id]}${l.feedback?' · '+l.feedback:''}`;
+ const cue=l.status==='active'&&canChain(m.players[0].move)?' · CHAIN NOW':'';
+ return `${lessons.find(x=>x.id===l.id).title} · ${l.status==='passed'?'COMPLETE':l.status==='retry'?'TRY AGAIN':instructions[l.id]}${cue}${l.feedback?' · '+l.feedback:''}`;
 }

@@ -139,7 +139,7 @@ function sampleCharacter(r,p,time){
  }
  if(state==='defeat'){const down=smooth(Math.min(1,(p.animTime||0)/.35));r.body.rotation.z=Math.PI/2*down;r.body.position.y=.35*down;leftArm.rotation.x=-.6*down;rightArm.rotation.x=.4*down;r.head.rotation.z=.2*down;}
  if(state==='knockdown'){const down=smooth((p.animTime||0)/.35);r.body.rotation.z=Math.PI/2*down;r.body.position.y=.35*down;}
- if(state==='roll'&&p.roll){const progress=Math.min(1,p.roll.elapsed/.3);const angle=progress*Math.PI*2*p.roll.direction*(p.face||1);r.body.rotation.z=angle;r.body.position.x=Math.sin(angle)*1.4;r.body.position.y=.3+1.4*(1-Math.cos(angle));leftLeg.rotation.x=-.8;rightLeg.rotation.x=-.8;r.knees[0].rotation.x=1.4;r.knees[1].rotation.x=1.4;leftArm.rotation.x=-1.3;rightArm.rotation.x=-1.3;}
+ if(state==='roll'&&p.roll){const progress=Math.min(1,p.roll.elapsed/.3);const angle=progress*Math.PI*2*p.roll.direction;if(p.roll.forward)r.body.rotation.x=angle;else r.body.rotation.z=-angle;r.body.position.y=.3+.35*Math.sin(progress*Math.PI);leftLeg.rotation.x=-.8;rightLeg.rotation.x=-.8;r.knees[0].rotation.x=1.4;r.knees[1].rotation.x=1.4;leftArm.rotation.x=-1.3;rightArm.rotation.x=-1.3;}
  if(r.spirit){r.spirit.position.y=1.55+Math.sin(time*1.6)*.09;r.spirit.rotation.y=Math.sin(time)*.12;r.spirit.userData.material.opacity=state==='idle'?.22:.42;}
  for(let i=0;i<r.clothParts.length;i++){const part=r.clothParts[i];part.rotation.x=Math.sin(time*3+i)*.08+(run?.25:0);part.rotation.z=Math.sin(time*2.3+i)*.07;}
  if(state==='roll'){

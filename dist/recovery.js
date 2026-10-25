@@ -6,7 +6,7 @@ export function recoveryInput(p,rival,input){
  if(fresh('z')||fresh('x')){
   const x=fresh('z')?0:Math.sign(input.x),z=fresh('z')?Math.sign(input.z):0;
   const d=Math.hypot(rival.x-p.x,rival.z-p.z)||1,fx=(rival.x-p.x)/d,fz=(rival.z-p.z)/d;
-  p.roll={direction:z,dx:x*fx-z*fz,dz:x*fz+z*fx,elapsed:0};
+  p.roll={direction:z||x,forward:!!x,dx:x*fx-z*fz,dz:x*fz+z*fx,elapsed:0};
   p.stun=ROLL_TIME;p.cool=ROLL_TIME;p.inv=ROLL_SAFE;p.anim='roll';p.animTime=ROLL_TIME;
   p.move=null;p.buffer=null;return 'RECOVERY ROLL';
  }

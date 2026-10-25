@@ -289,3 +289,16 @@ Stagger: repeated unblocked grounded hits fill the new meter; pressure fades aft
 Third-hit reversal: block the first two close basic strikes, briefly release guard, then tap **K / B or Circle** just before the third lands. A successful six-frame timing window deflects it and starts one short return strike. Holding guard still blocks normally; this does not escape hitstun, reverse projectiles/special finishers, or start an endless counter chain. The return can miss or be interrupted. See [EZ-04](docs/EVIL_ZONE_TASKS.md#ez-04--third-hit-defensive-reversal) for rules and remaining visual review.
 
 To rehearse reversals, choose **Training → Pause → Practice Controls → Repeat three-hit combo**. The opponent closes in, repeats the basic chain, and pauses between attempts.
+
+
+### Recovery, capture, clashes and guided training
+
+EZ-05 through EZ-11 now include opponent-relative recovery rolls, guarded get-up, late get-up attack cancels, faster guard-to-charge preparation, expanding long-capture circles, confirmed-launcher pursuit cancels, and a timed Pressure Dash contest. See [rules and combo audit](docs/COMBAT_SYSTEMS_05_11.md).
+
+- **Knocked down:** tap a direction to roll, tap guard to rise, or tap attack during the last 0.12 seconds to cancel into an unprotected attack.
+- **Long capture:** press capture, then tap attack while the ring travels to expand it.
+- **Pressure Dash:** opposing grounded pursuits clash. Tap attack with releases between taps; the winner knocks down the rival. Options includes a hold-button assist for both players.
+- **Camera:** choose **Duel** in Options for broad three-quarter framing. Saved Side/Lock-on preferences are preserved.
+- **Lessons:** Training → Pause → Practice Controls → Guided lessons. Nine repeatable lessons show your current bindings and include success/failure, Retry, Next and Free practice.
+
+Detailed animation polish and normal-speed visual acceptance remain a separate final pass.

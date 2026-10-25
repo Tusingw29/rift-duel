@@ -133,111 +133,111 @@ Animation handoff: `move.reversal` identifies the return; it uses the normal str
 
 ### EZ-05 — Downed defense and get-up transitions
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex + Claude recovery animation
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex + Claude recovery animation
 
 Reference: [down/recovery, 5:17](https://www.youtube.com/watch?v=7AqlL6_7as8&t=317s), [passive defense, 6:00](https://www.youtube.com/watch?v=7AqlL6_7as8&t=360s), [get-up cancellation, 8:00](https://www.youtube.com/watch?v=7AqlL6_7as8&t=480s).
 
-- [ ] Audit existing airborne recovery and ground roll before adding new states.
-- [ ] Define downed defense, directional recovery, recovery-level outcomes, and get-up cancel opportunities from the reference.
-- [ ] Implement missing transitions with explicit vulnerability, invulnerability, and action-lock windows.
-- [ ] Ensure recovery directions are opponent-relative for both players.
-- [ ] Test held versus fresh input, repeated inputs, late escape, wall limits, and interrupted recovery.
+- [x] Audit existing airborne recovery and ground roll before adding new states.
+- [x] Define downed defense, directional recovery, recovery-level outcomes, and get-up cancel opportunities from the reference.
+- [x] Implement missing transitions with explicit vulnerability, invulnerability, and action-lock windows.
+- [x] Ensure recovery directions are opponent-relative for both players.
+- [x] Test held versus fresh input, repeated inputs, late escape, wall limits, and interrupted recovery.
 - [ ] Review grounded weight, landing, roll, and get-up continuity; update controls/manual.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-06 — Guard/charge/attack transition rules
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
 
 Reference: [charging, 2:54](https://www.youtube.com/watch?v=7AqlL6_7as8&t=174s), [guard charging, 7:46](https://www.youtube.com/watch?v=7AqlL6_7as8&t=466s).
 
 Current gap: charge stocks and life-dependent charging exist. The tutorial distinguishes attack delay from charging and a defense-to-attack route that resumes charging quickly. This is not evidence of charging while holding a shield.
 
-- [ ] Write a transition table for neutral charge, release, attack, defense, and resumed charge; verify ambiguous source behavior before asserting parity.
-- [ ] Implement the intended delay/cancel rules while retaining the new life-bar sweep and gem feedback.
-- [ ] Test partial charge, full stocks, damaged life, interruption, held specials, and keyboard/controller input.
-- [ ] Make the timing difference visible in practice and document it.
+- [x] Write a transition table for neutral charge, release, attack, defense, and resumed charge; verify ambiguous source behavior before asserting parity.
+- [x] Implement the intended delay/cancel rules while retaining the new life-bar sweep and gem feedback.
+- [x] Test partial charge, full stocks, damaged life, interruption, held specials, and keyboard/controller input.
+- [x] Make the timing difference visible in practice and document it.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## Priority 3 — distinctive attack interactions
 
 ### EZ-07 — Expanding long-capture circle
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude effects
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude effects
 
 Reference: [long capture, 4:05](https://www.youtube.com/watch?v=7AqlL6_7as8&t=245s), circle enlargement around 4:19–4:22.
 
 Current gap: long capture is a fixed-radius travelling projectile. The tutorial shows a capture circle enlarged by an additional attack input during its motion.
 
-- [ ] Specify travel/formation, additional-input timing, circle growth limits, capture resolution, and defensive escape.
-- [ ] Implement the expanding capture interaction with visual radius matching collision behavior.
-- [ ] Preserve existing character-specific capture cinematics after a successful capture.
-- [ ] Test no extra input, valid extra input, held input, miss, timed escape, interruption, and simultaneous captures.
+- [x] Specify travel/formation, additional-input timing, circle growth limits, capture resolution, and defensive escape.
+- [x] Implement the expanding capture interaction with visual radius matching collision behavior.
+- [x] Preserve existing character-specific capture cinematics after a successful capture.
+- [x] Test no extra input, valid extra input, held input, miss, timed escape, interruption, and simultaneous captures.
 - [ ] Review effect readability at fight-camera distance and document the command.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-08 — Audit and complete combo branches
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; Claude for newly needed poses
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; Claude for newly needed poses
 
 Reference: [additional blows and continuous attacks, 6:34](https://www.youtube.com/watch?v=7AqlL6_7as8&t=394s), [counterattack, 7:19](https://www.youtube.com/watch?v=7AqlL6_7as8&t=439s).
 
-- [ ] Map each demonstrated basic chain, directional third hit, advanced follow-up, counter follow-up, and moving-target capture to current behavior.
-- [ ] Mark each mapping present, different by design, unverified, or missing; do not replace working branches indiscriminately.
-- [ ] Implement confirmed missing routes with deliberate input buffers and contact timing.
-- [ ] Test hit, block, whiff, interruption, stock cost, and side changes for affected routes.
+- [x] Map each demonstrated basic chain, directional third hit, advanced follow-up, counter follow-up, and moving-target capture to current behavior.
+- [x] Mark each mapping present, different by design, unverified, or missing; do not replace working branches indiscriminately.
+- [x] Implement confirmed missing routes with deliberate input buffers and contact timing.
+- [x] Test hit, block, whiff, interruption, stock cost, and side changes for affected routes.
 - [ ] Update move lists and verify each new route reads as one connected sequence.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-09 — Pressure Dash contest
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude clash motion/effects
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex mechanics; Claude clash motion/effects
 
 Reference: [Pressure Dash, 6:16](https://www.youtube.com/watch?v=7AqlL6_7as8&t=376s).
 
 Current gap: simultaneous capture/super contacts can display POWER CLASH, but there is no timed input contest. The reference triggers a contest when two gliding attacks meet.
 
-- [ ] Define valid opposing glide contacts, contest duration, accepted fresh button presses, tie handling, and CPU participation.
-- [ ] Implement the contest as its own state with a readable start, progress, and winner/loser resolution.
-- [ ] Keep the existing capture/super clash distinct unless intentionally redesigned and documented.
-- [ ] Test keyboard and controller equivalence, held-button rejection, pause/blur, simultaneous inputs, ties, and round end.
+- [x] Define valid opposing glide contacts, contest duration, accepted fresh button presses, tie handling, and CPU participation.
+- [x] Implement the contest as its own state with a readable start, progress, and winner/loser resolution.
+- [x] Keep the existing capture/super clash distinct unless intentionally redesigned and documented.
+- [x] Test keyboard and controller equivalence, held-button rejection, pause/blur, simultaneous inputs, ties, and round end.
 - [ ] Add clash/release animation and feedback; review real-time usability and consider an accessible input alternative.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## Priority 4 — framing and learnability
 
 ### EZ-10 — Reassess the fight camera against reference footage
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex
 
 Current gap: earlier documentation called the behind-fighter lock-on view Evil Zone's signature camera. The tutorial frequently uses broadside/three-quarter framing; the exact camera algorithm is not established.
 
-- [ ] Build a shot comparison for neutral distance, close exchanges, circle movement, launch, capture, and recovery.
-- [ ] Compare existing side and lock-on cameras, then tune position, angle, distance, and smoothing from evidence.
-- [ ] Preserve opponent-relative controls independently of camera placement.
-- [ ] Test both fighters' visibility, arena edges, aerial height, effects, HUD overlap, and reduced motion.
+- [x] Build a shot comparison for neutral distance, close exchanges, circle movement, launch, capture, and recovery.
+- [x] Compare existing side and lock-on cameras, then tune position, angle, distance, and smoothing from evidence.
+- [x] Preserve opponent-relative controls independently of camera placement.
+- [x] Test both fighters' visibility, arena edges, aerial height, effects, HUD overlap, and reduced motion.
 - [ ] Review full-speed exchanges and update documentation to avoid unsupported camera-fidelity claims.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ### EZ-11 — Guided practice lessons
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; implement after affected mechanics stabilize
+Owner: **Codex** · Status: **Review** (implementation complete; animation/usability acceptance deferred) · Branch: `codex/ez-05-through-11` · Original suggested split: Codex; implement after affected mechanics stabilize
 
 Current gap: training has dummy choices, input history, and move-phase feedback, but no guided objectives, demonstrations, or pass/fail feedback.
 
-- [ ] Add short lessons for movement, basic chains, charging, timed defense, capture, launch/recovery, and Pressure Dash as those mechanics become ready.
-- [ ] Give each lesson a clear command, reproducible setup, success detection, useful retry feedback, and reset.
-- [ ] Show bindings for the active keyboard/controller configuration.
-- [ ] Allow immediate retry and free practice without long interruptions.
+- [x] Add short lessons for movement, basic chains, charging, timed defense, capture, launch/recovery, and Pressure Dash as those mechanics become ready.
+- [x] Give each lesson a clear command, reproducible setup, success detection, useful retry feedback, and reset.
+- [x] Show bindings for the active keyboard/controller configuration.
+- [x] Allow immediate retry and free practice without long interruptions.
 - [ ] Test success, common wrong inputs, reset, input-device change, and leaving the lesson; have Adam try it without external instructions.
 
-Completion evidence: _Pending._
+Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Initial cloud review passed; final integrated review follows in the handoff log. Detailed animation polish remains deferred by Adam. Checked items describe implementation and automated verification, not exact PS1 fidelity.
 
 ## EZ-01 motion contract for EZ-02
 
