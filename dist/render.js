@@ -155,7 +155,20 @@ export function createView(canvas,options={}){
   else{const rate=cue?.kind==='ko'?3:m?6:5;camera.position.lerp(pos,1-Math.exp(-dt*rate));lookTarget.lerp(target,1-Math.exp(-dt*rate*1.5));}
   if(shakeAmount>0&&!settings.reduced){const s=shakeAmount*.25;camera.position.x+=(Math.random()-.5)*s;camera.position.y+=(Math.random()-.5)*s;camera.position.z+=(Math.random()-.5)*s;}
   shakeAmount=Math.max(0,shakeAmount-dt*4);
-  camera.lookAt(lookTarget);renderer.render(scene,camera);
+  camera.lookAt(lookTarget);
+  // Fast crossovers can outrun camera smoothing. Fit both fighters after smoothing,
+  // using camera-space bounds, so the jumping player's head cannot leave the frame.
+  if(m?.players.some(p=>p.move?.kind==='jumpAttack')){
+   camera.updateMatrixWorld(true);
+   const tanY=Math.tan(camera.fov*Math.PI/360)*.88,tanX=tanY*camera.aspect;
+   let pullback=0;
+   for(const p of m.players)for(const x of [-.7,.7])for(const z of [-.7,.7])for(const y of [0,3.5]){
+    const q=v(p.x+x,liftOf(p)+y,p.z+z).applyMatrix4(camera.matrixWorldInverse);
+    pullback=Math.max(pullback,Math.abs(q.x)/tanX+q.z,Math.abs(q.y)/tanY+q.z);
+   }
+   if(pullback>0)camera.translateZ(pullback);
+  }
+  renderer.render(scene,camera);
  }
  select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }
