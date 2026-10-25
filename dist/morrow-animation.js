@@ -2,7 +2,7 @@ import {morrowFootTransition} from './morrow-attack-motion.js';
 import {Vector3} from './vendor/three.module.js';
 import {CHANNELS} from './rig-pose.js';
 import {sampleClip} from './pose-clips.js';
-import {animateGroundedRig,travelTarget} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose} from './grounded-animation.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
@@ -54,7 +54,7 @@ function targetFor(player,time,phase,motion){
  const travel=travelTarget(player,morrowStance,morrowStrikePose);if(travel)return travel;
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
  if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:p({lax:-1,le:-1.6,rax:-.65,re:-.5,bodyY:-.25,lean:.12-.18*recoil,bodyZ:-.10*recoil,hx:-.1*recoil})};}
- if(player?.anim==='hurt')return {kind:'hurt',pose:mix(p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),morrowStance,smooth((player.animTime||0)/.4))};
+ if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),morrowStance,player.animTime)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({bodyY:-.26,lean:-.08,laz:.4,raz:-.3,le:-1,re:-.65})};
  if(player?.anim==='run')return {kind:'run',pose:morrowMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
  return {kind:'idle',pose:p({bodyY:-.19+Math.sin(time*1.8)*.006,twist:.14+Math.sin(time*1.3)*.014})};

@@ -24,6 +24,14 @@ export function leapPose(m,stance,strikePose){
  if(m.frame<m.startup)return sampleKeys([[0,s],[.22,crouch],[.5,tuck],[.8,extend],[1,contact,snapOut]],m.frame/m.startup);
  return strikePose({...m,chain:3});
 }
+// Hit reaction. The simulation's hurt timer counts DOWN from HURT_TIME; the body snaps into the
+// impact, overshoots a touch deeper as the weight catches, then settles back to stance.
+export const HURT_TIME=.42;
+export function recoilPose(impact,stance,animTime){
+ const elapsed=Math.max(0,HURT_TIME-Math.min(HURT_TIME,animTime||0));
+ const deeper=mix(impact,stance,-.18);
+ return sampleKeys([[0,mix(stance,impact,.7),snapOut],[.07,deeper,snapOut],[.16,impact,smooth],[HURT_TIME,stance,smooth]],elapsed);
+}
 export function travelTarget(player,stance,strikePose){
  const m=player?.move;if(!m||!m.travel)return null;
  if(m.kind==='pursuit'&&!m.aerial)return {kind:'strike',pose:pursuitTravelPose(m,stance,strikePose)};
