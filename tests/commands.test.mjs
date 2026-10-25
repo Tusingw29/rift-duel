@@ -29,7 +29,7 @@ test('attack snapshots direction before both keys are released',()=>{
  const m=createMatch();step(m,{z:1,attack:true});step(m);contact(m);assert.equal(m.projectiles[0].kind,'capture');
 });
 test('forward guard enables a back capture before the rival turns',()=>{
- const m=createMatch();m.players[1].x=-2;step(m,{x:1,guard:true});step(m,{}, {},8);
+ const m=createMatch();m.players[1].x=-2;step(m,{x:1,guard:true});step(m,{}, {},24);
  assert.equal(captureContext(m.players[0],m.players[1]),'back');step(m,{capture:true});contact(m);assert.equal(m.cinematic.context,'back');assert.equal(m.cinematic.damage,18);
 });
 test('front, middle and far captures retain their context at launch',()=>{
