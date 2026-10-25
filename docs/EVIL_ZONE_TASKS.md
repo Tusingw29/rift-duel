@@ -69,7 +69,7 @@ Completion evidence: `dist/roster-animation.js` + `tests/roster-animation.test.m
 
 ### EZ-03 — Accumulated stagger and recovery opportunity
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Codex
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ez-03-stagger`
 
 Reference: [knockdown/recovery, 5:30](https://www.youtube.com/watch?v=7AqlL6_7as8&t=330s).
 
@@ -221,3 +221,5 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |
 
 Do not commit the downloaded reference video. Link to the source and store original game captures or small review artifacts only when appropriate. Research notes are evidence, not exact source-game frame data.
+
+EZ-03 ownership: Codex is editing `combat.js`, new `stagger.js`, HUD/training feedback, and tests. Existing hurt/recover poses will expose the state initially; dedicated stagger/recovery choreography can be refined by Claude using `player.staggerState` (elapsed, remaining, inputs) and `player.counterWindow`. No character rig or root-motion changes planned.
