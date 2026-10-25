@@ -5,7 +5,7 @@ import {retreatLift} from './retreat-motion.js';
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
-import {travelTarget,travelMotion} from './grounded-animation.js';
+import {travelTarget,travelMotion,staggerPose,reversalPose} from './grounded-animation.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -173,8 +173,9 @@ export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);retu
 export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!p)return {pose:idlePose(t),rate:8,kind:'idle'};
  const move=p.move;
- if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
+ if(move?.kind==='strike')return {pose:move.reversal?reversalPose(move,strikePose):strikePose(move),rate:34,kind:'strike'};
  const travel=travelTarget(p,stance,strikePose);if(travel)return {pose:travel.pose,rate:34,kind:travel.kind};
+ if(p.staggerState&&!move&&!p.air)return {pose:pose(staggerPose(stance,impact,p.staggerState)),rate:18,kind:'stagger'};
  if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
  if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
  if(move?.kind==='technique'&&['rise','kick'].includes(move.effect)&&!p.air)return {pose:techniquePose(move),rate:34,kind:'technique'};

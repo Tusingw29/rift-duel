@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig,travelTarget,recoilPose} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
 import {sampleClip} from './pose-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -33,8 +33,10 @@ export function aegisMovePose(forward,side,phase){
  return s;
 }
 function targetFor(player,time,phase,motion){
- if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:aegisStrikePose(player.move)};
+ if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:player.move.reversal?reversalPose(player.move,aegisStrikePose):aegisStrikePose(player.move)};
  const travel=travelTarget(player,aegisStance,aegisStrikePose);if(travel)return travel;
+ if(player?.staggerState&&!player.move)return {kind:'stagger',pose:staggerPose(aegisStance,p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),player.staggerState)};
+ if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:-.15,lean:.04})};
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
  if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:p({lax:-1.1,le:-1.6,laz:.2,rax:-.5,re:-.55,twist:.2,lean:.12-.24*recoil,bodyZ:-.12*recoil,hx:-.15*recoil,bodyY:-.19})};}
  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,player.animTime)};

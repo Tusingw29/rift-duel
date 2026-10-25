@@ -32,6 +32,21 @@ export function recoilPose(impact,stance,animTime){
  const deeper=mix(impact,stance,-.18);
  return sampleKeys([[0,mix(stance,impact,.7),snapOut],[.07,deeper,snapOut],[.16,impact,smooth],[HURT_TIME,stance,smooth]],elapsed);
 }
+// Stagger (EZ-03): the guard is broken and the fighter reels, knees buckled, head lolling, swaying on
+// planted feet. Each recovery tap straightens the body a step; the opening closes with a snap to stance.
+export function staggerPose(stance,impact,s){
+ const e=s.elapsed||0,taps=Math.min(3,s.inputs||0),upright=taps/3,fade=Math.min(1,(s.remaining||0)/.3);
+ const sway=Math.sin(e*7.5)*(.09-.06*upright)*fade,nod=Math.sin(e*5.2+1)*(.12-.08*upright)*fade;
+ const base=mix(impact,stance,.45+.45*upright);
+ return {...base,bodyY:stance.bodyY-.16+.1*upright,bodyX:sway*.6,side:sway,lean:base.lean-.18+.16*upright,twist:base.twist+Math.sin(e*3.1)*.08*fade,
+  hx:.28+nod-.2*upright,hz:sway*1.4,neckY:-.03,lk:.62-.3*upright,rk:.58-.3*upright,llz:.14,rlz:-.14,
+  lax:stance.lax+.35-.3*upright,rax:stance.rax+.35-.3*upright,laz:.5-.3*upright,raz:-.5+.3*upright,le:-.35,re:-.35};
+}
+// Third-hit reversal (EZ-04): the return strike drives forward out of the guard with the hips leading.
+export function reversalPose(m,strikePose){
+ const s=strikePose({...m,chain:1}),u=Math.min(1,m.frame/Math.max(1,m.startup));
+ return {...s,bodyZ:s.bodyZ+.14*u,lean:s.lean+.1*u,hx:s.hx+.06*u,bodyY:s.bodyY-.04*(1-u)};
+}
 export function travelTarget(player,stance,strikePose){
  const m=player?.move;if(!m||!m.travel)return null;
  if(m.kind==='pursuit'&&!m.aerial)return {kind:'strike',pose:pursuitTravelPose(m,stance,strikePose)};

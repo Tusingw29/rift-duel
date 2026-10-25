@@ -72,8 +72,9 @@ export function createView(canvas,options={}){
   pos.set(a.x-fx*back+rx*side,height,a.z-fz*back+rz*side);
   const ahead=Math.min(d,3.4+d*.4);target.set(a.x+fx*ahead+rx*.4,1.35+airHeight*.7,a.z+fz*ahead+rz*.4);
  }
- function sideCamera(m,pos,target,airHeight){
-  const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25);pos.set(target.x-dz*back-dx*2,3+airHeight*.5+distance*.035,target.z+dx*back-dz*2);
+ function sideCamera(m,pos,target,airHeight,zoom=1){
+  // zoom < 1 brings the side camera closer (used by the sandbox); the game always passes 1.
+  const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25)*zoom;pos.set(target.x-dz*back-dx*2*zoom,(3+airHeight*.5+distance*.035)*(.6+.4*zoom),target.z+dx*back-dz*2*zoom);
  }
  function render(dt,m,settings,cue=null){
   time+=dt;stage?.update(time);
@@ -126,7 +127,7 @@ export function createView(canvas,options={}){
   const target=v(),pos=v();let cut=false;
   if(m){const [a,b]=m.players;const airHeight=Math.max(liftOf(a),liftOf(b));
    if(settings.camera==='duel'){const shot=duelCamera(m.players,camera.aspect,duelState);pos.copy(shot.position);target.copy(shot.target);}
-   else (settings.camera==='side'?sideCamera:lockCamera)(m,pos,target,airHeight);
+   else (settings.camera==='side'?sideCamera:lockCamera)(m,pos,target,airHeight,settings.cameraZoom||1);
    if(stagedState&&!settings.reduced){
     const shot=stagedState.camera;target.set(shot.target.x,shot.target.y,shot.target.z);
     const aspectScale=1/Math.min(1,camera.aspect/1.25);
@@ -154,7 +155,8 @@ export function createView(canvas,options={}){
   }else{target.set(-.8,1.5,0);pos.set(3.8,5.3,14);if(width<600){target.set(.9,1.8,0);pos.set(3,5.5,16);}}
   lastCue=cue?.kind||null;
   if(cut){camera.position.copy(pos);lookTarget.copy(target);}
-  else{const rate=cue?.kind==='ko'?3:m?6:5;camera.position.lerp(pos,1-Math.exp(-dt*rate));lookTarget.lerp(target,1-Math.exp(-dt*rate*1.5));}
+  // A zero-time render (paused game, sandbox scrub) snaps the camera to its target instead of freezing mid-glide.
+  else{const rate=cue?.kind==='ko'?3:m?6:5,snap=dt===0;camera.position.lerp(pos,snap?1:1-Math.exp(-dt*rate));lookTarget.lerp(target,snap?1:1-Math.exp(-dt*rate*1.5));}
   if(shakeAmount>0&&!settings.reduced){const s=shakeAmount*.25;camera.position.x+=(Math.random()-.5)*s;camera.position.y+=(Math.random()-.5)*s;camera.position.z+=(Math.random()-.5)*s;}
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);

@@ -9,7 +9,7 @@ const $=s=>document.querySelector(s);
 const params=new URLSearchParams(location.search);
 const canvas=$('#stage');const view=createView(canvas,{talaModel:'v3'});view.quality(params.get('quality')||'high');
 const state={p1:Number(params.get('p1')??2),p2:Number(params.get('p2')??1),recipe:params.get('scenario')||'strike3',frame:0,playing:false,speed:1,scenario:null,helpers:[],hurt:[],hit:[],showSkeleton:false,showHurt:false,showHit:false};
-const settings={camera:'side',reduced:true,quality:'high'};
+const settings={camera:'side',reduced:true,quality:'high',cameraZoom:Number(params.get('zoom')||.7)};
 for(const [id,sel] of [['#p1','p1'],['#p2','p2']]){const el=$(id);fighters.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f.name;el.append(o);});el.value=state[sel];el.onchange=()=>{state[sel]=Number(el.value);reset();};}
 {const el=$('#scenario');for(const name of Object.keys(RECIPES)){const o=document.createElement('option');o.value=name;o.textContent=name;el.append(o);}el.value=state.recipe;el.onchange=()=>{state.recipe=el.value;reset();};}
 function reset(){
@@ -49,7 +49,7 @@ function drawOverlays(){
 $('#frame').oninput=e=>{state.playing=false;$('#play').textContent='Play';seek(Number(e.target.value));};
 $('#play').onclick=()=>{state.playing=!state.playing;$('#play').textContent=state.playing?'Pause':'Play';};
 $('#speed').onchange=e=>{state.speed=Number(e.target.value);};
-$('#camera').onchange=e=>{settings.camera=e.target.value;view.render(0,state.scenario.m,settings);};
+$('#camera').onchange=e=>{settings.camera=e.target.value;view.render(0,state.scenario.m,settings);};$('#zoom').onchange=e=>{settings.cameraZoom=Number(e.target.value);view.render(0,state.scenario.m,settings);};
 $('#reset').onclick=()=>reset();$('#step').onclick=()=>{state.playing=false;$('#play').textContent='Play';seek(state.frame+1);};
 $('#back').onclick=()=>{state.playing=false;$('#play').textContent='Play';seek(state.frame-1);};
 for(const [id,key] of [['#skeleton','showSkeleton'],['#hurtbox','showHurt'],['#hitbox','showHit']])$(id).onchange=e=>{state[key]=e.target.checked;drawOverlays();};

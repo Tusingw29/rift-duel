@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig,travelTarget,recoilPose} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
 import {talaFootOffsets} from './tala-footwork.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
@@ -37,8 +37,10 @@ function grounded(prefix,def){
  const guardPose=p(def.guard),guardHit=p({...def.guard,lean:def.guard.lean-.14,hx:def.guard.hx+.16,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:def.guard.le-.05,re:def.guard.re-.05});
  const impact=p(def.impact),charge=p(def.charge);
  function targetFor(player,time,phase,motion){
-  if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:strikePose(player.move)};
+  if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:player.move.reversal?reversalPose(player.move,strikePose):strikePose(player.move)};
   const travel=travelTarget(player,stance,strikePose);if(travel)return travel;
+  if(player?.staggerState&&!player.move)return {kind:'stagger',pose:staggerPose(stance,impact,player.staggerState)};
+  if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:stance.bodyY-.03,lean:stance.lean+.04})};
   if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
   if(player?.guard)return {kind:'guard',pose:mix(guardPose,guardHit,Math.min(1,(player.blockStun||0)/.22))};
   if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(impact,stance,player.animTime)};
