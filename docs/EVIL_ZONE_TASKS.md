@@ -44,7 +44,7 @@ Completion evidence: _Pending._
 
 ### EZ-02 — Connect whole-body animation through actions and reactions
 
-Owner: **Unassigned** · Status: **Ready** · Suggested: Claude; coordinate EZ-01 travel contract with Codex
+Owner: **Claude** · Branch: `claude/ez-02-whole-body` · Status: **In progress** (claimed 2026-10-25) · Coordinating EZ-01 travel contract with Codex: Claude will not change root travel in `dist/combat.js`; pose code reads the simulation position and only adds body motion on top.
 
 Reference: movement and attack demonstrations throughout the tutorial. This is a visual-quality task, not a claim that every current animation is missing.
 
@@ -202,6 +202,7 @@ Completion evidence: _Pending._
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |
 | 2026-10-25 | Codex | Planning | Created shared checklist from tutorial study and code comparison. No implementation tasks claimed or completed by this document. Next: claim EZ-01; coordinate EZ-02 with character animation work. |
 
 Do not commit the downloaded reference video. Link to the source and store original game captures or small review artifacts only when appropriate. Research notes are evidence, not exact source-game frame data.
