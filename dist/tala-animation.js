@@ -5,6 +5,7 @@ import {retreatLift} from './retreat-motion.js';
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
+import {travelTarget,travelMotion} from './grounded-animation.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -169,10 +170,11 @@ export function idlePose(t){
 export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
 // Which states the sample handles; everything else falls back to the shared animator.
-export function targetFor(p,t,stridePhase=p?.stridePhase||0){
+export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!p)return {pose:idlePose(t),rate:8,kind:'idle'};
  const move=p.move;
  if(move?.kind==='strike')return {pose:strikePose(move),rate:34,kind:'strike'};
+ const travel=travelTarget(p,stance,strikePose);if(travel)return {pose:travel.pose,rate:34,kind:travel.kind};
  if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
  if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
  if(move?.kind==='technique'&&['rise','kick'].includes(move.effect)&&!p.air)return {pose:techniquePose(move),rate:34,kind:'technique'};
@@ -184,7 +186,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0){
  if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
- if(p.anim==='run')return {pose:movePose(p.prev?.x??1,p.prev?.z||0,stridePhase),rate:13,kind:'run'};
+ if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase),rate:13,kind:'run'};
  return {pose:idlePose(t),rate:8,kind:'idle'};
 }
 export function advanceStride(r,p){
@@ -201,8 +203,9 @@ export function blendPose(current,target,rate,dt){
 // Returns true when the sample system handled this frame.
 export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
+ const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
- const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0);
+ const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
  r.freeFlight=target?.kind==='freeFlight';
  if(r.landingTime!==undefined){
@@ -219,21 +222,21 @@ export function animateTala(r,p,time){
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.
- if(['strike','shot','forward','back','technique','launch','aerial'].includes(target.kind)){
+ if(['strike','shot','forward','back','technique','launch','aerial','leap'].includes(target.kind)){
   r.flowBlend=null;
   const m=p.move,previous=r.strikeBlend,variant=m.empowered?'stock':m.followup?'followup':'base';
   if(!previous||previous.move!==m||m.frame<previous.frame||previous.variant!==variant){
    const from=r.pose||target.pose;
    r.strikeBlend={move:m,frame:m.frame,variant,startFrame:previous?.move===m&&previous.variant!==variant?m.frame:0,offset:Object.fromEntries(CHANNELS.map(k=>[k,from[k]-target.pose[k]]))};
   }
-  const start=r.strikeBlend.startFrame,entry=m.frame>=m.startup?0:1-smooth((m.frame-start)/Math.max(1,m.startup-start));
+  const start=r.strikeBlend.startFrame,entryEnd=m.travel?Math.min(start+3,m.startup):m.startup,entry=m.frame>=entryEnd?0:1-smooth((m.frame-start)/Math.max(1,entryEnd-start));
   r.pose=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+r.strikeBlend.offset[k]*entry]));
   r.strikeBlend.frame=m.frame;
  }else{
   r.strikeBlend=null;
   // Blend only the change of action: repeated low-pass smoothing shrinks the
   // run cycle and makes the body trail behind the feet at fighting speed.
-  const direction=target.kind==='run'?`${Math.sign(p.prev?.x||0)},${Math.sign(p.prev?.z||0)}`:'';
+  const dir=motion||{forward:p?.prev?.x||0,side:p?.prev?.z||0},direction=target.kind==='run'?`${Math.sign(dir.forward)},${Math.sign(dir.side)}`:'';
   const key=target.kind+direction;
   if(!r.flowBlend||r.flowBlend.key!==key){
    r.flowBlend={key,elapsed:0,offset:Object.fromEntries(CHANNELS.map(k=>[k,(r.pose||target.pose)[k]-target.pose[k]]))};

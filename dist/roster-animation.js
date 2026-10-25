@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget} from './grounded-animation.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
 // Aegis and Morrow: flat channel poses blended toward a per-state target, strikes keyed
@@ -35,13 +35,14 @@ function grounded(prefix,def){
  }
  const guardPose=p(def.guard),guardHit=p({...def.guard,lean:def.guard.lean-.14,hx:def.guard.hx+.16,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:def.guard.le-.05,re:def.guard.re-.05});
  const impact=p(def.impact),charge=p(def.charge);
- function targetFor(player,time,phase){
+ function targetFor(player,time,phase,motion){
   if(player?.move?.kind==='strike'&&!player.air)return {kind:'strike',pose:strikePose(player.move)};
+  const travel=travelTarget(player,stance,strikePose);if(travel)return travel;
   if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
   if(player?.guard)return {kind:'guard',pose:mix(guardPose,guardHit,Math.min(1,(player.blockStun||0)/.22))};
   if(player?.anim==='hurt')return {kind:'hurt',pose:mix(impact,stance,smooth((player.animTime||0)/.42))};
   if(player?.anim==='charge')return {kind:'charge',pose:charge};
-  if(player?.anim==='run')return {kind:'run',pose:stepPose(player.prev?.x??1,player.prev?.z||0,phase)};
+  if(player?.anim==='run')return {kind:'run',pose:stepPose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
   const breath=Math.sin(time*def.breath),shift=Math.sin(time*def.breath*.5);
   return {kind:'idle',pose:p({bodyY:stance.bodyY+breath*.012,side:shift*.03,hz:shift*.03,hx:stance.hx+breath*.02,lk:stance.lk+(1-Math.abs(breath))*.05,rk:stance.rk+(1-Math.abs(breath))*.05,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02})};
  }
