@@ -85,3 +85,27 @@ test('training prompts distinguish the attack window and automatic return',()=>{
  const s=third();assert.match(reversalPrompt([s.b,s.a]),/THIRD HIT INCOMING/);assert.match(reversalPrompt([s.a,s.b]),/vulnerable/);
  reverse(s);assert.match(reversalPrompt([s.b,s.a]),/DEFENSIVE REVERSAL/);
 });
+import {comboPracticeInput} from '../dist/training.js';
+import {normalizeOptions} from '../dist/options.js';
+test('practice dummy approaches and repeats complete blocked melee chains with a pause',()=>{
+ const m=createMatch(0,0,'training');m.players[0].guardTime=1;m.players[0].prev.guard=true;
+ const finishTicks=[];
+ for(let f=0;f<600;f++){
+  update(m,[{...neutral(),guard:true},comboPracticeInput(m)]);
+  const p=m.players[1];if(p.move?.kind==='strike'&&p.move.chain===3&&p.move.frame===p.move.startup)finishTicks.push(m.tick);
+ }
+ assert.ok(finishTicks.length>=3);assert.ok(finishTicks.every((t,i)=>i===0||t-finishTicks[i-1]>70));
+ assert.equal(m.projectiles.length,0);assert.equal(normalizeOptions({trainingBehavior:'combo'}).trainingBehavior,'combo');
+});
+test('practice dummy gives player one a real third-hit reversal opportunity',()=>{
+ const m=createMatch(0,0,'training');m.players[0].guardTime=1;m.players[0].prev.guard=true;
+ let reversed=false,returned=false;
+ for(let f=0;f<240;f++){
+  const incoming=m.players[1].move;
+  const release=incoming?.kind==='strike'&&incoming.chain===3&&incoming.frame===incoming.startup-2;
+  update(m,[{...neutral(),guard:!release},comboPracticeInput(m)]);
+  if(m.events.some(e=>e.type==='reversal'&&e.player===0))reversed=true;
+  if(reversed&&m.players[1].hp<100){returned=true;break;}
+ }
+ assert.ok(reversed);assert.ok(returned);
+});

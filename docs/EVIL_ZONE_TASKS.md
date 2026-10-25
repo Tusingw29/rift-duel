@@ -115,7 +115,7 @@ Current gap: generic perfect guard stuns the attacker, but the tutorial describe
 - [x] Test early, correct, and late guard against eligible and ineligible attacks, including both players.
 - [ ] Add readable motion and feedback; document the command and review in combat.
 
-Implementation: new `reversal.js`, contact provenance in `combat.js`, dedicated callout/deflect effect, and training/manual guidance. **18 focused tests pass**, including complete guarded chains for every fighter and both player slots. Full-suite/browser evidence will be recorded in the handoff log. Normal-speed visual acceptance remains open.
+Implementation: new `reversal.js`, contact provenance in `combat.js`, dedicated callout/deflect effect, and training/manual guidance. **20 focused tests pass**, including complete guarded chains for every fighter and both player slots. Training → Pause → Practice Controls → Repeat three-hit combo provides a repeatable real-input opponent. Full-suite/browser evidence will be recorded in the handoff log. Normal-speed visual acceptance remains open.
 
 First-pass rules (Rift Duel tuning, not measured PS1 frame data):
 
