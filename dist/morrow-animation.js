@@ -31,7 +31,7 @@ export function morrowStrikePose(move){
  // comes late, then the heavy blade takes time to decelerate and return.
  const drive=mix(wind,contact,.12);drive.hipYaw=wind.hipYaw*.45;drive.bodyZ=wind.bodyZ*.4;
  const brace=mix(follow,morrowStance,.68);
- const keys=[[0,morrowStance],[move.startup*.45,wind],[move.startup*.68,drive],[move.startup,contact],[move.startup+active+move.recovery*.24,follow],[move.startup+active+move.recovery*.72,brace],[end,morrowStance]];
+ const keys=[[0,morrowStance],[move.startup*.45,wind],[move.startup*.68,drive],[move.startup,contact],[move.startup+active+move.recovery*.42,follow],[move.startup+active+move.recovery*.8,brace],[end,morrowStance]];
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to]=keys[i],u=(frame-a)/(b-a||1);
  return mix(from,to,i===3?u*u:smooth(u));
@@ -65,5 +65,5 @@ function targetFor(player,time,phase,motion){
 }
 export function animateMorrow(r,player,time){
  r.footPivot??=(p,kind)=>morrowFootTransition(r,p,kind);r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
- return animateGroundedRig(r,player,time,'morrow',targetFor);
+ return animateGroundedRig(r,player,time,'morrow',targetFor,{stance:morrowStance,impact:p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3})});
 }

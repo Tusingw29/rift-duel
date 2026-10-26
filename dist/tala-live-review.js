@@ -10,7 +10,7 @@ import {moveTiming} from './moves.js';
 const signatureClips={'Launcher':{kind:'launch'},'Aerial pursuit':{kind:'pursuit',aerial:true},'Rising rush':{kind:'technique'},'Skybreaker kick':{kind:'technique',followup:true},'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
 const shotTiming=moveTiming(fighters[2],'shot');
 const timing=moveTiming(fighters[2],'strike');
-export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
+export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6},{name:'Knockdown + rise',duration:1.8}];
 export const TALA_TRANSITION_CLIPS=['Advance to guard','Advance to combo','Circle to recoil'].map(name=>({name,duration:2.4}));
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
@@ -43,6 +43,7 @@ export function createLiveTalaReview(source,{variant='design02'}={}){
   }
   if(name==='Guard + block'){p.guard=t>=.25&&t<1.65;p.blockStun=t>=.85&&t<1.07?1.07-t:0;}
   if(name==='Recoil'&&t>=.25&&t<.67){p.anim='hurt';p.animTime=.67-t;}
+  if(name==='Knockdown + rise'&&t>=.2&&t<.75){p.anim='knockdown';p.animTime=.75-t;}
   if(name==='Energy shot'&&f>=12&&f<12+shotTiming.total){p.move=shot;shot.frame=f-12;p.anim='attack';}
   if(signatureClips[name]){
    if(f>=12&&f<12+signature.total){p.move=signature;signature.frame=f-12;p.anim=signature.kind;}

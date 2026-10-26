@@ -28,6 +28,9 @@ export function animateCharacter(r,p,time){
  const previous=captureMotion(r);
  if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
+ // A grounded fall rotates the root; keep the lowest point of the body on the floor whatever the limbs do.
+ // Skinned bodies only: the classic batched meshes do not follow the limbs.
+ if(r.conceptModel&&r.animationFamily==='grounded'&&['knockdown','defeat'].includes(p?.anim)){r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);if(rollBounds.min.y<.02)r.body.position.y+=(.02-rollBounds.min.y)/r.g.scale.y;}
  if(r.id===3)finishMorrowAttack(r,p);
  finishCombatRig(r,p,time);
 }

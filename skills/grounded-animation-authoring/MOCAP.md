@@ -7,6 +7,7 @@
 - Output is `[t, pose]` keys for `sampleClip`; `dist/locomotion-clips.js` applies them with the fighter's stance body height and reverses the cycle for retreat.
 - Sources used: CMU via the cgspeed BVH conversion (`Shriinivas/cmubvh` on GitHub); CMU states the data is free for research and commercial use, cgspeed adds no restrictions. Record the take and license in `--source`.
 - Keep takes under `~/rift-tools/mocap`; only the converted clips are committed.
+- Studying a take instead of looping it: `--dump take.json` writes every frame's channels plus raw measurements (wrist and hip positions in the body frame, world hip and shoulder yaw, ankle heights); `node scripts/mocap/study-take.mjs take.json --signal rWrist.z --peaks 2 --before 48 --after 48 --step 4` finds events on a signal (`--valleys` for drops, `--at f1,f2` for explicit frames) and prints the surrounding channels as a table. Author key poses from those numbers. The cgspeed mirror serves its zips through the GitHub API (`gh api repos/Shriinivas/cmubvh/contents/Sequence-<range>/<subject>/Data/<subject>_<trial>.zip --jq .sha`, then the blob's base64 `content`); the raw host 404s.
 
 ## Tala comparison follow-up
 

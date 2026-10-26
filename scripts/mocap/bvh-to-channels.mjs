@@ -4,12 +4,13 @@
 // it); support feet are still planted by plantSupportFeet, so legs here mainly shape swing and bob.
 // Usage: node scripts/mocap/bvh-to-channels.mjs --in <file.bvh> --out dist/clips/<name>.js --name run
 //        [--keys 16] [--cycle auto|start:end] [--mirror] [--source "CMU 09_01 via cgspeed BVH (free for research and commercial use)"]
+//        --dump <json>: write every frame's channels plus raw world measurements (for studying a take, no clip needed)
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {dirname} from 'node:path';
 import {Vector3,Matrix4,Quaternion,Euler} from '../../dist/vendor/three.module.js';
 const args=Object.fromEntries(process.argv.slice(2).map((a,i,all)=>a.startsWith('--')?[a.slice(2),all[i+1]?.startsWith('--')||all[i+1]===undefined?true:all[i+1]]:[]).filter(Boolean));
-if(!args.in||!args.out)throw new Error('--in <bvh> and --out <js> are required');
-const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
+if(!args.in||!(args.out||args.dump))throw new Error('--in <bvh> and --out <js> (or --dump <json>) are required');
+const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc','bodyPitch','bodyRoll'];
 // ---- BVH parse --------------------------------------------------------------------------------
 function parseBvh(text){
  const tokens=text.split(/\s+/).filter(Boolean);let i=0;const joints=[];let root=null;
@@ -88,8 +89,11 @@ function frameChannels(pos,restHipHeight,scale,mirror){
  const headDir=inChest(dir(neck,head));
  const hx=Math.atan2(headDir.z,headDir.y),hz=Math.atan2(-headDir.x,headDir.y);
  const bodyY=(hips.y-restHipHeight)*scale;
- return {bodyX:0,bodyY,bodyZ:0,hipYaw:0,lean,twist,side,hx,hy:0,hz,neckY:0,neckZ:0,lw:0,rw:0,lc:0,rc:0,lax:la.ax,lay:0,laz:la.az,rax:ra.ax,ray:0,raz:ra.az,le:la.e,re:ra.e,llx:ll.x,llz:ll.z,rlx:rl.x,rlz:rl.z,lk:ll.k,rk:rl.k,
-  _lFootZ:toBody(L.an.clone().sub(hips)).z,_rFootZ:toBody(R.an.clone().sub(hips)).z,_hipY:hips.y};
+ return {bodyPitch:0,bodyRoll:0,bodyX:0,bodyY,bodyZ:0,hipYaw:0,lean,twist,side,hx,hy:0,hz,neckY:0,neckZ:0,lw:0,rw:0,lc:0,rc:0,lax:la.ax,lay:0,laz:la.az,rax:ra.ax,ray:0,raz:ra.az,le:la.e,re:ra.e,llx:ll.x,llz:ll.z,rlx:rl.x,rlz:rl.z,lk:ll.k,rk:rl.k,
+  _lFootZ:toBody(L.an.clone().sub(hips)).z,_rFootZ:toBody(R.an.clone().sub(hips)).z,_hipY:hips.y,
+  // Raw measurements for take studies (scaled to game units; forward is the pelvis facing):
+  _lAnkleY:L.an.y*scale,_rAnkleY:R.an.y*scale,_lWrist:toBody(L.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),_rWrist:toBody(R.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),
+  _hipYawWorld:Math.atan2(forward.x,forward.z),_shoulderYawWorld:(()=>{const s=R.sh.clone().sub(L.sh);return Math.atan2(-s.z,s.x);})(),_hipsWorld:hips.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(3))};
 }
 // ---- cycle detection: one full stride = the left ankle passing the pelvis forward twice --------
 function findCycle(frames){
@@ -118,6 +122,7 @@ if(args.debug){const z=all.map(c=>c._lFootZ),h=all.map(c=>c._hipY);const f=k=>v=
  console.log('DEBUG lFootZ min/max',Math.min(...z).toFixed(2),Math.max(...z).toFixed(2),'first',z.slice(0,6).map(f()),'mid',z.slice(150,156).map(f()));
  console.log('DEBUG hipY min/max',Math.min(...h).toFixed(2),Math.max(...h).toFixed(2));
  const p=[60,200].map(fr=>pick(worldPositions(bvh,fr),NAMES.hips).toArray().map(f()));console.log('DEBUG hips f60',p[0],'f200',p[1]);}
+if(args.dump){const r=v=>typeof v==='number'?+v.toFixed(4):v;writeFileSync(args.dump,JSON.stringify({source:args.in,frameTime:bvh.frameTime,scale:+scale.toFixed(4),frames:all.map((c,i)=>Object.fromEntries(Object.entries({f:i+1,...c}).map(([k,v])=>[k,r(v)])))}));console.log('DUMP',args.dump,all.length,'frames at',bvh.frameTime);if(!args.out)process.exit(0);}
 const cycle=args.cycle&&args.cycle!=='auto'?{range:args.cycle.split(':').map(Number),half:false}:findCycle(all);
 const [start,end]=cycle.range,half=cycle.half;
 const n=+(args.keys||16),keys=[];

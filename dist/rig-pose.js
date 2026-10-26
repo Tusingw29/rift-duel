@@ -3,13 +3,14 @@ import {Vector3,Quaternion} from './vendor/three.module.js';
 // lw/rw: wrist roll about the forearm axis (hand bone local Y). 0 keeps the model's rest wrist.
 // lc/rc: collarbone protraction (shoulder driven forward, radians). 0 leaves it to the combat rig's reach rule;
 // a 17-bone body has no clavicle and ignores it.
-export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
+// bodyPitch/bodyRoll: root rotation about X (positive pitches forward) and Z, used by falls and rising; 0 otherwise.
+export const CHANNELS=['bodyPitch','bodyRoll','bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
 export const STRIDE=1.15;
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function applyPose(r,s){
  // Arms yaw after they swing, so a punch can aim at the target while the chest is turned.
  r.limbs[0].rotation.order='YXZ';r.limbs[2].rotation.order='YXZ';
- r.body.position.x=s.bodyX;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.y=s.hipYaw;
+ r.body.position.x=s.bodyX;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.set(s.bodyPitch||0,s.hipYaw,s.bodyRoll||0);
  r.spine.rotation.set(s.lean,s.twist,s.side);r.headRest??=r.head.position.clone();r.head.position.copy(r.headRest);r.head.position.y+=s.neckY||0;r.head.position.z+=s.neckZ||0;r.head.rotation.set(s.hx,s.hy,s.hz);
  r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
  // Wrist roll is authored per pose; rigs with a richer hand (the graphic combat rig) read the same channel.
@@ -23,6 +24,8 @@ const ankle=new Vector3(0,-.48,0);
 export function plantSupportFeet(r,p,kind){
  const ankleHeight=r.ankleHeight??.14;
  const upper=r.legLength||.48,lower=r.shinLength||upper,reach=upper+lower;ankle.y=-lower;
+ // Airborne feet pitch up a little (dorsiflexed, reaching for the floor); a flat foot at the last airborne frame would dip the shoe under it.
+ if(['flight','freeFlight'].includes(kind)&&r.feet)for(const foot of r.feet)foot.rotation.x=-.3;
  if(!p||!(['idle','guard','charge','strike','shot','forward','back','run','stagger'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);

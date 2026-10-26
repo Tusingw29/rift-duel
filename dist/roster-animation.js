@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad} from './grounded-animation.js';
 import {talaFootOffsets} from './tala-footwork.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
@@ -14,14 +14,15 @@ const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
 const ARMS=['lax','lay','laz','rax','ray','raz','le','re'];
 function grounded(prefix,def){
  const stance=pose(def.stance),p=o=>pose({...stance,...o});
- const cuts=def.cuts.map(([wind,contact,follow])=>[p(wind),p(contact),p(follow)]);
+ const cuts=def.cuts.map(([wind,contact,follow])=>[p(rearLoad(stance,p(wind),p(contact))),p(contact),p(follow)]);
  // Keyed strike: wind eases in, a drive key snaps toward contact so the hit lands with
  // momentum, the follow-through overshoots, then a retract settles under control.
  function strikePose(move){
   const [wind,contact,follow]=cuts[Math.min(2,Math.max(0,(move.chain||1)-1))],active=move.active||1,end=move.startup+active+move.recovery;
   const drive=pose({...mix(wind,contact,.72),hipYaw:contact.hipYaw*.95,bodyY:contact.bodyY-.03});
   const retract=pose({...mix(follow,stance,.62),bodyY:stance.bodyY-.05});
-  const keys=[[0,stance,smooth],[move.startup*.55,wind,smooth],[move.startup*.82,drive,snapOut],[move.startup,contact,snapOut],[move.startup+active+move.recovery*.24,follow,smooth],[move.startup+active+move.recovery*.66,retract,smooth],[end,stance,smooth]];
+  // Wind-up is held through half the startup (the tell), the follow-through stays open for 40% of the recovery (the opening), then the retract.
+  const keys=[[0,stance,smooth],[move.startup*.6,wind,smooth],[move.startup*.9,drive,snapOut],[move.startup,contact,snapOut],[move.startup+active+move.recovery*.42,follow,smooth],[move.startup+active+move.recovery*.78,retract,smooth],[end,stance,smooth]];
   const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return {...stance};
   let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
   const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
@@ -47,10 +48,11 @@ function grounded(prefix,def){
   if(player?.anim==='charge')return {kind:'charge',pose:charge};
   if(player?.anim==='run')return {kind:'run',pose:stepPose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
   const breath=Math.sin(time*def.breath),shift=Math.sin(time*def.breath*.5);
-  return {kind:'idle',pose:p({bodyY:stance.bodyY+breath*.012,side:shift*.03,hz:shift*.03,hx:stance.hx+breath*.02,lk:stance.lk+(1-Math.abs(breath))*.05,rk:stance.rk+(1-Math.abs(breath))*.05,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02})};
+  // Weight shifts from foot to foot: the knees alternate, the hips drift, the shoulders counter a little.
+  return {kind:'idle',pose:p({bodyY:stance.bodyY+breath*.02-.015,bodyX:shift*.025,side:shift*.04,hipYaw:shift*.03,twist:stance.twist-shift*.03,hz:shift*.03,hx:stance.hx+breath*.02,lk:stance.lk+(1-shift)*.07+(1-Math.abs(breath))*.04,rk:stance.rk+(1+shift)*.07+(1-Math.abs(breath))*.04,llz:stance.llz+shift*.02,rlz:stance.rlz+shift*.02,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02})};
  }
  // The rear foot catches the recoil (Tala's foot offsets are generic: they read only the hurt timer).
- return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=talaFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor);}};
+ return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=talaFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact});}};
 }
 // Crossed forearms shield the chest, chin tucked, as in Tala's authored guard; the weapon
 // hand rides slightly outward so the blade or staff crosses the body instead of the face.

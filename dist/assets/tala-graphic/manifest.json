@@ -2,8 +2,8 @@
   "style": "graphic-flat",
   "source": "tala-v3.glb (CC0 MakeHuman-derived body and skin weights)",
   "sourceSHA256": "544dec5055901cb1328b53ce03e2427ca4ef9efa65b3f211532235fa1b836dc3",
-  "modelSHA256": "a3b737a81703efdb1cf771db4635451b535e0a5956a2275bf752dedbd876f6f7",
-  "bytes": 4914304,
+  "modelSHA256": "fb5be68ff0cc5ad6b9d693fbd8d4b1c1fe277ec94c4b6f022ad7fd8cc4e6f88d",
+  "bytes": 5090252,
   "meshes": 82,
   "triangles": 26103,
   "bones": 61,
@@ -91,6 +91,10 @@
     {
       "name": "Recoil",
       "duration": 1.6
+    },
+    {
+      "name": "Knockdown + rise",
+      "duration": 1.8
     }
   ],
   "materials": {

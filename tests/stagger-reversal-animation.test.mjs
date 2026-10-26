@@ -17,7 +17,7 @@ for(const [id,f] of fighters.entries()){
   assert.ok(Math.max(...sides)-Math.min(...sides)>.02,`${f.name} sways`);
   const p=s.m.players[0];assert.ok(!p.staggerState,'recovered by frame 40');
   for(let frame=41;frame<=70;frame++){stepScenario(s);animateCharacter(r,s.m.players[0],frame/60);}
-  const settled=poseOf(r,id);assert.ok(Math.abs(settled.side)<.03&&settled.lk<.5,`${f.name} settles upright`);
+  const settled=poseOf(r,id);assert.ok(Math.abs(settled.side)<.06&&settled.lk<.6,`${f.name} settles upright`); // idle now shifts weight foot to foot
  });
  test(`${f.name}: the third-hit reversal plays a forward return strike out of the guard`,()=>{
   const r=buildCharacter(id),s=createScenario('reversal',id,id===1?2:1);

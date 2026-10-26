@@ -7,7 +7,7 @@ import {moveTiming} from '../dist/moves.js';
 const strike=(chain,frame)=>({kind:'strike',...moveTiming(fighters[2],'strike'),chain,frame});
 test('punches start in the hips and chest, snap to extension at contact, and recover to stance',()=>{
  for(const chain of [1,2,3]){
-  const m=strike(chain,0);const wind=strikePose({...m,frame:m.startup*.55}),contact=strikePose({...m,frame:m.startup}),rest=strikePose({...m,frame:m.total});
+  const m=strike(chain,0);const wind=strikePose({...m,frame:m.startup*.5}),contact=strikePose({...m,frame:m.startup}),rest=strikePose({...m,frame:m.total});
   assert.deepEqual(rest,stance);
   assert.ok(Math.sign(wind.twist)!==Math.sign(contact.twist)&&Math.abs(contact.twist)>.5,`chain ${chain} chest reverses through contact`);
   assert.ok(Math.sign(wind.hipYaw)!==Math.sign(contact.hipYaw),`chain ${chain} hips turn`);

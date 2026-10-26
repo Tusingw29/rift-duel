@@ -6,10 +6,10 @@ const fighter=process.env.FIGHTER||'rei',angle=Number(process.env.ANGLE||'1.57')
 const strips=(process.env.STRIPS||'idle:0,.2,.4').split(';').filter(Boolean).map(s=>{const [pose,times]=s.split(':');return [pose,times.split(',').map(Number)];});
 const browser=await launch(),page=await browser.newPage({viewport:{width:360,height:620}});
 try{
- await page.goto(`${BASE}/fighter-review.html?fighter=${fighter}&gait=${process.env.GAIT||"authored"}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
+ await page.goto(`${BASE}/fighter-review.html?fighter=${fighter}${process.env.MODEL?"&model="+process.env.MODEL:""}&gait=${process.env.GAIT||"authored"}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
  await page.waitForFunction(()=>window.fighterReview?.ready,null,{timeout:240000});
  await page.addStyleTag({content:'header{display:none!important}'});
- await page.evaluate(a=>{window.fighterReview.zoom(5.2);window.fighterReview.view(a);},angle);
+ await page.evaluate(([a,z])=>{window.fighterReview.zoom(z);window.fighterReview.view(a);},[angle,Number(process.env.ZOOM||5.2)]); // ZOOM widens the frame for falls
  for(const [pose,times] of strips){
   const frames=[];for(const t of times){await page.evaluate(([pose,t])=>window.fighterReview.sample(pose,t),[pose,t]);frames.push(PNG.sync.read(await page.screenshot(SHOT)));}
   const file=`${OUT}/strip-${fighter}-${pose}-${angle===0?'front':'side'}-${id}.png`;writeFileSync(file,PNG.sync.write(stitch(frames)));console.log('strip',file);

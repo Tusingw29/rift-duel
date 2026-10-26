@@ -5,7 +5,7 @@ import {retreatLift} from './retreat-motion.js';
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
-import {travelTarget,travelMotion,staggerPose,reversalPose} from './grounded-animation.js';
+import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
@@ -26,15 +26,15 @@ export const charge=pose({lc:-.06,rc:-.06,lax:.25,laz:.45,le:-.6,rax:.25,raz:-.4
 export const impact=pose({lc:-.12,rc:-.12,hx:-.5,hz:.1,lean:-.38,twist:.28,lax:-.35,laz:.65,le:-.5,lw:1.2,rax:-.15,raz:-.6,re:-.4,rw:-1.2,rlx:.6,rlz:-.1,llx:.25,rk:.35,lk:.1,bodyZ:-.22,bodyY:-.12});
 // Three-hit combo: right straight, left cross, stepping right hook.
 const tracks={
- 1:{wind:pose({rc:-.08,lc:.08,twist:.38,hipYaw:.14,rax:.3,raz:-.1,re:-1.6,rw:-2.1,lax:-.85,le:-1.25,lw:1.9,lean:-.04,hy:-.1,rlx:.32,rlz:-.12,llx:-.18,llz:.1,lk:.25,rk:.3,bodyY:-.23}),
-    strike:pose({rc:.32,lc:.04,twist:-.72,hipYaw:-.26,rax:-1.78,ray:.62,raz:-.12,re:-.03,rw:-3.1,lax:-.95,laz:.2,le:-1.35,lw:1.9,lean:.3,hx:-.06,hy:.36,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.18,bodyY:-.12}),
-    follow:pose({rc:.30,lc:.04,twist:-.8,hipYaw:-.28,rax:-1.6,ray:.6,raz:-.15,re:-.25,rw:-3.1,lax:-.95,laz:.2,le:-1.3,lw:1.9,lean:.3,hx:-.04,hy:.4,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.2,bodyY:-.12})},
- 2:{wind:pose({lc:-.08,rc:.08,twist:-.5,hipYaw:-.16,lax:.25,laz:.1,le:-1.6,lw:1.9,rax:-.8,re:-1.3,rw:-2.1,lean:-.04,hy:.12,llx:-.1,llz:.1,rlx:.25,rlz:-.12,lk:.3,rk:.25,bodyY:-.23}),
-    strike:pose({lc:.32,rc:.04,twist:.74,hipYaw:.28,lax:-1.78,lay:-.66,laz:.12,le:-.03,lw:-3.1,rax:-1,raz:-.2,re:-1.35,rw:-2.1,lean:.3,hx:-.06,hy:-.38,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.2,bodyY:-.12}),
-    follow:pose({lc:.30,rc:.04,twist:.82,hipYaw:.3,lax:-1.6,lay:-.65,laz:.15,le:-.25,lw:-3.1,rax:-1,raz:-.2,re:-1.3,rw:-2.1,lean:.3,hy:-.42,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.22,bodyY:-.12})},
- 3:{wind:pose({rc:-.10,lc:.08,twist:.55,hipYaw:.22,rax:-.45,ray:-.5,raz:-.3,re:-1.85,rw:-2.1,lax:-.9,le:-1.3,lw:1.9,lean:.02,hy:-.2,rlx:.3,rlz:-.14,llx:-.15,llz:.12,lk:.5,rk:.45,bodyY:-.28}),
-    strike:pose({rc:.22,lc:.06,twist:-.95,hipYaw:-.36,rax:-1.3,ray:1.15,raz:-.45,re:-.95,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.26,side:.1,hx:-.1,hy:.5,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.36,bodyY:-.10}),
-    follow:pose({rc:.24,lc:.06,twist:-1.05,hipYaw:-.4,rax:-1.15,ray:1.35,raz:-.5,re:-1.05,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.28,side:.12,hx:-.08,hy:.52,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.4,bodyY:-.10})}
+ 1:{wind:pose({rc:-.08,lc:.08,twist:.45,hipYaw:.3,rax:.3,raz:-.1,re:-1.6,rw:-2.1,lax:-.85,le:-1.25,lw:1.9,lean:-.04,hy:-.1,rlx:.32,rlz:-.12,llx:-.18,llz:.1,lk:.25,rk:.55,bodyY:-.28}),
+    strike:pose({rc:.32,lc:.04,twist:-.52,hipYaw:-.55,rax:-1.78,ray:.62,raz:-.12,re:-.03,rw:-3.1,lax:-.95,laz:.2,le:-1.35,lw:1.9,lean:.3,hx:-.06,hy:.36,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.18,bodyY:-.17}),
+    follow:pose({rc:.30,lc:.04,twist:-.57,hipYaw:-.52,rax:-1.6,ray:.6,raz:-.15,re:-.25,rw:-3.1,lax:-.95,laz:.2,le:-1.3,lw:1.9,lean:.3,hx:-.04,hy:.4,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.2,bodyY:-.17})},
+ 2:{wind:pose({lc:-.08,rc:.08,twist:-.5,hipYaw:-.32,lax:.25,laz:.1,le:-1.6,lw:1.9,rax:-.8,re:-1.3,rw:-2.1,lean:-.04,hy:.12,llx:-.1,llz:.1,rlx:.25,rlz:-.12,lk:.55,rk:.3,bodyY:-.28}),
+    strike:pose({lc:.32,rc:.04,twist:.52,hipYaw:.55,lax:-1.78,lay:-.66,laz:.12,le:-.03,lw:-3.1,rax:-1,raz:-.2,re:-1.35,rw:-2.1,lean:.3,hx:-.06,hy:-.38,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.2,bodyY:-.17}),
+    follow:pose({lc:.30,rc:.04,twist:.58,hipYaw:.52,lax:-1.6,lay:-.65,laz:.15,le:-.25,lw:-3.1,rax:-1,raz:-.2,re:-1.3,rw:-2.1,lean:.3,hy:-.42,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.22,bodyY:-.12})},
+ 3:{wind:pose({rc:-.10,lc:.08,twist:.6,hipYaw:.35,rax:-.45,ray:-.5,raz:-.3,re:-1.85,rw:-2.1,lax:-.9,le:-1.3,lw:1.9,lean:.02,hy:-.2,rlx:.3,rlz:-.14,llx:-.15,llz:.12,lk:.5,rk:.65,bodyY:-.3}),
+    strike:pose({rc:.22,lc:.06,twist:-.75,hipYaw:-.55,rax:-1.3,ray:1.15,raz:-.45,re:-.95,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.26,side:.1,hx:-.1,hy:.5,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.36,bodyY:-.10}),
+    follow:pose({rc:.24,lc:.06,twist:-.85,hipYaw:-.58,rax:-1.15,ray:1.35,raz:-.5,re:-1.05,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.28,side:.12,hx:-.08,hy:.52,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.4,bodyY:-.10})}
 };
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
 // Keyed strike timeline: windup eases in, the hit snaps out, the follow-through
@@ -44,7 +44,8 @@ export function strikePose(move){
  const hand=move.chain===2?'l':'r',sign=move.chain===2?1:-1;
  const drive=pose({...mix(track.wind,track.strike,.74),hipYaw:track.strike.hipYaw*.98,bodyX:sign*.065});
  const retract=pose({...mix(track.follow,stance,.6),[hand+'e']:-1.5,[hand+'ax']:-.85,bodyX:-sign*.035,bodyY:-.19});
- const keys=[[0,stance,smooth],[move.startup*.55,track.wind,smooth],[move.startup*.8,drive,snapOut],[move.startup,track.strike,snapOut],[move.startup+active+move.recovery*.22,track.follow,smooth],[move.startup+active+move.recovery*.65,retract,smooth],[end,stance,smooth]];
+ // Wind-up held through half the startup (the tell), follow-through open for 40% of the recovery (the opening), then the retract.
+ const keys=[[0,stance,smooth],[move.startup*.6,track.wind,smooth],[move.startup*.9,drive,snapOut],[move.startup,track.strike,snapOut],[move.startup+active+move.recovery*.42,track.follow,smooth],[move.startup+active+move.recovery*.78,retract,smooth],[end,stance,smooth]];
  const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
@@ -140,8 +141,7 @@ export function freeFlightPose(player){
  const brace=pose({...tuck,lax:-1.15,lay:.4,laz:-.1,rax:-1.05,ray:-.35,raz:.12,
   le:-1.35,re:-1.4,lean:.18,hx:.32,neckY:-.04,bodyY:-.03,llx:-.35,rlx:.1,lk:.85,rk:.7});
  if(recovering)return brace;
- const reach=pose({...tuck,bodyY:.03,llx:-.12,rlx:.12,lk:.28,rk:.28,hx:.18});
- return phase<.2?mix(stance,tuck,smooth(phase/.2)):phase>.7?mix(tuck,reach,smooth((phase-.7)/.3)):tuck;
+ return pose({...flightPose(stance,player),neckY:-.02});
 }
 // Contact, compression, passing and push-off poses. The opposite step is
 // authored by mirroring the limbs, with chest/hips counter-rotating together.
@@ -211,13 +211,22 @@ export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
- const target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
+ let target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
+ if(!target&&isDown(p))target={kind:'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time))};
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
  r.freeFlight=target?.kind==='freeFlight';
  if(r.landingTime!==undefined){
   r.landingTime+=dt;
-  if(r.landingTime>=.18||!target||p?.move)delete r.landingTime;
-  else if(['idle','run','guard'].includes(target.kind)){const absorb=Math.sin(Math.PI*r.landingTime/.18);target.pose.bodyY-=.12*absorb;target.pose.hx+=.1*absorb;target.pose.neckY-=.015*absorb;}
+  if(r.landingTime>=LANDING_TIME||!target||p?.move)delete r.landingTime;
+  else if(['idle','run','guard'].includes(target.kind)){target.pose=landingAbsorb(target.pose,r.landingTime);target.pose.neckY-=.015*Math.sin(Math.PI*r.landingTime/LANDING_TIME);}
+ }
+ if(r.wasDown&&target&&['idle','run','guard','charge'].includes(target.kind))r.riseTime=0;
+ r.wasDown=target?.kind==='knockdown';
+ let plantKind=target?.kind;
+ if(r.riseTime!==undefined&&target){
+  r.riseTime+=dt;const u=r.riseTime/RISE_TIME;
+  if(u>=1||p?.move||target.kind==='knockdown')delete r.riseTime;
+  else{target={...target,pose:pose(risePose(r,target.pose,u))};plantKind='rise';}
  }
  if(target?.kind==='back'&&p.move?.retreatTravel)target.pose.bodyY+=retreatLift(p.move)*.8;
  if(target?.kind==='run'&&r.gaitTargets){
@@ -268,7 +277,7 @@ export function animateTala(r,p,time){
   const u=smooth((m.frame-m.startup-m.active)/Math.max(1,m.recovery*.3)),ground=r.g.position.y+(r.ankleHeight??.14)*r.g.scale.y;
   r.footPlants=r.techniqueLanding.anchors.map(at=>{const v=at.clone();v.y=ground+Math.max(0,at.y-ground)*(1-u);return v;});
  }else r.techniqueLanding=null;
- plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind==='freeFlight'&&p.air>.6&&(p.airMotion?.height||0)<.16?'strike':target.kind);
+ plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind==='freeFlight'&&p.air>.6&&(p.airMotion?.height||0)<.16?'strike':plantKind);
  // Small delayed neck response lets the head settle after the ribcage turns.
  // Guard keeps its deliberate chin tuck even when an impact checks the torso.
  if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}
