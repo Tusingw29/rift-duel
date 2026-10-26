@@ -254,6 +254,19 @@ User requested another round against the dimensional finished-model target. Scop
 - [x] Capture front/side/rear and exact attack contacts; record known limits.
 - [ ] Adam's normal-speed and visual-likeness verdict.
 
+## DEFORM-RIG — Deformation layer on every textured body
+
+Owner: **Claude** · Status: **In progress** (claimed 2026-10-26) · Branch: `claude/deform-rig`
+
+Adam approved carrying the graphic Tala's articulated layer (pelvis, split spine, neck, clavicles, forearm twists, fingers, toes, hair chain) onto all six textured Design 03 bodies through the Node builder, keeping the 17-bone control contract and the rule-driven adapter so every animator, test and mechanic stays valid. Authored wrist and clavicle channels sit on top. Scope: `scripts/build-tala-threejs.mjs`, `dist/tala-concept.js` attach path, `dist/tala-combat-rig.js` generalised per fighter, tests. No change to combat rules or damage frames.
+
+- [ ] Keep the MakeHuman game-engine bones the builder currently folds away (spine, neck, clavicles, fingers, toes) and write them as a second skin layer under the 17 control bones.
+- [ ] Generalise the combat-rig adapter so any fighter with `combatRig` extras gets the distributed spine/neck/wrist/finger behaviour.
+- [ ] Verify bind pose, weights and every existing animation on all six; keep the graphic Tala path working.
+- [ ] Review Tala and Rei hands and spine at normal speed.
+
+Completion evidence: _Pending._
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
