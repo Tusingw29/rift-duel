@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "fighter": 0,
+      "tick": 82,
+      "frame": 10
+    },
+    {
+      "fighter": 3,
+      "tick": 168,
+      "frame": 14
+    },
+    {
+      "bounce": {
+        "frame": 4,
+        "frames": 12,
+        "height": 0.55
+      },
+      "height": 0.4763139720814413
+    }
+  ],
+  "shots": [
+    "artifacts/browser-smoke/kinetic-vfx/aegis-blade-arc-side-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/aegis-blade-arc-lock-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/morrow-blade-arc-side-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/morrow-blade-arc-lock-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/aegis-beam-hand-lock-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/tala-bone-chi-side-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/capture-chest-tether-1793038698404.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/ground-bounce-shockwave-1793038698404.jpg"
+  ],
+  "errors": []
+}
