@@ -243,6 +243,17 @@ Implementation and rules: [Combat systems 05–11](COMBAT_SYSTEMS_05_11.md). Fin
 
 Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Claude should keep pose/root offsets visual only; do not add a second world displacement. Ground pursuit keeps its existing contact frame. Pursuit/crossover expose `move.travel` (kind, frame, frames), and crossover exposes `move.crossover` with startup 18 and air timer set at departure. Circle-step exposes `player.travel` (orbit, frame, frames), uses the existing run pose, and faces the rival continuously; dedicated choreography remains EZ-02. World X/Z travel is applied before rendering; do not repeat it in the rig. Codex is not editing character animators.
 
+## ART-TALA-GRAPHIC — Finished-model likeness and rig polish
+
+Owner: **Codex** · Status: **In progress** · Branch: `codex/tala-graphic-polish` · Worktree: `/tmp/rift-tala-polish`
+
+User requested another round against the dimensional finished-model target. Scope: `scripts/build-tala-graphic.mjs`, its generated GLB/pack, graphic-model tests and review captures. Preserve the existing combat bones, all fighter animators, gameplay timing and Claude's EZ-02 ownership. Review face/hair proportions, vest/shoulder fit, fists, and deformation in guard/contact poses. Visual acceptance remains **awaiting normal-speed verdict**.
+
+- [ ] Refine the actual model toward `art/tala-graphic/target/tala-rigged-model-target.png`.
+- [ ] Verify mesh weights, live/exported pose agreement and visual deformation.
+- [ ] Capture front/side/rear and exact attack contacts; record known limits.
+- [ ] Adam's normal-speed and visual-likeness verdict.
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
