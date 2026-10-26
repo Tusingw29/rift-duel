@@ -322,3 +322,9 @@ Implementation: graphic Tala now uses 61 deformation bones with original combat 
 Evidence: `art/review-2026-10-26/tala-rig/README.md`. Known limits: geometric fingers and costume seams still need sculpting; expanded controls reuse current action choreography; normal-speed feel remains unaccepted. Next: Adam checks idle fists, crossed guard, straight/cross/hook and directional footwork before extending to the roster.
 
 Validation: **414 tests pass** on the final rig; 12 release browser views cover stance, hands, movement, guard and exact three-hit contacts. Download pack rebuilt and manifest/GLB SHA-256 checked.
+
+## ATTACK-FX — Graphic energy and capture ring
+
+Owner: **Codex** · Status: **In progress** · Branch: `codex/attack-fx` · Worktree: `/tmp/rift-attack-fx`
+
+User approved beams, charging and an open capture ring around the opponent. Scope: projectile visuals, new attack-effects module, render integration, tests and captures. No character mesh, rig, animator, damage or timing edits; Claude retains character ownership.
