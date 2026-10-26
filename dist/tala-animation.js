@@ -254,7 +254,7 @@ export function animateTala(r,p,time){
  }
  // Ponytail and head trail the chest turn slightly.
  if(dt>0){const twistVelocity=(r.pose.twist-(r.prevTwist??r.pose.twist))/dt;r.prevTwist=r.pose.twist;const retention=Math.exp(-13.4*dt);r.twistLag=(r.twistLag||0)*retention+twistVelocity*.1*(1-retention);}else r.twistLag=r.twistLag||0;
- applyPose(r,r.pose);
+ r.lastPose=r.pose;applyPose(r,r.pose);
  if(target.kind==='charge')r.body.position.y+=Math.sin(time*30)*.008;
  const technique=target.kind==='technique',m=p?.move;
  const flying=technique&&m.frame>=m.startup&&m.frame<m.startup+m.active;

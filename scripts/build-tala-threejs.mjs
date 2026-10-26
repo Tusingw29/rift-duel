@@ -150,6 +150,28 @@ const joints={root:[0,0,0],chest:posedHead('spine_02'),head:posedHead('head')};
 for(const s of ['l','r']){const S=SIDE[s];joints['upper_arm.'+S]=posedHead('upperarm_'+s);joints['forearm.'+S]=posedHead('lowerarm_'+s);joints['hand.'+S]=posedHead('hand_'+s);joints['thigh.'+S]=posedHead('thigh_'+s);joints['shin.'+S]=posedHead('calf_'+s);joints['foot.'+S]=posedHead('foot_'+s);}
 joints.ponytail=[0,GAME_HEIGHT-.08,joints.head[2]-.19];joints.sash=[-.19,joints['thigh.L'][1]-.03,.16];
 for(const k of Object.keys(joints))joints[k]=joints[k].map(v=>+v.toFixed(4));
+// ---- Deformation layer: the 17 control bones keep their positions and names; MakeHuman's finer bones
+// (pelvis, spine segments, neck, clavicles, fingers, toes) are kept underneath them, plus forearm and
+// upper-arm twist helpers and a two-joint ponytail chain. Order and names match dist/tala-combat-rig.js
+// so the runtime adapter and the graphic Tala builder read either asset the same way.
+const DEFORM=OUR_BONES.map(name=>({name,parent:PARENT[name],at:joints[name]}));
+const dAdd=(name,parent,at)=>DEFORM.push({name,parent,at:at.map(v=>+v.toFixed(4))});
+const mid=(a,b)=>a.map((v,i)=>(v+b[i])/2);
+dAdd('pelvis.control','root',posedHead('pelvis'));dAdd('spine.lower','pelvis.control',posedHead('spine_01'));dAdd('spine.upper','chest',posedHead('spine_03'));dAdd('neck.control','spine.upper',posedHead('neck_01'));
+DEFORM.find(b=>b.name==='chest').parent='spine.lower';DEFORM.find(b=>b.name==='head').parent='neck.control';
+const FINGERS=['index','middle','ring','pinky','thumb'];
+for(const s of ['l','r']){const S=SIDE[s];
+ dAdd('clavicle.'+S,'spine.upper',posedHead('clavicle_'+s));DEFORM.find(b=>b.name==='upper_arm.'+S).parent='clavicle.'+S;DEFORM.find(b=>b.name==='thigh.'+S).parent='pelvis.control';
+ dAdd('upper_twist.'+S,'upper_arm.'+S,mid(joints['upper_arm.'+S],joints['forearm.'+S]));dAdd('fore_twist.'+S,'forearm.'+S,mid(joints['forearm.'+S],joints['hand.'+S]));
+ dAdd('toe.'+S,'foot.'+S,posedHead('ball_'+s));
+ FINGERS.forEach((f,fi)=>{for(let j=0;j<3;j++)dAdd(`finger${fi}.${j}.${S}`,j?`finger${fi}.${j-1}.${S}`:'hand.'+S,posedHead(`${f}_0${j+1}_${s}`));});
+}
+dAdd('ponytail.mid','ponytail',[0,joints.ponytail[1]-.25,joints.ponytail[2]-.18]);dAdd('ponytail.tip','ponytail.mid',[0,joints.ponytail[1]-.52,joints.ponytail[2]-.3]);
+const ALL=DEFORM.map(b=>b.name),DPARENT=Object.fromEntries(DEFORM.map(b=>[b.name,b.parent])),DAT=Object.fromEntries(DEFORM.map(b=>[b.name,b.at]));
+// MakeHuman bone -> deformation bone.
+const DMAP={Root:'root',pelvis:'pelvis.control',spine_01:'spine.lower',spine_02:'chest',spine_03:'spine.upper',neck_01:'neck.control',head:'head'};
+for(const s of ['l','r']){const S=SIDE[s];Object.assign(DMAP,{[`clavicle_${s}`]:'clavicle.'+S,[`upperarm_${s}`]:'upper_arm.'+S,[`lowerarm_${s}`]:'forearm.'+S,[`hand_${s}`]:'hand.'+S,[`thigh_${s}`]:'thigh.'+S,[`calf_${s}`]:'shin.'+S,[`foot_${s}`]:'foot.'+S,[`ball_${s}`]:'toe.'+S});
+ FINGERS.forEach((f,fi)=>{for(let j=0;j<3;j++)DMAP[`${f}_0${j+1}_${s}`]=`finger${fi}.${j}.${S}`;});}
 if(spec.tailor==='tala'){
 // Shorts: drop the leggings below mid-thigh and split the suit into top and shorts materials.
 const hipY=joints['thigh.L'][1],kneeY=joints['shin.L'][1],cutY=hipY-(hipY-kneeY)*.42,waistY=hipY+.16;
@@ -218,9 +240,17 @@ function consolidate(part){
  const pony=joints.ponytail[1];
  part.weights=part.positions.map((p,i)=>{
   if(part.headOnly)return {head:1};
-  if(part.hair){const back=-p[2],tail=Math.max(0,Math.min(1,(pony-p[1])/.9))*(back>.1?1:0);return tail>0?{ponytail:tail,head:1-tail}:{head:1};}
+  if(part.hair){const back=-p[2],tail=Math.max(0,Math.min(1,(pony-p[1])/.9))*(back>.1?1:0);if(tail<=0)return {head:1};
+   // The tail splits over the three ponytail joints by how far down the hair the vertex sits.
+   const t=Math.max(0,Math.min(1,(pony-p[1])/.55)),w=t<.5?{ponytail:1-t*2,'ponytail.mid':t*2}:{'ponytail.mid':2-2*t,'ponytail.tip':2*t-1};
+   const out={head:1-tail};for(const [b,v] of Object.entries(w))if(v>0)out[b]=(out[b]||0)+v*tail;return out;}
   // Clothing fit weights can extrapolate outside their reference triangle; only positive influence counts.
-  const acc={};for(const [b,w] of Object.entries(part.rawWeights[i])){const t=mapping[b];if(t&&w>0)acc[t]=(acc[t]||0)+w;}
+  const acc={};const push=(b,w)=>{if(w>0)acc[b]=(acc[b]||0)+w;};
+  for(const [b,w] of Object.entries(part.rawWeights[i])){const t=DMAP[b];if(!t||w<=0)continue;
+   // Twist helpers take a share of each arm segment that peaks mid-segment, so the forearm can roll with the wrist.
+   const twist=t.startsWith('upper_arm.')?'upper_twist.'+t.slice(-1):t.startsWith('forearm.')?'fore_twist.'+t.slice(-1):null;
+   if(twist){const a=DAT[t],bEnd=DAT[t.startsWith('upper_arm.')?'forearm.'+t.slice(-1):'hand.'+t.slice(-1)],len=Math.abs(a[1]-bEnd[1])||1,u=Math.max(0,1-Math.abs(p[1]-(a[1]+bEnd[1])/2)/(len/2))*.65;push(t,w*(1-u));push(twist,w*u);}
+   else push(t,w);}
   const top=Object.entries(acc).sort((a,b)=>b[1]-a[1]).slice(0,4);const total=top.reduce((s,[,w])=>s+w,0)||1;
   return top.length?Object.fromEntries(top.map(([b,w])=>[b,w/total])):{root:1};
  });
@@ -267,7 +297,7 @@ if(spec.tailor==='tala'){
 function buildGeometry(part){
  const key=new Map(),pos=[],uv=[],jnt=[],wgt=[],idx=[],src=[];
  const vertex=(vi,ti)=>{const k=vi+'/'+ti;if(key.has(k))return key.get(k);const n=pos.length/3;key.set(k,n);const p=part.positions[vi];pos.push(p[0],p[1],p[2]);const t=ti>=0?part.uvs[ti]:[0,0];uv.push(t[0],1-t[1]);
-  const w=part.weights[vi],entries=Object.entries(w).slice(0,4);for(let k=0;k<4;k++){const e=entries[k];jnt.push(e?OUR_BONES.indexOf(e[0]):0);wgt.push(e?e[1]:0);}src.push(vi);return n;};
+  const w=part.weights[vi],entries=Object.entries(w).slice(0,4);for(let k=0;k<4;k++){const e=entries[k];const idx=e?ALL.indexOf(e[0]):0;if(e&&idx<0)throw new Error('unknown deformation bone '+e[0]);jnt.push(e?idx:0);wgt.push(e?e[1]:0);}src.push(vi);return n;};
  for(const f of part.faces){const vs=f.v.map((vi,k)=>vertex(vi,f.vt[k]));for(let k=1;k+1<vs.length;k++)idx.push(vs[0],vs[k],vs[k+1]);}
  const normals=new Float32Array(pos.length);const a=new Vector3(),b=new Vector3(),c=new Vector3(),n=new Vector3();
  for(let i=0;i<idx.length;i+=3){const [i0,i1,i2]=[idx[i],idx[i+1],idx[i+2]];a.fromArray(pos,i0*3);b.fromArray(pos,i1*3);c.fromArray(pos,i2*3);n.copy(b).sub(a).cross(c.clone().sub(a));for(const j of [i0,i1,i2]){normals[j*3]+=n.x;normals[j*3+1]+=n.y;normals[j*3+2]+=n.z;}}
@@ -280,10 +310,10 @@ function writeGlb(path){
  const buffers=[],bufferViews=[],accessors=[];let offset=0;
  const push=(typed,target)=>{const bytes=Buffer.from(typed.buffer,typed.byteOffset,typed.byteLength);const pad=(4-bytes.length%4)%4;buffers.push(bytes,Buffer.alloc(pad));const view={buffer:0,byteOffset:offset,byteLength:bytes.length};if(target)view.target=target;bufferViews.push(view);offset+=bytes.length+pad;return bufferViews.length-1;};
  const accessor=(typed,type,componentType,count,extra={})=>{const bv=push(typed,componentType===5125?34963:34962);accessors.push({bufferView:bv,componentType,count,type,...extra});return accessors.length-1;};
- const nodes=OUR_BONES.map(name=>{const parent=PARENT[name],t=joints[name],pt=parent?joints[parent]:[0,0,0];return {name,translation:[t[0]-pt[0],t[1]-pt[1],t[2]-pt[2]]};});
- OUR_BONES.forEach((name,i)=>{const p=PARENT[name];if(p){const pi=OUR_BONES.indexOf(p);(nodes[pi].children??=[]).push(i);}});
- const ibm=new Float32Array(OUR_BONES.length*16);OUR_BONES.forEach((name,i)=>{new Matrix4().makeTranslation(-joints[name][0],-joints[name][1],-joints[name][2]).toArray(ibm,i*16);});
- const skinIndex=0,skins=[{joints:OUR_BONES.map((_,i)=>i),inverseBindMatrices:accessor(ibm,'MAT4',5126,OUR_BONES.length),skeleton:0,name:spec.label}];
+ const nodes=ALL.map(name=>{const parent=DPARENT[name],t=DAT[name],pt=parent?DAT[parent]:[0,0,0];return {name,translation:[t[0]-pt[0],t[1]-pt[1],t[2]-pt[2]]};});
+ ALL.forEach((name,i)=>{const p=DPARENT[name];if(p){const pi=ALL.indexOf(p);(nodes[pi].children??=[]).push(i);}});
+ const ibm=new Float32Array(ALL.length*16);ALL.forEach((name,i)=>{new Matrix4().makeTranslation(-DAT[name][0],-DAT[name][1],-DAT[name][2]).toArray(ibm,i*16);});
+ const skinIndex=0,skins=[{joints:ALL.map((_,i)=>i),inverseBindMatrices:accessor(ibm,'MAT4',5126,ALL.length),skeleton:0,name:spec.label}];
  const imageList=[],textures=[],imageIndex={};for(const [name,img] of Object.entries(images)){const bv=push(new Uint8Array(img.data));imageList.push({name,mimeType:img.mime,bufferView:bv});textures.push({source:imageList.length-1,sampler:0});imageIndex[name]=textures.length-1;}
  const materialList=[],materialIndex={};for(const [name,m] of Object.entries(materials)){const pbr={metallicFactor:0,roughnessFactor:m.roughness,baseColorFactor:[...(m.color||[1,1,1]),1]};if(m.image)pbr.baseColorTexture={index:imageIndex[m.image]};const mat={name,pbrMetallicRoughness:pbr};if(m.alpha){mat.alphaMode='MASK';mat.alphaCutoff=.4;}if(m.double)mat.doubleSided=true;if(m.image&&m.color===undefined)pbr.baseColorFactor=[1,1,1,1];materialList.push(mat);materialIndex[name]=materialList.length-1;}
  const meshes=[];
@@ -294,7 +324,8 @@ function writeGlb(path){
   if(part.twoSided)materialList[materialIndex[part.material]].doubleSided=true;
   nodes.push({name:spec.prefix+part.name,mesh:meshes.length-1,skin:skinIndex});
  }
- const scene={nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=OUR_BONES.length)],extras:{fighter:FIGHTER,joints,metrics}};
+ // rigSpec: the full deformation hierarchy (control bones first); restFist: finger joints are posed curled in the bind pose.
+ const scene={nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=ALL.length)],extras:{fighter:FIGHTER,joints,metrics,rigSpec:DEFORM,restFist:true}};
  const json={asset:{version:'2.0',generator:'Rift Duel build-tala-threejs.mjs'},scene:0,scenes:[scene],nodes,meshes,skins,materials:materialList,textures,images:imageList,samplers:[{magFilter:9729,minFilter:9987,wrapS:10497,wrapT:10497}],accessors,bufferViews,buffers:[{byteLength:offset}]};
  const jsonBytes=Buffer.from(JSON.stringify(json));const jsonPad=(4-jsonBytes.length%4)%4;const bin=Buffer.concat(buffers);
  const header=Buffer.alloc(12);header.write('glTF',0);header.writeUInt32LE(2,4);header.writeUInt32LE(12+8+jsonBytes.length+jsonPad+8+bin.length,8);
@@ -309,4 +340,4 @@ if(FIGHTER==='tala')writeFileSync(join(ROOT,'dist/tala-v3-joints.js'),`// Genera
 else writeFileSync(join(ROOT,`dist/${FIGHTER}-v3-joints.js`),`// Generated by scripts/build-tala-threejs.mjs --fighter ${FIGHTER}. Do not edit by hand.\nexport const joints=${JSON.stringify(joints)};\nexport const metrics=${JSON.stringify(metrics)};\n`);
 const report={generator:'build-tala-threejs.mjs (Three.js + Node, no Blender)',glb,parts:parts.map(p=>({name:p.name,vertices:p.positions.length,faces:p.faces.length})),joints,metrics,macro:MACRO,targets:TARGETS.length,sources:'MakeHuman base mesh, targets, game-engine rig and weights (MPFB 2.0 alpha 3, CC0); MakeHuman system assets (CC0)'};
 writeFileSync(join(OUT,'build-report.json'),JSON.stringify(report,null,1));
-console.log('RIFT_BUILD',JSON.stringify({fighter:FIGHTER,bytes:glb.bytes,meshes:glb.meshes,metrics,parts:report.parts.map(p=>`${p.name}:${p.faces}`).join(' ')}));
+console.log('RIFT_BUILD',JSON.stringify({fighter:FIGHTER,bones:ALL.length,bytes:glb.bytes,meshes:glb.meshes,metrics,parts:report.parts.map(p=>`${p.name}:${p.faces}`).join(' ')}));

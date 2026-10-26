@@ -20,35 +20,37 @@ for(const S of ['L','R']){
 }
 add('ponytail.mid','ponytail',[0,2.62,-.35]);add('ponytail.tip','ponytail.mid',[0,2.35,-.48]);
 export const combatBoneIndex=Object.fromEntries(combatRigSpec.map((b,i)=>[b.name,i]));
-export function installCombatRig(r,mapped){
- for(const spec of combatRigSpec)if(!mapped.has(spec.name)){const b=new Bone();b.name=spec.name;mapped.set(spec.name,b);}
- const specs=new Map(combatRigSpec.map(b=>[b.name,b]));
- for(const spec of combatRigSpec){const b=mapped.get(spec.name),parent=spec.parent?mapped.get(spec.parent):r.g;parent.add(b);const p=spec.parent?specs.get(spec.parent).at:[0,0,0];b.position.set(...spec.at.map((v,i)=>v-p[i]));b.rotation.set(0,0,0);}
- for(const spec of combatRigSpec)mapped.set(spec.name.replaceAll('.',''),mapped.get(spec.name));
- r.combatRig=mapped;r.deformBones=combatRigSpec.map(s=>mapped.get(s.name));r.headRest=r.head.position.clone();
+// `rigSpec` defaults to Tala's hard-coded graphic spec; the textured builds carry their own in the GLB extras.
+// `restFist` marks assets whose finger joints are already curled in the bind pose, so curl is applied relative to it.
+export function installCombatRig(r,mapped,rigSpec=combatRigSpec,{restFist=false}={}){
+ for(const spec of rigSpec)if(!mapped.has(spec.name)){const b=new Bone();b.name=spec.name;mapped.set(spec.name,b);}
+ const specs=new Map(rigSpec.map(b=>[b.name,b]));
+ for(const spec of rigSpec){const b=mapped.get(spec.name),parent=spec.parent?mapped.get(spec.parent):r.g;parent.add(b);const p=spec.parent?specs.get(spec.parent).at:[0,0,0];b.position.set(...spec.at.map((v,i)=>v-p[i]));b.rotation.set(0,0,0);}
+ for(const spec of rigSpec)mapped.set(spec.name.replaceAll('.',''),mapped.get(spec.name));
+ r.combatRig=mapped;r.combatRigSpec=rigSpec;r.combatRigRestFist=restFist;r.deformBones=rigSpec.map(s=>mapped.get(s.name));r.headRest=r.head.position.clone();
  r.g.updateMatrixWorld(true);
 }
 export function resetCombatRig(r){
  if(!r.combatRig)return;
  if(r.combatDriverPose){r.spine.rotation.copy(r.combatDriverPose.chest);r.head.rotation.copy(r.combatDriverPose.head);}
- for(const spec of combatRigSpec.slice(17))r.combatRig.get(spec.name).rotation.set(0,0,0);
+ for(const spec of (r.combatRigSpec||combatRigSpec).slice(17))r.combatRig.get(spec.name)?.rotation.set(0,0,0);
  for(const S of ['L','R'])r.combatRig.get('hand.'+S).rotation.set(0,0,0);
 }
 // Retain authored timing; distribute the resulting pose over the richer deformation chain.
 export function finishCombatRig(r,p,time){
  const b=r.combatRig;if(!b)return;
  const chest=r.spine.rotation.clone(),head=r.head.rotation.clone();r.combatDriverPose={chest,head};
- b.get('spine.lower').rotation.set(chest.x*.25,chest.y*.25,chest.z*.25);
- b.get('spine.upper').rotation.set(chest.x*.30,chest.y*.30,chest.z*.30);
+ b.get('spine.lower')?.rotation.set(chest.x*.25,chest.y*.25,chest.z*.25);
+ b.get('spine.upper')?.rotation.set(chest.x*.30,chest.y*.30,chest.z*.30);
  r.spine.rotation.set(chest.x*.45,chest.y*.45,chest.z*.45);
- b.get('neck.control').rotation.set(head.x*.4,head.y*.35,head.z*.4);r.head.rotation.set(head.x*.6,head.y*.65,head.z*.6);
+ b.get('neck.control')?.rotation.set(head.x*.4,head.y*.35,head.z*.4);r.head.rotation.set(head.x*.6,head.y*.65,head.z*.6);
  const guard=!!p?.guard,kind=p?.move?.kind,open=['shot','forward','back'].includes(kind)||p?.anim==='charge';
  const dt=Math.max(0,Math.min(.1,time-(r.combatRigTime??time)));r.combatRigTime=time;r.combatHandRoll??=[1.05,1.05];
  const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
  const m=p?.move,opening=open?(m?smooth(m.frame/Math.max(1,m.startup))*(1-smooth((m.frame-m.startup-m.active)/Math.max(1,m.recovery))):1):0;
  for(const [i,S] of ['L','R'].entries()){
   const side=i?1:-1,arm=r.limbs[i*2],hand=b.get('hand.'+S),reach=Math.max(0,Math.min(1,-arm.rotation.x/1.6));
-  b.get('clavicle.'+S).rotation.set(0,-side*.10*reach,side*(guard?.06:.035)*reach);
+  b.get('clavicle.'+S)?.rotation.set(0,-side*.10*reach,side*(guard?.06:.035)*reach);
   // Neutral wrists stay aligned with the forearm; pronation turns the palm inward in stance.
   // A straight punch progressively rolls the knuckles over as the elbow extends.
   const straight=kind==='strike'&&p.move.chain<3,extension=Math.max(0,Math.min(1,1+ r.elbows[i].rotation.x/1.4));
@@ -56,16 +58,18 @@ export function finishCombatRig(r,p,time){
   const contact=kind==='strike'&&p.move.frame>=p.move.startup;
   r.combatHandRoll[i]=contact?roll:r.combatHandRoll[i]+(roll-r.combatHandRoll[i])*(1-Math.exp(-20*dt));
   // An authored wrist channel (lw/rw in the pose) overrides the rule-driven roll; the forearm twist helper follows half of either.
-  const authored=r.pose?.[i?'rw':'lw'];const rollNow=authored?authored:side*r.combatHandRoll[i];
-  hand.rotation.set(0,rollNow,0);b.get('fore_twist.'+S).rotation.y=rollNow*.5;
-  b.get('upper_twist.'+S).rotation.y=arm.rotation.y*.25;
+  const authored=(r.lastPose||r.pose)?.[i?'rw':'lw'];const rollNow=authored?authored:side*r.combatHandRoll[i];
+  hand.rotation.set(0,rollNow,0);const ft=b.get('fore_twist.'+S);if(ft)ft.rotation.y=rollNow*.5;
+  const ut=b.get('upper_twist.'+S);if(ut)ut.rotation.y=arm.rotation.y*.25;
+  // Assets whose fingers are curled in the bind pose only need the opening motion.
+  const rel=r.combatRigRestFist?-1:0;
   for(let f=0;f<5;f++)for(let j=0;j<3;j++){
-   const joint=b.get(`finger${f}.${j}.${S}`),curl=1-.92*opening;
+   const joint=b.get(`finger${f}.${j}.${S}`),curl=1-.92*opening+rel;if(!joint)continue;
    joint.rotation.x=(f===4?[-.3,-.4,-.2][j]:[-1.15,-1.65,-.75][j])*curl;
    if(f===4&&j===0)joint.rotation.z=side*1.1*curl;
   }
-  const pivot=r.footPivot?.(p,kind)?.[i];b.get('toe.'+S).rotation.x=pivot?-new Euler().setFromQuaternion(pivot).x:0; // Counter-roll around the planted ball during a punch.
+  const pivot=r.footPivot?.(p,kind)?.[i],toe=b.get('toe.'+S);if(toe)toe.rotation.x=pivot?-new Euler().setFromQuaternion(pivot).x:0; // Counter-roll around the planted ball during a punch.
  }
- const pony=r.clothParts[0];b.get('ponytail.mid').rotation.set(pony.rotation.x*.45,0,pony.rotation.z*.45);
- b.get('ponytail.tip').rotation.set(pony.rotation.x*.25,0,pony.rotation.z*.25);
+ const pony=r.clothParts[0];b.get('ponytail.mid')?.rotation.set(pony.rotation.x*.45,0,pony.rotation.z*.45);
+ b.get('ponytail.tip')?.rotation.set(pony.rotation.x*.25,0,pony.rotation.z*.25);
 }

@@ -16,23 +16,24 @@ function readAccessor(i){const a=src.accessors[i],v=src.bufferViews[a.bufferView
 const palette={skin:'#e8ad79',ochre:'#d9a139',charcoal:'#292d35',rust:'#994e36',wrap:'#e8ddc3',shoe:'#272d34',hair:'#833b28',hairLight:'#b15b36',ink:'#382522',white:'#fff2dc',iris:'#91572b',lip:'#a75d44',gold:'#c8a46b'};
 const materialNames=Object.keys(palette),matIndex=n=>materialNames.indexOf(n);
 const materials=materialNames.map(name=>({name:'Graphic_'+name,pbrMetallicRoughness:{baseColorFactor:[...new T.Color(palette[name]).toArray(),1],metallicFactor:0,roughnessFactor:1},doubleSided:false,extras:{graphicFlat:true,paletteRole:name}}));
-const parts=[];
+const parts=[];let addingSource=false;
 function add(name,g,material,bone=2){
  if(!g.attributes.skinIndex){const j=[],w=[];for(let i=0;i<g.attributes.position.count;i++){j.push(bone,0,0,0);w.push(1,0,0,0);}g.setAttribute('skinIndex',new T.Uint16BufferAttribute(j,4));g.setAttribute('skinWeight',new T.Float32BufferAttribute(w,4));}
  if(!g.index)g.setIndex(Array.from({length:g.attributes.position.count},(_,i)=>i));
  g.computeVertexNormals();
  // Weld lighting normals across duplicated source UV vertices without changing skin topology.
  const groups=new Map(),pp=g.attributes.position,nn=g.attributes.normal;for(let i=0;i<pp.count;i++){const key=[pp.getX(i),pp.getY(i),pp.getZ(i)].map(v=>Math.round(v*1e5)).join(',');let group=groups.get(key);if(!group){group={ids:[],normal:new T.Vector3()};groups.set(key,group);}group.ids.push(i);group.normal.add(new T.Vector3().fromBufferAttribute(nn,i));}for(const group of groups.values()){group.normal.normalize();for(const i of group.ids)nn.setXYZ(i,...group.normal.toArray());}
- parts.push({name:'TalaGraphic_'+name,g,material});return g;
+ parts.push({name:'TalaGraphic_'+name,g,material,fromSource:addingSource});return g;
 }
 const kept={body:'skin',suit:'charcoal',shoes:'shoe',shorts:'rust',wrap_arm_L:'wrap',wrap_arm_R:'wrap',wrap_shin_L:'wrap',wrap_shin_R:'wrap',waistband:'charcoal'};
+addingSource=true;
 for(const m of src.meshes){const name=m.name.replace('TalaV3_','');if(!kept[name])continue;const p=m.primitives[0],g=new T.BufferGeometry();
  for(const [from,to] of Object.entries({POSITION:'position',NORMAL:'normal',JOINTS_0:'skinIndex',WEIGHTS_0:'skinWeight'})){const a=src.accessors[p.attributes[from]];g.setAttribute(to,new T.BufferAttribute(readAccessor(p.attributes[from]),sizes[a.type]));}
  let ix=Array.from(readAccessor(p.indices));
  // Remove the realistic head, retaining neck and shoulder deformation unchanged.
  if(name==='body'){const pos=g.attributes.position;ix=ix.filter((_,i)=>{const tri=ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3);return tri.every(v=>pos.getY(v)<2.47)&&!tri.every(v=>{const j=g.attributes.skinIndex,w=g.attributes.skinWeight;let hand=0;for(let k=0;k<4;k++)if([5,10].includes(j.array[v*4+k]))hand+=w.array[v*4+k];return hand>.45;});});}
  // A wrap must follow its own forearm, never an adjacent torso surface.
- if(name.startsWith('wrap_arm_')){const expected=name.endsWith('L')?[3,4,5]:[8,9,10],j=g.attributes.skinIndex,w=g.attributes.skinWeight;ix=ix.filter((_,i)=>ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3).every(v=>{let weight=0;for(let k=0;k<4;k++)if(expected.includes(j.array[v*4+k]))weight+=w.array[v*4+k];return weight>.9;}));}
+ if(name.startsWith('wrap_arm_')){const S=name.endsWith('L')?'L':'R',expected=S==='L'?[3,4,5,BI['upper_twist.L'],BI['fore_twist.L']]:[8,9,10,BI['upper_twist.R'],BI['fore_twist.R']],j=g.attributes.skinIndex,w=g.attributes.skinWeight;ix=ix.filter((_,i)=>ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3).every(v=>{let weight=0;for(let k=0;k<4;k++)if(expected.includes(j.array[v*4+k]))weight+=w.array[v*4+k];return weight>.9;}));}
  if(name==='suit'){
   const sleeve=[],top=[],pos=g.attributes.position;
   for(let i=0;i<ix.length;i+=3){const tri=ix.slice(i,i+3);const x=tri.reduce((n,v)=>n+Math.abs(pos.getX(v)),0)/3,z=tri.reduce((n,v)=>n+pos.getZ(v),0)/3;if(x>.205)sleeve.push(...tri);else if(z<0||x<.075)top.push(...tri);}
@@ -42,6 +43,7 @@ for(const m of src.meshes){const name=m.name.replace('TalaV3_','');if(!kept[name
 }
 // Elliptical lofts with a flatter front surface: connected sculptural head,
 // neck overlap, angular jaw, broad temples and a compact rounded cranium.
+addingSource=false;
 function loft(name,rows,material,bone=2,segments=24,start=0,span=Math.PI*2){const p=[],ix=[];
  for(const [x,y,z,rx,rz] of rows)for(let i=0;i<=segments;i++){const a=start+i/segments*span;p.push(x+Math.cos(a)*rx,y,z+Math.sin(a)*rz);}
  for(let j=0;j<rows.length-1;j++)for(let i=0;i<segments;i++){const a=j*(segments+1)+i,b=a+segments+1;ix.push(a,b,a+1,b,b+1,a+1);}
@@ -122,8 +124,10 @@ for(const side of [-1,1]){const p=[],ix=[],rows=[[2.055,.23,.15,-.155],[2.16,.25
 }
 // Small fitted collar flaps, as opposed to a bulky standing collar.
 for(const s of [-1,1]){let pts=[[s*.065,2.48,.13],[s*.15,2.44,.185],[s*.095,2.35,.25],[s*.043,2.43,.18]];if(s<0)pts=pts.reverse();const g=patch('lapel_'+s,pts,'ochre');const j=g.attributes.skinIndex;for(let i=0;i<j.count;i++)j.setX(i,1);materials[matIndex('ochre')].doubleSided=true;}
-// Redistribute source weights to the actual deformation joints, preserving normalization.
-for(const part of parts){const g=part.g,p=g.attributes.position,j=g.attributes.skinIndex,w=g.attributes.skinWeight;
+// Redistribute source weights to the actual deformation joints, preserving normalization. A source
+// already built with the deformation layer (rigSpec in its extras) uses the same joint order and skips this.
+const sourceLayered=!!src.scenes?.[0]?.extras?.rigSpec;
+for(const part of parts.filter(p=>!(sourceLayered&&p.fromSource))){const g=part.g,p=g.attributes.position,j=g.attributes.skinIndex,w=g.attributes.skinWeight;
  for(let v=0;v<p.count;v++){
   const weights=new Map(),push=(b,n)=>{if(n>0)weights.set(b,(weights.get(b)||0)+n);},y=p.getY(v),z=p.getZ(v);
   for(let k=0;k<4;k++){const b=j.array[v*4+k],weight=w.array[v*4+k];if(!weight)continue;
@@ -147,7 +151,7 @@ const skin={joints:combatRigSpec.map((_,i)=>i),skeleton:0,inverseBindMatrices:ac
 const meshes=[];
 for(const {name,g,material} of parts){g.computeBoundingBox();const attributes={};for(const [key,attribute,type] of [['POSITION','position','VEC3'],['NORMAL','normal','VEC3'],['JOINTS_0','skinIndex','VEC4'],['WEIGHTS_0','skinWeight','VEC4']])attributes[key]=access(g.attributes[attribute].array,type,key==='POSITION'?{min:g.boundingBox.min.toArray(),max:g.boundingBox.max.toArray()}:{});
  meshes.push({name,primitives:[{attributes,indices:access(new Uint32Array(g.index.array),'SCALAR'),material:matIndex(material)}]});nodes.push({name,mesh:meshes.length-1,skin:0});}
-const doc={asset:{version:'2.0',generator:'Rift Duel graphic-flat Three.js builder'},scene:0,scenes:[{nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=combatRigSpec.length)],extras:{...src.scenes[0].extras,artStyle:'graphic-flat',combatRig:1,version:3}}],nodes,meshes,skins:[skin],materials,accessors,bufferViews:views,buffers:[{byteLength:offset}]};
+const doc={asset:{version:'2.0',generator:'Rift Duel graphic-flat Three.js builder'},scene:0,scenes:[{nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=combatRigSpec.length)],extras:{...src.scenes[0].extras,rigSpec:undefined,restFist:undefined,artStyle:'graphic-flat',combatRig:1,version:3}}],nodes,meshes,skins:[skin],materials,accessors,bufferViews:views,buffers:[{byteLength:offset}]};
 function encode(){doc.buffers[0].byteLength=offset;const jb=Buffer.from(JSON.stringify(doc)),jp=(4-jb.length%4)%4,bin=Buffer.concat(chunks),header=Buffer.alloc(20);header.write('glTF');header.writeUInt32LE(2,4);header.writeUInt32LE(28+jb.length+jp+bin.length,8);header.writeUInt32LE(jb.length+jp,12);header.write('JSON',16);const bh=Buffer.alloc(8);bh.writeUInt32LE(bin.length);bh.write('BIN\0',4);return Buffer.concat([header,jb,Buffer.alloc(jp,32),bh,bin]);}
 // Embed portable 30fps skeletal clips sampled from the actual runtime animator.
 globalThis.ProgressEvent??=class{constructor(type,data){Object.assign(this,data);}};

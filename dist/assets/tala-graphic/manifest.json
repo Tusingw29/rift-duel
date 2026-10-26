@@ -1,11 +1,11 @@
 {
   "style": "graphic-flat",
   "source": "tala-v3.glb (CC0 MakeHuman-derived body and skin weights)",
-  "sourceSHA256": "b0cdc2ffe49cbe29157edbc7773cce489a0ca39395005827131e34150f58e184",
-  "modelSHA256": "f95f331c4256dc9870771600455ad2d53069142a484f7ecfda3eb7936119c054",
-  "bytes": 4914304,
+  "sourceSHA256": "99643d3cbbfeebf038d85c72c9389ad06e07f2f88591616ffad22a32cf57e999",
+  "modelSHA256": "2641f9e33dab1ce64bc52b6db7ed3e0a60f8ca46491e8269584277e8600302e9",
+  "bytes": 4974976,
   "meshes": 82,
-  "triangles": 26103,
+  "triangles": 31157,
   "bones": 61,
   "clips": [
     {

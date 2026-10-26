@@ -10,7 +10,7 @@ import {canonicalBone} from './rig-schema.js';
 // Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
 const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=4':variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=4':variant==='v3'?'./assets/models/tala-v3.glb?v=5':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
  const key=['design02','v3','graphic'].includes(variant)?variant:'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));
@@ -20,12 +20,12 @@ export function loadTalaConcept(variant='concept'){
 export function attachTalaConcept(r,source){
  if(r.id!==2||r.conceptModel)return false;
  const mapped=new Map(names.map((name,i)=>[name,r.skeleton.bones[i]]));
- const expanded=source.userData?.combatRig===1;
+ const rigSpec=source.userData?.rigSpec,expanded=source.userData?.combatRig===1||!!rigSpec;
  const surfaces=[];source.traverse(n=>{if(n.isSkinnedMesh)surfaces.push(n);});
  if(!surfaces.length)throw new Error('Concept asset has no skinned surfaces');
  for(const n of surfaces)for(const b of n.skeleton.bones)if(!expanded&&!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
  for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-(r.shinLength||.56),0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
- if(expanded)installCombatRig(r,mapped);
+ if(rigSpec)installCombatRig(r,mapped,rigSpec,{restFist:!!source.userData.restFist});else if(expanded)installCombatRig(r,mapped);
  r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=talaFootOffsets;r.gaitTargets=talaGaitTargets;r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
  const skeletons=new Map(),replacement=[];
  for(const original of surfaces){
@@ -46,7 +46,7 @@ export function attachTalaConcept(r,source){
 // positions and leg metrics it was bound with. Attaching moves the fighter's existing combat
 // bones onto those joints, so the skin binds exactly, while weapons parented to the hands and
 // the aura and effect objects stay as they were.
-export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=4`;
+export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=5`;
 const fighterAssets=new Map();
 export function loadFighterModel(fighterId){
  if(!fighterAssets.has(fighterId))fighterAssets.set(fighterId,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(fighterModelUrl(fighterId))).catch(error=>{fighterAssets.delete(fighterId);throw error;}));
@@ -62,6 +62,8 @@ export function attachFighterModel(r,source){
  for(const [name,parent] of [['ponytail','head'],['sash','root']]){const src=glbBones[name];if(!src)continue;const bone=new Bone();bone.name='v3-'+name;bone.position.copy(src.position);roles.get(parent).add(bone);roles.set(name,bone);}
  ['L','R'].forEach((S,i)=>{let foot=r.feet?.[i];if(!foot){foot=new Bone();foot.name='v3-foot.'+S;r.knees[i].add(foot);}foot.position.set(0,-metrics.shinLength,0);roles.set('foot.'+S,foot);});
  r.legLength=metrics.legLength;r.shinLength=metrics.shinLength;r.ankleHeight=metrics.ankleHeight;r.head.scale.setScalar(1);
+ // Textured bodies built with the deformation layer carry their hierarchy in the extras.
+ if(source.userData?.rigSpec)installCombatRig(r,roles,source.userData.rigSpec,{restFist:!!source.userData.restFist});
  const hands=new Set([r.limbs[0].userData.hand,r.limbs[2].userData.hand]);
  const underHand=n=>{for(let p=n;p;p=p.parent)if(hands.has(p))return true;return false;};
  const keep=new Set([r.aura,r.techniqueFX,r.techniqueRing,r.spirit].filter(Boolean));

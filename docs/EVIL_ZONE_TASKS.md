@@ -256,16 +256,16 @@ User requested another round against the dimensional finished-model target. Scop
 
 ## DEFORM-RIG — Deformation layer on every textured body
 
-Owner: **Claude** · Status: **In progress** (claimed 2026-10-26) · Branch: `claude/deform-rig`
+Owner: **Claude** · Status: **Review — awaiting normal-speed verdict** (implemented 2026-10-26) · Branch: `claude/deform-rig` (merged to main)
 
 Adam approved carrying the graphic Tala's articulated layer (pelvis, split spine, neck, clavicles, forearm twists, fingers, toes, hair chain) onto all six textured Design 03 bodies through the Node builder, keeping the 17-bone control contract and the rule-driven adapter so every animator, test and mechanic stays valid. Authored wrist and clavicle channels sit on top. Scope: `scripts/build-tala-threejs.mjs`, `dist/tala-concept.js` attach path, `dist/tala-combat-rig.js` generalised per fighter, tests. No change to combat rules or damage frames.
 
-- [ ] Keep the MakeHuman game-engine bones the builder currently folds away (spine, neck, clavicles, fingers, toes) and write them as a second skin layer under the 17 control bones.
-- [ ] Generalise the combat-rig adapter so any fighter with `combatRig` extras gets the distributed spine/neck/wrist/finger behaviour.
-- [ ] Verify bind pose, weights and every existing animation on all six; keep the graphic Tala path working.
+- [x] Keep the MakeHuman game-engine bones the builder currently folds away (spine, neck, clavicles, fingers, toes) and write them as a second skin layer under the 17 control bones. 61 bones per fighter, hierarchy in the GLB extras (`rigSpec`, `restFist`), twist helpers and ponytail chain added.
+- [x] Generalise the combat-rig adapter so any fighter with `combatRig` extras gets the distributed spine/neck/wrist/finger behaviour. `installCombatRig(r, mapped, rigSpec, {restFist})`; both attach paths read the per-fighter spec; the graphic Tala keeps its own hard-coded spec.
+- [x] Verify bind pose, weights and every existing animation on all six; keep the graphic Tala path working. 417 tests; graphic builder skips weight redistribution for layered sources.
 - [ ] Review Tala and Rei hands and spine at normal speed.
 
-Completion evidence: _Pending._
+Completion evidence: `art/review-2026-10-26/deform-rig/README.md`. Follow-up: tighten the builder's bind fist curl so fingertips tuck; author collarbone reach and wrist channels per strike now that the joints exist.
 
 ## Handoff log
 
@@ -280,6 +280,7 @@ Completion evidence: _Pending._
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | EZ-04 | Third-hit reversal, 20 focused tests, repeat-three-hit practice dummy and controls/manual implemented. Integrated Claude’s hit-reaction fix `84c1d96`. 351 tests pass; browser review passed without exceptions. Review: [40231237705](https://github.com/Tusingw29/rift-duel/actions/runs/40231237705). Existing first-strike pose is reused; distinct reversal posing, normal-speed timing acceptance and physical-controller review remain open. Next mechanics task: EZ-05 downed defense/get-up transitions. |
 | 2026-10-25 | Claude | EZ-02 | Hit reaction: inverted hurt timer fixed on five fighters, shared recoil timeline with foot catch (`84c1d96`); 331 tests pass. |
+| 2026-10-26 | Claude | DEFORM-RIG | Articulated layer on all six textured bodies via the Node builder; adapter generalised; graphic path preserved. Review captures in `art/review-2026-10-26/deform-rig`. |
 | 2026-10-26 | Claude | EZ-02 fists | Wrist-roll channel added to the pose system and authored for Tala's stance, guard and strikes (fists upright at the chin, knuckles forward, palms facing; straights land palm down). Graphic rig honours the authored wrist. Captures in `art/review-2026-10-26/tala-fists`; 417 tests. Awaiting normal-speed verdict. |
 | 2026-10-25 | Claude | EZ-02 locomotion | BVH → pose-channel converter and CMU run/walk cycles wired behind a runtime switch (`?gait=mocap`); before/after strips in `art/review-2026-10-25`. Default stays authored until Adam compares at normal speed. |
 | 2026-10-25 | Claude | EZ-03 / EZ-04 animation | Stagger reel (knees buckled, sway, head lolling, straightening with each recovery tap, snap upright on recovery) and the third-hit reversal return strike (forward drive out of the guard) added to every grounded animator via shared `staggerPose` / `reversalPose`; planted feet kept during the reel. `tests/stagger-reversal-animation.test.mjs` covers all six fighters through the sandbox scenarios. Sandbox gained a camera zoom. |

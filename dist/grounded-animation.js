@@ -76,7 +76,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor){
  const entryFrames=move?.travel?Math.min(3,move.startup):move?.startup;
  const weight=1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
- applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,target.kind);
+ r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,target.kind);
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.
  for(const cloth of r.clothParts){cloth.rotation.x=.04+Math.sin(time*2)*.035+(target.kind==='run'?.2:0);cloth.rotation.z=-r[`${prefix}Pose`].twist*.13;}
  return true;
