@@ -1,0 +1,24 @@
+{
+  "shots": [
+    "artifacts/browser-smoke/kinetic-vfx/workbench-beam-0-30-side-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-beam-0-30-back-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-capture-5-30-three-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-signature-2-30-side-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-signature-3-30-three-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-beam-0-54-three-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-fight-default-side-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-fight-default-lock-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-fight-draft-side-1793049578864.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/workbench-fight-draft-lock-1793049578864.jpg"
+  ],
+  "errors": [],
+  "checks": [
+    "real meshes",
+    "six captured views",
+    "drag silhouette",
+    "save/export/import",
+    "invalid import rejected",
+    "deterministic reverse seek",
+    "saved preset loaded by sandbox"
+  ]
+}

@@ -1,6 +1,6 @@
 ## VFX-WORKBENCH — visual authoring and inspection
 
-Owner: **Codex** · Branch: `codex/vfx-workbench` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-26)
+Owner: **Codex** · Branch: `codex/vfx-workbench` · Worktree: `/tmp/rift-ink-fx` · Status: **Implemented; awaiting normal-speed verdict** (2026-10-26)
 
 Synced baseline: **559 tests pass**, HEAD `9664326`. Build a browser visual workbench using production 3D effect meshes, frame scrub/orbit/A-B, editable silhouettes and validated portable presets. Preview drafts in actual gameplay through an explicit opt-in. Scope: energy/ink effect modules, new workbench/config, release tooling and visual evidence. Claude retains all character, rig, pose and mocap work. No combat timing changes. Visual acceptance awaits normal-speed verdict.
 
@@ -9,6 +9,8 @@ Synced baseline: **559 tests pass**, HEAD `9664326`. Build a browser visual work
 Updated: 2026-10-25. Starting code: `c4f798d`.
 
 Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [EVIL ZONE (PS1) – Practice Tutorials, lcfreezer](https://www.youtube.com/watch?v=7AqlL6_7as8), compared with Rift Duel. Preserve the original roster and approved concept art; use the reference to study behavior and timing.
+
+Implementation `6665c5c`, visual correction `783e84f`. **564 tests pass**. [Cloud browser preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) passes gameplay, model, VFX controls, drag editing, save/export/import, deterministic reverse seek and actual combat default/draft captures. [Visual evidence](../art/review-2026-10-26/vfx-workbench/README.md). Inspection found and fixed Tala's crossing tail and pale cores escaping concave signature silhouettes. Crisp-stroke preset remains opt-in: side clarity improves, but the lock-on beam is still obscured by P1. Tool/demo timing does not replace combat timing. Claude's rigs, poses, combat and animation files unchanged. Next: refine beam release readability and capture-ring thickness with this tool, then obtain normal-speed verdict. Final publication also checks the workbench on Pages.
 
 ## How we work together
 
@@ -301,6 +303,7 @@ Controlled A/B on Tala only: current authored animation versus retargeted motion
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
 | 2026-10-25 | Claude | EZ-02 | First pass merged: Rei, Sol and Vesper moved from the time-based shared animator to the grounded whole-body system (authored stance, crossed guard, hit reaction, charge, distance-driven footwork, three keyed strikes each). Status Review. Next: Adam's normal-speed verdict; then recoil momentum and push-off weight across the roster. |

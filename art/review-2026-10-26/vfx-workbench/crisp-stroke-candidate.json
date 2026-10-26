@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "cadence": 20,
+  "beamWidth": 0.7,
+  "inkWidth": 1.13,
+  "coreWidth": 0.72,
+  "ribWidth": 0.55,
+  "signatureDepth": 0.09,
+  "signatureCore": 0.3,
+  "signatureInk": 1.09,
+  "shapes": {},
+  "palettes": {}
+}

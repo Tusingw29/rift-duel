@@ -91,6 +91,13 @@ jobs:
             node scripts/review/frame-budgets.mjs
             node scripts/review/vfx-workbench.mjs
           fi
+      - name: Review the published VFX workbench
+        if: github.event_name == 'workflow_run'
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: https://tusingw29.github.io/rift-duel
+          SHOTS: artifacts/browser-smoke/vfx-workbench
+        run: node scripts/review/vfx-workbench.mjs
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4

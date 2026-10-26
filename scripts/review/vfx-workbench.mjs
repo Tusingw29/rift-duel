@@ -13,6 +13,8 @@ try{
  await page.selectOption('#asset','signature');await page.selectOption('#fighter','0');
  const before=await page.evaluate(()=>JSON.stringify(vfxWorkbench.getDraft().shapes));const handle=page.locator('#shape circle').first(),box=await handle.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2-5,box.y+box.height/2+3);await page.mouse.up();assert.notEqual(await page.evaluate(()=>JSON.stringify(vfxWorkbench.getDraft().shapes)),before);
  await page.click('#save');const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('rift-vfx-draft-v1')));assert.equal(stored.beamWidth,.7);
+ const pngDownload=page.waitForEvent('download');await page.click('#capture');assert.match((await pngDownload).suggestedFilename(),/^rift-vfx-.*\.png$/);
+ const pausedFrame=await page.evaluate(()=>vfxWorkbench.getState().frame);await page.click('#play');await page.waitForFunction(f=>vfxWorkbench.getState().frame!==f,pausedFrame);await page.click('#play');
  const download=page.waitForEvent('download');await page.click('#export');const file=await download;assert.equal(file.suggestedFilename(),'rift-vfx-preset.json');
  await page.setInputFiles('#file',{name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{"version":9}')});await page.waitForFunction(()=>document.getElementById('status').classList.contains('error'));
  await page.setInputFiles('#file',{name:'valid.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(stored))});await page.waitForFunction(()=>document.getElementById('status').textContent==='Imported draft. Save to preview in gameplay.');
@@ -31,5 +33,5 @@ try{
   for(const camera of ['side','lock']){await fight.evaluate(camera=>fightDraw(camera),camera);const file=`${OUT}/workbench-fight-${variant}-${camera}-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);}
   await fight.close();
  }
- assert.deepEqual(errors,[]);writeFileSync(`${OUT}/workbench-report-${id}.json`,JSON.stringify({shots,errors,checks:['real meshes','six captured views','drag silhouette','save/export/import','invalid import rejected','deterministic reverse seek','saved preset loaded by sandbox']},null,2));
+ assert.deepEqual(errors,[]);writeFileSync(`${OUT}/workbench-report-${id}.json`,JSON.stringify({shots,errors,checks:['real meshes','six captured views','drag silhouette','save/export/import','comparison PNG download','play/pause advances frames','invalid import rejected','deterministic reverse seek','saved preset loaded by sandbox']},null,2));
 }finally{await browser.close();}

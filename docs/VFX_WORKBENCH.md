@@ -1,6 +1,6 @@
 # Visual VFX authoring
 
-Open `vfx-workbench.html`. The two views instantiate production meshes from `ink-energy.js` and `energy-style.js`, not separately drawn approximations. Left is the committed default; right is the editable draft. Orbit both views together, check the attack-axis camera, pause, step and scrub. The silhouette checkbox isolates shape from color. The status readout shows render FPS separately from the 60 Hz demonstration clock.
+Open `vfx-workbench.html`. The two views instantiate production meshes from `ink-energy.js` and `energy-style.js`, not separately drawn approximations. Left is the committed default; right is the editable draft. Orbit both views together, check the attack-axis camera, pause, step and scrub. The silhouette checkbox isolates shape from color. The status readout shows UI callback rate separately from the 60 Hz demonstration clock; this is not a gameplay performance benchmark. Paused views redraw only when edited.
 
 ## Review loop
 
