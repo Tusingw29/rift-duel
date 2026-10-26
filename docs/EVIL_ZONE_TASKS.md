@@ -274,3 +274,9 @@ User requested another round against the dimensional finished-model target. Scop
 Do not commit the downloaded reference video. Link to the source and store original game captures or small review artifacts only when appropriate. Research notes are evidence, not exact source-game frame data.
 
 EZ-03 ownership: Codex is editing `combat.js`, new `stagger.js`, HUD/training feedback, and tests. Existing hurt/recover poses will expose the state initially; dedicated stagger/recovery choreography can be refined by Claude using `player.staggerState` (elapsed, remaining, inputs) and `player.counterWindow`. No character rig or root-motion changes planned.
+
+## MOCAP-REVIEW — Tala gait comparison and transitions
+
+Owner: **Codex** · Status: **In progress** · Branch: `codex/mocap-review` · Worktree: `/tmp/rift-mocap-review`
+
+Integrate existing mocap commit `070f08f` without changing the other checkout, compare Tala authored/captured locomotion and combat handoffs, fix clear integration defects. Scope: locomotion adapter, review controls, tests and captures; per-fighter animator changes only if needed for the handoff. Authored remains default pending normal-speed verdict.
