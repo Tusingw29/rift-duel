@@ -272,6 +272,8 @@ The roster now follows direction A of the concept boards in `art/roster-2026-10-
 
 Stagger and reversal animation: a broken guard now reels on planted feet with buckled knees, a swaying torso and a lolling head, straightens a step with each recovery tap and snaps upright when the opening closes; the third-hit reversal plays a forward return strike out of the guard. Both are shared poses used by all six grounded animators.
 
+Art style decided (26 October 2026): the graphic flat-colour Tala is the game's look and the default appearance; the textured Design 03 bodies remain the skinning source and stay selectable for comparison. The other fighters will be built in the same style.
+
 Arms and fists pass: Tala's stance now holds the lead fist a little extended at jaw height and the rear fist upright by the chin with the elbows down and in, and the builder's fist curl aims at the palm centre so the fingertips tuck on every rebuilt body.
 
 Deformation layer on every textured body: the Node builder now keeps MakeHuman's finer bones under the 17 control bones (pelvis, lower and upper spine, neck, collarbones, thirty finger joints, toes) and adds forearm and upper-arm twist helpers and a two-joint ponytail chain, 61 bones per fighter, with the hierarchy written into each model's extras. At load the game installs that hierarchy under the same 17 control bones the animators drive, so every pose, test and mechanic is unchanged, and the shared adapter distributes spine and neck rotation, rolls the wrists from the authored channel, curls or opens the fingers and counter-rolls the toes on all six fighters, not only the graphic preview.

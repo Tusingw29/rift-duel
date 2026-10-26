@@ -33,7 +33,7 @@ await page.click('#lesson-exit');await page.waitForFunction(()=>!window.riftDebu
 // Render the same neutral, close, circling, airborne and recovery setups with each camera.
 await page.route('**/camera-review',r=>r.fulfill({contentType:'text/html',body:'<html><body style="margin:0"><canvas id="scene"></canvas></body></html>'}));
 await page.goto('http://127.0.0.1:4173/camera-review');
-await page.evaluate(async()=>{const {createView}=await import('/render.js'),{createMatch}=await import('/combat.js');const {capturePresentation}=await import('/cinematics.js');window.review={capturePresentation,view:createView(document.querySelector('canvas'),{talaModel:'v3'}),m:createMatch(2,1)};review.view.quality('low');review.view.match(review.m,2);});
+await page.evaluate(async()=>{const {createView}=await import('/render.js'),{createMatch}=await import('/combat.js');const {capturePresentation}=await import('/cinematics.js');window.review={capturePresentation,view:createView(document.querySelector('canvas'),{talaModel:'graphic'}),m:createMatch(2,1)};review.view.quality('low');review.view.match(review.m,2);});
 await page.waitForFunction(()=>window.review.view.fighterModels.every(p=>p.status==='v3'),null,{timeout:90000});
 for(const setup of ['neutral','close','circle','air','recovery','capture','ring'])for(const camera of ['lock','side','duel']){
  await page.evaluate(({setup,camera})=>{const {m,view}=review,[a,b]=m.players;m.cinematic=null;m.projectiles=[];Object.assign(a,{x:-4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});Object.assign(b,{x:4,z:0,air:0,airMotion:null,anim:'idle',animTime:0});

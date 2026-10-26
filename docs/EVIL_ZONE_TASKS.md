@@ -267,6 +267,10 @@ Adam approved carrying the graphic Tala's articulated layer (pelvis, split spine
 
 Completion evidence: `art/review-2026-10-26/deform-rig/README.md` and `art/review-2026-10-26/tala-arms/README.md` (fist curl tightened, stance re-measured). Follow-up: author collarbone reach and wrist channels per strike now that the joints exist.
 
+## ART-STYLE — Decision: graphic flat-colour is the game's art style
+
+Adam chose the graphic flat-colour Tala over the textured Design 03 body on 2026-10-26. Consequences: the graphic Tala is the default appearance; face, hair and costume polish go to the graphic style; the other five fighters get graphic flat-colour builds in the same way (`scripts/build-tala-graphic.mjs` generalised per fighter) rather than textured passes. The textured bodies remain the skinning source for every fighter (the graphic build derives from them) and stay selectable in the appearance menu for comparison. Both Codex and Claude build in this style from now on.
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
@@ -280,6 +284,7 @@ Completion evidence: `art/review-2026-10-26/deform-rig/README.md` and `art/revie
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | EZ-04 | Third-hit reversal, 20 focused tests, repeat-three-hit practice dummy and controls/manual implemented. Integrated Claude’s hit-reaction fix `84c1d96`. 351 tests pass; browser review passed without exceptions. Review: [40231237705](https://github.com/Tusingw29/rift-duel/actions/runs/40231237705). Existing first-strike pose is reused; distinct reversal posing, normal-speed timing acceptance and physical-controller review remain open. Next mechanics task: EZ-05 downed defense/get-up transitions. |
 | 2026-10-25 | Claude | EZ-02 | Hit reaction: inverted hurt timer fixed on five fighters, shared recoil timeline with foot catch (`84c1d96`); 331 tests pass. |
+| 2026-10-26 | Claude | ART-STYLE | Graphic flat-colour chosen by Adam as the art style; it is now the default Tala appearance and the roster bodies load with it. Next: wrist and collarbone authoring on the graphic Tala, then graphic builds for the other five. |
 | 2026-10-26 | Claude | DEFORM-RIG fix | Graphic preview arms broke (bone order mismatch between the layered builder and the graphic builder); graphic builder now remaps source joints by name, builder order aligned, regression test added. Captures in `art/review-2026-10-26/tala-arms`. |
 | 2026-10-26 | Claude | EZ-02 arms | Stance re-measured (fists at the jaw, lead ahead, elbows in); builder fist curl aimed at the palm centre so tips tuck; all six bodies and graphic Tala rebuilt. Captures in `art/review-2026-10-26/tala-arms`. |
 | 2026-10-26 | Claude | DEFORM-RIG | Articulated layer on all six textured bodies via the Node builder; adapter generalised; graphic path preserved. Review captures in `art/review-2026-10-26/deform-rig`. |

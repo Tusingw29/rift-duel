@@ -1,4 +1,4 @@
-export const defaultOptions={volume:.25,difficulty:'normal',quality:'high',reduced:false,pressureAssist:false,trainingAI:false,trainingBehavior:'idle',showInputs:true,roundSeconds:90,winsNeeded:2,deadzone:.22,music:true,announcer:true,camera:'duel',talaModel:'v3'};
+export const defaultOptions={volume:.25,difficulty:'normal',quality:'high',reduced:false,pressureAssist:false,trainingAI:false,trainingBehavior:'idle',showInputs:true,roundSeconds:90,winsNeeded:2,deadzone:.22,music:true,announcer:true,camera:'duel',talaModel:'graphic'};
 export function normalizeOptions(value={}){
  const v=value&&typeof value==='object'?value:{},out={...defaultOptions};
  for(const [key,allowed] of Object.entries({difficulty:['easy','normal','hard'],quality:['high','low'],roundSeconds:[60,90,120],winsNeeded:[1,2,3],deadzone:[.12,.22,.32],camera:['duel','lock','side'],talaModel:['concept','classic','design02','v3','graphic']}))if(allowed.includes(v[key]))out[key]=v[key];

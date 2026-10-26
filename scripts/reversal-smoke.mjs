@@ -19,7 +19,7 @@ await page.route('**/reversal-review',r=>r.fulfill({contentType:'text/html; char
 await page.goto('http://127.0.0.1:4173/reversal-review');
 await page.evaluate(async()=>{
  const combat=await import('/combat.js'),{createView}=await import('/render.js'),{updateStaggerHud}=await import('/hud.js'),{reversalPrompt}=await import('/reversal.js');
- const view=createView(document.querySelector('canvas'),{talaModel:'v3'});view.quality('low');
+ const view=createView(document.querySelector('canvas'),{talaModel:'graphic'});view.quality('low');
  const m=combat.createMatch(2,1,'training');m.players[0].x=0;m.players[1].x=1.7;view.match(m);
  document.querySelector('#p1-name').textContent='TALA';document.querySelector('#p2-name').textContent='REI';
  document.querySelector('#timer').textContent='∞';document.querySelector('#round-label').textContent='REVERSAL REVIEW';document.querySelector('#training-readout').hidden=false;

@@ -73,7 +73,7 @@ jobs:
         if: ${{ !inputs.morrow_only }}
         env:
           SMOKE_URL: ${{ inputs.preview_branch && 'http://127.0.0.1:4173/' || inputs.url || 'https://tusingw29.github.io/rift-duel/' }}
-          SMOKE_TALA: ${{ inputs.tala || 'design02' }}
+          SMOKE_TALA: ${{ inputs.tala || 'graphic' }}
           REVIEW_MODEL: ${{ inputs.review_model || 'false' }}
           REVIEW_ONLY: ${{ inputs.review_only || 'false' }}
         run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --review "$REVIEW_MODEL" --review-only "$REVIEW_ONLY" --out artifacts/browser-smoke

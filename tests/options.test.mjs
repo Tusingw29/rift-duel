@@ -27,7 +27,7 @@ test('standard controller actions remain available and incomplete devices are sa
  }
 });
 test('Design 03 is the default appearance and earlier models stay explicit choices',()=>{
- assert.equal(normalizeOptions().talaModel,'v3');
+ assert.equal(normalizeOptions().talaModel,'graphic');
  assert.equal(normalizeOptions({talaModel:'design02'}).talaModel,'design02');assert.equal(normalizeOptions({talaModel:'concept'}).talaModel,'concept');
- assert.equal(normalizeOptions({talaModel:'unknown'}).talaModel,'v3');
+ assert.equal(normalizeOptions({talaModel:'unknown'}).talaModel,'graphic');
 });
