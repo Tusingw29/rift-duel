@@ -1,7 +1,7 @@
 import {launch,BASE,OUT,stamp} from './common.mjs';
 import {writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
-const browser=await launch(),page=await browser.newPage({viewport:{width:1440,height:1050}}),id=stamp(),errors=[],shots=[];page.on('pageerror',e=>errors.push(e.message));
+const browser=await launch(),context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),id=stamp(),errors=[],shots=[];page.on('pageerror',e=>errors.push(e.message));
 try{
  await page.goto(`${BASE}/vfx-workbench.html`);await page.waitForFunction(()=>!!window.vfxWorkbench);
  await page.evaluate(()=>vfxWorkbench.seek(30));await page.click('#crisp');

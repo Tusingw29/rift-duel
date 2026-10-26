@@ -12,17 +12,50 @@ export const energyStyles=[
 ];
 export const energyStyle=id=>{const base=energyStyles[id]||energyStyles[0],v=vfxSettings();return {...base,...v.palettes[id],points:v.shapes[id]||base.points};};
 export function inkVolume(points,depth=.09){const s=new T.Shape();points.forEach(([x,y],i)=>i?s.lineTo(x,y):s.moveTo(x,y));s.closePath();const g=new T.ExtrudeGeometry(s,{depth,steps:1,bevelEnabled:false});g.translate(0,0,-depth/2);return facetColors(g);}
+// Clip a scaled core against the original silhouette in local space. Scaling a
+// concave polygon alone can make its bright core protrude outside the body.
+export function signatureCoreGeometry(points,width,depth){
+ const contour=points.map(([x,y])=>new T.Vector2(x,y));
+ const triangles=T.ShapeUtils.triangulateShape(contour,[]);
+ const center=contour.reduce((sum,p)=>sum.add(p),new T.Vector2()).multiplyScalar(1/contour.length);
+ const cross=(a,b,p)=>(b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);
+ const shapes=[];
+ for(const indices of triangles){
+  const boundary=indices.map(i=>contour[i]);
+  const sign=Math.sign(cross(boundary[0],boundary[1],boundary[2]));
+  for(const inner of triangles){
+   let polygon=inner.map(i=>new T.Vector2(center.x+(contour[i].x-center.x)*width,center.y+(contour[i].y-center.y)*.8));
+   for(let edge=0;edge<3&&polygon.length;edge++){
+    const a=boundary[edge],b=boundary[(edge+1)%3],next=[];
+    for(let j=0;j<polygon.length;j++){
+     const p=polygon[j],q=polygon[(j+1)%polygon.length],cp=cross(a,b,p)*sign,cq=cross(a,b,q)*sign;
+     if(cp>=-1e-9)next.push(p);
+     if((cp>=0)!==(cq>=0))next.push(p.clone().lerp(q,cp/(cp-cq)));
+    }
+    polygon=next;
+   }
+   if(polygon.length<3||Math.abs(T.ShapeUtils.area(polygon))<1e-8)continue;
+   const shape=new T.Shape(polygon);shape.closePath();shapes.push(shape);
+  }
+ }
+ const geometry=new T.ExtrudeGeometry(shapes,{depth,steps:1,bevelEnabled:false});geometry.translate(0,0,-depth/2);return facetColors(geometry);
+}
 export function createSignature(id){
- const style=energyStyle(id),g=new T.Group();g.name=`${style.name}-signature`;g.userData.style=id;
- let shape=inkVolume(style.points,vfxSettings().signatureDepth),shapeKey=JSON.stringify([style.points,vfxSettings().signatureDepth]);
- [style.ink,style.color,style.core].forEach((color,i)=>{const mesh=new T.Mesh(shape,inkMaterial(color));mesh.scale.set([1.15,1,.45][i],[1.06,1,.8][i],1+i*.35);g.add(mesh);});
- // Oracle's broken paired diamonds and Rei's paired echo edge are distinct in depth too.
+ const style=energyStyle(id),v=vfxSettings(),g=new T.Group();g.name=`${style.name}-signature`;g.userData.style=id;
+ let shape=inkVolume(style.points,v.signatureDepth),core=signatureCoreGeometry(style.points,v.signatureCore,v.signatureDepth);
+ let shapeKey=JSON.stringify([style.points,v.signatureDepth]),coreKey=JSON.stringify([style.points,v.signatureDepth,v.signatureCore]);
+ [style.ink,style.color,style.core].forEach((color,i)=>{const mesh=new T.Mesh(i===2?core:shape,inkMaterial(color));mesh.scale.set(i===0?v.signatureInk:1,i===0?1.06:1,1+i*.35);g.add(mesh);});
  if(id===5||id===1){const echo=g.children[1].clone();echo.material=echo.material.clone();echo.position.set(id===5?.38:-.18,0,-.22);echo.scale.multiplyScalar(.6);g.add(echo);}
- let paletteKey=JSON.stringify(vfxSettings().palettes[id]||null);
- g.userData.updateInk=(time,reduced=false,opacity=1)=>{const v=vfxSettings(),s=energyStyle(id),newPaletteKey=JSON.stringify(v.palettes[id]||null),recolor=newPaletteKey!==paletteKey;paletteKey=newPaletteKey;const key=JSON.stringify([s.points,v.signatureDepth]);
- if(key!==shapeKey){const old=shape;shape=inkVolume(s.points,v.signatureDepth);g.children.forEach(n=>n.geometry=shape);old.dispose();shapeKey=key;}
- const frame=reduced?0:Math.floor(time*v.cadence)%4;g.userData.frame=frame;g.children.forEach((n,i)=>{n.material.opacity=opacity;
- if(i<3){n.scale.x=[v.signatureInk,1,v.signatureCore][i];if(recolor)n.material.color.set([s.ink,s.color,s.core][i]);}if(i===3&&recolor)n.material.color.set(s.color);n.rotation.z=i===3?(frame-1)*.07:0;});};return g;
+ let paletteKey=JSON.stringify(v.palettes[id]||null);
+ g.userData.updateInk=(time,reduced=false,opacity=1)=>{
+  const v=vfxSettings(),s=energyStyle(id),newPaletteKey=JSON.stringify(v.palettes[id]||null),recolor=newPaletteKey!==paletteKey;paletteKey=newPaletteKey;
+  const key=JSON.stringify([s.points,v.signatureDepth]),ckey=JSON.stringify([s.points,v.signatureDepth,v.signatureCore]);
+  if(key!==shapeKey){const old=shape;shape=inkVolume(s.points,v.signatureDepth);g.children.forEach((n,i)=>{if(i!==2)n.geometry=shape;});old.dispose();shapeKey=key;}
+  if(ckey!==coreKey){core.dispose();core=signatureCoreGeometry(s.points,v.signatureCore,v.signatureDepth);g.children[2].geometry=core;coreKey=ckey;}
+  const frame=reduced?0:Math.floor(time*v.cadence)%4;g.userData.frame=frame;
+  g.children.forEach((n,i)=>{n.material.opacity=opacity;if(i===0)n.scale.x=v.signatureInk;if(recolor)n.material.color.set([s.ink,s.color,s.core,s.color][i]);n.rotation.z=i===3?(frame-1)*.07:0;});
+ };
+ return g;
 }
 export function createChiCoil(){
  const g=new T.Group();g.name='bone-chi-coil';

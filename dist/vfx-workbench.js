@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.js';
 import {createInkBeam,createInkRing,createInkFlame} from './ink-energy.js';
-import {createSignature,createChiCoil,createShockwave,energyStyles} from './energy-style.js';
+import {createSignature,createChiCoil,createShockwave,energyStyles,energyStyle} from './energy-style.js';
 import {DEFAULT_VFX,CRISP_VFX,VFX_LIMITS,STORAGE_KEY,validateVfx,setVfxSettings} from './vfx-settings.js';
 const $=id=>document.getElementById(id),copy=x=>JSON.parse(JSON.stringify(x));
 let draft=copy(DEFAULT_VFX),frame=30,playing=true,last=0,accumulator=0,yaw=.8,pitch=.3,distance=6,drag=null;
@@ -15,7 +15,8 @@ const views=['baseline','draft'].map(id=>{
 function dispose(group){const geometries=new Set(),materials=new Set();group.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);o.userData.geometryBanks?.flat().forEach(g=>geometries.add(g));});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());group.clear();}
 function build(v,config){
  const kind=$('asset').value,id=+$('fighter').value;setVfxSettings(config);
- if(v.kind===kind&&v.id===id)return;
+ const paletteKey=kind==='impact'?JSON.stringify(config.palettes[id]||null):'';
+ if(v.kind===kind&&v.id===id&&v.paletteKey===paletteKey)return;v.paletteKey=paletteKey;
  dispose(v.group);v.kind=kind;v.id=id;
  v.asset=kind==='beam'?createInkBeam():kind==='capture'?createInkRing(energyStyles[id].color):kind==='charge'?new T.Group():kind==='impact'?createShockwave(id):createSignature(id);
  if(kind==='charge'){const coil=createChiCoil(),flame=createInkFlame();coil.scale.setScalar(2);flame.position.set(.25,-.7,0);v.asset.add(coil,flame);v.asset.userData.updateInk=(t)=>v.asset.children.forEach(o=>o.userData.updateInk(t,false));}
@@ -29,8 +30,8 @@ function render(){
   const a=v.asset,t=frame/60,release=frame>=18,breakup=frame>=48,clear=frame>=66;
   a.visible=!breakup;a.position.set(0,0,0);a.rotation.set(0,0,0);a.scale.setScalar(1);
   const gather=.12+.88*Math.min(1,frame/18);
-  if(kind==='beam'){a.rotation.y=Math.PI/2;a.position.x=release?1.3:-.5;a.scale.setScalar(release?1:gather*.45);}
-  if(kind==='capture'){a.rotation.x=.25;a.scale.setScalar(release?1:gather);}
+  if(kind==='beam'){a.children[0].material.color.set(energyStyle(0).color);a.rotation.y=Math.PI/2;a.position.x=release?1.3:-.5;a.scale.setScalar(release?1:gather*.45);}
+  if(kind==='capture'){a.children[1].material.color.set(energyStyle(v.id).color);a.rotation.x=.25;a.scale.setScalar(release?1:gather);}
   if(kind==='signature'){a.rotation.z=-Math.PI/2;a.scale.setScalar(release?1:gather);}
   if(kind==='charge')a.scale.setScalar(gather);
   if(kind==='impact'){a.position.y=-1.46;a.visible=frame>=18&&frame<30;a.userData.updateInk(Math.max(0,frame-18));}

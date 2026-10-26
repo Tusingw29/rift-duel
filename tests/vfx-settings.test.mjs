@@ -20,3 +20,14 @@ test('signature edits rebuild volume, palette restores and seeking is determinis
  setVfxSettings({...DEFAULT_VFX,signatureDepth:.2,shapes:{2:[[0,-1],[.5,0],[0,1],[-.5,0]]},palettes:{2:{color:'#123456'}}});shape.userData.updateInk(.5);assert.ok(disposed);assert.equal(shape.children[1].material.color.getHex(),0x123456);shape.children[0].geometry.computeBoundingBox();assert.ok(Math.abs(shape.children[0].geometry.boundingBox.max.z-.1)<1e-6);const positions=shape.children[0].geometry.attributes.position.array.slice();shape.userData.updateInk(1);shape.userData.updateInk(.5);assert.deepEqual(shape.children[0].geometry.attributes.position.array,positions);
  resetVfxSettings();shape.userData.updateInk(.5);assert.equal(shape.children[1].material.color.getHex(),original);assert.equal(vfxSettings().signatureDepth,.09);
 });
+test('bright signature cores stay inside concave body outlines for all six fighters',()=>{
+ const inside=(x,y,points)=>{let hit=false;for(let i=0,j=points.length-1;i<points.length;j=i++){
+  const [a,b]=points[j],[c,d]=points[i],cross=(c-a)*(y-b)-(d-b)*(x-a);
+  if(Math.abs(cross)<1e-6&&x>=Math.min(a,c)-1e-6&&x<=Math.max(a,c)+1e-6&&y>=Math.min(b,d)-1e-6&&y<=Math.max(b,d)+1e-6)return true;
+  if((b>y)!==(d>y)&&x<(c-a)*(y-b)/(d-b)+a)hit=!hit;
+ }return hit;};
+ for(const width of [.15,.3,.45,.8]){setVfxSettings({...DEFAULT_VFX,signatureCore:width});for(let id=0;id<6;id++){
+  const g=createSignature(id),positions=g.children[2].geometry.attributes.position;assert.ok(positions.count>0);
+  for(let i=0;i<positions.count;i++)assert.ok(inside(positions.getX(i),positions.getY(i),energyStyles[id].points),`${id} core width ${width} escaped`);
+ }}resetVfxSettings();
+});
