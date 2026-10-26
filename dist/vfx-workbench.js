@@ -1,11 +1,12 @@
 import * as T from './vendor/three.module.js';
 import {createInkBeam,createInkRing,createInkFlame} from './ink-energy.js';
 import {createSignature,createChiCoil,createShockwave,energyStyles,energyStyle} from './energy-style.js';
-import {DEFAULT_VFX,CRISP_VFX,VFX_LIMITS,STORAGE_KEY,validateVfx,setVfxSettings} from './vfx-settings.js';
+import {DEFAULT_VFX,CRISP_VFX,REFINED_VFX,VFX_LIMITS,STORAGE_KEY,validateVfx,setVfxSettings} from './vfx-settings.js';
 const $=id=>document.getElementById(id),copy=x=>JSON.parse(JSON.stringify(x));
 let draft=copy(DEFAULT_VFX),frame=30,playing=true,last=0,accumulator=0,yaw=.8,pitch=.3,distance=6,drag=null;
 const status=(message,error=false)=>{$('status').textContent=message;$('status').classList.toggle('error',error);};
 try{const saved=localStorage.getItem(STORAGE_KEY);if(saved)draft=validateVfx(JSON.parse(saved));}catch(e){status(e.message,true);}
+if(new URLSearchParams(location.search).get('look')==='flow')draft=copy(REFINED_VFX);
 const views=['baseline','draft'].map(id=>{
  const canvas=$(id),renderer=new T.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.outputColorSpace=T.SRGBColorSpace;
  const scene=new T.Scene();scene.background=new T.Color('#1b2330');const camera=new T.PerspectiveCamera(40,1,.1,60);
@@ -25,6 +26,7 @@ function build(v,config){
 // Absolute frame evaluation: scrubbing and reverse seeks do not depend on RAF history.
 function render(){
  const kind=$('asset').value;
+ for(const key of Object.keys(VFX_LIMITS))if($(key))$(key).disabled=!!draft.flowEnergy&&!['flowEnergy','beamWidth'].includes(key);
  views.forEach((v,i)=>{
   const config=i?draft:DEFAULT_VFX;build(v,config);setVfxSettings(config);
   const a=v.asset,t=frame/60,release=frame>=18,breakup=frame>=48,clear=frame>=66;
@@ -43,25 +45,26 @@ function render(){
    if(kind==='beam')s.position.x+=1.3;
    s.rotation.set(j*.4,age*.2,j);s.scale.setScalar(.24*(1-age/6));s.userData.updateInk(t,false,1);
   });
-  const colors=[];if($('silhouette').checked)v.group.traverse(o=>{if(o.material){colors.push([o.material,o.material.color.clone()]);o.material.color.set('#10141e');}});
+  const colors=[];if($('silhouette').checked)v.group.traverse(o=>{if(o.material){colors.push([o.material,o.material.color.clone(),o.material.blending]);if(o.material.uniforms?.uSilhouette){o.material.uniforms.uSilhouette.value=1;o.material.blending=T.NormalBlending;}o.material.color.set('#10141e');}});
   const canvas=v.renderer.domElement,w=canvas.clientWidth,h=canvas.clientHeight;if(canvas.width!==Math.round(w*v.renderer.getPixelRatio())||canvas.height!==Math.round(h*v.renderer.getPixelRatio()))v.renderer.setSize(w,h,false);
-  v.camera.aspect=w/h;v.camera.updateProjectionMatrix();v.camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,1.2+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);v.camera.lookAt(0,1.2,0);v.renderer.render(v.scene,v.camera);colors.forEach(([m,c])=>m.color.copy(c));
+  v.camera.aspect=w/h;v.camera.updateProjectionMatrix();v.camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,1.2+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);v.camera.lookAt(0,1.2,0);v.renderer.render(v.scene,v.camera);colors.forEach(([m,c,b])=>{m.color.copy(c);m.blending=b;if(m.uniforms?.uSilhouette)m.uniforms.uSilhouette.value=0;});
  });
  setVfxSettings(draft);$('timeline').value=frame;$('frame').textContent=`Frame ${frame} / 89 · ${frame<18?'gather':frame<48?'release':frame<66?'breakup':'clear'}`;
 }
-const labels={cadence:'Drawing cadence',beamWidth:'Beam width',inkWidth:'Beam ink',coreWidth:'Beam white channels',ribWidth:'Beam ribs',signatureDepth:'Signature depth',signatureCore:'Signature core',signatureInk:'Signature ink'};
+const labels={flowEnergy:'Flowing 3D finish',cadence:'Drawing cadence',beamWidth:'Beam width',inkWidth:'Beam ink',coreWidth:'Beam white channels',ribWidth:'Beam ribs',signatureDepth:'Signature depth',signatureCore:'Signature core',signatureInk:'Signature ink'};
 for(const [key,[min,max]] of Object.entries(VFX_LIMITS)){
- const label=document.createElement('label');label.textContent=labels[key];const input=document.createElement('input');input.type='range';input.id=key;input.min=min;input.max=max;input.step=key==='cadence'?1:.01;const output=document.createElement('output');output.htmlFor=key;label.append(input,output);$('sliders').append(label);
- input.oninput=()=>{draft=validateVfx({...draft,[key]:+input.value});output.value=input.value;render();};
+ const label=document.createElement('label');label.textContent=labels[key];const input=document.createElement('input');input.type='range';input.id=key;input.min=min;input.max=max;input.step=['cadence','flowEnergy'].includes(key)?1:.01;const output=document.createElement('output');output.htmlFor=key;label.append(input,output);$('sliders').append(label);
+ input.oninput=()=>{draft=validateVfx({...draft,[key]:+input.value});output.value=input.value;if(key==='flowEnergy')shapeUI();render();};
 }
 [...$('fighter').options].forEach((o,i)=>o.value=i);
 function shapeUI(){
+ $('shape').style.pointerEvents=draft.flowEnergy?'none':'auto';$('shape').style.opacity=draft.flowEnergy?'.45':'1';
  const id=+$('fighter').value,points=draft.shapes[id]||energyStyles[id].points,svg=$('shape');svg.replaceChildren();
  const node=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);svg.append(n);return n;};
  node('path',{d:'M150 0V300M0 150H300',stroke:'#354457'});
  node('polygon',{points:points.map(([x,y])=>`${150+x*90},${150-y*90}`).join(' '),fill:(draft.palettes[id]||energyStyles[id]).color||energyStyles[id].color,stroke:'#050a12','stroke-width':4});
  points.forEach(([x,y],index)=>{const c=node('circle',{cx:150+x*90,cy:150-y*90,r:6,'data-index':index});c.onpointerdown=e=>{e.preventDefault();drag={id,index,points:copy(points),pointer:e.pointerId};svg.setPointerCapture(e.pointerId);};});
- $('palette').replaceChildren();for(const role of ['color','ink','core']){const l=document.createElement('label');l.textContent=role;const input=document.createElement('input');input.type='color';input.value=draft.palettes[id]?.[role]||energyStyles[id][role];input.oninput=()=>{draft=validateVfx({...draft,palettes:{...draft.palettes,[id]:{...draft.palettes[id],[role]:input.value}}});shapeUI();render();};l.append(input);$('palette').append(l);}
+ $('palette').replaceChildren();for(const role of ['color','ink','core']){const l=document.createElement('label');l.textContent=role;const input=document.createElement('input');input.type='color';input.disabled=!!draft.flowEnergy&&role!=='color';input.value=draft.palettes[id]?.[role]||energyStyles[id][role];input.oninput=()=>{draft=validateVfx({...draft,palettes:{...draft.palettes,[id]:{...draft.palettes[id],[role]:input.value}}});shapeUI();render();};l.append(input);$('palette').append(l);}
 }
 $('shape').onpointermove=e=>{if(!drag)return;const p=new DOMPoint(e.clientX,e.clientY).matrixTransform($('shape').getScreenCTM().inverse()),points=copy(drag.points);points[drag.index]=[Math.max(-1.5,Math.min(1.5,(p.x-150)/90)),Math.max(-1.5,Math.min(1.5,(150-p.y)/90))];try{draft=validateVfx({...draft,shapes:{...draft.shapes,[drag.id]:points}});shapeUI();render();status('Silhouette changed. Save to preview it in the fight.');}catch(error){status(error.message,true);}};
 $('shape').onpointerup=$('shape').onpointercancel=()=>drag=null;
@@ -72,6 +75,7 @@ views.forEach(v=>{const c=v.renderer.domElement;let orbit=null;c.onpointerdown=e
 function pause(){playing=false;$('play').textContent='Play';accumulator=0;}
 function seek(f){pause();frame=Math.max(0,Math.min(89,Math.round(f)));render();}
 $('play').onclick=()=>{playing=!playing;last=0;$('play').textContent=playing?'Pause':'Play';};$('previous').onclick=()=>seek(frame-1);$('next').onclick=()=>seek(frame+1);$('timeline').oninput=e=>seek(+e.target.value);
+$('refined').onclick=()=>{draft=copy(REFINED_VFX);sync();status('Flowing 3D candidate loaded: curved volumes, textured motion and fine filaments.');};
 $('crisp').onclick=()=>{draft=copy(CRISP_VFX);sync();status('Crisp-stroke candidate loaded. Compare release and rear views before saving.');};$('reset').onclick=()=>{draft=copy(DEFAULT_VFX);sync();status('Draft reset to production defaults. Save to replace the stored preview.');};
 function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(draft));status('Saved locally. New fight/sandbox tabs will read this draft; reload existing preview tabs.');return true;}catch(e){status(`Cannot save: ${e.message}`,true);return false;}}
 $('save').onclick=save;for(const id of ['fight','sandbox'])$(id).onclick=e=>{if(!save())e.preventDefault();};
