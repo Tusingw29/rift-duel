@@ -90,6 +90,7 @@ jobs:
             node scripts/review/signature-volumes.mjs
             node scripts/review/frame-budgets.mjs
             node scripts/review/vfx-workbench.mjs
+            node scripts/review/refined-energy.mjs
           fi
       - name: Review the published VFX workbench
         if: github.event_name == 'workflow_run'

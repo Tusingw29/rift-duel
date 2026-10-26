@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {attachFlowEnergy} from './flow-energy.js';
 import {vfxSettings} from './vfx-settings.js';
 import {inkMaterial,facetColors} from './ink-energy.js';
 // Original silhouette vocabulary. IDs match the roster, independent of costume materials.
@@ -46,16 +47,16 @@ export function createSignature(id){
  let shapeKey=JSON.stringify([style.points,v.signatureDepth]),coreKey=JSON.stringify([style.points,v.signatureDepth,v.signatureCore]);
  [style.ink,style.color,style.core].forEach((color,i)=>{const mesh=new T.Mesh(i===2?core:shape,inkMaterial(color));mesh.scale.set(i===0?v.signatureInk:1,i===0?1.06:1,1+i*.35);g.add(mesh);});
  if(id===5||id===1){const echo=g.children[1].clone();echo.material=echo.material.clone();echo.position.set(id===5?.38:-.18,0,-.22);echo.scale.multiplyScalar(.6);g.add(echo);}
- let paletteKey=JSON.stringify(v.palettes[id]||null);
+ const layers=[...g.children];let paletteKey=JSON.stringify(v.palettes[id]||null);
  g.userData.updateInk=(time,reduced=false,opacity=1)=>{
   const v=vfxSettings(),s=energyStyle(id),newPaletteKey=JSON.stringify(v.palettes[id]||null),recolor=newPaletteKey!==paletteKey;paletteKey=newPaletteKey;
   const key=JSON.stringify([s.points,v.signatureDepth]),ckey=JSON.stringify([s.points,v.signatureDepth,v.signatureCore]);
-  if(key!==shapeKey){const old=shape;shape=inkVolume(s.points,v.signatureDepth);g.children.forEach((n,i)=>{if(i!==2)n.geometry=shape;});old.dispose();shapeKey=key;}
+  if(key!==shapeKey){const old=shape;shape=inkVolume(s.points,v.signatureDepth);layers.forEach((n,i)=>{if(i!==2)n.geometry=shape;});old.dispose();shapeKey=key;}
   if(ckey!==coreKey){core.dispose();core=signatureCoreGeometry(s.points,v.signatureCore,v.signatureDepth);g.children[2].geometry=core;coreKey=ckey;}
   const frame=reduced?0:Math.floor(time*v.cadence)%4;g.userData.frame=frame;
-  g.children.forEach((n,i)=>{n.material.opacity=opacity;if(i===0)n.scale.x=v.signatureInk;if(recolor)n.material.color.set([s.ink,s.color,s.core,s.color][i]);n.rotation.z=i===3?(frame-1)*.07:0;});
+  layers.forEach((n,i)=>{n.material.opacity=opacity;if(i===0)n.scale.x=v.signatureInk;if(recolor)n.material.color.set([s.ink,s.color,s.core,s.color][i]);n.rotation.z=i===3?(frame-1)*.07:0;});
  };
- return g;
+ return attachFlowEnergy(g,'signature',id,style.color);
 }
 export function createChiCoil(){
  const g=new T.Group();g.name='bone-chi-coil';
@@ -65,7 +66,7 @@ export function createChiCoil(){
   const highlight=radius===.012?new T.CatmullRomCurve3(points.map(p=>new T.Vector3(p.x*1.16,p.y,p.z*1.16))):curve;
   const mesh=new T.Mesh(facetColors(new T.TubeGeometry(highlight,32,radius,4,false)),inkMaterial(color));if(radius===.043)mesh.material.side=T.BackSide;g.add(mesh);
  }
- g.userData.updateInk=(time,reduced)=>{g.children.forEach(n=>n.rotation.y=reduced?0:Math.floor(time*vfxSettings().cadence)*.32);};return g;
+ const coils=[...g.children];g.userData.updateInk=(time,reduced)=>{coils.forEach(n=>n.rotation.y=reduced?0:Math.floor(time*vfxSettings().cadence)*.32);};return attachFlowEnergy(g,'coil',2,'#ffb52e');
 }
 export function createShockwave(id){
  const g=new T.Group();g.name='cracked-ground-shockwave';const style=energyStyle(id);

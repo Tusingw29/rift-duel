@@ -1,7 +1,7 @@
 // Visual-only parameters shared by production meshes and the authoring workbench.
 export const STORAGE_KEY='rift-vfx-draft-v1';
-export const DEFAULT_VFX=Object.freeze({version:1,cadence:12,beamWidth:1,inkWidth:1.13,coreWidth:1,ribWidth:1,signatureDepth:.09,signatureCore:.45,signatureInk:1.15,shapes:{},palettes:{}});
-const limits={cadence:[6,30],beamWidth:[.3,1.8],inkWidth:[1.02,1.3],coreWidth:[.3,1.5],ribWidth:[0,1.5],signatureDepth:[.04,.4],signatureCore:[.15,.8],signatureInk:[1.02,1.3]};
+export const DEFAULT_VFX=Object.freeze({version:1,flowEnergy:0,cadence:12,beamWidth:1,inkWidth:1.13,coreWidth:1,ribWidth:1,signatureDepth:.09,signatureCore:.45,signatureInk:1.15,shapes:{},palettes:{}});
+const limits={flowEnergy:[0,1],cadence:[6,30],beamWidth:[.3,1.8],inkWidth:[1.02,1.3],coreWidth:[.3,1.5],ribWidth:[0,1.5],signatureDepth:[.04,.4],signatureCore:[.15,.8],signatureInk:[1.02,1.3]};
 export const VFX_LIMITS=Object.freeze(limits);
 const clone=x=>JSON.parse(JSON.stringify(x));
 function validPolygon(points){
@@ -23,7 +23,7 @@ function validPolygon(points){
 export function validateVfx(input){
  if(!input||input.version!==1)throw new Error('Expected a version 1 VFX preset.');
  const out=clone(DEFAULT_VFX);
- for(const [key,[min,max]] of Object.entries(limits))if(key in input){if(!Number.isFinite(input[key])||input[key]<min||input[key]>max)throw new Error(`Invalid ${key}: use ${min}–${max}.`);out[key]=input[key];}
+ for(const [key,[min,max]] of Object.entries(limits))if(key in input){if(key==='flowEnergy'&&![0,1].includes(input[key]))throw new Error('flowEnergy must be 0 or 1.');if(!Number.isFinite(input[key])||input[key]<min||input[key]>max)throw new Error(`Invalid ${key}: use ${min}–${max}.`);out[key]=input[key];}
  for(const [key,points] of Object.entries(input.shapes||{})){if(!/^[0-5]$/.test(key)||!validPolygon(points))throw new Error('Silhouette must be a simple, non-crossing polygon inside the grid.');out.shapes[key]=clone(points);}
  for(const [key,palette] of Object.entries(input.palettes||{})){if(!/^[0-5]$/.test(key))throw new Error('Unknown fighter palette.');out.palettes[key]={};for(const role of ['color','ink','core'])if(role in palette){if(!/^#[0-9a-f]{6}$/i.test(palette[role]))throw new Error('Use six-digit hex colors.');out.palettes[key][role]=palette[role];}}
  return out;
@@ -37,3 +37,7 @@ export const CRISP_VFX=Object.freeze({...DEFAULT_VFX,cadence:20,beamWidth:.7,cor
 if(typeof window!=='undefined'&&new URLSearchParams(window.location.search).get('vfxPreview')==='1'){
  try{const saved=localStorage.getItem(STORAGE_KEY);if(saved)setVfxSettings(JSON.parse(saved));}catch(error){console.warn('VFX preview ignored:',error.message);}
 }
+
+export const REFINED_VFX=Object.freeze({...DEFAULT_VFX,flowEnergy:1,beamWidth:1,cadence:20});
+
+if(typeof window!=='undefined'&&new URLSearchParams(window.location.search).get('energy')==='flow')setVfxSettings(REFINED_VFX);

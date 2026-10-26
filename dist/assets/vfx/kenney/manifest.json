@@ -1,0 +1,21 @@
+{
+  "author": "Kenney Vleugels",
+  "pack": "Particle Pack 1.1 (archive label)",
+  "license": "CC0-1.0",
+  "source": "https://kenney.nl/assets/particle-pack",
+  "download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+  "retrieved": "2026-10-26",
+  "usage": "Unmodified alpha masks on curved 3D energy surfaces; no game-ripped assets.",
+  "files": [
+    {
+      "name": "smoke_01.png",
+      "sha256": "e8724c219e8d35859167fc0a7e207e13c72ccf0c29704909b9bb3d3dc71c6cf7",
+      "bytes": 97452
+    },
+    {
+      "name": "trace_01.png",
+      "sha256": "34de69bc3f665b23fe9bed15f388efd8e8e4dc1a99f2fc5db9ba8715c525711f",
+      "bytes": 38406
+    }
+  ]
+}

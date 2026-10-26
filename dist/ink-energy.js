@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {attachFlowEnergy} from './flow-energy.js';
 import {vfxSettings} from './vfx-settings.js';
 // Closed volumetric meshes derived from the Ink Energy concept board.
 // Four prebuilt volume variants, no textures or camera-facing cards.
@@ -37,7 +38,7 @@ export function createInkBeam(){
  g.userData.updateInk=(time,reduced)=>{if(coreKey!==vfxSettings().coreWidth){banks[1].forEach(g=>g.dispose());banks[1]=Array.from({length:4},(_,f)=>beamVolume(f,true));coreKey=vfxSettings().coreWidth;}const frame=frameAt(time,reduced);g.userData.frame=frame;volumes.forEach((m,i)=>m.geometry=banks[i?1:0][frame]);rim.geometry=banks[0][frame];
  const v=vfxSettings();body.scale.set(v.beamWidth,v.beamWidth,1);rim.scale.set(v.beamWidth*v.inkWidth,v.beamWidth*v.inkWidth,1.015);
  volumes.slice(1).forEach(m=>m.scale.set(v.beamWidth,v.beamWidth,1));
- g.children.filter(m=>m.name==='beam-helical-rib').forEach(m=>{m.visible=v.ribWidth>0;m.scale.set(v.beamWidth*v.ribWidth,v.beamWidth*v.ribWidth,1);});};g.userData.geometryBanks=banks;return g;
+ g.children.filter(m=>m.name==='beam-helical-rib').forEach(m=>{m.visible=v.ribWidth>0;m.scale.set(v.beamWidth*v.ribWidth,v.beamWidth*v.ribWidth,1);});};g.userData.geometryBanks=banks;return attachFlowEnergy(g,'beam');
 }
 function brushRingGeometry(frame,band){
  const vertices=[],count=96;
@@ -60,14 +61,14 @@ export function createInkRing(color='#b98cff'){
  const g=new T.Group();g.name='ink-binding-ring';const banks=Array.from({length:3},(_,band)=>Array.from({length:4},(_,frame)=>brushRingGeometry(frame,band)));
  const meshes=['#261b3c',color,'#fff6ff'].map((c,i)=>{const mesh=layer(banks[i][0],c,i+1,i!==1);g.add(mesh);return mesh;});
  g.userData.updateInk=(time,reduced,opacity=1)=>{const frame=frameAt(time,reduced);g.userData.frame=frame;meshes.forEach((mesh,i)=>{mesh.geometry=banks[i][frame];mesh.material.opacity=opacity;});};
- g.userData.geometryBanks=banks;return g;
+ g.userData.geometryBanks=banks;return attachFlowEnergy(g,'capture',0,color);
 }
 const flame=[[-.15,0],[-.25,.35],[-.12,.27],[-.3,.87],[-.1,.68],[.05,1.3],[.03,.92],[.28,1.85],[.14,.75],[.27,.91],[.18,.39],[.05,.13],[.11,.25],[.07,0]];
 export function createInkFlame(){
  const g=new T.Group();g.name='ink-charge-ribbon';const banks=Array.from({length:4},(_,f)=>polygon(flame.map(([x,y],i)=>[x+Math.sin(i+f*1.8)*.055*y,y])));
  const outline=layer(banks[0],'#8c371b',1,true),body=layer(banks[0],'#ffb52e',2,true),core=layer(banks[0],'#fff6c9',3,true);
  outline.scale.set(1.18,1.02,1);body.scale.z=1.06;core.scale.set(.38,.84,1.12);g.add(outline,body,core);
- g.userData.updateInk=(time,reduced)=>{const f=frameAt(time,reduced);g.userData.frame=f;for(const mesh of g.children)mesh.geometry=banks[f];};g.userData.geometryBanks=[banks];return g;
+ g.userData.updateInk=(time,reduced)=>{const f=frameAt(time,reduced);g.userData.frame=f;for(const mesh of [outline,body,core])mesh.geometry=banks[f];};g.userData.geometryBanks=[banks];return attachFlowEnergy(g,'charge',2,'#ffb52e');
 }
 
 // Six axial spikes give release/contact bursts volume from every viewing direction.
