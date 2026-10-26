@@ -10,10 +10,10 @@ test('Tala ready stance: fists at chin height in front of the chest, palms facin
  const r=buildCharacter(2);settle(r,{anim:'idle',x:0,z:0});
  for(const h of hands(r)){
   const medial=new Vector3(h.S==='L'?1:-1,0,0);
-  assert.ok(h.pos.y>2.05&&h.pos.y<2.45,`${h.S} fist at chin height (${h.pos.y.toFixed(2)})`);
-  assert.ok(h.pos.z>.35&&Math.abs(h.pos.x)<.4,`${h.S} fist in front of the chest`);
+  assert.ok(h.pos.y>1.92&&h.pos.y<2.3,`${h.S} fist at jaw height (${h.pos.y.toFixed(2)})`);
+  assert.ok(h.pos.z>.45&&Math.abs(h.pos.x)<.4,`${h.S} fist in front of the chest`);
   assert.ok(h.palm.dot(medial)>.8,`${h.S} palm faces the other fist (${h.palm.dot(medial).toFixed(2)})`);
-  assert.ok(h.fingers.y>.7,`${h.S} fist held upright`);
+  if(h.S==='R')assert.ok(h.fingers.y>.7,'rear fist held upright');else assert.ok(h.pos.z>.6,'lead fist extended ahead of the rear fist');
  }
 });
 test('Tala guard: forearms crossed with the knuckles toward the rival, not the palms turned up',()=>{

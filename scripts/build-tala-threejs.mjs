@@ -93,14 +93,16 @@ function rotate(name,q){// apply an extra world rotation q to this bone and ever
 function straighten(name){const b=mh[name],dir=b.tail.clone().sub(b.head).applyQuaternion(W[name]).normalize();rotate(name,new Quaternion().setFromUnitVectors(dir,DOWN));}
 for(const s of ['l','r'])for(const n of ['thigh_'+s,'calf_'+s,'upperarm_'+s,'lowerarm_'+s])straighten(n);
 function curl(side){
- const knuckle=H['pinky_01_'+side].clone().sub(H['index_01_'+side]).normalize(),palm=H['hand_'+side].clone();
+ // Curl toward the palm centre (just below the middle knuckle on the palm side), not the wrist: aiming at the wrist over-curls the tips into a claw.
+ const knuckle=H['pinky_01_'+side].clone().sub(H['index_01_'+side]).normalize(),palm=H['hand_'+side].clone().lerp(H['middle_01_'+side],.7);
  const tipOf=f=>H[`${f}_03_${side}`].clone().add(mh[`${f}_03_${side}`].tail.clone().sub(mh[`${f}_03_${side}`].head).applyQuaternion(W[`${f}_03_${side}`]));
  const before=tipOf('index').distanceTo(palm);
  const trial=(sign)=>{const q=new Quaternion().setFromAxisAngle(knuckle,sign*Math.PI/180*20);const saveW=Object.fromEntries(Object.keys(W).map(k=>[k,W[k].clone()])),saveH=Object.fromEntries(Object.keys(H).map(k=>[k,H[k].clone()]));rotate('index_01_'+side,q);const d=tipOf('index').distanceTo(palm);Object.assign(W,saveW);Object.assign(H,saveH);return d;};
  const sign=trial(1)<trial(-1)?1:-1;
- for(const f of ['index','middle','ring','pinky'])for(const [seg,deg] of [['01',62],['02',78],['03',55]])rotate(`${f}_${seg}_${side}`,new Quaternion().setFromAxisAngle(knuckle,sign*deg*Math.PI/180));
+ // A closed fist: knuckle 85°, middle joint 100°, tip 70° so the fingertips tuck into the palm instead of standing proud.
+ for(const f of ['index','middle','ring','pinky'])for(const [seg,deg] of [['01',80],['02',95],['03',50]])rotate(`${f}_${seg}_${side}`,new Quaternion().setFromAxisAngle(knuckle,sign*deg*Math.PI/180));
  const thumbAxis=knuckle.clone().cross(DOWN).normalize();
- for(const [seg,deg] of [['01',22],['02',40],['03',30]])rotate(`thumb_${seg}_${side}`,new Quaternion().setFromAxisAngle(thumbAxis,sign*deg*Math.PI/180));
+ for(const [seg,deg] of [['01',28],['02',48],['03',38]])rotate(`thumb_${seg}_${side}`,new Quaternion().setFromAxisAngle(thumbAxis,sign*deg*Math.PI/180));
  console.log(`fist ${side}: index tip ${before.toFixed(2)} -> ${tipOf('index').distanceTo(palm).toFixed(2)} from the palm`);
 }
 curl('l');curl('r');

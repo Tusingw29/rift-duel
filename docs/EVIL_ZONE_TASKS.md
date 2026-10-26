@@ -265,7 +265,7 @@ Adam approved carrying the graphic Tala's articulated layer (pelvis, split spine
 - [x] Verify bind pose, weights and every existing animation on all six; keep the graphic Tala path working. 417 tests; graphic builder skips weight redistribution for layered sources.
 - [ ] Review Tala and Rei hands and spine at normal speed.
 
-Completion evidence: `art/review-2026-10-26/deform-rig/README.md`. Follow-up: tighten the builder's bind fist curl so fingertips tuck; author collarbone reach and wrist channels per strike now that the joints exist.
+Completion evidence: `art/review-2026-10-26/deform-rig/README.md` and `art/review-2026-10-26/tala-arms/README.md` (fist curl tightened, stance re-measured). Follow-up: author collarbone reach and wrist channels per strike now that the joints exist.
 
 ## Handoff log
 
@@ -280,6 +280,7 @@ Completion evidence: `art/review-2026-10-26/deform-rig/README.md`. Follow-up: ti
 | 2026-10-25 | Codex | EZ-01 | Implemented continuous travel in `3ce8a17`; review pending. Grounded pursuit keeps frame-7 contact; crossover uses frame 18; circle uses 24 frames. EZ-02 can consume the travel state described above. |
 | 2026-10-25 | Codex | EZ-04 | Third-hit reversal, 20 focused tests, repeat-three-hit practice dummy and controls/manual implemented. Integrated Claude’s hit-reaction fix `84c1d96`. 351 tests pass; browser review passed without exceptions. Review: [40231237705](https://github.com/Tusingw29/rift-duel/actions/runs/40231237705). Existing first-strike pose is reused; distinct reversal posing, normal-speed timing acceptance and physical-controller review remain open. Next mechanics task: EZ-05 downed defense/get-up transitions. |
 | 2026-10-25 | Claude | EZ-02 | Hit reaction: inverted hurt timer fixed on five fighters, shared recoil timeline with foot catch (`84c1d96`); 331 tests pass. |
+| 2026-10-26 | Claude | EZ-02 arms | Stance re-measured (fists at the jaw, lead ahead, elbows in); builder fist curl aimed at the palm centre so tips tuck; all six bodies and graphic Tala rebuilt. Captures in `art/review-2026-10-26/tala-arms`. |
 | 2026-10-26 | Claude | DEFORM-RIG | Articulated layer on all six textured bodies via the Node builder; adapter generalised; graphic path preserved. Review captures in `art/review-2026-10-26/deform-rig`. |
 | 2026-10-26 | Claude | EZ-02 fists | Wrist-roll channel added to the pose system and authored for Tala's stance, guard and strikes (fists upright at the chin, knuckles forward, palms facing; straights land palm down). Graphic rig honours the authored wrist. Captures in `art/review-2026-10-26/tala-fists`; 417 tests. Awaiting normal-speed verdict. |
 | 2026-10-25 | Claude | EZ-02 locomotion | BVH → pose-channel converter and CMU run/walk cycles wired behind a runtime switch (`?gait=mocap`); before/after strips in `art/review-2026-10-25`. Default stays authored until Adam compares at normal speed. |

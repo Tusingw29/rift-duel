@@ -272,6 +272,8 @@ The roster now follows direction A of the concept boards in `art/roster-2026-10-
 
 Stagger and reversal animation: a broken guard now reels on planted feet with buckled knees, a swaying torso and a lolling head, straightens a step with each recovery tap and snaps upright when the opening closes; the third-hit reversal plays a forward return strike out of the guard. Both are shared poses used by all six grounded animators.
 
+Arms and fists pass: Tala's stance now holds the lead fist a little extended at jaw height and the rear fist upright by the chin with the elbows down and in, and the builder's fist curl aims at the palm centre so the fingertips tuck on every rebuilt body.
+
 Deformation layer on every textured body: the Node builder now keeps MakeHuman's finer bones under the 17 control bones (pelvis, lower and upper spine, neck, collarbones, thirty finger joints, toes) and adds forearm and upper-arm twist helpers and a two-joint ponytail chain, 61 bones per fighter, with the hierarchy written into each model's extras. At load the game installs that hierarchy under the same 17 control bones the animators drive, so every pose, test and mechanic is unchanged, and the shared adapter distributes spine and neck rotation, rolls the wrists from the authored channel, curls or opens the fingers and counter-rolls the toes on all six fighters, not only the graphic preview.
 
 Tala's fists: the pose system gained a wrist-roll channel and Tala's stance, guard and strikes author it, so the fists sit upright at the chin with the elbows in and palms facing each other, the crossed guard shows its knuckles, and straights roll over to land palm down. Both the textured and graphic Tala read it; punch timing is untouched.

@@ -35,7 +35,7 @@ After a Tala rebuild bump `?v=` on her GLB URL in `dist/tala-concept.js` and `di
 - Fit-file vertex lines can be interleaved with other keys; parse numeric lines until the vertex count is reached, and ignore negative fit weights.
 - Garment delete lists hide body vertices. Apply them above the hem or skin pokes through tight cloth; keep the legs when leggings become shorts.
 - The garment atlases' grey background and printed logos bleed at seams; the tint folds neutral and strongly saturated pixels into the fabric's median luminance (hair tint skips this).
-- Limb chains must hang straight down and fingers are curled before weights are consolidated, so the GLB rest pose matches the game skeleton.
+- Limb chains must hang straight down and fingers are curled before weights are consolidated, so the GLB rest pose matches the game skeleton. The curl aims each fingertip at the palm centre (wrist lerped 70% toward the middle knuckle); aiming at the wrist over-curls into a claw.
 - Hair cards must sample a strand region of the hair atlas with the alpha-masked hair material; flat colour looks like cardboard.
 - Weapon meshes in the classic models carry `userData.weapon=true`; the roster attach keeps only those under the hands, and Aegis's batcher must skip them.
 - Head joint is at the skull base: eyes about +0.06, crown +0.24, chin −0.08 in head space. Measure before placing anything on the head.

@@ -15,7 +15,8 @@ const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
 // Boxer's guard: left foot forward, fists up, chin down.
 // Boxer's ready stance: fists at chin height in front of the chest, elbows in, palms facing each other,
 // knuckles toward the rival (wrist rolls found by measuring the hand frame, see tests/tala-fists.test.mjs).
-export const stance=pose({lax:-1.05,lay:.4,laz:.2,le:-1.7,lw:1.9,rax:-.9,ray:-.2,raz:-.2,re:-2.1,rw:-2.1,twist:-.18,lean:.06,hx:.08,hy:.1,llx:-.18,llz:.1,rlx:.2,rlz:-.12,lk:.28,rk:.22,bodyY:-.15});
+// Lead (left) fist a little extended at jaw height, rear fist upright by the chin, elbows down and in.
+export const stance=pose({lax:-.8,lay:.2,laz:.3,le:-1.3,lw:1.9,rax:-.6,ray:-.2,raz:-.1,re:-2.1,rw:-2.1,twist:-.18,lean:.06,hx:.08,hy:.1,llx:-.18,llz:.1,rlx:.2,rlz:-.12,lk:.28,rk:.22,bodyY:-.15});
 // Crossed forearms shield the upper torso. The arms use their full authored
 // yaw/roll channels so entry and release share the normal pose transition.
 // Hand targets in chest space: (+.22,.50,.34), (-.22,.50,.43).

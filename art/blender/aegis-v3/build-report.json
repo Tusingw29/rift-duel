@@ -1,7 +1,7 @@
 {
  "generator": "build-tala-threejs.mjs (Three.js + Node, no Blender)",
  "glb": {
-  "bytes": 4114740,
+  "bytes": 4114708,
   "meshes": 7
  },
  "parts": [

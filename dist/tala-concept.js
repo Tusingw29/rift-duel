@@ -10,7 +10,7 @@ import {canonicalBone} from './rig-schema.js';
 // Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
 const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=4':variant==='v3'?'./assets/models/tala-v3.glb?v=5':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=4':variant==='v3'?'./assets/models/tala-v3.glb?v=7':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
  const key=['design02','v3','graphic'].includes(variant)?variant:'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));
@@ -46,7 +46,7 @@ export function attachTalaConcept(r,source){
 // positions and leg metrics it was bound with. Attaching moves the fighter's existing combat
 // bones onto those joints, so the skin binds exactly, while weapons parented to the hands and
 // the aura and effect objects stay as they were.
-export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=5`;
+export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=7`;
 const fighterAssets=new Map();
 export function loadFighterModel(fighterId){
  if(!fighterAssets.has(fighterId))fighterAssets.set(fighterId,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(fighterModelUrl(fighterId))).catch(error=>{fighterAssets.delete(fighterId);throw error;}));
