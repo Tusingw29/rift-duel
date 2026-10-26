@@ -1,8 +1,10 @@
 ## REFINED-ENERGY — reference study and flowing 3D effects
 
-Owner: **Codex** · Branch: `codex/refined-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-26)
+Owner: **Codex** · Branch: `codex/refined-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting normal-speed verdict** (2026-10-26)
 
 Synced Claude `3f7dfb5`; **572 tests pass**. Study Evil Zone gameplay imagery and Soulcalibur energy references, import attributed CC0 texture masks, and replace the solid-icon look with layered curved 3D energy, controlled luminance, flow and dissolution. Scope: effect factories, VFX settings/workbench and visual evidence. Preserve Claude's rigs, mocap/animation and combat timing. Reference screenshots are study material, not shipped game assets. Visual acceptance awaits normal-speed verdict.
+
+Implementation `25e7d5d`, tint correction `44342e9`; synced Claude documentation `289cde9`. **576 tests pass**. [Cloud browser preview passed](https://github.com/Tusingw29/rift-duel/actions/runs/40411709301) on pre-rebase `cbeafc1` (same runtime build `9e3c712052d7`): imported masks loaded, shaders rendered, flow changes with simulation time, actual Aegis beam and Tala charge captured. [Evidence and remaining weaknesses](../art/review-2026-10-26/refined-energy/README.md). [Reference study](ENERGY_REFERENCE_STUDY.md). Imported two unmodified CC0 Kenney masks; curved tapered 3D surfaces replace the solid-icon finish in an explicit `?energy=flow` preview. Default unchanged pending visual verdict. Morrow remains too pink; rear camera beam occlusion and legacy solid release flares remain. Claude rigs, animation, mocap, combat and sword-trail sampling untouched.
 
 ## VFX-WORKBENCH — visual authoring and inspection
 
