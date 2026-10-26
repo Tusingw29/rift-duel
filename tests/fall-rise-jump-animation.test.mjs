@@ -19,7 +19,7 @@ for(const [id,f] of fighters.entries()){
   const standingHead=world(r,r.head).y;
   let t=0,armsThrown=false,legsUp=false;
   for(let frame=0;frame<=33;frame++){t=frame/60;const p={anim:'knockdown',animTime:Math.max(0,.55-t),x:0,z:0};animateCharacter(r,p,.2+t);finite(r);
-   const q=poseOf(r,id);if(t>.08&&t<.2&&q.lax<-1.5)armsThrown=true;if(t>.24&&t<.34&&q.llx<-.5)legsUp=true;
+   const q=poseOf(r,id);if(t>.08&&t<.2&&q.lax<-1.5)armsThrown=true;if(t>.18&&t<.3&&q.llx<-.5)legsUp=true;
    assert.ok(lowest(r)>-.06,`${f.name} never sinks through the floor (${lowest(r).toFixed(2)} at ${t.toFixed(2)}s)`);}
   const q=poseOf(r,id),head=world(r,r.head).y,pelvis=world(r,r.body).y;
   assert.ok(q.bodyPitch<-1.3,`${f.name} lies on the back (${q.bodyPitch.toFixed(2)})`);

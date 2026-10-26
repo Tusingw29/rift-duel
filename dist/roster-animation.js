@@ -40,7 +40,7 @@ function grounded(prefix,def){
   if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:stance.bodyY-.03,lean:stance.lean+.04})};
   if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
   if(player?.guard)return {kind:'guard',pose:rhythmPose(mix(guardPose,guardHit,Math.min(1,(player.blockStun||0)/.22)),time,.4)};
-  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(impact,stance,player.animTime)};
+  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(impact,stance,player.animTime,player.hitstop)};
   if(player?.anim==='charge')return {kind:'charge',pose:charge};
   if(player?.anim==='run')return {kind:'run',pose:stepPose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
   const breath=Math.sin(time*def.breath),shift=Math.sin(time*def.breath*.5);

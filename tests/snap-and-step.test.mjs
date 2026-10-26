@@ -26,14 +26,13 @@ for(const [id,f] of fighters.entries()){
     if(t.startup>=7){const held=dist(frames[t.startup-2],frames[Math.ceil(t.startup*.6)]);assert.ok(held<.15,`${f.name} chain ${chain}: the loaded pose is held until the whip (${held.toFixed(2)})`);}}
   }
  });
- test(`${f.name}: a hit bends to full recoil on its first frame and shudders through the hitstop`,()=>{
+ test(`${f.name}: a hit shudders on the hitstop counter while time is frozen, then bends to full recoil on the first live frame`,()=>{
   const r=buildCharacter(id);settle(r);
-  const xs=[];for(let fr=0;fr<8;fr++){animateCharacter(r,{anim:'hurt',animTime:HURT_TIME-fr/60,x:0,z:0},1+fr/60);xs.push(poseOf(r,id).bodyX);}
-  const first=poseOf(r,id);
-  animateCharacter(r,{anim:'hurt',animTime:HURT_TIME-.3,x:0,z:0},2);const late=poseOf(r,id);
-  for(let i=1;i<6;i++)assert.ok(Math.sign(xs[i])!==Math.sign(xs[i-1])&&Math.abs(xs[i])>.01,`${f.name} shudders frame to frame (${xs.map(v=>v.toFixed(3)).join(' ')})`);
-  assert.ok(Math.abs(xs[7])<1e-9||Math.abs(xs[7])>.01,'shudder ends cleanly');
-  void first;void late;
+  const xs=[];for(let h=6;h>0;h--){animateCharacter(r,{anim:'hurt',animTime:HURT_TIME,hitstop:h,x:0,z:0},1);xs.push(poseOf(r,id).bodyX);}
+  for(let i=1;i<xs.length;i++)assert.ok(Math.sign(xs[i])!==Math.sign(xs[i-1])&&Math.abs(xs[i])>.01,`${f.name} shudders on the counter (${xs.map(v=>v.toFixed(3)).join(' ')})`);
+  animateCharacter(r,{anim:'hurt',animTime:HURT_TIME,hitstop:0,x:0,z:0},1+1/60);const first={...poseOf(r,id)};
+  animateCharacter(r,{anim:'hurt',animTime:HURT_TIME-.3,hitstop:0,x:0,z:0},2);const late=poseOf(r,id);
+  assert.ok(Math.abs(first.lean)>Math.abs(late.lean)+.05||first.bodyZ<late.bodyZ-.05,`${f.name} full bend on the first live frame (${first.lean.toFixed(2)}/${first.bodyZ.toFixed(2)} vs ${late.lean.toFixed(2)}/${late.bodyZ.toFixed(2)})`);
  });
  test(`${f.name}: the idle steps and re-anchors a foot without skating while it is planted`,()=>{
   const r=buildCharacter(id);settle(r);const home=ankles(r).map(v=>v.clone());
@@ -55,13 +54,17 @@ for(const [id,f] of fighters.entries()){
   assert.ok(brake.lk>push.lk+.05||brake.rk>push.rk+.05,`${f.name} bends a knee to brake`);
   assert.ok(brake.llz>push.llz-.001&&brake.rlz<push.rlz+.001,`${f.name} widens the plant to brake`);
  });
- test(`${f.name}: jumpSquat and getUp states drive frame-bound poses, with a mid-pose fallback`,()=>{
+ test(`${f.name}: jumpSquat and the knockdown's get-up frames drive frame-bound poses, with a mid-pose fallback`,()=>{
   const r=buildCharacter(id);settle(r);const stanceY=poseOf(r,id).bodyY;
-  const squat=[];for(let fr=0;fr<=JUMP_SQUAT_FRAMES;fr++){animateCharacter(r,{anim:'jumpSquat',animTime:(JUMP_SQUAT_FRAMES-fr)/60,x:0,z:0},1+fr/60);squat.push(poseOf(r,id).bodyY);}
+  const squat=[];for(let fr=0;fr<=JUMP_SQUAT_FRAMES;fr++){animateCharacter(r,{anim:'jumpSquat',jumpSquat:{frame:fr,frames:JUMP_SQUAT_FRAMES},animTime:(JUMP_SQUAT_FRAMES-fr)/60,x:0,z:0},1+fr/60);squat.push(poseOf(r,id).bodyY);}
   assert.ok(squat[0]>squat.at(-1)+.12,`${f.name} squats over its frames (${squat.map(v=>v.toFixed(2)).join(' ')})`);
   for(let i=1;i<squat.length;i++)assert.ok(squat[i]<=squat[i-1]+1e-9,'squat deepens monotonically');
-  animateCharacter(r,{anim:'jumpSquat',x:0,z:0},2);assert.ok(poseOf(r,id).bodyY<stanceY-.05,'without a timer the squat sits mid-way');
-  settle(r,3);const heads=[];for(let fr=0;fr<=GET_UP_FRAMES;fr++){animateCharacter(r,{anim:'getUp',animTime:(GET_UP_FRAMES-fr)/60,x:0,z:0},4+fr/60);r.g.updateMatrixWorld(true);heads.push(r.head.getWorldPosition(new Vector3()).y);}
-  assert.ok(heads[0]<1&&heads.at(-1)>heads[0]+1,`${f.name} gets up over its frames (${heads[0].toFixed(2)} → ${heads.at(-1).toFixed(2)})`);
+  animateCharacter(r,{anim:'jumpSquat',x:0,z:0},2);assert.ok(poseOf(r,id).bodyY<stanceY-.05,'without a counter or timer the squat sits mid-way');
+  settle(r,3);const heads=[];
+  // The simulation switches to idle on the frame its knockdown timer reaches zero.
+  for(let fr=0;fr<=33;fr++){const remaining=33-fr,p={anim:remaining>0?'knockdown':'idle',animTime:remaining/60,x:0,z:0};if(remaining<=GET_UP_FRAMES&&remaining>0)p.getUp={frame:GET_UP_FRAMES-remaining,frames:GET_UP_FRAMES};animateCharacter(r,p,4+fr/60);r.g.updateMatrixWorld(true);heads.push(r.head.getWorldPosition(new Vector3()).y);}
+  assert.ok(heads[21]<.7,`${f.name} is down before the get-up frames (${heads[21].toFixed(2)})`);
+  assert.ok(heads[32]>heads[21]+1,`${f.name} rises through the get-up frames (${heads[21].toFixed(2)} → ${heads[32].toFixed(2)})`);
+  animateCharacter(r,{anim:'idle',x:0,z:0},5);r.g.updateMatrixWorld(true);assert.ok(r.head.getWorldPosition(new Vector3()).y>heads[32]-.3,'no second rise overlay after a simulated get-up');
  });
 }

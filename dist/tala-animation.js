@@ -171,7 +171,7 @@ export function idlePose(t){
  // Weight rhythm shared with the roster (footwork.js); the head and hands breathe on top.
  return pose(rhythmPose({...stance,hx:.08+Math.sin(t*5.2)*.035,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04},t));
 }
-export function hurtPose(animTime){return pose(recoilPose(impact,stance,animTime));} // frame-one snap and hitstop shudder shared with the roster
+export function hurtPose(animTime,hitstop){return pose(recoilPose(impact,stance,animTime,hitstop));} // frame-one snap and hitstop shudder shared with the roster
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
 // Which states the sample handles; everything else falls back to the shared animator.
 export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
@@ -189,7 +189,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  if(p.guard)return {pose:pose(rhythmPose(guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
- if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
+ if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0,p.hitstop),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
  if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase),rate:13,kind:'run'};
  return {pose:idlePose(t),rate:8,kind:'idle'};
@@ -214,7 +214,7 @@ export function animateTala(r,p,time){
  if(p?.anim==='jumpSquat'&&!p.move)target={kind:'squat',rate:Infinity,pose:pose(squatPose(stance,p))};
  else if(p?.anim==='getUp'&&!p.move)target={kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))};
  else target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
- if(!target&&isDown(p))target={kind:'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time))};
+ if(!target&&isDown(p))target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))}:{kind:'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time))};
  if(target&&(p?.travel||p?.move?.travel))target.pose=pose(travelOverlay(target.pose,p,motion));
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
  r.freeFlight=target?.kind==='freeFlight';

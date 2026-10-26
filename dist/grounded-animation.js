@@ -27,12 +27,12 @@ export function leapPose(m,stance,strikePose){
 // Hit reaction. The simulation's hurt timer counts DOWN from HURT_TIME; the body snaps into the
 // impact, overshoots a touch deeper as the weight catches, then settles back to stance.
 export const HURT_TIME=.42;
-export function recoilPose(impact,stance,animTime){
+export function recoilPose(impact,stance,animTime,hitstop){
  const elapsed=Math.max(0,HURT_TIME-Math.min(HURT_TIME,animTime||0));
  const deeper=mix(impact,stance,-.18);
  // Frame one is the full impact bend (no blend-in); hitstop carries a high-frequency shudder for the first 0.1 s.
  const p=sampleKeys([[0,impact,snapOut],[.07,deeper,snapOut],[.16,impact,smooth],[HURT_TIME,stance,smooth]],elapsed);
- if(elapsed<.1)p.bodyX+=.025*(Math.floor(elapsed*60+1e-6)%2?1:-1);
+ if(hitstop>0)p.bodyX+=.025*(hitstop%2?1:-1);else if(hitstop===undefined&&elapsed<.1)p.bodyX+=.025*(Math.floor(elapsed*60+1e-6)%2?1:-1); // no counter (review fixtures): shudder on the hurt clock instead
  return p;
 }
 // Stagger (EZ-03): the guard is broken and the fighter reels, knees buckled, head lolling, swaying on
@@ -67,7 +67,8 @@ export function knockdownPose(r,stance,impact,elapsed){
  const slam={...s,...root(r,-1.45,.3,-.5),twist:0,side:0,lean:.3,hx:.7,llx:-.7,rlx:-.55,llz:.18,rlz:-.18,lk:.1,rk:.1,lax:-1.0,rax:-1.0,laz:.95,raz:-.95,le:-1.0,re:-1.0};
  const bounce={...slam,...root(r,-1.47,.34,-.52),lean:.1,hx:-.15,llx:-.4,rlx:-.3,lk:.3,rk:.25,le:-1.2,re:-1.2};
  const settle={...slam,...root(r,-1.5,.24,-.55),lean:0,hx:-.12,side:.05,llx:-.35,rlx:-.3,llz:.16,rlz:-.16,lk:.4,rk:.35,lax:-.3,rax:-.25,laz:1.1,raz:-1.1,le:-1.3,re:-1.3};
- return sampleKeys([[0,hit,snapOut],[.12,topple,smooth],[.27,slam,snapOut],[.36,bounce,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
+ // Down by 0.35 s: the simulation spends the last GET_UP_FRAMES of its 0.55 s knockdown getting up (player.getUp), which getUpPose handles.
+ return sampleKeys([[0,hit,snapOut],[.1,topple,smooth],[.22,slam,snapOut],[.29,bounce,smooth],[.35,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
 }
 // The simulation's knockdown timer counts DOWN from KNOCKDOWN_TIME; a defeat timer counts up and the body stays down, breathing.
 export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
@@ -138,9 +139,9 @@ export function travelOverlay(pose,player,motion){
 // ---- Frame-bound jump squat and get-up (the simulation's jumpSquat and getUp states). Progress reads a frame
 // counter if the state carries one, else the countdown timer; without either the pose sits mid-way.
 export const JUMP_SQUAT_FRAMES=4,GET_UP_FRAMES=12;
-const stateProgress=(player,frames)=>{const total=frames/60;if(Number.isFinite(player.stateFrame))return Math.max(0,Math.min(1,player.stateFrame/frames));if(Number.isFinite(player.animTime)&&player.animTime>=0&&player.animTime<=total+1e-6&&player.animTime!==undefined&&('animTime' in player))return 1-player.animTime/total;return .5;};
-export function squatPose(stance,player){const s=stance,u=stateProgress(player,JUMP_SQUAT_FRAMES);const crouch={...s,bodyY:s.bodyY-.22,lean:.3,hx:-.1,llx:-.45,rlx:-.2,lk:1.0,rk:.9,lax:s.lax+.5,rax:s.rax+.5,le:s.le-.3,re:s.re-.3};return mix(s,crouch,smooth(u));}
-export function getUpPose(r,stance,player){return risePose(r,stance,stateProgress(player,GET_UP_FRAMES));}
+const stateProgress=(player,frames,key)=>{const st=key&&player[key];if(st&&Number.isFinite(st.frame))return Math.max(0,Math.min(1,st.frame/(st.frames||frames)));const total=frames/60;if(Number.isFinite(player.stateFrame))return Math.max(0,Math.min(1,player.stateFrame/frames));if(Number.isFinite(player.animTime)&&player.animTime>=0&&player.animTime<=total+1e-6&&player.animTime!==undefined&&('animTime' in player))return 1-player.animTime/total;return .5;};
+export function squatPose(stance,player){const s=stance,u=stateProgress(player,JUMP_SQUAT_FRAMES,'jumpSquat');const crouch={...s,bodyY:s.bodyY-.22,lean:.3,hx:-.1,llx:-.45,rlx:-.2,lk:1.0,rk:.9,lax:s.lax+.5,rax:s.rax+.5,le:s.le-.3,re:s.re-.3};return mix(s,crouch,smooth(u));}
+export function getUpPose(r,stance,player){return risePose(r,stance,stateProgress(player,GET_UP_FRAMES,'getUp'));}
 export function travelTarget(player,stance,strikePose){
  const m=player?.move;if(!m||!m.travel)return null;
  if(m.kind==='pursuit'&&!m.aerial)return {kind:'strike',pose:pursuitTravelPose(m,stance,strikePose)};
@@ -165,7 +166,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  if(poses&&player?.anim==='jumpSquat'&&!player.move)target={kind:'squat',pose:squatPose(poses.stance,player)};
  else if(poses&&player?.anim==='getUp'&&!player.move)target={kind:'rise',pose:getUpPose(r,poses.stance,player)};
  else target=targetFor(player,time,player?.stridePhase??r.stridePhase??0,motion);
- if(!target&&poses&&isDown(player))target={kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time)};
+ if(!target&&poses&&isDown(player))target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time)};
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}
  // Leaving the floor plays the rise; coming back from the air plays the landing. Both are visual overlays on the simulation's state.

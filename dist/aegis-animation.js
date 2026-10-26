@@ -42,7 +42,7 @@ function targetFor(player,time,phase,motion){
  if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:-.15,lean:.04})};
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
  if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:rhythmPose(p({lax:-1.1,le:-1.6,laz:.2,rax:-.5,re:-.55,twist:.2,lean:.12-.24*recoil,bodyZ:-.12*recoil,hx:-.15*recoil,bodyY:-.19}),time,.35)};}
- if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,player.animTime)};
+ if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,player.animTime,player.hitstop)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({laz:.4,raz:-.35,le:-1,re:-.5,lean:-.08,bodyY:-.2})};
  if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
   return {kind:'idle',pose:rhythmPose(p({bodyY:-.14+Math.sin(time*2.1)*.012,twist:.12+Math.sin(time*1.5)*.018}),time,.85)};

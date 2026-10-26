@@ -88,6 +88,7 @@ export function createView(canvas,options={}){
     if(n===cue.winner)p={...p,move:null,guard:false,anim:'victory',animTime:cue.progress*(cue.duration||1.7)};
     else if(n===cue.loser&&cue.reason==='ko')p={...p,move:null,guard:false,anim:'defeat',animTime:Math.max(p.animTime,cue.progress*2)};
    }
+   if(p&&m.hitstop>0&&p.anim==='hurt')p={...p,hitstop:m.hitstop}; // time is frozen during hitstop; the recoil shudder ticks on this counter
    const anim=p?.anim||'idle';
    if(p){r.g.position.set(p.x,liftOf(p),p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
