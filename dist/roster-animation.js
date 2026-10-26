@@ -48,7 +48,7 @@ function grounded(prefix,def){
   return {kind:'idle',pose:rhythmPose(p({hx:stance.hx+breath*.02,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02}),time)};
  }
  // The rear foot catches the recoil (Tala's foot offsets are generic: they read only the hurt timer).
- return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact});}};
+ return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact,id:prefix,strikePose,specials:def.specials});}};
 }
 // Crossed forearms shield the chest, chin tucked, as in Tala's authored guard; the weapon
 // hand rides slightly outward so the blade or staff crosses the body instead of the face.
@@ -69,6 +69,13 @@ export const rei=grounded('rei',{
    {rax:-.9,ray:0,raz:.15,re:.2,lax:-.6,le:-.8,twist:-.12,hipYaw:-.1,lean:.3,hx:.1,bodyZ:.26,bodyY:-.2,llx:-.5,rlx:.3,lk:.45,rk:.2},
    {rax:-.4,ray:-.05,raz:.15,re:.2,lax:-.4,le:-.6,twist:-.16,hipYaw:-.12,lean:.36,hx:.14,bodyZ:.3,bodyY:-.24,llx:-.5,rlx:.3,lk:.45,rk:.2}]],
  guard:crossedGuard,impact:recoil,charge:{lax:.2,laz:.4,le:-.6,rax:.15,raz:-.35,re:-.5,lean:-.06,hx:-.15,llx:-.1,llz:.3,rlx:.1,rlz:-.3,lk:.36,rk:.36,bodyY:-.12},
+ // Specials: a loaded reverse grip, the blade thrown across the body, and the follow; the spin technique turns the whole body.
+ specials:{special:[{rax:.2,ray:.8,raz:.3,re:-.9,lax:-.6,le:-1,twist:.4,hipYaw:.2,lean:-.05,hy:-.2,bodyY:-.2,rlx:.3,llx:-.14,rk:.42},
+   {rax:-1.0,ray:-.55,raz:.65,re:-.4,lax:-.6,le:-1,twist:-.5,hipYaw:-.35,lean:.18,hy:.3,bodyZ:.16,bodyY:-.14,rlx:.45,llx:-.35,rk:.2,lk:.4},
+   {rax:-.8,ray:-.7,raz:.6,re:-.5,lax:-.55,le:-.95,twist:-.55,hipYaw:-.38,lean:.2,hy:.32,bodyZ:.18,bodyY:-.14,rlx:.45,llx:-.35,rk:.2,lk:.4}],
+  technique:[{raz:.3,laz:-.3,rax:-.4,lax:-.4,le:-.9,re:-.9,twist:.3,hipYaw:.1,lean:-.05,bodyY:-.25,lk:.45,rk:.45},
+   {raz:.9,laz:-.8,rax:-.6,lax:-.6,re:-.2,le:-.2,twist:0,hipYaw:0,lean:.05,bodyY:.1,llx:-.3,rlx:.3,lk:.3,rk:.3},
+   {raz:.7,laz:-.6,rax:-.5,lax:-.5,re:-.4,le:-.4,lean:.1,bodyY:-.1,llx:-.3,rlx:.3,lk:.35,rk:.3}]},
  armSwing:.25,breath:2.4});
 
 // Sol: staff upright in the right hand, left hand raised to cast; sweep, reverse sweep, two-hand thrust.
@@ -86,6 +93,13 @@ export const sol=grounded('sol',{
    {rax:-1.3,ray:.1,raz:-.05,re:-.2,lax:-1.25,laz:.1,le:-.2,twist:-.55,hipYaw:-.18,lean:.3,hx:.1,bodyZ:.34,bodyY:-.2,llx:-.5,rlx:.35,lk:.45,rk:.2}]],
  // Sol blocks behind the staff held upright in front of the chest, the free forearm crossed over it.
  guard:{...crossedGuard,rax:-.7,ray:0,raz:-.6,re:-.6},impact:recoil,charge:{lax:.1,laz:.5,le:-.7,rax:.1,raz:-.3,re:-.4,lean:-.06,hx:-.15,llx:-.1,llz:.3,rlx:.1,rlz:-.3,lk:.34,rk:.34,bodyY:-.12},
+ // Specials: the casting hand loads back then thrusts, hips turning the other way (left-handed); the sphere opens both arms.
+ specials:{special:[{lax:.2,laz:.3,le:-1.3,rax:-.1,re:-.3,twist:-.3,hipYaw:-.15,lean:-.05,hy:.15,bodyY:-.18,llx:-.14,rlx:.3,lk:.45,rk:.3},
+   {lax:-1.5,laz:.1,le:-.1,rax:-.4,re:-.2,twist:.3,hipYaw:.35,lean:.18,hy:-.26,bodyZ:.14,bodyY:-.12,llx:-.4,rlx:.3,lk:.35,rk:.2},
+   {lax:-1.3,laz:.15,le:-.2,rax:-.4,re:-.2,twist:.35,hipYaw:.38,lean:.2,hy:-.3,bodyZ:.16,bodyY:-.12,llx:-.4,rlx:.3,lk:.35,rk:.2}],
+  technique:[{laz:.3,raz:-.3,lax:-.5,rax:-.3,le:-1.2,re:-1.2,lean:-.08,bodyY:-.22,lk:.45,rk:.45},
+   {laz:1.1,raz:-1.1,lax:-.9,rax:-.9,le:-.3,re:-.3,lean:.1,bodyY:-.1,llx:-.2,rlx:.2,lk:.3,rk:.3},
+   {laz:.9,raz:-.9,lax:-.8,rax:-.8,le:-.4,re:-.4,lean:.12,bodyY:-.12,llx:-.2,rlx:.2,lk:.32,rk:.3}]},
  armSwing:.22,breath:2.0});
 
 // Vesper: rings held open at both sides, upright carriage; double sweep, one-hand push, rising double lift.
@@ -102,6 +116,13 @@ export const vesper=grounded('vesper',{
    {lax:-2.2,rax:-2.2,laz:.3,raz:-.3,le:-.2,re:-.2,lean:.1,hx:.12,bodyY:-.04,bodyZ:.2,llx:-.3,rlx:.3,lk:.2,rk:.2},
    {lax:-1.9,rax:-1.9,laz:.35,raz:-.35,le:-.25,re:-.25,lean:.2,hx:.14,bodyZ:.24,bodyY:-.12,llx:-.3,rlx:.3,lk:.28,rk:.28}]],
  guard:{...crossedGuard,raz:crossedGuard.raz-.1},impact:recoil,charge:{lax:.0,laz:.75,le:-.9,rax:.0,raz:-.75,re:-.9,lean:-.08,hx:-.18,llx:-.08,llz:.28,rlx:.08,rlz:-.28,lk:.32,rk:.32,bodyY:-.12},
+ // Specials: both rings drawn back then pushed out together; the wheel technique lifts them overhead.
+ specials:{special:[{lax:.3,rax:.3,laz:.6,raz:-.6,le:-1.2,re:-1.2,lean:-.1,hx:-.05,bodyY:-.2,lk:.4,rk:.4},
+   {lax:-1.3,rax:-1.3,laz:.5,raz:-.5,le:-.2,re:-.2,lean:.15,hx:.08,bodyZ:.16,bodyY:-.1,llx:-.3,rlx:.3,lk:.3,rk:.2},
+   {lax:-1.15,rax:-1.15,laz:.5,raz:-.5,le:-.3,re:-.3,lean:.18,hx:.1,bodyZ:.18,bodyY:-.12,llx:-.3,rlx:.3,lk:.3,rk:.2}],
+  technique:[{lax:.2,rax:.1,laz:.5,raz:-.5,le:-1.3,re:-1.0,lean:-.1,hx:-.08,bodyY:-.22,lk:.45,rk:.45},
+   {lax:-1.8,rax:-.7,laz:.3,raz:-.6,le:-.2,re:-.5,lean:.2,hx:.1,bodyZ:.18,bodyY:-.1,llx:-.3,rlx:.3,lk:.3,rk:.2},
+   {lax:-1.6,rax:-.7,laz:.35,raz:-.6,le:-.3,re:-.5,lean:.2,hx:.1,bodyZ:.2,bodyY:-.12,llx:-.3,rlx:.3,lk:.3,rk:.2}]},
  armSwing:.3,breath:1.7});
 
 export const animateRei=rei.animate,animateSol=sol.animate,animateVesper=vesper.animate;

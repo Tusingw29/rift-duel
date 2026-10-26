@@ -48,4 +48,11 @@ function targetFor(player,time,phase,motion){
   return {kind:'idle',pose:rhythmPose(p({bodyY:-.14+Math.sin(time*2.1)*.012,twist:.12+Math.sin(time*1.5)*.018}),time,.85)};
 }
 const aegisImpact=p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18});
-export function animateAegis(r,player,time){r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact});}
+// Specials: the blade loads behind the shoulder and thrusts straight; the drive technique lunges behind it.
+const aegisSpecials={special:[{rax:.3,ray:.2,raz:-.1,re:-1.2,lax:-.3,le:-.8,twist:.3,hipYaw:.15,lean:-.05,bodyY:-.2,rlx:.3,llx:-.14,rk:.45,lk:.3},
+  {rax:-1.45,ray:-.1,raz:-.05,re:-.12,lax:-.6,le:-.8,twist:-.35,hipYaw:-.4,lean:.2,bodyZ:.16,bodyY:-.14,llx:-.35,rlx:.4,lk:.4,rk:.15},
+  {rax:-1.2,ray:-.15,raz:-.05,re:-.3,lax:-.55,le:-.8,twist:-.4,hipYaw:-.42,lean:.22,bodyZ:.18,bodyY:-.14,llx:-.35,rlx:.4,lk:.4,rk:.15}],
+ technique:[{rax:.4,re:-1.4,lax:-.5,le:-1,twist:.35,hipYaw:.15,lean:-.15,bodyY:-.25,lk:.45,rk:.5},
+  {rax:-1.8,re:-.1,lax:-.6,le:-.8,twist:-.3,hipYaw:-.3,lean:.5,bodyZ:.3,bodyY:-.16,llx:-.5,rlx:.45,lk:.45,rk:.1},
+  {rax:-1.6,re:-.2,lax:-.6,le:-.8,twist:-.35,hipYaw:-.32,lean:.45,bodyZ:.3,bodyY:-.18,llx:-.5,rlx:.45,lk:.45,rk:.1}]};
+export function animateAegis(r,player,time){r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact,id:'aegis',strikePose:aegisStrikePose,specials:aegisSpecials});}

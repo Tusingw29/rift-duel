@@ -10,9 +10,10 @@ import {fighters} from './fighters.js';
 import {Box3} from './vendor/three.module.js';
 const rollBounds=new Box3();
 const stagedBounds=new Box3();
-export function applyStagedPose(r,part){
+export function applyStagedPose(r,part,role='actor'){
  r.g.position.set(part.x,part.y,part.z);r.g.rotation.set(part.tilt,part.yaw,part.roll);
- r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+ // The actor's lifting arm comes from the staging; a grounded victim keeps its own flailing limbs.
+ if(role==='actor'||r.animationFamily!=='grounded'){r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;}
  if(Number.isFinite(part.rightArm))r.limbs[2].rotation.x=part.rightArm;
  if(Number.isFinite(part.leftLeg))r.limbs[1].rotation.x=part.leftLeg;
  // Root rotations in throws must not sink a shoulder or head below the floor.
@@ -30,7 +31,7 @@ export function animateCharacter(r,p,time){
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
  // A grounded fall rotates the root; keep the lowest point of the body on the floor whatever the limbs do.
  // Skinned bodies only: the classic batched meshes do not follow the limbs.
- if(r.conceptModel&&r.animationFamily==='grounded'&&['knockdown','defeat'].includes(p?.anim)){r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);if(rollBounds.min.y<.02)r.body.position.y+=(.02-rollBounds.min.y)/r.g.scale.y;}
+ if((r.conceptModel||p?.anim==='roll')&&r.animationFamily==='grounded'&&['knockdown','defeat','roll'].includes(p?.anim)){r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);if(rollBounds.min.y<.03)r.body.position.y+=(.03-rollBounds.min.y)/r.g.scale.y;}
  if(r.id===3)finishMorrowAttack(r,p);
  finishCombatRig(r,p,time);
 }

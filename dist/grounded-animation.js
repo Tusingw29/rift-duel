@@ -60,7 +60,7 @@ export const KNOCKDOWN_TIME=.55,RISE_TIME=.45;
 const hipHeight=r=>2*(r.legLength||.56)+(r.ankleHeight??.14);
 // A yaw before the pitch rolls a lying body about its own spine (Euler XYZ applies the yaw first), so `turn` is the roll onto the side.
 const root=(r,pitch,hipY,hipZ,turn=0)=>{const P=hipHeight(r);return {bodyPitch:pitch,bodyRoll:0,hipYaw:turn,bodyY:hipY-P*Math.cos(pitch),bodyZ:hipZ-P*Math.sin(pitch)};};
-export function knockdownPose(r,stance,impact,elapsed){
+export function knockdownPose(r,stance,impact,elapsed,fromAir=false){
  const s=stance;
  const hit={...impact,bodyY:s.bodyY-.02,lean:-.25,hx:-.4,lax:-1.2,rax:-1.1,laz:.45,raz:-.45,le:-.9,re:-.9,llx:s.llx-.1,rlx:s.rlx+.1,lk:.3,rk:.28,bodyPitch:-.08};
  const topple={...s,...root(r,-.55,hipHeight(r)-.22,-.25),twist:0,side:0,lean:-.3,hx:-.35,llx:-.5,rlx:-.3,llz:.12,rlz:-.12,lk:.25,rk:.2,lax:-2.1,rax:-2.0,laz:.5,raz:-.5,le:-.6,re:-.6};
@@ -68,12 +68,14 @@ export function knockdownPose(r,stance,impact,elapsed){
  const bounce={...slam,...root(r,-1.47,.34,-.52),lean:.1,hx:-.15,llx:-.4,rlx:-.3,lk:.3,rk:.25,le:-1.2,re:-1.2};
  const settle={...slam,...root(r,-1.5,.24,-.55),lean:0,hx:-.12,side:.05,llx:-.35,rlx:-.3,llz:.16,rlz:-.16,lk:.4,rk:.35,lax:-.3,rax:-.25,laz:1.1,raz:-1.1,le:-1.3,re:-1.3};
  // Down by 0.35 s: the simulation spends the last GET_UP_FRAMES of its 0.55 s knockdown getting up (player.getUp), which getUpPose handles.
+ // After a launch the body is already on its back: go straight to the slam, bounce and settle.
+ if(fromAir)return sampleKeys([[0,slam,snapOut],[.08,bounce,smooth],[.16,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
  return sampleKeys([[0,hit,snapOut],[.1,topple,smooth],[.22,slam,snapOut],[.29,bounce,smooth],[.35,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
 }
 // The simulation's knockdown timer counts DOWN from KNOCKDOWN_TIME; a defeat timer counts up and the body stays down, breathing.
 export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
-export function downPose(r,stance,impact,player,time){
- const p=knockdownPose(r,stance,impact,downElapsed(player));
+export function downPose(r,stance,impact,player,time,fromAir=false){
+ const p=knockdownPose(r,stance,impact,downElapsed(player),fromAir);
  if(player.anim==='defeat'&&(player.animTime||0)>KNOCKDOWN_TIME){const b=Math.sin(time*1.6)*.015;p.lean+=b;p.bodyY+=b*.4;}
  return p;
 }
@@ -142,6 +144,78 @@ export const JUMP_SQUAT_FRAMES=4,GET_UP_FRAMES=12;
 const stateProgress=(player,frames,key)=>{const st=key&&player[key];if(st&&Number.isFinite(st.frame))return Math.max(0,Math.min(1,st.frame/(st.frames||frames)));const total=frames/60;if(Number.isFinite(player.stateFrame))return Math.max(0,Math.min(1,player.stateFrame/frames));if(Number.isFinite(player.animTime)&&player.animTime>=0&&player.animTime<=total+1e-6&&player.animTime!==undefined&&('animTime' in player))return 1-player.animTime/total;return .5;};
 export function squatPose(stance,player){const s=stance,u=stateProgress(player,JUMP_SQUAT_FRAMES,'jumpSquat');const crouch={...s,bodyY:s.bodyY-.22,lean:.3,hx:-.1,llx:-.45,rlx:-.2,lk:1.0,rk:.9,lax:s.lax+.5,rax:s.rax+.5,le:s.le-.3,re:s.re-.3};return mix(s,crouch,smooth(u));}
 export function getUpPose(r,stance,player){return risePose(r,stance,stateProgress(player,GET_UP_FRAMES,'getUp'));}
+// ---- Specials on the grounded rig. One loaded/peak/follow triple per fighter covers shot, launch, forward and back
+// (the old shared animator used one pose per fighter for all of them too), with per-kind body modifiers; techniques
+// have their own triple plus effect overrides. Same schedule as strikes: held load, two-frame whip, locked peak.
+const kindModifiers={
+ shot:{wind:{bodyY:-.06,lean:-.05},peak:{lean:.22,bodyZ:.14},follow:{lean:.2,bodyZ:.1}},
+ launch:{wind:{bodyY:-.12,lean:.1,lk:.5,rk:.5},peak:{lean:-.12,bodyY:.08,bodyZ:.12,lk:.08,rk:.08,hx:-.2},follow:{lean:-.08,bodyY:.04,bodyZ:.1,hx:-.15}},
+ forward:{wind:{bodyY:-.1,bodyZ:-.06,lean:.1},peak:{bodyZ:.32,lean:.35,hx:.1,llx:-.55,rlx:.4,lk:.45,rk:.15},follow:{bodyZ:.3,lean:.3,llx:-.55,rlx:.4,lk:.45,rk:.15}},
+ back:{wind:{bodyZ:.05,lean:.05},peak:{bodyZ:-.25,lean:-.15,hx:-.1,llx:-.2,rlx:.5,lk:.3,rk:.45},follow:{bodyZ:-.2,lean:-.1,rlx:.5,rk:.45}}
+};
+const effectOverrides={
+ kick:{rlx:-1.55,rk:0,llx:.3,lk:.45,bodyY:.1,lean:-.3,rax:.5,raz:-.3,hx:-.1},
+ lance:{lax:-1.6,rax:-1.6,le:-.2,re:-.2,laz:.1,raz:-.1,lean:.25,bodyZ:.2},
+ fan:{laz:.8,raz:-.8,lax:-1.0,rax:-1.0,le:-.3,re:-.3},
+ rise:{lax:-2.4,rax:-2.4,le:-.2,re:-.2,lean:-.2,bodyY:.05,hx:-.25},
+ sphere:{lax:-1.2,rax:-1.2,laz:.3,raz:-.3,le:-.9,re:-.9,lean:.1},
+ wheel:{lax:-2.0,rax:-2.0,laz:.5,raz:-.5,le:-.5,re:-.5,lean:.1,bodyY:.04},
+ drive:{rax:-1.8,re:-.1,lax:-.6,lean:.5,bodyZ:.3,llx:-.5,rlx:.45,lk:.45,rk:.1},
+ charge:{rax:-1.3,lax:-1.3,re:-.3,le:-.3,lean:.4,bodyZ:.3,llx:-.5,rlx:.4,lk:.5,rk:.1}
+};
+const spinning=effect=>['spin','fan','wheel'].includes(effect);
+export function specialPose(move,stance,specials){
+ const triple=(move.kind==='technique'?specials.technique:specials.special)||specials.special;
+ let wind={...stance,...triple[0]},peak={...stance,...triple[1]},follow={...stance,...triple[2]||triple[1]};
+ const mod=kindModifiers[move.kind];if(mod){wind={...wind,...mod.wind};peak={...peak,...mod.peak};follow={...follow,...mod.follow};}
+ const fx=move.kind==='technique'&&effectOverrides[move.effect];if(fx){peak={...peak,...fx};follow={...follow,...fx};}
+ const drive=mix(wind,peak,.6),retract=mix(follow,stance,.6);
+ const out=sampleSchedule(strikeSchedule(move,stance,wind,drive,peak,follow,retract),move.frame);
+ // Spinning techniques turn the whole body through their active window (one turn, two on the follow-up).
+ if(move.kind==='technique'&&spinning(move.effect)&&move.frame>=move.startup){const active=move.active||1,u=Math.min(1,(move.frame-move.startup)/active);out.hipYaw+=u*Math.PI*2*(move.followup?2:1);}
+ return out;
+}
+// Being launched: a backward tumble about the hips (the simulation lifts the root), limbs thrown, ending as the fall begins.
+export function launchedPose(r,stance,player){
+ // A full backflip that lands on the back (−2π − π/2), so the fall that follows starts from the lying slam without a pop.
+ const t=1-Math.min(1,(player.air||0)/.85),pitch=-smooth(t)*Math.PI*2.5,P=hipHeight(r);
+ return {...stance,...root(r,pitch,P,0),lean:-.2,hx:-.3,lax:-1.9,rax:-1.6,laz:.6,raz:-.6,le:-.9,re:-.9,llx:-.9,rlx:-.4,lk:.6,rk:.5,llz:.15,rlz:-.15,twist:0,side:0};
+}
+// Evasive roll: tucked, one full turn about the hips over 0.3 s; forward rolls pitch, side rolls bank.
+export function rollPose(r,stance,player){
+ const roll=player.roll||{},progress=Math.min(1,(roll.elapsed||0)/.3),angle=progress*Math.PI*2*(roll.direction||1),hipY=.72+.35*Math.sin(progress*Math.PI),P=hipHeight(r);
+ const tuck={...stance,lean:.5,hx:.4,llx:-.9,rlx:-.9,lk:1.5,rk:1.5,lax:-1.2,rax:-1.2,laz:.2,raz:-.2,le:-1.6,re:-1.6,twist:0,side:0};
+ if(roll.forward)return {...tuck,...root(r,angle,hipY,0)};
+ return {...tuck,bodyPitch:0,bodyRoll:-angle,hipYaw:0,bodyX:-P*Math.sin(-angle),bodyY:hipY-P*Math.cos(angle),bodyZ:0};
+}
+// Round-winning pose, per fighter, settling over 0.45 s with a breath.
+const victoryShapes={aegis:{rax:-2.9,raz:-.15,lax:-.35,twist:.18},rei:{rax:-1.1,ray:-.9,raz:.4,laz:.3,twist:.45,lean:.08},tala:{rax:-3,re:-.1,lax:-.5,le:-1.6,twist:-.3,llx:-.3,lk:.5},morrow:{rax:-2.2,raz:-.5,re:-.9,lax:.2,lean:-.08},sol:{lax:-2.7,le:-.2,raz:-.9,twist:.2},vesper:{lax:-1.4,rax:-1.4,laz:1.1,raz:-1.1,le:-.3,re:-.3,bodyY:.25}};
+export function victoryPose(stance,id,animTime,time){
+ const settle=smooth((animTime||0)/.45),bob=Math.sin(time*2.2)*.02,shape=victoryShapes[id]||{};
+ const target={...stance,...shape,bodyY:stance.bodyY+(shape.bodyY||0)+.06,hx:stance.hx-.18};
+ const out=mix(stance,target,settle);out.bodyY+=bob;return out;
+}
+// Aerial pursuit: tucked flight with three alternating arm beats and a kick on the third (the old shared beats, on the grounded body).
+export function aerialPursuitPose(stance,m,player){
+ const base=flightPose(stance,{air:.5}),out={...base};
+ if(m.frame<m.startup)return out;
+ const beat=Math.floor((m.frame-m.startup)/9),pulse=1-smooth(((m.frame-m.startup)%9)/9);
+ if(beat%2){out.rax=-1.7*pulse+base.rax*(1-pulse);out.re=-.05*pulse+base.re*(1-pulse);}else{out.lax=-1.7*pulse+base.lax*(1-pulse);out.le=-.05*pulse+base.le*(1-pulse);}
+ out.twist+=(beat%2?-.35:.35)*pulse;out.lean+=.1*pulse;
+ if(beat===2){out.rlx=-1.4*pulse+base.rlx*(1-pulse);out.rk=base.rk*(1-pulse);}
+ return out;
+}
+// A strike taken while airborne: the strike's arms and torso over the flight legs.
+export function aerialStrikePose(stance,player,strikePose){
+ const flight=flightPose(stance,player),s=strikePose({...player.move,chain:Math.min(3,player.move.chain||1)});
+ const out={...flight};for(const k of ['lax','lay','laz','rax','ray','raz','le','re','lw','rw','twist','hipYaw','lean','hx','hy','lc','rc'])out[k]=s[k];return out;
+}
+// Captures and supers: the actor braces and reaches, the victim flails (the staging adds root motion and the lifting arm).
+export function grapplePose(stance,t,role){
+ const w=Math.sin((t||0)*22)*.08;
+ if(role==='actor')return {...stance,lean:.25,hx:-.05,bodyY:stance.bodyY-.08,lax:-1.3,rax:-1.3,laz:.25,raz:-.25,le:-.7,re:-.7,llx:-.45,rlx:.35,lk:.55,rk:.3,twist:0,hipYaw:0,side:0};
+ return {...stance,lean:-.2,hx:-.45,side:w*.5,lax:-1.6+w,rax:-1.4-w,laz:1.0,raz:-1.0,le:-.8,re:-.8,llx:-.6+w,rlx:-.4-w,lk:1.0,rk:.9,llz:.25,rlz:-.25,twist:w,hipYaw:0};
+}
 export function travelTarget(player,stance,strikePose){
  const m=player?.move;if(!m||!m.travel)return null;
  if(m.kind==='pursuit'&&!m.aerial)return {kind:'strike',pose:pursuitTravelPose(m,stance,strikePose)};
@@ -165,8 +239,16 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  let target=null;
  if(poses&&player?.anim==='jumpSquat'&&!player.move)target={kind:'squat',pose:squatPose(poses.stance,player)};
  else if(poses&&player?.anim==='getUp'&&!player.move)target={kind:'rise',pose:getUpPose(r,poses.stance,player)};
+ else if(poses&&player?.anim==='grapple')target={kind:'grapple',pose:grapplePose(poses.stance,player.animTime||0,'actor')};
+ else if(poses&&player?.anim==='grappled')target={kind:'grapple',pose:grapplePose(poses.stance,player.animTime||0,'victim')};
+ else if(poses&&player?.anim==='victory')target={kind:'victory',pose:victoryPose(poses.stance,poses.id,player.animTime,time)};
  else target=targetFor(player,time,player?.stridePhase??r.stridePhase??0,motion);
- if(!target&&poses&&isDown(player))target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time)};
+ if(!target&&poses&&player?.launched&&(player.air||0)>0&&!player.move)target={kind:'launched',pose:launchedPose(r,poses.stance,player)};
+ if(!target&&poses&&player?.anim==='roll'&&player.roll)target={kind:'roll',pose:rollPose(r,poses.stance,player)};
+ if(!target&&poses&&player?.move?.kind==='pursuit'&&player.move.aerial)target={kind:'aerial',pose:aerialPursuitPose(poses.stance,player.move,player)};
+ if(!target&&poses?.strikePose&&player?.move&&(player.air||0)>0&&!player.launched)target={kind:'aerial',pose:aerialStrikePose(poses.stance,player,poses.strikePose)};
+ if(!target&&poses?.specials&&player?.move&&['shot','technique','launch','forward','back'].includes(player.move.kind)&&!(player.air>0))target={kind:'strike',pose:specialPose(player.move,poses.stance,poses.specials)};
+ if(!target&&poses&&isDown(player)){if(r[`${prefix}Kind`]==='launched')r[`${prefix}FromAir`]=true;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}
  // Leaving the floor plays the rise; coming back from the air plays the landing. Both are visual overlays on the simulation's state.
@@ -184,7 +266,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  const entry=r[`${prefix}Entry`];entry.elapsed+=dt;entry.frame=move?.frame;
  const entryFrames=move?.travel?Math.min(3,move.startup):move?.startup;
  // Hits, jump squats and get-ups snap on their first frame: no entry blend.
- const weight=['hurt','squat','rise','knockdown'].includes(target.kind)?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
+ const weight=['hurt','squat','rise','knockdown','launched','grapple','roll'].includes(target.kind)||prevKind==='launched'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.

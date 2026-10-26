@@ -1,6 +1,7 @@
 import * as T from './vendor/three.module.js';
 import {buildCharacter} from './characters.js';
 import {loadFighterModel,attachFighterModel} from './tala-concept.js';
+import {techniques} from './techniques.js';
 import {animateCharacter} from './animation.js';
 import {moveTiming} from './moves.js';
 import {fighters} from './fighters.js';
@@ -17,6 +18,11 @@ function cameraUpdate(){camera.position.set(Math.sin(angle)*distance,3.5,Math.co
 const strikeMove={};
 function sample(pose,t,render=true){if(!r)return;const state={anim:pose,x:0,z:0,prev:{x:1,z:0},guard:pose==='guard',air:0,animTime:t,stridePhase:t*6};if(pose==='pursuit'){const timing=moveTiming(fighters[index],'pursuit');state.anim='pursuit';Object.assign(strikeMove,{...timing,active:timing.active||1,kind:'pursuit',aerial:false,aimX:1,aimZ:0,frame:Math.floor(t*60)%(timing.startup+(timing.active||1)+timing.recovery),travel:{kind:'line',frames:timing.startup,frame:0,dx:0,dz:0}});state.move=strikeMove;state.lookX=1;state.lookZ=0;}
  if(pose==='crossover'){const timing=moveTiming(fighters[index],'strike');state.anim='jumpAttack';const startup=18,total=startup+(timing.active||1)+timing.recovery;Object.assign(strikeMove,{...timing,startup,active:timing.active||1,kind:'jumpAttack',crossover:true,frame:Math.floor(t*60)%total,travel:{kind:'orbit',frames:startup,frame:0,side:1}});state.move=strikeMove;state.air=.3;}
+ // Specials and the remaining states, so every grounded pose can be reviewed here (times are seconds into the state).
+ if(['shot','technique','launch','forward','back'].includes(pose)){const timing=pose==='technique'?{...techniques[fighterId]}:moveTiming(fighters[index],pose),total=timing.startup+(timing.active||1)+timing.recovery;state.anim=pose==='shot'?'attack':pose;Object.assign(strikeMove,{...timing,active:timing.active||1,kind:pose,chain:1,effect:techniques[fighterId]?.effect,frame:Math.floor(t*60)%total});state.move=strikeMove;}
+ if(pose==='launched'){state.anim='launch';state.launched=true;state.air=Math.max(0,.85-t);}
+ if(pose==='roll'){state.roll={elapsed:t%.3,direction:1,forward:true};}
+ if(pose==='knockdown'){state.animTime=Math.max(0,.55-t);}
  if(pose.startsWith('strike')){const timing=moveTiming(fighters[index],'strike');state.anim='attack';Object.assign(strikeMove,{...timing,kind:'strike',chain:Number(pose.at(-1)),frame:Math.floor(t*60)%timing.total});state.move=strikeMove;}animateCharacter(r,state,t);r.g.position.set(0,0,0);r.g.rotation.y=0;scene.updateMatrixWorld(true);if(render)renderer.render(scene,camera);return {fighter:fighterId,pose,t,costume:r.conceptCostume||(r.graveboundCostume?'morrow':null),meshes:r.g.getObjectsByProperty('isMesh',true).length};}
 window.fighterReview={sample:(pose,t)=>{paused=true;time=t;select.value=pose;r.footPlants=null;r.gaitPlants=null;for(let f=0;f<Math.floor(t*60);f++)sample(pose,f/60,false);return sample(pose,t);},view:a=>{angle=a;cameraUpdate();renderer.render(scene,camera);},zoom:d=>{distance=d;cameraUpdate();},ready:false};
 document.querySelectorAll('[data-angle]').forEach(b=>b.onclick=()=>{angle=Number(b.dataset.angle);cameraUpdate();});document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'Play':'Pause';};select.onchange=()=>{time=0;};let drag=false;renderer.domElement.onpointerdown=e=>{drag=true;renderer.domElement.setPointerCapture(e.pointerId);};renderer.domElement.onpointerup=()=>drag=false;renderer.domElement.onpointermove=e=>{if(drag){angle-=e.movementX*.01;cameraUpdate();}};renderer.domElement.onwheel=e=>{distance=T.MathUtils.clamp(distance+e.deltaY*.005,4,14);cameraUpdate();};onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);};cameraUpdate();

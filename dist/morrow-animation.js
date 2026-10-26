@@ -62,7 +62,14 @@ function targetFor(player,time,phase,motion){
  if(player?.anim==='run')return {kind:'run',pose:morrowMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
  return {kind:'idle',pose:rhythmPose(p({bodyY:-.19+Math.sin(time*1.8)*.006,twist:.14+Math.sin(time*1.3)*.014}),time,.7)};
 }
+// Specials: the greatsword loads over the shoulder and comes through two-handed; the charge technique drives low behind it.
+const morrowSpecials={special:[{rax:-.3,re:-1.2,lax:-.2,le:-.9,twist:.3,hipYaw:.2,lean:-.08,bodyY:-.28,rlx:.3,llx:-.14,rk:.5,lk:.3},
+  {rax:-1.3,re:-.2,lax:-.8,le:-.6,twist:-.3,hipYaw:-.35,lean:.18,bodyZ:.2,bodyY:-.2,llx:-.35,rlx:.4,lk:.4,rk:.15},
+  {rax:-1.1,re:-.3,lax:-.7,le:-.6,twist:-.35,hipYaw:-.38,lean:.2,bodyZ:.22,bodyY:-.2,llx:-.35,rlx:.4,lk:.4,rk:.15}],
+ technique:[{rax:-.5,lax:-.5,re:-1.4,le:-1.4,twist:.2,hipYaw:.1,lean:-.2,bodyY:-.3,lk:.5,rk:.5},
+  {rax:-1.3,lax:-1.3,re:-.3,le:-.3,twist:0,hipYaw:0,lean:.4,bodyZ:.3,bodyY:-.22,llx:-.5,rlx:.4,lk:.5,rk:.1},
+  {rax:-1.2,lax:-1.2,re:-.4,le:-.4,lean:.38,bodyZ:.3,bodyY:-.24,llx:-.5,rlx:.4,lk:.5,rk:.1}]};
 export function animateMorrow(r,player,time){
  r.footPivot??=(p,kind)=>morrowFootTransition(r,p,kind);r.footOffsets??=rhythmFootOffsets;r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
- return animateGroundedRig(r,player,time,'morrow',targetFor,{stance:morrowStance,impact:p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3})});
+ return animateGroundedRig(r,player,time,'morrow',targetFor,{stance:morrowStance,impact:p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),id:'morrow',strikePose:morrowStrikePose,specials:morrowSpecials});
 }

@@ -88,7 +88,8 @@ export function createView(canvas,options={}){
     if(n===cue.winner)p={...p,move:null,guard:false,anim:'victory',animTime:cue.progress*(cue.duration||1.7)};
     else if(n===cue.loser&&cue.reason==='ko')p={...p,move:null,guard:false,anim:'defeat',animTime:Math.max(p.animTime,cue.progress*2)};
    }
-   if(p&&m.hitstop>0&&p.anim==='hurt')p={...p,hitstop:m.hitstop}; // time is frozen during hitstop; the recoil shudder ticks on this counter
+   if(p&&m.hitstop>0&&p.anim==='hurt')p={...p,hitstop:m.hitstop};
+   if(p&&m?.cinematic&&cue?.kind!=='ko'){const c=m.cinematic;if(n===c.a)p={...p,anim:'grapple',animTime:c.t||0,move:null,guard:false,launched:false,air:0};else if(n===c.b)p={...p,anim:'grappled',animTime:c.t||0,move:null,guard:false,launched:false,air:0};} // time is frozen during hitstop; the recoil shudder ticks on this counter
    const anim=p?.anim||'idle';
    if(p){r.g.position.set(p.x,liftOf(p),p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);r.g.scale.setScalar(fighters[p.id].shape==='heavy'?1.12:1);}
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
@@ -111,9 +112,9 @@ export function createView(canvas,options={}){
    if(m?.cinematic){const c=m.cinematic;
     if(c.kind==='capture'&&!stagedState){
      const pose=capturePose(c,m.players[c.a],m.players[c.b]),part=n===c.a?pose.actor:pose.victim;
-     r.g.position.set(part.x,part.y,part.z);r.g.rotation.x=part.tilt;r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;
+     r.g.position.set(part.x,part.y,part.z);r.g.rotation.x=part.tilt;if(n===c.a||r.animationFamily!=='grounded'){r.limbs[0].rotation.x=part.arm;r.limbs[2].rotation.x=part.arm;}
     }else if(stagedState){const part=n===c.a?stagedState.actor:stagedState.victim;
-     applyStagedPose(r,part);
+     applyStagedPose(r,part,n===c.a?'actor':'victim');
      if(r.spirit&&n===c.a){r.spirit.scale.setScalar(1.4);r.spirit.userData.material.opacity=.5;}
     }
    }else r.g.rotation.x=0;

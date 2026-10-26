@@ -43,7 +43,7 @@ test('Tala rig animates through the sample system with lagging ponytail and dete
  const matrices=()=>{r.g.updateMatrixWorld(true);const out=[];r.g.traverse(n=>out.push([...n.matrixWorld.elements]));return out;};
  animateCharacter(r,p,1);const first=matrices();animateCharacter(r,p,1);assert.deepEqual(matrices(),first);
  for(let t=1;t<1.5;t+=1/60)animateCharacter(r,{...p,move:strike(1,5)},t);assert.ok(r.limbs[2].rotation.x<-1.4,'right arm reaches extension after blending');
- animateCharacter(r,{anim:'launch',air:.6,launched:true,x:0,z:0},2);assert.equal(r.pose,null,'shared animator takes over outside the sample states');
+ animateCharacter(r,{anim:'launch',air:.6,launched:true,x:0,z:0},2);assert.ok(r.pose&&r.animationFamily==='grounded','a launch tumble now runs on the grounded rig');
  const other=buildCharacter(0);animateCharacter(other,{anim:'idle',x:0,z:0},0);assert.equal(other.pose,undefined,'other fighters are untouched');
 });
 
