@@ -1,6 +1,6 @@
 # Combat fluidity / beam polish review
 
-Status: **awaiting normal-speed verdict**. Unit verification: **472 tests pass**. Character and pose files are unchanged.
+Status: **awaiting normal-speed verdict**. Unit verification: **473 tests pass**. Character and pose files are unchanged.
 
 | Capture | What it shows |
 | --- | --- |

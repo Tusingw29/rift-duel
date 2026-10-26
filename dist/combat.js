@@ -410,5 +410,5 @@ export function update(m,inputs,dt=STEP){
  m.resolving=false;
  for(const p of m.players)advanceAirMotion(p,dt);
  if(m.mode==='training'){for(const p of m.players)if(p.hp<15){p.hp=100;if(p.staggerState){p.stun=0;p.anim='idle';p.animTime=0;}Object.assign(p,freshStagger());event(m,'hint',{text:'Training health restored'});}}
- else if(m.players.some(p=>p.hp<=0)||m.time<=0){m.phase='over';m.winner=m.players[0].hp===m.players[1].hp?-1:m.players[0].hp>m.players[1].hp?0:1;event(m,'over');}
+ else if(m.players.some(p=>p.hp<=0)||m.time<=0){m.phase='over';m.hitstop=0;m.frozen=false;m.winner=m.players[0].hp===m.players[1].hp?-1:m.players[0].hp>m.players[1].hp?0:1;event(m,'over');}
 }

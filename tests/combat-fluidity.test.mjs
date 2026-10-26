@@ -68,3 +68,7 @@ test('pending input during a heavy freeze expires outside the last six frames',(
  const m=close();m.hitstop=12;step(m,{pursuit:true});step(m,{}, {},12);assert.equal(m.players[0].move,null);
  m.hitstop=12;step(m,{}, {},7);step(m,{pursuit:true});step(m,{}, {},5);assert.equal(m.players[0].move.kind,'pursuit');
 });
+test('a knockout releases impact freeze so the round ceremony can animate',()=>{
+ const m=close();m.mode='duel';m.players[1].hp=1;step(m,{attack:true});step(m);for(let j=0;j<8;j++)step(m);
+ assert.equal(m.phase,'over');assert.equal(m.hitstop,0);assert.equal(m.frozen,false);
+});
