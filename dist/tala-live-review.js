@@ -1,3 +1,4 @@
+import {locomotionSource} from './locomotion-clips.js';
 import {advanceAirMotion} from './air-motion.js';
 import {techniqueVariants} from './techniques.js';
 import {RETREAT_DISTANCE,retreatProgress} from './retreat-motion.js';
@@ -10,14 +11,15 @@ const signatureClips={'Launcher':{kind:'launch'},'Aerial pursuit':{kind:'pursuit
 const shotTiming=moveTiming(fighters[2],'shot');
 const timing=moveTiming(fighters[2],'strike');
 export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6}];
+export const TALA_TRANSITION_CLIPS=['Advance to guard','Advance to combo','Circle to recoil'].map(name=>({name,duration:2.4}));
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
 export function createLiveTalaReview(source,{variant='design02'}={}){
  const rig=buildTala({variant});rig.conceptOriginalSurfaces=[];rig.g.traverse(n=>{if(n.isMesh&&n!==rig.aura)rig.conceptOriginalSurfaces.push(n);});attachTalaConcept(rig,source);rig.aura.visible=false;
  const keys=new Set(Object.keys(rig)),rest=[];rig.g.traverse(n=>{if(n.isBone||n===rig.g)rest.push({node:n,p:n.position.clone(),q:n.quaternion.clone(),s:n.scale.clone()});});
- let selected=null,frame=-1,moves,shot,signature,flight;
+ let selected=null,frame=-1,moves,shot,signature,flight,gait;
  function reset(name){
-  flight={air:0};
+  flight={air:0};gait=locomotionSource();
   for(const key of Object.keys(rig))if(!keys.has(key))delete rig[key];
   for(const {node,p,q,s} of rest){node.position.copy(p);node.quaternion.copy(q);node.scale.copy(s);}
   const spec=signatureClips[name]||{kind:'forward'};signature={...spec,retreatTravel:spec.kind==='back',chain:1,...moveTiming(fighters[2],spec.kind),frame:0};
@@ -56,13 +58,23 @@ export function createLiveTalaReview(source,{variant='design02'}={}){
    const attackFrame=f-12,chain=Math.floor(attackFrame/timing.total);
    if(chain>=0&&chain<3){p.move=moves[chain];p.move.frame=attackFrame%timing.total;p.anim='strike';}
   }
+  if(TALA_TRANSITION_CLIPS.some(c=>c.name===name)){
+   // Approach for 0.6 s, then interrupt directly: no inserted idle frame.
+   const step=Math.max(0,Math.min(36,f-12)),circle=name==='Circle to recoil';
+   if(circle){const angle=step*.06/3;p.x=3*Math.sin(angle);p.z=3-3*Math.cos(angle);facing=-angle;p.prev={x:0,z:-1};}
+   else {p.z=step*.06;p.prev={x:1,z:0};}
+   if(f>=12&&f<48)p.anim='run';
+   if(f>=48&&name==='Advance to guard'){p.guard=f<108;p.blockStun=f>=60&&f<72?(72-f)/60:0;}
+   if(f>=48&&name==='Advance to combo'){const n=f-48,chain=Math.floor(n/timing.total);if(chain<3){p.move=moves[chain];p.move.frame=n%timing.total;p.anim='strike';}}
+   if(f>=48&&f<73&&circle){p.anim='hurt';p.animTime=(73-f)/60;}
+  }
   flight.air=p.air;flight.move=p.move;
   if(signature.aerial&&[12+signature.startup,12+signature.startup+9].includes(f))flight.airMotionCue={height:2.2,duration:.15};rig.g.position.set(p.x,advanceAirMotion(flight,1/60),p.z);p.airMotion=flight.airMotion;rig.g.rotation.set(0,facing,p.anim==='hurt'?.15:0);animateCharacter(rig,p,t);rig.g.updateMatrixWorld(true);
  }
  function sample(name,time){
-  const clip=LIVE_TALA_CLIPS.find(c=>c.name===name);if(!clip)throw new RangeError(`Unknown live review action: ${name}`);
+  const clip=[...LIVE_TALA_CLIPS,...TALA_TRANSITION_CLIPS].find(c=>c.name===name);if(!clip)throw new RangeError(`Unknown live review action: ${name}`);
   const target=Math.round(Math.max(0,Math.min(time,clip.duration))*60);
-  if(name!==selected||target<frame)reset(name);
+  if(name!==selected||target<frame||gait!==locomotionSource())reset(name);
   while(frame<target)tick(name,++frame);
   return {clip:name,time:frame/60,root:rig.g.position.toArray()};
  }

@@ -4,6 +4,7 @@ import {loadFighterModel,attachFighterModel} from './tala-concept.js';
 import {animateCharacter} from './animation.js';
 import {moveTiming} from './moves.js';
 import {fighters} from './fighters.js';
+import {setLocomotionSource} from './locomotion-clips.js';
 // Roster concept review: the actual Design 03 model with its runtime costume and the game's
 // animation, for any fighter (?fighter=aegis|rei|morrow|sol|vesper). Tala has her own page.
 const fighterId=new URLSearchParams(location.search).get('fighter')||'aegis',index=fighters.findIndex(f=>f.id===fighterId);
@@ -24,6 +25,7 @@ let skeletonHelper=null;
 document.querySelector('#skeleton').onchange=e=>{if(!r)return;if(e.target.checked&&!skeletonHelper){skeletonHelper=new T.SkeletonHelper(r.g);skeletonHelper.material.depthTest=false;skeletonHelper.material.linewidth=2;scene.add(skeletonHelper);}else if(!e.target.checked&&skeletonHelper){scene.remove(skeletonHelper);skeletonHelper.dispose();skeletonHelper=null;}renderer.render(scene,camera);};
 document.querySelector('#wire').onchange=e=>{if(!r)return;r.g.traverse(n=>{if(n.isMesh&&n.name.startsWith('concept-'))for(const m of [].concat(n.material))m.wireframe=e.target.checked;});renderer.render(scene,camera);};
 document.querySelector('#costume').onchange=e=>{if(!r)return;r.g.traverse(n=>{if(n.isMesh&&!n.name.startsWith('concept-')&&!r.conceptOriginalSurfaces?.includes(n)&&n!==r.aura&&!n.userData.weapon)n.visible=e.target.checked;});renderer.render(scene,camera);};
+document.querySelector('#gait').onchange=e=>{setLocomotionSource(e.target.value);};setLocomotionSource(new URLSearchParams(location.search).get('gait')||'authored');document.querySelector('#gait').value=new URLSearchParams(location.search).get('gait')||'authored';
 document.querySelector('h1').textContent=(fighters[index]?.name||fighterId.toUpperCase())+' / CONCEPT REVIEW';
 document.querySelectorAll('[data-fighter]').forEach(a=>{a.href='./fighter-review.html?fighter='+a.dataset.fighter;if(a.dataset.fighter===fighterId)a.style.fontWeight='700';});
 try{if(index<0||fighterId==='tala')throw Error('Pick a fighter: aegis, rei, morrow, sol or vesper');r=buildCharacter(index);const source=await loadFighterModel(fighterId);if(!attachFighterModel(r,source.scene))throw Error(fighterId+' model did not attach');scene.add(r.g);window.fighterReview.ready=true;document.querySelector('#status').textContent='Design 03 body with the concept costume · '+r.g.getObjectsByProperty('isMesh',true).length+' meshes';}catch(e){document.querySelector('#status').textContent=e.message;throw e;}

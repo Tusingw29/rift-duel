@@ -6,7 +6,7 @@ const fighter=process.env.FIGHTER||'rei',angle=Number(process.env.ANGLE||'1.57')
 const strips=(process.env.STRIPS||'idle:0,.2,.4').split(';').filter(Boolean).map(s=>{const [pose,times]=s.split(':');return [pose,times.split(',').map(Number)];});
 const browser=await launch(),page=await browser.newPage({viewport:{width:360,height:620}});
 try{
- await page.goto(`${BASE}/fighter-review.html?fighter=${fighter}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
+ await page.goto(`${BASE}/fighter-review.html?fighter=${fighter}&gait=${process.env.GAIT||"authored"}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
  await page.waitForFunction(()=>window.fighterReview?.ready,null,{timeout:240000});
  await page.addStyleTag({content:'header{display:none!important}'});
  await page.evaluate(a=>{window.fighterReview.zoom(5.2);window.fighterReview.view(a);},angle);

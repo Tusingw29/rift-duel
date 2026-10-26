@@ -6,6 +6,7 @@ import {retreatLift} from './retreat-motion.js';
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 import {travelTarget,travelMotion,staggerPose,reversalPose} from './grounded-animation.js';
+import {clipMovePose} from './locomotion-clips.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -158,6 +159,7 @@ const circleClip=motionClip((s,i)=>({...s,bodyX:s.bodyX*.8,bodyY:s.bodyY+.02,lea
  hipYaw:s.hipYaw*.5,twist:-.18+(s.twist+.18)*.5,llx:-.1,rlx:.1,llz:.2+s.llx*.4,rlz:.2+s.rlx*.4,
  lax:-.9+(s.lax+.75)*.18,rax:-.65+(s.rax+.65)*.18,le:-1.25,re:-1.35}));
 export function movePose(forward,side,phase){
+ const captured=clipMovePose(forward,side,phase,stance.bodyY);if(captured)return captured;
  const strafe=Math.abs(side)>Math.abs(forward);
  const s=sampleClip(strafe?circleClip:forward<0?retreatClip:advanceClip,phase/(Math.PI*2),CHANNELS,true);
  if(strafe&&side<0){s.bodyX=-s.bodyX;s.side=-s.side;s.llz=-s.llz;s.rlz=-s.rlz;}

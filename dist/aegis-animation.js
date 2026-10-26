@@ -1,6 +1,7 @@
 import {CHANNELS} from './rig-pose.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
 import {sampleClip} from './pose-clips.js';
+import {clipMovePose} from './locomotion-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
@@ -27,6 +28,7 @@ const steps=[
 const mirror=s=>p({...s,bodyX:-s.bodyX,hipYaw:-s.hipYaw,twist:.12-s.twist,llx:s.rlx,rlx:s.llx,lk:s.rk,rk:s.lk,lax:-.85-s.lax,rax:-.6-s.rax});
 const cycle=[...steps,...steps.map(mirror)].map((s,i)=>[i/8,s]);cycle.push([1,steps[0]]);
 export function aegisMovePose(forward,side,phase){
+ const captured=clipMovePose(forward,side,phase,aegisStance.bodyY);if(captured)return p({...captured,lax:aegisStance.lax+(captured.lax-aegisStance.lax)*.5,rax:aegisStance.rax+(captured.rax-aegisStance.rax)*.5,le:aegisStance.le+(captured.le-aegisStance.le)*.4,re:aegisStance.re+(captured.re-aegisStance.re)*.4,twist:aegisStance.twist+captured.twist});
  const s=sampleClip(cycle,phase/(Math.PI*2),CHANNELS,true);
  if(Math.abs(side)>Math.abs(forward))return p({...s,lean:.08,side:side*.08,twist:.12+s.twist*.35,lax:-.55,rax:-.3,llx:-.12,rlx:.12,llz:side*(.12+s.llx*.3),rlz:side*(.12+s.rlx*.3)});
  if(forward<0)return p({...s,lean:-.08,llx:-s.llx*.6,rlx:-s.rlx*.6,lax:-.6,rax:-.3,twist:.12+s.twist*.5});

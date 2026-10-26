@@ -2,11 +2,13 @@ import * as T from './vendor/three.module.js';
 import {createView} from './render.js';
 import {fighters} from './fighters.js';
 import {RECIPES,createScenario,stepScenario,snapshot} from './sandbox-recipes.js';
+import {setLocomotionSource} from './locomotion-clips.js';
 // Local animation and combat sandbox: pick both fighters, pick a scripted scenario, scrub any
 // simulation frame or play at 60 Hz or quarter speed, and inspect the exact simulation state.
 // Scrubbing replays from the reset, so every frame is deterministic and identical to the game.
 const $=s=>document.querySelector(s);
 const params=new URLSearchParams(location.search);
+setLocomotionSource(params.get('gait')||'authored');
 const canvas=$('#stage');const view=createView(canvas,{talaModel:'v3'});view.quality(params.get('quality')||'high');
 const state={p1:Number(params.get('p1')??2),p2:Number(params.get('p2')??1),recipe:params.get('scenario')||'strike3',frame:0,playing:false,speed:1,scenario:null,helpers:[],hurt:[],hit:[],showSkeleton:false,showHurt:false,showHit:false};
 const settings={camera:'side',reduced:true,quality:'high',cameraZoom:Number(params.get('zoom')||.7)};

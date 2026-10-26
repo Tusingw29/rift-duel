@@ -1,0 +1,66 @@
+{
+  "id": 1792981423500,
+  "errors": [],
+  "shots": [
+    {
+      "gait": "mocap",
+      "clip": "Advance",
+      "times": [
+        0.45,
+        0.7,
+        0.95
+      ],
+      "file": "tala-mocap-Advance-1792981423500.jpg"
+    },
+    {
+      "gait": "mocap",
+      "clip": "Retreat",
+      "times": [
+        0.45,
+        0.7,
+        0.95
+      ],
+      "file": "tala-mocap-Retreat-1792981423500.jpg"
+    },
+    {
+      "gait": "mocap",
+      "clip": "Circle left",
+      "times": [
+        0.45,
+        0.7,
+        0.95
+      ],
+      "file": "tala-mocap-Circle-left-1792981423500.jpg"
+    },
+    {
+      "gait": "mocap",
+      "clip": "Advance to guard",
+      "times": [
+        0.7833333333333333,
+        0.8166666666666667,
+        0.8833333333333333
+      ],
+      "file": "tala-mocap-Advance-to-guard-1792981423500.jpg"
+    },
+    {
+      "gait": "mocap",
+      "clip": "Advance to combo",
+      "times": [
+        0.7833333333333333,
+        0.8166666666666667,
+        0.8833333333333333
+      ],
+      "file": "tala-mocap-Advance-to-combo-1792981423500.jpg"
+    },
+    {
+      "gait": "mocap",
+      "clip": "Circle to recoil",
+      "times": [
+        0.7833333333333333,
+        0.8166666666666667,
+        0.8833333333333333
+      ],
+      "file": "tala-mocap-Circle-to-recoil-1792981423500.jpg"
+    }
+  ]
+}

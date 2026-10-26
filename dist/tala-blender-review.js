@@ -1,8 +1,9 @@
+import {setLocomotionSource,locomotionSource} from './locomotion-clips.js';
 import {applyGraphicFlat} from './graphic-flat.js';
 import {sharpenTextures} from './shading.js';
 import * as T from './vendor/three.module.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
-import {createLiveTalaReview,LIVE_TALA_CLIPS} from './tala-live-review.js';
+import {createLiveTalaReview,LIVE_TALA_CLIPS,TALA_TRANSITION_CLIPS} from './tala-live-review.js';
 const $=s=>document.querySelector(s),host=$('#view');
 const modelParam=new URLSearchParams(location.search).get('model'),design02=modelParam==='design02',graphic=modelParam==='graphic',v3=modelParam==='v3'||graphic;
 if(v3){document.querySelector('header span').textContent='Design 03 · anatomical body preview';const link=document.querySelector('a[download]');link.href='assets/models/tala-v3.glb';document.querySelector('#model-note').textContent='Anatomical body with an open ochre vest and collar, charcoal top, shortened rust shorts, fitted forearm and shin wraps, dark footwear and swept fringe. Existing live combat animation is retained. Face likeness, closed combat hands, finer garment fit and hair detail remain unfinished.';const play=document.querySelector('#play-model a');play.href='./?tala=v3';play.textContent='Try Design 03 in a fight →';}
@@ -17,7 +18,13 @@ const grid=new T.GridHelper(50,100,'#747674','#555b60');grid.position.y=-.023;sc
 let mixer,model,action,clips=[],paused=false,drag=null,live,elapsed=0,rigHelpers=[];
 const rigLabel=document.createElement('label');rigLabel.innerHTML='<input id="skeleton" type="checkbox" style="width:auto"> Show skeleton';$('#wire').closest('label').after(rigLabel);$('#skeleton').onchange=()=>rigHelpers.forEach((h,i)=>h.visible=$('#skeleton').checked&&(i===0?!isLive():isLive()));
 const isLive=()=>$('#source').value==='live';
-const activeClips=()=>isLive()?LIVE_TALA_CLIPS:clips;
+const gaitLabel=document.createElement('label');gaitLabel.innerHTML='Locomotion <select id="gait"><option value="authored">Authored fighting steps</option><option value="mocap">Motion capture (experimental)</option></select>';$('#source').after(gaitLabel);
+$('#gait').value=setLocomotionSource(new URLSearchParams(location.search).get('gait'));
+function updateGaitLink(){const link=$('#play-model a'),url=new URL(link.href);url.searchParams.set('gait',locomotionSource());link.href=url.href;}
+updateGaitLink();
+$('#gait').onchange=()=>{setLocomotionSource($('#gait').value);updateGaitLink();if(live)poseAt(elapsed);};
+
+const activeClips=()=>isLive()?[...LIVE_TALA_CLIPS,...TALA_TRANSITION_CLIPS]:clips;
 const activeModel=()=>isLive()?live.rig.g:model;
 function resize(){renderer.setSize(host.clientWidth,host.clientHeight);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();}new ResizeObserver(resize).observe(host);
 function poseAt(time){elapsed=time;if(isLive())live.sample($('#clip').value,time);else{action.time=time;mixer.update(0);}}
@@ -27,7 +34,7 @@ function choose(){
  poseAt(0);
 }
 function chooseSource(){
- model.visible=!isLive();live.rig.g.visible=isLive();rigHelpers.forEach((h,i)=>h.visible=$('#skeleton').checked&&(i===0?!isLive():isLive()));$('#clip').replaceChildren();
+ $('#gait').disabled=!isLive();model.visible=!isLive();live.rig.g.visible=isLive();rigHelpers.forEach((h,i)=>h.visible=$('#skeleton').checked&&(i===0?!isLive():isLive()));$('#clip').replaceChildren();
  for(const clip of activeClips()){const option=document.createElement('option');option.value=clip.name;option.textContent=clip.name;$('#clip').append(option);}
  $('#clip').value=isLive()?'Guard + block':'Idle';choose();$('#status').textContent=isLive()?'Current live animation · scripted demonstration':graphic?'Exported local skeletal clips · 30 fps':'Saved Blender study clips · earlier motion';
 }
@@ -43,7 +50,7 @@ try{
  live=createLiveTalaReview(model,{variant:graphic?'graphic':v3?'v3':'design02'});scene.add(live.rig.g);rigHelpers=[model,live.rig.g].map(root=>{const h=new T.SkeletonHelper(root);h.material.depthTest=false;h.material.transparent=true;h.material.opacity=.8;h.renderOrder=20;h.visible=false;scene.add(h);return h;});let vertices=0,meshes=0;
  model.traverse(n=>{if(n.isMesh){meshes++;vertices+=n.geometry.attributes.position.count;n.frustumCulled=false;}});
  $('#source').disabled=false;$('#clip').disabled=false;chooseSource();$('#stats').textContent=`${meshes} meshes · ${vertices.toLocaleString()} exported vertices`;
- window.talaStudy=()=>{const root=activeModel(),bounds=new T.Box3();root.updateMatrixWorld(true);root.traverseVisible(n=>{if(n.isMesh){if(n.isSkinnedMesh){n.skeleton.update();n.computeBoundingBox();bounds.union(n.boundingBox.clone().applyMatrix4(n.matrixWorld));}else{n.geometry.computeBoundingBox();bounds.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld));}}});return {source:$('#source').value,clip:$('#clip').value,time:elapsed,clips:activeClips().map(c=>({name:c.name,duration:c.duration})),meshes,vertices,bounds:bounds.min.toArray(),root:root.position.toArray(),head:live.rig.head.rotation.toArray().slice(0,3)};};
+ window.talaStudy=()=>{const root=activeModel(),bounds=new T.Box3();root.updateMatrixWorld(true);root.traverseVisible(n=>{if(n.isMesh){if(n.isSkinnedMesh){n.skeleton.update();n.computeBoundingBox();bounds.union(n.boundingBox.clone().applyMatrix4(n.matrixWorld));}else{n.geometry.computeBoundingBox();bounds.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld));}}});return {gait:locomotionSource(),source:$('#source').value,clip:$('#clip').value,time:elapsed,clips:activeClips().map(c=>({name:c.name,duration:c.duration})),meshes,vertices,bounds:bounds.min.toArray(),root:root.position.toArray(),head:live.rig.head.rotation.toArray().slice(0,3)};};
 }catch(e){$('#error').textContent=e.message;$('#status').textContent='Model failed to load';console.error(e);}
 $('#face').onclick=()=>{yaw=0;pitch=0;focusY=2.45;distance=1.35;};
 $('#hands').onclick=()=>{yaw=-.35;pitch=.05;focusY=1.85;distance=2.5;};

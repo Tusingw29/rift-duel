@@ -1,3 +1,5 @@
+import {setLocomotionSource} from './locomotion-clips.js';
+setLocomotionSource(new URLSearchParams(location.search).get('gait'));
 import {lessons,lessonMatch,lessonOpponent,updateLesson,lessonText} from './lessons.js';
 import {pressureText} from './pressure-dash.js';
 import {recoveryText} from './recovery.js';

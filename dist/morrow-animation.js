@@ -2,6 +2,7 @@ import {morrowFootTransition} from './morrow-attack-motion.js';
 import {Vector3} from './vendor/three.module.js';
 import {CHANNELS} from './rig-pose.js';
 import {sampleClip} from './pose-clips.js';
+import {clipMovePose} from './locomotion-clips.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -44,6 +45,7 @@ const steps=[
 const mirror=s=>p({...s,bodyX:-s.bodyX,hipYaw:-s.hipYaw,twist:.14-s.twist,llx:s.rlx,rlx:s.llx,lk:s.rk,rk:s.lk,lax:-.85-s.lax,rax:-.65-s.rax});
 const cycle=[...steps,...steps.map(mirror)].map((s,i)=>[i/8,s]);cycle.push([1,steps[0]]);
 export function morrowMovePose(forward,side,phase){
+ const captured=clipMovePose(forward,side,phase,morrowStance.bodyY);if(captured)return p({...captured,lax:morrowStance.lax+(captured.lax-morrowStance.lax)*.5,rax:morrowStance.rax+(captured.rax-morrowStance.rax)*.5,le:morrowStance.le+(captured.le-morrowStance.le)*.4,re:morrowStance.re+(captured.re-morrowStance.re)*.4,twist:morrowStance.twist+captured.twist,lean:captured.lean*.7});
  const s=sampleClip(cycle,phase/(Math.PI*2),CHANNELS,true);
  if(Math.abs(side)>Math.abs(forward))return p({...s,lean:.08,side:side*.1,twist:.14+s.twist*.3,lax:-.55,rax:-.3,llx:-.12,rlx:.12,llz:side*(.12+s.llx*.3),rlz:side*(.12+s.rlx*.3)});
  if(forward<0)return p({...s,lean:-.08,llx:-s.llx*.6,rlx:-s.rlx*.6,lax:-.6,rax:-.3,twist:.14+s.twist*.4});

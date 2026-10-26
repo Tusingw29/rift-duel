@@ -272,6 +272,8 @@ The roster now follows direction A of the concept boards in `art/roster-2026-10-
 
 Stagger and reversal animation: a broken guard now reels on planted feet with buckled knees, a swaying torso and a lolling head, straightens a step with each recovery tap and snaps upright when the opening closes; the third-hit reversal plays a forward return strike out of the guard. Both are shared poses used by all six grounded animators.
 
+Motion-capture locomotion: `scripts/mocap/bvh-to-channels.mjs` converts a BVH take into the rig's pose channels (one looping stride, root travel removed, half strides mirrored when a take is short). `dist/clips/run.js` and `walk.js` come from CMU takes 09_01 and 02_01 (free for research and commercial use per CMU). `dist/locomotion-clips.js` swaps them in for every grounded fighter when the review page's Locomotion dropdown, or `?gait=mocap` on the review page and sandbox, selects motion capture; the authored step clips remain the default.
+
 Rig inspection on `fighter-review.html`: checkboxes draw the 17 combat bones as a skeleton helper, show the skinned mesh as wireframe, and hide or show the runtime costume pieces, with the same pose controls.
 
 Local animation sandbox: open `sandbox.html` (or add `?sandbox=1` to the game URL) to pick both fighters, choose a scripted scenario (idle, approach, retreat, circle, circle-step, pursuit, crossover, strike 1–3, launch, capture, burst, charge, guard, recoil, guard-hit, stagger, stagger-recover, reversal), scrub any simulation frame or play at 60 Hz, half or quarter speed, and read the exact simulation state (position, health, animation, move and travel frames, stagger). Scrubbing replays the fixed-step simulation from the reset, so frame N is the same frame N the game shows. Toggles draw the skeletons, hurt capsules and attack arcs. The scenarios live in `dist/sandbox-recipes.js` and are covered by `tests/sandbox-determinism.test.mjs`, which also checks that animating the same frames on two fresh rigs gives identical bone transforms for all six fighters. A canonical bone schema with alias normalisation lives in `dist/rig-schema.js`, and `scripts/combat-travel-smoke.mjs` now always writes its report and screenshots, records console output and each fighter's model status, and completes its capture even on a fallback rig.
@@ -312,3 +314,9 @@ EZ-05 through EZ-11 now include opponent-relative recovery rolls, guarded get-up
 - **Lessons:** Training → Pause → Practice Controls → Guided lessons. Nine repeatable lessons show your current bindings and include success/failure, Retry, Next and Free practice.
 
 Detailed animation polish and normal-speed visual acceptance remain a separate final pass.
+
+### Tala gait comparison
+
+Open `tala-blender.html?model=graphic&gait=mocap` and switch **Locomotion** between authored fighting steps and experimental motion capture. Compare Advance, Retreat and Circle left/right, then Advance to guard, Advance to combo and Circle to recoil. Changing gait preserves the review time and resamples from reset, including while paused. The Play link carries the selected gait into the game (`?tala=graphic&gait=mocap`); authored remains the default. Exported GLB clips retain their baked authored motion, so the gait selector is disabled for that source.
+
+This is a hybrid: captured pose channels feed the existing animator and foot-placement solve. Retreat reverses the captured run; circling adapts a walk. Neither is a dedicated captured combat backstep or sidestep. Review both before treating mocap as an upgrade.
