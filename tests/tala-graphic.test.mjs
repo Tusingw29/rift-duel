@@ -79,3 +79,17 @@ test('expanded rig drives neck, spine, wrists, fingers and toes without changing
  sample('Combo',17/60);assert.ok(Math.abs(b.get('spine.lower').rotation.y)>.01,'punch twist is shared with lower spine');assert.ok(Math.abs(b.get('toe.R').rotation.x)>.01,'rear toe counter-rolls during punch');
  for(const S of ['L','R']){assert.ok(b.get('finger4.0.'+S).rotation.z*(S==='L'?-1:1)>0,'thumb folds across the fist');}
 });
+test('authored collarbones: the punching shoulder drives forward at contact, the guard protracts both, zero falls back to the reach rule',()=>{
+ const {rig:r,sample}=createLiveTalaReview(asset.scene,{variant:'graphic'});const b=r.combatRig;
+ const protraction=S=>b.get('clavicle.'+S).rotation.y*(S==='L'?1:-1); // positive = shoulder forward on either side
+ sample('Idle',0);const idleR=protraction('R'),idleL=protraction('L');
+ assert.ok(idleR>.03&&idleR<.12,`idle rear shoulder near rest (${idleR.toFixed(3)})`);
+ const {startup}=moveTiming(fighters[2],'strike');
+ sample('Combo',(12+startup)/60);const hitR=protraction('R'); // review clip starts the first strike at frame 12
+ assert.ok(hitR>.25,`right straight drives the right shoulder forward at contact (${hitR.toFixed(3)})`);
+ assert.ok(protraction('L')<hitR*.3,'the guarding shoulder stays back');
+ sample('Guard + block',.6);assert.ok(protraction('L')>.1&&protraction('R')>.1,'guard rounds both shoulders forward');
+ // A pose without an authored channel (energy shot) still gets the reach-driven rule, never a frozen shoulder.
+ sample('Energy shot',(12+moveTiming(fighters[2],'shot').startup)/60);assert.ok(Math.abs(protraction('L'))>0||Math.abs(protraction('R'))>0,'rule still drives unauthored poses');
+ assert.ok(Math.abs(idleL)<.2);
+});

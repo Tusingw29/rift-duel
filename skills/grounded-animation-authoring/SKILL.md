@@ -9,7 +9,7 @@ All six fighters animate on one contract: a flat pose of channels blended toward
 
 ## Where things live
 
-- `dist/rig-pose.js`: `CHANNELS` (`bodyX/Y/Z, hipYaw, lean, twist, side, hx/hy/hz, neckY/Z, lax/lay/laz, rax/ray/raz, le, re, llx/llz, rlx/rlz, lk, rk`), `applyPose`, `plantSupportFeet` (the list of kinds that keep planted feet; add a kind there when a new state should stay planted).
+- `dist/rig-pose.js`: `CHANNELS` (`bodyX/Y/Z, hipYaw, lean, twist, side, hx/hy/hz, neckY/Z, lax/lay/laz, rax/ray/raz, le, re, llx/llz, rlx/rlz, lk, rk, lw/rw, lc/rc`), `applyPose`, `plantSupportFeet` (the list of kinds that keep planted feet; add a kind there when a new state should stay planted).
 - `dist/grounded-animation.js`: `animateGroundedRig` (entry blends, stride advance, cloth), shared poses `pursuitTravelPose`, `leapPose`, `travelTarget`, `travelMotion`, `recoilPose`, `staggerPose`, `reversalPose`.
 - Per fighter: `tala-animation.js` (its own flow, same contract), `aegis-animation.js`, `morrow-animation.js`, `roster-animation.js` (Rei, Sol, Vesper via a `grounded(prefix, def)` factory). Each exposes `targetFor(player, time, phase, motion)` returning `{kind, pose}` or `null` to fall back to the shared animator in `dist/animation.js`.
 - `dist/animation.js` dispatches by fighter and wraps the handoff with the motion bridge (`motion-transition.js`), which eases between the grounded and shared families.
@@ -22,6 +22,7 @@ All six fighters animate on one contract: a flat pose of channels blended toward
 - Stagger: `player.staggerState` has `elapsed`, `remaining`, `inputs`; `staggerPose` sways on planted feet and straightens per recovery tap. `recover` (grounded) maps to an upright snap.
 - Locomotion: reuse Tala's step clips through `movePose`; keep the arms near the fighter's stance (scale the arm swing) and feed `motion` from `travelMotion` when the simulation is travelling so circle-step strafes along the real arc.
 - Wrists: `lw`/`rw` roll the hand about the forearm axis (hand bone local Y; fingers along −Y, palm +Z, knuckles −Z). Author them per state and measure the world palm/knuckle direction rather than guessing; the graphic combat rig uses the authored value when it is non-zero and its punch roll rule otherwise.
+- Collarbones: `lc`/`rc` are protraction in radians (positive drives the shoulder forward). Author them on strikes (pull back on the wind, lead at contact) and on guard; leave 0 wherever the combat rig's reach rule is good enough. Only the 61-bone bodies have a clavicle.
 - Weapons define the strike vocabulary; if a redesign changes a weapon, its strike tracks are the part that must be reauthored, everything else survives.
 - Keep one fighter as the benchmark (Tala, then Rei) and extend after review; the board requires a normal-speed human verdict, screenshots are evidence of continuity only.
 

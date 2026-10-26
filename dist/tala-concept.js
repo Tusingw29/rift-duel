@@ -10,7 +10,7 @@ import {canonicalBone} from './rig-schema.js';
 // Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
 const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=5':variant==='v3'?'./assets/models/tala-v3.glb?v=8':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=6':variant==='v3'?'./assets/models/tala-v3.glb?v=8':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
  const key=['design02','v3','graphic'].includes(variant)?variant:'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));

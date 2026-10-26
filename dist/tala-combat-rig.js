@@ -50,7 +50,9 @@ export function finishCombatRig(r,p,time){
  const m=p?.move,opening=open?(m?smooth(m.frame/Math.max(1,m.startup))*(1-smooth((m.frame-m.startup-m.active)/Math.max(1,m.recovery))):1):0;
  for(const [i,S] of ['L','R'].entries()){
   const side=i?1:-1,arm=r.limbs[i*2],hand=b.get('hand.'+S),reach=Math.max(0,Math.min(1,-arm.rotation.x/1.6));
-  b.get('clavicle.'+S)?.rotation.set(0,-side*.10*reach,side*(guard?.06:.035)*reach);
+  // An authored collarbone channel (lc/rc) sets the protraction; otherwise the shoulder follows the arm's reach.
+  const protract=(r.lastPose||r.pose)?.[i?'rc':'lc']||0;
+  b.get('clavicle.'+S)?.rotation.set(0,-side*(protract||.10*reach),side*(guard?.06:.035)*Math.max(reach,Math.min(1,Math.abs(protract)*3)));
   // Neutral wrists stay aligned with the forearm; pronation turns the palm inward in stance.
   // A straight punch progressively rolls the knuckles over as the elbow extends.
   const straight=kind==='strike'&&p.move.chain<3,extension=Math.max(0,Math.min(1,1+ r.elbows[i].rotation.x/1.4));

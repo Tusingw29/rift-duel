@@ -1,7 +1,9 @@
 import {retreatPhase,retreatLift} from './retreat-motion.js';
 import {Vector3,Quaternion} from './vendor/three.module.js';
 // lw/rw: wrist roll about the forearm axis (hand bone local Y). 0 keeps the model's rest wrist.
-export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw'];
+// lc/rc: collarbone protraction (shoulder driven forward, radians). 0 leaves it to the combat rig's reach rule;
+// a 17-bone body has no clavicle and ignores it.
+export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
 export const STRIDE=1.15;
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function applyPose(r,s){
