@@ -89,6 +89,7 @@ jobs:
             node scripts/review/kinetic-vfx.mjs
             node scripts/review/signature-volumes.mjs
             node scripts/review/frame-budgets.mjs
+            node scripts/review/vfx-workbench.mjs
           fi
       - name: Upload screenshots, console log and report
         if: always()

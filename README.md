@@ -328,3 +328,7 @@ Detailed animation polish and normal-speed visual acceptance remain a separate f
 Open `tala-blender.html?model=graphic&gait=mocap` and switch **Locomotion** between authored fighting steps and experimental motion capture. Compare Advance, Retreat and Circle left/right, then Advance to guard, Advance to combo and Circle to recoil. Changing gait preserves the review time and resamples from reset, including while paused. The Play link carries the selected gait into the game (`?tala=graphic&gait=mocap`); authored remains the default. Exported GLB clips retain their baked authored motion, so the gait selector is disabled for that source.
 
 This is a hybrid: captured pose channels feed the existing animator and foot-placement solve. Retreat reverses the captured run; circling adapts a walk. Neither is a dedicated captured combat backstep or sidestep. Review both before treating mocap as an upgrade.
+
+### Visual VFX workbench
+
+[Open the VFX workbench](https://tusingw29.github.io/rift-duel/vfx-workbench.html) to compare real 3D energy meshes, orbit and scrub, drag signature silhouettes, and export/import visual presets. Saved drafts can be explicitly previewed in the game without changing normal play. [Workflow and limits](docs/VFX_WORKBENCH.md).

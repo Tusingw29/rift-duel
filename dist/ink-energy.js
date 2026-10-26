@@ -1,4 +1,5 @@
 import * as T from './vendor/three.module.js';
+import {vfxSettings} from './vfx-settings.js';
 // Closed volumetric meshes derived from the Ink Energy concept board.
 // Four prebuilt volume variants, no textures or camera-facing cards.
 export const inkMaterial=color=>new T.MeshBasicMaterial({color,transparent:true,opacity:1,depthWrite:true,vertexColors:true,side:T.DoubleSide,toneMapped:false});
@@ -8,12 +9,12 @@ export function facetColors(geometry){
  geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));return geometry;
 }
 const polygon=(points,depth=.28)=>{const shape=new T.Shape();points.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();const geometry=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false,steps:1,curveSegments:1});geometry.translate(0,0,-depth/2);return facetColors(geometry);};
-const frameAt=(time,reduced)=>reduced?0:Math.floor(Math.max(0,time)*12)%4;
+const frameAt=(time,reduced)=>reduced?0:Math.floor(Math.max(0,time)*vfxSettings().cadence)%4;
 function layer(geometry,color,order,fixed=false){const m=new T.Mesh(geometry,inkMaterial(color));m.renderOrder=order;if(fixed)m.userData.fixedColor=color;return m;}
 // Axial faceted body and closed raised white channel wedges, not intersecting cards.
 const beamProfile=[[-2.7,0],[-2.3,.10],[-2,.07],[-1.85,.22],[-1.4,.12],[-1.28,.30],[-.9,.17],[-.78,.34],[-.4,.21],[-.15,.32],[.35,0]];
 function beamVolume(frame,channel=false){
- const positions=[],sides=channel?2:8,width=channel?.35:Math.PI*2;
+ const positions=[],sides=channel?2:8,width=channel?.35*vfxSettings().coreWidth:Math.PI*2;
  const point=(i,j)=>{const [z,r]=beamProfile[i],a=j/sides*width,radius=r*(1+Math.sin(i*1.7+frame)*.08)*(channel?1.025:1);return [Math.cos(a)*radius,Math.sin(a)*radius,z];};
  const tri=(a,b,c)=>positions.push(...a,...b,...c);
  for(let i=0;i<beamProfile.length-1;i++){
@@ -32,7 +33,11 @@ export function createInkBeam(){
   const points=Array.from({length:49},(_,i)=>{const t=i/48,a=t*Math.PI*5+strand*Math.PI;return new T.Vector3(Math.cos(a)*.23,Math.sin(a)*.23,-2.35+t*2.45);});
   const rib=layer(facetColors(new T.TubeGeometry(new T.CatmullRomCurve3(points),48,.025,4,false)),strand?'#ffffff':'#15364b',3,true);rib.name='beam-helical-rib';g.add(rib);banks.push([rib.geometry]);
  }
- g.userData.updateInk=(time,reduced)=>{const frame=frameAt(time,reduced);g.userData.frame=frame;volumes.forEach((m,i)=>m.geometry=banks[i?1:0][frame]);rim.geometry=banks[0][frame];};g.userData.geometryBanks=banks;return g;
+ let coreKey=vfxSettings().coreWidth;
+ g.userData.updateInk=(time,reduced)=>{if(coreKey!==vfxSettings().coreWidth){banks[1].forEach(g=>g.dispose());banks[1]=Array.from({length:4},(_,f)=>beamVolume(f,true));coreKey=vfxSettings().coreWidth;}const frame=frameAt(time,reduced);g.userData.frame=frame;volumes.forEach((m,i)=>m.geometry=banks[i?1:0][frame]);rim.geometry=banks[0][frame];
+ const v=vfxSettings();body.scale.set(v.beamWidth,v.beamWidth,1);rim.scale.set(v.beamWidth*v.inkWidth,v.beamWidth*v.inkWidth,1.015);
+ volumes.slice(1).forEach(m=>m.scale.set(v.beamWidth,v.beamWidth,1));
+ g.children.filter(m=>m.name==='beam-helical-rib').forEach(m=>{m.visible=v.ribWidth>0;m.scale.set(v.beamWidth*v.ribWidth,v.beamWidth*v.ribWidth,1);});};g.userData.geometryBanks=banks;return g;
 }
 function brushRingGeometry(frame,band){
  const vertices=[],count=96;
