@@ -9,10 +9,10 @@ import {createImpactEffects} from '../dist/impact-effects.js';
 import {createProjectileVisual,updateProjectileVisual} from '../dist/projectile-visuals.js';
 import {createInkBeam} from '../dist/ink-energy.js';
 const step=m=>update(m,[neutral(),neutral()]);
-test('launch produces one floor event, twelve airborne rebound frames, then grounded rise',()=>{
+test('launch produces one floor event, eighteen rebound/settle frames, then grounded rise',()=>{
  const m=createMatch(),p=m.players[1];hit(m,m.players[0],p,8,'hit',true);let events=0,bounceFrames=0,riseFrames=0,peak=0;
- for(let i=0;i<100;i++){step(m);events+=m.events.filter(e=>e.type==='groundBounce').length;if(p.bounce){bounceFrames++;assert.ok(p.air>0);assert.equal(p.getUp,null);peak=Math.max(peak,p.airMotion.height);}if(p.getUp){riseFrames++;assert.equal(p.air,0);assert.equal(p.airMotion.height,0);}}
- assert.equal(events,1);assert.equal(bounceFrames,12);assert.equal(riseFrames,12);assert.ok(peak>.5&&peak<=.55);assert.equal(p.anim,'idle');assert.equal(p.bounce,null);assert.equal(p.airMotion.height,0);
+ for(let i=0;i<130;i++){step(m);events+=m.events.filter(e=>e.type==='groundBounce').length;if(p.bounce){bounceFrames++;assert.equal(p.air>0,p.bounce.frame<12);assert.equal(p.getUp,null);peak=Math.max(peak,p.airMotion.height);}if(p.getUp){riseFrames++;assert.equal(p.air,0);assert.equal(p.airMotion.height,0);}}
+ assert.equal(events,1);assert.equal(bounceFrames,18);assert.equal(riseFrames,28);assert.ok(peak>.5&&peak<=.55);assert.equal(p.anim,'idle');assert.equal(p.bounce,null);assert.equal(p.airMotion.height,0);
 });
 test('bounce pauses in hitstop; a fresh hit clears it; air recovery avoids the floor event',()=>{
  const m=createMatch(),p=m.players[1];hit(m,m.players[0],p,8,'hit',true);while(!p.bounce)step(m);const before=JSON.stringify(p.bounce),height=p.airMotion.height;m.hitstop=3;for(let i=0;i<3;i++)step(m);assert.equal(JSON.stringify(p.bounce),before);assert.equal(p.airMotion.height,height);assert.ok(hit(m,m.players[0],p,4));assert.equal(p.bounce,null);

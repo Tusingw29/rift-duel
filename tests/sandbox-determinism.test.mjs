@@ -21,14 +21,14 @@ test('scrubbing to a frame equals stepping to it, and frames 0..64 stay finite f
  }
 });
 test('scenarios reach the states they are named for',()=>{
- assert.equal(scenarioAt('strike3',48,2,1).m.players[0].move?.chain,3);
+ assert.equal(scenarioAt('strike3',60,2,1).m.players[0].move?.chain,3);
  assert.ok(scenarioAt('pursuit',3,2,1).m.players[0].move?.travel,'pursuit travels');
  assert.ok(scenarioAt('crossover',6,2,1).m.players[0].move?.crossover,'crossover takes off');
  assert.ok(scenarioAt('circle-step',4,2,1).m.players[0].travel,'circle-step orbits');
  assert.equal(scenarioAt('recoil',12,2,1).m.players[0].anim,'hurt');
  assert.ok([28,29,30,31,32,33,34,35,36].some(f=>scenarioAt('guard-hit',f,2,1).m.players[0].blockStun>0),'guarded hit leaves block stun');
  assert.ok(scenarioAt('stagger',0,2,1).m.players[0].staggerState,'stagger setup breaks the guard');
- assert.ok(scenarioAt('reversal',44,2,1).m.players[0].move?.reversal,'third-hit reversal fires');
+ assert.ok(scenarioAt('reversal',76,2,1).m.players[0].move?.reversal,'third-hit reversal fires');
  assert.equal(scenarioAt('burst',6,2,1).m.players[0].stocks,2,'burst spends a stock');
 });
 test('animating the same deterministic frames on two fresh rigs gives identical bone transforms for all six fighters',()=>{

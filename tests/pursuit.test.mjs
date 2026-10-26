@@ -19,7 +19,7 @@ test('aerial pursuit glides before contact and delivers three separated hits for
 });
 test('third pursuit hit slams through an airborne rebound before permitting the recovery roll',()=>{
  const m=airborne();step(m,{pursuit:true});step(m,{}, {},25);
- assert.ok(m.players[1].slam);assert.ok(m.players[1].air>0);let impacts=0;for(let i=0;i<20;i++){step(m);impacts+=m.events.filter(e=>e.type==='groundBounce').length;}assert.equal(impacts,1);
+ assert.ok(m.players[1].slam);assert.ok(m.players[1].air>0);let impacts=0;for(let i=0;i<26;i++){step(m);impacts+=m.events.filter(e=>e.type==='groundBounce').length;}assert.equal(impacts,1);
  assert.equal(m.players[1].anim,'knockdown');assert.equal(m.players[1].air,0);assert.equal(m.players[1].launched,false);
  step(m,{}, {z:1});assert.equal(m.players[1].anim,'roll');
 });

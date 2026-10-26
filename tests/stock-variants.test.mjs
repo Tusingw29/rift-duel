@@ -73,7 +73,7 @@ test('held variant is lock-on relative on either side and works for player two',
 });
 test('buffering a held variant retains its cost and cannot bypass recovery',()=>{
  const m=createMatch();hold(m,1,1);
- step(m,{x:1,attack:true},{},30);step(m);
+ step(m,{x:1,attack:true},{},m.players[0].move.total-5);step(m);
  assert.equal(m.players[0].stocks,1);assert.equal(m.players[0].buffer.empowered,true);
  step(m,{}, {},10);assert.equal(m.players[0].stocks,0);assert.equal(m.players[0].move.empowered,true);
 });

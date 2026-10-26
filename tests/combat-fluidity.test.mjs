@@ -4,17 +4,17 @@ import {lineTravel,advanceTravel,travelProgress,CIRCLE_FRAMES,CROSSOVER_FRAMES} 
 const step=(m,a={},b={},count=1)=>{for(let j=0;j<count;j++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const close=()=>{const m=createMatch(0,1,'training');m.players[0].x=0;m.players[1].x=2;return m;};
 function contact(m){step(m,{attack:true});step(m);while(!m.hitstop)step(m);}
-test('jump squat stays grounded for four frames, launches once, and can be interrupted',()=>{
+test('jump squat stays grounded for six frames, launches once, and can be interrupted',()=>{
  const m=createMatch(),p=m.players[0];step(m,{z:-1});step(m);step(m,{z:-1,guard:true});
- for(let frame=0;frame<4;frame++){assert.equal(p.jumpSquat.frame,frame);assert.equal(p.air,0);assert.equal(p.guard,false);step(m);}
+ for(let frame=0;frame<6;frame++){assert.equal(p.jumpSquat.frame,frame);assert.equal(p.air,0);assert.equal(p.guard,false);step(m);}
  assert.equal(p.jumpSquat,null);assert.equal(p.air,.85);step(m);assert.ok(p.air<.85);
  const n=createMatch();step(n,{z:-1});step(n);step(n,{z:-1,guard:true});hit(n,n.players[1],n.players[0],6);step(n,{}, {},5);assert.equal(n.players[0].air,0);assert.equal(n.players[0].jumpSquat,null);
 });
-test('knockdown has grounded hold then twelve simulation rise frames and guard-ready exit',()=>{
- const m=createMatch(),p=m.players[0];Object.assign(p,{anim:'knockdown',stun:33*STEP,animTime:33*STEP});
+test('knockdown has grounded hold then twenty-eight simulation rise frames and guard-ready exit',()=>{
+ const m=createMatch(),p=m.players[0];Object.assign(p,{anim:'knockdown',stun:49*STEP,animTime:33*STEP});
  let rises=0,holds=0;
- for(let j=0;j<33;j++){step(m,{},{});if(p.getUp){rises++;assert.equal(p.air,0);assert.ok(p.inv>0);}else if(p.stun>0)holds++;}
- assert.equal(rises,12);assert.equal(holds,20);assert.equal(p.getUp,null);assert.equal(p.stun,0);
+ for(let j=0;j<49;j++){step(m,{},{});if(p.getUp){rises++;assert.equal(p.air,0);assert.ok(p.inv>0);}else if(p.stun>0)holds++;}
+ assert.equal(rises,28);assert.equal(holds,20);assert.equal(p.getUp,null);assert.equal(p.stun,0);
  step(m,{guard:true});assert.equal(p.guard,true);
 });
 test('light contact freezes both players, timers, projectiles and air motion for exactly six raw frames',()=>{
@@ -31,13 +31,13 @@ test('live knockback starts after hitstop, decelerates, and covers half a unit',
  step(m,{}, {},6);const deltas=[];for(let j=0;j<8;j++){const x=p.x;step(m);deltas.push(p.x-x);}
  assert.ok(deltas[0]>.15);for(let j=1;j<8;j++)assert.ok(deltas[j]<deltas[j-1]);assert.ok(Math.abs(p.x-start-.5)<1e-8);assert.equal(p.knockback,null);
 });
-test('released chain input during hitstop fires on the first advancing frame, once',()=>{
- const m=close();contact(m);step(m,{attack:true});step(m);assert.equal(m.players[0].move.chain,1);step(m,{}, {},4);step(m);
+test('released chain input during hitstop fires at the first legal chain-cancel frame, once',()=>{
+ const m=close();contact(m);step(m,{attack:true});step(m);assert.equal(m.players[0].move.chain,1);step(m,{}, {},4);step(m,{}, {},4);assert.equal(m.players[0].move.chain,1);step(m);
  assert.equal(m.players[0].move.chain,2);assert.equal(m.players[0].move.frame,0);assert.equal(m.players[0].pendingInput,null);
 });
 test('six-frame pending input retains direction, rejects stale input and never repeats',()=>{
  for(const wait of [8,9]){const m=createMatch(),p=m.players[0];p.stun=wait*STEP;p.anim='hurt';step(m,{x:1,attack:true});step(m,{}, {},wait);
-  assert.equal(p.move?.kind,wait===8?'forward':undefined);if(wait===8){assert.equal(p.pendingInput,null);step(m,{}, {},60);assert.equal(p.move,null);}
+  assert.equal(p.move?.kind,wait===8?'forward':undefined);if(wait===8){assert.equal(p.pendingInput,null);step(m,{}, {},80);assert.equal(p.move,null);}
  }
 });
 test('pending guard at wakeup protects on the first actionable frame',()=>{
@@ -69,6 +69,6 @@ test('pending input during a heavy freeze expires outside the last six frames',(
  m.hitstop=12;step(m,{}, {},7);step(m,{pursuit:true});step(m,{}, {},5);assert.equal(m.players[0].move.kind,'pursuit');
 });
 test('a knockout releases impact freeze so the round ceremony can animate',()=>{
- const m=close();m.mode='duel';m.players[1].hp=1;step(m,{attack:true});step(m);for(let j=0;j<8;j++)step(m);
+ const m=close();m.mode='duel';m.players[1].hp=1;step(m,{attack:true});step(m);for(let j=0;j<10;j++)step(m);
  assert.equal(m.phase,'over');assert.equal(m.hitstop,0);assert.equal(m.frozen,false);
 });

@@ -88,6 +88,7 @@ jobs:
             export RIFT_TOOLS="$PWD" RIFT_BASE=http://127.0.0.1:4173 SHOTS=artifacts/browser-smoke/kinetic-vfx
             node scripts/review/kinetic-vfx.mjs
             node scripts/review/signature-volumes.mjs
+            node scripts/review/frame-budgets.mjs
           fi
       - name: Upload screenshots, console log and report
         if: always()

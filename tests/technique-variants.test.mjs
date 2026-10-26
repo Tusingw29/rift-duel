@@ -41,18 +41,18 @@ test('Tala kick advances without launching; Morrow stops to fire; Vesper spreads
  }
 });
 test('expanded Sol ward intercepts at its larger radius',()=>{
- const m=createMatch(4,0);start(m);extra(m);step(m,{}, {},7);
+ const m=createMatch(4,0);start(m);extra(m);step(m,{}, {},m.players[0].move.startup-m.players[0].move.frame-1);
  assert.equal(m.players[0].move.reach,4.2);
  m.projectiles.push({x:-.2,z:0,dx:-1,dz:0,life:2,owner:1,kind:'bolt',damage:7,radius:.4});
  step(m);assert.equal(m.projectiles.length,0);assert.equal(m.players[0].hp,100);
 });
 test('late taps do not transform an active technique and interrupts remove both planned hits',()=>{
- const m=createMatch(1,0);start(m);step(m,{}, {},10);extra(m);assert.equal(m.players[0].move.followup,undefined);
+ const m=createMatch(1,0);start(m);step(m,{}, {},m.players[0].move.startup);extra(m);assert.equal(m.players[0].move.followup,undefined);
  const n=createMatch(1,0);n.players[1].x=-2;start(n);extra(n);hit(n,n.players[1],n.players[0],5);
  step(n,{}, {},60);assert.equal(n.players[1].hp,100);assert.equal(n.players[0].move,null);
 });
 test('timed guard cancels the second strike and held guard chips both contacts',()=>{
- const m=createMatch(1,0);m.players[1].x=-2;start(m);extra(m);step(m,{}, {},7);step(m,{}, {guard:true});
+ const m=createMatch(1,0);m.players[1].x=-2;start(m);extra(m);step(m,{}, {},m.players[0].move.startup-m.players[0].move.frame-1);step(m,{}, {guard:true});
  assert.equal(m.players[0].move,null);step(m,{}, {},40);assert.equal(m.players[1].hp,100);
  const n=createMatch(1,0);n.players[1].x=-2;step(n,{}, {guard:true},20);
  step(n,{z:-1,attack:true},{guard:true});step(n,{}, {guard:true});step(n,{attack:true},{guard:true});step(n,{}, {guard:true},60);

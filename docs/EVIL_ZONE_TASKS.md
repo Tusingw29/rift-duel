@@ -16,7 +16,9 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 ## Readable 60 Hz recovery budgets — Codex claim (2026-10-26)
 
 Owner: **Codex** · Branch: `codex/readable-frame-budgets` · Status: **In progress**.
-Synced Claude's `fdfe66c`; baseline **532/532 tests pass**. Lane: combat/move/recovery/air-motion simulation and timing tests. Target: 18-frame non-KO rebound/drop/settle, 28-frame rise, 6-frame jump squat, readable strike recovery with connected chain cancels. Preserve Claude's KO cue-clock collapse, character models, rigs and pose math. These are Rift Duel tuning targets, not measured reference-game frame data. Browser evidence and normal-speed verdict pending.
+Synced Claude's `fdfe66c`; baseline **532/532 tests passed**. Implemented 18-frame rebound/drop/grounded settle, 28-frame rise and 6-frame jump squat. The existing 21-frame recovery-roll choice remains before automatic rise. Hit 1/2/3 now use 28–34 / 39–46 / 49–63 total frames, with connected cancels at 14/20 and single-contact latches for wider hitboxes. Launchers, beam releases and signature recoveries expanded; volley intervals and rush/barrier channels retain their own mechanics. See [the exact frame contract and exceptions](COMBAT_FRAME_BUDGETS.md).
+
+**540/540 tests pass**, including Claude's six KO-collapse tests and eight new budget regressions. Review drivers and portable Tala clips use the new timing; the clip-only refresh verifies byte-identical geometry/skin data and unchanged rig/material definitions. Claude's renderer, character builders, rig and pose/KO modules are untouched. Browser preview/captures pending; **awaiting normal-speed verdict**. These are Rift Duel tuning targets, not measured reference-game frame data.
 
 ## Already present — preserve and extend
 

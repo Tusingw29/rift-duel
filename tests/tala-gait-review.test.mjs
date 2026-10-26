@@ -20,7 +20,7 @@ test('both gait sources enter combat directly, retain exact contact and determin
    if(clip.name!=='Circle to recoil')assert.ok(Math.max(...Object.keys(before).map(k=>Math.abs(start[k]-before[k])))<.6,clip.name+' bounded entry');else assert.ok(Object.values(start).every(Number.isFinite),'impact pose is finite');
    live.sample(clip.name,1.4);const settled={...live.rig.pose};live.sample(clip.name,0);live.sample(clip.name,1.4);assert.deepEqual(live.rig.pose,settled,'replay determinism');
   }
-  const live=review(),timing=moveTiming(fighters[2],'strike');
-  for(let chain=1;chain<=3;chain++){const frame=48+(chain-1)*timing.total+timing.startup;live.sample('Advance to combo',frame/60);const move={kind:'strike',chain,...timing,frame:timing.startup};const expected=targetFor({anim:'strike',move},frame/60,0).pose;for(const key of Object.keys(expected))assert.ok(Math.abs(live.rig.pose[key]-expected[key])<1e-9,`${gait} chain ${chain} ${key}`);}
+  const live=review();let startFrame=48;
+  for(let chain=1;chain<=3;chain++){const timing=moveTiming(fighters[2],'strike',chain),frame=startFrame+timing.startup;startFrame+=timing.total;live.sample('Advance to combo',frame/60);const move={kind:'strike',chain,...timing,frame:timing.startup};const expected=targetFor({anim:'strike',move},frame/60,0).pose;for(const key of Object.keys(expected))assert.ok(Math.abs(live.rig.pose[key]-expected[key])<1e-9,`${gait} chain ${chain} ${key}`);}
  }}finally{setLocomotionSource('authored');}
 });

@@ -45,12 +45,12 @@ for(const [id,f] of fighters.entries()){
   assert.ok(Math.abs(landing.at(-1)-stanceY)<.14,`${f.name} recovers from the landing`); // within the idle weight rhythm's bounce
  });
  if(id===2)test('Tala: punches counter-rotate the hips in the wind-up and keep the arm out through the opening',()=>{
-  const r=buildCharacter(2),timing=moveTiming(fighters[2],'strike');
+  const r=buildCharacter(2);
   for(const chain of [1,2,3]){
-   const m={kind:'strike',chain,...timing,frame:0};const at=frame=>{for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);for(let f=0;f<=frame;f++){m.frame=f;animateCharacter(r,{anim:'strike',move:m,x:0,z:0},1+f/60);}return {...poseOf(r,2)};};
+   const timing=moveTiming(fighters[2],'strike',chain),m={kind:'strike',chain,...timing,frame:0};const at=frame=>{for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);for(let f=0;f<=frame;f++){m.frame=f;animateCharacter(r,{anim:'strike',move:m,x:0,z:0},1+f/60);}return {...poseOf(r,2)};};
    for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);
-   // The kinetic chain commits the hips two frames early, so the counter-load shows on the first frame.
-   const wind=at(0),contact=at(timing.startup),open=at(timing.startup+timing.active+Math.round(timing.recovery*.3)),stance=at(timing.total);
+   // Sample the coil before the hip drive; a longer startup begins in stance.
+   const wind=at(Math.max(0,Math.round(timing.startup*.35)-2)),contact=at(timing.startup),open=at(timing.startup+timing.active+Math.round(timing.recovery*.3)),stance=at(timing.total);
    const early=at(timing.startup-2),armK=chain===2?'lax':'rax';
    assert.ok(Math.abs(early.hipYaw)>=.8*Math.abs(contact.hipYaw),`chain ${chain} hips arrive two frames before the arms (${early.hipYaw.toFixed(2)} vs ${contact.hipYaw.toFixed(2)})`);
    assert.ok(Math.abs(early[armK]-contact[armK])>.5*Math.abs(wind[armK]-contact[armK]),`chain ${chain} the arm is still trailing two frames before contact`);

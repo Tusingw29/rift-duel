@@ -91,7 +91,7 @@ test('recovering before pursuit contact escapes the punish; no retroactive bonus
 test('clean recovery upgrades only the next close strike',()=>{
  const s=breakGuard(0);recover(s);step(s.m,0,{},9);s.b.x=0;s.a.x=2;
  step(s.m,0,{attack:true});step(s.m,0);assert.equal(s.b.move.kind,'strike');assert.equal(s.b.move.counter,true);assert.equal(s.b.counterWindow,0);
- const hp=s.a.hp;step(s.m,0,{},8);assert.equal(s.a.hp,hp-8);
+ const hp=s.a.hp;step(s.m,0,{},10);assert.equal(s.a.hp,hp-8);step(s.m,0,{},4);
  step(s.m,0,{attack:true});step(s.m,0);assert.equal(s.b.move.counter,undefined);
 });
 test('round creation and training health refill reset all stagger state',()=>{
@@ -123,7 +123,7 @@ test('capture consumes the opening when the cinematic begins',()=>{
 test('a blocked counter consumes its reward without bonus damage through guard',()=>{
  const s=breakGuard(0);recover(s);step(s.m,0,{},9);s.b.x=0;s.a.x=2;
  step(s.m,0,{attack:true});step(s.m,0);const hp=s.a.hp;
- for(let i=0;i<8;i++)update(s.m,[neutral(),{...neutral(),guard:true}]);
+ for(let i=0;i<10;i++)update(s.m,[neutral(),{...neutral(),guard:true}]);
  assert.equal(s.a.hp,hp);assert.equal(s.b.counterWindow,0);assert.equal(s.b.move,null);
 });
 import {createKeyboardInput} from '../dist/keyboard-input.js';

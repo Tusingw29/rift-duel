@@ -1,8 +1,10 @@
 // Original 60 Hz recovery rules. Directions use the fighter's lock-on basis.
-export const ROLL_TIME=.3,ROLL_SAFE=.22,GETUP_TIME=.2,GETUP_SAFE=.1,GETUP_CANCEL=.1;
+export const GET_UP_FRAMES=28,JUMP_SQUAT_FRAMES=6,BOUNCE_FRAMES=18,BOUNCE_AIR_FRAMES=12,DOWN_HOLD_FRAMES=21;
+export const KNOCKDOWN_FRAMES=DOWN_HOLD_FRAMES+GET_UP_FRAMES;
+export const ROLL_TIME=.3,ROLL_SAFE=.22,GETUP_TIME=GET_UP_FRAMES/60,GETUP_SAFE=.1,GETUP_CANCEL=.1;
 export function recoveryInput(p,rival,input){
  const fresh=(key)=>Math.abs(input[key])>.5&&(Math.abs(p.prev[key])<=.5||Math.sign(input[key])!==Math.sign(p.prev[key]));
- if(p.anim!=='knockdown'||p.stun<=0||p.stun>.55)return null;
+ if(p.anim!=='knockdown'||p.stun<=0||p.bounce||p.getUp||p.stun>KNOCKDOWN_FRAMES/60)return null;
  if(fresh('z')||fresh('x')){
   const x=fresh('z')?0:Math.sign(input.x),z=fresh('z')?Math.sign(input.z):0;
   const d=Math.hypot(rival.x-p.x,rival.z-p.z)||1,fx=(rival.x-p.x)/d,fz=(rival.z-p.z)/d;
@@ -11,7 +13,7 @@ export function recoveryInput(p,rival,input){
   p.move=null;p.buffer=null;return 'RECOVERY ROLL';
  }
  if(input.guard&&!p.prev.guard&&p.stun>GETUP_TIME){
-  p.getUp={frame:0,frames:12,safe:false};p.stun=GETUP_TIME;p.cool=GETUP_TIME;p.inv=GETUP_SAFE;p.anim='recover';p.animTime=GETUP_TIME;
+  p.getUp={frame:0,frames:GET_UP_FRAMES,safe:false};p.stun=GETUP_TIME;p.cool=GETUP_TIME;p.inv=GETUP_SAFE;p.anim='getUp';p.animTime=GETUP_TIME;
   p.move=null;p.buffer=null;return 'GUARDED GET-UP';
  }
  return null;

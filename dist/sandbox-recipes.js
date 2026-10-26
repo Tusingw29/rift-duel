@@ -1,8 +1,10 @@
 import {createMatch,update,neutral,hit,STEP} from './combat.js';
+import {canChain} from './moves.js';
 // Deterministic scripted scenarios for the local sandbox and its tests. A recipe places both
 // fighters, then supplies both players' inputs for every simulation frame; scrubbing to frame N
 // means replaying N frames from the reset, which is exact because the simulation is fixed-step.
 const tap=(frames,input)=>f=>frames.includes(f)?input:{};
+const combo=limit=>(f,m)=>f===0||m.players[0].move?.chain<limit&&canChain(m.players[0].move)&&!m.players[0].prev.attack?{attack:true}:{};
 export const RECIPES={
  idle:{distance:3,p1:()=>({})},
  approach:{distance:5,p1:()=>({x:1})},
@@ -12,8 +14,8 @@ export const RECIPES={
  pursuit:{distance:3.5,p1:tap([0],{pursuit:true})},
  crossover:{distance:2,p1:f=>f===0?{z:-1}:f===2?{z:-1,attack:true}:{}},
  strike1:{distance:2,p1:tap([0],{attack:true})},
- strike2:{distance:2,p1:tap([0,12],{attack:true})},
- strike3:{distance:2,p1:tap([0,12,24],{attack:true})},
+ strike2:{distance:2,p1:combo(2)},
+ strike3:{distance:2,p1:combo(3)},
  launch:{distance:2,p1:f=>f===0?{z:1}:f===3?{z:1,attack:true}:{}},
  capture:{distance:2,p1:tap([0],{capture:true})},
  burst:{distance:3,stocks:3,p1:f=>f===0?{x:-1}:f===3?{x:-1,attack:true}:{}},
@@ -25,9 +27,9 @@ export const RECIPES={
  stagger:{distance:2,setup:m=>{for(let i=0;i<4;i++)hit(m,m.players[1],m.players[0],6);}},
  'stagger-recover':{distance:2,setup:m=>{for(let i=0;i<4;i++)hit(m,m.players[1],m.players[0],6);},p1:f=>f===6?{z:-1}:f===7?{z:1}:f===8?{z:-1}:{}},
  // Third-hit reversal (EZ-04): the defender settles into guard first (a guard fresher than .2 s deflects instead),
- // the attacker chains three basic strikes tapping each as the previous reaches contact, and the defender re-taps
+ // the attacker chains three basic strikes tapping each as the previous reaches its connected cancel window, and the defender re-taps
  // guard two frames before the third strike lands.
- reversal:{distance:1.7,p1:(f,m)=>{const a=m.players[1].move;return {guard:!(a?.chain===3&&a.frame===a.startup-2)};},p2:(f,m)=>{const a=m.players[1].move;return f===12||(a&&a.chain<3&&a.frame===a.startup)?{attack:true}:{};}},
+ reversal:{distance:1.7,p1:(f,m)=>{const a=m.players[1].move;return {guard:!(a?.chain===3&&a.frame===a.startup-2)};},p2:(f,m)=>{const a=m.players[1].move;return f===12||(a&&canChain(a)&&!m.players[1].prev.attack)?{attack:true}:{};}},
 };
 export function createScenario(name,p1=2,p2=1){
  const recipe=RECIPES[name]||RECIPES.idle,m=createMatch(p1,p2,'training');

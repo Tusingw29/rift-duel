@@ -16,7 +16,7 @@ test('down-down attack launches and up-up attack crosses over',()=>{
  const n=createMatch();n.players[1].x=-2;double(n,{z:-1});assert.equal(n.players[0].anim,'jumpAttack');assert.ok(n.players[0].x>n.players[1].x);assert.ok(n.players[1].turnDelay>0);
 });
 test('up-up guard jumps and fresh airborne guard recovers',()=>{
- const m=createMatch();double(m,{z:-1},'guard');assert.equal(m.players[0].air,0);assert.ok(m.players[0].jumpSquat);step(m,{}, {},3);assert.ok(m.players[0].air>0);assert.equal(m.players[0].guard,false);
+ const m=createMatch();double(m,{z:-1},'guard');assert.equal(m.players[0].air,0);assert.ok(m.players[0].jumpSquat);step(m,{}, {},5);assert.ok(m.players[0].air>0);assert.equal(m.players[0].guard,false);
  step(m);m.players[0].stun=.7;step(m,{guard:true});assert.equal(m.players[0].stun,0);assert.ok(m.players[0].air<.2);assert.ok(m.players[0].inv>0);
 });
 test('holding a direction never counts as double tap',()=>{

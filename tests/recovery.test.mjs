@@ -1,10 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createMatch,update,neutral,hit} from '../dist/combat.js';
 const step=(m,a={},b={},n=1)=>{for(let i=0;i<n;i++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
-const grounded=()=>{const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{}, {},64);assert.equal(m.players[0].anim,'knockdown');return m;};
+const grounded=()=>{const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{}, {},70);assert.equal(m.players[0].anim,'knockdown');return m;};
 test('unrecovered launch lands in knockdown, then returns to standing',()=>{
  const m=grounded();assert.equal(m.players[0].air,0);assert.ok(m.players[0].stun>0);
- step(m,{}, {},40);assert.equal(m.players[0].stun,0);assert.equal(m.players[0].anim,'idle');
+ step(m,{}, {},50);assert.equal(m.players[0].stun,0);assert.equal(m.players[0].anim,'idle');
 });
 test('air recovery avoids the landing knockdown',()=>{
  const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{guard:true});step(m,{}, {},60);
@@ -18,7 +18,7 @@ test('fresh depth input rolls both ways, travels over time, and locks attacks',(
  }
 });
 test('held direction does not automatically roll, and arena bounds hold',()=>{
- const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{z:1},{},67);assert.equal(m.players[0].roll,null);
+ const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{z:1},{},73);assert.equal(m.players[0].roll,null);
  step(m);step(m,{z:1});assert.ok(m.players[0].roll);
  const n=grounded();n.players[0].z=5.8;step(n,{z:1});step(n,{}, {},25);assert.equal(n.players[0].z,6);
 });
@@ -37,9 +37,9 @@ test('roll direction follows the opponent for either slot, swapped sides and dep
  }
 });
 test('fresh guard rises with a brief safe start and vulnerable finish; held guard does not repeat',()=>{
- const m=grounded(),p=m.players[0];step(m,{guard:true});assert.equal(p.anim,'recover');assert.ok(p.inv>0);assert.equal(p.guard,false);
+ const m=grounded(),p=m.players[0];step(m,{guard:true});assert.equal(p.anim,'getUp');assert.ok(p.inv>0);assert.equal(p.guard,false);
  step(m,{guard:true},{},7);assert.equal(p.inv,0);assert.ok(p.stun>0);
- step(m,{guard:true},{},5);assert.equal(p.stun,0);step(m,{guard:true});assert.equal(p.guard,true);
+ step(m,{guard:true},{},21);assert.equal(p.stun,0);step(m,{guard:true});assert.equal(p.guard,true);
  const n=grounded();n.players[0].prev.guard=true;step(n,{guard:true});assert.equal(n.players[0].anim,'knockdown');
 });
 test('late wake-up attack waits for the full rise and buffers only the final six frames',()=>{

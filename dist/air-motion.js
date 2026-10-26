@@ -5,8 +5,8 @@ export function airHeight(player){return player.airMotion?.height??Math.sin(Math
 export function advanceAirMotion(player,dt){
  if(!(dt>0))return airHeight(player);
  if(player.bounce){
-  const b=player.bounce,u=b.frame/b.frames,height=b.height*Math.sin(Math.PI*u);
-  player.airMotion={height,velocity:b.height*Math.PI*Math.cos(Math.PI*u)/(b.frames/60),previousAir:player.air,segment:null};return height;
+  const b=player.bounce,u=Math.min(1,b.frame/(b.airFrames||b.frames)),height=u>=1?0:b.height*Math.sin(Math.PI*u);
+  player.airMotion={height,velocity:u>=1?0:b.height*Math.PI*Math.cos(Math.PI*u)/((b.airFrames||b.frames)/60),previousAir:player.air,segment:null};return height;
  }
  const air=Math.max(0,player.air||0);
  const s=player.airMotion??={height:0,velocity:0,previousAir:0,segment:null};

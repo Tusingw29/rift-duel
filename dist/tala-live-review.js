@@ -9,9 +9,11 @@ import {fighters} from './fighters.js';
 import {moveTiming} from './moves.js';
 const signatureClips={'Launcher':{kind:'launch'},'Aerial pursuit':{kind:'pursuit',aerial:true},'Rising rush':{kind:'technique'},'Skybreaker kick':{kind:'technique',followup:true},'Storm spark':{kind:'forward'},'Still-water discus':{kind:'back'},'Twin spark':{kind:'forward',followup:true},'Crosswind discs':{kind:'back',followup:true},'Blazing palm':{kind:'forward',empowered:true},'Giant discus':{kind:'back',empowered:true}};
 const shotTiming=moveTiming(fighters[2],'shot');
-const timing=moveTiming(fighters[2],'strike');
-export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:1.6},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6},{name:'Knockdown + rise',duration:1.8}];
-export const TALA_TRANSITION_CLIPS=['Advance to guard','Advance to combo','Circle to recoil'].map(name=>({name,duration:2.4}));
+const timings=[1,2,3].map(chain=>moveTiming(fighters[2],'strike',chain));
+const comboFrames=timings.reduce((n,t)=>n+t.total,0);
+function comboAt(frame){for(let chain=0;chain<3;chain++){if(frame>=0&&frame<timings[chain].total)return {chain,frame};frame-=timings[chain].total;}return null;}
+export const LIVE_TALA_CLIPS=[{name:'Idle',duration:2.4},{name:'Jump + land',duration:1.5},{name:'Air recovery',duration:1.3},{name:'Advance',duration:1.8},{name:'Retreat',duration:1.8},{name:'Circle left',duration:1.8},{name:'Circle right',duration:1.8},{name:'Guard + block',duration:2.4},{name:'Combo',duration:(24+comboFrames)/60},{name:'Energy shot',duration:1.3},...Object.keys(signatureClips).map(name=>({name,duration:name==='Aerial pursuit'?1.6:1.4})),{name:'Recoil',duration:1.6},{name:'Knockdown + rise',duration:1.8}];
+export const TALA_TRANSITION_CLIPS=['Advance to guard','Advance to combo','Circle to recoil'].map(name=>({name,duration:3}));
 // This inspection driver supplies scripted player states to the actual live
 // animator. It is not a second implementation of the poses or foot solver.
 export function createLiveTalaReview(source,{variant='design02'}={}){
@@ -26,7 +28,7 @@ export function createLiveTalaReview(source,{variant='design02'}={}){
   if(spec.aerial){signature.active=19;signature.total=signature.startup+19+signature.recovery;}
   if(spec.kind==='technique'&&spec.followup){Object.assign(signature,techniqueVariants.tala);signature.total=signature.startup+signature.active+signature.recovery;}
   shot={kind:'shot',chain:1,...shotTiming,frame:0};
-  moves=[1,2,3].map(chain=>({kind:'strike',chain,...timing,frame:0}));selected=name;frame=-1;
+  moves=[1,2,3].map(chain=>({kind:'strike',chain,...timings[chain-1],frame:0}));selected=name;frame=-1;
  }
  function tick(name,f){
   const t=f/60,p={anim:'idle',x:0,z:0,prev:{x:0,z:0},air:0,guard:false,animTime:0};let facing=0;
@@ -56,8 +58,8 @@ export function createLiveTalaReview(source,{variant='design02'}={}){
    if(signature.kind==='back')p.z=-RETREAT_DISTANCE*retreatProgress(signature,Math.max(0,f-12));
   }
   if(name==='Combo'){
-   const attackFrame=f-12,chain=Math.floor(attackFrame/timing.total);
-   if(chain>=0&&chain<3){p.move=moves[chain];p.move.frame=attackFrame%timing.total;p.anim='strike';}
+   const at=comboAt(f-12);
+   if(at){p.move=moves[at.chain];p.move.frame=at.frame;p.anim='strike';}
   }
   if(TALA_TRANSITION_CLIPS.some(c=>c.name===name)){
    // Approach for 0.6 s, then interrupt directly: no inserted idle frame.
@@ -66,7 +68,7 @@ export function createLiveTalaReview(source,{variant='design02'}={}){
    else {p.z=step*.06;p.prev={x:1,z:0};}
    if(f>=12&&f<48)p.anim='run';
    if(f>=48&&name==='Advance to guard'){p.guard=f<108;p.blockStun=f>=60&&f<72?(72-f)/60:0;}
-   if(f>=48&&name==='Advance to combo'){const n=f-48,chain=Math.floor(n/timing.total);if(chain<3){p.move=moves[chain];p.move.frame=n%timing.total;p.anim='strike';}}
+   if(f>=48&&name==='Advance to combo'){const at=comboAt(f-48);if(at){p.move=moves[at.chain];p.move.frame=at.frame;p.anim='strike';}}
    if(f>=48&&f<73&&circle){p.anim='hurt';p.animTime=(73-f)/60;}
   }
   flight.air=p.air;flight.move=p.move;

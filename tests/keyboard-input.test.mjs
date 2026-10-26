@@ -22,7 +22,7 @@ test('direction press and release ordering preserves double-tap pursuit',()=>{
 test('players drain independently so simultaneous taps still trade',()=>{
  const k=createKeyboardInput(),m=createMatch(0,0);m.players[1].x=-2;
  k.add('KeyJ');k.add('Digit1');k.delete('KeyJ');k.delete('Digit1');
- tick(m,k,10);assert.equal(m.players[0].hp,94);assert.equal(m.players[1].hp,94);
+ tick(m,k,12);assert.equal(m.players[0].hp,94);assert.equal(m.players[1].hp,94);
 });
 test('held input persists without events; repeated keydown does not create extra presses',()=>{
  const k=createKeyboardInput(),m=createMatch();k.add('KeyJ');

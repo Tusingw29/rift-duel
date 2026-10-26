@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createMatch,neutral,hit} from '../dist/combat.js';
 import {fighters} from '../dist/fighters.js';
-import {canChain} from '../dist/moves.js';
+import {canChain,chainCancelFrame} from '../dist/moves.js';
 import {reversalEligible,reversalPrompt,REVERSAL_WINDOW,REVERSAL_STARTUP,REVERSAL_DAMAGE} from '../dist/reversal.js';
 const tick=(s,attack={},defend={guard:true})=>update(s.m,s.m.players.map((_,n)=>({...neutral(),...(n===s.n?attack:defend)})));
 function third(id=0,n=0,side=1){
@@ -12,7 +12,7 @@ function third(id=0,n=0,side=1){
  for(let chain=1;chain<=3;chain++){
   tick(s,{attack:true});tick(s);
   assert.equal(a.move.chain,chain);
-  if(chain<3)while(a.move.frame<a.move.startup)tick(s);
+  if(chain<3)while(a.move.frame<chainCancelFrame(a.move))tick(s);
  }
  return s;
 }

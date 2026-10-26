@@ -22,7 +22,7 @@ for(const [id,f] of fighters.entries()){
  test(`${f.name}: the third-hit reversal plays a forward return strike out of the guard`,()=>{
   const r=buildCharacter(id),s=createScenario('reversal',id,id===1?2:1);
   let fired=null;
-  for(let frame=0;frame<80;frame++){stepScenario(s);const p=s.m.players[0];animateCharacter(r,p,frame/60);finite(r);if(p.move?.reversal&&p.move.frame===p.move.startup){fired={...poseOf(r,id)};}}
+  for(let frame=0;frame<120;frame++){stepScenario(s);const p=s.m.players[0];animateCharacter(r,p,frame/60);finite(r);if(p.move?.reversal&&p.move.frame===p.move.startup){fired={...poseOf(r,id)};}}
   assert.ok(fired,`${f.name} reversal fires`);
   assert.ok(fired.bodyZ>.15,`${f.name} return strike drives forward (${fired.bodyZ.toFixed(2)})`);
  });
