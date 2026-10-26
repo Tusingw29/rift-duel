@@ -14,3 +14,9 @@
 Tala's `tala-blender.html?model=graphic&gait=mocap` viewer compares at the same timestamp and includes `TALA_TRANSITION_CLIPS` (live-only, not baked GLB clips). Changing gait invalidates the deterministic review replay even while paused. The Play link preserves `gait` into the main game; authored remains default.
 
 Tala's procedural foot targets still override the captured lower-limb targets, making this a hybrid. Reverse-run retreat previously tilted the chin upward; `clipMovePose` now bounds head pitch against torso lean. Do not treat reversed run/adapted forward walk as dedicated combat backstep/sidestep capture.
+
+## Segment export and the TALA-IMPORT-AB finding (2026-10-26)
+
+- `--segment a:b --mode loop` cuts one step cycle (two lift-offs of one foot, or a single step-and-drag) from a stretch found by `scripts/mocap/find-footwork.mjs` (heading = where the guard hands point; travel classified advance/retreat/left/right). Contacts use the ball of the foot by height; `scripts/mocap/contact-timeline.mjs` prints them. Output keys carry pelvis sway, ankle paths relative to the travel line and contacts, in source leg lengths. `--mode oneshot --pelvis-frame` retargets floor work with the pelvis orientation in `bodyPitch/hipYaw/bodyRoll`. `scripts/mocap/export-tala-import.sh` regenerates Tala's comparison clips.
+- Runtime: `dist/imported-motion.js` (Tala only, source `imported`). Feet are contact-locked; only each foot's excursion around its own mean stance is stretched (stretching the whole offset widens the stance until the solver releases the plant).
+- Finding: the simulation moves fighters at 6.4 u/s, 6–20× any combat footwork in CMU, so a capture can only be played with a stretched stride and raised tempo; this skates and straddles. Mocap footwork needs a game-speed source. Floor work (the get-up) transfers better. See `art/review-2026-10-26/tala-import-ab/README.md`.

@@ -8,6 +8,8 @@ import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose,grapplePose,launchedPose,rollPose,victoryPose,aerialStrikePose,bouncePose} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
+import {locomotionSource} from './locomotion-clips.js';
+import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -160,13 +162,17 @@ const retreatClip=motionClip(s=>({...s,bodyX:s.bodyX*.7,bodyY:s.bodyY+.035,lean:
 const circleClip=motionClip((s,i)=>({...s,bodyX:s.bodyX*.8,bodyY:s.bodyY+.02,lean:.13,side:.07+s.side,
  hipYaw:s.hipYaw*.5,twist:-.18+(s.twist+.18)*.5,llx:-.1,rlx:.1,llz:.2+s.llx*.4,rlz:.2+s.rlx*.4,
  lax:-.9+(s.lax+.75)*.18,rax:-.65+(s.rax+.65)*.18,le:-1.25,re:-1.35}));
-export function movePose(forward,side,phase){
+// `tala` is true only for Tala's own locomotion: the roster reuses this step clip and stays authored in the import experiment.
+export function movePose(forward,side,phase,tala=false){
+ if(tala&&locomotionSource()==='imported')return pose(importedMovePose(forward,side,phase,stance));
  const captured=clipMovePose(forward,side,phase,stance.bodyY);if(captured)return captured;
  const strafe=Math.abs(side)>Math.abs(forward);
  const s=sampleClip(strafe?circleClip:forward<0?retreatClip:advanceClip,phase/(Math.PI*2),CHANNELS,true);
  if(strafe&&side<0){s.bodyX=-s.bodyX;s.side=-s.side;s.llz=-s.llz;s.rlz=-s.rlz;}
  return s;
 }
+// The get-up comes from the simulation's getUp frame in both modes; the import experiment swaps in the captured rise.
+function talaGetUpPose(r,p){return locomotionSource()==='imported'?importedGetUpPose(r,stance,p,downPose(r,stance,impact,{anim:'knockdown',knockdown:{remaining:0}},0)):getUpPose(r,stance,p);}
 export function idlePose(t){
  // Weight rhythm shared with the roster (footwork.js); the head and hands breathe on top.
  return pose(rhythmPose({...stance,hx:.08+Math.sin(t*5.2)*.035,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04},t));
@@ -191,7 +197,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(p.guard)return {pose:pose(rhythmPose(guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0,p.hitstop),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
- if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase),rate:13,kind:'run'};
+ if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase,true),rate:13,kind:'run'};
  return {pose:idlePose(t),rate:8,kind:'idle'};
 }
 export function advanceStride(r,p){
@@ -207,12 +213,12 @@ export function blendPose(current,target,rate,dt){
 }
 // Returns true when the sample system handled this frame.
 export function animateTala(r,p,time){
- const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;
+ const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;setImportRig(r);
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
  let target=null;
  if(p?.anim==='jumpSquat'&&!p.move)target={kind:'squat',rate:Infinity,pose:pose(squatPose(stance,p))};
- else if(p?.anim==='getUp'&&!p.move)target={kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))};
+ else if(p?.anim==='getUp'&&!p.move)target={kind:'rise',rate:Infinity,pose:pose(talaGetUpPose(r,p))};
  else if(p?.anim==='grapple')target={kind:'grapple',rate:Infinity,pose:pose(grapplePose(stance,p.animTime||0,'actor'))};
  else if(p?.anim==='grappled')target={kind:'grapple',rate:Infinity,pose:pose(grapplePose(stance,p.animTime||0,'victim'))};
  else if(p?.anim==='victory')target={kind:'victory',rate:20,pose:pose(victoryPose(stance,'tala',p.animTime,time))};
@@ -221,7 +227,7 @@ export function animateTala(r,p,time){
  if(!target&&p?.launched&&(p.air||0)>0&&!p.move)target={kind:'launched',rate:Infinity,pose:pose(launchedPose(r,stance,p))};
  if(!target&&p?.anim==='roll'&&p.roll)target={kind:'roll',rate:Infinity,pose:pose(rollPose(r,stance,p))};
  if(!target&&p?.move&&(p.air||0)>0&&!p.launched&&!['pursuit','jumpAttack'].includes(p.move.kind))target={kind:'aerial',rate:Infinity,pose:pose(aerialStrikePose(stance,p,strikePose))};
- if(!target&&isDown(p)){if(r.wasLaunched)r.downFromAir=true;const buckling=p.anim==='defeat'&&(p.animTime||0)<.3;target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))}:{kind:buckling?'collapse':'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time,!!r.downFromAir))};}else r.downFromAir=false;
+ if(!target&&isDown(p)){if(r.wasLaunched)r.downFromAir=true;const buckling=p.anim==='defeat'&&(p.animTime||0)<.3;target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(talaGetUpPose(r,p))}:{kind:buckling?'collapse':'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time,!!r.downFromAir))};}else r.downFromAir=false;
  r.wasLaunched=target?.kind==='launched'||target?.kind==='bounce';
  if(target&&(p?.travel||p?.move?.travel))target.pose=pose(travelOverlay(target.pose,p,motion));
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;

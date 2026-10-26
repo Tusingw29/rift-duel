@@ -7,7 +7,8 @@ import * as walk from './clips/walk.js';
 // review pages can compare authored and captured gait on the same rig; the simulation still owns
 // root travel and plantSupportFeet still plants the support feet, so the clip supplies torso,
 // arms, head, pelvis bob and the swinging leg.
-export const SOURCES=['authored','mocap'];
+// 'imported' is the TALA-IMPORT-AB experiment (dist/imported-motion.js): retargeted combat footwork and get-up, Tala only.
+export const SOURCES=['authored','mocap','imported'];
 let source='authored';
 export function setLocomotionSource(name){source=SOURCES.includes(name)?name:'authored';return source;}
 export function locomotionSource(){return source;}

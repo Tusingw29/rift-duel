@@ -2,28 +2,37 @@ import * as T from './vendor/three.module.js';
 import {createView} from './render.js';
 import {fighters} from './fighters.js';
 import {RECIPES,createScenario,stepScenario,snapshot} from './sandbox-recipes.js';
-import {setLocomotionSource} from './locomotion-clips.js';
+import {setLocomotionSource,locomotionSource} from './locomotion-clips.js';
 // Local animation and combat sandbox: pick both fighters, pick a scripted scenario, scrub any
 // simulation frame or play at 60 Hz or quarter speed, and inspect the exact simulation state.
 // Scrubbing replays from the reset, so every frame is deterministic and identical to the game.
 const $=s=>document.querySelector(s);
 const params=new URLSearchParams(location.search);
-setLocomotionSource(params.get('gait')||'authored');
+// Animation source for the TALA-IMPORT-AB comparison: ?anim=imported (or the older ?gait=) selects it; authored is the default.
+setLocomotionSource(params.get('anim')||params.get('gait')||'authored');
 const canvas=$('#stage');const view=createView(canvas,{talaModel:'graphic'});view.quality(params.get('quality')||'high');
 const state={p1:Number(params.get('p1')??2),p2:Number(params.get('p2')??1),recipe:params.get('scenario')||'strike3',frame:0,playing:false,speed:1,scenario:null,helpers:[],hurt:[],hit:[],showSkeleton:false,showHurt:false,showHit:false};
+// Graphic bodies attach asynchronously; replays wait for them so every frame animates the real rig.
+const modelsReady=async()=>{for(let i=0;i<400&&(view.fighterModels||[]).some(r=>r.talaStatus==='loading');i++)await new Promise(r=>setTimeout(r,25));};
 const settings={camera:'side',reduced:params.get('effects')!=='full',quality:'high',cameraZoom:Number(params.get('zoom')||.7)};
 for(const [id,sel] of [['#p1','p1'],['#p2','p2']]){const el=$(id);fighters.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f.name;el.append(o);});el.value=state[sel];el.onchange=()=>{state[sel]=Number(el.value);reset();};}
+// A/B switch: rebuild the rigs and replay to the same frame so both modes are compared on identical simulation frames.
+{const el=$('#anim');el.value=locomotionSource();el.onchange=async()=>{const frame=state.frame;setLocomotionSource(el.value);await reset();await seek(frame);};}
 {const el=$('#scenario');for(const name of Object.keys(RECIPES)){const o=document.createElement('option');o.value=name;o.textContent=name;el.append(o);}el.value=state.recipe;el.onchange=()=>{state.recipe=el.value;reset();};}
 function reset(){
- state.scenario=createScenario(state.recipe,state.p1,state.p2);state.frame=0;
+ state.scenario=createScenario(state.recipe,state.p1,state.p2);state.frame=0;$('#frame').max=state.scenario.recipe.frames||64;
  view.match(state.scenario.m);clearHelpers();settings.camera=$('#camera').value;
- view.render(0,state.scenario.m,settings);updateReadout();
+ state.ready=modelsReady().then(()=>{view.render(0,state.scenario.m,settings);updateReadout();});
+ return state.ready;
 }
 function clearHelpers(){for(const h of [...state.helpers,...state.hurt,...state.hit]){h.parent?.remove(h);h.geometry?.dispose();h.material?.dispose();}state.helpers=[];state.hurt=[];state.hit=[];}
-function seek(frame){
+// Every simulated frame is animated on the simulation clock (1/60 s, zero during hitstop, which the renderer applies),
+// so scrubbed frames, played frames and the game agree; only the last frame of a replay is drawn.
+async function seek(frame){
  const target=Math.max(0,Math.min(Number($('#frame').max),frame));
- if(target<state.frame){state.scenario=createScenario(state.recipe,state.p1,state.p2);state.frame=0;view.match(state.scenario.m);clearHelpers();}
- while(state.frame<target)stepScenario(state.scenario),state.frame++;
+ if(target<state.frame){await reset();}
+ await state.ready;
+ while(state.frame<target){stepScenario(state.scenario);state.frame++;view.render(1/60,state.scenario.m,{...settings,noDraw:state.frame<target});}
  view.render(0,state.scenario.m,settings);updateReadout();
 }
 function updateReadout(){

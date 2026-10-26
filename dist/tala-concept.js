@@ -1,4 +1,6 @@
 import {installCombatRig} from './tala-combat-rig.js';
+import {locomotionSource} from './locomotion-clips.js';
+import {importedGaitTargets,importedFootPivot} from './imported-motion.js';
 import {rhythmFootOffsets} from './footwork.js';
 import {applyGraphicFlat} from './graphic-flat.js';
 import {dressMorrow} from './morrow-gravebound.js';
@@ -27,7 +29,7 @@ export function attachTalaConcept(r,source){
  for(const n of surfaces)for(const b of n.skeleton.bones)if(!expanded&&!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
  for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-(r.shinLength||.56),0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
  if(rigSpec)installCombatRig(r,mapped,rigSpec,{restFist:!!source.userData.restFist});else if(expanded)installCombatRig(r,mapped);
- r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=rhythmFootOffsets;r.gaitTargets=talaGaitTargets;r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
+ r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=(p,kind)=>locomotionSource()==='imported'&&kind==='run'?importedFootPivot(r,p,kind):talaFootPivot(p,kind);r.footOffsets=rhythmFootOffsets;r.gaitTargets=(rig,p,phase,ankle)=>locomotionSource()==='imported'?importedGaitTargets(rig,p,phase,ankle):talaGaitTargets(rig,p,phase,ankle);r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
  const skeletons=new Map(),replacement=[];
  for(const original of surfaces){
   let skeleton=skeletons.get(original.skeleton);

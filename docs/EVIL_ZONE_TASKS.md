@@ -288,21 +288,25 @@ Adam chose the graphic flat-colour Tala over the textured Design 03 body on 2026
 
 ## TALA-IMPORT-AB — Does imported motion make Tala more natural? (experiment)
 
-Owner: **Claude** · Branch: `claude/tala-import-ab` · Worktree: `~/rift-worktrees/tala-import-ab` · Status: **In progress** (claimed 2026-10-26)
+Owner: **Claude** · Branch: `claude/tala-import-ab` · Worktree: `~/rift-worktrees/tala-import-ab` · Status: **Review — awaiting Adam's normal-speed verdict** (claimed and implemented 2026-10-26). **Authored remains the default.**
 
-Controlled A/B on Tala only: current authored animation versus retargeted motion capture for combat advance, combat retreat, lateral sidestep/circling and grounded get-up. Uses the existing BVH-to-channels importer and pose-channel playback; simulation keeps world position, air height, hitstop, the 6-frame jump squat, 18-frame bounce and 28-frame get-up; combat rules, buffering and the KO presentation are untouched. Dedicated backward and lateral captures only (no reversed run or adapted walk presented as combat footwork); sources and licences recorded. Authored stays the default until Adam's verdict. Does not touch `dist/combat.js` or `dist/combat-travel.js`; builds on Codex's MOCAP-REVIEW controls.
+Controlled A/B on Tala only: authored animation versus retargeted CMU motion capture for combat advance, retreat, sidestep left/right and the grounded get-up. Uses the existing BVH importer (extended with segment export, not replaced) and the pose-channel playback; simulation keeps world position, air height, hitstop and every recovery state; combat rules, buffering and the KO collapse untouched (`dist/combat.js` and `dist/combat-travel.js` not modified).
 
-- [ ] Audit of reusable importer, clip, review and planting pieces
-- [ ] Source clips with licences (advance, retreat, lateral, get-up) or documented gaps
-- [ ] Retarget into pose channels with travel separated from pelvis sway, frame-sampled, hitstop-frozen
-- [ ] Authored / Imported switch with matched scenarios, side and fight cameras, scrubbing
-- [ ] Tests for retargeting and timing; browser smoke; captures and README
-- [ ] Provisional verdict, weakest action, recommendation — normal-speed acceptance is Adam's
+- [x] Audit of reusable importer, clip, review and planting pieces (README §1)
+- [x] Sources with licences: CMU 14_01/14_03 boxing footwork (one orthodox subject, genuine backward and lateral steps), CMU 140_09 get-up from the back; limitation recorded: no game-speed combat footwork or fighting-speed get-up exists in CMU
+- [x] Retarget into pose channels: travel separated from pelvis sway, contact-locked feet with heel pivot, upper body as deviations around Tala's stance, sampled from distance travelled and `getUp.frame`, frozen by hitstop
+- [x] Authored / Imported switch in the sandbox with seven matched scenarios, side and lock-on cameras, frame scrubbing and 60 Hz play; sandbox now animates every replayed frame on the simulation clock
+- [x] Tests (`tests/tala-import-ab.test.mjs`, 8): simulation identical in both modes, deterministic replay, hitstop freeze, contact lock, get-up bound to the 28-frame state, roster and KO untouched, default authored
+- [x] Captures, metrics, README: `art/review-2026-10-26/tala-import-ab/`
+- [ ] **Adam's normal-speed verdict** — provisional: reject the imported footwork (simulation travel is 6–20× any captured combat footwork; stretched strides skate and one direction straddles), revise and keep comparing the get-up (visibly more human, but compressed 8×), weakest action: advance; do not expand to other fighters
+
+Found on the way (separate from the experiment): the **authored get-up on main pushes Tala's left foot 0.66 units through the floor at get-up frame 12** (no floor clamp runs during `getUp`). Needs a fix whichever version is kept.
 
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |

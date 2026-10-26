@@ -54,18 +54,28 @@ function worldPositions(bvh,frame){
 // ---- joint names (cgspeed / MotionBuilder convention, with a few fallbacks) --------------------
 const NAMES={hips:['Hips'],chest:['Spine1','Spine'],neck:['Neck1','Neck'],head:['Head'],
  lShoulder:['LeftArm'],lElbow:['LeftForeArm'],lWrist:['LeftHand'],rShoulder:['RightArm'],rElbow:['RightForeArm'],rWrist:['RightHand'],
- lHip:['LeftUpLeg'],lKnee:['LeftLeg'],lAnkle:['LeftFoot'],rHip:['RightUpLeg'],rKnee:['RightLeg'],rAnkle:['RightFoot']};
+ lHip:['LeftUpLeg'],lKnee:['LeftLeg'],lAnkle:['LeftFoot'],rHip:['RightUpLeg'],rKnee:['RightLeg'],rAnkle:['RightFoot'],
+ lToe:['LeftToeBase','LeftFoot_end'],rToe:['RightToeBase','RightFoot_end']};
 const pick=(pos,keys)=>{for(const k of keys)if(pos[k])return pos[k].position.clone();throw new Error('missing joint '+keys.join('/'));};
 // ---- channel extraction -------------------------------------------------------------------------
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-function frameChannels(pos,restHipHeight,scale,mirror){
+function frameChannels(pos,restHipHeight,scale,mirror,pelvisFrame=false){
  const P=k=>{const v=pick(pos,NAMES[k]);if(mirror)v.x=-v.x;return v;};
  const hips=P('hips'),chest=P('chest'),neck=P('neck'),head=P('head');
  const L={sh:P(mirror?'rShoulder':'lShoulder'),el:P(mirror?'rElbow':'lElbow'),wr:P(mirror?'rWrist':'lWrist'),hip:P(mirror?'rHip':'lHip'),kn:P(mirror?'rKnee':'lKnee'),an:P(mirror?'rAnkle':'lAnkle')};
  const R={sh:P(mirror?'lShoulder':'rShoulder'),el:P(mirror?'lElbow':'rElbow'),wr:P(mirror?'lWrist':'rWrist'),hip:P(mirror?'lHip':'rHip'),kn:P(mirror?'lKnee':'rKnee'),an:P(mirror?'lAnkle':'rAnkle')};
  // Body frame: yaw of the pelvis (hip line) projected to the ground. X right, Y up, Z forward.
- const hipLine=R.hip.clone().sub(L.hip);hipLine.y=0;hipLine.normalize();
- const forward=new Vector3(0,1,0).cross(hipLine).normalize(),right=hipLine,up=new Vector3(0,1,0);
+ // Body frame. Standing work uses the pelvis yaw projected to the ground (world up). Floor work (--pelvis-frame) uses the
+ // pelvis's own orientation: up is the Hips joint's rest up, right the hip line, so a body lying on its back keeps its
+ // trunk in the root rotation (bodyPitch/bodyRoll) instead of folding the spine 90 degrees over an upright pelvis.
+ let forward,right,up;
+ if(pelvisFrame){
+  const hm=pos[NAMES.hips.find(k=>pos[k])].matrix;up=new Vector3(0,1,0).transformDirection(hm).normalize();
+  right=R.hip.clone().sub(L.hip);right.addScaledVector(up,-right.dot(up)).normalize();forward=up.clone().cross(right).normalize();
+ }else{
+  const hipLine=R.hip.clone().sub(L.hip);hipLine.y=0;hipLine.normalize();
+  forward=new Vector3(0,1,0).cross(hipLine).normalize();right=hipLine;up=new Vector3(0,1,0);
+ }
  const toBody=v=>new Vector3(v.dot(right),v.dot(up),v.dot(forward));
  const dir=(a,b)=>toBody(b.clone().sub(a)).normalize();
  // Spine: lean forward (+x), side bend, and twist of the shoulder line against the hip line.
@@ -93,6 +103,10 @@ function frameChannels(pos,restHipHeight,scale,mirror){
   _lFootZ:toBody(L.an.clone().sub(hips)).z,_rFootZ:toBody(R.an.clone().sub(hips)).z,_hipY:hips.y,
   // Raw measurements for take studies (scaled to game units; forward is the pelvis facing):
   _lAnkleY:L.an.y*scale,_rAnkleY:R.an.y*scale,_lWrist:toBody(L.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),_rWrist:toBody(R.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),
+  _lToeW:P('lToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rToeW:P('rToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
+  _lAnkleW:L.an.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rAnkleW:R.an.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
+  _lAnkleB:toBody(L.an.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rAnkleB:toBody(R.an.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
+  _axes:[right.toArray(),up.toArray(),forward.toArray()],_hipsRaw:hips.toArray(),
   _hipYawWorld:Math.atan2(forward.x,forward.z),_shoulderYawWorld:(()=>{const s=R.sh.clone().sub(L.sh);return Math.atan2(-s.z,s.x);})(),_hipsWorld:hips.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(3))};
 }
 // ---- cycle detection: one full stride = the left ankle passing the pelvis forward twice --------
@@ -123,6 +137,89 @@ if(args.debug){const z=all.map(c=>c._lFootZ),h=all.map(c=>c._hipY);const f=k=>v=
  console.log('DEBUG hipY min/max',Math.min(...h).toFixed(2),Math.max(...h).toFixed(2));
  const p=[60,200].map(fr=>pick(worldPositions(bvh,fr),NAMES.hips).toArray().map(f()));console.log('DEBUG hips f60',p[0],'f200',p[1]);}
 if(args.dump){const r=v=>typeof v==='number'?+v.toFixed(4):v;writeFileSync(args.dump,JSON.stringify({source:args.in,frameTime:bvh.frameTime,scale:+scale.toFixed(4),frames:all.map((c,i)=>Object.fromEntries(Object.entries({f:i+1,...c}).map(([k,v])=>[k,r(v)])))}));console.log('DUMP',args.dump,all.length,'frames at',bvh.frameTime);if(!args.out)process.exit(0);}
+// ---- segment export (TALA-IMPORT-AB) --------------------------------------------------------------
+// --segment a:b --mode loop|oneshot [--keys N] [--lead l|r] [--pelvis-frame]
+// Writes a "segment clip": pose channels plus the data a retarget needs, all lengths in source leg lengths (thigh + shin)
+// so the runtime rescales them to the rig's own legs. Footwork (loop): one step cycle cut between two lift-offs of the
+// same foot, with travel separated from the pelvis — the cycle's straight-line travel is removed, what is left is the
+// pelvis sway (x lateral, y bob, z surge) and the ankle paths relative to that travel line, with per-foot contact flags.
+// Heading is where the guard hands point (a bladed boxer's pelvis does not face the opponent). Floor work (oneshot,
+// --pelvis-frame): the pelvis orientation goes to bodyPitch/hipYaw/bodyRoll, hips are stored as a height above the
+// floor and an offset from where they finish standing, so the runtime can place the root without moving the fighter.
+if(args.segment){
+ const [a,b]=String(args.segment).split(':').map(Number),mode=args.mode||'loop',N=+(args.keys||24),dt=bvh.frameTime;
+ const LEG=1.6; // dump/frameChannels lengths are in units where the source leg is 1.6
+ const pelvis=!!args['pelvis-frame'];
+ const frames=pelvis?Array.from({length:bvh.frames-1},(_,i)=>frameChannels(worldPositions(bvh,i+1),restHip.y,scale,false,true)):all;
+ const ankleY=frames.flatMap(f=>[f._lAnkleW[1],f._rAnkleW[1]]).sort((x,y)=>x-y),floorY=ankleY[Math.floor(ankleY.length*.02)];
+ const wrap=v=>{while(v>Math.PI)v-=2*Math.PI;while(v<-Math.PI)v+=2*Math.PI;return v;};
+ const r4=v=>+v.toFixed(4);
+ let keys=[],meta;
+ if(mode==='loop'){
+  // heading: pelvis yaw minus the mean hand angle, smoothed half a second
+  const raw=frames.map(f=>f._hipYawWorld-Math.atan2((f._lWrist[0]+f._rWrist[0])/2,Math.max(.05,(f._lWrist[2]+f._rWrist[2])/2)));
+  const un=[raw[0]];for(let i=1;i<raw.length;i++)un.push(un[i-1]+wrap(raw[i]-raw[i-1]));
+  const W=Math.round(.25/dt),heading=un.map((_,i)=>{let s=0,c=0;for(let k=Math.max(0,i-W);k<=Math.min(un.length-1,i+W);k++){s+=un[k];c++;}return s/c;});
+  // contacts from the ball of the foot (a boxer's heel rises and the ankle keeps moving while the ball stays planted):
+  // toe within 6 cm (game units) of its floor height and slower than 0.5 units/s, blips under 4 frames removed
+  const toeY=frames.flatMap(f=>[f._lToeW[1],f._rToeW[1]]).sort((x,y)=>x-y),toeFloor=toeY[Math.floor(toeY.length*.02)];
+  // Height only: a sliding rear-foot drag stays down and counts as support (the runtime follows the clip's own foot path, so a slide stays a slide).
+  const contact=key=>{key=key==='_lAnkleW'?'_lToeW':'_rToeW';const c=frames.map(f=>f[key][1]<toeFloor+.05);
+   for(let i=1;i<c.length-1;i++){if(c[i]===c[i-1])continue;let j=i;while(j<c.length&&c[j]===c[i])j++;if(j-i<4)for(let k=i;k<j;k++)c[k]=c[i-1];}return c;};
+  const cl=contact('_lAnkleW'),cr=contact('_rAnkleW');
+  // A step-and-drag cycle ends at the starting foot's next lift-off, which may fall just past the travel stretch: look half a second further.
+  const lifts=(c)=>{const out=[];for(let i=Math.max(1,a-Math.round(.3/dt));i<=Math.min(c.length-1,b+Math.round(.5/dt));i++)if(c[i-1]&&!c[i])out.push(i);return out;};
+  const L=lifts(cl),R=lifts(cr);
+  // cycle: between consecutive lift-offs of one foot with exactly one lift-off of the other foot inside
+  let cyc=null;
+  const overlap=(s0,s1)=>Math.max(0,Math.min(s1,b)-Math.max(s0,a));
+  for(const [own,other,foot] of [[L,R,'l'],[R,L,'r']])for(let k=0;k+1<own.length;k++){const s0=own[k],s1=own[k+1],inner=other.filter(i=>i>s0&&i<s1);if(inner.length===1&&(s1-s0)*dt<1.2&&(!cyc||overlap(s0,s1)>overlap(cyc.s0,cyc.s1)))cyc={s0,s1,foot};}
+  // Boxers often stop after one shuffle: then the cycle is a single step-and-drag, from the first foot's lift-off until the
+  // dragging foot has landed and settled (both feet planted again, the stance restored one step further along).
+  if(!cyc){const firstL=L[0]??Infinity,firstR=R[0]??Infinity,foot=firstL<firstR?'l':'r',s0=Math.min(firstL,firstR),other=foot==='l'?R:L,oc=foot==='l'?cr:cl;
+   const lift=other.find(i=>i>s0);let land=lift;while(land!==undefined&&land<oc.length-1&&!oc[land])land++;
+   if(s0===Infinity||lift===undefined)throw new Error(`no step in ${a}:${b} (left lifts ${L}, right lifts ${R})`);
+   cyc={s0,s1:Math.min(frames.length-1,land+Math.round(.05/dt)),foot,single:true};}
+  const {s0,s1}=cyc,len=s1-s0,hd=heading.slice(s0,s1+1).reduce((x,y)=>x+y,0)/(len+1),fx=Math.sin(hd),fz=Math.cos(hd);
+  const toH=(x,z)=>[x*(-fz)+z*fx,x*fx+z*fz]; // world (x,z) to heading frame (right, forward)
+  const h0=frames[s0]._hipsWorld,h1=frames[s1]._hipsWorld,travel=toH(h1[0]-h0[0],h1[2]-h0[2]);
+  const meanHipY=frames.slice(s0,s1).reduce((x,f)=>x+f._hipsWorld[1],0)/len;
+  const yawMean=frames.slice(s0,s1).reduce((x,f,i)=>x+wrap(f._hipYawWorld-heading[s0+i]),0)/len;
+  for(let k=0;k<=N;k++){
+   const u=k/N,fi=Math.min(s1,Math.round(s0+u*len)),f=frames[fi],t=(fi-s0)/len;
+   const line=[h0[0]+(h1[0]-h0[0])*t,h0[2]+(h1[2]-h0[2])*t];
+   const sway=toH(f._hipsWorld[0]-line[0],f._hipsWorld[2]-line[1]);
+   const ank=key=>{const v=toH(f[key][0]-line[0],f[key][2]-line[1]);return [r4(v[0]/LEG),r4((f[key][1]-floorY)/LEG),r4(v[1]/LEG)];};
+   const out={};for(const ch of CHANNELS)out[ch]=r4(f[ch]??0);
+   out.hipYaw=r4(-(wrap(f._hipYawWorld-heading[fi])-yawMean)); // rig hipYaw turns toward its right; source yaw grows toward the left
+   keys.push([+u.toFixed(4),out,{sway:[r4(sway[0]/LEG),r4((f._hipsWorld[1]-meanHipY)/LEG),r4(sway[1]/LEG)],l:ank('_lAnkleW'),r:ank('_rAnkleW'),lc:cl[fi],rc:cr[fi]}]);
+  }
+  // loop closure: spread any end-start mismatch of the channels over the cycle (contacts and ankle paths are periodic already)
+  const first=keys[0][1],last=keys[N][1];for(const [u,o] of keys)for(const ch of CHANNELS)o[ch]=r4(o[ch]-(last[ch]-first[ch])*u);
+  meta={name:args.name,source:args.source||args.in,mode,frames:[s0,s1],segment:[a,b],frameTime:dt,seconds:r4(len*dt),startFoot:cyc.foot,cycle:cyc.single?'step-and-drag':'two lift-offs of one foot',
+   travel:[r4(travel[0]/LEG),r4(travel[1]/LEG)],cycleDistance:r4(Math.hypot(...travel)/LEG),units:'source leg lengths (thigh+shin)',
+   duty:{l:r4(cl.slice(s0,s1).filter(Boolean).length/len),r:r4(cr.slice(s0,s1).filter(Boolean).length/len)}};
+ }else{
+  // oneshot floor work: reference facing blends from the lying direction (head to feet) to the standing pelvis facing
+  const yawAt=i=>Math.atan2(frames[i]._axes[2][0],frames[i]._axes[2][2]);
+  const lie=frames[a],headToFeet=(()=>{const h=lie._hipsRaw,an=[(lie._lAnkleW[0]+lie._rAnkleW[0])/2/scale,(lie._lAnkleW[2]+lie._rAnkleW[2])/2/scale];return Math.atan2(an[0]-h[0],an[1]-h[2]);})();
+  const yEnd=yawAt(b),dy=wrap(yEnd-headToFeet),hEnd=frames[b]._hipsWorld;
+  for(let k=0;k<=N;k++){
+   const u=k/N,fi=Math.round(a+u*(b-a)),f=frames[fi],ref=headToFeet+dy*u,fx=Math.sin(ref),fz=Math.cos(ref);
+   // pelvis axes in the reference frame (x right, y up, z forward) -> Euler XYZ, the rig's body.rotation order
+   const toRef=v=>new Vector3(v[0]*(-fz)+v[2]*fx,v[1],v[0]*fx+v[2]*fz);
+   const [rx,uy,fw]=f._axes.map(toRef),m=new Matrix4().makeBasis(rx,uy,fw),e=new Euler().setFromRotationMatrix(m,'XYZ');
+   const off=[f._hipsWorld[0]-hEnd[0],f._hipsWorld[2]-hEnd[2]],ox=off[0]*(-fz)+off[1]*fx,oz=off[0]*fx+off[1]*fz;
+   const out={};for(const ch of CHANNELS)out[ch]=r4(f[ch]??0);
+   out.bodyPitch=r4(e.x);out.hipYaw=r4(-e.y);out.bodyRoll=r4(e.z);
+   keys.push([+u.toFixed(4),out,{hip:[r4(ox/LEG),r4((f._hipsWorld[1]-floorY)/LEG),r4(oz/LEG)]}]);
+  }
+  meta={name:args.name,source:args.source||args.in,mode,frames:[a,b],frameTime:dt,seconds:r4((b-a)*dt),units:'source leg lengths (thigh+shin)',turn:r4(dy)};
+ }
+ mkdirSync(dirname(args.out),{recursive:true});
+ writeFileSync(args.out,`// Generated by scripts/mocap/bvh-to-channels.mjs --segment from ${meta.source}. Do not edit by hand.\n// ${mode==='loop'?'One step cycle':'One-shot'}, ${meta.seconds}s at source speed. Keys: [u 0..1, pose channels, retarget data in source leg lengths].\nexport const meta=${JSON.stringify(meta)};\nexport const keys=${JSON.stringify(keys)};\n`);
+ console.log('SEGMENT',JSON.stringify(meta));process.exit(0);
+}
 const cycle=args.cycle&&args.cycle!=='auto'?{range:args.cycle.split(':').map(Number),half:false}:findCycle(all);
 const [start,end]=cycle.range,half=cycle.half;
 const n=+(args.keys||16),keys=[];

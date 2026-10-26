@@ -7,6 +7,15 @@ const tap=(frames,input)=>f=>frames.includes(f)?input:{};
 const combo=limit=>(f,m)=>f===0||m.players[0].move?.chain<limit&&canChain(m.players[0].move)&&!m.players[0].prev.attack?{attack:true}:{};
 export const RECIPES={
  idle:{distance:3,p1:()=>({})},
+ // TALA-IMPORT-AB comparison scenarios: identical inputs, timing and opponent placement for the Authored and Imported runs.
+ 'ab-advance-guard':{distance:6,frames:90,p1:f=>f<36?{x:1}:f<46?{}:{guard:true}},
+ 'ab-retreat-attack':{distance:3,frames:100,p1:f=>f<36?{x:-1}:f===46?{attack:true}:{}},
+ 'ab-circle-left-guard':{distance:3,frames:90,p1:f=>f<40?{z:1}:f<48?{}:{guard:true}},
+ 'ab-circle-right-guard':{distance:3,frames:90,p1:f=>f<40?{z:-1}:f<48?{}:{guard:true}},
+ // Guard is pressed only once Tala is rising or standing again (a guard press while airborne would be an air recovery).
+ 'ab-knockdown-getup-guard':{distance:2,frames:180,p2:f=>f===0?{z:1}:f===3?{z:1,attack:true}:{},p1:(f,m)=>{const a=m.players[0];return {guard:a.anim==='getUp'||f>60&&!a.air&&!a.launched&&!a.bounce&&!a.knockdown&&a.anim==='idle'};}},
+ 'ab-advance-hit':{distance:6,frames:100,p1:()=>({x:1}),p2:(f,m)=>{const a=m.players[0],b=m.players[1];return Math.hypot(a.x-b.x,a.z-b.z)<2.6&&!b.move&&!b.prev.attack&&f<60?{attack:true}:{};}},
+ 'ab-advance-strike-hitstop':{distance:5,frames:110,p1:(f,m)=>{const a=m.players[0],b=m.players[1],d=Math.hypot(a.x-b.x,a.z-b.z);return a.move||a.prev.attack?{}:d>2.1&&f<40?{x:1}:f<60?{attack:true}:{};}},
  approach:{distance:5,p1:()=>({x:1})},
  retreat:{distance:2.5,p1:()=>({x:-1})},
  circle:{distance:3,p1:()=>({z:1})},
