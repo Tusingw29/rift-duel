@@ -1,0 +1,24 @@
+{
+  "generator": "build-fighter-graphic.mjs",
+  "style": "graphic-flat",
+  "source": "vesper-v3.glb",
+  "sourceSHA256": "c504d9d640375ef7a23ca166d7462e55294b7b71e2e919f4d2efc42641668907",
+  "modelSHA256": "f987ad74d288cd487aad3546ffb0021deed28360f352be23f89c42f312249253",
+  "bytes": 1439680,
+  "sourceBytes": 3657336,
+  "images": [
+    "vesper-graphic-eyes",
+    "vesper-graphic-eyebrows",
+    "vesper-graphic-eyelashes",
+    "vesper-graphic-hair"
+  ],
+  "palette": {
+    "skin": "#c68e77",
+    "eyes": "posterised texture",
+    "eyebrows": "#0c0605",
+    "eyelashes": "#080301",
+    "hair": "#b8a3e6",
+    "shoes": "#241a2e",
+    "outfit": "#1b0e28"
+  }
+}

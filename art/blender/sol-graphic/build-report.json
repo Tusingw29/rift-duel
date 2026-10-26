@@ -1,0 +1,24 @@
+{
+  "generator": "build-fighter-graphic.mjs",
+  "style": "graphic-flat",
+  "source": "sol-v3.glb",
+  "sourceSHA256": "ef85394d223a89afa7bed2ed6b45c0454e8e8638a9ff4f4958813c51db4c531d",
+  "modelSHA256": "6b51753eb1c39c880fc10e3d05f7c4fd852a584170666a94b60ee601c1281015",
+  "bytes": 1796596,
+  "sourceBytes": 3626076,
+  "images": [
+    "sol-graphic-eyes",
+    "sol-graphic-eyebrows",
+    "sol-graphic-eyelashes",
+    "sol-graphic-hair"
+  ],
+  "palette": {
+    "skin": "#d69569",
+    "eyes": "posterised texture",
+    "eyebrows": "#0e0706",
+    "eyelashes": "#020000",
+    "hair": "#b3471a",
+    "shoes": "#42291a",
+    "outfit": "#120f0c"
+  }
+}

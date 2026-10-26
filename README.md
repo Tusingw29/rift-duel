@@ -272,7 +272,7 @@ The roster now follows direction A of the concept boards in `art/roster-2026-10-
 
 Stagger and reversal animation: a broken guard now reels on planted feet with buckled knees, a swaying torso and a lolling head, straightens a step with each recovery tap and snaps upright when the opening closes; the third-hit reversal plays a forward return strike out of the guard. Both are shared poses used by all six grounded animators.
 
-Art style decided (26 October 2026): the graphic flat-colour Tala is the game's look and the default appearance; the textured Design 03 bodies remain the skinning source and stay selectable for comparison. The other fighters will be built in the same style.
+Art style decided (26 October 2026): the graphic flat-colour Tala is the game's look and the default appearance; the textured Design 03 bodies remain the skinning source and stay selectable for comparison. The other five fighters have first-pass graphic builds derived from their textured bodies (flat palette, silhouette cards, two-tone shading on body, costume and weapons) and load in that form whenever the graphic style is selected.
 
 Arms and fists pass: Tala's stance now holds the lead fist a little extended at jaw height and the rear fist upright by the chin with the elbows down and in, and the builder's fist curl aims at the palm centre so the fingertips tuck on every rebuilt body.
 

@@ -1,0 +1,24 @@
+{
+  "generator": "build-fighter-graphic.mjs",
+  "style": "graphic-flat",
+  "source": "aegis-v3.glb",
+  "sourceSHA256": "202c9c55f2ec771d0406086f0ffb4f6dfa8144cfe3f11c757aceb3b67e10f808",
+  "modelSHA256": "4053e61462c91f6e0b33e12c9827f535c814a4545a00a015a61655cdc69cbd30",
+  "bytes": 1976924,
+  "sourceBytes": 4114708,
+  "images": [
+    "aegis-graphic-eyes",
+    "aegis-graphic-eyebrows",
+    "aegis-graphic-eyelashes",
+    "aegis-graphic-hair"
+  ],
+  "palette": {
+    "skin": "#eaa67c",
+    "eyes": "posterised texture",
+    "eyebrows": "#0a0504",
+    "eyelashes": "#020000",
+    "hair": "#1a1f33",
+    "shoes": "#1f2433",
+    "outfit": "#0c1021"
+  }
+}

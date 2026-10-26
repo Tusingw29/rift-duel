@@ -46,11 +46,13 @@ export function attachTalaConcept(r,source){
 // positions and leg metrics it was bound with. Attaching moves the fighter's existing combat
 // bones onto those joints, so the skin binds exactly, while weapons parented to the hands and
 // the aura and effect objects stay as they were.
-export const fighterModelUrl=fighterId=>`./assets/models/${fighterId}-v3.glb?v=8`;
+// Roster bodies: the textured Design 03 build, or its graphic flat-colour derivative (scripts/build-fighter-graphic.mjs).
+export const fighterModelUrl=(fighterId,variant='v3')=>variant==='graphic'?`./assets/models/${fighterId}-graphic.glb?v=1`:`./assets/models/${fighterId}-v3.glb?v=8`;
 const fighterAssets=new Map();
-export function loadFighterModel(fighterId){
- if(!fighterAssets.has(fighterId))fighterAssets.set(fighterId,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(fighterModelUrl(fighterId))).catch(error=>{fighterAssets.delete(fighterId);throw error;}));
- return fighterAssets.get(fighterId);
+export function loadFighterModel(fighterId,variant='v3'){
+ const key=fighterId+':'+variant;
+ if(!fighterAssets.has(key))fighterAssets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(fighterModelUrl(fighterId,variant))).catch(error=>{fighterAssets.delete(key);throw error;}));
+ return fighterAssets.get(key);
 }
 export function attachFighterModel(r,source){
  if(r.conceptModel)return false;
@@ -81,5 +83,12 @@ export function attachFighterModel(r,source){
  }
  if(r.id===3)dressMorrow(r,roles);
  else costumes[fighters[r.id]?.id]?.(r,roles);
+ // A graphic body takes the two-tone shader on its own surfaces and on the runtime costume pieces and weapons added above.
+ if(source.userData?.artStyle==='graphic-flat'){
+  const hidden=new Set(r.conceptOriginalSurfaces);
+  const fx=new Set([r.aura,r.techniqueFX,r.techniqueRing]); // translucent effects keep their own look; a companion spirit joins the style
+  r.g.traverse(n=>{if(!n.isMesh||hidden.has(n)||fx.has(n)||!n.material||n.material.name?.startsWith('Graphic_'))return;const m=n.material.clone();m.name='Graphic_'+(m.name||'costume');n.material=m;});
+  applyGraphicFlat(r.g);r.g.userData.artStyle='graphic-flat';
+ }
  r.conceptModel=true;r.g.userData.conceptModel=true;return true;
 }

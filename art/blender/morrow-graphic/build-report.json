@@ -1,0 +1,24 @@
+{
+  "generator": "build-fighter-graphic.mjs",
+  "style": "graphic-flat",
+  "source": "morrow-v3.glb",
+  "sourceSHA256": "37e56934df1dc3910d28b44dac1e3f1a5ae085b4e114d0367367d7cbebdade93",
+  "modelSHA256": "df0459e394f0d573c518a31906ed8d85dd5f131fd3a203ec85c1f979c01a8ccd",
+  "bytes": 1805068,
+  "sourceBytes": 4073868,
+  "images": [
+    "morrow-graphic-eyes",
+    "morrow-graphic-eyebrows",
+    "morrow-graphic-eyelashes",
+    "morrow-graphic-hair"
+  ],
+  "palette": {
+    "skin": "#dd9f74",
+    "eyes": "posterised texture",
+    "eyebrows": "#0d0605",
+    "eyelashes": "#020000",
+    "hair": "#6b7066",
+    "shoes": "#403b33",
+    "outfit": "#293227"
+  }
+}

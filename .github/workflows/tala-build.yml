@@ -25,6 +25,8 @@ jobs:
         run: mkdir -p ~/tala-tools && cd ~/tala-tools && npm init -y >/dev/null && npm install --no-package-lock pngjs@7.0.0 jpeg-js@0.4.4
       - name: Build the model
         run: node scripts/build-tala-threejs.mjs --sources ~/tala-sources --tools ~/tala-tools
+      - name: Build the graphic roster bodies
+        run: node scripts/build-fighter-graphic.mjs --all --tools ~/tala-tools
       - name: Test against the game
         run: npm test
       - uses: actions/upload-artifact@v4

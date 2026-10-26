@@ -1,0 +1,25 @@
+{
+  "generator": "build-fighter-graphic.mjs",
+  "style": "graphic-flat",
+  "source": "rei-v3.glb",
+  "sourceSHA256": "facc6d5755267e57c967457022fe5afad9ea6dfb90213cc408f677e12c8b1d1a",
+  "modelSHA256": "5a7b7d6b46429c0dfedc59ee8bc2317762fa8ca442690a1375d42c25909c041a",
+  "bytes": 1443928,
+  "sourceBytes": 3102456,
+  "images": [
+    "rei-graphic-eyes",
+    "rei-graphic-eyebrows",
+    "rei-graphic-eyelashes",
+    "rei-graphic-hair"
+  ],
+  "palette": {
+    "skin": "#d29970",
+    "eyes": "posterised texture",
+    "eyebrows": "#0c0605",
+    "eyelashes": "#080301",
+    "hair": "#171217",
+    "shoes": "#1f1a1a",
+    "outfit": "#938a7a",
+    "outfitLower": "#0f0c0f"
+  }
+}

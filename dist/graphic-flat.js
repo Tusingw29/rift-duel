@@ -10,7 +10,7 @@ export function applyGraphicFlat(root){
   const old=node.material;if(old.graphicFlatReady)return;
   let material=cache.get(old);
   if(!material){
-   material=new MeshToonMaterial({color:old.color.clone(),side:old.side});
+   material=new MeshToonMaterial({color:old.color.clone(),side:old.side,map:old.map||null,transparent:!!old.transparent,alphaTest:old.alphaTest||0,depthWrite:old.depthWrite!==false});
    material.name=old.name;material.toneMapped=false;material.graphicFlatReady=true;
    material.userData={...old.userData,graphicFlatApplied:true,shadingProfile:'graphic-flat'};
    material.onBeforeCompile=shader=>{
