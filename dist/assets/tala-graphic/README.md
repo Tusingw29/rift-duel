@@ -13,13 +13,19 @@ The runtime two-tone shader is `dist/graphic-flat.js` in the repository. Standar
 
 ## Rig and animation
 
-The model uses Rift Duel's existing 17-bone combat skeleton: root, chest, head; paired upper arms, forearms, hands, thighs, shins and feet; ponytail and sash. Neck vertices blend between chest and head. Fists follow the hand joints; ponytail roots blend from the head into the secondary-motion bone so their attachment stays fixed while the tips swing. It has no articulated fingers, facial-expression rig or separate neck control bone.
+The graphic model now uses a 61-bone deformation skeleton. It retains the original 17 named combat roles and adds a pelvis, lower/upper spine, neck, paired collarbones and arm twist helpers, 30 finger/thumb joints, toes, and two additional ponytail joints. It has no facial-expression rig.
+
+Wrists rotate independently; fingers curl for fists and open during ranged attacks. The thumb folds across the fingers. Spine and neck motion is distributed from the existing authored channels. The foot solver works in each leg parent's space, retaining planted ankles with the new pelvis hierarchy; toes counter-roll during punch pivots. Existing 17-role assets and other fighters retain their previous attachment path.
 
 The live game drives this rig with its existing animator and foot placement. Embedded clips are sampled from that animator at 30 fps. They contain local skeletal motion, not world-space travel, collision, hit events, projectiles, capture cinematics or sound. Use the game's movement system for gameplay. These clips are demonstrations, not a promise of seamless looping for every action.
 
+## Combat rig upgrade
+
+The resting fists sit higher, fingers have three joints each, and wrist turns ease into guard. The live animator and all 21 embedded clips use the expanded hierarchy. Skin weights redistribute torso, arm, neck, toe and hair deformation across the new joints.
+
 ## Round 2 polish
 
-Tapered jaw and smaller eyes, four layered ponytail clumps, rounded wrapped palms with four modeled curled fingers per hand, and sloped vest shoulder panels. Fingers are modeled closed and follow the hand bone; they are not independently articulated.
+Tapered jaw and smaller eyes, four layered ponytail clumps, rounded wrapped palms with four modeled curled fingers per hand, and sloped vest shoulder panels. Those earlier fixed fingers are superseded by the combat rig upgrade above.
 
 ## Build and review
 

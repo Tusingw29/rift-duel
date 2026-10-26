@@ -1,0 +1,25 @@
+{
+  "id": 1792982815436,
+  "tag": "hands",
+  "errors": [],
+  "shots": [
+    {
+      "name": "hands",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-hands-hands-1792982815436.jpg"
+    },
+    {
+      "name": "hands-guard",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-26/tala-rig/tala-hands-hands-guard-1792982815436.jpg"
+    },
+    {
+      "name": "hands-contact",
+      "clip": "Combo",
+      "time": 0.2833333333333333,
+      "file": "art/review-2026-10-26/tala-rig/tala-hands-hands-contact-1792982815436.jpg"
+    }
+  ]
+}

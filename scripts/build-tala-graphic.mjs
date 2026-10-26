@@ -1,3 +1,4 @@
+import {combatRigSpec,combatBoneIndex as BI} from '../dist/tala-combat-rig.js';
 // Graphic flat-color Tala. Reuses the proven CC0-derived body/weights; authors
 // a new geometric face, solid hair clumps, palette and portable live-motion clips.
 // No Blender, network downloads, texture decoders or third-party build packages.
@@ -95,10 +96,12 @@ function roundedBlock(name,center,size,radius,material,bone){
  return add(name,g,material,bone);
 }
 for(const [side,bone] of [[-1,5],[1,10]]){
- const x=side*.2744;
- roundedBlock('fist_'+side,[x,1.469,.035],[.105,.12,.09],.022,'wrap',bone);
- for(let finger=0;finger<4;finger++)ellipsoid('finger_'+side+'_'+finger,[x+(finger-1.5)*.023,1.423+Math.abs(finger-1.5)*.004,.064],[.014,.029,.029],'skin',bone);
- ellipsoid('thumb_'+side,[x-side*.045,1.462,.083],[.025,.043,.026],'skin',bone);
+ const x=side*.2744,S=side<0?'L':'R';
+ roundedBlock('fist_'+side,[x,1.479,.035],[.103,.085,.066],.018,'wrap',bone);
+ for(let f=0;f<5;f++)for(let j=0;j<3;j++){
+  const name=`finger${f}.${j}.${S}`,spec=combatRigSpec[BI[name]],length=f===4?[.025,.024,.020][j]:[.04,.028,.022][j];
+  ellipsoid('finger_'+side+'_'+f+'_'+j,[spec.at[0],spec.at[1]-length/2,spec.at[2]],[f===4?.018:.013,length*.61,f===4?.018:.014],'skin',BI[name]);
+ }
 }
 // Clean fitted vest panels with a continuous open front and straight hems.
 for(const side of [-1,1]){
@@ -119,19 +122,37 @@ for(const side of [-1,1]){const p=[],ix=[],rows=[[2.055,.23,.15,-.155],[2.16,.25
 }
 // Small fitted collar flaps, as opposed to a bulky standing collar.
 for(const s of [-1,1]){let pts=[[s*.065,2.48,.13],[s*.15,2.44,.185],[s*.095,2.35,.25],[s*.043,2.43,.18]];if(s<0)pts=pts.reverse();const g=patch('lapel_'+s,pts,'ochre');const j=g.attributes.skinIndex;for(let i=0;i<j.count;i++)j.setX(i,1);materials[matIndex('ochre')].doubleSided=true;}
+// Redistribute source weights to the actual deformation joints, preserving normalization.
+for(const part of parts){const g=part.g,p=g.attributes.position,j=g.attributes.skinIndex,w=g.attributes.skinWeight;
+ for(let v=0;v<p.count;v++){
+  const weights=new Map(),push=(b,n)=>{if(n>0)weights.set(b,(weights.get(b)||0)+n);},y=p.getY(v),z=p.getZ(v);
+  for(let k=0;k<4;k++){const b=j.array[v*4+k],weight=w.array[v*4+k];if(!weight)continue;
+   if(b===1){const stations=[[1.61,BI['pelvis.control']],[1.82,BI['spine.lower']],[2.02,BI['spine.upper']],[2.2,1]];let hi=stations.findIndex(s=>s[0]>=y);if(hi<0)hi=3;if(hi===0)push(stations[0][1],weight);else{const a=stations[hi-1],c=stations[hi],t=Math.max(0,Math.min(1,(y-a[0])/(c[0]-a[0])));push(a[1],weight*(1-t));push(c[1],weight*t);}}
+   else if(b===0&&y>1.3)push(BI['pelvis.control'],weight);
+   else if(part.name.endsWith('_neck')){const t=Math.max(0,Math.min(1,(y-2.53)/.10));push(BI['neck.control'],weight*(1-t));push(2,weight*t);}
+   else if([3,8,4,9].includes(b)){const S=b<8?'L':'R',fore=[4,9].includes(b),mid=fore?1.69:2.13,t=Math.max(0,1-Math.abs(y-mid)/(fore?.19:.21))*.65;push(b,weight*(1-t));push(BI[(fore?'fore_twist.':'upper_twist.')+S],weight*t);}
+   else if(b===13){const t=Math.max(0,Math.min(1,(2.78-y)/.55)),mid=BI['ponytail.mid'],tip=BI['ponytail.tip'];if(t<.5){push(13,weight*(1-t*2));push(mid,weight*t*2);}else{push(mid,weight*(2-2*t));push(tip,weight*(2*t-1));}}
+   else if([15,16].includes(b)&&z>.12){const t=Math.min(.9,(z-.12)/.18);push(b,weight*(1-t));push(BI['toe.'+(b===15?'L':'R')],weight*t);}
+   else push(b,weight);
+  }
+  const sorted=[...weights].sort((a,b)=>b[1]-a[1]).slice(0,4),sum=sorted.reduce((n,v)=>n+v[1],0);for(let k=0;k<4;k++){j.array[v*4+k]=sorted[k]?.[0]||0;w.array[v*4+k]=(sorted[k]?.[1]||0)/sum;}
+ }
+}
 // GLB writer: compact, texture-free, all skin weights and inverse binds retained.
 const chunks=[],views=[],accessors=[];let offset=0;
 function access(array,type,extra={}){const bytes=Buffer.from(array.buffer,array.byteOffset,array.byteLength),padding=(4-bytes.length%4)%4;views.push({buffer:0,byteOffset:offset,byteLength:bytes.length});chunks.push(bytes,Buffer.alloc(padding));offset+=bytes.length+padding;const componentType=array instanceof Float32Array?5126:array instanceof Uint32Array?5125:array instanceof Uint16Array?5123:5121;accessors.push({bufferView:views.length-1,componentType,type,count:array.length/sizes[type],...extra});return accessors.length-1;}
-const nodes=src.nodes.slice(0,17).map(n=>structuredClone(n)),skin=structuredClone(src.skins[0]);skin.inverseBindMatrices=access(readAccessor(skin.inverseBindMatrices),'MAT4');
+const nodes=combatRigSpec.map(spec=>{const parent=spec.parent?combatRigSpec[BI[spec.parent]].at:[0,0,0];return {name:spec.name,translation:spec.at.map((v,i)=>v-parent[i]),children:combatRigSpec.map((b,i)=>b.parent===spec.name?i:-1).filter(i=>i>=0)};});
+const inverse=combatRigSpec.flatMap(spec=>new T.Matrix4().makeTranslation(...spec.at.map(v=>-v)).toArray());
+const skin={joints:combatRigSpec.map((_,i)=>i),skeleton:0,inverseBindMatrices:access(new Float32Array(inverse),'MAT4')};
 const meshes=[];
 for(const {name,g,material} of parts){g.computeBoundingBox();const attributes={};for(const [key,attribute,type] of [['POSITION','position','VEC3'],['NORMAL','normal','VEC3'],['JOINTS_0','skinIndex','VEC4'],['WEIGHTS_0','skinWeight','VEC4']])attributes[key]=access(g.attributes[attribute].array,type,key==='POSITION'?{min:g.boundingBox.min.toArray(),max:g.boundingBox.max.toArray()}:{});
  meshes.push({name,primitives:[{attributes,indices:access(new Uint32Array(g.index.array),'SCALAR'),material:matIndex(material)}]});nodes.push({name,mesh:meshes.length-1,skin:0});}
-const doc={asset:{version:'2.0',generator:'Rift Duel graphic-flat Three.js builder'},scene:0,scenes:[{nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=17)],extras:{...src.scenes[0].extras,artStyle:'graphic-flat',version:2}}],nodes,meshes,skins:[skin],materials,accessors,bufferViews:views,buffers:[{byteLength:offset}]};
+const doc={asset:{version:'2.0',generator:'Rift Duel graphic-flat Three.js builder'},scene:0,scenes:[{nodes:[0,...nodes.map((_,i)=>i).filter(i=>i>=combatRigSpec.length)],extras:{...src.scenes[0].extras,artStyle:'graphic-flat',combatRig:1,version:3}}],nodes,meshes,skins:[skin],materials,accessors,bufferViews:views,buffers:[{byteLength:offset}]};
 function encode(){doc.buffers[0].byteLength=offset;const jb=Buffer.from(JSON.stringify(doc)),jp=(4-jb.length%4)%4,bin=Buffer.concat(chunks),header=Buffer.alloc(20);header.write('glTF');header.writeUInt32LE(2,4);header.writeUInt32LE(28+jb.length+jp+bin.length,8);header.writeUInt32LE(jb.length+jp,12);header.write('JSON',16);const bh=Buffer.alloc(8);bh.writeUInt32LE(bin.length);bh.write('BIN\0',4);return Buffer.concat([header,jb,Buffer.alloc(jp,32),bh,bin]);}
 // Embed portable 30fps skeletal clips sampled from the actual runtime animator.
 globalThis.ProgressEvent??=class{constructor(type,data){Object.assign(this,data);}};
 const raw=encode(),asset=await new GLTFLoader().parseAsync(raw.buffer.slice(raw.byteOffset,raw.byteOffset+raw.byteLength),'');
-const review=createLiveTalaReview(asset.scene,{variant:'v3'}),bones=[...review.rig.skeleton.bones,...review.rig.feet];
+const review=createLiveTalaReview(asset.scene,{variant:'graphic'}),bones=review.rig.deformBones;
 doc.animations=[];
 for(const clip of LIVE_TALA_CLIPS){const tracks=bones.map(()=>({p:[],q:[],s:[]})),times=[];
  for(let f=0;f<=Math.ceil(clip.duration*30);f++){const t=Math.min(clip.duration,f/30);times.push(t);review.sample(clip.name,t);bones.forEach((b,i)=>{tracks[i].p.push(...b.position.toArray());tracks[i].q.push(...b.quaternion.toArray());tracks[i].s.push(...b.scale.toArray());});}
@@ -139,5 +160,5 @@ for(const clip of LIVE_TALA_CLIPS){const tracks=bones.map(()=>({p:[],q:[],s:[]})
  tracks.forEach((track,i)=>{for(const [key,path,type] of [['p','translation','VEC3'],['q','rotation','VEC4'],['s','scale','VEC3']]){const sampler=animation.samplers.length;animation.samplers.push({input,output:access(new Float32Array(track[key]),type),interpolation:'LINEAR'});animation.channels.push({sampler,target:{node:i,path}});}});doc.animations.push(animation);
 }
 const final=encode();writeFileSync(new URL('tala-graphic.glb',out),final);
-const report={style:'graphic-flat',source:'tala-v3.glb (CC0 MakeHuman-derived body and skin weights)',sourceSHA256:createHash('sha256').update(source).digest('hex'),modelSHA256:createHash('sha256').update(final).digest('hex'),bytes:final.length,meshes:parts.length,triangles:parts.reduce((n,p)=>n+p.g.index.count/3,0),bones:17,clips:LIVE_TALA_CLIPS,materials:palette,textures:0,notes:['Round 2: tapered jaw, refined eye proportions, layered ponytail with blended roots, rounded fists with four modeled fingers, sloped vest shoulders.','Body and costume skinning reuse the existing rig; original shorts coverage retained; clean vest panels and closed fists.','Portable clips are local skeletal motion, not game logic, VFX or root travel.','Two-tone shader is in dist/graphic-flat.js; other GLB viewers use matte base materials.']};
+const report={style:'graphic-flat',source:'tala-v3.glb (CC0 MakeHuman-derived body and skin weights)',sourceSHA256:createHash('sha256').update(source).digest('hex'),modelSHA256:createHash('sha256').update(final).digest('hex'),bytes:final.length,meshes:parts.length,triangles:parts.reduce((n,p)=>n+p.g.index.count/3,0),bones:combatRigSpec.length,clips:LIVE_TALA_CLIPS,materials:palette,textures:0,notes:['61-bone combat rig: articulated spine, neck, shoulders, wrists, fingers, toes and hair; reweighted skin.','Round 2: tapered jaw, refined eye proportions, layered ponytail with blended roots, rounded fists with four modeled fingers, sloped vest shoulders.','Body and costume skinning reuse the existing rig; original shorts coverage retained; clean vest panels and closed fists.','Portable clips are local skeletal motion, not game logic, VFX or root travel.','Two-tone shader is in dist/graphic-flat.js; other GLB viewers use matte base materials.']};
 writeFileSync(new URL('manifest.json',out),JSON.stringify(report,null,2));writeFileSync(new URL('palette.json',out),JSON.stringify(palette,null,2));console.log(JSON.stringify(report,null,2));

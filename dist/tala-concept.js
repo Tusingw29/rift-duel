@@ -1,3 +1,4 @@
+import {installCombatRig} from './tala-combat-rig.js';
 import {applyGraphicFlat} from './graphic-flat.js';
 import {dressMorrow} from './morrow-gravebound.js';
 import {costumes} from './roster-costumes.js';
@@ -9,7 +10,7 @@ import {canonicalBone} from './rig-schema.js';
 // Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
 const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=2':variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=3':variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
  const key=['design02','v3','graphic'].includes(variant)?variant:'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));
@@ -19,15 +20,17 @@ export function loadTalaConcept(variant='concept'){
 export function attachTalaConcept(r,source){
  if(r.id!==2||r.conceptModel)return false;
  const mapped=new Map(names.map((name,i)=>[name,r.skeleton.bones[i]]));
+ const expanded=source.userData?.combatRig===1;
  const surfaces=[];source.traverse(n=>{if(n.isSkinnedMesh)surfaces.push(n);});
  if(!surfaces.length)throw new Error('Concept asset has no skinned surfaces');
- for(const n of surfaces)for(const b of n.skeleton.bones)if(!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
+ for(const n of surfaces)for(const b of n.skeleton.bones)if(!expanded&&!mapped.has(canonical(b.name))&&!['foot.L','foot.R'].includes(canonical(b.name)))throw new Error(`Unsupported concept joint: ${b.name}`);
  for(const suffix of ['L','R']){const foot=new Bone();foot.name='concept-foot.'+suffix;foot.position.set(0,-(r.shinLength||.56),0);mapped.get('shin.'+suffix).add(foot);mapped.set('foot.'+suffix,foot);}
+ if(expanded)installCombatRig(r,mapped);
  r.feet=['L','R'].map(s=>mapped.get('foot.'+s));r.footPivot=talaFootPivot;r.footOffsets=talaFootOffsets;r.gaitTargets=talaGaitTargets;r.strideLength=.75;r.footBall=new Vector3(0,-.109,.22);
  const skeletons=new Map(),replacement=[];
  for(const original of surfaces){
   let skeleton=skeletons.get(original.skeleton);
-  if(!skeleton){skeleton=new Skeleton(original.skeleton.bones.map(b=>mapped.get(canonical(b.name))),original.skeleton.boneInverses.map(m=>m.clone()));skeletons.set(original.skeleton,skeleton);}
+  if(!skeleton){skeleton=new Skeleton(original.skeleton.bones.map(b=>mapped.get(expanded?b.name:canonical(b.name))),original.skeleton.boneInverses.map(m=>m.clone()));skeletons.set(original.skeleton,skeleton);}
   const material=original.material.clone();if(material.map)material.map=material.map.clone();
   const mesh=new SkinnedMesh(original.geometry.clone(),material);mesh.name='concept-'+original.name;mesh.bind(skeleton,new Matrix4());mesh.castShadow=true;mesh.frustumCulled=false;replacement.push(mesh);
  }

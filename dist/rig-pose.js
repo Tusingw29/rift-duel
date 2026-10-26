@@ -81,13 +81,13 @@ export function plantSupportFeet(r,p,kind){
  // Let the hips settle rather than pulling an anchored foot up during the bounce.
  let settle=0;
  for(let i=0;i<2;i++){
-  const v=r.body.worldToLocal(targets[i].clone()).sub(r.limbs[i*2+1].position);
+  const v=r.limbs[i*2+1].parent.worldToLocal(targets[i].clone()).sub(r.limbs[i*2+1].position);
   if(v.y<0&&v.x*v.x+v.z*v.z<(reach-.01)**2)settle=Math.max(settle,-v.y-Math.sqrt((reach-.01)**2-v.x*v.x-v.z*v.z));
  }
  r.body.position.y-=Math.min(.12,settle);r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
-  const v=r.body.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
+  const v=leg.parent.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
   if(d>reach-.005||d<Math.max(.2,Math.abs(upper-lower)+.005)){r.footPlants[i]=groundAnkle(knee);if(r.talaGait)r.talaGait.feet[i].at.copy(r.footPlants[i]);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
   // Law of cosines preserves the planted ankle on rigs with unequal segments.
   const clamp=v=>Math.max(-1,Math.min(1,v));

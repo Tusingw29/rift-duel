@@ -1,0 +1,79 @@
+{
+  "id": 1792982981569,
+  "tag": "release",
+  "errors": [],
+  "shots": [
+    {
+      "name": "front",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-front-1792982981569.jpg"
+    },
+    {
+      "name": "face",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-face-1792982981569.jpg"
+    },
+    {
+      "name": "back",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-back-1792982981569.jpg"
+    },
+    {
+      "name": "hands",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-hands-1792982981569.jpg"
+    },
+    {
+      "name": "advance",
+      "clip": "Advance",
+      "time": 0.8,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-advance-1792982981569.jpg"
+    },
+    {
+      "name": "retreat",
+      "clip": "Retreat",
+      "time": 0.8,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-retreat-1792982981569.jpg"
+    },
+    {
+      "name": "circle",
+      "clip": "Circle left",
+      "time": 0.8,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-circle-1792982981569.jpg"
+    },
+    {
+      "name": "guard",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-guard-1792982981569.jpg"
+    },
+    {
+      "name": "guard-side",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-guard-side-1792982981569.jpg"
+    },
+    {
+      "name": "contact-1",
+      "clip": "Combo",
+      "time": 0.2833333333333333,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-contact-1-1792982981569.jpg"
+    },
+    {
+      "name": "contact-2",
+      "clip": "Combo",
+      "time": 0.6166666666666667,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-contact-2-1792982981569.jpg"
+    },
+    {
+      "name": "contact-3",
+      "clip": "Combo",
+      "time": 0.95,
+      "file": "art/review-2026-10-26/tala-rig/tala-release-contact-3-1792982981569.jpg"
+    }
+  ]
+}

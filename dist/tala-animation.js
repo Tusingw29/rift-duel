@@ -222,6 +222,7 @@ export function animateTala(r,p,time){
   for(const key of ['lax','rax','le','re'])target.pose[key]=stance[key]+(target.pose[key]-stance[key])*.22;
   target.pose.lean*=.6;target.pose.side*=.7;
  }
+ if(r.combatRig&&['idle','run'].includes(target?.kind)){target.pose.lax-=.10;target.pose.rax-=.10;target.pose.le-=.40;target.pose.re-=.40;}
  if(!target){r.pose=null;r.strikeBlend=null;r.footPlants=null;r.flowBlend=null;r.gaitPlants=null;return false;}
  // Blend the entry offset out by contact, then follow the combat timeline exactly.
  // Smoothing every strike frame delays the fist beyond the frame that deals damage.

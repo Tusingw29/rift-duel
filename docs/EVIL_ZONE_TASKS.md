@@ -290,6 +290,12 @@ Validation: **413 tests pass** locally after the gaze fix. Review remains open f
 
 ## TALA-COMBAT-RIG — Articulated graphic fighter
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/tala-combat-rig` · Worktree: `/tmp/rift-combat-rig`
+Owner: **Codex** · Status: **Review — awaiting normal-speed verdict** · Branch: `codex/tala-combat-rig` · Worktree: `/tmp/rift-combat-rig`
 
 User approved correction of fist/guard orientation and fuller combat skeleton. Scope: graphic Tala asset builder, attachment, a dedicated rig adapter and Tala pose hook, rig/asset tests and visual evidence. Preserve gameplay damage frames and other fighter models. Add pelvis/spine/neck/clavicles, wrist/twist controls, fingers/toes and segmented hair; reweight graphic model. Claude’s original checkout remains untouched. Baseline `b2e0c62`: 413 tests passed in preceding integration. Visual acceptance remains awaiting normal-speed verdict.
+
+Implementation: graphic Tala now uses 61 deformation bones with original combat roles retained. Independent wrists, 30 finger/thumb joints, pelvis/spine/neck/clavicles, arm twist helpers, toes and segmented hair. Skin weights and all 21 exported clips rebuilt. Ready fists raised; thumbs curl across fingers; wrists ease into guard, palms open through ranged startup/recovery, toes counter-roll during punch pivots. Foot IK uses the actual thigh-parent space for the expanded pelvis hierarchy. Other assets keep the legacy path.
+
+Evidence: `art/review-2026-10-26/tala-rig/README.md`. Known limits: geometric fingers and costume seams still need sculpting; expanded controls reuse current action choreography; normal-speed feel remains unaccepted. Next: Adam checks idle fists, crossed guard, straight/cross/hook and directional footwork before extending to the roster.
+
+Validation: **414 tests pass** on the final rig; 12 release browser views cover stance, hands, movement, guard and exact three-hit contacts. Download pack rebuilt and manifest/GLB SHA-256 checked.

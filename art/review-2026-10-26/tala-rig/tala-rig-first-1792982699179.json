@@ -1,0 +1,57 @@
+{
+  "id": 1792982699179,
+  "tag": "rig-first",
+  "errors": [
+    "Cannot read properties of undefined (reading 'matrixWorld')"
+  ],
+  "shots": [
+    {
+      "name": "front",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-front-1792982699179.jpg"
+    },
+    {
+      "name": "face",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-face-1792982699179.jpg"
+    },
+    {
+      "name": "back",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-back-1792982699179.jpg"
+    },
+    {
+      "name": "guard",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-guard-1792982699179.jpg"
+    },
+    {
+      "name": "guard-side",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-guard-side-1792982699179.jpg"
+    },
+    {
+      "name": "contact-1",
+      "clip": "Combo",
+      "time": 0.2833333333333333,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-contact-1-1792982699179.jpg"
+    },
+    {
+      "name": "contact-2",
+      "clip": "Combo",
+      "time": 0.6166666666666667,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-contact-2-1792982699179.jpg"
+    },
+    {
+      "name": "contact-3",
+      "clip": "Combo",
+      "time": 0.95,
+      "file": "art/review-2026-10-26/tala-rig/tala-rig-first-contact-3-1792982699179.jpg"
+    }
+  ]
+}

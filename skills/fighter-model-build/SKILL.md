@@ -40,3 +40,7 @@ After a Tala rebuild bump `?v=` on her GLB URL in `dist/tala-concept.js` and `di
 - Weapon meshes in the classic models carry `userData.weapon=true`; the roster attach keeps only those under the hands, and Aegis's batcher must skip them.
 - Head joint is at the skull base: eyes about +0.06, crown +0.24, chin −0.08 in head space. Measure before placing anything on the head.
 - The CC0 wardrobe is modern casual wear; costumes are runtime pieces (see `skills/costume-authoring`), so a wardrobe change alone never produces a concept look.
+
+## Graphic Tala combat-rig exception
+
+The optional `graphic` asset is built with `scripts/build-tala-graphic.mjs` and now uses the 61-bone specification in `dist/tala-combat-rig.js`. Its scene extras set `combatRig:1`; attachment retains the original combat roles while installing the additional deformation joints. Other V3 assets remain 17-bone. Do not collapse the new neck, spine, fingers or twist helpers through the legacy canonical aliases. GLTFLoader removes dots from node names, so the expanded attachment maps both spellings explicitly. Rebuild the GLB and ZIP together, and verify all 61 exported transforms against the live rig with `tests/tala-graphic.test.mjs`. Preserve the normal-speed review requirement.

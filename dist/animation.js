@@ -1,3 +1,4 @@
+import {resetCombatRig,finishCombatRig} from './tala-combat-rig.js';
 import {finishMorrowAttack} from './morrow-attack-motion.js';
 import {animateMorrow} from './morrow-animation.js';
 import {captureMotion,finishMotion} from './motion-transition.js';
@@ -23,10 +24,12 @@ const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);};
 export function animateCharacter(r,p,time){
  // Every fighter now has a grounded whole-body animator; the motion bridge smooths handoffs to shared states.
 
+ resetCombatRig(r);
  const previous=captureMotion(r);
  if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
  if(r.id===3)finishMorrowAttack(r,p);
+ finishCombatRig(r,p,time);
 }
 function sampleCharacter(r,p,time){
  r.animationFamily='shared';

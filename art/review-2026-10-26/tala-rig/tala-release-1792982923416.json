@@ -1,0 +1,8 @@
+{
+  "id": 1792982923416,
+  "tag": "release",
+  "errors": [
+    "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4176/tala-blender.html?model=graphic&review=1792982923416\", waiting until \"load\"\u001b[22m\n"
+  ],
+  "shots": []
+}
