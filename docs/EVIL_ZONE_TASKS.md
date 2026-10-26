@@ -278,6 +278,19 @@ Completion evidence: `art/review-2026-10-26/deform-rig/README.md` and `art/revie
 
 Adam chose the graphic flat-colour Tala over the textured Design 03 body on 2026-10-26. Consequences: the graphic Tala is the default appearance; face, hair and costume polish go to the graphic style; the other five fighters get graphic flat-colour builds in the same way (`scripts/build-tala-graphic.mjs` generalised per fighter) rather than textured passes. The textured bodies remain the skinning source for every fighter (the graphic build derives from them) and stay selectable in the appearance menu for comparison. Both Codex and Claude build in this style from now on.
 
+## TALA-IMPORT-AB — Does imported motion make Tala more natural? (experiment)
+
+Owner: **Claude** · Branch: `claude/tala-import-ab` · Worktree: `~/rift-worktrees/tala-import-ab` · Status: **In progress** (claimed 2026-10-26)
+
+Controlled A/B on Tala only: current authored animation versus retargeted motion capture for combat advance, combat retreat, lateral sidestep/circling and grounded get-up. Uses the existing BVH-to-channels importer and pose-channel playback; simulation keeps world position, air height, hitstop, the 6-frame jump squat, 18-frame bounce and 28-frame get-up; combat rules, buffering and the KO presentation are untouched. Dedicated backward and lateral captures only (no reversed run or adapted walk presented as combat footwork); sources and licences recorded. Authored stays the default until Adam's verdict. Does not touch `dist/combat.js` or `dist/combat-travel.js`; builds on Codex's MOCAP-REVIEW controls.
+
+- [ ] Audit of reusable importer, clip, review and planting pieces
+- [ ] Source clips with licences (advance, retreat, lateral, get-up) or documented gaps
+- [ ] Retarget into pose channels with travel separated from pelvis sway, frame-sampled, hitstop-frozen
+- [ ] Authored / Imported switch with matched scenarios, side and fight cameras, scrubbing
+- [ ] Tests for retargeting and timing; browser smoke; captures and README
+- [ ] Provisional verdict, weakest action, recommendation — normal-speed acceptance is Adam's
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
