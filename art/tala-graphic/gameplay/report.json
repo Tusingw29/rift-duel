@@ -1,0 +1,65 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "tala": "graphic",
+  "when": "2026-10-26T00:46:26.542Z",
+  "checks": [
+    {
+      "name": "game loads and exposes riftDebug",
+      "ok": true,
+      "detail": "http://127.0.0.1:4173/?tala=graphic&smoke=1792975498331"
+    },
+    {
+      "name": "Tala graphic model attached in the fight",
+      "ok": true,
+      "detail": "[\"graphic\"]"
+    },
+    {
+      "name": "training fight is running",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "W closes distance",
+      "ok": true,
+      "detail": "x -4.00 → -3.36"
+    },
+    {
+      "name": "D circles the rival",
+      "ok": true,
+      "detail": "z 0.00 → 0.53"
+    },
+    {
+      "name": "punch lands on the rival",
+      "ok": true,
+      "detail": "rival hp 93.88"
+    },
+    {
+      "name": "life gauge shatters on the hit",
+      "ok": true,
+      "detail": "{\"shards\":7,\"cracks\":1}"
+    },
+    {
+      "name": "HUD gauge present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "HUD names and arena populated",
+      "ok": true,
+      "detail": "{\"p1\":\"TALA\",\"p2\":\"REI\",\"arena\":\"STORM SUMMIT\",\"gauge\":\"1 STOCK\"}"
+    },
+    {
+      "name": "no console errors or warnings",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "shots": [
+    "art/tala-graphic/gameplay/01-menu-tala.png",
+    "art/tala-graphic/gameplay/02-fight-start.png",
+    "art/tala-graphic/gameplay/03-after-move.png",
+    "art/tala-graphic/gameplay/04-after-hit.png",
+    "art/tala-graphic/gameplay/05-guard.png"
+  ],
+  "console": []
+}

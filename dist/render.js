@@ -42,13 +42,13 @@ export function createView(canvas,options={}){
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id,id===2?{variant:talaModel}:{});upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);
   model.talaStatus=id===2?'classic':null;
-  if(id===2&&['concept','design02','v3'].includes(talaModel)){
+  if(id===2&&['concept','design02','v3','graphic'].includes(talaModel)){
    const variant=talaModel;
    model.talaStatus='loading';
    model.conceptPending=true;model.conceptOriginalSurfaces=[];model.g.traverse(n=>{if(n.isMesh&&n!==model.aura)model.conceptOriginalSurfaces.push(n);});
    loadTalaConcept(variant).then(asset=>{if(model.conceptPending){attachTalaConcept(model,asset.scene);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);model.talaStatus=variant;document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:variant==='design02'?'Design 02 fight preview':'Concept model preview'}));}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn('Tala model fallback:',error);document.dispatchEvent(new CustomEvent('tala-concept-status',{detail:'Concept unavailable — original model loaded'}));}});
   }
-  if(id!==2&&talaModel==='v3'){
+  if(id!==2&&['v3','graphic'].includes(talaModel)){
    // The rest of the roster shares the Design 03 pipeline; their classic model stays as the fallback.
    model.talaStatus='loading';model.conceptPending=true;
    loadFighterModel(fighters[id].id).then(asset=>{if(model.conceptPending){attachFighterModel(model,asset.scene);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);model.talaStatus='v3';}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn(fighters[id].name+' model fallback:',error);}});
@@ -164,5 +164,5 @@ export function createView(canvas,options={}){
   if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
   renderer.render(scene,camera);
  }
- select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},get scene(){return scene;},get models(){return models;},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3','graphic'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},get scene(){return scene;},get models(){return models;},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

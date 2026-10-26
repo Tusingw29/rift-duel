@@ -1,3 +1,4 @@
+import {applyGraphicFlat} from './graphic-flat.js';
 import {dressMorrow} from './morrow-gravebound.js';
 import {costumes} from './roster-costumes.js';
 import {fighters} from './fighters.js';
@@ -8,9 +9,9 @@ import {canonicalBone} from './rig-schema.js';
 // Every loaded bone name is normalised onto the canonical 17-bone rig (dist/rig-schema.js).
 const canonical=name=>canonicalBone(name)||name;
 const assets=new Map();
-export const talaAssetUrl=variant=>variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
+export const talaAssetUrl=variant=>variant==='graphic'?'./assets/tala-graphic/tala-graphic.glb?v=1':variant==='v3'?'./assets/models/tala-v3.glb?v=4':variant==='design02'?'./assets/models/tala-design02.glb?v=13':'./assets/models/tala-study.glb?v=4';
 export function loadTalaConcept(variant='concept'){
- const key=['design02','v3'].includes(variant)?variant:'concept';
+ const key=['design02','v3','graphic'].includes(variant)?variant:'concept';
  if(!assets.has(key))assets.set(key,import('./vendor/GLTFLoader.js').then(({GLTFLoader})=>new GLTFLoader().loadAsync(talaAssetUrl(key))).catch(error=>{assets.delete(key);throw error;}));
  return assets.get(key);
 }
@@ -33,6 +34,7 @@ export function attachTalaConcept(r,source){
  // Hide only original character surfaces; keep the aura, guard and effect objects.
  for(const n of r.conceptOriginalSurfaces||[])n.visible=false;
  for(const mesh of replacement)r.g.add(mesh);
+ if(source.userData?.artStyle==='graphic-flat')applyGraphicFlat(r.g);
  if(surfaces.some(n=>n.name.includes('Design02_')))r.ponytailMaxAngle=.45;
  r.conceptModel=true;r.g.userData.conceptModel=true;return true;
 }

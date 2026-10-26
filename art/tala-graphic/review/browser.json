@@ -1,0 +1,111 @@
+{
+  "errors": [],
+  "model": {
+    "source": "baked",
+    "clip": "Guard + block",
+    "time": 0.6,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.4000000953674316
+      },
+      {
+        "name": "Jump + land",
+        "duration": 1.5
+      },
+      {
+        "name": "Air recovery",
+        "duration": 1.2999999523162842
+      },
+      {
+        "name": "Advance",
+        "duration": 1.7999999523162842
+      },
+      {
+        "name": "Retreat",
+        "duration": 1.7999999523162842
+      },
+      {
+        "name": "Circle left",
+        "duration": 1.7999999523162842
+      },
+      {
+        "name": "Circle right",
+        "duration": 1.7999999523162842
+      },
+      {
+        "name": "Guard + block",
+        "duration": 2.4000000953674316
+      },
+      {
+        "name": "Combo",
+        "duration": 1.600000023841858
+      },
+      {
+        "name": "Energy shot",
+        "duration": 1.2999999523162842
+      },
+      {
+        "name": "Launcher",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Aerial pursuit",
+        "duration": 1.600000023841858
+      },
+      {
+        "name": "Rising rush",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Skybreaker kick",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Storm spark",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Still-water discus",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Twin spark",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Crosswind discs",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Blazing palm",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Giant discus",
+        "duration": 1.399999976158142
+      },
+      {
+        "name": "Recoil",
+        "duration": 1.600000023841858
+      }
+    ],
+    "meshes": 54,
+    "vertices": 19141,
+    "bounds": [
+      -0.589932306743697,
+      0.0035825776685516238,
+      -0.5330518820026982
+    ],
+    "root": [
+      0,
+      0,
+      0
+    ],
+    "head": [
+      -0.2723863950911993,
+      0.09941816736312037,
+      0.05356872907893318
+    ]
+  }
+}

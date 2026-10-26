@@ -6,7 +6,7 @@ import {talaV3Joints,talaV3Metrics} from './tala-v3-joints.js';
 // Original lightweight anime fighter, using the same animation attachment points.
 // Continuous ring surfaces carry blended bone weights across elbows and knees.
 export function buildTala({variant='design02'}={}){
- const v3=variant==='v3',J=v3?talaV3Joints:null;
+ const v3=['v3','graphic'].includes(variant),J=v3?talaV3Joints:null;
  const g=new T.Group(),bones=[];
  const joint=(parent,x=0,y=0,z=0)=>{const b=new T.Bone();b.position.set(x,y,z);parent.add(b);bones.push(b);return b;};
  // Proportion standard (early-2000s 3D fighter look): about 7.5 heads tall, legs half
