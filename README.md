@@ -332,3 +332,5 @@ This is a hybrid: captured pose channels feed the existing animator and foot-pla
 ### Visual VFX workbench
 
 [Open the VFX workbench](https://tusingw29.github.io/rift-duel/vfx-workbench.html) to compare real 3D energy meshes, orbit and scrub, drag signature silhouettes, and export/import visual presets. Saved drafts can be explicitly previewed in the game without changing normal play. [Workflow and limits](docs/VFX_WORKBENCH.md).
+
+[Flowing 3D energy comparison](https://tusingw29.github.io/rift-duel/vfx-workbench.html?look=flow) · [Play the energy preview](https://tusingw29.github.io/rift-duel/?energy=flow). This reference-driven pass uses curved volumes and imported CC0 surface masks. [Study, sources and asset provenance](docs/ENERGY_REFERENCE_STUDY.md).

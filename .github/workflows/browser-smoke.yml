@@ -98,7 +98,9 @@ jobs:
           RIFT_TOOLS: ${{ github.workspace }}
           RIFT_BASE: https://tusingw29.github.io/rift-duel
           SHOTS: artifacts/browser-smoke/vfx-workbench
-        run: node scripts/review/vfx-workbench.mjs
+        run: |
+          node scripts/review/vfx-workbench.mjs
+          node scripts/review/refined-energy.mjs
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4
