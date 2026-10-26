@@ -1,0 +1,37 @@
+{
+  "id": 1792978377000,
+  "tag": "before",
+  "errors": [],
+  "shots": [
+    {
+      "name": "front",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-before-front-1792978377000.jpg"
+    },
+    {
+      "name": "face",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-before-face-1792978377000.jpg"
+    },
+    {
+      "name": "back",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-before-back-1792978377000.jpg"
+    },
+    {
+      "name": "guard",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-before-guard-1792978377000.jpg"
+    },
+    {
+      "name": "guard-side",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-before-guard-side-1792978377000.jpg"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": 1792978558291,
+  "tag": "final",
+  "errors": [],
+  "shots": [
+    {
+      "name": "front",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-front-1792978558291.jpg"
+    },
+    {
+      "name": "face",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-face-1792978558291.jpg"
+    },
+    {
+      "name": "back",
+      "clip": "Idle",
+      "time": 0,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-back-1792978558291.jpg"
+    },
+    {
+      "name": "guard",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-guard-1792978558291.jpg"
+    },
+    {
+      "name": "guard-side",
+      "clip": "Guard + block",
+      "time": 0.6,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-guard-side-1792978558291.jpg"
+    },
+    {
+      "name": "contact-1",
+      "clip": "Combo",
+      "time": 0.2833333333333333,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-contact-1-1792978558291.jpg"
+    },
+    {
+      "name": "contact-2",
+      "clip": "Combo",
+      "time": 0.6166666666666667,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-contact-2-1792978558291.jpg"
+    },
+    {
+      "name": "contact-3",
+      "clip": "Combo",
+      "time": 0.95,
+      "file": "art/review-2026-10-25/tala-graphic-polish/tala-final-contact-3-1792978558291.jpg"
+    }
+  ]
+}

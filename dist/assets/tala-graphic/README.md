@@ -13,9 +13,13 @@ The runtime two-tone shader is `dist/graphic-flat.js` in the repository. Standar
 
 ## Rig and animation
 
-The model uses Rift Duel's existing 17-bone combat skeleton: root, chest, head; paired upper arms, forearms, hands, thighs, shins and feet; ponytail and sash. Neck vertices blend between chest and head. Fists follow the hand joints; the ponytail follows its secondary-motion bone. It has no articulated fingers, facial-expression rig or separate neck control bone.
+The model uses Rift Duel's existing 17-bone combat skeleton: root, chest, head; paired upper arms, forearms, hands, thighs, shins and feet; ponytail and sash. Neck vertices blend between chest and head. Fists follow the hand joints; ponytail roots blend from the head into the secondary-motion bone so their attachment stays fixed while the tips swing. It has no articulated fingers, facial-expression rig or separate neck control bone.
 
 The live game drives this rig with its existing animator and foot placement. Embedded clips are sampled from that animator at 30 fps. They contain local skeletal motion, not world-space travel, collision, hit events, projectiles, capture cinematics or sound. Use the game's movement system for gameplay. These clips are demonstrations, not a promise of seamless looping for every action.
+
+## Round 2 polish
+
+Tapered jaw and smaller eyes, four layered ponytail clumps, rounded wrapped palms with four modeled curled fingers per hand, and sloped vest shoulder panels. Fingers are modeled closed and follow the hand bone; they are not independently articulated.
 
 ## Build and review
 

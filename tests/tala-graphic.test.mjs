@@ -49,3 +49,13 @@ test('cloned materials regain the shader and neck/fist weights follow their inte
   if(n.name.includes('_wrap_arm_')){const allowed=n.name.endsWith('L')?[3,4,5]:[8,9,10];for(const i of n.geometry.index.array){let sum=0;for(let k=0;k<4;k++)if(allowed.includes(j.array[i*4+k]))sum+=w.array[i*4+k];assert.ok(sum>.9);}}
  });
 });
+test('ponytail roots stay attached while tips swing, and all four fingers follow each hand',async()=>{
+ const fresh=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
+ const tails=[],fingers=[];fresh.scene.traverse(n=>{if(n.isSkinnedMesh){if(n.name.includes('ponytail_'))tails.push(n);if(n.name.includes('finger_'))fingers.push(n);}});
+ assert.equal(fingers.length,8);assert.ok(tails.length>=4);
+ fresh.scene.updateMatrixWorld(true);
+ const snapshots=tails.map(mesh=>{mesh.skeleton.update();const w=mesh.geometry.attributes.skinWeight,j=mesh.geometry.attributes.skinIndex;let root=-1,tip=-1;for(let i=0;i<w.count;i++){if(j.getX(i)===2&&w.getX(i)>.999)root=i;if(j.getY(i)===13&&w.getY(i)>.999)tip=i;}assert.ok(root>=0&&tip>=0,mesh.name);return {mesh,root,tip,a:mesh.getVertexPosition(root,new Vector3()),b:mesh.getVertexPosition(tip,new Vector3())};});
+ tails[0].skeleton.bones[13].rotation.x+=.5;fresh.scene.updateMatrixWorld(true);
+ for(const {mesh,root,tip,a,b} of snapshots){mesh.skeleton.update();assert.ok(mesh.getVertexPosition(root,new Vector3()).distanceTo(a)<1e-5,mesh.name+' attached root');assert.ok(mesh.getVertexPosition(tip,new Vector3()).distanceTo(b)>.01,mesh.name+' moving tip');}
+ for(const mesh of fingers){const j=mesh.geometry.attributes.skinIndex,w=mesh.geometry.attributes.skinWeight;for(let i=0;i<j.count;i++){assert.ok([5,10].includes(j.getX(i)));assert.equal(w.getX(i),1);}}
+});

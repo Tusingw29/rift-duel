@@ -245,19 +245,20 @@ Codex owns simulation X/Z travel in `combat.js` and a separate travel module. Cl
 
 ## ART-TALA-GRAPHIC — Finished-model likeness and rig polish
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/tala-graphic-polish` · Worktree: `/tmp/rift-tala-polish`
+Owner: **Codex** · Status: **Review — awaiting normal-speed verdict** · Branch: `codex/tala-graphic-polish` · Worktree: `/tmp/rift-tala-polish`
 
 User requested another round against the dimensional finished-model target. Scope: `scripts/build-tala-graphic.mjs`, its generated GLB/pack, graphic-model tests and review captures. Preserve the existing combat bones, all fighter animators, gameplay timing and Claude's EZ-02 ownership. Review face/hair proportions, vest/shoulder fit, fists, and deformation in guard/contact poses. Visual acceptance remains **awaiting normal-speed verdict**.
 
-- [ ] Refine the actual model toward `art/tala-graphic/target/tala-rigged-model-target.png`.
-- [ ] Verify mesh weights, live/exported pose agreement and visual deformation.
-- [ ] Capture front/side/rear and exact attack contacts; record known limits.
+- [x] Refine the actual model toward `art/tala-graphic/target/tala-rigged-model-target.png`.
+- [x] Verify mesh weights, live/exported pose agreement and visual deformation.
+- [x] Capture front/side/rear and exact attack contacts; record known limits.
 - [ ] Adam's normal-speed and visual-likeness verdict.
 
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
 | 2026-10-25 | Claude | EZ-02 | First pass merged: Rei, Sol and Vesper moved from the time-based shared animator to the grounded whole-body system (authored stance, crossed guard, hit reaction, charge, distance-driven footwork, three keyed strikes each). Status Review. Next: Adam's normal-speed verdict; then recoil momentum and push-off weight across the roster. |
 | 2026-10-25 | Claude | EZ-02 | Claimed. Starting with Tala's guard brace, locomotion weight transfer and chain momentum on branch `claude/ez-02-whole-body`; review on `tala-blender.html` and in the fight camera before extending to Aegis and Morrow. |

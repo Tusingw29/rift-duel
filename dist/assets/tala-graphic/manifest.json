@@ -2,10 +2,10 @@
   "style": "graphic-flat",
   "source": "tala-v3.glb (CC0 MakeHuman-derived body and skin weights)",
   "sourceSHA256": "b0cdc2ffe49cbe29157edbc7773cce489a0ca39395005827131e34150f58e184",
-  "modelSHA256": "154b08ac29c6ba089ca28ad7b2bee908d11783d50f0a073ca3da6d1199c36833",
-  "bytes": 2068924,
-  "meshes": 54,
-  "triangles": 17215,
+  "modelSHA256": "ada20eeb92715b114fbc4933bf563f6c028602ff70fdd90bac50df74813272f3",
+  "bytes": 2208308,
+  "meshes": 62,
+  "triangles": 20343,
   "bones": 17,
   "clips": [
     {
@@ -110,7 +110,7 @@
   },
   "textures": 0,
   "notes": [
-    "New geometric head, eyes, solid hair clumps and split ponytail.",
+    "Round 2: tapered jaw, refined eye proportions, layered ponytail with blended roots, rounded fists with four modeled fingers, sloped vest shoulders.",
     "Body and costume skinning reuse the existing rig; original shorts coverage retained; clean vest panels and closed fists.",
     "Portable clips are local skeletal motion, not game logic, VFX or root travel.",
     "Two-tone shader is in dist/graphic-flat.js; other GLB viewers use matte base materials."
