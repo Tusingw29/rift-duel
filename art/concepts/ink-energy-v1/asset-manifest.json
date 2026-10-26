@@ -1,0 +1,34 @@
+[
+  {
+    "file": "01-energy-sequences.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2052055,
+    "sha256": "eddfbd4b4794a1ec60c42d7b13260fdb03b4e56850e675385df5499e2776462a",
+    "runtimeReady": false
+  },
+  {
+    "file": "02-tala-motion.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2256597,
+    "sha256": "2cb41816842ce505f8d4371ff032d47298f7af46fda8e356ee54b4e033bada81",
+    "runtimeReady": false
+  },
+  {
+    "file": "03-roster-fantasy.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 3207872,
+    "sha256": "84b7bf164d5c68aed56b7a60936e45e41dd4ab85d45da9892f7ad43590b9b5aa",
+    "runtimeReady": false
+  },
+  {
+    "file": "04-roster-ink-street.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 3344829,
+    "sha256": "9e154b86e140f3492d42f8a464e1c9b8d50dd42b63b03fd302209f0510e148ad",
+    "runtimeReady": false
+  }
+]

@@ -336,5 +336,7 @@ ATTACK-FX implementation: open camera-facing restraint ring follows the cinemati
 ATTACK-FX validation: **423 tests pass**; browser captures cover the live capture scenario, charge and an isolated beam fixture with zero page exceptions. Charge capture found and fixed opaque-arena overdraw (energy now uses the transparent render pass with depth testing). Capture ring, final charge and beam screenshots are in the review folder.
 
 ## INK-ENERGY-CONCEPT — Attack art direction before implementation
-Owner: **Codex** · Status: **In progress** · Branch: `codex/ink-attack-concepts` · Worktree: `/tmp/rift-ink-concepts`.
+Owner: **Codex** · Status: **Review — awaiting art-direction choice** · Branch: `codex/ink-attack-concepts` · Worktree: `/tmp/rift-ink-concepts`.
 User requested their illustrated references combined with Guilty Gear / BlazBlue attack and movement effects. Scope: original concept boards, sequential sprite-style sheets, research and production handoff. No live character, rig, animator, combat or effects implementation edits. Claude retains model work.
+
+INK-ENERGY-CONCEPT delivery: four original 1536×1024 boards in `art/concepts/ink-energy-v1/README.md`: six effect sequences, corrected Tala four-action keys, fantasy roster and Ink Street roster variant. Research sources, exact prompts, existing move/timing mapping and transparent-atlas production requirements included. Codex recommends Ink Street for the supplied references; Adam has not selected it yet. These are opaque concept boards, not runtime assets. No changes to Claude’s models/animators or live effects. Baseline 429 tests pass.
