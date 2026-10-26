@@ -1,10 +1,11 @@
 import {retreatPhase,retreatLift} from './retreat-motion.js';
-import {Vector3,Quaternion} from './vendor/three.module.js';
+import {Vector3,Quaternion,Euler} from './vendor/three.module.js';
 // lw/rw: wrist roll about the forearm axis (hand bone local Y). 0 keeps the model's rest wrist.
 // lc/rc: collarbone protraction (shoulder driven forward, radians). 0 leaves it to the combat rig's reach rule;
 // a 17-bone body has no clavicle and ignores it.
 // bodyPitch/bodyRoll: root rotation about X (positive pitches forward) and Z, used by falls and rising; 0 otherwise.
-export const CHANNELS=['bodyPitch','bodyRoll','bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
+// lwx/rwx: wrist flexion (hand rotation.x, +π/2 brings a palm-axis blade in line with the forearm); lwz/rwz: ulnar/radial deviation.
+export const CHANNELS=['lwx','lwz','rwx','rwz','bodyPitch','bodyRoll','bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw','lc','rc'];
 export const STRIDE=1.15;
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function applyPose(r,s){
@@ -15,7 +16,8 @@ export function applyPose(r,s){
  r.spine.rotation.set(s.lean,s.twist,s.side);r.headRest??=r.head.position.clone();r.head.position.copy(r.headRest);r.head.position.y+=s.neckY||0;r.head.position.z+=s.neckZ||0;r.head.rotation.set(s.hx,s.hy,s.hz);
  r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
  // Wrist roll is authored per pose; rigs with a richer hand (the graphic combat rig) read the same channel.
- if(!r.morrowHandRest){r.limbs[0].userData.hand.rotation.set(0,s.lw||0,0);r.limbs[2].userData.hand.rotation.set(0,s.rw||0,0);}
+ if(!r.morrowHandRest){r.limbs[0].userData.hand.rotation.set(s.lwx||0,s.lw||0,s.lwz||0);r.limbs[2].userData.hand.rotation.set(s.rwx||0,s.rw||0,s.rwz||0);}
+ else{[r.limbs[0],r.limbs[2]].forEach((arm,i)=>{const h=arm.userData.hand;h.quaternion.copy(r.morrowHandRest[i]).multiply(new Quaternion().setFromEuler(new Euler(i?s.rwx||0:s.lwx||0,i?s.rw||0:s.lw||0,i?s.rwz||0:s.lwz||0))); });}
  r.limbs[1].rotation.set(s.llx,0,s.llz);r.limbs[3].rotation.set(s.rlx,0,s.rlz);r.knees[0].rotation.x=s.lk;r.knees[1].rotation.x=s.rk;
 }
 // Keep grounded supporting ankles at their world positions while the torso shifts.
@@ -79,7 +81,9 @@ export function plantSupportFeet(r,p,kind){
  // solving the leg above it without sliding the contact point across the floor.
  const facing=r.g.getWorldQuaternion(new Quaternion()),scale=r.g.getWorldScale(new Vector3());
  if(kind==='hurt'&&r.footOffsets){const forward=new Vector3(0,0,1).applyQuaternion(facing);facing.setFromAxisAngle(new Vector3(0,1,0),Math.atan2(forward.x,forward.z));}
- const pivots=r.footPivot?.(p,kind),offsets=r.footOffsets?.(r,p,kind);
+ // The kinetic chain samples the lower body two frames ahead; the foot pivot and drive read the same lead so the ball never slips.
+ const led=p?.move&&p.move.frame<p.move.startup&&['strike','shot','forward','back'].includes(kind)?{...p,move:{...p.move,frame:Math.min(p.move.startup,p.move.frame+Math.min(2,p.move.frame))}}:p; // lead ramps in over two frames and never passes contact
+ const pivots=r.footPivot?.(led,kind),offsets=r.footOffsets?.(r,led,kind);
  const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
  r.footAnchors=[];
  const targets=r.footPlants.map((plant,i)=>{

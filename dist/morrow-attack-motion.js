@@ -36,8 +36,10 @@ export function finishMorrowAttack(r,p){
  const half=leftShoulder.distanceTo(rightShoulder)*.5,radius=Math.sqrt(Math.max(.04,(reach-.17)**2-half*half));
  const wrist=weaponHand.getWorldPosition(new Vector3()),local=r.spine.worldToLocal(wrist.clone());local.x=.025;
  const central=r.spine.localToWorld(local).sub(center).clampLength(0,radius).add(center);
- solveArm(primaryArm,primaryElbow,weaponHand,wrist.lerp(central,weight),new Vector3(1,-.4,-.1).transformDirection(r.spine.matrixWorld));
- weaponHand.quaternion.copy(primaryElbow.getWorldQuaternion(new Quaternion()).invert().multiply(primaryQ));weaponHand.updateWorldMatrix(false,true);
+ // The striking wrist keeps most of its authored line (the blade follows the forearm now); the off hand does the reaching.
+ solveArm(primaryArm,primaryElbow,weaponHand,wrist.lerp(central,weight*(r.morrowPrimaryPull??1)),(r.morrowPole||new Vector3(.4,-.2,-1.2)).clone() /* elbow behind the wrist: forearm and blade run forward */.transformDirection(r.spine.matrixWorld));
+ // The hand keeps its authored local hinge on the re-solved forearm (the blade stays in line with the arm); only the arm chain moves.
+ weaponHand.updateWorldMatrix(false,true);
  const target=r.supportGripAnchor?.getWorldPosition(new Vector3())??weaponHand.localToWorld(new Vector3(0,-.02,-.16));
  const desired=hand.getWorldPosition(new Vector3()).lerp(target,weight);
  const clamped=solveArm(arm,elbow,hand,desired,new Vector3(-1,-.35,-.12).transformDirection(r.spine.matrixWorld));

@@ -37,7 +37,8 @@ for(const [id,f] of fighters.entries()){
    {anim:'grapple',animTime:.3,x:0,z:0},{anim:'grappled',animTime:.3,x:0,z:0}];
   for(const p of states){animateCharacter(r,p,2);finite(r);assert.equal(r.animationFamily,'grounded',`${f.name} ${p.anim} on the grounded rig`);}
   animateCharacter(r,{anim:'launch',launched:true,air:.2,x:0,z:0},2.1);const tumbled=poseOf(r,id);assert.ok(tumbled.bodyPitch<-1,`${f.name} tumbles when launched (${tumbled.bodyPitch.toFixed(2)})`);
-  animateCharacter(r,{anim:'grappled',animTime:.3,x:0,z:0},2.2);const v=poseOf(r,id);assert.ok(v.laz>.8&&v.lk>.8,`${f.name} flails when grabbed`);
+  animateCharacter(r,{anim:'grappled',animTime:.55,x:0,z:0},2.2);const v=poseOf(r,id);assert.ok(v.lean<-.3&&v.rk>.8&&Math.abs(v.lk-v.rk)>.4,`${f.name} dangles when lifted: arched spine, asymmetric knees (${v.lean.toFixed(2)}, ${v.lk.toFixed(2)}/${v.rk.toFixed(2)})`);
+  animateCharacter(r,{anim:'grapple',animTime:.28,x:0,z:0},2.25);const a=poseOf(r,id);assert.ok(a.lk>1&&a.bodyY<-.3,`${f.name} drops the hips to grab (${a.lk.toFixed(2)}, ${a.bodyY.toFixed(2)})`);
   animateCharacter(r,{anim:'victory',animTime:1,x:0,z:0},2.3);const w=poseOf(r,id);assert.ok(Math.hypot(w.lax,w.rax)>1,`${f.name} strikes a victory pose`);
  });
 }

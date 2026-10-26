@@ -6,12 +6,22 @@ import {clipMovePose} from './locomotion-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
-export const aegisStance=pose({lax:-.4,laz:.18,le:-.8,rax:-.2,ray:-.12,raz:-.12,re:-.15,twist:.12,hy:-.1,llx:-.16,rlx:.18,lk:.22,rk:.2,bodyY:-.12});
+// Sword stance: centre of gravity lowered, torso coiled a touch, blade angled along the forearm (rwx hinges the wrist), off hand up as a counter-balance.
+export const aegisStance=pose({lax:-.55,laz:.3,le:-1.0,rax:-.25,ray:-.15,raz:-.12,re:-.35,rwx:.7,twist:.18,lean:.08,hy:-.12,llx:-.22,llz:.1,rlx:.26,rlz:-.12,lk:.34,rk:.3,bodyY:-.17});
 const p=o=>pose({...aegisStance,...o});
 const cuts=[
- [p({rax:-.3,ray:1.05,re:-.65,twist:.55,hipYaw:.18,lean:-.06,bodyY:-.20}),p({rax:-.75,ray:.35,re:.35,twist:-.4,hipYaw:-.16,lean:.14,lax:-.65,le:-1,bodyZ:.14}),p({rax:-.45,ray:-.5,re:.25,twist:-.65,hipYaw:-.22,lean:.16,bodyZ:.16})],
- [p({rax:-.35,ray:-1,re:-.7,twist:-.55,hipYaw:-.2,lean:-.04,bodyY:-.20}),p({rax:-.75,ray:-.4,re:.35,twist:.4,hipYaw:.16,lean:.16,lax:-.6,le:-1,bodyZ:.16}),p({rax:-.45,ray:.55,re:.2,twist:.7,hipYaw:.23,lean:.18,bodyZ:.18})],
- [p({rax:-2.6,ray:.15,re:-.6,lax:-1.1,le:-1.1,twist:.2,hipYaw:.14,lean:-.18,bodyY:-.23}),p({rax:-.85,ray:0,re:.55,lax:-.6,le:-.8,twist:-.12,hipYaw:-.08,lean:.25,bodyZ:.24,bodyY:-.19}),p({rax:-.3,ray:-.08,re:.25,lax:-.35,le:-.6,lean:.35,twist:-.16,bodyZ:.28,bodyY:-.22})]
+ // cross cut: coil behind the right shoulder (wrist cocked), slash across to the left with the blade in line, overshoot past the line
+ [p({rax:.3,ray:1.35,raz:.35,re:-.9,rwx:.2,rwz:.2,twist:.6,hipYaw:.22,lean:-.08,bodyY:-.24,lax:-.7,laz:.5,le:-1.1,llx:-.14,rlx:.32,lk:.3,rk:.5}),
+  p({rax:-1.4,ray:.6,raz:.05,re:-.1,rwx:1.5,rwz:0,twist:-.5,hipYaw:-.42,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.3,laz:.6,le:-.9,llx:-.4,rlx:.42,lk:.42,rk:.14}),
+  p({rax:-1.45,ray:-.5,raz:.05,re:-.2,rwx:1.2,rwz:-.15,twist:-.7,hipYaw:-.46,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.2,laz:.7,le:-.8,llx:-.4,rlx:.42,lk:.46,rk:.14})],
+ // reverse cut: coil across the body, blade in line as it comes back to the right
+ [p({rax:.2,ray:-1.3,raz:-.3,re:-.9,rwx:.2,rwz:-.2,twist:-.6,hipYaw:-.24,lean:-.06,bodyY:-.24,lax:-.7,laz:.3,le:-1.1,llx:-.3,rlx:.14,lk:.5,rk:.3}),
+  p({rax:-1.4,ray:-.6,raz:.05,re:-.1,rwx:1.5,rwz:0,twist:.45,hipYaw:.4,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.5,laz:.5,le:-1,llx:-.45,rlx:.35,lk:.2,rk:.44}),
+  p({rax:-1.45,ray:.55,raz:.05,re:-.2,rwx:1.2,rwz:.15,twist:.7,hipYaw:.44,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.5,laz:.55,le:-1,llx:-.45,rlx:.35,lk:.22,rk:.46})],
+ // overhead cleave: both hands on the hilt behind the head, the blade comes down in line with the arms, knees absorb the overshoot
+ [p({rax:-2.6,ray:.15,raz:.1,re:-.6,rwx:.1,lax:-2.3,laz:.1,le:-.7,twist:.2,hipYaw:.14,lean:-.2,bodyY:-.26,lk:.5,rk:.5}),
+  p({rax:-1.6,ray:0,raz:.1,re:-.1,rwx:1.55,lax:-1.5,laz:.15,le:-.2,twist:-.12,hipYaw:-.14,lean:.3,bodyZ:.24,bodyY:-.2,llx:-.5,rlx:.3,lk:.45,rk:.18}),
+  p({rax:-1.5,ray:-.05,raz:.1,re:-.15,rwx:1.3,lax:-1.4,laz:.2,le:-.3,twist:-.16,hipYaw:-.16,lean:.38,bodyZ:.3,bodyY:-.3,llx:-.5,rlx:.3,lk:.6,rk:.2})]
 ];
 export function aegisStrikePose(move){
  const [wind,contact,follow]=cuts[Math.min(2,Math.max(0,(move.chain||1)-1))];
@@ -41,7 +51,8 @@ function targetFor(player,time,phase,motion){
  if(player?.staggerState&&!player.move)return {kind:'stagger',pose:staggerPose(aegisStance,p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),player.staggerState)};
  if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:-.15,lean:.04})};
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
- if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:rhythmPose(p({lax:-1.1,le:-1.6,laz:.2,rax:-.5,re:-.55,twist:.2,lean:.12-.24*recoil,bodyZ:-.12*recoil,hx:-.15*recoil,bodyY:-.19}),time,.35)};}
+ // Guard: blade angled up along the forearm across the body, off hand behind it, weight low.
+ if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:rhythmPose(p({lax:-1.1,le:-1.6,laz:.2,rax:-.6,ray:.3,raz:-.3,re:-.7,rwx:.9,rwz:.2,twist:.2,lean:.12-.24*recoil,bodyZ:-.12*recoil,hx:-.15*recoil,bodyY:-.22,lk:.4,rk:.36}),time,.35)};}
  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,player.animTime,player.hitstop)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({laz:.4,raz:-.35,le:-1,re:-.5,lean:-.08,bodyY:-.2})};
  if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};

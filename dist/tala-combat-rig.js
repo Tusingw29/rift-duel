@@ -61,7 +61,7 @@ export function finishCombatRig(r,p,time){
   r.combatHandRoll[i]=contact?roll:r.combatHandRoll[i]+(roll-r.combatHandRoll[i])*(1-Math.exp(-20*dt));
   // An authored wrist channel (lw/rw in the pose) overrides the rule-driven roll; the forearm twist helper follows half of either.
   const authored=(r.lastPose||r.pose)?.[i?'rw':'lw'];const rollNow=authored?authored:side*r.combatHandRoll[i];
-  hand.rotation.set(0,rollNow,0);const ft=b.get('fore_twist.'+S);if(ft)ft.rotation.y=rollNow*.5;
+  const src=r.lastPose||r.pose;hand.rotation.set(src?.[i?'rwx':'lwx']||0,rollNow,src?.[i?'rwz':'lwz']||0);const ft=b.get('fore_twist.'+S);if(ft)ft.rotation.y=rollNow*.5;
   const ut=b.get('upper_twist.'+S);if(ut)ut.rotation.y=arm.rotation.y*.25;
   // Assets whose fingers are curled in the bind pose only need the opening motion.
   const rel=r.combatRigRestFist?-1:0;

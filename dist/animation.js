@@ -26,6 +26,7 @@ export function animateCharacter(r,p,time){
  // Every fighter now has a grounded whole-body animator; the motion bridge smooths handoffs to shared states.
 
  resetCombatRig(r);
+ if(r.id===3)r.morrowHandRest??=[r.limbs[0],r.limbs[2]].map(arm=>arm.userData.hand.quaternion.clone()); // raw rest grip, before any pose
  const previous=captureMotion(r);
  if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
