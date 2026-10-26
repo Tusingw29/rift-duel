@@ -24,7 +24,7 @@ test('sword trail uses seven distinct simulation samples and follows the actual 
  m.players[0].move={kind:'strike',chain:1,startup:8,active:3,recovery:30,frame:8};
  for(let i=0;i<12;i++){m.tick=i;hand.rotation.y=i*.09;fx.update([model],m,STEP);}const e=fx.entries[0];assert.equal(e.samples.length,TRAIL_SAMPLES);
  const snapshot=JSON.stringify(e.samples);for(let i=0;i<10;i++)fx.update([model],m,STEP);assert.equal(JSON.stringify(e.samples),snapshot,'extra renders cannot stretch the trail lifetime');
- const expected=hand.localToWorld(new T.Vector3(...anchors.tip));assert.ok(new T.Vector3(...e.samples.at(-1)[1]).distanceTo(expected)<1e-8);assert.ok(e.outline.visible&&e.core.visible);assert.ok(e.shards.some(s=>s.visible));fx.reset();assert.equal(scene.children.length,0);
+ const expected=hand.localToWorld(new T.Vector3(...anchors.tip));assert.ok(new T.Vector3(...e.samples.at(-1)[1]).distanceTo(expected)<1e-8);assert.ok(e.outline.visible&&e.core.visible);assert.ok(e.shards.some(s=>s.visible));m.tick+=20;fx.update([model],m,STEP);assert.equal(e.samples.length,1,"a slow render cannot preserve samples older than seven simulation ticks");fx.reset();assert.equal(scene.children.length,0);
 });
 test('all six signatures have distinct solid silhouettes, ink/core colors and projectile identity',()=>{
  assert.equal(new Set(energyStyles.map(s=>JSON.stringify(s.points))).size,6);

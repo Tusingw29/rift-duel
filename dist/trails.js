@@ -62,7 +62,7 @@ export function createTrailEffects(scene){
   const style=energyStyle(model.id),outline=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:style.ink}));outline.name='blade-ink-edge';outline.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array((TRAIL_SAMPLES-1)*12),3));outline.frustumCulled=false;scene.add(outline);
   const core=new T.Mesh(new T.BufferGeometry(),new T.MeshBasicMaterial({color:style.core,side:T.DoubleSide,transparent:true,opacity:.9,depthWrite:false}));core.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array(TRAIL_SAMPLES*6),3));core.geometry.setIndex(indices);core.frustumCulled=false;scene.add(core);
   const shards=Array.from({length:6},()=>{const s=new T.Mesh(new T.ConeGeometry(.035,.16,3),new T.MeshBasicMaterial({color:model.id===3?'#e26946':style.core}));s.visible=false;scene.add(s);return s;});
-  e={model,ribbon,shield,outline,core,shards,lastTick:null,lastMove:null,samples:[],ghosts:[],ghostClock:0,flash:0,flashColor:fighters[model.id].color};entries.set(model,e);all.push(e);return e;
+  e={model,ribbon,shield,outline,core,shards,lastTick:null,lastMove:null,sampleTicks:[],samples:[],ghosts:[],ghostClock:0,flash:0,flashColor:fighters[model.id].color};entries.set(model,e);all.push(e);return e;
  }
  function makeGhost(model){
   const originals=[];model.g.traverse(n=>originals.push(n));
@@ -83,16 +83,17 @@ export function createTrailEffects(scene){
    // Weapon trail.
    const swinging=!!p&&swingWindow(p.move)&&!reduced;
    const tick=m?.tick??0,newFrame=e.lastTick!==tick;
-   if(e.lastTick!==null&&tick<e.lastTick)e.samples.length=0;
-   if(p?.move!==e.lastMove){e.samples.length=0;e.lastMove=p?.move;}
+   if(e.lastTick!==null&&tick<e.lastTick){e.samples.length=0;e.sampleTicks.length=0;}
+   if(p?.move!==e.lastMove){e.samples.length=0;e.sampleTicks.length=0;e.lastMove=p?.move;}
    if(newFrame){
+    while(e.sampleTicks.length&&e.sampleTicks[0]<tick-TRAIL_SAMPLES+1){e.sampleTicks.shift();e.samples.shift();}
     if(swinging){
      const fallback=trailAnchors(fighters[p.id].id,p.move.chain||1),hand=model.limbs[fallback.hand==='left'?0:2].userData.hand;
      const anchors=[0,1,3].includes(p.id)?bladeAnchors(model,hand):fallback;
      hand.updateWorldMatrix(true,false);
      const base=tmp.set(...anchors.base).applyMatrix4(hand.matrixWorld).toArray(),tip=tmp2.set(...anchors.tip).applyMatrix4(hand.matrixWorld).toArray();
-     e.samples.push([base,tip]);if(e.samples.length>TRAIL_SAMPLES)e.samples.shift();
-    }else if(e.samples.length)e.samples.shift();
+     e.samples.push([base,tip]);e.sampleTicks.push(tick);
+    }
     e.lastTick=tick;
    }
    e.ribbon.visible=e.samples.length>1&&!reduced;e.outline.visible=e.core.visible=e.ribbon.visible&&[0,3].includes(model.id);e.shards.forEach(s=>s.visible=false);
