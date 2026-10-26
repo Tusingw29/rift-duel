@@ -16,9 +16,9 @@ test('ink drawings reuse finite geometry banks; beam tip stays inside projectile
 test('Tala ribbons use simulation ticks and clear on interruption without affecting other charge styles',()=>{
  const models=[{g:new T.Group()},{g:new T.Group()}],m={tick:30,players:[{id:2,anim:'charge',held:1},{id:0,anim:'charge',held:1}]},fx=createAttackEffects(new T.Scene());
  const snap=()=>fx.charges[0].ribbons.map(r=>[...r.position.toArray(),...r.scale.toArray(),r.userData.frame]);
- fx.update(models,m,1);const first=snap();assert.ok(fx.charges[0].ribbons.every(r=>r.visible));assert.ok(fx.charges[0].streaks.every(s=>!s.visible));assert.ok(fx.charges[1].ribbons.every(r=>!r.visible));
+ fx.update(models,m,1);const first=snap();assert.ok(fx.charges[0].coils.every(r=>r.visible));assert.ok(fx.charges[0].streaks.every(s=>!s.visible));assert.ok(fx.charges[1].ribbons.every(r=>!r.visible));
  fx.update(models,m,100);assert.deepEqual(snap(),first);m.tick+=10;fx.update(models,m,100);assert.notDeepEqual(snap(),first);
- fx.update(models,m,0,true);const reduced=snap();m.tick+=100;fx.update(models,m,10,true);assert.deepEqual(snap(),reduced);assert.equal(fx.charges[0].ribbons.filter(r=>r.visible).length,3);
+ fx.update(models,m,0,true);const reduced=snap();m.tick+=100;fx.update(models,m,10,true);assert.deepEqual(snap(),reduced);assert.equal(fx.charges[0].ribbons.filter(r=>r.visible).length,2);
  m.players[0].anim='hurt';fx.update(models,m,0);assert.equal(fx.charges[0].g.visible,false);fx.reset();assert.equal(fx.charges[1].g.visible,false);
 });
 test('ink capture preserves collision scaling and beam pool preserves fixed ink and white layers',()=>{

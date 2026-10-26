@@ -4,7 +4,7 @@ import * as T from './vendor/three.module.js';
 export const inkMaterial=color=>new T.MeshBasicMaterial({color,transparent:true,opacity:1,depthWrite:true,vertexColors:true,side:T.DoubleSide,toneMapped:false});
 export function facetColors(geometry){
  const normals=geometry.attributes.normal,colors=[];
- for(let i=0;i<normals.count;i++){const shade=.62+.38*Math.abs(normals.getZ(i));colors.push(shade,shade,shade);}
+ for(let i=0;i<normals.count;i++){const shade=Math.abs(normals.getZ(i))>.5?1:.62;colors.push(shade,shade,shade);}
  geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));return geometry;
 }
 const polygon=(points,depth=.28)=>{const shape=new T.Shape();points.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();const geometry=new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false,steps:1,curveSegments:1});geometry.translate(0,0,-depth/2);return facetColors(geometry);};
@@ -26,7 +26,13 @@ export function createInkBeam(){
  const g=new T.Group();g.name='ink-beam';const banks=[false,true].map(channel=>Array.from({length:4},(_,f)=>beamVolume(f,channel)));
  const body=layer(banks[0][0],'#6fe7ff',1);body.name='beam-volume';g.add(body);
  for(let j=0;j<3;j++){const stripe=layer(banks[1][0],'#ffffff',2,true);stripe.rotation.z=j*Math.PI*2/3;stripe.name='beam-white-core';stripe.userData.whiteCore=true;g.add(stripe);}
- g.userData.updateInk=(time,reduced)=>{const frame=frameAt(time,reduced);g.userData.frame=frame;g.children.forEach((m,i)=>m.geometry=banks[i?1:0][frame]);};g.userData.geometryBanks=banks;return g;
+ const volumes=[...g.children];
+ const rim=layer(banks[0][0],'#102534',0,true);rim.scale.set(1.13,1.13,1.015);rim.material.side=T.BackSide;g.add(rim);
+ for(let strand=0;strand<2;strand++){
+  const points=Array.from({length:49},(_,i)=>{const t=i/48,a=t*Math.PI*5+strand*Math.PI;return new T.Vector3(Math.cos(a)*.23,Math.sin(a)*.23,-2.35+t*2.45);});
+  const rib=layer(facetColors(new T.TubeGeometry(new T.CatmullRomCurve3(points),48,.025,4,false)),strand?'#ffffff':'#15364b',3,true);rib.name='beam-helical-rib';g.add(rib);banks.push([rib.geometry]);
+ }
+ g.userData.updateInk=(time,reduced)=>{const frame=frameAt(time,reduced);g.userData.frame=frame;volumes.forEach((m,i)=>m.geometry=banks[i?1:0][frame]);rim.geometry=banks[0][frame];};g.userData.geometryBanks=banks;return g;
 }
 function brushRingGeometry(frame,band){
  const vertices=[],count=96;

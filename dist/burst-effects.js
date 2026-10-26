@@ -1,3 +1,5 @@
+import {createSignature,energyStyle} from './energy-style.js';
+import {createInkRing} from './ink-energy.js';
 import {cloneRig,disposeSkeletons} from './rig-clone.js';
 import * as T from './vendor/three.module.js';
 import {fighters} from './fighters.js';
@@ -16,7 +18,7 @@ export function createBurstEffects(scene){
   const arm=make(new T.BoxGeometry(.32,.08,.1),energy,effigy);arm.position.set(side*.25,.12,0);
   const leg=make(new T.BoxGeometry(.09,.35,.1),energy,effigy);leg.position.set(side*.09,-.35,0);
  }
- const rings=Array.from({length:4},()=>make(new T.TorusGeometry(1,.035,5,48)));
+ const rings=Array.from({length:4},()=>{const r=createInkRing();group.add(r);return r;});
  const slashes=Array.from({length:3},()=>make(new T.TorusGeometry(1,.07,5,32,Math.PI*1.35)));
  const missiles=Array.from({length:6},()=>make(new T.ConeGeometry(.12,.55,5)));
  const spirits=Array.from({length:3},()=>{
@@ -29,6 +31,7 @@ export function createBurstEffects(scene){
  make(new T.OctahedronGeometry(.6),casing,emitter);
  const core=make(new T.IcosahedronGeometry(.22,1),energy,emitter);core.position.y=-.45;
  for(let i=0;i<3;i++){const fin=make(new T.BoxGeometry(.35,.12,1.5),casing,emitter);const angle=i*Math.PI*2/3;fin.position.set(Math.sin(angle)*.8,0,Math.cos(angle)*.8);fin.rotation.y=angle;}
+ const signatureBursts=Array.from({length:6},(_,id)=>{const g=new T.Group();g.name='signature-burst-'+id;for(let i=0;i<6;i++){const s=createSignature(id);s.rotation.set(i*Math.PI/3,i*Math.PI/2,0);g.add(s);}group.add(g);return g;});
  const echoes=[];let source=null;
  function reset(){for(const echo of echoes){scene.remove(echo.g);disposeSkeletons(echo.g);for(const material of echo.materials)material.dispose();}echoes.length=0;source=null;group.visible=false;}
  function prepareEchoes(model){
@@ -42,8 +45,8 @@ export function createBurstEffects(scene){
  function update(pose,model,reduced=false,capture=false){
   if(!pose){if(source)reset();group.visible=false;return;}
   group.visible=true;
-  const e=pose.effects,color=fighters[model.id].color;energy.color.set(color);
-  energy.opacity=reduced?.4:.65;
+  const e=pose.effects,color=fighters[model.id].color;energy.color.set(energyStyle(model.id).color);
+  energy.opacity=reduced?.65:1;signatureBursts.forEach(g=>g.visible=false);
   for(const mesh of [beam,orb,emitter,spear,effigy,...rings,...slashes,...missiles,...spirits])mesh.visible=false;
   if(e.spear?.visible){
    const from=new T.Vector3(e.spear.from.x,e.spear.from.y,e.spear.from.z),to=new T.Vector3(e.spear.to.x,e.spear.to.y,e.spear.to.z),delta=to.clone().sub(from);
@@ -52,11 +55,11 @@ export function createBurstEffects(scene){
   if(e.effigy?.scale>.01){effigy.visible=true;effigy.position.set(e.effigy.position.x,e.effigy.position.y,e.effigy.position.z);effigy.scale.setScalar(e.effigy.scale);effigy.rotation.z=e.effigy.roll;}
   if(e.emitter){emitter.visible=true;emitter.position.set(e.emitter.x,e.emitter.y,e.emitter.z);emitter.rotation.y=e.t*2;}
   if(e.beam>.01){beam.visible=true;beam.position.set(e.center.x,5,e.center.z);beam.scale.set(e.beam,1,e.beam);}
-  if(!capture&&e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
+  if(!capture&&e.orb?.radius>.01){const g=signatureBursts[model.id];g.visible=true;g.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);g.scale.setScalar(e.orb.radius);g.children.forEach(s=>s.userData.updateInk(e.t,reduced));}
   if(e.rings>.01){
    const blade=['rei','blade'].includes(e.kind),pool=blade?slashes:rings;
    pool.forEach((ring,i)=>{
-    ring.visible=true;ring.position.set(e.center.x,e.center.y,e.center.z);
+    ring.visible=true;if(ring.userData.updateInk){ring.userData.updateInk(e.t,reduced);ring.children[1].material.color.set(energyStyle(model.id).color);}ring.position.set(e.center.x,e.center.y,e.center.z);
     if(e.kind==='sol'||e.kind==='morrow'||e.kind==='aegis'){ring.rotation.set(Math.PI/2,0,0);ring.position.y=.12+i*.14;ring.scale.setScalar(.6+e.rings*(1.4+i*.4));}
     else{ring.rotation.set(blade?i*.8:Math.PI/2+i*.6,e.t*3+i,e.t*2+i);ring.scale.setScalar((e.kind==='vesper'?2.2-e.t*1.2:1.4)+i*.17);}
    });

@@ -30,6 +30,6 @@ test('capture sequences suppress the solid orb while super attacks retain it',as
  const {createBurstEffects}=await import('../dist/burst-effects.js');const scene=new T.Scene(),fx=createBurstEffects(scene);
  const pose={effects:{kind:'tala',t:.4,center:{x:0,y:1,z:0},orb:{position:{x:0,y:2,z:0},radius:1},rays:[],echoes:[]}};
  fx.update(pose,{id:2},false,true);const orb=scene.children[0].children.find(n=>n.geometry?.type==='IcosahedronGeometry');assert.equal(orb.visible,false);
- fx.update(pose,{id:2},false,false);assert.equal(orb.visible,true);
+ fx.update(pose,{id:2},false,false);assert.equal(orb.visible,false);assert.equal(scene.getObjectByName('signature-burst-2').visible,true);
  fx.update(null,null);assert.equal(scene.children[0].visible,false);
 });

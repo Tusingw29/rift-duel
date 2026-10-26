@@ -1,3 +1,4 @@
+import {createShockwave} from './energy-style.js';
 import * as T from './vendor/three.module.js';
 import {createEnergyBurst,inkMaterial,facetColors} from './ink-energy.js';
 // Presentation-only: projectile collision positions and character poses are never changed.
@@ -8,7 +9,7 @@ export function createBeamEffects(scene){
   const g=new T.Group(),flare=createEnergyBurst('#6fe7ff'),nose=createEnergyBurst('#6fe7ff');
   const connector=new T.Mesh(facetColors(new T.CylinderGeometry(.055,.12,1,6)),inkMaterial('#e9ffff'));
   const shards=Array.from({length:6},()=>new T.Mesh(facetColors(new T.ConeGeometry(.11,.5,3)),inkMaterial('#9af5ff')));
-  g.add(flare,nose,connector,...shards);group.add(g);const e={g,flare,nose,connector,shards,projectile:null,position:new T.Vector3(),birth:0,death:null};entries.push(e);return e;
+  const splash=createShockwave(0);splash.name='beam-directional-impact';g.add(flare,nose,connector,...shards,splash);group.add(g);const e={g,flare,nose,connector,shards,splash,heading:new T.Vector3(0,0,1),projectile:null,position:new T.Vector3(),birth:0,death:null};entries.push(e);return e;
  }
  function reset(){for(const e of entries){e.g.visible=false;e.projectile=null;}lastTick=-1;}
  function update(models,m,reduced=false){
@@ -20,9 +21,9 @@ export function createBeamEffects(scene){
   }
   for(const e of entries){
    const p=e.projectile;if(!p)continue;const alive=active.includes(p);
-   e.g.visible=true;e.flare.visible=false;e.connector.visible=false;e.nose.visible=false;e.shards.forEach(s=>s.visible=false);
+   e.g.visible=true;e.splash.visible=false;e.flare.visible=false;e.connector.visible=false;e.nose.visible=false;e.shards.forEach(s=>s.visible=false);
    if(alive){
-    e.position.set(p.x,1.4,p.z);const age=m.tick-e.birth;
+    e.heading.set(p.dx||0,0,p.dz||1).normalize();e.position.set(p.x,1.4,p.z);const age=m.tick-e.birth;
     e.nose.visible=true;e.nose.position.copy(e.position);e.nose.scale.setScalar(.38);e.nose.userData.updateInk(m.tick/60,reduced);
     const hand=models[p.owner]?.limbs[0]?.userData.hand;
     if(age<5&&hand){
@@ -34,6 +35,7 @@ export function createBeamEffects(scene){
     if(e.death===null)e.death=m.tick;const age=m.tick-e.death;
     if(age>=6){e.g.visible=false;e.projectile=null;continue;}
     const drawing=Math.floor(age/2),radius=.18+drawing*.2;
+    e.splash.visible=true;e.splash.position.copy(e.position);e.splash.quaternion.setFromUnitVectors(up,e.heading);e.splash.userData.updateInk(age*2,reduced);
     e.shards.forEach((s,j)=>{const a=j*Math.PI/3;s.visible=!reduced||j%2===0;direction.set(Math.cos(a),Math.sin(a),j%2?.65:-.65).normalize();s.position.copy(e.position).addScaledVector(direction,radius);s.quaternion.setFromUnitVectors(up,direction);s.scale.setScalar(1-drawing*.25);s.material.opacity=1-age/6;});
    }
   }

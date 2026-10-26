@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createMatch,update,neutral,hit} from '../dist/combat.js';
 const step=(m,a={},b={},n=1)=>{for(let i=0;i<n;i++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
-const grounded=()=>{const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{}, {},52);assert.equal(m.players[0].anim,'knockdown');return m;};
+const grounded=()=>{const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{}, {},64);assert.equal(m.players[0].anim,'knockdown');return m;};
 test('unrecovered launch lands in knockdown, then returns to standing',()=>{
  const m=grounded();assert.equal(m.players[0].air,0);assert.ok(m.players[0].stun>0);
  step(m,{}, {},40);assert.equal(m.players[0].stun,0);assert.equal(m.players[0].anim,'idle');
@@ -18,7 +18,7 @@ test('fresh depth input rolls both ways, travels over time, and locks attacks',(
  }
 });
 test('held direction does not automatically roll, and arena bounds hold',()=>{
- const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{z:1},{},55);assert.equal(m.players[0].roll,null);
+ const m=createMatch();hit(m,m.players[1],m.players[0],8,'hit',true);step(m,{z:1},{},67);assert.equal(m.players[0].roll,null);
  step(m);step(m,{z:1});assert.ok(m.players[0].roll);
  const n=grounded();n.players[0].z=5.8;step(n,{z:1});step(n,{}, {},25);assert.equal(n.players[0].z,6);
 });

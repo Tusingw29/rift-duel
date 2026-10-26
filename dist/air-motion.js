@@ -4,6 +4,10 @@ const smooth=u=>u*u*(3-2*u);
 export function airHeight(player){return player.airMotion?.height??Math.sin(Math.min(1,(player.air||0)/.85)*Math.PI)*2.5;}
 export function advanceAirMotion(player,dt){
  if(!(dt>0))return airHeight(player);
+ if(player.bounce){
+  const b=player.bounce,u=b.frame/b.frames,height=b.height*Math.sin(Math.PI*u);
+  player.airMotion={height,velocity:b.height*Math.PI*Math.cos(Math.PI*u)/(b.frames/60),previousAir:player.air,segment:null};return height;
+ }
  const air=Math.max(0,player.air||0);
  const s=player.airMotion??={height:0,velocity:0,previousAir:0,segment:null};
  const expected=Math.max(0,s.previousAir-dt);

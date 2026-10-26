@@ -58,7 +58,7 @@ export function updateLesson(m){
   if(b.air>0)l.stage=1;
   if(a.move?.aerial&&a.move.pursuitHit===3)success();
   else if(l.stage===1&&b.air===0&&!a.move?.aerial)fail('The rival landed. Pursue sooner after the launcher connects.');
- }else if(l.id==='air'){if(has('AIR RECOVERY'))success();else if(a.anim==='knockdown')fail('Tap guard before you land.');}
+ }else if(l.id==='air'){if(has('AIR RECOVERY'))success();else if(a.bounce||a.anim==='knockdown')fail('Tap guard before you land.');}
  else if(l.id==='ground'){if(has('RECOVERY ROLL'))success();else if(a.stun===0)fail('Tap a direction while down; holding it beforehand does not count.');}
  else if(l.id==='pressure'&&m.lastPressure){if(m.lastPressure.winner===0)success();else fail(m.lastPressure.winner<0?'The contest tied.':'The rival won. Use distinct attack presses, with releases between them.');}
  if(l.status==='active'&&m.tick>1200)fail('Time to reset and try the command again.');

@@ -1,3 +1,6 @@
+import {createSignatureField,energyStyle} from './energy-style.js';
+import {createInkRing} from './ink-energy.js';
+import {createImpactEffects} from './impact-effects.js';
 import {createBeamEffects} from './beam-effects.js';
 import {createAttackEffects} from './attack-effects.js';
 import {duelCamera,fitFighters} from './fight-camera.js';
@@ -36,7 +39,7 @@ export function createView(canvas,options={}){
   scene.background.set(def.sky);scene.fog.color.set(def.sky);scene.fog.density=def.fog;
   hemisphere.color.set(def.hemisphere[0]);hemisphere.groundColor.set(def.hemisphere[1]);sun.color.set(def.sun);rim.color.set(def.rim);
  }
- const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene),attackFX=createAttackEffects(scene),beamFX=createBeamEffects(scene);
+ const impactFX=createImpactEffects(scene),burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene),attackFX=createAttackEffects(scene),beamFX=createBeamEffects(scene);
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id,id===2?{variant:talaModel}:{});upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);
@@ -52,12 +55,11 @@ export function createView(canvas,options={}){
    model.talaStatus='loading';model.conceptPending=true;
    loadFighterModel(fighters[id].id,talaModel==='graphic'?'graphic':'v3').then(asset=>{if(model.conceptPending){attachFighterModel(model,asset.scene);upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);model.talaStatus='v3';}}).catch(error=>{if(model.conceptPending){model.talaStatus='fallback';console.warn(fighters[id].name+' model fallback:',error);}});
   }
-  const material=new T.MeshBasicMaterial({color:fighters[id].color,transparent:true,opacity:.22,depthWrite:false,side:T.DoubleSide});
-  model.techniqueFX=new T.Mesh(new T.SphereGeometry(1,16,10),material);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
-  model.techniqueRing=new T.Mesh(new T.TorusGeometry(1,.035,6,48),material.clone());model.techniqueRing.material.opacity=.8;model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
+  model.techniqueFX=createSignatureField(id);model.techniqueFX.position.y=1.2;model.techniqueFX.visible=false;model.g.add(model.techniqueFX);
+  model.techniqueRing=createInkRing(energyStyle(id).color);model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
   scene.add(model.g);return model;
  }
- function clear(){beamFX.reset();attackFX.reset();burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
+ function clear(){impactFX.reset();beamFX.reset();attackFX.reset();burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
  function match(m,arenaIndex){delete duelState.dx;delete duelState.dz;clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
@@ -102,7 +104,7 @@ export function createView(canvas,options={}){
    r.techniqueFX.position.set(0,1.2,0);r.techniqueRing.position.set(0,1.2,0);
    if(active){const progress=(p.move.frame-p.move.startup)/p.move.active;
     if(areaSpec?.advance){const advance=areaSpec.advance*(1+Math.floor((p.move.frame-p.move.startup)/areaSpec.interval));r.techniqueFX.position.z=advance;r.techniqueRing.position.z=advance;}
-    r.techniqueFX.scale.setScalar(areaSpec?.area||p.move.reach);r.techniqueFX.material.opacity=settings.reduced?.12:.22;
+    r.techniqueFX.scale.setScalar(areaSpec?.area||p.move.reach);r.techniqueFX.userData.updateInk(m.tick/60,settings.reduced,settings.reduced?.5:.85);r.techniqueRing.userData.updateInk(m.tick/60,settings.reduced,.8);
     r.techniqueRing.scale.setScalar(areaSpec?.area|| (p.move.effect==='sphere'?p.move.reach:p.move.effect==='spin'?2.4:1.1));
     r.techniqueRing.rotation.set(p.move.effect==='spin'?Math.PI/2:0,0,settings.reduced?0:progress*Math.PI*2);
    }
@@ -120,9 +122,9 @@ export function createView(canvas,options={}){
    }else r.g.rotation.x=0;
   });
   if(!m?.hitstop&&!m?.frozen)trailFX.update(models,m,dt,settings.reduced);
-  beamFX.update(models,m,settings.reduced);
+  beamFX.update(models,m,settings.reduced);impactFX.update(m,settings.reduced);
   while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
-  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced);});
+  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced,p?m.players[p.owner].id:null);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced,cinema?.kind==='capture');
   attackFX.update(models,m,time,settings.reduced);

@@ -22,7 +22,7 @@ test('afterimages appear for dashes, jumps and rolls but not for launched or idl
 test('ribbon data fades older samples and never exceeds the buffer',()=>{
  const samples=Array.from({length:TRAIL_SAMPLES},(_,i)=>[[i,0,0],[i,1,0]]);const d=ribbonData(samples,'#ffffff');
  assert.equal(d.positions.length,TRAIL_SAMPLES*6);assert.equal(d.colors.length,TRAIL_SAMPLES*6);assert.equal(d.indices.length,(TRAIL_SAMPLES-1)*6);
- assert.equal(d.colors[0],0);assert.ok(Math.abs(d.colors[d.colors.length-1]-1)<1e-9);assert.ok(d.colors[6*7]>d.colors[6*3]);
+ assert.equal(d.colors[0],0);assert.ok(Math.abs(d.colors[d.colors.length-1]-1)<1e-9);assert.ok(d.colors[6*(TRAIL_SAMPLES-1)]>d.colors[6*3]);
  const one=ribbonData([[[0,0,0],[0,1,0]]],'#ff0000');assert.equal(one.indices.length,0);assert.equal(one.colors[0],1);
 });
 test('launched fighters tumble through the air and settle before knockdown',()=>{
@@ -39,11 +39,11 @@ test('scene effects draw a ribbon during a swing, spawn fading afterimages while
  const scene=new Scene(),fx=createTrailEffects(scene),m=createMatch(3,1),models=m.players.map(p=>buildCharacter(p.id));
  const strike={...moveTiming(fighters[3],'strike'),kind:'strike',chain:1,frame:0};
  m.players[0].move=strike;
- for(let f=0;f<=strike.startup+2;f++){strike.frame=f;animateCharacter(models[0],m.players[0],f/60);fx.update(models,m,1/60);}
+ for(let f=0;f<=strike.startup+2;f++){m.tick=f;strike.frame=f;animateCharacter(models[0],m.players[0],f/60);fx.update(models,m,1/60);}
  const ribbon=scene.children.find(o=>o.geometry?.attributes?.color);assert.ok(ribbon.visible,'ribbon visible at contact');
  const positions=ribbon.geometry.attributes.position.array;assert.ok(Array.from(positions.slice(0,ribbon.geometry.drawRange.count)).every(Number.isFinite));
  assert.ok(Math.hypot(positions[0]-positions[3],positions[1]-positions[4],positions[2]-positions[5])>1,'greatsword ribbon spans the blade');
- m.players[0].move=null;for(let i=0;i<TRAIL_SAMPLES+1;i++)fx.update(models,m,1/60);assert.equal(ribbon.visible,false,'ribbon clears after the swing');
+ m.players[0].move=null;for(let i=0;i<TRAIL_SAMPLES+1;i++){m.tick++;fx.update(models,m,1/60);}assert.equal(ribbon.visible,false,'ribbon clears after the swing');
  m.players[1].move={kind:'pursuit',frame:1,startup:7,active:1,recovery:30};fx.update(models,m,1/60);
  const ghosts=scene.children.filter(o=>o.isGroup&&o!==models[0].g&&o!==models[1].g);assert.equal(ghosts.length,1);assert.equal(ghosts[0].visible,true);
  for(let i=0;i<4;i++)fx.update(models,m,.02);assert.equal(ghosts.length,1,'one ghost per interval');

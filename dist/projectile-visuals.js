@@ -1,3 +1,4 @@
+import {createSignature,energyStyle} from './energy-style.js';
 import {createInkBeam,createInkRing} from './ink-energy.js';
 import * as T from './vendor/three.module.js';
 const custom=['wave','lightning','spirit','sword','snare','capture','beam'];
@@ -18,19 +19,25 @@ export function createProjectileVisual(){
  const beam=createInkBeam();
  const capture=createInkRing();capture.scale.setScalar(.82);
  for(const [kind,mesh] of Object.entries({wheel,wave,lightning,sword,spirit,snare,fire,capture,beam})){b.add(mesh);b.userData[kind]=mesh;mesh.visible=false;}
+ b.userData.signatures=Array.from({length:6},(_,id)=>{const g=createSignature(id);g.rotation.x=Math.PI/2;g.visible=false;b.add(g);return g;});
  return b;
 }
-export function updateProjectileVisual(b,p,color,time,reduced=false){
- b.visible=!!p;if(!p)return;
+export function updateProjectileVisual(b,p,color,time,reduced=false,fighterId=null){
+ b.visible=!!p;if(!p)return;color=Number.isInteger(fighterId)?energyStyle(fighterId).color:color;
  b.position.set(p.x,p.low?.35:1.4,p.z);b.rotation.set(0,0,0);
  b.material.color.set(color);b.material.visible=!custom.includes(p.kind);
  b.scale.set(p.kind==='crescent'?2.5:1,1,1);
  if(p.kind==='capture')b.scale.setScalar(p.radius);
  if(p.radius>1&&p.kind!=='capture')b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);
  for(const kind of ['wheel',...custom,'fire']){const mesh=b.userData[kind];mesh.visible=p.kind===kind;mesh.traverse(o=>{if(o.material)o.material.color.set(o.userData.fixedColor||(o.userData.whiteCore?'#ffffff':color));});}
+ const signature=Number.isInteger(fighterId)&&p.kind!=='capture'&&(p.kind!=='beam'||fighterId!==0);
+ b.userData.signatures.forEach((g,id)=>{g.visible=signature&&id===fighterId;if(g.visible){g.userData.updateInk(time,reduced);g.scale.set(.65,p.kind==='beam'?1.5:.75,.8);}});
+ if(signature){b.material.visible=false;for(const kind of ['wheel',...custom,'fire'])b.userData[kind].visible=false;b.rotation.y=Math.atan2(p.dx,p.dz);}
+ if(Number.isInteger(fighterId)&&p.kind==='capture'){const ring=b.userData.capture;ring.children[1].material.color.set(energyStyle(fighterId).color);}
  if(p.kind==='beam'||p.kind==='capture')b.userData[p.kind].userData.updateInk(time,reduced);
  if(p.kind==='wave'){b.position.y=.16;b.rotation.y=Math.atan2(p.dx,p.dz);}
  else if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}
  else if(custom.includes(p.kind)||p.kind==='fire'){b.rotation.y=Math.atan2(p.dx,p.dz);if(p.kind==='snare')b.rotation.z=time*3;}
  else{b.rotation.y=time*8;b.rotation.z=time*5;}
+ if(signature)b.rotation.set(0,Math.atan2(p.dx,p.dz),0);
 }

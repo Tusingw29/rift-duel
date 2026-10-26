@@ -29,7 +29,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[command];
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
- const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
+ const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
  return {players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()};
 }
 function event(m,type,values={}){m.events.push({type,...values});}
@@ -49,7 +49,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
   return false;
  }
  const staggerEligible=!launch&&b.air<=0&&!['knockdown','roll'].includes(b.anim)&&!['capture','burst'].includes(kind);
- b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
+ b.slam=null;b.bounce=null;b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32; b.air=launch?.85:0;
  b.anim=launch?'launch':'hurt';b.animTime=.42;
  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1;
@@ -225,7 +225,7 @@ function executeAction(m,a,b,move){
    if(!landed){move.aborted=true;return;}
    move.pursuitHit=beat/9+1;a.air=last?.16:.4;
    if(!last){b.air=clamp(previousAir,.35,.65);a.airMotionCue={height:2.2,duration:.15};b.airMotionCue={height:2.2,duration:.15};}
-   if(last){b.air=0;b.launched=false;b.stun=.55;b.anim='knockdown';b.animTime=.55;}
+   if(last){b.slam={frame:0,frames:8};b.air=8*STEP;b.launched=true;b.stun=8*STEP;b.anim='launch';b.animTime=8*STEP;b.airMotionCue={height:0,duration:8*STEP};}
    event(m,'hint',{text:`AERIAL PURSUIT ${move.pursuitHit} / 3`});return;
   }
   if(d<2.2&&facing){
@@ -309,7 +309,7 @@ export function update(m,inputs,dt=STEP){
    if(a.jumpSquat)return;
    if(freshGuard&&a.stun<=0&&a.air<=0&&!a.move&&!a.travel)a.guardTapTick=m.tick;
    const getup=recoveryInput(a,b,i);if(getup){a.commands=createCommandState();event(m,'hint',{text:getup,player:n});}
-   if(freshGuard&&a.air>0){a.travel=null;a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
+   if(freshGuard&&a.air>0&&!a.bounce&&!a.slam){a.travel=null;a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
    else if((command==='jump'||a.pendingInput?.kind==='jump')&&a.air<=0&&a.stun<=0&&a.cool<=0&&!a.move){a.jumpSquat={frame:0,frames:JUMP_SQUAT_FRAMES,started:m.tick};a.pendingInput=null;a.air=0;a.anim='jumpSquat';a.animTime=JUMP_SQUAT_FRAMES*STEP;a.guard=false;event(m,'hint',{text:'JUMP',player:n});}
    else if((freshGuard&&i.x>.5&&distance(a,b)<3.5||a.pendingInput?.kind==='circle')&&a.stun<=0&&a.cool<=0&&!a.move){
     a.pendingInput=null;
@@ -326,7 +326,15 @@ export function update(m,inputs,dt=STEP){
    }
    const wasAir=a.air;
    for(const k of ['cool','stun','blockStun','air','inv','comboTime','animTime'])a[k]=a[k]-dt<1e-9?0:a[k]-dt;
-   if(a.launched&&wasAir>0&&a.air===0){a.launched=false;a.anim='knockdown';a.animTime=.55;a.stun=.55;a.move=null;a.buffer=null;a.cool=0;}
+   if(a.slam)a.slam.frame++;
+   if(a.bounce){
+    a.bounce.frame++;
+    if(a.bounce.frame>=a.bounce.frames){a.bounce=null;a.air=0;a.launched=false;a.anim='knockdown';a.animTime=.55;a.stun=.55;}
+   }else if(a.launched&&wasAir>0&&a.air===0){
+    // One twelve-frame rebound after the launch's 51-frame arc; then 21f down + 12f rise.
+    a.slam=null;a.bounce={frame:0,frames:12,height:.55};a.air=12*STEP;a.stun=12*STEP;a.anim='launch';a.animTime=12*STEP;a.move=null;a.buffer=null;a.cool=0;
+    a.lastGroundBounce={tick:m.tick,x:a.x,z:a.z};event(m,'groundBounce',{player:n,x:a.x,z:a.z,color:fighters[a.id].color});
+   }
    if(a.knockback){const k=a.knockback,u=k.frame/k.frames,v=++k.frame/k.frames,d=k.distance*((1-u)**3-(1-v)**3);a.x=clamp(a.x+k.dx*d,-11,11);a.z=clamp(a.z+k.dz*d,-6,6);if(k.frame===k.frames)a.knockback=null;}
    // The last twelve grounded recovery frames are a simulation-owned rise.
    if(a.anim==='knockdown'||a.getUp){
