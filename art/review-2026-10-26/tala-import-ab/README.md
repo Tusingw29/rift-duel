@@ -76,7 +76,7 @@ Both modes: no knee bends backwards, hands never drop below the chin while movin
 
 Get-up floor penetration, lowest point of the visible skinned body: **authored −0.66 at get-up frame 12** (left foot bone −0.37), **imported −0.31 at frame 16** (left foot bone −0.09). Both push the left foot through the floor; the authored one, live on main today, is about twice as deep. Recorded on the board as a separate defect.
 
-Cost: animation step alone, 3,330 frames per mode (`scripts/review/import-ab-cost.mjs`): authored 0.45 ms mean / 1.59 ms p95, imported 0.41 ms / 1.28 ms. Rendering is identical (same meshes and materials). Assets: five clips 70 KB raw / 17 KB gzip, runtime 11 KB / 4.6 KB gzip.
+Cost: animation step alone, 3,330 frames per mode (`scripts/review/import-ab-cost.mjs`): authored 0.45 ms mean / 1.59 ms p95, imported 0.41 ms / 1.28 ms. Rendering is identical (same meshes and materials). In the browser (headless Chromium, software GL, machine load ~15), drawing every frame of the 180-frame knockdown scenario: authored 47 ms mean / 112 ms p95, imported 37 ms / 107 ms, no page errors (`scripts/review/import-ab-perf.mjs`); absolute numbers reflect the software renderer, the comparison shows no added cost. Cloud browser smoke on the branch build: 10/10 checks, no console errors or warnings. Assets: five clips 70 KB raw / 17 KB gzip, runtime 11 KB / 4.6 KB gzip.
 
 ## 5. What the captures show
 
