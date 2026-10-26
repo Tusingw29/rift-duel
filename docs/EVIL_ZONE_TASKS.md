@@ -1,3 +1,9 @@
+## VFX-WORKBENCH — visual authoring and inspection
+
+Owner: **Codex** · Branch: `codex/vfx-workbench` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-26)
+
+Synced baseline: **559 tests pass**, HEAD `9664326`. Build a browser visual workbench using production 3D effect meshes, frame scrub/orbit/A-B, editable silhouettes and validated portable presets. Preview drafts in actual gameplay through an explicit opt-in. Scope: energy/ink effect modules, new workbench/config, release tooling and visual evidence. Claude retains all character, rig, pose and mocap work. No combat timing changes. Visual acceptance awaits normal-speed verdict.
+
 # Evil Zone feel: shared task checklist
 
 Updated: 2026-10-25. Starting code: `c4f798d`.
