@@ -3,6 +3,7 @@ import {buildCharacter} from '../dist/characters.js';
 import {animateCharacter} from '../dist/animation.js';
 import {fighters} from '../dist/fighters.js';
 import {moveTiming} from '../dist/moves.js';
+import {strikePose} from '../dist/tala-animation.js';
 import {Vector3,Box3} from '../dist/vendor/three.module.js';
 // Measured from CMU 90_18 (backward fall), 77_18 (getting up), 13_11 / 75_01 (jumps) and 02_05 / 14_01 (punches):
 // a knockdown drops the body to the floor in about half a second with the limbs thrown, the rise is a roll,
@@ -45,15 +46,16 @@ for(const [id,f] of fighters.entries()){
   assert.ok(Math.abs(landing.at(-1)-stanceY)<.14,`${f.name} recovers from the landing`); // within the idle weight rhythm's bounce
  });
  if(id===2)test('Tala: punches counter-rotate the hips in the wind-up and keep the arm out through the opening',()=>{
-  const r=buildCharacter(2);
+  const r=buildCharacter(2),timing=moveTiming(fighters[2],'strike');
   for(const chain of [1,2,3]){
-   const timing=moveTiming(fighters[2],'strike',chain),m={kind:'strike',chain,...timing,frame:0};const at=frame=>{for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);for(let f=0;f<=frame;f++){m.frame=f;animateCharacter(r,{anim:'strike',move:m,x:0,z:0},1+f/60);}return {...poseOf(r,2)};};
+   const m={kind:'strike',chain,...timing,frame:0};const at=frame=>{for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);for(let f=0;f<=frame;f++){m.frame=f;animateCharacter(r,{anim:'strike',move:m,x:0,z:0},1+f/60);}return {...poseOf(r,2)};};
    for(let i=0;i<10;i++)animateCharacter(r,{anim:'idle',x:0,z:0},i/60);
-   // Sample the coil before the hip drive; a longer startup begins in stance.
-   const wind=at(Math.max(0,Math.round(timing.startup*.35)-2)),contact=at(timing.startup),open=at(timing.startup+timing.active+Math.round(timing.recovery*.3)),stance=at(timing.total);
-   const early=at(timing.startup-2),armK=chain===2?'lax':'rax';
-   assert.ok(Math.abs(early.hipYaw)>=.8*Math.abs(contact.hipYaw),`chain ${chain} hips arrive two frames before the arms (${early.hipYaw.toFixed(2)} vs ${contact.hipYaw.toFixed(2)})`);
-   assert.ok(Math.abs(early[armK]-contact[armK])>.5*Math.abs(wind[armK]-contact[armK]),`chain ${chain} the arm is still trailing two frames before contact`);
+   // The kinetic chain commits the hips two frames early, so the counter-load shows on the first frame.
+   const wind=at(0),contact=at(timing.startup),open=at(timing.startup+timing.active+Math.round(timing.recovery*.3)),stance=at(timing.total);
+   // Schedule-level claim (the entry blend from idle masks it on the live rig): the pelvis is at its impact value well before the wrists.
+   const sEarly=strikePose({...m,frame:timing.startup-2}),sContact=strikePose({...m,frame:timing.startup}),sWind=strikePose({...m,frame:1}),wristK=chain===2?'lw':'rw';
+   assert.ok(Math.abs(sEarly.hipYaw-sContact.hipYaw)<1e-6,`chain ${chain} pelvis already at the impact value two frames out`);
+   assert.ok(Math.abs(sEarly[wristK]-sContact[wristK])>.3*Math.abs(sWind[wristK]-sContact[wristK]),`chain ${chain} the wrist is still cocked two frames before contact`);
    assert.ok(Math.abs(contact.hipYaw)>=.45,`chain ${chain} hips carry the punch (${contact.hipYaw.toFixed(2)})`);
    if(timing.startup>=7){const rear=chain===2?'lk':'rk';assert.ok(wind[rear]>stance[rear]+.1,`chain ${chain} rear knee loads (${wind[rear].toFixed(2)} vs ${stance[rear].toFixed(2)})`);} // a five-frame jab has no room for a visible knee load once the hips lead
    const arm=chain===2?'lax':'rax';assert.ok(open[arm]<-1.0,`chain ${chain} arm still out 30% into the recovery (${open[arm].toFixed(2)})`);

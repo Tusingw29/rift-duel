@@ -1,6 +1,7 @@
 import {CHANNELS} from './rig-pose.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad,strikeSchedule,sampleSchedule} from './grounded-animation.js';
-import {rhythmFootOffsets,rhythmPose} from './footwork.js';
+import {rhythmFootOffsets,rhythmPose,kineticFootPivot} from './footwork.js';
+import {Vector3} from './vendor/three.module.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
 // Aegis and Morrow: flat channel poses blended toward a per-state target, strikes keyed
@@ -48,7 +49,7 @@ function grounded(prefix,def){
   return {kind:'idle',pose:rhythmPose(p({hx:stance.hx+breath*.02,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02}),time)};
  }
  // The rear foot catches the recoil (Tala's foot offsets are generic: they read only the hurt timer).
- return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact,id:prefix,strikePose,specials:def.specials});}};
+ return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=rhythmFootOffsets;r.footPivot??=kineticFootPivot;r.footBall??=new Vector3(0,-(r.ankleHeight??.14),.26);return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact,id:prefix,strikePose,specials:def.specials});}};
 }
 // Crossed forearms shield the chest, chin tucked, as in Tala's authored guard; the weapon
 // hand rides slightly outward so the blade or staff crosses the body instead of the face.

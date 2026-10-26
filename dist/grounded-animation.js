@@ -1,8 +1,29 @@
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
-const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
+export const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
-const sampleKeys=(keys,u)=>{let i=1;while(i<keys.length-1&&u>keys[i][0])i++;const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,(ease||smooth)((u-a)/(b-a||1)));};
+// Keys are [time, pose, ease?]. A key eased with snapOut is reached with a crisp cubic (the whip into impact); every
+// other segment is a cubic Hermite with Catmull-Rom tangents, clamped so a value never overshoots its keys and a held
+// segment (equal values) stays perfectly flat. That rounds off the velocity at coil, drive, overshoot and recovery.
+export const sampleKeys=(keys,u)=>{
+ const end=keys.at(-1)[0];if(u>=end)return {...keys.at(-1)[1]};if(u<=keys[0][0])return {...keys[0][1]};
+ let i=1;while(i<keys.length-1&&u>keys[i][0])i++;
+ const [a,from]=keys[i-1],[b,to,ease]=keys[i],span=b-a||1e-6,t=Math.max(0,Math.min(1,(u-a)/span));
+ if(ease===snapOut)return mix(from,to,snapOut(t));
+ const prev=keys[i-2],next=keys[i+1],out={};
+ const h00=2*t*t*t-3*t*t+1,h10=t*t*t-2*t*t+t,h01=-2*t*t*t+3*t*t,h11=t*t*t-t*t;
+ for(const k of CHANNELS){
+  const p0=from[k],p1=to[k],secant=(p1-p0)/span;
+  if(Math.abs(p1-p0)<1e-9){out[k]=p0;continue;}
+  let m0=prev?(p1-prev[1][k])/(b-prev[0]||1e-6):secant,m1=next?(next[1][k]-p0)/(next[0]-a||1e-6):secant;
+  // monotone clamp (Fritsch–Carlson): no overshoot past the keys, flat into and out of holds
+  if(prev&&Math.abs(p0-prev[1][k])<1e-9)m0=0;if(next&&Math.abs(next[1][k]-p1)<1e-9)m1=0;
+  if(Math.sign(m0)!==Math.sign(secant))m0=0;if(Math.sign(m1)!==Math.sign(secant))m1=0;
+  const lim=3*Math.abs(secant);m0=Math.max(-lim,Math.min(lim,m0));m1=Math.max(-lim,Math.min(lim,m1));
+  out[k]=h00*p0+h10*span*m0+h01*p1+h11*span*m1;
+ }
+ return out;
+};
 // ---- EZ-01 handoff: authored body motion over the simulation's travel paths. The root
 // position belongs to combat-travel.js; these poses only add load, drive, flight and landing.
 // Ground pursuit: a low loaded push-off that drives into the fighter's first strike on the contact frame.
@@ -72,7 +93,7 @@ export function knockdownPose(r,stance,impact,elapsed,fromAir=false){
  // down two to three frames later; stage 4 a secondary bounce lifts hips and chest 15–20 cm with the limbs splaying.
  const whiplash={...slam,hx:-.5,lax:-.2,rax:-.15,laz:1.2,raz:-1.2,le:-.6,re:-.6,llx:-.15,rlx:-.1,lk:.2,rk:.15,lean:.05};
  const rebound={...settle,...root(r,-1.48,.42,-.55),lean:.2,hx:.2,llx:-.55,rlx:-.4,lk:.5,rk:.45,llz:.3,rlz:-.3,lax:-.6,rax:-.5,laz:1.3,raz:-1.3,le:-.9,re:-.9};
- if(fromAir)return sampleKeys([[0,slam,snapOut],[.05,whiplash,smooth],[.1,rebound,smooth],[.18,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
+ if(fromAir)return sampleKeys([[0,whiplash,snapOut],[.08,{...rebound,...root(r,-1.49,.3,-.52)},smooth],[.2,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
  return sampleKeys([[0,hit,snapOut],[.1,topple,smooth],[.2,slam,snapOut],[.25,whiplash,smooth],[.3,rebound,smooth],[.36,settle,smooth],[KNOCKDOWN_TIME,settle,smooth]],Math.max(0,Math.min(KNOCKDOWN_TIME,elapsed)));
 }
 // A knockout is not a fall: the legs give out, the body folds, then it tips over and lies crumpled, limbs limp. No breathing.
@@ -142,13 +163,15 @@ export function rearLoad(stance,wind,contact){
 //  6 recovery  hips settle first, the arms haul the weight back
 //  7 stance
 // and sampled with a per-segment lead so the feet and pelvis arrive two frames before the arms, the spine one.
-const SEG={lower:['bodyX','bodyY','bodyZ','hipYaw','llx','llz','rlx','rlz','lk','rk'],spine:['lean','twist','side'],clav:['lc','rc'],arms:['lax','lay','laz','rax','ray','raz','le','re'],wrists:['lw','rw','lwx','lwz','rwx','rwz'],head:['hx','hy','hz','neckY','neckZ']};
-const LEAD={lower:2,spine:1,clav:.5,arms:0,wrists:0,head:0};
+const SEG={lower:['bodyX','bodyY','bodyZ','hipYaw','llx','llz','rlx','rlz','lk','rk'],spine:['lean','twist','side'],clav:['lc','rc'],arms:['lax','lay','laz','rax','ray','raz'],elbows:['le','re'],wrists:['lw','rw','lwx','lwz','rwx','rwz'],head:['hx','hy','hz','neckY','neckZ']};
+// Kinetic wave in frames: feet and pelvis 5, spine 3.5, clavicles and shoulders 2, elbows 1, wrists on the beat at impact.
+const LEAD={lower:5,spine:3.5,clav:2,arms:2,elbows:1,wrists:0,head:0};
+const WRIST_DRAG=3.5; // after the hitstop hold the wrist and weapon tip trail the torso into recovery
 const pick=(from,to,segs)=>{const o={...from};for(const s of segs)for(const k of SEG[s])o[k]=to[k];return o;};
 export function kineticKeys(move,stance,load,peak,follow){
  const active=move.active||1,end=move.startup+active+move.recovery,s=move.startup;
  const coilAt=Math.max(.5,s*.35),driveAt=Math.max(coilAt+.5,Math.min(s*.7,s-1.5)),whipAt=Math.max(driveAt+.5,s-1);
- const hold=s+active+Math.min(4,Math.max(1,move.recovery*.3));
+ const hold=s+active+Math.max(LEAD.lower+1,Math.min(6,Math.max(1,move.recovery*.4))); // long enough that the five-frame pelvis lead is still inside it
  const drive=pick(load,mix(load,peak,.85),['lower','spine']);
  const whip={...pick(mix(load,peak,.55),peak,['lower','spine','clav'])};for(const k of SEG.wrists)whip[k]=load[k]+(peak[k]-load[k])*.3;
  const overshoot={...follow,twist:follow.twist*1.1,lean:follow.lean+.05,lk:follow.lk+.12,rk:follow.rk+.12,bodyY:follow.bodyY-.03};
@@ -156,17 +179,16 @@ export function kineticKeys(move,stance,load,peak,follow){
  const keys=[[0,stance,smooth],[coilAt,load,smooth],[driveAt,drive,smooth]];
  if(s-2>driveAt+.25)keys.push([s-2,drive,smooth]); // long startups: hips and chest driven, arms still trailing at the load
  keys.push([whipAt,whip,snapOut],[s,peak,snapOut],[hold,peak,smooth],[s+active+move.recovery*.45,overshoot,smooth],[s+active+move.recovery*.78,recovery,smooth],[end,stance,smooth]);
- return keys;
+ keys.holdEnd=hold;return keys;
 }
 // Same signature as before so every animator keeps calling it; drive and retract are now derived from the chain.
 export function strikeSchedule(move,stance,wind,drive,contact,follow,retract){return kineticKeys(move,stance,wind,contact,follow);}
-function sampleAt(keys,frame){
- const end=keys.at(-1)[0];frame=Math.max(0,Math.min(end,frame));if(frame>=end)return keys.at(-1)[1];
- let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,(ease||smooth)((frame-a)/(b-a||1)));
-}
+const sampleAt=(keys,frame)=>sampleKeys(keys,Math.max(0,frame));
 export function sampleSchedule(keys,frame){
  const base=sampleAt(keys,frame),out={...base};
  for(const [seg,lead] of Object.entries(LEAD)){if(!lead)continue;const ahead=sampleAt(keys,frame+lead);for(const k of SEG[seg])out[k]=ahead[k];}
+ // Wrists fire on the beat through the hold, then drag behind the torso through overshoot and recovery.
+ if(keys.holdEnd!==undefined&&frame>keys.holdEnd){const drag=Math.min(WRIST_DRAG,frame-keys.holdEnd),behind=sampleAt(keys,frame-drag);for(const k of SEG.wrists)out[k]=behind[k];}
  // The head counters the chest turn to keep the eyes on the rival.
  out.hy=base.hy-(out.twist-keys[0][1].twist)*.25;
  return out;
@@ -219,6 +241,16 @@ export function specialPose(move,stance,specials){
  // Spinning techniques turn the whole body through their active window (one turn, two on the follow-up).
  if(move.kind==='technique'&&spinning(move.effect)&&move.frame>=move.startup){const active=move.active||1,u=Math.min(1,(move.frame-move.startup)/active);out.hipYaw+=u*Math.PI*2*(move.followup?2:1);}
  return out;
+}
+// Ground bounce (the simulation's a.bounce, root lifted by airMotion): on the back, limbs splaying up at the top of
+// the rebound and trailing upward as it falls back for the whiplash.
+export function bouncePose(r,stance,player){
+ const s=stance,u=Math.max(0,Math.min(1,(player.bounce.frame||0)/(player.bounce.frames||12)));
+ const base={...s,...root(r,-1.5,.24,-.4),hipYaw:0,twist:.1,side:.08};
+ const rise={...base,lean:.25,hx:.5,lax:-.7,rax:-.6,laz:1.0,raz:-1.0,le:-.9,re:-.9,llx:-.5,rlx:-.35,lk:.45,rk:.4,llz:.25,rlz:-.25};
+ const top={...base,lean:.05,hx:-.2,lax:-1.2,rax:-1.0,laz:1.1,raz:-1.2,le:-.7,re:-.7,llx:-.8,rlx:-.6,lk:.3,rk:.25,llz:.3,rlz:-.3};
+ const fall={...base,lean:.15,hx:.3,lax:-.9,rax:-.8,laz:1.2,raz:-1.2,le:-.6,re:-.6,llx:-1.0,rlx:-.7,lk:.2,rk:.2,llz:.3,rlz:-.3};
+ return sampleKeys([[0,rise],[.45,top],[1,fall]],u);
 }
 // Being launched: a backward tumble about the hips (the simulation lifts the root), limbs thrown, ending as the fall begins.
 export function launchedPose(r,stance,player){
@@ -306,12 +338,13 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  else if(poses&&player?.anim==='grappled')target={kind:'grapple',pose:grapplePose(poses.stance,player.animTime||0,'victim')};
  else if(poses&&player?.anim==='victory')target={kind:'victory',pose:victoryPose(poses.stance,poses.id,player.animTime,time)};
  else target=targetFor(player,time,player?.stridePhase??r.stridePhase??0,motion);
+ if(!target&&poses&&player?.bounce&&!player.move)target={kind:'bounce',pose:bouncePose(r,poses.stance,player)};
  if(!target&&poses&&player?.launched&&(player.air||0)>0&&!player.move)target={kind:'launched',pose:launchedPose(r,poses.stance,player)};
  if(!target&&poses&&player?.anim==='roll'&&player.roll)target={kind:'roll',pose:rollPose(r,poses.stance,player)};
  if(!target&&poses&&player?.move?.kind==='pursuit'&&player.move.aerial)target={kind:'aerial',pose:aerialPursuitPose(poses.stance,player.move,player)};
  if(!target&&poses?.strikePose&&player?.move&&(player.air||0)>0&&!player.launched)target={kind:'aerial',pose:aerialStrikePose(poses.stance,player,poses.strikePose)};
  if(!target&&poses?.specials&&player?.move&&['shot','technique','launch','forward','back'].includes(player.move.kind)&&!(player.air>0))target={kind:'strike',pose:specialPose(player.move,poses.stance,poses.specials)};
- if(!target&&poses&&isDown(player)){if(r[`${prefix}Kind`]==='launched')r[`${prefix}FromAir`]=true;const buckling=player.anim==='defeat'&&(player.animTime||0)<.3;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:buckling?'collapse':'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
+ if(!target&&poses&&isDown(player)){if(['launched','bounce'].includes(r[`${prefix}Kind`]))r[`${prefix}FromAir`]=true;const buckling=player.anim==='defeat'&&(player.animTime||0)<.3;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:buckling?'collapse':'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}
  // Leaving the floor plays the rise; coming back from the air plays the landing. Both are visual overlays on the simulation's state.
@@ -329,7 +362,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  const entry=r[`${prefix}Entry`];entry.elapsed+=dt;entry.frame=move?.frame;
  const entryFrames=move?.travel?Math.min(3,move.startup):move?.startup;
  // Hits, jump squats and get-ups snap on their first frame: no entry blend.
- const weight=['hurt','squat','rise','knockdown','collapse','launched','grapple','roll'].includes(target.kind)||prevKind==='launched'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
+ const weight=['hurt','squat','rise','knockdown','collapse','launched','bounce','grapple','roll'].includes(target.kind)||prevKind==='launched'||prevKind==='bounce'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.

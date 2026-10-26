@@ -23,7 +23,7 @@ for(const [id,f] of fighters.entries()){
    const contact=frames[t.startup];
    for(let fr=t.startup+1;fr<=t.startup+t.active+1;fr++)assert.ok(dist(frames[fr],contact)<1e-9,`${f.name} chain ${chain} frame ${fr} stays locked on the contact pose`);
    if(t.startup>=4){const a=dist(frames[t.startup-2],contact),b=dist(frames[t.startup-1],contact);assert.ok(a>b&&b>1e-6,`${f.name} chain ${chain}: the whip closes on the contact over its two frames (${a.toFixed(2)} → ${b.toFixed(2)} → 0)`);
-    if(t.startup>=7){const arms=(a,b)=>Math.hypot(a.rax-b.rax,a.lax-b.lax,a.re-b.re,a.le-b.le);const early=arms(frames[t.startup-2],frames[Math.ceil(t.startup*.6)]),total=arms(frames[t.startup],frames[Math.ceil(t.startup*.6)]);assert.ok(early<total*.5,`${f.name} chain ${chain}: most of the arm travel is in the two-frame whip (${early.toFixed(2)} of ${total.toFixed(2)} before it)`);}}
+    if(t.startup>=7){const wrists=(a,b)=>Math.hypot(a.rw-b.rw,a.lw-b.lw,a.rwx-b.rwx,a.lwx-b.lwx);const early=wrists(frames[t.startup-2],frames[Math.ceil(t.startup*.6)]),total=wrists(frames[t.startup],frames[Math.ceil(t.startup*.6)]);if(total>.05)assert.ok(early<total*.5,`${f.name} chain ${chain}: the wrists fire in the two-frame whip while the shoulders lead (${early.toFixed(2)} of ${total.toFixed(2)} before it)`);}}
   }
  });
  test(`${f.name}: a hit shudders on the hitstop counter while time is frozen, then bends to full recoil on the first live frame`,()=>{

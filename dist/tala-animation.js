@@ -5,7 +5,7 @@ import {retreatLift} from './retreat-motion.js';
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
-import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose,grapplePose,launchedPose,rollPose,victoryPose,aerialStrikePose} from './grounded-animation.js';
+import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose,grapplePose,launchedPose,rollPose,victoryPose,aerialStrikePose,bouncePose} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
@@ -217,11 +217,12 @@ export function animateTala(r,p,time){
  else if(p?.anim==='grappled')target={kind:'grapple',rate:Infinity,pose:pose(grapplePose(stance,p.animTime||0,'victim'))};
  else if(p?.anim==='victory')target={kind:'victory',rate:20,pose:pose(victoryPose(stance,'tala',p.animTime,time))};
  else target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
+ if(!target&&p?.bounce&&!p.move)target={kind:'bounce',rate:Infinity,pose:pose(bouncePose(r,stance,p))};
  if(!target&&p?.launched&&(p.air||0)>0&&!p.move)target={kind:'launched',rate:Infinity,pose:pose(launchedPose(r,stance,p))};
  if(!target&&p?.anim==='roll'&&p.roll)target={kind:'roll',rate:Infinity,pose:pose(rollPose(r,stance,p))};
  if(!target&&p?.move&&(p.air||0)>0&&!p.launched&&!['pursuit','jumpAttack'].includes(p.move.kind))target={kind:'aerial',rate:Infinity,pose:pose(aerialStrikePose(stance,p,strikePose))};
  if(!target&&isDown(p)){if(r.wasLaunched)r.downFromAir=true;const buckling=p.anim==='defeat'&&(p.animTime||0)<.3;target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))}:{kind:buckling?'collapse':'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time,!!r.downFromAir))};}else r.downFromAir=false;
- r.wasLaunched=target?.kind==='launched';
+ r.wasLaunched=target?.kind==='launched'||target?.kind==='bounce';
  if(target&&(p?.travel||p?.move?.travel))target.pose=pose(travelOverlay(target.pose,p,motion));
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
  r.freeFlight=target?.kind==='freeFlight';

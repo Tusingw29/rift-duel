@@ -15,15 +15,15 @@ const p=o=>pose({...morrowStance,...o});
 // reach; the new load/drive/overshoot keys carry weight through the same hit frame.
 export const MORROW_ATTACK_NAMES=['Iron Crosscut','Returning Sweep','Gravefall'];
 const cuts=[
- [p({rwx:.15,rwz:.2,bodyY:-.28,bodyX:.06,bodyZ:-.09,lean:-.10,hipYaw:.32,twist:.66,rax:-.45,ray:1.18,re:-.8,lax:-.8,le:-1,hy:-.40,llx:-.12,rlx:.32,lk:.26,rk:.48}),
-  p({rwx:1.5,bodyZ:.18,bodyX:-.04,bodyY:-.22,lean:.23,hipYaw:-.2,twist:-.45,rax:-1.4,ray:.15,re:-.05,lax:-.7,le:-1.1,hy:.3}),
-  p({rwx:1.2,rwz:-.15,bodyZ:.23,bodyX:-.08,bodyY:-.28,lean:.27,hipYaw:-.39,twist:-.88,rax:-1.1,ray:-.88,re:-.15,lax:-.7,le:-.8,hy:.48,lk:.48,rk:.20})],
- [p({rwx:.15,rwz:-.2,bodyY:-.29,bodyX:-.06,bodyZ:-.04,lean:-.07,hipYaw:-.35,twist:-.70,rax:-.56,ray:-1.18,re:-.8,lax:-.9,le:-1.1,hy:.38,lk:.48,rk:.22}),
-  p({rwx:1.5,bodyZ:.19,bodyX:.04,bodyY:-.22,lean:.22,hipYaw:.2,twist:.45,rax:-1.4,ray:-.5,re:-.05,lax:-.65,le:-1,hy:-.25}),
-  p({rwx:1.2,rwz:.15,bodyZ:.25,bodyX:.08,bodyY:-.27,lean:.25,hipYaw:.39,twist:.83,rax:-1.1,ray:.9,re:-.15,lax:-.75,le:-.9,hy:-.44,lk:.20,rk:.48})],
- [p({rwx:.1,bodyY:-.24,bodyZ:-.09,lean:-.14,hipYaw:.14,twist:.20,rax:-2.78,ray:.15,re:-.42,lax:-2,le:-.7,hx:-.10,hy:-.08,lk:.42,rk:.35}),
-  p({rwx:1.55,bodyZ:.24,bodyY:-.28,lean:.28,hipYaw:-.10,twist:-.13,rax:-1.5,ray:0,re:-.1,lax:-.7,le:-1,hx:.12}),
-  p({rwx:1.3,bodyZ:.29,bodyY:-.36,lean:.37,hipYaw:-.14,twist:-.18,rax:-1.2,ray:-.05,re:-.15,lax:-.5,le:-.6,hx:.08,lk:.53,rk:.32})]
+ [p({rwx:.15,rwz:.35,bodyY:-.28,bodyX:.06,bodyZ:-.09,lean:-.10,hipYaw:.32,twist:.66,rax:-.45,ray:1.18,re:-.8,lax:-.8,le:-1,hy:-.40,llx:-.12,rlx:.32,lk:.26,rk:.48}),
+  p({rwx:1.5,rwz:-.4,bodyZ:.18,bodyX:-.04,bodyY:-.22,lean:.23,hipYaw:-.2,twist:-.45,rax:-1.4,ray:.15,re:-.05,lax:-.7,le:-1.1,hy:.3}),
+  p({rwx:1.2,rwz:-.3,bodyZ:.23,bodyX:-.08,bodyY:-.28,lean:.27,hipYaw:-.39,twist:-.88,rax:-1.1,ray:-.88,re:-.15,lax:-.7,le:-.8,hy:.48,lk:.48,rk:.20})],
+ [p({rwx:.15,rwz:-.35,bodyY:-.29,bodyX:-.06,bodyZ:-.04,lean:-.07,hipYaw:-.35,twist:-.70,rax:-.56,ray:-1.18,re:-.8,lax:-.9,le:-1.1,hy:.38,lk:.48,rk:.22}),
+  p({rwx:1.5,rwz:.4,bodyZ:.19,bodyX:.04,bodyY:-.22,lean:.22,hipYaw:.2,twist:.45,rax:-1.4,ray:-.5,re:-.05,lax:-.65,le:-1,hy:-.25}),
+  p({rwx:1.2,rwz:.3,bodyZ:.25,bodyX:.08,bodyY:-.27,lean:.25,hipYaw:.39,twist:.83,rax:-1.1,ray:.9,re:-.15,lax:-.75,le:-.9,hy:-.44,lk:.20,rk:.48})],
+ [p({rwx:.1,rwz:.3,bodyY:-.24,bodyZ:-.09,lean:-.14,hipYaw:.14,twist:.20,rax:-2.78,ray:.15,re:-.42,lax:-2,le:-.7,hx:-.10,hy:-.08,lk:.42,rk:.35}),
+  p({rwx:1.55,rwz:-.35,bodyZ:.24,bodyY:-.28,lean:.28,hipYaw:-.10,twist:-.13,rax:-1.5,ray:0,re:-.1,lax:-.7,le:-1,hx:.12}),
+  p({rwx:1.3,rwz:-.25,bodyZ:.29,bodyY:-.36,lean:.37,hipYaw:-.14,twist:-.18,rax:-1.2,ray:-.05,re:-.15,lax:-.5,le:-.6,hx:.08,lk:.53,rk:.32})]
 ];
 export function morrowStrikePose(move){
  const [wind,contact,follow]=cuts[Math.min(2,Math.max(0,(move.chain||1)-1))];

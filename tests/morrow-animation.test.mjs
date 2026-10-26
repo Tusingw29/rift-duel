@@ -6,7 +6,7 @@ const move=(chain,frame)=>({kind:'strike',...moveTiming(fighters[3],'strike'),ch
 test('Morrow has three distinct heavy windups and contacts at the existing damage frame',()=>{
  const wind=[];
  for(const chain of [1,2,3]){const r=buildCharacter(3),m=move(chain,12);animateCharacter(r,{anim:'idle',x:0,z:0},0);animateCharacter(r,{anim:'strike',x:0,z:0,move:m},.1);assert.deepEqual(r.morrowPose,morrowStrikePose(m));r.g.updateMatrixWorld(true);
-  const tip=r.limbs[2].userData.hand.localToWorld(new Vector3(0,.12,2.06));assert.ok(tip.z>2&&tip.y>.9&&tip.y<2,'greatsword reaches the opponent torso');wind.push(morrowStrikePose({...m,frame:m.startup*.3})); // the coil; from 70% of the startup the hips already drive toward the cut
+  const tip=r.limbs[2].userData.hand.localToWorld(new Vector3(0,.12,2.06));assert.ok(tip.z>2&&tip.y>.9&&tip.y<2,'greatsword reaches the opponent torso');wind.push({...morrowStrikePose({...m,frame:m.startup*.35-2}),hipYaw:morrowStrikePose({...m,frame:0}).hipYaw}); // arms read at the coil (they lead by two frames), hips at frame 0 (they lead by five)
  }
  assert.ok(wind[0].ray>1&&wind[1].ray< -1&&wind[2].rax< -2.5);
  assert.ok(wind[0].hipYaw>0&&wind[1].hipYaw<0,'hips load opposite cuts');

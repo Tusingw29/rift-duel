@@ -1,4 +1,5 @@
 import {talaFootOffsets} from './tala-footwork.js';
+import {Quaternion,Vector3} from './vendor/three.module.js';
 // Shared weight rhythm and footwork for every grounded fighter. A boxing stance is never still: in CMU 14_01 the
 // hips drift 0.6 units sideways and 0.7 forward/back over three seconds, the pelvis yaw swings ±0.4 rad and the
 // knees pump through half a radian while the fighter waits. The rhythm here is a tamed version of that: the weight
@@ -21,6 +22,21 @@ export function rhythmPose(pose,time,amount=1){
  return {...pose,bodyX:pose.bodyX+w*.13,bodyY:pose.bodyY-.045*amount+b*.075,bodyZ:pose.bodyZ+Math.sin(time*2.1)*.04*amount,
   hipYaw:pose.hipYaw+w*.13,twist:pose.twist-w*.09,side:pose.side-w*.06,hz:pose.hz+w*.04,lean:pose.lean+b*.03*amount,
   lk:pose.lk+(1-weight)*.16*amount+(1-bounce)*.12*amount,rk:pose.rk+(1+weight)*.16*amount+(1-bounce)*.12*amount};
+}
+// Heel pivot for every rig that has feet but no fighter-specific pivot: during drive, impact and overshoot the rear
+// heel lifts and the foot yaws with the hips while the ball stays on the stone (the toe bone counter-hinges flat in
+// the combat rig), and the lead ankle flexes forward over its planted foot so the body visibly pushes off.
+const UP=new Vector3(0,1,0),RIGHT=new Vector3(1,0,0);
+export function kineticFootPivot(player,kind){
+ const rotations=[new Quaternion(),new Quaternion()],move=player?.move;
+ if(!move||!['strike','shot','forward','back','technique','launch'].includes(kind)||kind!==move.kind&&!(kind==='strike'&&move.kind!=='strike'))return rotations;
+ const contact=move.startup,release=contact+(move.active||1)+4;
+ const drive=smooth((move.frame-contact*.35)/Math.max(1,contact*.65))*(1-smooth((move.frame-release)/Math.max(1,move.recovery*.6)));
+ if(drive<=0)return rotations;
+ const rear=move.chain===2?0:1,sign=rear?-1:1;
+ rotations[rear].setFromAxisAngle(UP,sign*.45*drive).multiply(new Quaternion().setFromAxisAngle(RIGHT,.4*drive));
+ rotations[1-rear].setFromAxisAngle(RIGHT,-.12*drive).multiply(new Quaternion().setFromAxisAngle(UP,sign*.1*drive));
+ return rotations;
 }
 // Foot side: offsets applied to the planted ankles (fighter frame, x right, z toward the rival). Keeps Tala's recoil
 // catch and landing settle, adds the idle taps and the rear-foot drive under a strike.

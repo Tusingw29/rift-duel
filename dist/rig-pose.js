@@ -14,11 +14,13 @@ export function applyPose(r,s){
  // Coupling: a hip turn shifts the weight toward the leading foot, so the legs answer every torso turn (authored bodyZ keeps the forward drive explicit).
  r.body.position.x=s.bodyX+s.hipYaw*.16;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.set(s.bodyPitch||0,s.hipYaw,s.bodyRoll||0);
  r.spine.rotation.set(s.lean,s.twist,s.side);r.headRest??=r.head.position.clone();r.head.position.copy(r.headRest);r.head.position.y+=s.neckY||0;r.head.position.z+=s.neckZ||0;r.head.rotation.set(s.hx,s.hy,s.hz);
- r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
+ // Elbows and knees are pure flexion hinges: never hyperextended past straight, never bent sideways. Inward and outward arcs
+ // come from the shoulder and hip rotations around them.
+ r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.set(Math.min(0,s.le),0,0);r.elbows[1].rotation.set(Math.min(0,s.re),0,0);
  // Wrist roll is authored per pose; rigs with a richer hand (the graphic combat rig) read the same channel.
  if(!r.morrowHandRest){r.limbs[0].userData.hand.rotation.set(s.lwx||0,s.lw||0,s.lwz||0);r.limbs[2].userData.hand.rotation.set(s.rwx||0,s.rw||0,s.rwz||0);}
  else{[r.limbs[0],r.limbs[2]].forEach((arm,i)=>{const h=arm.userData.hand;h.quaternion.copy(r.morrowHandRest[i]).multiply(new Quaternion().setFromEuler(new Euler(i?s.rwx||0:s.lwx||0,i?s.rw||0:s.lw||0,i?s.rwz||0:s.lwz||0))); });}
- r.limbs[1].rotation.set(s.llx,0,s.llz);r.limbs[3].rotation.set(s.rlx,0,s.rlz);r.knees[0].rotation.x=s.lk;r.knees[1].rotation.x=s.rk;
+ r.limbs[1].rotation.set(s.llx,0,s.llz);r.limbs[3].rotation.set(s.rlx,0,s.rlz);r.knees[0].rotation.set(Math.max(0,s.lk),0,0);r.knees[1].rotation.set(Math.max(0,s.rk),0,0);
 }
 // Keep grounded supporting ankles at their world positions while the torso shifts.
 // The two-bone solve is visual only. Release unreachable plants instead of stretching

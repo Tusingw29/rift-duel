@@ -21,6 +21,7 @@ function sample(pose,t,render=true){if(!r)return;const state={anim:pose,x:0,z:0,
  // Specials and the remaining states, so every grounded pose can be reviewed here (times are seconds into the state).
  if(['shot','technique','launch','forward','back'].includes(pose)){const timing=pose==='technique'?{...techniques[fighterId]}:moveTiming(fighters[index],pose),total=timing.startup+(timing.active||1)+timing.recovery;state.anim=pose==='shot'?'attack':pose;Object.assign(strikeMove,{...timing,active:timing.active||1,kind:pose,chain:1,effect:techniques[fighterId]?.effect,frame:Math.floor(t*60)%total});state.move=strikeMove;}
  if(pose==='launched'){state.anim='launch';state.launched=true;state.air=Math.max(0,.85-t);}
+ if(pose==='bounce'){state.anim='launch';state.launched=true;state.air=.1;state.bounce={frame:Math.floor(t*60)%12,frames:12,height:.55};}
  if(pose==='roll'){state.roll={elapsed:t%.3,direction:1,forward:true};}
  if(pose==='knockdown'){state.animTime=Math.max(0,.55-t);}
  if(pose.startsWith('strike')){const timing=moveTiming(fighters[index],'strike',Number(pose.at(-1)));state.anim='attack';Object.assign(strikeMove,{...timing,kind:'strike',chain:Number(pose.at(-1)),frame:Math.floor(t*60)%timing.total});state.move=strikeMove;}animateCharacter(r,state,t);r.g.position.set(0,0,0);r.g.rotation.y=0;scene.updateMatrixWorld(true);if(render)renderer.render(scene,camera);return {fighter:fighterId,pose,t,costume:r.conceptCostume||(r.graveboundCostume?'morrow':null),meshes:r.g.getObjectsByProperty('isMesh',true).length};}

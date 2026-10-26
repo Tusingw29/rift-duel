@@ -1,6 +1,7 @@
 import {CHANNELS} from './rig-pose.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad,strikeSchedule,sampleSchedule} from './grounded-animation.js';
-import {rhythmFootOffsets,rhythmPose} from './footwork.js';
+import {rhythmFootOffsets,rhythmPose,kineticFootPivot} from './footwork.js';
+import {Vector3} from './vendor/three.module.js';
 import {sampleClip} from './pose-clips.js';
 import {clipMovePose} from './locomotion-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -11,17 +12,17 @@ export const aegisStance=pose({lax:-.55,laz:.3,le:-1.0,rax:-.25,ray:-.15,raz:-.1
 const p=o=>pose({...aegisStance,...o});
 const cuts=[
  // cross cut: coil behind the right shoulder (wrist cocked), slash across to the left with the blade in line, overshoot past the line
- [p({rax:.3,ray:1.35,raz:.35,re:-.9,rwx:.2,rwz:.2,twist:.6,hipYaw:.22,lean:-.08,bodyY:-.24,lax:-.7,laz:.5,le:-1.1,llx:-.14,rlx:.32,lk:.3,rk:.5}),
-  p({rax:-1.4,ray:.6,raz:.05,re:-.1,rwx:1.5,rwz:0,twist:-.5,hipYaw:-.42,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.3,laz:.6,le:-.9,llx:-.4,rlx:.42,lk:.42,rk:.14}),
-  p({rax:-1.45,ray:-.5,raz:.05,re:-.2,rwx:1.2,rwz:-.15,twist:-.7,hipYaw:-.46,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.2,laz:.7,le:-.8,llx:-.4,rlx:.42,lk:.46,rk:.14})],
+ [p({rax:.3,ray:1.35,raz:.35,re:-.9,rwx:.2,rwz:.35,twist:.6,hipYaw:.22,lean:-.08,bodyY:-.24,lax:-.7,laz:.5,le:-1.1,llx:-.14,rlx:.32,lk:.3,rk:.5}),
+  p({rax:-1.4,ray:.6,raz:.05,re:-.1,rwx:1.5,rwz:-.4,twist:-.5,hipYaw:-.42,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.3,laz:.6,le:-.9,llx:-.4,rlx:.42,lk:.42,rk:.14}),
+  p({rax:-1.45,ray:-.5,raz:.05,re:-.2,rwx:1.2,rwz:-.3,twist:-.7,hipYaw:-.46,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.2,laz:.7,le:-.8,llx:-.4,rlx:.42,lk:.46,rk:.14})],
  // reverse cut: coil across the body, blade in line as it comes back to the right
- [p({rax:.2,ray:-1.3,raz:-.3,re:-.9,rwx:.2,rwz:-.2,twist:-.6,hipYaw:-.24,lean:-.06,bodyY:-.24,lax:-.7,laz:.3,le:-1.1,llx:-.3,rlx:.14,lk:.5,rk:.3}),
-  p({rax:-1.4,ray:-.6,raz:.05,re:-.1,rwx:1.5,rwz:0,twist:.45,hipYaw:.4,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.5,laz:.5,le:-1,llx:-.45,rlx:.35,lk:.2,rk:.44}),
-  p({rax:-1.45,ray:.55,raz:.05,re:-.2,rwx:1.2,rwz:.15,twist:.7,hipYaw:.44,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.5,laz:.55,le:-1,llx:-.45,rlx:.35,lk:.22,rk:.46})],
+ [p({rax:.2,ray:-1.3,raz:-.3,re:-.9,rwx:.2,rwz:-.35,twist:-.6,hipYaw:-.24,lean:-.06,bodyY:-.24,lax:-.7,laz:.3,le:-1.1,llx:-.3,rlx:.14,lk:.5,rk:.3}),
+  p({rax:-1.4,ray:-.6,raz:.05,re:-.1,rwx:1.5,rwz:.4,twist:.45,hipYaw:.4,lean:.16,bodyZ:.16,bodyY:-.14,lax:-.5,laz:.5,le:-1,llx:-.45,rlx:.35,lk:.2,rk:.44}),
+  p({rax:-1.45,ray:.55,raz:.05,re:-.2,rwx:1.2,rwz:.3,twist:.7,hipYaw:.44,lean:.18,bodyZ:.18,bodyY:-.16,lax:-.5,laz:.55,le:-1,llx:-.45,rlx:.35,lk:.22,rk:.46})],
  // overhead cleave: both hands on the hilt behind the head, the blade comes down in line with the arms, knees absorb the overshoot
- [p({rax:-2.6,ray:.15,raz:.1,re:-.6,rwx:.1,lax:-2.3,laz:.1,le:-.7,twist:.2,hipYaw:.14,lean:-.2,bodyY:-.26,lk:.5,rk:.5}),
-  p({rax:-1.6,ray:0,raz:.1,re:-.1,rwx:1.55,lax:-1.5,laz:.15,le:-.2,twist:-.12,hipYaw:-.14,lean:.3,bodyZ:.24,bodyY:-.2,llx:-.5,rlx:.3,lk:.45,rk:.18}),
-  p({rax:-1.5,ray:-.05,raz:.1,re:-.15,rwx:1.3,lax:-1.4,laz:.2,le:-.3,twist:-.16,hipYaw:-.16,lean:.38,bodyZ:.3,bodyY:-.3,llx:-.5,rlx:.3,lk:.6,rk:.2})]
+ [p({rax:-2.6,ray:.15,raz:.1,re:-.6,rwx:.1,rwz:.3,lax:-2.3,laz:.1,le:-.7,twist:.2,hipYaw:.14,lean:-.2,bodyY:-.26,lk:.5,rk:.5}),
+  p({rax:-1.6,ray:0,raz:.1,re:-.1,rwx:1.55,rwz:-.35,lax:-1.5,laz:.15,le:-.2,twist:-.12,hipYaw:-.14,lean:.3,bodyZ:.24,bodyY:-.2,llx:-.5,rlx:.3,lk:.45,rk:.18}),
+  p({rax:-1.5,ray:-.05,raz:.1,re:-.15,rwx:1.3,rwz:-.25,lax:-1.4,laz:.2,le:-.3,twist:-.16,hipYaw:-.16,lean:.38,bodyZ:.3,bodyY:-.3,llx:-.5,rlx:.3,lk:.6,rk:.2})]
 ];
 export function aegisStrikePose(move){
  const [wind,contact,follow]=cuts[Math.min(2,Math.max(0,(move.chain||1)-1))];
@@ -66,4 +67,4 @@ const aegisSpecials={special:[{rax:.3,ray:.2,raz:-.1,re:-1.2,lax:-.3,le:-.8,twis
  technique:[{rax:.4,re:-1.4,lax:-.5,le:-1,twist:.35,hipYaw:.15,lean:-.15,bodyY:-.25,lk:.45,rk:.5},
   {rax:-1.8,re:-.1,lax:-.6,le:-.8,twist:-.3,hipYaw:-.3,lean:.5,bodyZ:.3,bodyY:-.16,llx:-.5,rlx:.45,lk:.45,rk:.1},
   {rax:-1.6,re:-.2,lax:-.6,le:-.8,twist:-.35,hipYaw:-.32,lean:.45,bodyZ:.3,bodyY:-.18,llx:-.5,rlx:.45,lk:.45,rk:.1}]};
-export function animateAegis(r,player,time){r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact,id:'aegis',strikePose:aegisStrikePose,specials:aegisSpecials});}
+export function animateAegis(r,player,time){r.footOffsets??=rhythmFootOffsets;r.footPivot??=kineticFootPivot;r.footBall??=new Vector3(0,-(r.ankleHeight??.14),.26);return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact,id:'aegis',strikePose:aegisStrikePose,specials:aegisSpecials});}
