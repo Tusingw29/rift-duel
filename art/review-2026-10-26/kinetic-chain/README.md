@@ -16,7 +16,7 @@ Adam's direction: stop layering offsets on two-pose interpolations; every move m
 | `strip-aegis-guard/idle`, `strip-morrow-guard/idle` | New weapon stances and guards. |
 | `strip-rei-grapple-side.jpg`, `strip-rei-grappled-side.jpg` | Actor and victim sequences over the cinematic's progress. |
 | `strip-rei-technique-side.jpg`, `strip-rei-shot-side.jpg` | Specials on the seven-key chain. |
-| `strip-sol-defeat-side/front.jpg`, `strip-aegis-defeat-side.jpg` | Knockout collapse: knees give out, the body folds and sinks, tips over and lies crumpled and still (no breathing). At a KO the renderer runs the loser's timers on the cue clock, so an airborne loser comes down and slams and a falling one finishes the fall instead of hanging mid-air. |
+| `strip-sol-defeat-side/front.jpg`, `strip-aegis-defeat-side.jpg` | Knockout collapse: the feet stay planted while the knees give out and the pelvis sinks, the body folds to a kneel, sits back, rolls onto its back and lies crumpled and still (no breathing). The floor clamp now measures the posed joints (mesh bounds included the hidden classic batch under the root, which hoisted every fallen body). At a KO the renderer runs the loser's timers on the cue clock, so an airborne loser comes down and slams and a falling one finishes the fall instead of hanging mid-air. |
 | `strip-sol-launched-side.jpg`, `strip-sol-knockdown-side.jpg` | The six-stage launch, fall, whiplash, bounce and settle (the review page shows the get-up overlay after). |
 
 518 tests; still to judge at normal speed.

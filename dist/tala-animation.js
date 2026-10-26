@@ -220,7 +220,7 @@ export function animateTala(r,p,time){
  if(!target&&p?.launched&&(p.air||0)>0&&!p.move)target={kind:'launched',rate:Infinity,pose:pose(launchedPose(r,stance,p))};
  if(!target&&p?.anim==='roll'&&p.roll)target={kind:'roll',rate:Infinity,pose:pose(rollPose(r,stance,p))};
  if(!target&&p?.move&&(p.air||0)>0&&!p.launched&&!['pursuit','jumpAttack'].includes(p.move.kind))target={kind:'aerial',rate:Infinity,pose:pose(aerialStrikePose(stance,p,strikePose))};
- if(!target&&isDown(p)){if(r.wasLaunched)r.downFromAir=true;target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))}:{kind:'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time,!!r.downFromAir))};}else r.downFromAir=false;
+ if(!target&&isDown(p)){if(r.wasLaunched)r.downFromAir=true;const buckling=p.anim==='defeat'&&(p.animTime||0)<.3;target=p.getUp?{kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))}:{kind:buckling?'collapse':'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time,!!r.downFromAir))};}else r.downFromAir=false;
  r.wasLaunched=target?.kind==='launched';
  if(target&&(p?.travel||p?.move?.travel))target.pose=pose(travelOverlay(target.pose,p,motion));
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
@@ -231,7 +231,7 @@ export function animateTala(r,p,time){
   else if(['idle','run','guard'].includes(target.kind)){target.pose=landingAbsorb(target.pose,r.landingTime);target.pose.neckY-=.015*Math.sin(Math.PI*r.landingTime/LANDING_TIME);}
  }
  if(r.wasDown&&target&&['idle','run','guard','charge'].includes(target.kind))r.riseTime=0;
- r.wasDown=target?.kind==='knockdown';
+ r.wasDown=target?.kind==='knockdown'||target?.kind==='collapse';
  const travelling=p?.move?.travel&&p.move.frame<p.move.startup&&!p.move.aerial&&target?.kind==='strike';
  let plantKind=travelling?'run':target?.kind;
  if(r.riseTime!==undefined&&target){

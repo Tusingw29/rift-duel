@@ -79,13 +79,16 @@ export function knockdownPose(r,stance,impact,elapsed,fromAir=false){
 export function collapsePose(r,stance,impact,t){
  const s=stance,P=hipHeight(r);
  const hit={...impact,bodyPitch:0,bodyRoll:0,hipYaw:0,lk:s.lk+.4,rk:s.rk+.4,lax:.1,rax:.1,laz:.15,raz:-.15,le:-.3,re:-.3,lw:0,rw:0,hx:.3,bodyY:s.bodyY-.06};
- const buckle={...s,bodyPitch:0,bodyRoll:0,hipYaw:0,bodyY:s.bodyY-.45,bodyZ:-.05,lean:.35,side:.05,twist:.05,lk:1.6,rk:1.5,llx:-.35,rlx:-.2,llz:.12,rlz:-.08,lax:.1,rax:.15,laz:.2,raz:-.2,le:-.25,re:-.25,lw:0,rw:0,hx:.6,hz:.1};
- const crumple={...s,bodyPitch:.1,bodyRoll:0,hipYaw:0,bodyY:.55-P*Math.cos(.1),bodyZ:-P*Math.sin(.1)+.02,lean:.8,side:.1,twist:.1,lk:2.3,rk:2.1,llx:-.3,rlx:-.15,llz:.15,rlz:-.1,lax:-.3,rax:-.25,laz:.25,raz:-.3,le:-.2,re:-.2,lw:0,rw:0,hx:.7,hz:.2};
+ const buckle={...s,bodyPitch:0,bodyRoll:0,hipYaw:0,bodyY:.9-P,bodyZ:-.05,lean:.35,side:.05,twist:.05,lk:1.6,rk:1.5,llx:-.35,rlx:-.2,llz:.12,rlz:-.08,lax:.1,rax:.15,laz:.2,raz:-.2,le:-.25,re:-.25,lw:0,rw:0,hx:.6,hz:.1};
+ const crumple={...s,bodyPitch:.1,bodyRoll:0,hipYaw:0,bodyY:.68-P*Math.cos(.1),bodyZ:-P*Math.sin(.1)+.02,lean:.8,side:.1,twist:.1,lk:1.9,rk:1.75,llx:-.6,rlx:-.35,llz:.15,rlz:-.1,lax:-.3,rax:-.25,laz:.25,raz:-.3,le:-.2,re:-.2,lw:0,rw:0,hx:.7,hz:.2};
  // The hips keep sinking while the body tips: an intermediate key stops the root helper from arcing the pelvis upward between the kneel and the lie.
- const tipping={...s,...root(r,-.7,.42,-.18),lean:.5,side:.15,twist:.25,lk:2.0,rk:1.2,llx:-.4,rlx:-.1,llz:.2,rlz:-.15,lax:-.35,rax:.1,laz:.5,raz:-.7,le:-.4,re:-.3,lw:0,rw:0,hx:.4,hz:.3,hy:.15};
- const tipped={...s,...root(r,-1.45,.28,-.35),lean:.15,side:.2,twist:.35,lk:1.7,rk:.5,llx:-.5,rlx:-.1,llz:.3,rlz:-.2,lax:-.4,rax:.2,laz:.9,raz:-1.2,le:-.5,re:-.3,lw:0,rw:0,hx:.1,hz:.45,hy:.3};
- const settle={...tipped,...root(r,-1.5,.24,-.38),lean:.1,side:.22,twist:.4,lk:1.5,rk:.4,llx:-.45,rlx:-.05,lax:-.3,rax:.25,laz:1.0,raz:-1.3,le:-.4,re:-.25,hx:.05,hz:.5,hy:.35};
- return sampleKeys([[0,hit,snapOut],[.12,buckle,smooth],[.3,crumple,smooth],[.42,tipping,smooth],[.58,tipped,smooth],[.8,settle,smooth],[10,settle,smooth]],Math.max(0,t||0));
+ // Four short pitch steps: the root helper places the hips per key, and short steps keep the pelvis on a sinking line instead of arcing up.
+ const tipA={...s,...root(r,-.35,.5,-.1),lean:.8,side:.12,twist:.18,lk:1.4,rk:1.1,llx:-1.1,rlx:-.9,llz:.18,rlz:-.12,lax:-.32,rax:-.05,laz:.4,raz:-.5,le:-.3,re:-.3,lw:0,rw:0,hx:.55,hz:.25,hy:.1};
+ const tipping={...s,...root(r,-.7,.38,-.18),lean:.7,side:.15,twist:.25,lk:1.2,rk:.8,llx:-.85,rlx:-.65,llz:.2,rlz:-.15,lax:-.35,rax:.1,laz:.5,raz:-.7,le:-.4,re:-.3,lw:0,rw:0,hx:.4,hz:.3,hy:.15};
+ const tipB={...s,...root(r,-1.05,.3,-.27),lean:.55,side:.18,twist:.3,lk:1.1,rk:.6,llx:-.55,rlx:-.35,llz:.25,rlz:-.18,lax:-.38,rax:.15,laz:.7,raz:-.95,le:-.45,re:-.3,lw:0,rw:0,hx:.25,hz:.38,hy:.22};
+ const tipped={...s,...root(r,-1.45,.28,-.35),lean:.4,side:.2,twist:.35,lk:1.5,rk:.45,llx:-.45,rlx:-.12,llz:.3,rlz:-.2,lax:-.4,rax:.2,laz:.9,raz:-1.2,le:-.5,re:-.3,lw:0,rw:0,hx:.1,hz:.45,hy:.3};
+ const settle={...tipped,...root(r,-1.5,.24,-.38),lean:.1,side:.22,twist:.4,lk:1.35,rk:.4,llx:-.4,rlx:-.05,lax:-.3,rax:.25,laz:1.0,raz:-1.3,le:-.4,re:-.25,hx:.35,hz:.5,hy:.35};
+ return sampleKeys([[0,hit,snapOut],[.12,buckle,smooth],[.3,crumple,smooth],[.37,tipA,smooth],[.44,tipping,smooth],[.51,tipB,smooth],[.58,tipped,smooth],[.8,settle,smooth],[10,settle,smooth]],Math.max(0,t||0));
 }
 // The simulation's knockdown timer counts DOWN from KNOCKDOWN_TIME; a defeat timer counts up through the collapse.
 export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
@@ -308,12 +311,12 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  if(!target&&poses&&player?.move?.kind==='pursuit'&&player.move.aerial)target={kind:'aerial',pose:aerialPursuitPose(poses.stance,player.move,player)};
  if(!target&&poses?.strikePose&&player?.move&&(player.air||0)>0&&!player.launched)target={kind:'aerial',pose:aerialStrikePose(poses.stance,player,poses.strikePose)};
  if(!target&&poses?.specials&&player?.move&&['shot','technique','launch','forward','back'].includes(player.move.kind)&&!(player.air>0))target={kind:'strike',pose:specialPose(player.move,poses.stance,poses.specials)};
- if(!target&&poses&&isDown(player)){if(r[`${prefix}Kind`]==='launched')r[`${prefix}FromAir`]=true;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
+ if(!target&&poses&&isDown(player)){if(r[`${prefix}Kind`]==='launched')r[`${prefix}FromAir`]=true;const buckling=player.anim==='defeat'&&(player.animTime||0)<.3;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:buckling?'collapse':'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}
  // Leaving the floor plays the rise; coming back from the air plays the landing. Both are visual overlays on the simulation's state.
  const prevKind=r[`${prefix}Kind`];r[`${prefix}Kind`]=target.kind;
- if(prevKind==='knockdown'&&['idle','run','guard','charge'].includes(target.kind))r[`${prefix}Rise`]={elapsed:0};
+ if((prevKind==='knockdown'||prevKind==='collapse')&&['idle','run','guard','charge'].includes(target.kind))r[`${prefix}Rise`]={elapsed:0};
  if(prevKind==='flight'&&['idle','run','guard'].includes(target.kind))r[`${prefix}Landing`]=0;
  if(r[`${prefix}Landing`]!==undefined){r[`${prefix}Landing`]+=dt;if(r[`${prefix}Landing`]>=LANDING_TIME||player?.move||target.kind==='flight')delete r[`${prefix}Landing`];else target={...target,pose:landingAbsorb(target.pose,r[`${prefix}Landing`])};}
  if(player?.travel||player?.move?.travel)target={...target,pose:travelOverlay(target.pose,player,motion)};
@@ -326,7 +329,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  const entry=r[`${prefix}Entry`];entry.elapsed+=dt;entry.frame=move?.frame;
  const entryFrames=move?.travel?Math.min(3,move.startup):move?.startup;
  // Hits, jump squats and get-ups snap on their first frame: no entry blend.
- const weight=['hurt','squat','rise','knockdown','launched','grapple','roll'].includes(target.kind)||prevKind==='launched'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
+ const weight=['hurt','squat','rise','knockdown','collapse','launched','grapple','roll'].includes(target.kind)||prevKind==='launched'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.

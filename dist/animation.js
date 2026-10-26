@@ -7,7 +7,7 @@ import {applyMeleePose} from './melee-poses.js';
 import {animateTala} from './tala-animation.js';
 import {animateRei,animateSol,animateVesper} from './roster-animation.js';
 import {fighters} from './fighters.js';
-import {Box3} from './vendor/three.module.js';
+import {Box3,Vector3} from './vendor/three.module.js';
 const rollBounds=new Box3();
 const stagedBounds=new Box3();
 export function applyStagedPose(r,part,role='actor'){
@@ -31,8 +31,16 @@ export function animateCharacter(r,p,time){
  if(r.id===3&&r.morrowHandRest){r.elbows.forEach(e=>e.rotation.set(0,0,0));[r.limbs[0],r.limbs[2]].forEach((arm,i)=>arm.userData.hand.quaternion.copy(r.morrowHandRest[i]));}
  sampleCharacter(r,p,time);finishMotion(r,p,time,previous);
  // A grounded fall rotates the root; keep the lowest point of the body on the floor whatever the limbs do.
- // Skinned bodies only: the classic batched meshes do not follow the limbs.
- if((r.conceptModel||p?.anim==='roll')&&r.animationFamily==='grounded'&&['knockdown','defeat','roll'].includes(p?.anim)){r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);if(rollBounds.min.y<.03)r.body.position.y+=(.03-rollBounds.min.y)/r.g.scale.y;}
+ // Keep a fallen or rolling body on the floor, measured from the posed joints (mesh bounds would include the hidden
+ // classic batch hanging from the root, which swings under the floor whenever the root pitches and hoists the body).
+ if(r.animationFamily==='grounded'&&p?.anim==='roll'){r.body.updateWorldMatrix(true,true);rollBounds.setFromObject(r.body);if(rollBounds.min.y<.03)r.body.position.y+=(.03-rollBounds.min.y)/r.g.scale.y;}
+ else if(r.animationFamily==='grounded'&&['knockdown','defeat'].includes(p?.anim)){
+  r.g.updateMatrixWorld(true);const shin=r.shinLength||r.legLength||.56,v=new Vector3();let min=Infinity;
+  const joints=r.deformBones||[r.head,r.spine,...r.limbs,...r.elbows,...r.knees,r.limbs[0].userData.hand,r.limbs[2].userData.hand];
+  for(const j of joints){if(!j||j===r.body||j.name==='root'||j.name==='')continue;j.getWorldPosition(v);min=Math.min(min,v.y);} // the floor-level root is not a body part
+  for(const k of r.knees){k.localToWorld(v.set(0,-shin,0));min=Math.min(min,v.y);}
+  const radius=.11;if(min<radius)r.body.position.y+=(radius-min)/r.g.scale.y;
+ }
  if(r.id===3)finishMorrowAttack(r,p);
  finishCombatRig(r,p,time);
 }

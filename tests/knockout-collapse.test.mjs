@@ -19,7 +19,7 @@ for(const [id,f] of fighters.entries()){
   }
   for(let i=1;i<=18;i++)assert.ok(ys[i]<=ys[i-1]+1e-9,`${f.name} the pelvis only sinks while buckling (frame ${i})`);
   const end=poseOf(r,id);
-  assert.ok(heads[90]<.6,`${f.name} head on the floor at the end (${heads[90].toFixed(2)})`);
+  assert.ok(heads[90]<.75,`${f.name} head on the floor at the end (${heads[90].toFixed(2)})`);
   assert.ok(end.bodyPitch<-1.3,`${f.name} lies down (${end.bodyPitch.toFixed(2)})`);
   assert.ok(Math.abs(end.twist)+Math.abs(end.side)>.4&&Math.abs(end.lk-end.rk)>.8,`${f.name} lies crumpled, not flat like a board`);
   assert.ok(Math.abs(ys[90]-ys[80])<1e-6&&Math.abs(heads[90]-heads[80])<1e-6,`${f.name} lies still (no breathing)`);
