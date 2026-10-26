@@ -1,6 +1,7 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createMatch,update,neutral,hit} from '../dist/combat.js';
+import {createMatch,neutral,hit} from '../dist/combat.js';
 import {fighters} from '../dist/fighters.js';
 const step=(m,a={},b={},n=1)=>{for(let j=0;j<n;j++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const airborne=(id=0)=>{const m=createMatch(id,1);m.players[1].air=.85;m.players[1].launched=true;m.players[1].stun=.82;return m;};

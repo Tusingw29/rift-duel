@@ -23,7 +23,7 @@ export function movePhase(move){
  if(!move)return 'ready';
  return move.frame<move.startup?'startup':move.frame<move.startup+(move.active||1)?'contact':'recovery';
 }
-export const INPUT_BUFFER_FRAMES=8;
+export const INPUT_BUFFER_FRAMES=6;
 export const CHAIN_WINDOW_FRAMES=10;
 export function canChain(move){
  return !!move&&!move.reversal&&['strike','shot'].includes(move.kind)&&move.chain<3&&move.connected&&move.frame>=move.startup&&move.frame<=move.startup+CHAIN_WINDOW_FRAMES;

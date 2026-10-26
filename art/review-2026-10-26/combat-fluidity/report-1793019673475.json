@@ -1,0 +1,23 @@
+{
+  "report": {
+    "tick": 15,
+    "hand": [
+      0.5629530567149155,
+      1.7085580065751176,
+      0.3390146343336154
+    ],
+    "flare": [
+      0.5629530567149155,
+      1.7085580065751176,
+      0.3390146343336154
+    ]
+  },
+  "shots": [
+    "art/review-2026-10-26/combat-fluidity/beam-hand-side-1793019673475.jpg",
+    "art/review-2026-10-26/combat-fluidity/beam-hand-lock-1793019673475.jpg",
+    "art/review-2026-10-26/combat-fluidity/beam-breakup-0-1793019673475.jpg",
+    "art/review-2026-10-26/combat-fluidity/beam-breakup-2-1793019673475.jpg",
+    "art/review-2026-10-26/combat-fluidity/beam-breakup-4-1793019673475.jpg"
+  ],
+  "errors": []
+}

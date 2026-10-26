@@ -1,5 +1,6 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
-import {createMatch,update,neutral,STEP,hit,aiInput} from '../dist/combat.js';
+import {createMatch,neutral,STEP,hit,aiInput} from '../dist/combat.js';
 const step=(m,a={},b={},n=1)=>{for(let j=0;j<n;j++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const contact=(m,a={},b={})=>step(m,a,b,Math.max(...m.players.map(p=>p.move?Math.max(0,p.move.startup-p.move.frame):0)));
 test('tap attack produces a travelling projectile and damages target',()=>{const m=createMatch();step(m,{attack:true});step(m);contact(m);assert.equal(m.projectiles.length,1);step(m,{}, {},50);assert.ok(m.players[1].hp<100);});

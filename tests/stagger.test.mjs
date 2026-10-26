@@ -1,6 +1,7 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createMatch,update,neutral,hit,aiInput} from '../dist/combat.js';
+import {createMatch,neutral,hit,aiInput} from '../dist/combat.js';
 import {fighters} from '../dist/fighters.js';
 import {STAGGER_LIMIT,STAGGER_RESIST,staggerFeedback,trainingStaggerText} from '../dist/stagger.js';
 const step=(m,n=1,input={},count=1)=>{for(let i=0;i<count;i++)update(m,m.players.map((_,p)=>({...neutral(),...(p===n?input:{})})));};

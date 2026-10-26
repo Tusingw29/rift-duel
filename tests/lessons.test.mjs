@@ -1,6 +1,7 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {lessons,lessonMatch,lessonOpponent,updateLesson,lessonText} from '../dist/lessons.js';
-import {update,neutral} from '../dist/combat.js';import {defaultBindings} from '../dist/key-bindings.js';
+import {neutral} from '../dist/combat.js';import {defaultBindings} from '../dist/key-bindings.js';
 const step=(m,input={},n=1)=>{for(let j=0;j<n;j++){const a={...neutral(),...input};update(m,[a,lessonOpponent(m,a)]);updateLesson(m);}};
 const tap=m=>{step(m,{attack:true});step(m);};
 test('movement lesson requires approach, circle and retreat in order',()=>{const m=lessonMatch('movement');step(m,{x:-1},10);assert.equal(m.lesson.stage,0);step(m,{x:1},30);assert.equal(m.lesson.stage,1);step(m,{z:1},40);assert.equal(m.lesson.stage,2);step(m,{x:-1},30);assert.equal(m.lesson.status,'passed');});

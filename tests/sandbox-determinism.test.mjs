@@ -21,7 +21,7 @@ test('scrubbing to a frame equals stepping to it, and frames 0..64 stay finite f
  }
 });
 test('scenarios reach the states they are named for',()=>{
- assert.equal(scenarioAt('strike3',30,2,1).m.players[0].move?.chain,3);
+ assert.equal(scenarioAt('strike3',48,2,1).m.players[0].move?.chain,3);
  assert.ok(scenarioAt('pursuit',3,2,1).m.players[0].move?.travel,'pursuit travels');
  assert.ok(scenarioAt('crossover',6,2,1).m.players[0].move?.crossover,'crossover takes off');
  assert.ok(scenarioAt('circle-step',4,2,1).m.players[0].travel,'circle-step orbits');

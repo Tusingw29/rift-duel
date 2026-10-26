@@ -1,6 +1,7 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createMatch,update,neutral} from '../dist/combat.js';
+import {createMatch,neutral} from '../dist/combat.js';
 import {canChain} from '../dist/moves.js';
 const step=(m,a={},b={},n=1)=>{for(let i=0;i<n;i++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const tap=m=>{step(m,{attack:true});step(m);};

@@ -1,6 +1,8 @@
 // Simulation-owned X/Z paths. Durations are Rift Duel tuning, not recovered PS1 frame data.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const ease=t=>t*t*(3-2*t);
+// 70% by 35% of the duration; a bounded launch followed by friction braking.
+export const travelProgress=t=>1-(1-clamp(t,0,1))**2.8;
+const ease=travelProgress;
 export const CIRCLE_FRAMES=24,CROSSOVER_FRAMES=18;
 export function lineTravel(a,dx,dz,distance,frames){
  return {kind:'line',frames,frame:0,dx:dx*distance,dz:dz*distance};
@@ -22,7 +24,11 @@ export function advanceTravel(a,path){
  path.frame=Math.min(path.frames,path.frame+1);
  const after=point(path,path.frame/path.frames);
  // Apply deltas: collision or an interruption must never snap back to a saved world position.
- a.x=clamp(a.x+after.x-before.x,-11,11);a.z=clamp(a.z+after.z-before.z,-6,6);
+ const x=a.x,z=a.z;
+ const dx=after.x-before.x+(path.carryX||0),dz=after.z-before.z+(path.carryZ||0),length=Math.hypot(dx,dz),scale=Math.min(1,.62/(length||1));
+ path.carryX=dx*(1-scale);path.carryZ=dz*(1-scale);
+ a.x=clamp(a.x+dx*scale,-11,11);a.z=clamp(a.z+dz*scale,-6,6);
+ path.delta=Math.hypot(a.x-x,a.z-z);path.speed=path.delta/((path.kind==='line'?Math.hypot(path.dx,path.dz)/path.frames:Math.PI*path.radius/path.frames)||1);
  return path.frame===path.frames;
 }
 export function faceOpponent(a,b){

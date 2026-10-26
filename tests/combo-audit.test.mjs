@@ -1,5 +1,6 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
-import {createMatch,update,neutral} from '../dist/combat.js';import {fighters} from '../dist/fighters.js';
+import {createMatch,neutral} from '../dist/combat.js';import {fighters} from '../dist/fighters.js';
 const step=(m,a={},b={},n=1)=>{for(let j=0;j<n;j++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
 const tap=(m,i={})=>{step(m,{...i,attack:true});step(m,i);};
 const contact=m=>step(m,{}, {},m.players[0].move.startup-m.players[0].move.frame);

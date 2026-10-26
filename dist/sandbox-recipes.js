@@ -38,7 +38,7 @@ export function createScenario(name,p1=2,p2=1){
  return {m,recipe,frame:0};
 }
 export function stepScenario(s){
- const f=s.frame++,inputs=[{...neutral(),...(s.recipe.p1?.(f,s.m)||{})},{...neutral(),...(s.recipe.p2?.(f,s.m)||{})}];
+ s.frame++;const f=s.m.tick,inputs=[{...neutral(),...(s.recipe.p1?.(f,s.m)||{})},{...neutral(),...(s.recipe.p2?.(f,s.m)||{})}];
  update(s.m,inputs,STEP);return s.m;
 }
 // Replay a scenario to an exact frame from its reset; used by the slider and the determinism tests.

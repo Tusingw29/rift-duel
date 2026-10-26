@@ -42,9 +42,11 @@ test('fresh guard rises with a brief safe start and vulnerable finish; held guar
  step(m,{guard:true},{},5);assert.equal(p.stun,0);step(m,{guard:true});assert.equal(p.guard,true);
  const n=grounded();n.players[0].prev.guard=true;step(n,{guard:true});assert.equal(n.players[0].anim,'knockdown');
 });
-test('late get-up attack cancels only the final window and has no invulnerability',()=>{
+test('late wake-up attack waits for the full rise and buffers only the final six frames',()=>{
  const m=grounded(),p=m.players[0];step(m,{attack:true});step(m);assert.equal(p.move,null);
- while(p.stun>.12)step(m);
- step(m,{attack:true});step(m);assert.ok(p.move);assert.equal(p.inv,0);
+ while(p.stun>6/60+1e-9)step(m);
+ step(m,{attack:true});step(m);assert.equal(p.move,null);assert.ok(p.stun>0);
+ while(p.stun>0)step(m);
+ assert.ok(p.move);assert.equal(p.getUp,null);
  const n=grounded();step(n,{attack:true},{},40);assert.equal(n.players[0].move,null);
 });

@@ -1,6 +1,7 @@
+import {update} from './fight-frame.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createMatch,neutral,update,hit} from '../dist/combat.js';
+import {createMatch,neutral,hit} from '../dist/combat.js';
 import {stockSpecials} from '../dist/stock-specials.js';
 import {fighters} from '../dist/fighters.js';
 const step=(m,a={},b={},frames=1)=>{for(let j=0;j<frames;j++)update(m,[{...neutral(),...a},{...neutral(),...b}]);};
@@ -72,7 +73,7 @@ test('held variant is lock-on relative on either side and works for player two',
 });
 test('buffering a held variant retains its cost and cannot bypass recovery',()=>{
  const m=createMatch();hold(m,1,1);
- step(m,{x:1,attack:true},{},28);step(m);
+ step(m,{x:1,attack:true},{},30);step(m);
  assert.equal(m.players[0].stocks,1);assert.equal(m.players[0].buffer.empowered,true);
  step(m,{}, {},10);assert.equal(m.players[0].stocks,0);assert.equal(m.players[0].move.empowered,true);
 });
