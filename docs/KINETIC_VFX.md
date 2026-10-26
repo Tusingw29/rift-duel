@@ -19,7 +19,7 @@ All new assets are Three.js geometry with depth. No raster cards, downloaded gam
 
 `trails.js` measures the longest tagged weapon surface in hand-local space, then transforms its base/tip into world space after animation. This includes costume replacement swords. Seven distinct simulation ticks are retained; extra renders at the same tick do not extend the history. Changing move clears the old arc. Aegis/Morrow get an ink boundary, a narrow light cutting band, and six small edge fragments; Morrow's interior band has an irregular edge. Afterimages and guard presentation retain their existing behavior.
 
-The ribbon is a world-space surface swept by the real 3D blade, not an image facing the camera. Seven samples form six connected strips; there is no extrapolated circle. It cannot invent motion missing from the sword animation. Rendering fewer than 60 frames per second can omit intermediate samples; history is never fabricated by reading a future pose.
+The ribbon is a world-space surface swept by the real 3D blade, not an image facing the camera. Seven samples drive a centripetal curve with four subdivisions between each measured pair. The old span tapers toward the cutting edge and fades through vertex alpha; there is no extrapolated circle. It cannot invent motion missing from the sword animation. Rendering fewer than 60 frames per second can omit intermediate samples; history is never fabricated by reading a future pose.
 
 ## Simulation contract for Claude
 
@@ -38,7 +38,7 @@ Claude: bind the contact/rebound body pose to `bounce.frame / bounce.frames`; th
 
 ## Beam lifecycle
 
-Aegis's first five projectile ticks draw the release burst at the actual free-hand socket and a connector from that socket to the travelling beam. The projectile itself remains simulation-positioned. Two solid helices wrap the shaft, with a dark outer sleeve. Disappearance produces a direction-oriented broken splash and three successive fragment drawings over six ticks. Both hit and expiry dissipations use this breakup; it is presentation only and does not imply another damage event.
+Aegis's first five projectile ticks draw the release burst at the actual free-hand socket and a connector from that socket to the travelling beam. The projectile itself remains simulation-positioned. Capture framing uses the posed root positions so a lifted defender stays inside the view. Two solid helices wrap the shaft, with a dark outer sleeve. The first travelling tail is clipped ahead of the animated hand so it cannot protrude behind the shooter; projectile releases do not emit a sword ribbon. Disappearance produces a direction-oriented broken splash and three successive fragment drawings over six ticks. Both hit and expiry dissipations use this breakup; it is presentation only and does not imply another damage event.
 
 ## Verification limits
 

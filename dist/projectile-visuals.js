@@ -1,4 +1,4 @@
-import {createSignature,energyStyle} from './energy-style.js';
+import {createSignature,energyStyle,socket} from './energy-style.js';
 import {createInkBeam,createInkRing} from './ink-energy.js';
 import * as T from './vendor/three.module.js';
 const custom=['wave','lightning','spirit','sword','snare','capture','beam'];
@@ -22,7 +22,7 @@ export function createProjectileVisual(){
  b.userData.signatures=Array.from({length:6},(_,id)=>{const g=createSignature(id);g.rotation.x=Math.PI/2;g.visible=false;b.add(g);return g;});
  return b;
 }
-export function updateProjectileVisual(b,p,color,time,reduced=false,fighterId=null){
+export function updateProjectileVisual(b,p,color,time,reduced=false,fighterId=null,ownerModel=null){
  b.visible=!!p;if(!p)return;color=Number.isInteger(fighterId)?energyStyle(fighterId).color:color;
  b.position.set(p.x,p.low?.35:1.4,p.z);b.rotation.set(0,0,0);
  b.material.color.set(color);b.material.visible=!custom.includes(p.kind);
@@ -35,6 +35,11 @@ export function updateProjectileVisual(b,p,color,time,reduced=false,fighterId=nu
  if(signature){b.material.visible=false;for(const kind of ['wheel',...custom,'fire'])b.userData[kind].visible=false;b.rotation.y=Math.atan2(p.dx,p.dz);}
  if(Number.isInteger(fighterId)&&p.kind==='capture'){const ring=b.userData.capture;ring.children[1].material.color.set(energyStyle(fighterId).color);}
  if(p.kind==='beam'||p.kind==='capture')b.userData[p.kind].userData.updateInk(time,reduced);
+ if(p.kind==='beam'){
+  const beam=b.userData.beam,hand=ownerModel?socket(ownerModel,'leftHand'):null,speed=Math.hypot(p.dx,p.dz)||1;
+  const distance=hand?Math.max(.1,((p.x-hand.x)*p.dx+(p.z-hand.z)*p.dz)/speed):2.7;
+  beam.scale.z=Math.min(1,distance/2.7);beam.position.z=.35*(1-beam.scale.z);
+ }
  if(p.kind==='wave'){b.position.y=.16;b.rotation.y=Math.atan2(p.dx,p.dz);}
  else if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}
  else if(custom.includes(p.kind)||p.kind==='fire'){b.rotation.y=Math.atan2(p.dx,p.dz);if(p.kind==='snare')b.rotation.z=time*3;}

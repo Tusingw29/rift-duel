@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import * as T from '../dist/vendor/three.module.js';
 import {createMatch,update,hit,neutral,STEP} from '../dist/combat.js';
 import {buildCharacter} from '../dist/characters.js';
-import {createTrailEffects,bladeAnchors,TRAIL_SAMPLES} from '../dist/trails.js';
+import {createTrailEffects,bladeAnchors,TRAIL_SAMPLES,curvedRibbonSamples} from '../dist/trails.js';
 import {createSignature,energyStyles,socket} from '../dist/energy-style.js';
 import {createAttackEffects} from '../dist/attack-effects.js';
 import {createImpactEffects} from '../dist/impact-effects.js';
@@ -39,4 +39,16 @@ test('charge coils track animated hands and feet; capture follows chest and brea
 test('helical beam ribs have real depth and floor shockwave is driven by the impact tick',()=>{
  const beam=createInkBeam(),ribs=beam.children.filter(n=>n.name==='beam-helical-rib');assert.equal(ribs.length,2);for(const r of ribs){r.geometry.computeBoundingBox();const b=r.geometry.boundingBox;assert.ok(b.max.x-b.min.x>.4&&b.max.y-b.min.y>.4&&b.max.z-b.min.z>2);}
  const m=createMatch(),fx=createImpactEffects(new T.Scene());m.players[1].lastGroundBounce={tick:0,x:2,z:3};fx.update(m);assert.ok(fx.entries[1].g.visible);const first=fx.entries[1].shock.scale.x;m.tick=6;fx.update(m);assert.ok(fx.entries[1].shock.scale.x>first);m.tick=15;fx.update(m);assert.ok(!fx.entries[1].g.visible);
+});
+
+test('curved ribbon preserves measured cutting samples, tapers history and uses vertex alpha',()=>{
+ const samples=Array.from({length:7},(_,i)=>[[0,0,0],[Math.cos(i*.2)*2,0,Math.sin(i*.2)*2]]),curve=curvedRibbonSamples(samples);
+ assert.equal(curve.length,25);for(let i=0;i<7;i++)assert.ok(new T.Vector3(...curve[i*4][1]).distanceTo(new T.Vector3(...samples[i][1]))<1e-8);
+ assert.deepEqual(curve[0][0],curve[0][1]);assert.ok(Math.hypot(...curve.at(-1)[0])<.31);
+ const fx=createTrailEffects(new T.Scene()),model=buildCharacter(0),m=createMatch();m.players[0].move={kind:'strike',frame:8,startup:8,active:3,recovery:20};fx.update([model],m,STEP);m.tick++;model.limbs[2].rotation.z=.4;fx.update([model],m,STEP);
+ const attr=fx.entries[0].ribbon.geometry.attributes.color;assert.equal(attr.itemSize,4);assert.equal(attr.getW(0),0);assert.equal(attr.getW(9),1);fx.reset();
+});
+test('Aegis release beam tail is clipped ahead of the animated hand without moving the collision point',()=>{
+ const b=createProjectileVisual(),g=new T.Group(),hand=new T.Group();g.add(hand);const model={g,limbs:[{userData:{hand}}]},p={kind:'beam',x:0,z:.5,dx:0,dz:12,radius:.4};const before=JSON.stringify(p);
+ updateProjectileVisual(b,p,'#6fe7ff',0,false,0,model);const beam=b.userData.beam;assert.ok(beam.scale.z<.2);assert.ok(p.z-2.7*beam.scale.z+beam.position.z>=0);assert.equal(JSON.stringify(p),before);
 });

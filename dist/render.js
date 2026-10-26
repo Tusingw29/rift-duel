@@ -124,7 +124,7 @@ export function createView(canvas,options={}){
   if(!m?.hitstop&&!m?.frozen)trailFX.update(models,m,dt,settings.reduced);
   beamFX.update(models,m,settings.reduced);impactFX.update(m,settings.reduced);
   while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
-  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced,p?m.players[p.owner].id:null);});
+  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced,p?m.players[p.owner].id:null,p?models[p.owner]:null);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced,cinema?.kind==='capture');
   attackFX.update(models,m,time,settings.reduced);
@@ -167,6 +167,7 @@ export function createView(canvas,options={}){
   beamFX.orient(camera);attackFX.orient(camera); // Open target ring remains readable from every fight camera.
   // Fit after smoothing/shake; keep clear of the HUD in ordinary combat.
   if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
+  if(m?.cinematic?.kind==='capture')fitFighters(camera,models.map(r=>({x:r.g.position.x,z:r.g.position.z,height:r.g.position.y})),p=>p.height);
   renderer.render(scene,camera);
  }
  select(0);return {select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3','graphic'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},get scene(){return scene;},get models(){return models;},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};

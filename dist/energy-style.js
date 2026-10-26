@@ -23,7 +23,10 @@ export function createChiCoil(){
  const g=new T.Group();g.name='bone-chi-coil';
  const points=Array.from({length:33},(_,i)=>{const t=i/32,a=t*Math.PI*3;return new T.Vector3(Math.cos(a)*.14,t*.4,Math.sin(a)*.14);});
  const curve=new T.CatmullRomCurve3(points);
- for(const [radius,color] of [[.043,'#5a2917'],[.03,'#ffb52e'],[.012,'#fff6c9']])g.add(new T.Mesh(facetColors(new T.TubeGeometry(curve,32,radius,4,false)),inkMaterial(color)));
+ for(const [radius,color] of [[.043,'#5a2917'],[.03,'#ffb52e'],[.012,'#fff6c9']]){
+  const highlight=radius===.012?new T.CatmullRomCurve3(points.map(p=>new T.Vector3(p.x*1.16,p.y,p.z*1.16))):curve;
+  const mesh=new T.Mesh(facetColors(new T.TubeGeometry(highlight,32,radius,4,false)),inkMaterial(color));if(radius===.043)mesh.material.side=T.BackSide;g.add(mesh);
+ }
  g.userData.updateInk=(time,reduced)=>{g.children.forEach(n=>n.rotation.y=reduced?0:Math.floor(time*12)*.32);};return g;
 }
 export function createShockwave(id){

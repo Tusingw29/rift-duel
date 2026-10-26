@@ -30,7 +30,8 @@ export function bladeAnchors(model,hand){
 // A swing is drawn from late wind-up through the first part of the follow-through.
 export function swingWindow(move){
  if(!move||!['strike','technique','launch','forward','back','jumpAttack'].includes(move.kind))return false;
- if(move.kind==='technique'&&['sphere','wheel','fan'].includes(move.effect))return false;
+ if(['beam','lightning','bolt','fire','snare'].includes(move.special?.type||move.stockSpecial?.type))return false;
+ if(move.kind==='technique'&&['sphere','wheel','fan','lance'].includes(move.effect))return false;
  const active=move.active||1;
  return move.frame>=move.startup*.55&&move.frame<=move.startup+active+Math.min(move.recovery*.3,8);
 }
@@ -51,16 +52,25 @@ export function ribbonData(samples,color){
  const indices=[];for(let i=0;i<samples.length-1;i++){const n=i*2;indices.push(n,n+1,n+2,n+1,n+3,n+2);}
  return {positions,colors,indices};
 }
+// Interpolate measured endpoints, then taper old blade spans toward the cutting edge.
+// Centripetal curves pass through the real samples; no invented circular swing.
+const TRAIL_POINTS=(TRAIL_SAMPLES-1)*4+1;
+export function curvedRibbonSamples(samples){
+ if(samples.length<2)return samples;
+ const base=new T.CatmullRomCurve3(samples.map(s=>new T.Vector3(...s[0]))),tip=new T.CatmullRomCurve3(samples.map(s=>new T.Vector3(...s[1]))),count=(samples.length-1)*4;
+ return Array.from({length:count+1},(_,i)=>{const t=i/count,b=base.getPoint(t),p=tip.getPoint(t);return [p.clone().lerp(b,.85*Math.sqrt(t)).toArray(),p.toArray()];});
+}
+function rgbaRibbon(samples,color){const d=ribbonData(samples,color),c=new T.Color(color);d.colors=[];samples.forEach((_,i)=>{const alpha=(i/Math.max(1,samples.length-1))**1.5;for(let j=0;j<2;j++)d.colors.push(c.r,c.g,c.b,alpha);});return d;}
 export function createTrailEffects(scene){
  const entries=new WeakMap(),all=[];const tmp=new T.Vector3(),tmp2=new T.Vector3();
  function entry(model){
   let e=entries.get(model);if(e)return e;
-  const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array(TRAIL_SAMPLES*6),3));geometry.setAttribute('color',new T.Float32BufferAttribute(new Float32Array(TRAIL_SAMPLES*6),3));
+  const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array(TRAIL_POINTS*6),3));geometry.setAttribute('color',new T.Float32BufferAttribute(new Float32Array(TRAIL_POINTS*8),4));
   const ribbon=new T.Mesh(geometry,new T.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.85,side:T.DoubleSide,depthWrite:false}));ribbon.frustumCulled=false;ribbon.visible=false;scene.add(ribbon);
-  const indices=ribbonData(Array.from({length:TRAIL_SAMPLES},()=>[[0,0,0],[0,0,0]]),'#fff').indices;geometry.setIndex(indices);
+  const indices=ribbonData(Array.from({length:TRAIL_POINTS},()=>[[0,0,0],[0,0,0]]),'#fff').indices;geometry.setIndex(indices);
   const shield=new T.Mesh(new T.CircleGeometry(.95,6),new T.MeshBasicMaterial({color:fighters[model.id].color,transparent:true,opacity:0,side:T.DoubleSide,depthWrite:false,blending:T.AdditiveBlending}));shield.visible=false;scene.add(shield);
-  const style=energyStyle(model.id),outline=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:style.ink}));outline.name='blade-ink-edge';outline.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array((TRAIL_SAMPLES-1)*12),3));outline.frustumCulled=false;scene.add(outline);
-  const core=new T.Mesh(new T.BufferGeometry(),new T.MeshBasicMaterial({color:style.core,side:T.DoubleSide,transparent:true,opacity:.9,depthWrite:false}));core.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array(TRAIL_SAMPLES*6),3));core.geometry.setIndex(indices);core.frustumCulled=false;scene.add(core);
+  const style=energyStyle(model.id),outline=new T.LineSegments(new T.BufferGeometry(),new T.LineBasicMaterial({color:style.ink}));outline.name='blade-ink-edge';outline.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array((TRAIL_POINTS-1)*12),3));outline.frustumCulled=false;scene.add(outline);
+  const core=new T.Mesh(new T.BufferGeometry(),new T.MeshBasicMaterial({color:'#ffffff',vertexColors:true,side:T.DoubleSide,transparent:true,opacity:.9,depthWrite:false}));core.geometry.setAttribute('position',new T.Float32BufferAttribute(new Float32Array(TRAIL_POINTS*6),3));core.geometry.setAttribute('color',new T.Float32BufferAttribute(new Float32Array(TRAIL_POINTS*8),4));core.geometry.setIndex(indices);core.renderOrder=1;core.frustumCulled=false;scene.add(core);
   const shards=Array.from({length:6},()=>{const s=new T.Mesh(new T.ConeGeometry(.035,.16,3),new T.MeshBasicMaterial({color:model.id===3?'#e26946':style.core}));s.visible=false;scene.add(s);return s;});
   e={model,ribbon,shield,outline,core,shards,lastTick:null,lastMove:null,sampleTicks:[],samples:[],ghosts:[],ghostClock:0,flash:0,flashColor:fighters[model.id].color};entries.set(model,e);all.push(e);return e;
  }
@@ -98,12 +108,12 @@ export function createTrailEffects(scene){
    }
    e.ribbon.visible=e.samples.length>1&&!reduced;e.outline.visible=e.core.visible=e.ribbon.visible&&[0,3].includes(model.id);e.shards.forEach(s=>s.visible=false);
    if(e.ribbon.visible){
-    const style=energyStyle(model.id),data=ribbonData(e.samples,style.color),geometry=e.ribbon.geometry;
+    const style=energyStyle(model.id),sweep=curvedRibbonSamples(e.samples),data=rgbaRibbon(sweep,style.color),geometry=e.ribbon.geometry;e.ribbon.userData.points=sweep.length;
     geometry.attributes.position.array.set(data.positions);geometry.attributes.color.array.set(data.colors);
     geometry.setDrawRange(0,data.indices.length);geometry.attributes.position.needsUpdate=true;geometry.attributes.color.needsUpdate=true;
-    const coreSamples=e.samples.map(([a,b],i)=>{const at=t=>a.map((x,k)=>x+(b[k]-x)*t);return [at(model.id===3?.62+(i%2)*.15:.76),at(.96)];});
-    const c=ribbonData(coreSamples,style.core);e.core.geometry.attributes.position.array.set(c.positions);e.core.geometry.attributes.position.needsUpdate=true;e.core.geometry.setDrawRange(0,c.indices.length);
-    const edges=[];for(let j=1;j<e.samples.length;j++)for(let side=0;side<2;side++)edges.push(...e.samples[j-1][side],...e.samples[j][side]);
+    const coreSamples=sweep.map(([a,b],i)=>{const at=t=>a.map((x,k)=>x+(b[k]-x)*t);return [at(model.id===3?.62+(i%2)*.15:.76),at(.96)];});
+    const c=rgbaRibbon(coreSamples,style.core);e.core.geometry.attributes.color.array.set(c.colors);e.core.geometry.attributes.color.needsUpdate=true;e.core.geometry.attributes.position.array.set(c.positions);e.core.geometry.attributes.position.needsUpdate=true;e.core.geometry.setDrawRange(0,c.indices.length);
+    const edges=[];for(let j=1;j<sweep.length;j++)for(let side=0;side<2;side++)edges.push(...sweep[j-1][side],...sweep[j][side]);
     e.outline.geometry.attributes.position.array.set(edges);e.outline.geometry.attributes.position.needsUpdate=true;e.outline.geometry.setDrawRange(0,edges.length/3);
     e.shards.forEach((s,j)=>{const pair=e.samples[Math.max(0,e.samples.length-1-j)];s.visible=e.outline.visible;s.position.set(...pair[1]);s.position.y+=j*.025;s.rotation.set(j*.8,tick*.35,j);s.scale.setScalar(1-j*.12);});
    }
