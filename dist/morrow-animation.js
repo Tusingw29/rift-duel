@@ -3,7 +3,7 @@ import {Vector3} from './vendor/three.module.js';
 import {CHANNELS} from './rig-pose.js';
 import {sampleClip} from './pose-clips.js';
 import {clipMovePose} from './locomotion-clips.js';
-import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,strikeSchedule,sampleSchedule} from './grounded-animation.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
@@ -30,12 +30,10 @@ export function morrowStrikePose(move){
  if(frame>=end)return {...morrowStance};
  // Legs and hips begin driving while the sword is still loaded. Acceleration
  // comes late, then the heavy blade takes time to decelerate and return.
- const drive=mix(wind,contact,.12);drive.hipYaw=wind.hipYaw*.45;drive.bodyZ=wind.bodyZ*.4;
+ // The hips lead into the whip while the blade is still loaded; the shared schedule holds the wind-up, whips in two frames and locks the cut at contact.
+ const drive=mix(wind,contact,.5);drive.hipYaw=contact.hipYaw*.9;
  const brace=mix(follow,morrowStance,.68);
- const keys=[[0,morrowStance],[move.startup*.45,wind],[move.startup*.68,drive],[move.startup,contact],[move.startup+active+move.recovery*.42,follow],[move.startup+active+move.recovery*.8,brace],[end,morrowStance]];
- let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
- const [a,from]=keys[i-1],[b,to]=keys[i],u=(frame-a)/(b-a||1);
- return mix(from,to,i===3?u*u:smooth(u));
+ return sampleSchedule(strikeSchedule(move,morrowStance,wind,drive,contact,follow,brace),frame);
 }
 const steps=[
  p({bodyX:-.05,bodyY:-.21,lean:.15,twist:.25,hipYaw:-.12,llx:0,rlx:0,lk:.55,rk:.15,lax:-.6,rax:-.25}),
@@ -58,7 +56,7 @@ function targetFor(player,time,phase,motion){
  if(player?.staggerState&&!player.move)return {kind:'stagger',pose:staggerPose(morrowStance,p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),player.staggerState)};
  if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:-.22,lean:.04})};
  if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
- if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:p({lax:-1,le:-1.6,rax:-.65,re:-.5,bodyY:-.25,lean:.12-.18*recoil,bodyZ:-.10*recoil,hx:-.1*recoil})};}
+ if(player?.guard){const recoil=Math.min(1,(player.blockStun||0)/.22);return {kind:'guard',pose:rhythmPose(p({lax:-1,le:-1.6,rax:-.65,re:-.5,bodyY:-.25,lean:.12-.18*recoil,bodyZ:-.10*recoil,hx:-.1*recoil}),time,.3)};}
  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),morrowStance,player.animTime)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({bodyY:-.26,lean:-.08,laz:.4,raz:-.3,le:-1,re:-.65})};
  if(player?.anim==='run')return {kind:'run',pose:morrowMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};

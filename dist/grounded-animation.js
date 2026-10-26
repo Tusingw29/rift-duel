@@ -30,7 +30,10 @@ export const HURT_TIME=.42;
 export function recoilPose(impact,stance,animTime){
  const elapsed=Math.max(0,HURT_TIME-Math.min(HURT_TIME,animTime||0));
  const deeper=mix(impact,stance,-.18);
- return sampleKeys([[0,mix(stance,impact,.7),snapOut],[.07,deeper,snapOut],[.16,impact,smooth],[HURT_TIME,stance,smooth]],elapsed);
+ // Frame one is the full impact bend (no blend-in); hitstop carries a high-frequency shudder for the first 0.1 s.
+ const p=sampleKeys([[0,impact,snapOut],[.07,deeper,snapOut],[.16,impact,smooth],[HURT_TIME,stance,smooth]],elapsed);
+ if(elapsed<.1)p.bodyX+=.025*(Math.floor(elapsed*60+1e-6)%2?1:-1);
+ return p;
 }
 // Stagger (EZ-03): the guard is broken and the fighter reels, knees buckled, head lolling, swaying on
 // planted feet. Each recovery tap straightens the body a step; the opening closes with a snap to stance.
@@ -59,8 +62,8 @@ const hipHeight=r=>2*(r.legLength||.56)+(r.ankleHeight??.14);
 const root=(r,pitch,hipY,hipZ,turn=0)=>{const P=hipHeight(r);return {bodyPitch:pitch,bodyRoll:0,hipYaw:turn,bodyY:hipY-P*Math.cos(pitch),bodyZ:hipZ-P*Math.sin(pitch)};};
 export function knockdownPose(r,stance,impact,elapsed){
  const s=stance;
- const hit={...impact,bodyY:s.bodyY-.02,lean:-.25,hx:-.4,lax:-1.2,rax:-1.1,laz:.45,raz:-.45,le:-.9,re:-.9,lk:.3,rk:.28,bodyPitch:-.08};
- const topple={...s,...root(r,-.55,hipHeight(r)-.3,-.25),twist:0,side:0,lean:-.3,hx:-.35,llx:-.5,rlx:-.3,llz:.12,rlz:-.12,lk:.25,rk:.2,lax:-2.1,rax:-2.0,laz:.5,raz:-.5,le:-.6,re:-.6};
+ const hit={...impact,bodyY:s.bodyY-.02,lean:-.25,hx:-.4,lax:-1.2,rax:-1.1,laz:.45,raz:-.45,le:-.9,re:-.9,llx:s.llx-.1,rlx:s.rlx+.1,lk:.3,rk:.28,bodyPitch:-.08};
+ const topple={...s,...root(r,-.55,hipHeight(r)-.22,-.25),twist:0,side:0,lean:-.3,hx:-.35,llx:-.5,rlx:-.3,llz:.12,rlz:-.12,lk:.25,rk:.2,lax:-2.1,rax:-2.0,laz:.5,raz:-.5,le:-.6,re:-.6};
  const slam={...s,...root(r,-1.45,.3,-.5),twist:0,side:0,lean:.3,hx:.7,llx:-.7,rlx:-.55,llz:.18,rlz:-.18,lk:.1,rk:.1,lax:-1.0,rax:-1.0,laz:.95,raz:-.95,le:-1.0,re:-1.0};
  const bounce={...slam,...root(r,-1.47,.34,-.52),lean:.1,hx:-.15,llx:-.4,rlx:-.3,lk:.3,rk:.25,le:-1.2,re:-1.2};
  const settle={...slam,...root(r,-1.5,.24,-.55),lean:0,hx:-.12,side:.05,llx:-.35,rlx:-.3,llz:.16,rlz:-.16,lk:.4,rk:.35,lax:-.3,rax:-.25,laz:1.1,raz:-1.1,le:-1.3,re:-1.3};
@@ -103,6 +106,41 @@ export function rearLoad(stance,wind,contact){
  const rear=stance.rlx>stance.llx?'r':'l',front=rear==='r'?'l':'r';
  return {...wind,bodyY:wind.bodyY-.05,[rear+'k']:wind[rear+'k']+.25,[front+'k']:wind[front+'k']+.08,hipYaw:wind.hipYaw-contact.hipYaw*.2};
 }
+// ---- Strike schedule shared by every fighter: the wind-up is held until two frames before contact, a two-frame
+// whip reaches the contact pose exactly on the startup frame, the extension is locked for the hitstop (up to four
+// frames after the active window), then the follow-through stays open and the retract settles. Sprite-sheet timing:
+// held extremes, one or two frames of motion between them.
+export function strikeSchedule(move,stance,wind,drive,contact,follow,retract){
+ const active=move.active||1,end=move.startup+active+move.recovery;
+ const windAt=Math.max(1,Math.min(move.startup*.6,move.startup-2)),whip=Math.max(windAt+.5,move.startup-1);
+ const hold=move.startup+active+Math.min(4,Math.max(1,move.recovery*.3));
+ const keys=[[0,stance,smooth],[windAt,wind,smooth]];
+ if(move.startup-2>windAt+.5)keys.push([move.startup-2,wind,smooth]); // long startups hold the loaded pose until the whip
+ keys.push([whip,drive,snapOut],[move.startup,contact,snapOut],[hold,contact,smooth],[move.startup+active+move.recovery*.5,follow,smooth],[move.startup+active+move.recovery*.8,retract,smooth],[end,stance,smooth]);
+ return keys;
+}
+export function sampleSchedule(keys,frame){
+ const end=keys.at(-1)[0];frame=Math.max(0,Math.min(end,frame));if(frame>=end)return {...keys.at(-1)[1]};
+ let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,(ease||smooth)((frame-a)/(b-a||1)));
+}
+// ---- Travel burst and brake. combat-travel paths ease in and out; the body pushes off into the acceleration and
+// counter-leans with bent knees and a wide plant on the brake, so a travelling fighter is never a statue on a dolly.
+export function travelOverlay(pose,player,motion){
+ const path=player?.travel||player?.move?.travel;if(!path||!path.frames||player?.move?.aerial)return pose;
+ const u=Math.min(1,(path.frame||0)/path.frames),accel=1-2*u;
+ // The brake shows through the last third of the path and is gone by the final frame, where a pursuit's authored contact pose must be exact.
+ const w=u<.85?1:1-smooth((u-.85)/.15),push=Math.max(0,accel)*w,brake=Math.max(0,-accel)*w,a=accel*w;
+ const dir=motion||{forward:1,side:0},out={...pose};
+ out.lean+=.22*a*dir.forward;out.hx-=.08*a*dir.forward;out.side-=.18*a*dir.side;out.hipYaw+=.1*a*dir.side;
+ out.bodyY-=.07*push+.1*brake;out.lk+=.25*brake;out.rk+=.25*brake;out.llz+=.1*brake;out.rlz-=.1*brake;
+ return out;
+}
+// ---- Frame-bound jump squat and get-up (the simulation's jumpSquat and getUp states). Progress reads a frame
+// counter if the state carries one, else the countdown timer; without either the pose sits mid-way.
+export const JUMP_SQUAT_FRAMES=4,GET_UP_FRAMES=12;
+const stateProgress=(player,frames)=>{const total=frames/60;if(Number.isFinite(player.stateFrame))return Math.max(0,Math.min(1,player.stateFrame/frames));if(Number.isFinite(player.animTime)&&player.animTime>=0&&player.animTime<=total+1e-6&&player.animTime!==undefined&&('animTime' in player))return 1-player.animTime/total;return .5;};
+export function squatPose(stance,player){const s=stance,u=stateProgress(player,JUMP_SQUAT_FRAMES);const crouch={...s,bodyY:s.bodyY-.22,lean:.3,hx:-.1,llx:-.45,rlx:-.2,lk:1.0,rk:.9,lax:s.lax+.5,rax:s.rax+.5,le:s.le-.3,re:s.re-.3};return mix(s,crouch,smooth(u));}
+export function getUpPose(r,stance,player){return risePose(r,stance,stateProgress(player,GET_UP_FRAMES));}
 export function travelTarget(player,stance,strikePose){
  const m=player?.move;if(!m||!m.travel)return null;
  if(m.kind==='pursuit'&&!m.aerial)return {kind:'strike',pose:pursuitTravelPose(m,stance,strikePose)};
@@ -119,11 +157,14 @@ export function travelMotion(player,previous){
 export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  const dt=Math.max(0,Math.min(.1,r[`${prefix}Time`]===undefined?0:time-r[`${prefix}Time`]));r[`${prefix}Time`]=time;r.lastTime=time;
  if(Number.isFinite(player?.x)&&Number.isFinite(player?.z)){
-  if(r[`${prefix}Pos`]&&player.anim==='run')r.stridePhase=(r.stridePhase||0)+Math.min(.5,Math.hypot(player.x-r[`${prefix}Pos`][0],player.z-r[`${prefix}Pos`][1]))/STRIDE*Math.PI;
+  if(r[`${prefix}Pos`]&&(player.anim==='run'||player.travel||player.move?.travel))r.stridePhase=(r.stridePhase||0)+Math.min(.5,Math.hypot(player.x-r[`${prefix}Pos`][0],player.z-r[`${prefix}Pos`][1]))/STRIDE*Math.PI;
   r[`${prefix}Pos`]=[player.x,player.z];
  }
  const motion=travelMotion(player,r[`${prefix}Last`]);r[`${prefix}Last`]=Number.isFinite(player?.x)?[player.x,player.z]:null;
- let target=targetFor(player,time,player?.stridePhase??r.stridePhase??0,motion);
+ let target=null;
+ if(poses&&player?.anim==='jumpSquat'&&!player.move)target={kind:'squat',pose:squatPose(poses.stance,player)};
+ else if(poses&&player?.anim==='getUp'&&!player.move)target={kind:'rise',pose:getUpPose(r,poses.stance,player)};
+ else target=targetFor(player,time,player?.stridePhase??r.stridePhase??0,motion);
  if(!target&&poses&&isDown(player))target={kind:'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time)};
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}
@@ -132,14 +173,17 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  if(prevKind==='knockdown'&&['idle','run','guard','charge'].includes(target.kind))r[`${prefix}Rise`]={elapsed:0};
  if(prevKind==='flight'&&['idle','run','guard'].includes(target.kind))r[`${prefix}Landing`]=0;
  if(r[`${prefix}Landing`]!==undefined){r[`${prefix}Landing`]+=dt;if(r[`${prefix}Landing`]>=LANDING_TIME||player?.move||target.kind==='flight')delete r[`${prefix}Landing`];else target={...target,pose:landingAbsorb(target.pose,r[`${prefix}Landing`])};}
- const rise=r[`${prefix}Rise`];let plantKind=target.kind;
+ if(player?.travel||player?.move?.travel)target={...target,pose:travelOverlay(target.pose,player,motion)};
+ const travelling=player?.move?.travel&&player.move.frame<player.move.startup&&!player.move.aerial&&target.kind==='strike';
+ const rise=r[`${prefix}Rise`];let plantKind=travelling?'run':target.kind;
  if(rise){rise.elapsed+=dt;const u=rise.elapsed/RISE_TIME;if(u>=1||player?.move||target.kind==='knockdown')delete r[`${prefix}Rise`];else{target={...target,pose:risePose(r,target.pose,u)};plantKind='rise';}}
  const move=player?.move,dir=motion||{forward:player?.prev?.x||0,side:player?.prev?.z||0},key=target.kind+(target.kind==='run'?`${Math.sign(dir.forward)},${Math.sign(dir.side)}`:'');
  const old=r[`${prefix}Entry`];
  if(!old||old.key!==key||target.kind==='strike'&&(old.move!==move||move.frame<old.frame))r[`${prefix}Entry`]={key,move,frame:move?.frame,elapsed:0,offset:Object.fromEntries(CHANNELS.map(k=>[k,(r[`${prefix}Pose`]||target.pose)[k]-target.pose[k]]))};
  const entry=r[`${prefix}Entry`];entry.elapsed+=dt;entry.frame=move?.frame;
  const entryFrames=move?.travel?Math.min(3,move.startup):move?.startup;
- const weight=1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
+ // Hits, jump squats and get-ups snap on their first frame: no entry blend.
+ const weight=['hurt','squat','rise','knockdown'].includes(target.kind)?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.

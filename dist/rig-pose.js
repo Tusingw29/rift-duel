@@ -27,7 +27,7 @@ export function plantSupportFeet(r,p,kind){
  const upper=r.legLength||.48,lower=r.shinLength||upper,reach=upper+lower;ankle.y=-lower;
  // Airborne feet pitch up a little (dorsiflexed, reaching for the floor); a flat foot at the last airborne frame would dip the shoe under it.
  if(['flight','freeFlight'].includes(kind)&&r.feet)for(const foot of r.feet)foot.rotation.x=-.3;
- if(!p||!(['idle','guard','charge','strike','shot','forward','back','run','stagger'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
+ if(!p||!(['idle','guard','charge','strike','shot','forward','back','run','stagger','squat'].includes(kind)||kind==='hurt'&&r.footOffsets)){r.footPlants=null;r.gaitPlants=null;r.recoilStep=null;r.talaGait=null;r.gaitLanding=null;return;}
  r.g.updateMatrixWorld(true);
  const position=new Vector3();r.g.getWorldPosition(position);
  if(r.plantRoot&&position.distanceTo(r.plantRoot)>.5){r.footPlants=null;r.gaitPlants=null;r.talaGait=null;}

@@ -5,7 +5,7 @@ import {retreatLift} from './retreat-motion.js';
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
-import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME} from './grounded-animation.js';
+import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
@@ -45,11 +45,9 @@ export function strikePose(move){
  const hand=move.chain===2?'l':'r',sign=move.chain===2?1:-1;
  const drive=pose({...mix(track.wind,track.strike,.74),hipYaw:track.strike.hipYaw*.98,bodyX:sign*.065});
  const retract=pose({...mix(track.follow,stance,.6),[hand+'e']:-1.5,[hand+'ax']:-.85,bodyX:-sign*.035,bodyY:-.19});
- // Wind-up held through half the startup (the tell), follow-through open for 40% of the recovery (the opening), then the retract.
- const keys=[[0,stance,smooth],[move.startup*.6,track.wind,smooth],[move.startup*.9,drive,snapOut],[move.startup,track.strike,snapOut],[move.startup+active+move.recovery*.42,track.follow,smooth],[move.startup+active+move.recovery*.78,retract,smooth],[end,stance,smooth]];
- const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return stance;
- let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
- const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
+ // Shared schedule: held wind-up, two-frame whip, locked contact through the hitstop, open follow-through, retract.
+ if(move.frame>=end)return stance;
+ return sampleSchedule(strikeSchedule(move,stance,track.wind,drive,track.strike,track.follow,retract),move.frame);
 }
 // Basic ranged fire: gather at the rear hip, drive the palm from the floor,
 // carry the shoulder past release, then recover behind the lead hand.
@@ -173,7 +171,7 @@ export function idlePose(t){
  // Weight rhythm shared with the roster (footwork.js); the head and hands breathe on top.
  return pose(rhythmPose({...stance,hx:.08+Math.sin(t*5.2)*.035,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04},t));
 }
-export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
+export function hurtPose(animTime){return pose(recoilPose(impact,stance,animTime));} // frame-one snap and hitstop shudder shared with the roster
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
 // Which states the sample handles; everything else falls back to the shared animator.
 export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
@@ -190,7 +188,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!move&&!p.launched&&['jump','recover','idle','run'].includes(p.anim)&&(p.air>0||(p.airMotion?.height||0)>.01))return {pose:freeFlightPose(p),rate:20,kind:'freeFlight'};
  if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
- if(p.guard)return {pose:guardPose(p.blockStun||0),rate:20,kind:'guard'};
+ if(p.guard)return {pose:pose(rhythmPose(guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
  if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase),rate:13,kind:'run'};
@@ -198,7 +196,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
 }
 export function advanceStride(r,p){
  if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.z))return r.stridePhase||0;
- if(r.lastPos&&p.anim==='run'){const d=Math.hypot(p.x-r.lastPos[0],p.z-r.lastPos[1]);r.stridePhase=(r.stridePhase||0)+Math.min(d,.5)/((r.strideLength||STRIDE)*(r.gaitTargets&&Math.abs(p.prev?.z||0)>Math.abs(p.prev?.x||0)?.65:1))*Math.PI;}
+ if(r.lastPos&&(p.anim==='run'||p.travel||p.move?.travel)){const d=Math.hypot(p.x-r.lastPos[0],p.z-r.lastPos[1]);r.stridePhase=(r.stridePhase||0)+Math.min(d,.5)/((r.strideLength||STRIDE)*(r.gaitTargets&&Math.abs(p.prev?.z||0)>Math.abs(p.prev?.x||0)?.65:1))*Math.PI;}
  // Keep the step phase when stopping so a brief pause does not restart the gait.
  r.lastPos=[p.x,p.z];return r.stridePhase||0;
 }
@@ -212,8 +210,12 @@ export function animateTala(r,p,time){
  const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
- let target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
+ let target=null;
+ if(p?.anim==='jumpSquat'&&!p.move)target={kind:'squat',rate:Infinity,pose:pose(squatPose(stance,p))};
+ else if(p?.anim==='getUp'&&!p.move)target={kind:'rise',rate:Infinity,pose:pose(getUpPose(r,stance,p))};
+ else target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);
  if(!target&&isDown(p))target={kind:'knockdown',rate:Infinity,pose:pose(downPose(r,stance,impact,p,time))};
+ if(target&&(p?.travel||p?.move?.travel))target.pose=pose(travelOverlay(target.pose,p,motion));
  if(r.freeFlight&&target?.kind!=='freeFlight'&&target&&!p?.move&&['idle','run','guard'].includes(target.kind))r.landingTime=0;
  r.freeFlight=target?.kind==='freeFlight';
  if(r.landingTime!==undefined){
@@ -223,7 +225,8 @@ export function animateTala(r,p,time){
  }
  if(r.wasDown&&target&&['idle','run','guard','charge'].includes(target.kind))r.riseTime=0;
  r.wasDown=target?.kind==='knockdown';
- let plantKind=target?.kind;
+ const travelling=p?.move?.travel&&p.move.frame<p.move.startup&&!p.move.aerial&&target?.kind==='strike';
+ let plantKind=travelling?'run':target?.kind;
  if(r.riseTime!==undefined&&target){
   r.riseTime+=dt;const u=r.riseTime/RISE_TIME;
   if(u>=1||p?.move||target.kind==='knockdown')delete r.riseTime;

@@ -23,7 +23,7 @@ test('run shifts the pelvis and counter-rotates the chest while punches lead wit
  assert.ok(a.hipYaw*b.hipYaw<0,'hips alternate');
  for(const chain of [1,2,3]){
   const m={...moveTiming(fighters[2],'strike'),chain};
-  const drive=strikePose({...m,frame:m.startup*.9}),hit=strikePose({...m,frame:m.startup}); // the wind-up is now held until 60% of the startup
+  const drive=strikePose({...m,frame:m.startup-1}),hit=strikePose({...m,frame:m.startup}); // the whip starts one frame before contact
   assert.ok(Math.abs(drive.hipYaw)>.95*Math.abs(hit.hipYaw),'hips already committed before contact');
   const arm=chain===2?'lax':'rax';assert.ok(Math.abs(drive[arm]-hit[arm])>.05,'arm still finishing its drive');
  }

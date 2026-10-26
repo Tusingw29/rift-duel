@@ -26,15 +26,33 @@ export function rhythmPose(pose,time,amount=1){
 // catch and landing settle, adds the idle taps and the rear-foot drive under a strike.
 export function rhythmFootOffsets(r,p,kind){
  const offsets=talaFootOffsets(r,p,kind),time=r.lastTime||0;
- // Taps only while idle; a tap interrupted by guard, a strike or a hit fades out over 0.12 s so the ankle never jumps.
- if(kind==='idle'){
-  const {step}=idleRhythm(time);
-  if(step){const a=Math.sin(Math.PI*step.u),o={x:(step.foot?1:-1)*.08*a,y:.1*a,z:.12*a};offsets[step.foot].x+=o.x;offsets[step.foot].y+=o.y;offsets[step.foot].z+=o.z;r.tapState={foot:step.foot,o,time};}
-  else r.tapState=null;
- }else if(r.tapState&&['strike','shot','forward','back'].includes(kind))r.tapState=null;
- else if(r.tapState){
-  const k=1-smooth((time-r.tapState.time)/.12);
-  if(k<=0)r.tapState=null;else{const {foot,o}=r.tapState;offsets[foot].x+=o.x*k;offsets[foot].y+=o.y*k;offsets[foot].z+=o.z*k;}
+ // Stepping idle: while the weight sits on one foot the other lifts, moves to a new spot and re-plants there. Between
+ // steps the displacement is constant, so a planted foot never skates. The lead foot steps forward and home, the rear
+ // foot steps out-and-back and home, so the stance never drifts from the simulation position. Guard steps at 45%.
+ const stepping=kind==='idle'||kind==='guard',amount=kind==='idle'?1:.45;
+ r.stepFeet??=[{disp:{x:0,z:0},next:null,parity:0,last:null},{disp:{x:0,z:0},next:null,parity:0,last:null}];
+ if(stepping){
+  const {step}=idleRhythm(time),pose=r.lastPose,lead=pose&&pose.rlx<pose.llx?1:0;
+  r.stepLeft=null;
+  for(const [i,f] of r.stepFeet.entries()){
+   if(step&&step.foot===i){
+    if(!f.next){f.parity^=1;const out=f.parity;f.next=i===lead?{x:out?(i?.04:-.04):0,z:out?.11:0}:{x:out?(i?.08:-.08):0,z:out?-.07:0};}
+    const u=smooth(step.u),lift=Math.sin(Math.PI*step.u);
+    const o={x:(f.disp.x+(f.next.x-f.disp.x)*u)*amount,y:.1*lift*amount,z:(f.disp.z+(f.next.z-f.disp.z)*u)*amount};
+    offsets[i].x+=o.x;offsets[i].y+=o.y;offsets[i].z+=o.z;f.last=o;
+   }else{
+    if(f.next){f.disp=f.next;f.next=null;}
+    const o={x:f.disp.x*amount,y:0,z:f.disp.z*amount};offsets[i].x+=o.x;offsets[i].z+=o.z;f.last=o;
+   }
+  }
+ }else if(r.stepFeet.some(f=>f.last&&(f.last.x||f.last.y||f.last.z))){
+  // Leaving the stepping states: a strike snaps the feet home (contact geometry must be exact); anything else fades over 0.12 s.
+  if(['strike','shot','forward','back'].includes(kind))for(const f of r.stepFeet){f.disp={x:0,z:0};f.next=null;f.last=null;}
+  else{
+   r.stepLeft??=time;const k=1-smooth((time-r.stepLeft)/.12);
+   if(k<=0)for(const f of r.stepFeet){f.disp={x:0,z:0};f.next=null;f.last=null;}
+   else for(const [i,f] of r.stepFeet.entries())if(f.last){offsets[i].x+=f.last.x*k;offsets[i].y+=f.last.y*k;offsets[i].z+=f.last.z*k;}
+  }
  }
  // Rigs with an articulated foot pivot on the ball instead (talaFootPivot, Morrow's transition); the slide is for the others.
  if(kind==='strike'&&p?.move&&!p.move.travel&&!r.footPivot){

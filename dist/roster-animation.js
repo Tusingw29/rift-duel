@@ -1,5 +1,5 @@
 import {CHANNELS} from './rig-pose.js';
-import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad} from './grounded-animation.js';
+import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad,strikeSchedule,sampleSchedule} from './grounded-animation.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
@@ -21,11 +21,7 @@ function grounded(prefix,def){
   const [wind,contact,follow]=cuts[Math.min(2,Math.max(0,(move.chain||1)-1))],active=move.active||1,end=move.startup+active+move.recovery;
   const drive=pose({...mix(wind,contact,.72),hipYaw:contact.hipYaw*.95,bodyY:contact.bodyY-.03});
   const retract=pose({...mix(follow,stance,.62),bodyY:stance.bodyY-.05});
-  // Wind-up is held through half the startup (the tell), the follow-through stays open for 40% of the recovery (the opening), then the retract.
-  const keys=[[0,stance,smooth],[move.startup*.6,wind,smooth],[move.startup*.9,drive,snapOut],[move.startup,contact,snapOut],[move.startup+active+move.recovery*.42,follow,smooth],[move.startup+active+move.recovery*.78,retract,smooth],[end,stance,smooth]];
-  const frame=Math.max(0,Math.min(end,move.frame));if(frame>=end)return {...stance};
-  let i=1;while(i<keys.length-1&&frame>keys[i][0])i++;
-  const [a,from]=keys[i-1],[b,to,ease]=keys[i];return mix(from,to,ease((frame-a)/(b-a||1)));
+  return sampleSchedule(strikeSchedule(move,stance,wind,drive,contact,follow,retract),move.frame);
  }
  // Footwork reuses the authored step clips; the arms stay close to this fighter's ready
  // position instead of the full jogging pump, and the torso keeps its own carriage.
@@ -43,7 +39,7 @@ function grounded(prefix,def){
   if(player?.staggerState&&!player.move)return {kind:'stagger',pose:staggerPose(stance,impact,player.staggerState)};
   if(player?.anim==='recover'&&!player.air&&!player.move)return {kind:'idle',pose:p({bodyY:stance.bodyY-.03,lean:stance.lean+.04})};
   if(player?.move||player?.air>0||player?.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(player?.anim))return null;
-  if(player?.guard)return {kind:'guard',pose:mix(guardPose,guardHit,Math.min(1,(player.blockStun||0)/.22))};
+  if(player?.guard)return {kind:'guard',pose:rhythmPose(mix(guardPose,guardHit,Math.min(1,(player.blockStun||0)/.22)),time,.4)};
   if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(impact,stance,player.animTime)};
   if(player?.anim==='charge')return {kind:'charge',pose:charge};
   if(player?.anim==='run')return {kind:'run',pose:stepPose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
