@@ -1,13 +1,13 @@
 import * as T from './vendor/three.module.js';
-import {createInkRing,inkMaterial} from './ink-energy.js';
+import {createEnergyBurst,inkMaterial,facetColors} from './ink-energy.js';
 // Presentation-only: projectile collision positions and character poses are never changed.
 export function createBeamEffects(scene){
  const group=new T.Group();group.name='beam-release-effects';scene.add(group);
  const entries=[],up=new T.Vector3(0,1,0),direction=new T.Vector3();let match=null,lastTick=-1;
  function make(){
-  const g=new T.Group(),flare=createInkRing('#6fe7ff'),nose=createInkRing('#6fe7ff');
-  const connector=new T.Mesh(new T.CylinderGeometry(.055,.12,1,6),inkMaterial('#e9ffff'));
-  const shards=Array.from({length:6},()=>new T.Mesh(new T.ConeGeometry(.11,.5,3),inkMaterial('#9af5ff')));
+  const g=new T.Group(),flare=createEnergyBurst('#6fe7ff'),nose=createEnergyBurst('#6fe7ff');
+  const connector=new T.Mesh(facetColors(new T.CylinderGeometry(.055,.12,1,6)),inkMaterial('#e9ffff'));
+  const shards=Array.from({length:6},()=>new T.Mesh(facetColors(new T.ConeGeometry(.11,.5,3)),inkMaterial('#9af5ff')));
   g.add(flare,nose,connector,...shards);group.add(g);const e={g,flare,nose,connector,shards,projectile:null,position:new T.Vector3(),birth:0,death:null};entries.push(e);return e;
  }
  function reset(){for(const e of entries){e.g.visible=false;e.projectile=null;}lastTick=-1;}
@@ -34,10 +34,10 @@ export function createBeamEffects(scene){
     if(e.death===null)e.death=m.tick;const age=m.tick-e.death;
     if(age>=6){e.g.visible=false;e.projectile=null;continue;}
     const drawing=Math.floor(age/2),radius=.18+drawing*.2;
-    e.shards.forEach((s,j)=>{const a=j*Math.PI/3;s.visible=!reduced||j%2===0;s.position.copy(e.position).add(new T.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0));s.rotation.z=a-Math.PI/2;s.scale.setScalar(1-drawing*.25);s.material.opacity=1-age/6;});
+    e.shards.forEach((s,j)=>{const a=j*Math.PI/3;s.visible=!reduced||j%2===0;direction.set(Math.cos(a),Math.sin(a),j%2?.65:-.65).normalize();s.position.copy(e.position).addScaledVector(direction,radius);s.quaternion.setFromUnitVectors(up,direction);s.scale.setScalar(1-drawing*.25);s.material.opacity=1-age/6;});
    }
   }
  }
- function orient(camera){for(const e of entries){e.flare.quaternion.copy(camera.quaternion);e.nose.quaternion.copy(camera.quaternion);}}
+ function orient(){} // World-space burst meshes never billboard toward the camera.
  return {update,orient,reset,group,entries};
 }

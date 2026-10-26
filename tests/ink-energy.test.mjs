@@ -8,7 +8,7 @@ test('ink drawings reuse finite geometry banks; beam tip stays inside projectile
  for(const build of [createInkBeam,createInkRing,createInkFlame]){
   const g=build(),banks=g.userData.geometryBanks.flat();
   for(const geometry of banks){assert.ok([...geometry.attributes.position.array].every(Number.isFinite));if(g.name==='ink-beam'){geometry.computeBoundingBox();assert.ok(geometry.boundingBox.max.z<=.351);}}
-  for(let i=0;i<120;i++){g.userData.updateInk(i/60,false);g.traverse(n=>{if(n.isMesh){assert.ok(banks.includes(n.geometry));assert.ok(n.material.transparent);assert.equal(n.material.depthWrite,false);assert.equal(n.material.depthTest,true);}});}
+  for(let i=0;i<120;i++){g.userData.updateInk(i/60,false);g.traverse(n=>{if(n.isMesh){assert.ok(banks.includes(n.geometry));assert.ok(n.material.transparent);assert.equal(n.material.depthWrite,true);assert.equal(n.material.depthTest,true);}});}
   g.userData.updateInk(0,false);const first=g.children.map(m=>m.geometry);g.userData.updateInk(.1,false);assert.notDeepEqual(g.children.map(m=>m.geometry),first);
   g.userData.updateInk(0,true);g.userData.updateInk(100,true);assert.deepEqual(g.children.map(m=>m.geometry),first);
  }

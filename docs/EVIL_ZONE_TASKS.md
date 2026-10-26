@@ -358,5 +358,7 @@ SIM-FLUIDITY handoff: **473 tests pass** (457 synced baseline + 16 new). Four-fr
 SIM-FLUIDITY release follow-up: `dacafb8` contains the full implementation; final regression clears hitstop at K.O. so ceremony animation continues. Full suite: 473/473. Character/pose work remains unchanged.
 
 ## VFX-3D — Volumetric ink assets
-Owner: **Codex** · Status: **In progress** · Branch: `codex/volumetric-effects` · Worktree: `/tmp/rift-ink-fx`.
+Owner: **Codex** · Status: **Implemented — awaiting normal-speed verdict** · Branch: `codex/volumetric-effects` · Worktree: `/tmp/rift-ink-fx`.
 User clarified attack assets must be 3D. Sync includes Claude snap-and-step `f1e9bea`. Replace planar beam/charge/ring shapes with closed depth meshes; replace camera-facing flares with faceted 3D bursts and scatter fragments in XYZ. Preserve flat-color ink palette, collision and all character/pose work. Capture ring remains hollow, not an orb. Review from multiple camera angles; awaiting normal-speed verdict.
+
+VFX-3D handoff: closed axial beam and raised white channels; thick hollow binding ring; extruded Tala charge meshes; six-axis release/nose bursts; XYZ breakup. World orientation replaces camera billboarding. Baked face shades preserve flat-color styling. Baseline **503 tests**, release **506 tests pass**; volume/normals/depth/orientation/scatter regressions added. Three asset-review camera angles plus actual beam lock-on capture show no browser exceptions. Evidence: `art/review-2026-10-26/volumetric-effects/README.md`; implementation: `docs/VOLUMETRIC_EFFECTS.md`. No combat, model or pose changes.

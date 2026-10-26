@@ -7,7 +7,7 @@ test('beam release follows the actual hand world position without changing proje
  const {fx,m,models,hand}=fixture(),before=JSON.stringify(m);fx.update(models,m);const e=fx.entries[0],expected=hand.getWorldPosition(new T.Vector3());
  assert.ok(e.flare.position.distanceTo(expected)<1e-9);assert.equal(e.connector.visible,true);assert.equal(JSON.stringify(m),before);
  hand.position.x+=.5;m.tick++;fx.update(models,m);assert.ok(e.flare.position.distanceTo(hand.getWorldPosition(new T.Vector3()))<1e-9);
- const camera=new T.PerspectiveCamera();camera.position.set(-6,4,0);camera.lookAt(0,1.4,0);fx.orient(camera);assert.deepEqual(e.nose.quaternion.toArray(),camera.quaternion.toArray());assert.equal(e.nose.visible,true);
+ const camera=new T.PerspectiveCamera();camera.position.set(-6,4,0);camera.lookAt(0,1.4,0);fx.orient(camera);assert.deepEqual(e.nose.quaternion.toArray(),[0,0,0,1]);assert.equal(e.nose.visible,true);
 });
 test('beam disappearance emits three breakup drawings over six ticks, then reuses its pool slot',()=>{
  const {fx,m,models}=fixture();fx.update(models,m);const e=fx.entries[0];m.projectiles=[];m.tick=1;fx.update(models,m);assert.ok(e.shards.every(s=>s.visible));const start=e.shards[0].position.clone();

@@ -1,5 +1,7 @@
 # Simulation fluidity and animation handoff
 
+Update: the camera-facing effect treatment below has been replaced by [volumetric 3D assets](VOLUMETRIC_EFFECTS.md). The historical implementation details remain for reference.
+
 Synced Claude's motion-weight work through `3e4b306` before implementation. Character models, animator channels and pose math remain untouched. The renderer changes here only integrate beam effects and freeze presentation time/trails during simulation hitstop.
 
 ## Frame contract for Claude

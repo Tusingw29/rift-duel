@@ -1,5 +1,7 @@
 # Ink effects — first playable pass
 
+Update: the camera-facing effect treatment below has been replaced by [volumetric 3D assets](VOLUMETRIC_EFFECTS.md). The historical implementation details remain for reference.
+
 Implements the approved [Ink Energy direction](../art/concepts/ink-energy-v1/README.md) using original vector silhouettes in Three.js. The illustrated concept sheets are reference, not runtime textures. This pass leaves character models, animation channels, combat timing and collision unchanged.
 
 ## Implemented

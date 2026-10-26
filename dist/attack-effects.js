@@ -27,7 +27,7 @@ export function createAttackEffects(scene){
    ribbons.forEach((r,j)=>{
     const step=Math.floor(phase*12)/12,angle=j*Math.PI/3+.3,t=reduced?.4:(step*.85+j/6)%1;
     const radius=.85+(1-t)*.35;r.position.set(Math.cos(angle)*radius,.05+t*.18,Math.sin(angle)*radius);
-    r.scale.set(.65+intensity*.45,(.45+intensity*.65)*(1-t*.25),1);
+    r.rotation.y=angle;r.scale.set(.65+intensity*.45,(.45+intensity*.65)*(1-t*.25),1);
     r.visible=ink&&(!reduced||j%2===0);r.userData.updateInk(phase+j*.09,reduced);
    });
    floor.material.color.set(fighters[p.id]?.color||'#79eaff');floor.scale.setScalar(.8+intensity*.3);
@@ -45,6 +45,7 @@ export function createAttackEffects(scene){
   const close=1+Math.max(0,1-progress/.14)*.4;restraint.scale.set(close*1.58,close*1.68,close);
   restraint.userData.updateInk(c.t,reduced,fade);
  }
- function orient(camera){restraint.quaternion.copy(camera.quaternion);for(const {g,ribbons} of charges)for(const ribbon of ribbons)ribbon.rotation.y=Math.atan2(camera.position.x-g.position.x-ribbon.position.x,camera.position.z-g.position.z-ribbon.position.z);}
+ // Compatibility hook: volumes remain world-oriented when the camera moves.
+ function orient(){}
  reset();return {update,reset,orient,group,restraint,charges};
 }
