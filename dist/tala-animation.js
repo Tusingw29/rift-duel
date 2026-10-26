@@ -7,6 +7,7 @@ import {sampleClip} from './pose-clips.js';
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
+import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -169,8 +170,8 @@ export function movePose(forward,side,phase){
  return s;
 }
 export function idlePose(t){
- const bounce=Math.abs(Math.sin(t*5.2)),shift=Math.sin(t*2.6);
- return pose({...stance,bodyY:-.15+bounce*.035,side:shift*.05,hz:shift*.045,hx:.08+Math.sin(t*5.2)*.035,llz:.1+shift*.03,rlz:-.12+shift*.03,lk:.28+(1-bounce)*.12,rk:.22+(1-bounce)*.1,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04});
+ // Weight rhythm shared with the roster (footwork.js); the head and hands breathe on top.
+ return pose(rhythmPose({...stance,hx:.08+Math.sin(t*5.2)*.035,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04},t));
 }
 export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
@@ -208,7 +209,7 @@ export function blendPose(current,target,rate,dt){
 }
 // Returns true when the sample system handled this frame.
 export function animateTala(r,p,time){
- const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;
+ const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
  let target=targetFor(p,time,p?.stridePhase??r.stridePhase??0,motion);

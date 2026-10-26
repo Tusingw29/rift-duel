@@ -70,7 +70,7 @@ test('grounded ankle plants survive torso weight shifts and release for airborne
  r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
   const foot=r.knees[i].localToWorld(plants[i].clone().set(0,-r.legLength,0));
-  assert.ok(foot.distanceTo(plants[i])<1e-6,'support ankle stays in world space');
+  assert.ok(foot.distanceTo(r.footTargets[i])<1e-6,'support ankle sits on the solver target');assert.ok(r.footPlants[i].distanceTo(plants[i])<1e-6,'anchor persists in world space');
  }
  animateCharacter(r,{...p,anim:'launch',air:.5},1);assert.equal(r.footPlants,null);
 });

@@ -117,7 +117,7 @@ export function travelMotion(player,previous){
  return {forward:forward/len,side:side/len};
 }
 export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
- const dt=Math.max(0,Math.min(.1,r[`${prefix}Time`]===undefined?0:time-r[`${prefix}Time`]));r[`${prefix}Time`]=time;
+ const dt=Math.max(0,Math.min(.1,r[`${prefix}Time`]===undefined?0:time-r[`${prefix}Time`]));r[`${prefix}Time`]=time;r.lastTime=time;
  if(Number.isFinite(player?.x)&&Number.isFinite(player?.z)){
   if(r[`${prefix}Pos`]&&player.anim==='run')r.stridePhase=(r.stridePhase||0)+Math.min(.5,Math.hypot(player.x-r[`${prefix}Pos`][0],player.z-r[`${prefix}Pos`][1]))/STRIDE*Math.PI;
   r[`${prefix}Pos`]=[player.x,player.z];

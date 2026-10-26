@@ -4,6 +4,7 @@ import {CHANNELS} from './rig-pose.js';
 import {sampleClip} from './pose-clips.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose} from './grounded-animation.js';
+import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
@@ -61,9 +62,9 @@ function targetFor(player,time,phase,motion){
  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3}),morrowStance,player.animTime)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({bodyY:-.26,lean:-.08,laz:.4,raz:-.3,le:-1,re:-.65})};
  if(player?.anim==='run')return {kind:'run',pose:morrowMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
- return {kind:'idle',pose:p({bodyY:-.19+Math.sin(time*1.8)*.006,twist:.14+Math.sin(time*1.3)*.014})};
+ return {kind:'idle',pose:rhythmPose(p({bodyY:-.19+Math.sin(time*1.8)*.006,twist:.14+Math.sin(time*1.3)*.014}),time,.7)};
 }
 export function animateMorrow(r,player,time){
- r.footPivot??=(p,kind)=>morrowFootTransition(r,p,kind);r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
+ r.footPivot??=(p,kind)=>morrowFootTransition(r,p,kind);r.footOffsets??=rhythmFootOffsets;r.footBall??=new Vector3();r.footBall.set(0,-(r.ankleHeight??.14),.26);
  return animateGroundedRig(r,player,time,'morrow',targetFor,{stance:morrowStance,impact:p({bodyY:-.25,bodyZ:-.12,lean:-.24,twist:-.2,hx:-.3,laz:.4,raz:-.3})});
 }

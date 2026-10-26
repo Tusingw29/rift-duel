@@ -21,7 +21,7 @@ test('Aegis planted ankles stay fixed and boot soles meet the floor',()=>{
  const r=buildCharacter(0),p={anim:'idle',x:0,z:0};animateCharacter(r,p,0);const plants=r.footPlants.map(v=>v.clone());
  for(let frame=1;frame<30;frame++)animateCharacter(r,p,frame/60);
  r.g.updateMatrixWorld(true);
- for(let i=0;i<2;i++){const foot=r.knees[i].localToWorld(new Vector3(0,-r.legLength,0));assert.ok(foot.distanceTo(plants[i])<1e-6);const bottom=new Box3().setFromObject(r.knees[i]).min.y;assert.ok(bottom>-.03&&bottom<.04,`boot bottom ${bottom}`);}
+ for(let i=0;i<2;i++){const foot=r.knees[i].localToWorld(new Vector3(0,-r.legLength,0));assert.ok(foot.distanceTo(r.footTargets[i])<1e-6);assert.ok(r.footPlants[i].distanceTo(plants[i])<1e-6,'anchor persists under the idle taps');const bottom=new Box3().setFromObject(r.knees[i]).min.y;assert.ok(bottom>-.03&&bottom<.14,`boot bottom ${bottom} (a tapping boot lifts up to 0.1)`);}
 });
 test('Aegis gait follows travel distance and blends into a chained cut without resetting',()=>{
  const r=buildCharacter(0),p={anim:'run',x:0,z:0,prev:{x:1,z:0}};animateCharacter(r,p,0);const phase=r.stridePhase||0;

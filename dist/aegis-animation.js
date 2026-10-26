@@ -1,5 +1,6 @@
 import {CHANNELS} from './rig-pose.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad} from './grounded-animation.js';
+import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {sampleClip} from './pose-clips.js';
 import {clipMovePose} from './locomotion-clips.js';
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -45,8 +46,7 @@ function targetFor(player,time,phase,motion){
  if(player?.anim==='hurt')return {kind:'hurt',pose:recoilPose(p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18}),aegisStance,player.animTime)};
  if(player?.anim==='charge')return {kind:'charge',pose:p({laz:.4,raz:-.35,le:-1,re:-.5,lean:-.08,bodyY:-.2})};
  if(player?.anim==='run')return {kind:'run',pose:aegisMovePose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
- const shift=Math.sin(time*1.05),breath=Math.sin(time*2.1);
- return {kind:'idle',pose:p({bodyY:-.14+breath*.012,bodyX:shift*.02,side:shift*.03,hipYaw:shift*.025,twist:.12+Math.sin(time*1.5)*.018,lk:.12+(1-shift)*.06,rk:.12+(1+shift)*.06})};
+  return {kind:'idle',pose:rhythmPose(p({bodyY:-.14+Math.sin(time*2.1)*.012,twist:.12+Math.sin(time*1.5)*.018}),time,.85)};
 }
 const aegisImpact=p({lean:-.3,twist:-.22,hx:-.35,laz:.4,raz:-.3,bodyZ:-.14,bodyY:-.18});
-export function animateAegis(r,player,time){return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact});}
+export function animateAegis(r,player,time){r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,'aegis',targetFor,{stance:aegisStance,impact:aegisImpact});}

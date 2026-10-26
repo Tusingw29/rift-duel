@@ -30,7 +30,7 @@ for(const [id,name,anim] of roster){
   const r=buildCharacter(id),p={anim:'idle',x:0,z:0};animateCharacter(r,p,0);const plants=r.footPlants.map(v=>v.clone());
   for(let frame=1;frame<30;frame++)animateCharacter(r,p,frame/60);
   r.g.updateMatrixWorld(true);
-  for(let i=0;i<2;i++){const foot=r.knees[i].localToWorld(new Vector3(0,-(r.shinLength||r.legLength),0));assert.ok(foot.distanceTo(plants[i])<1e-6,`${name} ankle ${i} slid ${foot.distanceTo(plants[i])}`);}
+  for(let i=0;i<2;i++){const foot=r.knees[i].localToWorld(new Vector3(0,-(r.shinLength||r.legLength),0));assert.ok(foot.distanceTo(r.footTargets[i])<1e-6,`${name} ankle ${i} off its target ${foot.distanceTo(r.footTargets[i])}`);assert.ok(r.footPlants[i].distanceTo(plants[i])<1e-6,`${name} anchor ${i} persists under the idle taps`);}
   const run={anim:'run',x:0,z:0,prev:{x:1,z:0}};animateCharacter(r,run,1);const phase=r.stridePhase||0;animateCharacter(r,run,1.5);assert.equal(r.stridePhase||0,phase,'no travel, no stride');run.z=.12;r.g.position.z=.12;animateCharacter(r,run,1.6);assert.ok(r.stridePhase>phase,'travel advances the stride');
  });
  test(`${name}: every shared state keeps the rig finite and the body upright`,()=>{

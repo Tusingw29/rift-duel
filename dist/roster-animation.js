@@ -1,6 +1,6 @@
 import {CHANNELS} from './rig-pose.js';
 import {animateGroundedRig,travelTarget,recoilPose,staggerPose,reversalPose,rearLoad} from './grounded-animation.js';
-import {talaFootOffsets} from './tala-footwork.js';
+import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {movePose,guard as talaGuard,impact as talaImpact} from './tala-animation.js';
 // Whole-body grounded animation for Rei, Sol and Vesper on the same contract as Tala,
 // Aegis and Morrow: flat channel poses blended toward a per-state target, strikes keyed
@@ -48,11 +48,11 @@ function grounded(prefix,def){
   if(player?.anim==='charge')return {kind:'charge',pose:charge};
   if(player?.anim==='run')return {kind:'run',pose:stepPose(motion?motion.forward:player.prev?.x??1,motion?motion.side:player.prev?.z||0,phase)};
   const breath=Math.sin(time*def.breath),shift=Math.sin(time*def.breath*.5);
-  // Weight shifts from foot to foot: the knees alternate, the hips drift, the shoulders counter a little.
-  return {kind:'idle',pose:p({bodyY:stance.bodyY+breath*.02-.015,bodyX:shift*.025,side:shift*.04,hipYaw:shift*.03,twist:stance.twist-shift*.03,hz:shift*.03,hx:stance.hx+breath*.02,lk:stance.lk+(1-shift)*.07+(1-Math.abs(breath))*.04,rk:stance.rk+(1+shift)*.07+(1-Math.abs(breath))*.04,llz:stance.llz+shift*.02,rlz:stance.rlz+shift*.02,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02})};
+  // The shared weight rhythm (footwork.js) moves the hips, knees and taps the free foot; only breathing is per fighter.
+  return {kind:'idle',pose:rhythmPose(p({hx:stance.hx+breath*.02,lax:stance.lax+breath*.025,rax:stance.rax+breath*.02}),time)};
  }
  // The rear foot catches the recoil (Tala's foot offsets are generic: they read only the hurt timer).
- return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=talaFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact});}};
+ return {stance,strikePose,stepPose,targetFor,animate:(r,player,time)=>{r.footOffsets??=rhythmFootOffsets;return animateGroundedRig(r,player,time,prefix,targetFor,{stance,impact});}};
 }
 // Crossed forearms shield the chest, chin tucked, as in Tala's authored guard; the weapon
 // hand rides slightly outward so the blade or staff crosses the body instead of the face.

@@ -46,7 +46,7 @@ export function talaGaitTargets(r,p,phase,ankleHeight){
    if(!foot.swing)foot.from.copy(foot.at);
    const x=(i? .25:-.25)+side/length*.40;
    const endpoint=r.g.localToWorld(new Vector3(x,ankleHeight,forward/length*.35));
-   foot.landing=endpoint.clone();foot.at.copy(foot.from).lerp(endpoint,smooth(u/.42));foot.at.y+=Math.sin(Math.PI*u/.42)*.10*r.g.scale.y;
+   foot.landing=endpoint.clone();foot.at.copy(foot.from).lerp(endpoint,smooth(u/.42));foot.at.y+=Math.sin(Math.PI*u/.42)*.15*r.g.scale.y;
   }
   foot.landed=!swing&&foot.swing;
   if(foot.landed)foot.at.copy(foot.landing);

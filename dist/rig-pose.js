@@ -10,7 +10,8 @@ const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function applyPose(r,s){
  // Arms yaw after they swing, so a punch can aim at the target while the chest is turned.
  r.limbs[0].rotation.order='YXZ';r.limbs[2].rotation.order='YXZ';
- r.body.position.x=s.bodyX;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.set(s.bodyPitch||0,s.hipYaw,s.bodyRoll||0);
+ // Coupling: a hip turn shifts the weight toward the leading foot, so the legs answer every torso turn (authored bodyZ keeps the forward drive explicit).
+ r.body.position.x=s.bodyX+s.hipYaw*.16;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.set(s.bodyPitch||0,s.hipYaw,s.bodyRoll||0);
  r.spine.rotation.set(s.lean,s.twist,s.side);r.headRest??=r.head.position.clone();r.head.position.copy(r.headRest);r.head.position.y+=s.neckY||0;r.head.position.z+=s.neckZ||0;r.head.rotation.set(s.hx,s.hy,s.hz);
  r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
  // Wrist roll is authored per pose; rigs with a richer hand (the graphic combat rig) read the same channel.
@@ -41,7 +42,7 @@ export function plantSupportFeet(r,p,kind){
   r.footPlants=[0,1].map(i=>{
    const u=((phase/(Math.PI*2)+i*.5)%1+1)%1,support=u<.5;
    const travel=support?STRIDE*(.5-2*u):STRIDE*(-.5+smooth((u-.5)*2));
-   const lift=support?0:Math.sin((u-.5)*Math.PI*2)*.18;
+   const lift=support?0:Math.sin((u-.5)*Math.PI*2)*.24;
    const rawX=(i===0?-.25:.25)+side/length*travel;
    const footX=i===0?Math.min(-.1,rawX):Math.max(.1,rawX);
    const target=r.g.localToWorld(new Vector3(footX,ankleHeight+lift,forward/length*travel));
@@ -80,12 +81,15 @@ export function plantSupportFeet(r,p,kind){
  if(kind==='hurt'&&r.footOffsets){const forward=new Vector3(0,0,1).applyQuaternion(facing);facing.setFromAxisAngle(new Vector3(0,1,0),Math.atan2(forward.x,forward.z));}
  const pivots=r.footPivot?.(p,kind),offsets=r.footOffsets?.(r,p,kind);
  const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
+ r.footAnchors=[];
  const targets=r.footPlants.map((plant,i)=>{
   const target=plant.clone();if(offsets?.[i])target.add(offsets[i].clone().multiply(scale).applyQuaternion(facing));
+  r.footAnchors[i]=target.clone(); // plant + authored offset, before any ball pivot
   if(!r.footBall||!footRotations)return target;
   const ball=r.footBall.clone().multiply(scale);
   return target.add(ball.clone().applyQuaternion(facing)).sub(ball.applyQuaternion(footRotations[i]));
  });
+ r.footTargets=targets.map(t=>t.clone()); // plant + authored offset (taps, recoil catch, landing settle); the anchors themselves stay in r.footPlants
  // Let the hips settle rather than pulling an anchored foot up during the bounce.
  let settle=0;
  for(let i=0;i<2;i++){

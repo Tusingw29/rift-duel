@@ -11,7 +11,8 @@ test('Tala ready stance: fists at chin height in front of the chest, palms facin
  for(const h of hands(r)){
   const medial=new Vector3(h.S==='L'?1:-1,0,0);
   assert.ok(h.pos.y>1.92&&h.pos.y<2.3,`${h.S} fist at jaw height (${h.pos.y.toFixed(2)})`);
-  assert.ok(h.pos.z>.45&&Math.abs(h.pos.x)<.4,`${h.S} fist in front of the chest`);
+  r.g.updateMatrixWorld(true);const chestX=r.spine.getWorldPosition(new Vector3()).x;
+  assert.ok(h.pos.z>.45&&Math.abs(h.pos.x-chestX)<.4,`${h.S} fist in front of the chest`); // measured against the chest, which sways with the weight rhythm
   assert.ok(h.palm.dot(medial)>.8,`${h.S} palm faces the other fist (${h.palm.dot(medial).toFixed(2)})`);
   if(h.S==='R')assert.ok(h.fingers.y>.7,'rear fist held upright');else assert.ok(h.pos.z>.6,'lead fist extended ahead of the rear fist');
  }

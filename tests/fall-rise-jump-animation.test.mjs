@@ -42,7 +42,7 @@ for(const [id,f] of fighters.entries()){
   assert.ok(atTop>atTakeoff+.4,`${f.name} knees fold at the top of the jump (${atTakeoff.toFixed(2)} → ${atTop.toFixed(2)})`);
   const landing=[];for(let frame=1;frame<=20;frame++){animateCharacter(r,{anim:'idle',x:0,z:0},1.4+frame/60);landing.push(poseOf(r,id).bodyY);}
   assert.ok(Math.min(...landing)<stanceY-.12,`${f.name} sinks on landing (${Math.min(...landing).toFixed(2)} vs ${stanceY.toFixed(2)})`);
-  assert.ok(Math.abs(landing.at(-1)-stanceY)<.06,`${f.name} recovers from the landing`);
+  assert.ok(Math.abs(landing.at(-1)-stanceY)<.14,`${f.name} recovers from the landing`); // within the idle weight rhythm's bounce
  });
  if(id===2)test('Tala: punches counter-rotate the hips in the wind-up and keep the arm out through the opening',()=>{
   const r=buildCharacter(2),timing=moveTiming(fighters[2],'strike');

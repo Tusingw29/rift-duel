@@ -17,7 +17,7 @@ test('Morrow planted weighted boot soles remain above the floor through grounded
   animateCharacter(r,p,1);r.g.updateMatrixWorld(true);r.skeleton.update();let min=Infinity;
   const ids=r.feet.map(b=>r.skeleton.bones.indexOf(b));r.g.traverse(n=>{if(!n.isSkinnedMesh)return;const index=n.geometry.attributes.skinIndex;for(let i=0;i<index.count;i++)if(ids.includes(index.getX(i))){n.getVertexPosition(i,sample).applyMatrix4(n.matrixWorld);min=Math.min(min,sample.y);}});
   assert.ok(min>=-.005&&min<.06,`sole height ${min}`);
-  for(let i=0;i<2;i++){const ball=r.feet[i].localToWorld(r.footBall.clone()),anchor=r.footPlants[i].clone().add(r.footBall.clone().multiply(r.g.scale).applyQuaternion(r.g.quaternion));assert.ok(ball.distanceTo(anchor)<1e-6,'ball of the planted foot stays fixed during heel lift');}
+  for(let i=0;i<2;i++){const ball=r.feet[i].localToWorld(r.footBall.clone()),anchor=r.footAnchors[i].clone().add(r.footBall.clone().multiply(r.g.scale).applyQuaternion(r.g.quaternion));assert.ok(ball.distanceTo(anchor)<1e-6,'ball of the planted foot stays fixed during heel lift');}
  }
 });
 test('Morrow chains preserve the outgoing pose and distance drives the gait',()=>{
