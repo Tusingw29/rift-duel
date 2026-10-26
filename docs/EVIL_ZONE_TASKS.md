@@ -13,6 +13,11 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 - Each completed task needs a commit/PR, verification evidence, and any remaining limits. Automated tests establish behavior; normal-speed playback establishes animation quality. Do not check off visual acceptance from screenshots alone.
 - Update this file when claiming, handing off, or finishing work. Keep checks accurate rather than checking off a whole feature because part already exists.
 
+## Readable 60 Hz recovery budgets — Codex claim (2026-10-26)
+
+Owner: **Codex** · Branch: `codex/readable-frame-budgets` · Status: **In progress**.
+Synced Claude's `fdfe66c`; baseline **532/532 tests pass**. Lane: combat/move/recovery/air-motion simulation and timing tests. Target: 18-frame non-KO rebound/drop/settle, 28-frame rise, 6-frame jump squat, readable strike recovery with connected chain cancels. Preserve Claude's KO cue-clock collapse, character models, rigs and pose math. These are Rift Duel tuning targets, not measured reference-game frame data. Browser evidence and normal-speed verdict pending.
+
 ## Already present — preserve and extend
 
 - [x] Tutorial chapter instructions and sampled action frames studied; initial code comparison completed. Exact original frame timings and the full camera algorithm remain unmeasured.
