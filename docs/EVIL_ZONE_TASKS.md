@@ -333,3 +333,7 @@ User approved beams, charging and an open capture ring around the opponent. Scop
 ATTACK-FX implementation: open camera-facing restraint ring follows the cinematic victim; capture-only solid orbs removed, travelling collision-sized ring preserved. Direction-aligned beams now have a white core and coloured sleeve; cinematic pillars get a white core. Charge has floor ring plus converging streaks, with a static sparse reduced-motion variant. No model, rig, animator or simulation edits. Evidence: `art/review-2026-10-26/attack-fx/README.md`; lifecycle, geometry, beam orientation, pooled reset, reduced-motion determinism and capture/super separation tests. Normal-speed visual acceptance remains open.
 
 ATTACK-FX validation: **423 tests pass**; browser captures cover the live capture scenario, charge and an isolated beam fixture with zero page exceptions. Charge capture found and fixed opaque-arena overdraw (energy now uses the transparent render pass with depth testing). Capture ring, final charge and beam screenshots are in the review folder.
+
+## INK-ENERGY-CONCEPT — Attack art direction before implementation
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ink-attack-concepts` · Worktree: `/tmp/rift-ink-concepts`.
+User requested their illustrated references combined with Guilty Gear / BlazBlue attack and movement effects. Scope: original concept boards, sequential sprite-style sheets, research and production handoff. No live character, rig, animator, combat or effects implementation edits. Claude retains model work.
