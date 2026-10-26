@@ -340,3 +340,7 @@ Owner: **Codex** · Status: **Review — awaiting art-direction choice** · Bran
 User requested their illustrated references combined with Guilty Gear / BlazBlue attack and movement effects. Scope: original concept boards, sequential sprite-style sheets, research and production handoff. No live character, rig, animator, combat or effects implementation edits. Claude retains model work.
 
 INK-ENERGY-CONCEPT delivery: four original 1536×1024 boards in `art/concepts/ink-energy-v1/README.md`: six effect sequences, corrected Tala four-action keys, fantasy roster and Ink Street roster variant. Research sources, exact prompts, existing move/timing mapping and transparent-atlas production requirements included. Codex recommends Ink Street for the supplied references; Adam has not selected it yet. These are opaque concept boards, not runtime assets. No changes to Claude’s models/animators or live effects. Baseline 429 tests pass.
+
+## INK-FX-01 — First playable ink effects
+Owner: **Codex** · Status: **In progress** · Branch: `codex/ink-fx` · Worktree: `/tmp/rift-ink-fx`.
+User approved implementation of the concept direction: Aegis beam, Tala charge and capture ring first. Scope: original layered effect geometry, projectile/attack-effects modules, render integration, tests and capture evidence. No character models, rig, animator, combat rules or timing edits. Claude retains animation work.
