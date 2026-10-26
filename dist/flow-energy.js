@@ -24,8 +24,8 @@ function surface(color,opacity=.65){
  float pulse=.5+.5*sin(vUv.x*38.-uTime*18.+sin(vUv.y*13.)*2.);
  float facing=abs(dot(normalize(vN),normalize(vV)));
  float density=smoothstep(.08,.72,n*.65+pulse*.25+streak*.45);
- float alpha=density*smoothstep(.03,.65,facing)*uOpacity;
- if(uSilhouette>.5){if(alpha<.08)discard;gl_FragColor=vec4(vec3(.025),1.);}else gl_FragColor=vec4(mix(uColor,vec3(1.),pow(density,5.)*.7),alpha);
+ float alpha=(.12+.88*density)*smoothstep(.03,.65,facing)*uOpacity;
+ if(uSilhouette>.5){if(alpha<.08)discard;gl_FragColor=vec4(vec3(.025),1.);}else gl_FragColor=vec4(mix(uColor,vec3(1.),pow(density,5.)*.35),alpha);
  #include <tonemapping_fragment>
  #include <colorspace_fragment>
  }`});
@@ -43,7 +43,7 @@ function tube(points,radius=.04){
  geometry.computeVertexNormals();return geometry;
 }
 function stroke(g,points,color,radius=.05){
- const geometry=tube(points,radius),core=new T.Mesh(geometry,new T.MeshBasicMaterial({color:new T.Color(color).lerp(new T.Color('#ffffff'),.72),transparent:true,opacity:.9,depthWrite:false,toneMapped:false}));core.name='energy-filament';g.add(core);
+ const geometry=tube(points,radius),core=new T.Mesh(geometry,new T.MeshBasicMaterial({color:new T.Color(color).lerp(new T.Color('#ffffff'),.2),transparent:true,opacity:.9,depthWrite:false,toneMapped:false}));core.name='energy-filament';g.add(core);
  const shell=new T.Mesh(tube(points,radius*3.5),surface(color,.7));shell.name='energy-flow-shell';g.add(shell);
  return shell;
 }
@@ -70,7 +70,7 @@ export function createFlowEnergy(kind,id=0,color='#6fe7ff'){
  const rotations=g.children.map(n=>n.rotation.clone());
  g.userData.updateFlow=(time,reduced=false,opacity=1,tint=color)=>{
   const t=reduced?0:time;
-  g.traverse(n=>{if(!n.material)return;if(n.material.uniforms){n.material.uniforms.uTime.value=t;n.material.uniforms.uOpacity.value=opacity*.7;n.material.color.set(tint);}else{n.material.opacity=opacity*.9;n.material.color.set(tint).lerp(new T.Color('#ffffff'),.72);}});
+  g.traverse(n=>{if(!n.material)return;if(n.material.uniforms){n.material.uniforms.uTime.value=t;n.material.uniforms.uOpacity.value=opacity*.7;n.material.color.set(tint);}else{n.material.opacity=opacity*.9;n.material.color.set(tint).lerp(new T.Color('#ffffff'),.2);}});
   if(kind==='capture')g.children.forEach((n,i)=>{n.rotation.copy(rotations[i]);if(i<6)n.rotation.z+=t*(Math.floor(i/2)%2?.22:-.17);});
  };
  return g;
