@@ -11,7 +11,7 @@ const params=new URLSearchParams(location.search);
 setLocomotionSource(params.get('gait')||'authored');
 const canvas=$('#stage');const view=createView(canvas,{talaModel:'graphic'});view.quality(params.get('quality')||'high');
 const state={p1:Number(params.get('p1')??2),p2:Number(params.get('p2')??1),recipe:params.get('scenario')||'strike3',frame:0,playing:false,speed:1,scenario:null,helpers:[],hurt:[],hit:[],showSkeleton:false,showHurt:false,showHit:false};
-const settings={camera:'side',reduced:true,quality:'high',cameraZoom:Number(params.get('zoom')||.7)};
+const settings={camera:'side',reduced:params.get('effects')!=='full',quality:'high',cameraZoom:Number(params.get('zoom')||.7)};
 for(const [id,sel] of [['#p1','p1'],['#p2','p2']]){const el=$(id);fighters.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f.name;el.append(o);});el.value=state[sel];el.onchange=()=>{state[sel]=Number(el.value);reset();};}
 {const el=$('#scenario');for(const name of Object.keys(RECIPES)){const o=document.createElement('option');o.value=name;o.textContent=name;el.append(o);}el.value=state.recipe;el.onchange=()=>{state.recipe=el.value;reset();};}
 function reset(){

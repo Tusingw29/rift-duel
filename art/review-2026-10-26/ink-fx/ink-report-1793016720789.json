@@ -1,0 +1,77 @@
+{
+  "shots": [
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-beam-17-1793016720789.jpg",
+      "frame": 17,
+      "cinematic": null,
+      "projectiles": [
+        {
+          "kind": "beam",
+          "x": 1.9897500000000001,
+          "radius": 0.4
+        }
+      ],
+      "animations": [
+        "forward",
+        "idle"
+      ]
+    },
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-beam-20-1793016720789.jpg",
+      "frame": 20,
+      "cinematic": null,
+      "projectiles": [
+        {
+          "kind": "beam",
+          "x": 2.94975,
+          "radius": 0.4
+        }
+      ],
+      "animations": [
+        "forward",
+        "idle"
+      ]
+    },
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-charge-35-1793016720789.jpg",
+      "frame": 35,
+      "cinematic": null,
+      "projectiles": [],
+      "animations": [
+        "charge",
+        "idle"
+      ]
+    },
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-charge-70-1793016720789.jpg",
+      "frame": 64,
+      "cinematic": null,
+      "projectiles": [],
+      "animations": [
+        "charge",
+        "idle"
+      ]
+    },
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-capture-35-1793016720789.jpg",
+      "frame": 35,
+      "cinematic": "capture",
+      "projectiles": [],
+      "animations": [
+        "capture",
+        "idle"
+      ]
+    },
+    {
+      "file": "art/review-2026-10-26/ink-fx/ink-capture-60-1793016720789.jpg",
+      "frame": 60,
+      "cinematic": "capture",
+      "projectiles": [],
+      "animations": [
+        "capture",
+        "idle"
+      ]
+    }
+  ],
+  "errors": []
+}

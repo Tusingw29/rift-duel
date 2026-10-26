@@ -117,7 +117,7 @@ export function createView(canvas,options={}){
   });
   trailFX.update(models,m,dt,settings.reduced);
   while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
-  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',time);});
+  bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced,cinema?.kind==='capture');
   attackFX.update(models,m,time,settings.reduced);
@@ -157,7 +157,7 @@ export function createView(canvas,options={}){
   if(shakeAmount>0&&!settings.reduced){const s=shakeAmount*.25;camera.position.x+=(Math.random()-.5)*s;camera.position.y+=(Math.random()-.5)*s;camera.position.z+=(Math.random()-.5)*s;}
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);
-  attackFX.restraint.quaternion.copy(camera.quaternion); // Open target ring remains readable from every fight camera.
+  attackFX.orient(camera); // Open target ring remains readable from every fight camera.
   // Fit after smoothing/shake; keep clear of the HUD in ordinary combat.
   if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
   renderer.render(scene,camera);

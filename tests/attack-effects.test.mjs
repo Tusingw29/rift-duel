@@ -7,7 +7,7 @@ const model=x=>{const g=new T.Group();g.position.x=x;return {g,aura:{material:{c
 test('capture restraint follows the victim with an open centre and clears on exit',()=>{
  const fx=createAttackEffects(new T.Scene()),models=[model(-2),model(2)],m={players:[{},{}],cinematic:{kind:'capture',a:0,b:1,t:.4,duration:2}};
  fx.update(models,m,1);assert.equal(fx.restraint.visible,true);assert.equal(fx.restraint.position.x,2);
- for(const mesh of fx.restraint.children){assert.equal(mesh.geometry.type,'RingGeometry');assert.ok(mesh.geometry.parameters.innerRadius>1);}
+ for(const mesh of fx.restraint.children){const positions=mesh.geometry.attributes.position;for(let i=0;i<positions.count;i++)assert.ok(Math.hypot(positions.getX(i),positions.getY(i))>.8,'binding geometry has an open centre');}
  models[1].g.position.y=2;fx.update(models,m,1);assert.equal(fx.restraint.position.y,3.45);
  m.cinematic=null;fx.update(models,m,1);assert.equal(fx.restraint.visible,false);
 });
@@ -20,7 +20,7 @@ test('charging is state-bound, deterministic and restrained mode removes motion'
 test('beam points along travel with white core; pooled projectile resets to capture ring',()=>{
  const b=createProjectileVisual();updateProjectileVisual(b,{kind:'beam',x:0,z:0,dx:1,dz:0,radius:.3},'#ff3300',0);
  assert.equal(b.material.visible,false);assert.equal(b.userData.beam.visible,true);assert.equal(b.rotation.y,Math.PI/2);
- assert.equal(b.userData.beam.children[1].material.color.getHexString(),'ffffff');
+ assert.equal(b.userData.beam.getObjectByName('beam-white-core').material.color.getHexString(),'ffffff');
  updateProjectileVisual(b,{kind:'capture',x:0,z:0,dx:0,dz:1,radius:1.35},'#00ffff',0);
  assert.equal(b.userData.beam.visible,false);assert.equal(b.userData.capture.visible,true);assert.equal(b.scale.x,1.35);
  updateProjectileVisual(b,null);assert.equal(b.visible,false);
