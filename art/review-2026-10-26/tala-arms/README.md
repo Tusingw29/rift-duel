@@ -12,4 +12,6 @@ Second pass after the deformation layer. Adam's shots showed the fists at eye le
 | `fists-v3-guard-*` | Crossed guard, knuckles out, palms toward the body. |
 | `fists-v3-contact1-side` | Straight at contact: straight wrist, palm down. |
 
+Adam's screenshot of the graphic preview showed the arms as stretched spikes across the chest. Cause: the layered builder wrote right-side bones before left-side ones while the graphic builder assumed left-first indices, so the preview bound arm and hand vertices to the wrong side and its wrap filter dropped both forearm wraps. Fix: the graphic builder now remaps source joints by bone name (never by position), the layered builder writes left first to match the documented order, and a test asserts the wraps survive on the correct side. The `fists-graphic-*` files show the repaired preview; `fists-v3-*` the textured body on the same frames.
+
 Still to judge at normal speed. The hand mesh is MakeHuman's detailed hand, so close-ups show individual folded fingers; from the fight camera it reads as a fist.

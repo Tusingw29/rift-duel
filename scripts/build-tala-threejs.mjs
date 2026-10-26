@@ -162,7 +162,8 @@ const mid=(a,b)=>a.map((v,i)=>(v+b[i])/2);
 dAdd('pelvis.control','root',posedHead('pelvis'));dAdd('spine.lower','pelvis.control',posedHead('spine_01'));dAdd('spine.upper','chest',posedHead('spine_03'));dAdd('neck.control','spine.upper',posedHead('neck_01'));
 DEFORM.find(b=>b.name==='chest').parent='spine.lower';DEFORM.find(b=>b.name==='head').parent='neck.control';
 const FINGERS=['index','middle','ring','pinky','thumb'];
-for(const s of ['l','r']){const S=SIDE[s];
+// Game-left first, then game-right, matching dist/tala-combat-rig.js (MakeHuman's 'r' side is the game's L).
+for(const S of ['L','R']){const s=S==='L'?'r':'l';
  dAdd('clavicle.'+S,'spine.upper',posedHead('clavicle_'+s));DEFORM.find(b=>b.name==='upper_arm.'+S).parent='clavicle.'+S;DEFORM.find(b=>b.name==='thigh.'+S).parent='pelvis.control';
  dAdd('upper_twist.'+S,'upper_arm.'+S,mid(joints['upper_arm.'+S],joints['forearm.'+S]));dAdd('fore_twist.'+S,'forearm.'+S,mid(joints['forearm.'+S],joints['hand.'+S]));
  dAdd('toe.'+S,'foot.'+S,posedHead('ball_'+s));

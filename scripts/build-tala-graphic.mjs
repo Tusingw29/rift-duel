@@ -25,13 +25,18 @@ function add(name,g,material,bone=2){
  const groups=new Map(),pp=g.attributes.position,nn=g.attributes.normal;for(let i=0;i<pp.count;i++){const key=[pp.getX(i),pp.getY(i),pp.getZ(i)].map(v=>Math.round(v*1e5)).join(',');let group=groups.get(key);if(!group){group={ids:[],normal:new T.Vector3()};groups.set(key,group);}group.ids.push(i);group.normal.add(new T.Vector3().fromBufferAttribute(nn,i));}for(const group of groups.values()){group.normal.normalize();for(const i of group.ids)nn.setXYZ(i,...group.normal.toArray());}
  parts.push({name:'TalaGraphic_'+name,g,material,fromSource:addingSource});return g;
 }
+// The realistic hands are replaced by the stylised fists: any source triangle carried by the hand bones or the
+// finger joints (a layered source weights fingers separately) is dropped.
+const HAND_BONES=new Set(combatRigSpec.map((b,i)=>/^(hand\.|finger)/.test(b.name)?i:-1).filter(i=>i>=0));
 const kept={body:'skin',suit:'charcoal',shoes:'shoe',shorts:'rust',wrap_arm_L:'wrap',wrap_arm_R:'wrap',wrap_shin_L:'wrap',wrap_shin_R:'wrap',waistband:'charcoal'};
 addingSource=true;
 for(const m of src.meshes){const name=m.name.replace('TalaV3_','');if(!kept[name])continue;const p=m.primitives[0],g=new T.BufferGeometry();
  for(const [from,to] of Object.entries({POSITION:'position',NORMAL:'normal',JOINTS_0:'skinIndex',WEIGHTS_0:'skinWeight'})){const a=src.accessors[p.attributes[from]];g.setAttribute(to,new T.BufferAttribute(readAccessor(p.attributes[from]),sizes[a.type]));}
+ // Source joints are remapped onto this builder's joint order by bone name, so the source's own ordering never matters.
+ {const srcNames=src.nodes.map(n=>n.name),si=g.attributes.skinIndex;const remap=srcNames.map(n=>BI[n]??(n==='root'?0:-1));for(let k=0;k<si.array.length;k++){const t=remap[si.array[k]];if(t<0)throw new Error('graphic build: unknown source bone '+srcNames[si.array[k]]);si.array[k]=t;}}
  let ix=Array.from(readAccessor(p.indices));
  // Remove the realistic head, retaining neck and shoulder deformation unchanged.
- if(name==='body'){const pos=g.attributes.position;ix=ix.filter((_,i)=>{const tri=ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3);return tri.every(v=>pos.getY(v)<2.47)&&!tri.every(v=>{const j=g.attributes.skinIndex,w=g.attributes.skinWeight;let hand=0;for(let k=0;k<4;k++)if([5,10].includes(j.array[v*4+k]))hand+=w.array[v*4+k];return hand>.45;});});}
+ if(name==='body'){const pos=g.attributes.position;ix=ix.filter((_,i)=>{const tri=ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3);return tri.every(v=>pos.getY(v)<2.47)&&!tri.every(v=>{const j=g.attributes.skinIndex,w=g.attributes.skinWeight;let hand=0;for(let k=0;k<4;k++)if(HAND_BONES.has(j.array[v*4+k]))hand+=w.array[v*4+k];return hand>.45;});});}
  // A wrap must follow its own forearm, never an adjacent torso surface.
  if(name.startsWith('wrap_arm_')){const S=name.endsWith('L')?'L':'R',expected=S==='L'?[3,4,5,BI['upper_twist.L'],BI['fore_twist.L']]:[8,9,10,BI['upper_twist.R'],BI['fore_twist.R']],j=g.attributes.skinIndex,w=g.attributes.skinWeight;ix=ix.filter((_,i)=>ix.slice(Math.floor(i/3)*3,Math.floor(i/3)*3+3).every(v=>{let weight=0;for(let k=0;k<4;k++)if(expected.includes(j.array[v*4+k]))weight+=w.array[v*4+k];return weight>.9;}));}
  if(name==='suit'){

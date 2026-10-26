@@ -42,6 +42,11 @@ test('flat materials survive global PBR upgrades and apply once per visible mode
  const scene=asset.scene;applyGraphicFlat(scene);assert.equal(applyGraphicFlat(scene),0);upgradeMaterials(scene);
  scene.traverse(n=>{if(n.isMesh){assert.ok(n.material.isMeshToonMaterial);assert.equal(n.material.userData.shadingProfile,'graphic-flat');assert.equal(n.material.toneMapped,false);}});
 });
+test('graphic build keeps the forearm wraps and binds every source vertex to a joint of the same name and side',()=>{
+ const wraps=[];asset.scene.traverse(n=>{if(n.isSkinnedMesh&&n.name.includes('wrap_arm'))wraps.push(n);});
+ assert.equal(wraps.length,2);for(const w of wraps)assert.ok(w.geometry.index.count/3>150,w.name+' kept its triangles');
+ for(const w of wraps){const S=w.name.endsWith('L')?'L':'R',j=w.geometry.attributes.skinIndex;for(let i=0;i<j.count;i+=7){for(let k=0;k<4;k++){const name=combatRigSpec[j.array[i*4+k]].name;if(w.geometry.attributes.skinWeight.array[i*4+k]>.05&&/\.[LR]$/.test(name))assert.ok(name.endsWith('.'+S),`${w.name} vertex bound to ${name}`);}}}
+});
 test('cloned materials regain the shader and neck/fist weights follow their intended joints',()=>{
  const {rig}=createLiveTalaReview(asset.scene,{variant:'graphic'});
  rig.g.traverse(n=>{if(!n.isSkinnedMesh||!n.name.startsWith('concept-'))return;
