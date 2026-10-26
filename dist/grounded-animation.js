@@ -81,9 +81,11 @@ export function collapsePose(r,stance,impact,t){
  const hit={...impact,bodyPitch:0,bodyRoll:0,hipYaw:0,lk:s.lk+.4,rk:s.rk+.4,lax:.1,rax:.1,laz:.15,raz:-.15,le:-.3,re:-.3,lw:0,rw:0,hx:.3,bodyY:s.bodyY-.06};
  const buckle={...s,bodyPitch:0,bodyRoll:0,hipYaw:0,bodyY:s.bodyY-.45,bodyZ:-.05,lean:.35,side:.05,twist:.05,lk:1.6,rk:1.5,llx:-.35,rlx:-.2,llz:.12,rlz:-.08,lax:.1,rax:.15,laz:.2,raz:-.2,le:-.25,re:-.25,lw:0,rw:0,hx:.6,hz:.1};
  const crumple={...s,bodyPitch:.1,bodyRoll:0,hipYaw:0,bodyY:.55-P*Math.cos(.1),bodyZ:-P*Math.sin(.1)+.02,lean:.8,side:.1,twist:.1,lk:2.3,rk:2.1,llx:-.3,rlx:-.15,llz:.15,rlz:-.1,lax:-.3,rax:-.25,laz:.25,raz:-.3,le:-.2,re:-.2,lw:0,rw:0,hx:.7,hz:.2};
+ // The hips keep sinking while the body tips: an intermediate key stops the root helper from arcing the pelvis upward between the kneel and the lie.
+ const tipping={...s,...root(r,-.7,.42,-.18),lean:.5,side:.15,twist:.25,lk:2.0,rk:1.2,llx:-.4,rlx:-.1,llz:.2,rlz:-.15,lax:-.35,rax:.1,laz:.5,raz:-.7,le:-.4,re:-.3,lw:0,rw:0,hx:.4,hz:.3,hy:.15};
  const tipped={...s,...root(r,-1.45,.28,-.35),lean:.15,side:.2,twist:.35,lk:1.7,rk:.5,llx:-.5,rlx:-.1,llz:.3,rlz:-.2,lax:-.4,rax:.2,laz:.9,raz:-1.2,le:-.5,re:-.3,lw:0,rw:0,hx:.1,hz:.45,hy:.3};
  const settle={...tipped,...root(r,-1.5,.24,-.38),lean:.1,side:.22,twist:.4,lk:1.5,rk:.4,llx:-.45,rlx:-.05,lax:-.3,rax:.25,laz:1.0,raz:-1.3,le:-.4,re:-.25,hx:.05,hz:.5,hy:.35};
- return sampleKeys([[0,hit,snapOut],[.12,buckle,smooth],[.3,crumple,smooth],[.55,tipped,smooth],[.8,settle,smooth],[10,settle,smooth]],Math.max(0,t||0));
+ return sampleKeys([[0,hit,snapOut],[.12,buckle,smooth],[.3,crumple,smooth],[.42,tipping,smooth],[.58,tipped,smooth],[.8,settle,smooth],[10,settle,smooth]],Math.max(0,t||0));
 }
 // The simulation's knockdown timer counts DOWN from KNOCKDOWN_TIME; a defeat timer counts up through the collapse.
 export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
