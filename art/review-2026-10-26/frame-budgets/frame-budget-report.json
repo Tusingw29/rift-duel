@@ -1,0 +1,207 @@
+{
+  "captures": [
+    {
+      "name": "tala-bounce-apex-06",
+      "file": "tala-bounce-apex-06-1793043051646.jpg",
+      "tick": 57,
+      "anim": "launch",
+      "air": 0.10000000000000003,
+      "height": 0.55,
+      "bounce": {
+        "frame": 6,
+        "frames": 18,
+        "phase": "drop",
+        "airFrames": 12,
+        "height": 0.55
+      },
+      "getUp": null,
+      "move": null
+    },
+    {
+      "name": "tala-ground-settle-12",
+      "file": "tala-ground-settle-12-1793043051646.jpg",
+      "tick": 63,
+      "anim": "knockdown",
+      "air": 0,
+      "height": 0,
+      "bounce": {
+        "frame": 12,
+        "frames": 18,
+        "phase": "settle",
+        "airFrames": 12,
+        "height": 0.55
+      },
+      "getUp": null,
+      "move": null
+    },
+    {
+      "name": "tala-ground-settle-17",
+      "file": "tala-ground-settle-17-1793043051646.jpg",
+      "tick": 68,
+      "anim": "knockdown",
+      "air": 0,
+      "height": 0,
+      "bounce": {
+        "frame": 17,
+        "frames": 18,
+        "phase": "settle",
+        "airFrames": 12,
+        "height": 0.55
+      },
+      "getUp": null,
+      "move": null
+    },
+    {
+      "name": "tala-rise-00",
+      "file": "tala-rise-00-1793043051646.jpg",
+      "tick": 90,
+      "anim": "getUp",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": {
+        "frame": 0,
+        "frames": 28,
+        "safe": true
+      },
+      "move": null
+    },
+    {
+      "name": "tala-rise-07",
+      "file": "tala-rise-07-1793043051646.jpg",
+      "tick": 97,
+      "anim": "getUp",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": {
+        "frame": 7,
+        "frames": 28,
+        "safe": true
+      },
+      "move": null
+    },
+    {
+      "name": "tala-rise-14",
+      "file": "tala-rise-14-1793043051646.jpg",
+      "tick": 104,
+      "anim": "getUp",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": {
+        "frame": 14,
+        "frames": 28,
+        "safe": true
+      },
+      "move": null
+    },
+    {
+      "name": "tala-rise-21",
+      "file": "tala-rise-21-1793043051646.jpg",
+      "tick": 111,
+      "anim": "getUp",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": {
+        "frame": 21,
+        "frames": 28,
+        "safe": true
+      },
+      "move": null
+    },
+    {
+      "name": "tala-rise-27",
+      "file": "tala-rise-27-1793043051646.jpg",
+      "tick": 117,
+      "anim": "getUp",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": {
+        "frame": 27,
+        "frames": 28,
+        "safe": true
+      },
+      "move": null
+    },
+    {
+      "name": "morrow-cleave-windup-12",
+      "file": "morrow-cleave-windup-12-1793043051646.jpg",
+      "tick": 72,
+      "anim": "strike",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": null,
+      "move": {
+        "kind": "strike",
+        "chain": 3,
+        "frame": 12,
+        "startup": 24,
+        "active": 5,
+        "recovery": 34,
+        "total": 63
+      }
+    },
+    {
+      "name": "morrow-cleave-24",
+      "file": "morrow-cleave-24-1793043051646.jpg",
+      "tick": 84,
+      "anim": "strike",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": null,
+      "move": {
+        "kind": "strike",
+        "chain": 3,
+        "frame": 24,
+        "startup": 24,
+        "active": 5,
+        "recovery": 34,
+        "total": 63
+      }
+    },
+    {
+      "name": "morrow-cleave-44",
+      "file": "morrow-cleave-44-1793043051646.jpg",
+      "tick": 104,
+      "anim": "strike",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": null,
+      "move": {
+        "kind": "strike",
+        "chain": 3,
+        "frame": 44,
+        "startup": 24,
+        "active": 5,
+        "recovery": 34,
+        "total": 63
+      }
+    },
+    {
+      "name": "morrow-cleave-62",
+      "file": "morrow-cleave-62-1793043051646.jpg",
+      "tick": 122,
+      "anim": "strike",
+      "air": 0,
+      "height": 0,
+      "bounce": null,
+      "getUp": null,
+      "move": {
+        "kind": "strike",
+        "chain": 3,
+        "frame": 62,
+        "startup": 24,
+        "active": 5,
+        "recovery": 34,
+        "total": 63
+      }
+    }
+  ],
+  "errors": []
+}

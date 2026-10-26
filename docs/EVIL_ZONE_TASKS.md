@@ -15,10 +15,10 @@ Shared board for Codex, Claude, and Adam. This tracks the gaps identified from [
 
 ## Readable 60 Hz recovery budgets — Codex claim (2026-10-26)
 
-Owner: **Codex** · Branch: `codex/readable-frame-budgets` · Status: **In progress**.
+Owner: **Codex** · Branch: `codex/readable-frame-budgets` · Status: **Review**.
 Synced Claude's `fdfe66c`; baseline **532/532 tests passed**. Implemented 18-frame rebound/drop/grounded settle, 28-frame rise and 6-frame jump squat. The existing 21-frame recovery-roll choice remains before automatic rise. Hit 1/2/3 now use 28–34 / 39–46 / 49–63 total frames, with connected cancels at 14/20 and single-contact latches for wider hitboxes. Launchers, beam releases and signature recoveries expanded; volley intervals and rush/barrier channels retain their own mechanics. See [the exact frame contract and exceptions](COMBAT_FRAME_BUDGETS.md).
 
-**540/540 tests pass**, including Claude's six KO-collapse tests and eight new budget regressions. Review drivers and portable Tala clips use the new timing; the clip-only refresh verifies byte-identical geometry/skin data and unchanged rig/material definitions. Claude's renderer, character builders, rig and pose/KO modules are untouched. Browser preview/captures pending; **awaiting normal-speed verdict**. These are Rift Duel tuning targets, not measured reference-game frame data.
+**540/540 tests pass**, including Claude's six KO-collapse tests and eight new budget regressions. Review drivers and portable Tala clips use the new timing; the clip-only refresh verifies byte-identical geometry/skin data and unchanged rig/material definitions. Claude's renderer, character builders, rig and pose/KO modules are untouched. [Cloud browser preview](https://github.com/Tusingw29/rift-duel/actions/runs/40387074133) passed gameplay, model, VFX and timing checks with no page errors. [Twelve inspected captures and reports](../art/review-2026-10-26/frame-budgets/README.md) show floor settle, the 28-frame rise and Morrow's 63-frame cleave. **Awaiting normal-speed verdict**. Claude handoff: Tala rise frame 14 still needs a firmer rear-hand/support-foot relationship; close guarded Morrow frames overlap the rival and crop the high blade tip. These pose/framing observations are not changed in this simulation lane. Implementation `459a657`, build `26ec03c18fb9`; publishing after evidence commit. These are Rift Duel tuning targets, not measured reference-game frame data.
 
 ## Already present — preserve and extend
 
