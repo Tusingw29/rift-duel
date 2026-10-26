@@ -237,6 +237,12 @@ Tala's Design 02 surfaces are no longer flat colours. The Blender build now unwr
 
 ## Project skills
 
+- `skills/shared-board-etiquette`: how the sessions share the repo and the task board; read first.
+- `skills/visual-review-capture`: headless captures and frame strips with the scripts in `scripts/review/`.
+- `skills/fighter-model-build`: build or rebuild a fighter body with the Node/Three.js pipeline.
+- `skills/costume-authoring`: runtime concept costumes on the combat bones.
+- `skills/grounded-animation-authoring`: stances, strikes, reactions, travel poses and footwork on the shared rig system.
+- `skills/sandbox-scenarios`: the deterministic sandbox and its scripted scenarios and tests.
 - `skills/ps1-anime-fighter-art`: concept art and pose-sheet generation for the roster.
 - `skills/blender-animation-threejs`: Blender scripting, rigging, glTF export, Three.js and game-architecture reference with Rift Duel-specific notes (Blender 3.6.22 pinned for this Mac, no Draco/Meshopt decoders vendored, bone-name contract for the game skeleton). Includes a character-art module (alpha-card hair, tangent normal maps, joint weighting, combat body mechanics) and a headless `blender_gltf_export_validator.py` pre-flight with UV-seam-welded connectivity and a required-bone check; run on October 21, 2026 against `art/blender/tala-design02/tala-study.blend` it reported all 17 game bones present and zero issues. Audit against it on October 21, 2026: the export already uses Y-up, NLA tracks, forced sampling and packed textures; skinned meshes disable frustum culling; clones go through the project's skeleton-aware cloner; shadow bias and normal bias are set. Not adopted: Draco/KTX2 compression (no decoders in the vendored runtime) and tangent export (no normal maps yet).
 

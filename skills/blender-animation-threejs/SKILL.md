@@ -2,6 +2,8 @@
 name: blender-animation-threejs
 description: Architect, script, animate, optimize, and debug 3D character art, alpha-card hair, normal maps, skeletal rigs, combat animations, shaders, and interactive web games across Blender 3.6 LTS and 4.x+, glTF/GLB pipelines, vanilla Three.js (WebGL/WebGPU), and React Three Fiber. Use whenever work touches Blender, bpy, BMesh, Geometry Nodes, character modeling, hair cards, skin weights, rigging, armatures, NLA animation, keyframes, shape keys, glTF/GLB export, Three.js, Drei, Rapier physics, GLSL/TSL shaders, character controllers, or 3D web games.
 ---
+> Historical reference only (2026-10-25): the project builds characters with Node and Three.js, see `skills/fighter-model-build`. Blender sections are not part of the current pipeline.
+
 # Blender, Animation, and Three.js
 
 Provide end-to-end technical execution for 3D creation, skeletal/morph animation pipelines, custom shader programming, and high-performance interactive 3D web applications using Blender, glTF 2.0, vanilla Three.js and React Three Fiber.

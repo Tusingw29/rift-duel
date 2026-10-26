@@ -1,0 +1,33 @@
+---
+name: grounded-animation-authoring
+description: Author or tune whole-body animation on Rift Duel's grounded rig system: stances, strikes keyed to the combat frame, guard, hit reactions, stagger, travel poses, footwork. Use for any fighter animation task and for the EZ board's animation bullets; do not convert the system to keyframe clips.
+---
+
+# Grounded animation authoring
+
+All six fighters animate on one contract: a flat pose of channels blended toward a per-state target each frame, strikes keyed to the simulation's move frame, footwork driven by travelled distance, support feet planted by a two-bone solve. Root position belongs to the simulation (`dist/combat.js`, `dist/combat-travel.js`); animators only add body motion on top. Codex owns combat rules, so coordinate before touching those files.
+
+## Where things live
+
+- `dist/rig-pose.js`: `CHANNELS` (`bodyX/Y/Z, hipYaw, lean, twist, side, hx/hy/hz, neckY/Z, lax/lay/laz, rax/ray/raz, le, re, llx/llz, rlx/rlz, lk, rk`), `applyPose`, `plantSupportFeet` (the list of kinds that keep planted feet; add a kind there when a new state should stay planted).
+- `dist/grounded-animation.js`: `animateGroundedRig` (entry blends, stride advance, cloth), shared poses `pursuitTravelPose`, `leapPose`, `travelTarget`, `travelMotion`, `recoilPose`, `staggerPose`, `reversalPose`.
+- Per fighter: `tala-animation.js` (its own flow, same contract), `aegis-animation.js`, `morrow-animation.js`, `roster-animation.js` (Rei, Sol, Vesper via a `grounded(prefix, def)` factory). Each exposes `targetFor(player, time, phase, motion)` returning `{kind, pose}` or `null` to fall back to the shared animator in `dist/animation.js`.
+- `dist/animation.js` dispatches by fighter and wraps the handoff with the motion bridge (`motion-transition.js`), which eases between the grounded and shared families.
+
+## Authoring rules
+
+- Strikes: keys `[0 stance][startup*.55 wind][startup*.8 drive, snap][startup contact, snap][+recovery*.24 follow][+recovery*.65 retract][end stance]`. Contact must land exactly on `move.startup`; tests compare the pose on that frame with the authored contact. Measure weapon tips before trusting angles (front views foreshorten).
+- Entry blends clear over the startup for ordinary strikes and within three frames for travel moves (`move.travel`), otherwise the load or tuck never shows.
+- Hit reactions: the hurt timer counts down from `HURT_TIME` (0.42); use `recoilPose(impact, stance, animTime)`, never `mix(impact, stance, animTime/…)` (that inversion shipped once).
+- Stagger: `player.staggerState` has `elapsed`, `remaining`, `inputs`; `staggerPose` sways on planted feet and straightens per recovery tap. `recover` (grounded) maps to an upright snap.
+- Locomotion: reuse Tala's step clips through `movePose`; keep the arms near the fighter's stance (scale the arm swing) and feed `motion` from `travelMotion` when the simulation is travelling so circle-step strafes along the real arc.
+- Weapons define the strike vocabulary; if a redesign changes a weapon, its strike tracks are the part that must be reauthored, everything else survives.
+- Keep one fighter as the benchmark (Tala, then Rei) and extend after review; the board requires a normal-speed human verdict, screenshots are evidence of continuity only.
+
+## Tests to extend
+
+`tests/roster-animation.test.mjs` (contact exactness, guard geometry, planted ankles, stride), `tests/travel-animation.test.mjs` (load, drive, tuck, strafing), `tests/stagger-reversal-animation.test.mjs`, `tests/sandbox-determinism.test.mjs` (same frames on fresh rigs give identical bones). Run `npm test`; nothing ships below green.
+
+## Decided and not to be reopened without new evidence
+
+A proposal to replace these animators with `THREE.AnimationMixer` keyframe clips was reviewed on 2026-10-25 and declined: the animators are already frame-locked and deterministic, and the conversion would lose planted-foot solving, entry blends and distance-driven gait for no gain. The record is in `docs/EVIL_ZONE_TASKS.md`.
