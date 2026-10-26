@@ -112,7 +112,9 @@ export function collapsePose(r,stance,impact,t){
  return sampleKeys([[0,hit,snapOut],[.12,buckle,smooth],[.3,crumple,smooth],[.37,tipA,smooth],[.44,tipping,smooth],[.51,tipB,smooth],[.58,tipped,smooth],[.8,settle,smooth],[10,settle,smooth]],Math.max(0,t||0));
 }
 // The simulation's knockdown timer counts DOWN from KNOCKDOWN_TIME; a defeat timer counts up through the collapse.
-export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
+// The simulation's knockdown carries `knockdown.remaining` (frames until its get-up starts, from DOWN_HOLD_FRAMES); fixtures
+// without it still count the old 0.55 s timer down.
+export const downElapsed=player=>player.anim==='defeat'?(player.animTime||0):Number.isFinite(player.knockdown?.remaining)?(DOWN_HOLD_FRAMES-player.knockdown.remaining)/60:KNOCKDOWN_TIME-Math.min(KNOCKDOWN_TIME,player.animTime||0);
 export function downPose(r,stance,impact,player,time,fromAir=false){
  if(player.anim==='defeat')return collapsePose(r,stance,impact,player.animTime||0);
  return knockdownPose(r,stance,impact,downElapsed(player),fromAir);
@@ -207,7 +209,8 @@ export function travelOverlay(pose,player,motion){
 }
 // ---- Frame-bound jump squat and get-up (the simulation's jumpSquat and getUp states). Progress reads a frame
 // counter if the state carries one, else the countdown timer; without either the pose sits mid-way.
-export const JUMP_SQUAT_FRAMES=4,GET_UP_FRAMES=12;
+import {JUMP_SQUAT_FRAMES,GET_UP_FRAMES,DOWN_HOLD_FRAMES} from './recovery.js';
+export {JUMP_SQUAT_FRAMES,GET_UP_FRAMES,DOWN_HOLD_FRAMES};
 const stateProgress=(player,frames,key)=>{const st=key&&player[key];if(st&&Number.isFinite(st.frame))return Math.max(0,Math.min(1,st.frame/(st.frames||frames)));const total=frames/60;if(Number.isFinite(player.stateFrame))return Math.max(0,Math.min(1,player.stateFrame/frames));if(Number.isFinite(player.animTime)&&player.animTime>=0&&player.animTime<=total+1e-6&&player.animTime!==undefined&&('animTime' in player))return 1-player.animTime/total;return .5;};
 export function squatPose(stance,player){const s=stance,u=stateProgress(player,JUMP_SQUAT_FRAMES,'jumpSquat');const crouch={...s,bodyY:s.bodyY-.22,lean:.3,hx:-.1,llx:-.45,rlx:-.2,lk:1.0,rk:.9,lax:s.lax+.5,rax:s.rax+.5,le:s.le-.3,re:s.re-.3};return mix(s,crouch,smooth(u));}
 export function getUpPose(r,stance,player){return risePose(r,stance,stateProgress(player,GET_UP_FRAMES,'getUp'));}

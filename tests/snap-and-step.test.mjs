@@ -4,7 +4,7 @@ import {animateCharacter} from '../dist/animation.js';
 import {fighters} from '../dist/fighters.js';
 import {moveTiming} from '../dist/moves.js';
 import {Vector3} from '../dist/vendor/three.module.js';
-import {HURT_TIME,JUMP_SQUAT_FRAMES,GET_UP_FRAMES} from '../dist/grounded-animation.js';
+import {HURT_TIME,JUMP_SQUAT_FRAMES,GET_UP_FRAMES,DOWN_HOLD_FRAMES} from '../dist/grounded-animation.js';
 // Sprite-sheet timing on the grounded rig: held wind-up, two-frame whip, locked contact, frame-one recoil with a
 // hitstop shudder, a stepping idle that re-anchors its feet, travel that pushes off and brakes, and frame-bound
 // jump-squat / get-up states (with a mid-pose fallback when the simulation does not carry them yet).
@@ -61,10 +61,15 @@ for(const [id,f] of fighters.entries()){
   for(let i=1;i<squat.length;i++)assert.ok(squat[i]<=squat[i-1]+1e-9,'squat deepens monotonically');
   animateCharacter(r,{anim:'jumpSquat',x:0,z:0},2);assert.ok(poseOf(r,id).bodyY<stanceY-.05,'without a counter or timer the squat sits mid-way');
   settle(r,3);const heads=[];
-  // The simulation switches to idle on the frame its knockdown timer reaches zero.
-  for(let fr=0;fr<=33;fr++){const remaining=33-fr,p={anim:remaining>0?'knockdown':'idle',animTime:remaining/60,x:0,z:0};if(remaining<=GET_UP_FRAMES&&remaining>0)p.getUp={frame:GET_UP_FRAMES-remaining,frames:GET_UP_FRAMES};animateCharacter(r,p,4+fr/60);r.g.updateMatrixWorld(true);heads.push(r.head.getWorldPosition(new Vector3()).y);}
-  assert.ok(heads[21]<.7,`${f.name} is down before the get-up frames (${heads[21].toFixed(2)})`);
-  assert.ok(heads[32]>heads[21]+1,`${f.name} rises through the get-up frames (${heads[21].toFixed(2)} → ${heads[32].toFixed(2)})`);
-  animateCharacter(r,{anim:'idle',x:0,z:0},5);r.g.updateMatrixWorld(true);assert.ok(r.head.getWorldPosition(new Vector3()).y>heads[32]-.3,'no second rise overlay after a simulated get-up');
+  // The simulation holds the fighter down for DOWN_HOLD_FRAMES (knockdown.remaining counts down), then runs a GET_UP_FRAMES `getUp` state.
+  const total=DOWN_HOLD_FRAMES+GET_UP_FRAMES;
+  for(let fr=0;fr<=total;fr++){const remaining=total-fr;let p;
+   if(remaining>GET_UP_FRAMES)p={anim:'knockdown',animTime:0,stun:remaining/60,knockdown:{remaining:remaining-GET_UP_FRAMES},x:0,z:0};
+   else if(remaining>0)p={anim:'getUp',animTime:remaining/60,getUp:{frame:GET_UP_FRAMES-remaining,frames:GET_UP_FRAMES},x:0,z:0};
+   else p={anim:'idle',x:0,z:0};
+   animateCharacter(r,p,4+fr/60);r.g.updateMatrixWorld(true);heads.push(r.head.getWorldPosition(new Vector3()).y);}
+  assert.ok(heads[DOWN_HOLD_FRAMES]<.7,`${f.name} is down before the get-up frames (${heads[DOWN_HOLD_FRAMES].toFixed(2)})`);
+  assert.ok(heads[total-1]>heads[DOWN_HOLD_FRAMES]+1,`${f.name} rises through the get-up frames (${heads[DOWN_HOLD_FRAMES].toFixed(2)} → ${heads[total-1].toFixed(2)})`);
+  animateCharacter(r,{anim:'idle',x:0,z:0},5);r.g.updateMatrixWorld(true);assert.ok(r.head.getWorldPosition(new Vector3()).y>heads[total-1]-.3,'no second rise overlay after a simulated get-up');
  });
 }

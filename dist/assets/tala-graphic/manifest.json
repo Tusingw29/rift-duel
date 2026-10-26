@@ -2,8 +2,8 @@
   "style": "graphic-flat",
   "source": "tala-v3.glb (CC0 MakeHuman-derived body and skin weights)",
   "sourceSHA256": "544dec5055901cb1328b53ce03e2427ca4ef9efa65b3f211532235fa1b836dc3",
-  "modelSHA256": "d9df27c7e6f64f5752c0100b2683509a81e2ed46f45f9030a7c3470139abed9f",
-  "bytes": 5090252,
+  "modelSHA256": "3c5e2959a285b3b1ec9c2088cb8a5710e9dd5d40236b9eb1b67c27a5ba99dea1",
+  "bytes": 5144096,
   "meshes": 82,
   "triangles": 26103,
   "bones": 61,
@@ -42,7 +42,7 @@
     },
     {
       "name": "Combo",
-      "duration": 1.6
+      "duration": 2.3333333333333335
     },
     {
       "name": "Energy shot",

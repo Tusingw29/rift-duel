@@ -12,9 +12,9 @@ test('punches start in the hips and chest, snap to extension at contact, and rec
   // The spine leads the wrists by 3.5 frames, so on a five-frame jab the coil shows in the chambered arm, not the chest.
   const armK=chain===2?'lax':'rax';assert.ok(wind[armK]>contact[armK]+.8&&Math.abs(contact.twist)>.5,`chain ${chain} arm chambered in the coil, chest committed at contact`);
   // The pelvis leads the wrists by five frames: on a five-frame jab it is already turned into the punch on the first frame.
-  assert.ok(Math.sign(wind.hipYaw)===Math.sign(contact.hipYaw)&&Math.abs(wind.hipYaw)>=.8*Math.abs(contact.hipYaw),`chain ${chain} hips lead the punch`);
+  const lead=strikePose({...m,frame:m.startup-5});assert.ok(Math.abs(lead.hipYaw-contact.hipYaw)<1e-6&&Math.abs(contact.hipYaw)>.4,`chain ${chain} hips lead the punch by five frames`);
   const arm=chain===2?'lax':'rax';assert.ok(contact[arm]<-1.25,'striking arm extends');assert.ok(contact.lean>.15,'weight goes forward');
-  const half=strikePose({...m,frame:m.startup*.8}),early=strikePose({...m,frame:m.startup*.6});
+  const half=strikePose({...m,frame:m.startup-.5}),early=strikePose({...m,frame:m.startup-2}); // the wrist whips in the last frame
   const wristK=chain===2?'lw':'rw';if(Math.abs(contact[wristK]-early[wristK])>.3)assert.ok(Math.abs(contact[wristK]-half[wristK])<Math.abs(contact[wristK]-early[wristK])*.6,'the wrist eases out fast into contact'); // the hook barely turns the wrist // the shoulder leads by two frames and is already there
  }
  assert.ok(strikePose(strike(3,5)).bodyZ>strikePose(strike(1,5)).bodyZ+.15,'hook steps in');
@@ -44,7 +44,7 @@ test('Tala rig animates through the sample system with lagging ponytail and dete
  const p={anim:'strike',move:strike(1,3),x:0,z:0,prev:{x:0,z:0}};
  const matrices=()=>{r.g.updateMatrixWorld(true);const out=[];r.g.traverse(n=>out.push([...n.matrixWorld.elements]));return out;};
  animateCharacter(r,p,1);const first=matrices();animateCharacter(r,p,1);assert.deepEqual(matrices(),first);
- for(let t=1;t<1.5;t+=1/60)animateCharacter(r,{...p,move:strike(1,5)},t);assert.ok(r.limbs[2].rotation.x<-1.4,'right arm reaches extension after blending');
+ for(let t=1;t<1.5;t+=1/60)animateCharacter(r,{...p,move:strike(1,moveTiming(fighters[2],'strike').startup)},t);assert.ok(r.limbs[2].rotation.x<-1.4,'right arm reaches extension after blending');
  animateCharacter(r,{anim:'launch',air:.6,launched:true,x:0,z:0},2);assert.ok(r.pose&&r.animationFamily==='grounded','a launch tumble now runs on the grounded rig');
  const other=buildCharacter(0);animateCharacter(other,{anim:'idle',x:0,z:0},0);assert.equal(other.pose,undefined,'other fighters are untouched');
 });
@@ -157,7 +157,7 @@ test('Tala rush and kick retain their contact frame and distinct striking limbs'
 
 import {launcherPose,pursuitPose} from '../dist/tala-animation.js';
 test('launcher stays grounded and aerial pursuit poses align with all three damage beats',()=>{
- const launch={kind:'launch',...moveTiming(fighters[2],'launch'),frame:10};
+ const launch={kind:'launch',...moveTiming(fighters[2],'launch'),frame:moveTiming(fighters[2],'launch').startup}; // peak on the contact frame, whatever the budget
  assert.ok(launcherPose(launch).rax< -2.3);assert.ok(launcherPose(launch).bodyY<0);
  assert.deepEqual(launcherPose({...launch,frame:launch.total}),stance);
  const move={kind:'pursuit',aerial:true,startup:7,active:19,recovery:30,total:56,frame:0},r=buildCharacter(2),p={anim:'pursuit',move,air:.4,x:0,z:0};
