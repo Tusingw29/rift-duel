@@ -287,3 +287,9 @@ Comparison implementation: Claude's `070f08f` integrated in the isolated worktre
 Evidence: `art/review-2026-10-25/tala-gait/README.md`. Regression tests cover paused switching, deterministic replay, bounded guard/strike entry, exact contacts on all three combo punches, and combat gaze. Existing impact reaction is intentionally sharp, not classified as smooth entry. The hybrid retains procedural foot targets; reverse-run retreat and adapted-walk circling still require normal-speed evaluation and potentially purpose-recorded combat captures.
 
 Validation: **413 tests pass** locally after the gaze fix. Review remains open for Adam’s normal-speed comparison; authored is still the default.
+
+## TALA-COMBAT-RIG — Articulated graphic fighter
+
+Owner: **Codex** · Status: **In progress** · Branch: `codex/tala-combat-rig` · Worktree: `/tmp/rift-combat-rig`
+
+User approved correction of fist/guard orientation and fuller combat skeleton. Scope: graphic Tala asset builder, attachment, a dedicated rig adapter and Tala pose hook, rig/asset tests and visual evidence. Preserve gameplay damage frames and other fighter models. Add pelvis/spine/neck/clavicles, wrist/twist controls, fingers/toes and segmented hair; reweight graphic model. Claude’s original checkout remains untouched. Baseline `b2e0c62`: 413 tests passed in preceding integration. Visual acceptance remains awaiting normal-speed verdict.
