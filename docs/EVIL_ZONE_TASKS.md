@@ -1,3 +1,9 @@
+## REFINED-ENERGY — reference study and flowing 3D effects
+
+Owner: **Codex** · Branch: `codex/refined-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-26)
+
+Synced Claude `3f7dfb5`; **572 tests pass**. Study Evil Zone gameplay imagery and Soulcalibur energy references, import attributed CC0 texture masks, and replace the solid-icon look with layered curved 3D energy, controlled luminance, flow and dissolution. Scope: effect factories, VFX settings/workbench and visual evidence. Preserve Claude's rigs, mocap/animation and combat timing. Reference screenshots are study material, not shipped game assets. Visual acceptance awaits normal-speed verdict.
+
 ## VFX-WORKBENCH — visual authoring and inspection
 
 Owner: **Codex** · Branch: `codex/vfx-workbench` · Worktree: `/tmp/rift-ink-fx` · Status: **Implemented; awaiting normal-speed verdict** (2026-10-26)
