@@ -6,6 +6,7 @@ export function createBurstEffects(scene){
  const energy=new T.MeshBasicMaterial({color:'#ffffff',transparent:true,opacity:.65,depthWrite:false});
  const make=(geometry,material=energy,parent=group)=>{const mesh=new T.Mesh(geometry,material);parent.add(mesh);return mesh;};
  const beam=make(new T.CylinderGeometry(.32,.8,10,10));
+ const beamCore=new T.Mesh(new T.CylinderGeometry(.12,.26,10,10),new T.MeshBasicMaterial({color:'#ffffff',toneMapped:false}));beam.add(beamCore);
  const orb=make(new T.IcosahedronGeometry(1,2));
  const spear=make(new T.CylinderGeometry(.04,.16,1,6));
  const effigy=new T.Group();group.add(effigy);
@@ -38,7 +39,7 @@ export function createBurstEffects(scene){
    scene.add(g);echoes.push({g,pairs:copies.map((node,i)=>[node,originals[i]]),materials:[...materials.values()]});
   }
  }
- function update(pose,model,reduced=false){
+ function update(pose,model,reduced=false,capture=false){
   if(!pose){if(source)reset();group.visible=false;return;}
   group.visible=true;
   const e=pose.effects,color=fighters[model.id].color;energy.color.set(color);
@@ -51,7 +52,7 @@ export function createBurstEffects(scene){
   if(e.effigy?.scale>.01){effigy.visible=true;effigy.position.set(e.effigy.position.x,e.effigy.position.y,e.effigy.position.z);effigy.scale.setScalar(e.effigy.scale);effigy.rotation.z=e.effigy.roll;}
   if(e.emitter){emitter.visible=true;emitter.position.set(e.emitter.x,e.emitter.y,e.emitter.z);emitter.rotation.y=e.t*2;}
   if(e.beam>.01){beam.visible=true;beam.position.set(e.center.x,5,e.center.z);beam.scale.set(e.beam,1,e.beam);}
-  if(e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
+  if(!capture&&e.orb?.radius>.01){orb.visible=true;orb.position.set(e.orb.position.x,e.orb.position.y,e.orb.position.z);orb.scale.setScalar(e.orb.radius);orb.rotation.set(e.t*4,e.t*6,0);}
   if(e.rings>.01){
    const blade=['rei','blade'].includes(e.kind),pool=blade?slashes:rings;
    pool.forEach((ring,i)=>{

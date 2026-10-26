@@ -325,6 +325,10 @@ Validation: **414 tests pass** on the final rig; 12 release browser views cover 
 
 ## ATTACK-FX — Graphic energy and capture ring
 
-Owner: **Codex** · Status: **In progress** · Branch: `codex/attack-fx` · Worktree: `/tmp/rift-attack-fx`
+Owner: **Codex** · Status: **Review — awaiting normal-speed verdict** · Branch: `codex/attack-fx` · Worktree: `/tmp/rift-attack-fx`
 
 User approved beams, charging and an open capture ring around the opponent. Scope: projectile visuals, new attack-effects module, render integration, tests and captures. No character mesh, rig, animator, damage or timing edits; Claude retains character ownership.
+
+ATTACK-FX implementation: open camera-facing restraint ring follows the cinematic victim; capture-only solid orbs removed, travelling collision-sized ring preserved. Direction-aligned beams now have a white core and coloured sleeve; cinematic pillars get a white core. Charge has floor ring plus converging streaks, with a static sparse reduced-motion variant. No model, rig, animator or simulation edits. Evidence: `art/review-2026-10-26/attack-fx/README.md`; lifecycle, geometry, beam orientation, pooled reset, reduced-motion determinism and capture/super separation tests. Normal-speed visual acceptance remains open.
+
+ATTACK-FX validation: **423 tests pass**; browser captures cover the live capture scenario, charge and an isolated beam fixture with zero page exceptions. Charge capture found and fixed opaque-arena overdraw (energy now uses the transparent render pass with depth testing). Capture ring, final charge and beam screenshots are in the review folder.

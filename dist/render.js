@@ -1,3 +1,4 @@
+import {createAttackEffects} from './attack-effects.js';
 import {duelCamera,fitFighters} from './fight-camera.js';
 import {airHeight} from './air-motion.js';
 import {loadTalaConcept,attachTalaConcept,loadFighterModel,attachFighterModel} from './tala-concept.js';
@@ -34,10 +35,7 @@ export function createView(canvas,options={}){
   scene.background.set(def.sky);scene.fog.color.set(def.sky);scene.fog.density=def.fog;
   hemisphere.color.set(def.hemisphere[0]);hemisphere.groundColor.set(def.hemisphere[1]);sun.color.set(def.sun);rim.color.set(def.rim);
  }
- const finisher=new T.Group();scene.add(finisher);
- const beam=new T.Mesh(new T.CylinderGeometry(.55,.9,12,8),new T.MeshBasicMaterial({color:'#6fe7ff',transparent:true,opacity:.65}));finisher.add(beam);
- const wheels=[];for(let j=0;j<5;j++){const wheel=new T.Mesh(new T.TorusGeometry(1.1+j*.25,.045,5,40),new T.MeshBasicMaterial({color:'#ffffff'}));finisher.add(wheel);wheels.push(wheel);}
- const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene);
+ const burstFX=createBurstEffects(scene),trailFX=createTrailEffects(scene),attackFX=createAttackEffects(scene);
  const models=[],bolts=[],sparks=[];let selection=0,time=0,lastShot=null,lastCue=null,shakeAmount=0;
  const lookTarget=v(-.8,1.5,0);
  function rig(id){const model=buildCharacter(id,id===2?{variant:talaModel}:{});upgradeMaterials(model.g,'cloth');sharpenTextures(model.g,renderer.capabilities.getMaxAnisotropy(),renderQuality,renderer.getContext().getContextAttributes().antialias);
@@ -58,7 +56,7 @@ export function createView(canvas,options={}){
   model.techniqueRing=new T.Mesh(new T.TorusGeometry(1,.035,6,48),material.clone());model.techniqueRing.material.opacity=.8;model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
   scene.add(model.g);return model;
  }
- function clear(){burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
+ function clear(){attackFX.reset();burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
  function match(m,arenaIndex){delete duelState.dx;delete duelState.dz;clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
@@ -121,9 +119,8 @@ export function createView(canvas,options={}){
   while(bolts.length<(m?.projectiles.length||0)){const b=createProjectileVisual();scene.add(b);bolts.push(b);}
   bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',time);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
-  burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced);
-  finisher.visible=cinema?.kind==='capture'&&!stagedState;
-  if(cinema?.kind==='capture'&&!stagedState){const c=m.cinematic,a=m.players[c.a],b=m.players[c.b],f=fighters[a.id];const victimModel=models[c.b].g;finisher.position.set(victimModel.position.x,victimModel.position.y+1,victimModel.position.z);beam.material.color.set(f.color);beam.visible=c.kind==='super'&&['aegis','sol'].includes(f.id);beam.scale.setScalar(Math.sin(c.t/c.duration*Math.PI));beam.position.y=3;wheels.forEach((wheel,j)=>{wheel.material.color.set(f.color);wheel.rotation.set(f.id==='rei'?j*.7:Math.PI/2,c.t*3+j,j*.4);wheel.position.y=Math.sin(c.t*4+j)*.6;wheel.scale.setScalar(.6+Math.sin(c.t/c.duration*Math.PI));});}
+  burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced,cinema?.kind==='capture');
+  attackFX.update(models,m,time,settings.reduced);
   const target=v(),pos=v();let cut=false;
   if(m){const [a,b]=m.players;const airHeight=Math.max(liftOf(a),liftOf(b));
    if(settings.camera==='duel'){const shot=duelCamera(m.players,camera.aspect,duelState);pos.copy(shot.position);target.copy(shot.target);}
@@ -160,6 +157,7 @@ export function createView(canvas,options={}){
   if(shakeAmount>0&&!settings.reduced){const s=shakeAmount*.25;camera.position.x+=(Math.random()-.5)*s;camera.position.y+=(Math.random()-.5)*s;camera.position.z+=(Math.random()-.5)*s;}
   shakeAmount=Math.max(0,shakeAmount-dt*4);
   camera.lookAt(lookTarget);
+  attackFX.restraint.quaternion.copy(camera.quaternion); // Open target ring remains readable from every fight camera.
   // Fit after smoothing/shake; keep clear of the HUD in ordinary combat.
   if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
   renderer.render(scene,camera);
