@@ -272,6 +272,8 @@ The roster now follows direction A of the concept boards in `art/roster-2026-10-
 
 Stagger and reversal animation: a broken guard now reels on planted feet with buckled knees, a swaying torso and a lolling head, straightens a step with each recovery tap and snaps upright when the opening closes; the third-hit reversal plays a forward return strike out of the guard. Both are shared poses used by all six grounded animators.
 
+Tala's fists: the pose system gained a wrist-roll channel and Tala's stance, guard and strikes author it, so the fists sit upright at the chin with the elbows in and palms facing each other, the crossed guard shows its knuckles, and straights roll over to land palm down. Both the textured and graphic Tala read it; punch timing is untouched.
+
 Motion-capture locomotion: `scripts/mocap/bvh-to-channels.mjs` converts a BVH take into the rig's pose channels (one looping stride, root travel removed, half strides mirrored when a take is short). `dist/clips/run.js` and `walk.js` come from CMU takes 09_01 and 02_01 (free for research and commercial use per CMU). `dist/locomotion-clips.js` swaps them in for every grounded fighter when the review page's Locomotion dropdown, or `?gait=mocap` on the review page and sandbox, selects motion capture; the authored step clips remain the default.
 
 Rig inspection on `fighter-review.html`: checkboxes draw the 17 combat bones as a skeleton helper, show the skinned mesh as wireframe, and hide or show the runtime costume pieces, with the same pose controls.

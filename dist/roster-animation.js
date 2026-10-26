@@ -54,7 +54,7 @@ function grounded(prefix,def){
 }
 // Crossed forearms shield the chest, chin tucked, as in Tala's authored guard; the weapon
 // hand rides slightly outward so the blade or staff crosses the body instead of the face.
-const crossedGuard={lax:talaGuard.lax,lay:talaGuard.lay,laz:talaGuard.laz,le:talaGuard.le,rax:talaGuard.rax,ray:talaGuard.ray*.9,raz:talaGuard.raz+.1,re:talaGuard.re,twist:-.08,lean:.16,hx:.42,neckY:-.055,neckZ:-.035,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18};
+const crossedGuard={lw:talaGuard.lw,rw:talaGuard.rw,lax:talaGuard.lax,lay:talaGuard.lay,laz:talaGuard.laz,le:talaGuard.le,rax:talaGuard.rax,ray:talaGuard.ray*.9,raz:talaGuard.raz+.1,re:talaGuard.re,twist:-.08,lean:.16,hx:.42,neckY:-.055,neckZ:-.035,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18};
 const recoil={hx:talaImpact.hx,hz:talaImpact.hz,lean:talaImpact.lean,twist:talaImpact.twist,lax:-.35,laz:.65,le:-.5,rax:-.15,raz:-.6,re:-.4,rlx:.6,rlz:-.1,llx:.25,rk:.35,lk:.1,bodyZ:-.22,bodyY:-.12};
 
 // Rei: katana low in the right hand, left hand leading; cross cut, reverse cut, overhead cut.

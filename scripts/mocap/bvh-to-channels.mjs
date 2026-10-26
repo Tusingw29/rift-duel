@@ -9,7 +9,7 @@ import {dirname} from 'node:path';
 import {Vector3,Matrix4,Quaternion,Euler} from '../../dist/vendor/three.module.js';
 const args=Object.fromEntries(process.argv.slice(2).map((a,i,all)=>a.startsWith('--')?[a.slice(2),all[i+1]?.startsWith('--')||all[i+1]===undefined?true:all[i+1]]:[]).filter(Boolean));
 if(!args.in||!args.out)throw new Error('--in <bvh> and --out <js> are required');
-const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
+const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw'];
 // ---- BVH parse --------------------------------------------------------------------------------
 function parseBvh(text){
  const tokens=text.split(/\s+/).filter(Boolean);let i=0;const joints=[];let root=null;
@@ -88,7 +88,7 @@ function frameChannels(pos,restHipHeight,scale,mirror){
  const headDir=inChest(dir(neck,head));
  const hx=Math.atan2(headDir.z,headDir.y),hz=Math.atan2(-headDir.x,headDir.y);
  const bodyY=(hips.y-restHipHeight)*scale;
- return {bodyX:0,bodyY,bodyZ:0,hipYaw:0,lean,twist,side,hx,hy:0,hz,neckY:0,neckZ:0,lax:la.ax,lay:0,laz:la.az,rax:ra.ax,ray:0,raz:ra.az,le:la.e,re:ra.e,llx:ll.x,llz:ll.z,rlx:rl.x,rlz:rl.z,lk:ll.k,rk:rl.k,
+ return {bodyX:0,bodyY,bodyZ:0,hipYaw:0,lean,twist,side,hx,hy:0,hz,neckY:0,neckZ:0,lw:0,rw:0,lax:la.ax,lay:0,laz:la.az,rax:ra.ax,ray:0,raz:ra.az,le:la.e,re:ra.e,llx:ll.x,llz:ll.z,rlx:rl.x,rlz:rl.z,lk:ll.k,rk:rl.k,
   _lFootZ:toBody(L.an.clone().sub(hips)).z,_rFootZ:toBody(R.an.clone().sub(hips)).z,_hipY:hips.y};
 }
 // ---- cycle detection: one full stride = the left ankle passing the pelvis forward twice --------

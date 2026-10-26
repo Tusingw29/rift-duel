@@ -21,6 +21,7 @@ All six fighters animate on one contract: a flat pose of channels blended toward
 - Hit reactions: the hurt timer counts down from `HURT_TIME` (0.42); use `recoilPose(impact, stance, animTime)`, never `mix(impact, stance, animTime/…)` (that inversion shipped once).
 - Stagger: `player.staggerState` has `elapsed`, `remaining`, `inputs`; `staggerPose` sways on planted feet and straightens per recovery tap. `recover` (grounded) maps to an upright snap.
 - Locomotion: reuse Tala's step clips through `movePose`; keep the arms near the fighter's stance (scale the arm swing) and feed `motion` from `travelMotion` when the simulation is travelling so circle-step strafes along the real arc.
+- Wrists: `lw`/`rw` roll the hand about the forearm axis (hand bone local Y; fingers along −Y, palm +Z, knuckles −Z). Author them per state and measure the world palm/knuckle direction rather than guessing; the graphic combat rig uses the authored value when it is non-zero and its punch roll rule otherwise.
 - Weapons define the strike vocabulary; if a redesign changes a weapon, its strike tracks are the part that must be reauthored, everything else survives.
 - Keep one fighter as the benchmark (Tala, then Rei) and extend after review; the board requires a normal-speed human verdict, screenshots are evidence of continuity only.
 

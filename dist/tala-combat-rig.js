@@ -55,7 +55,9 @@ export function finishCombatRig(r,p,time){
   const roll=guard?.25:straight?.85+(1-extension)*.2:1.05;
   const contact=kind==='strike'&&p.move.frame>=p.move.startup;
   r.combatHandRoll[i]=contact?roll:r.combatHandRoll[i]+(roll-r.combatHandRoll[i])*(1-Math.exp(-20*dt));
-  hand.rotation.set(0,side*r.combatHandRoll[i],0);b.get('fore_twist.'+S).rotation.y=side*r.combatHandRoll[i]*.5;
+  // An authored wrist channel (lw/rw in the pose) overrides the rule-driven roll; the forearm twist helper follows half of either.
+  const authored=r.pose?.[i?'rw':'lw'];const rollNow=authored?authored:side*r.combatHandRoll[i];
+  hand.rotation.set(0,rollNow,0);b.get('fore_twist.'+S).rotation.y=rollNow*.5;
   b.get('upper_twist.'+S).rotation.y=arm.rotation.y*.25;
   for(let f=0;f<5;f++)for(let j=0;j<3;j++){
    const joint=b.get(`finger${f}.${j}.${S}`),curl=1-.92*opening;

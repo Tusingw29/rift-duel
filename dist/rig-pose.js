@@ -1,6 +1,7 @@
 import {retreatPhase,retreatLift} from './retreat-motion.js';
 import {Vector3,Quaternion} from './vendor/three.module.js';
-export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk'];
+// lw/rw: wrist roll about the forearm axis (hand bone local Y). 0 keeps the model's rest wrist.
+export const CHANNELS=['bodyX','bodyY','bodyZ','hipYaw','lean','twist','side','hx','hy','hz','neckY','neckZ','lax','lay','laz','rax','ray','raz','le','re','llx','llz','rlx','rlz','lk','rk','lw','rw'];
 export const STRIDE=1.15;
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export function applyPose(r,s){
@@ -9,6 +10,8 @@ export function applyPose(r,s){
  r.body.position.x=s.bodyX;r.body.position.y+=s.bodyY;r.body.position.z=s.bodyZ;r.body.rotation.y=s.hipYaw;
  r.spine.rotation.set(s.lean,s.twist,s.side);r.headRest??=r.head.position.clone();r.head.position.copy(r.headRest);r.head.position.y+=s.neckY||0;r.head.position.z+=s.neckZ||0;r.head.rotation.set(s.hx,s.hy,s.hz);
  r.limbs[0].rotation.set(s.lax,s.lay,s.laz);r.limbs[2].rotation.set(s.rax,s.ray,s.raz);r.elbows[0].rotation.x=s.le;r.elbows[1].rotation.x=s.re;
+ // Wrist roll is authored per pose; rigs with a richer hand (the graphic combat rig) read the same channel.
+ if(!r.morrowHandRest){r.limbs[0].userData.hand.rotation.set(0,s.lw||0,0);r.limbs[2].userData.hand.rotation.set(0,s.rw||0,0);}
  r.limbs[1].rotation.set(s.llx,0,s.llz);r.limbs[3].rotation.set(s.rlx,0,s.rlz);r.knees[0].rotation.x=s.lk;r.knees[1].rotation.x=s.rk;
 }
 // Keep grounded supporting ankles at their world positions while the torso shifts.

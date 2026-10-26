@@ -13,25 +13,27 @@ const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
 // Boxer's guard: left foot forward, fists up, chin down.
-export const stance=pose({lax:-.8,laz:.12,le:-1.2,rax:-.55,raz:-.14,re:-1.4,twist:-.18,lean:.06,hx:.08,hy:.1,llx:-.18,llz:.1,rlx:.2,rlz:-.12,lk:.28,rk:.22,bodyY:-.15});
+// Boxer's ready stance: fists at chin height in front of the chest, elbows in, palms facing each other,
+// knuckles toward the rival (wrist rolls found by measuring the hand frame, see tests/tala-fists.test.mjs).
+export const stance=pose({lax:-1.05,lay:.4,laz:.2,le:-1.7,lw:1.9,rax:-.9,ray:-.2,raz:-.2,re:-2.1,rw:-2.1,twist:-.18,lean:.06,hx:.08,hy:.1,llx:-.18,llz:.1,rlx:.2,rlz:-.12,lk:.28,rk:.22,bodyY:-.15});
 // Crossed forearms shield the upper torso. The arms use their full authored
 // yaw/roll channels so entry and release share the normal pose transition.
 // Hand targets in chest space: (+.22,.50,.34), (-.22,.50,.43).
-export const guard=pose({lax:-.946199,lay:1.495107,laz:-.452465,le:-.948834,rax:-1.054423,ray:-1.564860,raz:.610214,re:-.669577,twist:-.1,lean:.16,hx:.42,neckY:-.055,neckZ:-.035,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18});
+export const guard=pose({lax:-.946199,lay:1.495107,laz:-.452465,le:-.948834,lw:1.85,rax:-1.054423,ray:-1.564860,raz:.610214,re:-.669577,rw:-1.9,twist:-.1,lean:.16,hx:.42,neckY:-.055,neckZ:-.035,llx:-.22,llz:.22,rlx:.22,rlz:-.22,lk:.42,rk:.4,bodyY:-.18});
 export const charge=pose({lax:.25,laz:.45,le:-.6,rax:.25,raz:-.45,re:-.6,lean:-.08,hx:-.18,llx:-.1,llz:.32,rlx:.1,rlz:-.32,lk:.38,rk:.38,bodyY:-.12});
 // Impact snap: head whips back, chest arcs, rear foot catches the weight.
-export const impact=pose({hx:-.5,hz:.1,lean:-.38,twist:.28,lax:-.35,laz:.65,le:-.5,rax:-.15,raz:-.6,re:-.4,rlx:.6,rlz:-.1,llx:.25,rk:.35,lk:.1,bodyZ:-.22,bodyY:-.12});
+export const impact=pose({hx:-.5,hz:.1,lean:-.38,twist:.28,lax:-.35,laz:.65,le:-.5,lw:1.2,rax:-.15,raz:-.6,re:-.4,rw:-1.2,rlx:.6,rlz:-.1,llx:.25,rk:.35,lk:.1,bodyZ:-.22,bodyY:-.12});
 // Three-hit combo: right straight, left cross, stepping right hook.
 const tracks={
- 1:{wind:pose({twist:.38,hipYaw:.14,rax:.3,raz:-.1,re:-1.6,lax:-.85,le:-1.25,lean:-.04,hy:-.1,rlx:.32,rlz:-.12,llx:-.18,llz:.1,lk:.25,rk:.3,bodyY:-.23}),
-    strike:pose({twist:-.72,hipYaw:-.26,rax:-1.78,ray:.62,raz:-.12,re:-.03,lax:-.95,laz:.2,le:-1.35,lean:.3,hx:-.06,hy:.36,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.18,bodyY:-.12}),
-    follow:pose({twist:-.8,hipYaw:-.28,rax:-1.6,ray:.6,raz:-.15,re:-.25,lax:-.95,laz:.2,le:-1.3,lean:.3,hx:-.04,hy:.4,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.2,bodyY:-.12})},
- 2:{wind:pose({twist:-.5,hipYaw:-.16,lax:.25,laz:.1,le:-1.6,rax:-.8,re:-1.3,lean:-.04,hy:.12,llx:-.1,llz:.1,rlx:.25,rlz:-.12,lk:.3,rk:.25,bodyY:-.23}),
-    strike:pose({twist:.74,hipYaw:.28,lax:-1.78,lay:-.66,laz:.12,le:-.03,rax:-1,raz:-.2,re:-1.35,lean:.3,hx:-.06,hy:-.38,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.2,bodyY:-.12}),
-    follow:pose({twist:.82,hipYaw:.3,lax:-1.6,lay:-.65,laz:.15,le:-.25,rax:-1,raz:-.2,re:-1.3,lean:.3,hy:-.42,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.22,bodyY:-.12})},
- 3:{wind:pose({twist:.55,hipYaw:.22,rax:-.45,ray:-.5,raz:-.3,re:-1.85,lax:-.9,le:-1.3,lean:.02,hy:-.2,rlx:.3,rlz:-.14,llx:-.15,llz:.12,lk:.5,rk:.45,bodyY:-.28}),
-    strike:pose({twist:-.95,hipYaw:-.36,rax:-1.3,ray:1.15,raz:-.45,re:-.95,lax:-.85,laz:.25,le:-1.3,lean:.26,side:.1,hx:-.1,hy:.5,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.36,bodyY:-.10}),
-    follow:pose({twist:-1.05,hipYaw:-.4,rax:-1.15,ray:1.35,raz:-.5,re:-1.05,lax:-.85,laz:.25,le:-1.3,lean:.28,side:.12,hx:-.08,hy:.52,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.4,bodyY:-.10})}
+ 1:{wind:pose({twist:.38,hipYaw:.14,rax:.3,raz:-.1,re:-1.6,rw:-2.1,lax:-.85,le:-1.25,lw:1.9,lean:-.04,hy:-.1,rlx:.32,rlz:-.12,llx:-.18,llz:.1,lk:.25,rk:.3,bodyY:-.23}),
+    strike:pose({twist:-.72,hipYaw:-.26,rax:-1.78,ray:.62,raz:-.12,re:-.03,rw:-3.1,lax:-.95,laz:.2,le:-1.35,lw:1.9,lean:.3,hx:-.06,hy:.36,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.18,bodyY:-.12}),
+    follow:pose({twist:-.8,hipYaw:-.28,rax:-1.6,ray:.6,raz:-.15,re:-.25,rw:-3.1,lax:-.95,laz:.2,le:-1.3,lw:1.9,lean:.3,hx:-.04,hy:.4,rlx:.55,rlz:-.08,rk:.1,llx:-.36,llz:.1,lk:.42,bodyZ:.2,bodyY:-.12})},
+ 2:{wind:pose({twist:-.5,hipYaw:-.16,lax:.25,laz:.1,le:-1.6,lw:1.9,rax:-.8,re:-1.3,rw:-2.1,lean:-.04,hy:.12,llx:-.1,llz:.1,rlx:.25,rlz:-.12,lk:.3,rk:.25,bodyY:-.23}),
+    strike:pose({twist:.74,hipYaw:.28,lax:-1.78,lay:-.66,laz:.12,le:-.03,lw:-3.1,rax:-1,raz:-.2,re:-1.35,rw:-2.1,lean:.3,hx:-.06,hy:-.38,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.2,bodyY:-.12}),
+    follow:pose({twist:.82,hipYaw:.3,lax:-1.6,lay:-.65,laz:.15,le:-.25,lw:-3.1,rax:-1,raz:-.2,re:-1.3,rw:-2.1,lean:.3,hy:-.42,llx:-.45,llz:.06,lk:.32,rlx:.48,rlz:-.1,rk:.16,bodyZ:.22,bodyY:-.12})},
+ 3:{wind:pose({twist:.55,hipYaw:.22,rax:-.45,ray:-.5,raz:-.3,re:-1.85,rw:-2.1,lax:-.9,le:-1.3,lw:1.9,lean:.02,hy:-.2,rlx:.3,rlz:-.14,llx:-.15,llz:.12,lk:.5,rk:.45,bodyY:-.28}),
+    strike:pose({twist:-.95,hipYaw:-.36,rax:-1.3,ray:1.15,raz:-.45,re:-.95,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.26,side:.1,hx:-.1,hy:.5,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.36,bodyY:-.10}),
+    follow:pose({twist:-1.05,hipYaw:-.4,rax:-1.15,ray:1.35,raz:-.5,re:-1.05,rw:-2,lax:-.85,laz:.25,le:-1.3,lw:1.9,lean:.28,side:.12,hx:-.08,hy:.52,llx:-.55,llz:.08,lk:.3,rlx:.2,rlz:-.12,rk:.3,bodyZ:.4,bodyY:-.10})}
 };
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
 // Keyed strike timeline: windup eases in, the hit snaps out, the follow-through
@@ -167,7 +169,7 @@ export function movePose(forward,side,phase){
 }
 export function idlePose(t){
  const bounce=Math.abs(Math.sin(t*5.2)),shift=Math.sin(t*2.6);
- return pose({...stance,bodyY:-.15+bounce*.035,side:shift*.05,hz:shift*.045,hx:.08+Math.sin(t*5.2)*.035,llz:.1+shift*.03,rlz:-.12+shift*.03,lk:.28+(1-bounce)*.12,rk:.22+(1-bounce)*.1,lax:-.8+Math.sin(t*5.2+1)*.04,rax:-.55+Math.sin(t*5.2+2)*.04});
+ return pose({...stance,bodyY:-.15+bounce*.035,side:shift*.05,hz:shift*.045,hx:.08+Math.sin(t*5.2)*.035,llz:.1+shift*.03,rlz:-.12+shift*.03,lk:.28+(1-bounce)*.12,rk:.22+(1-bounce)*.1,lax:stance.lax+Math.sin(t*5.2+1)*.04,rax:stance.rax+Math.sin(t*5.2+2)*.04});
 }
 export function hurtPose(animTime){const u=smooth(1-Math.min(1,animTime/.42));return mix(impact,stance,u);}
 export function guardPose(blockStun){const recoil=Math.min(1,blockStun/.22);return mix(guard,pose({...guard,lean:.04,hx:.58,neckY:-.075,neckZ:-.065,bodyZ:-.14,le:guard.le-.05,re:guard.re-.05,rlx:.4}),recoil);}
@@ -219,7 +221,7 @@ export function animateTala(r,p,time){
  if(target?.kind==='back'&&p.move?.retreatTravel)target.pose.bodyY+=retreatLift(p.move)*.8;
  if(target?.kind==='run'&&r.gaitTargets){
   // Fighting steps keep the hands ready; avoid the large jogging arm pump.
-  for(const key of ['lax','rax','le','re'])target.pose[key]=stance[key]+(target.pose[key]-stance[key])*.22;
+  for(const key of ['lax','rax','le','re','lw','rw'])target.pose[key]=stance[key]+(target.pose[key]-stance[key])*.22;
   target.pose.lean*=.6;target.pose.side*=.7;
  }
  if(r.combatRig&&['idle','run'].includes(target?.kind)){target.pose.lax-=.10;target.pose.rax-=.10;target.pose.le-=.40;target.pose.re-=.40;}
