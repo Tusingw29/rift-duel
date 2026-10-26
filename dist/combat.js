@@ -329,7 +329,7 @@ export function update(m,inputs,dt=STEP){
    if(a.slam)a.slam.frame++;
    if(a.bounce){
     a.bounce.frame++;
-    if(a.bounce.frame>=a.bounce.frames){a.bounce=null;a.air=0;a.launched=false;a.anim='knockdown';a.animTime=.55;a.stun=.55;}
+    if(a.bounce.frame>=a.bounce.frames){a.bounce=null;a.air=0;a.airMotion={height:0,velocity:0,previousAir:0,segment:null};a.launched=false;a.anim='knockdown';a.animTime=.55;a.stun=.55;}
    }else if(a.launched&&wasAir>0&&a.air===0){
     // One twelve-frame rebound after the launch's 51-frame arc; then 21f down + 12f rise.
     a.slam=null;a.bounce={frame:0,frames:12,height:.55};a.air=12*STEP;a.stun=12*STEP;a.anim='launch';a.animTime=12*STEP;a.move=null;a.buffer=null;a.cool=0;
