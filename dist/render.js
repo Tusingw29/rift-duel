@@ -88,7 +88,15 @@ export function createView(canvas,options={}){
    if(p&&cue?.kind==='ko'){
     // Hold the round-ending moment: winner poses, a knocked-out loser stays down.
     if(n===cue.winner)p={...p,move:null,guard:false,anim:'victory',animTime:cue.progress*(cue.duration||1.7)};
-    else if(n===cue.loser&&cue.reason==='ko')p={...p,move:null,guard:false,anim:'defeat',animTime:Math.max(p.animTime,cue.progress*2)};
+    else if(n===cue.loser&&cue.reason==='ko'){
+     // The simulation is frozen, so the loser's timers run on the cue clock: an airborne loser comes down and slams,
+     // one already falling finishes the fall, anyone else collapses where they stand.
+     const t=cue.progress*(cue.duration||1.7);
+     if((p.air||0)>0||p.launched){const air=Math.max(0,(p.air||0)-t*2.2);
+      p=air>0?{...p,move:null,guard:false,anim:'launch',launched:true,air,airMotion:null}:{...p,move:null,guard:false,anim:'knockdown',launched:false,air:0,airMotion:null,getUp:null,animTime:Math.max(0,.55-(t-(p.air||0)/2.2))};}
+     else if(p.anim==='knockdown')p={...p,move:null,guard:false,getUp:null,animTime:Math.max(0,(p.animTime||0)-t)};
+     else p={...p,move:null,guard:false,anim:'defeat',animTime:t,air:0,airMotion:null};
+    }
    }
    if(p&&m.hitstop>0&&p.anim==='hurt')p={...p,hitstop:m.hitstop};
    if(p&&m?.cinematic&&cue?.kind!=='ko'){const c=m.cinematic;if(n===c.a)p={...p,anim:'grapple',animTime:c.t||0,move:null,guard:false,launched:false,air:0};else if(n===c.b)p={...p,anim:'grappled',animTime:c.t||0,move:null,guard:false,launched:false,air:0};} // time is frozen during hitstop; the recoil shudder ticks on this counter

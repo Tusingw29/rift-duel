@@ -15,7 +15,7 @@ The repo has no `node_modules`. Install the tools in a separate directory and po
 mkdir -p "$TOOLS" && cd "$TOOLS" && npm init -y >/dev/null && npm install --no-audit --no-fund playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
 ```
 
-Keep the tools outside the scratchpad (`~/rift-tools` on Adam's Mac; the scratchpad is wiped without warning). Serve the project root (not `dist`) on port 4173 so `/dist/...` URLs work, or set `RIFT_BASE=http://localhost:4173` when a `dist`-rooted server is already up: `python3 -m http.server 4173 --directory <repo>`. The combat travel smoke expects a `dist`-rooted server on the same port, so stop one before starting the other.
+When a rebase conflicts on the stamped pages (`dist/*.html`), keep OUR version of the page and run `npm run prepare:release` to restamp; taking upstream silently drops any page edits (the review dropdown lost its pose options once this way). Keep the tools outside the scratchpad (`~/rift-tools` on Adam's Mac; the scratchpad is wiped without warning). Serve the project root (not `dist`) on port 4173 so `/dist/...` URLs work, or set `RIFT_BASE=http://localhost:4173` when a `dist`-rooted server is already up: `python3 -m http.server 4173 --directory <repo>`. The combat travel smoke expects a `dist`-rooted server on the same port, so stop one before starting the other.
 
 If `chromium.launch` complains the executable is missing, point `PLAYWRIGHT_EXECUTABLE` at an installed headless shell under `~/Library/Caches/ms-playwright/` (on this Mac: `chromium_headless_shell-1223/chrome-headless-shell-mac-x64/chrome-headless-shell`).
 
