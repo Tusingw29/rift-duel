@@ -2,11 +2,11 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {mkdtempSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';import {join} from 'node:path';
-import {pathToFileURL} from 'node:url';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 // The standing one-shot conversion (scripts/mocap/bvh-to-channels.mjs --mode strike) on a synthetic take: a CMU-named
 // skeleton standing flat-footed whose right elbow opens from 120 degrees to straight and closes again. No dataset files
 // are committed, so the take is generated here.
-const SCRIPT=new URL('../scripts/mocap/bvh-to-channels.mjs',import.meta.url).pathname;
+const SCRIPT=fileURLToPath(new URL('../scripts/mocap/bvh-to-channels.mjs',import.meta.url));
 const J=(name,offset,kids=[])=>({name,offset,kids});
 const arm=(s,x)=>J(`${s}Arm`,[x,0,0],[J(`${s}ForeArm`,[0,-.28,0],[J(`${s}Hand`,[0,-.25,0])])]);
 const leg=(s,x)=>J(`${s}UpLeg`,[x,0,0],[J(`${s}Leg`,[0,-.42,0],[J(`${s}Foot`,[0,-.42,0],[J(`${s}ToeBase`,[0,-.06,.14])])])]);
