@@ -29,3 +29,10 @@ test('roster cinders seek deterministically, remain still in reduced motion, and
   const g=createFlowEnergy('signature',id),snapshot=()=>g.children.map(n=>[...n.position.toArray(),n.material?.opacity]);g.userData.updateFlow(.3);const a=snapshot();g.userData.updateFlow(2);g.userData.updateFlow(.3);assert.deepEqual(snapshot(),a);g.userData.updateFlow(10,true);const b=snapshot();g.userData.updateFlow(11,true);assert.deepEqual(snapshot(),b);g.userData.updateFlow(.3,false,0);g.traverse(n=>{if(n.material&&!n.material.uniforms)assert.equal(n.material.opacity,0);});
  }
 });
+
+test('flowing projectiles expose vertical silhouette and restore the legacy orientation when switched off',async()=>{
+ const {createProjectileVisual,updateProjectileVisual}=await import('../dist/projectile-visuals.js');
+ const b=createProjectileVisual(),p={x:0,z:0,dx:1,dz:0,kind:'bolt',radius:.4};
+ for(const id of [1,3,4,5]){setVfxSettings(REFINED_VFX);updateProjectileVisual(b,p,'#ffffff',.4,false,id);const g=b.userData.signatures[id];assert.equal(g.rotation.x,Math.PI/4);assert.equal(g.rotation.y,.35);setVfxSettings(DEFAULT_VFX);updateProjectileVisual(b,p,'#ffffff',.4,false,id);assert.equal(g.rotation.x,Math.PI/2);assert.equal(g.rotation.y,0);assert.equal(b.rotation.y,Math.PI/2);}
+ resetVfxSettings();assert.deepEqual(p,{x:0,z:0,dx:1,dz:0,kind:'bolt',radius:.4});
+});
