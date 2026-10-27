@@ -347,13 +347,25 @@ Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`
 
 ## QUATERNIUS-JAB — Quaternius jab on Tala's first punch (opt-in A/B)
 
-Owner: **Claude** · Branch: `claude/quaternius-jab` · Worktree: `~/rift-worktrees/quaternius-jab` · Status: **Review — awaiting Adam's normal-speed verdict** (claimed and implemented 2026-10-27; branch only, not merged)
+Owner: **Claude** · Branch: `claude/quaternius-jab` · Worktree: `~/rift-worktrees/quaternius-jab` · Status: **Done (rejected)** (2026-10-27). Branch kept as a record, not merged.
+
+**Verdict (Adam, 2026-10-27): rejected.** He prefers Tala's authored strike 1; it is more stylish. The authored punch stays. The jab hookup is not merged into strike 1; the standing `--mode strike` converter guard and its tests land separately (`claude/bvh-strike-mode`).
 
 Adam (2026-10-27): try the Quaternius Universal Animation Library Standard `Punch_Jab` (CC0) on Tala's strike 1 as an opt-in A/B in the sandbox (`&anim=imported`), next to her current first punch. Clip time-warped so its contact lands on the simulation's strike-1 contact frame (9/3/16); the simulation owns timing and root. No edits to `dist/combat.js` or combat timing; authored stays the default everywhere. Not merged to main until Adam's verdict.
 
 - [x] Standing one-shot conversion path (`--mode strike`; `oneshot` now refuses standing takes), lean −0.23 checked (real chest-joint offset in the stylised guard, not a flipped axis; cancels as a deviation), mirrored to Tala's right-hand strike 1, `dist/clips/import/jab.js`
 - [x] Hooked into `dist/imported-motion.js` for strike 1 only, as deviations around Tala's stance, sampled from the move frame (contact on frame 9, held through active and hitstop); `&jab=0` restores the CMU straight
 - [x] 606 tests (6 new), side-camera strips authored / jab / CMU, README `art/review-2026-10-27/quaternius-jab/`. Defect found: arm-only jab, fist 0.6 short of the authored contact, hips 0.05 forward against 0.45 authored
+- [x] **Adam's normal-speed verdict**: rejected, authored strike 1 kept
+
+## QUATERNIUS-REACTIONS — Quaternius hit reactions for Tala (opt-in A/B)
+
+Owner: **Claude** · Branch: `claude/quaternius-reactions` · Worktree: `~/rift-worktrees/quaternius-reactions` · Status: **In progress** (claimed 2026-10-27)
+
+Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) as Tala's hit reactions, opt-in behind `&anim=imported` only. Same rules as the jab: the simulation owns timing and root, deviations around her stance, deterministic replay, default unchanged, no edits to `dist/combat.js`. Review with the `guard-hit` and `recoil` sandbox recipes.
+
+- [ ] Convert both takes (they start on the hit frame and settle into an idle stand), hook into `dist/imported-motion.js` for Tala's hurt and guarded-hit states
+- [ ] Tests, side-camera strips authored vs imported (`recoil`, `guard-hit`), README `art/review-2026-10-27/quaternius-reactions/`
 - [ ] **Adam's normal-speed verdict**
 
 ## Handoff log
@@ -366,6 +378,8 @@ Adam (2026-10-27): try the Quaternius Universal Animation Library Standard `Punc
 | 2026-10-27 | Claude | MOCAP-COMBAT + ANIM-WORKBENCH | Imported footwork/get-up polish, captured CMU punches for Tala time-warped onto moveTiming, and `dist/anim-workbench.html` (real rigs, A/B, joint tweaks, trails, centre of mass, time-warp sliders, export, automation hooks). 600 tests; workbench probe gates browser smoke. Evidence `art/review-2026-10-27/mocap-combat/`. Next: Adam's verdict; tune in the workbench. |
 | 2026-10-27 | Claude | QUATERNIUS-JAB | Claimed on `claude/quaternius-jab`: Quaternius UAL `Punch_Jab` (CC0) as an opt-in A/B on Tala's strike 1 behind `&anim=imported`. Combat timing untouched; branch only, not merged. |
 | 2026-10-27 | Claude | QUATERNIUS-JAB | Review on `claude/quaternius-jab` (not merged): Quaternius `Punch_Jab` (CC0) mirrored onto Tala's strike 1 behind `&anim=imported`, contact on frame 9, feet planted, no wrong hand / arm through body / back lean. Reads as an arm-only flick: fist 0.6 short of the authored punch. 606 tests. Evidence `art/review-2026-10-27/quaternius-jab/`. Next: Adam's normal-speed verdict. |
+| 2026-10-27 | Claude | QUATERNIUS-JAB | **Done (rejected).** Adam prefers Tala's authored strike 1 (more stylish); authored punch kept, jab hookup not merged. Converter guard and tests go to `claude/bvh-strike-mode`. Next: QUATERNIUS-REACTIONS. |
+| 2026-10-27 | Claude | QUATERNIUS-REACTIONS | Claimed on `claude/quaternius-reactions`: Quaternius `Hit_Chest` / `Hit_Head` (CC0) as Tala's hit reactions behind `&anim=imported`. Combat untouched; branch only. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
