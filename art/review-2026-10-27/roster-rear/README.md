@@ -18,3 +18,5 @@ Correction `6ee5db8` gives the flowing preview a stable 4.2-unit shoulder offset
 The diagonal geometry reads in the sampled rear flight views. This does **not** certify every release frame: Morrow's early occlusion remains a specific limitation. Screenshots also do not establish smooth camera feel or normal-speed artistic acceptance.
 
 Synced Claude `a3ff8c4` WEIGHT-TRANSFER and retained TALA-IMPORT-AB board history. 592 unit tests passed locally with `node --test --test-concurrency=4 tests/*.test.mjs`. Local npm commands exited 194 before completion; direct release stamping succeeded. The Pages workflow runs the exact `npm run prepare:release` and `npm test` commands before publishing.
+
+Final local verification after the clean rebase: `npm --script-shell=/bin/bash run prepare:release` succeeded and `npm --script-shell=/bin/bash test` passed **592/592**. Explicit Bash resolved the earlier local npm exit-194 issue without changing the package scripts or tests.
