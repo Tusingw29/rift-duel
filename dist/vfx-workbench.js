@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.js';
-import {createInkBeam,createInkRing,createInkFlame} from './ink-energy.js';
+import {createInkBeam,createInkRing,createInkFlame,createEnergyBurst} from './ink-energy.js';
 import {createSignature,createChiCoil,createShockwave,energyStyles,energyStyle} from './energy-style.js';
 import {DEFAULT_VFX,CRISP_VFX,REFINED_VFX,VFX_LIMITS,STORAGE_KEY,validateVfx,setVfxSettings} from './vfx-settings.js';
 const $=id=>document.getElementById(id),copy=x=>JSON.parse(JSON.stringify(x));
@@ -19,16 +19,17 @@ function build(v,config){
  const paletteKey=kind==='impact'?JSON.stringify(config.palettes[id]||null):'';
  if(v.kind===kind&&v.id===id&&v.paletteKey===paletteKey)return;v.paletteKey=paletteKey;
  dispose(v.group);v.kind=kind;v.id=id;
- v.asset=kind==='beam'?createInkBeam():kind==='capture'?createInkRing(energyStyles[id].color):kind==='charge'?new T.Group():kind==='impact'?createShockwave(id):createSignature(id);
+ v.asset=kind==='burst'?createEnergyBurst(energyStyles[id].color):kind==='beam'?createInkBeam():kind==='capture'?createInkRing(energyStyles[id].color):kind==='charge'?new T.Group():kind==='impact'?createShockwave(id):createSignature(id);
  if(kind==='charge'){const coil=createChiCoil(),flame=createInkFlame();coil.scale.setScalar(2);flame.position.set(.25,-.7,0);v.asset.add(coil,flame);v.asset.userData.updateInk=(t)=>v.asset.children.forEach(o=>o.userData.updateInk(t,false));}
  v.group.add(v.asset);v.shards=Array.from({length:8},(_,i)=>{const s=createSignature(id);s.userData.index=i;v.group.add(s);return s;});
 }
 // Absolute frame evaluation: scrubbing and reverse seeks do not depend on RAF history.
 function render(){
  const kind=$('asset').value;
- for(const key of Object.keys(VFX_LIMITS))if($(key))$(key).disabled=!!draft.flowEnergy&&!['flowEnergy','beamWidth'].includes(key);
+ document.querySelector('.view h2').textContent=$('compareFlow').checked?'PREVIOUS FLOW':'LIVE DEFAULT';
+ for(const key of Object.keys(VFX_LIMITS))if($(key))$(key).disabled=!!draft.flowEnergy&&!['flowEnergy','blenderAssets','beamWidth'].includes(key);
  views.forEach((v,i)=>{
-  const config=i?draft:DEFAULT_VFX;build(v,config);setVfxSettings(config);
+  const config=i?draft:($('compareFlow').checked?{...REFINED_VFX,blenderAssets:0}:DEFAULT_VFX);build(v,config);setVfxSettings(config);
   const a=v.asset,t=frame/60,release=frame>=18,breakup=frame>=48,clear=frame>=66;
   a.visible=!breakup;a.position.set(0,0,0);a.rotation.set(0,0,0);a.scale.setScalar(1);
   const gather=.12+.88*Math.min(1,frame/18);
@@ -51,9 +52,9 @@ function render(){
  });
  setVfxSettings(draft);$('timeline').value=frame;$('frame').textContent=`Frame ${frame} / 89 · ${frame<18?'gather':frame<48?'release':frame<66?'breakup':'clear'}`;
 }
-const labels={flowEnergy:'Flowing 3D finish',cadence:'Drawing cadence',beamWidth:'Beam width',inkWidth:'Beam ink',coreWidth:'Beam white channels',ribWidth:'Beam ribs',signatureDepth:'Signature depth',signatureCore:'Signature core',signatureInk:'Signature ink'};
+const labels={blenderAssets:'Blender pieces',flowEnergy:'Flowing 3D finish',cadence:'Drawing cadence',beamWidth:'Beam width',inkWidth:'Beam ink',coreWidth:'Beam white channels',ribWidth:'Beam ribs',signatureDepth:'Signature depth',signatureCore:'Signature core',signatureInk:'Signature ink'};
 for(const [key,[min,max]] of Object.entries(VFX_LIMITS)){
- const label=document.createElement('label');label.textContent=labels[key];const input=document.createElement('input');input.type='range';input.id=key;input.min=min;input.max=max;input.step=['cadence','flowEnergy'].includes(key)?1:.01;const output=document.createElement('output');output.htmlFor=key;label.append(input,output);$('sliders').append(label);
+ const label=document.createElement('label');label.textContent=labels[key];const input=document.createElement('input');input.type='range';input.id=key;input.min=min;input.max=max;input.step=['cadence','flowEnergy','blenderAssets'].includes(key)?1:.01;const output=document.createElement('output');output.htmlFor=key;label.append(input,output);$('sliders').append(label);
  input.oninput=()=>{draft=validateVfx({...draft,[key]:+input.value});output.value=input.value;if(key==='flowEnergy')shapeUI();render();};
 }
 [...$('fighter').options].forEach((o,i)=>o.value=i);
@@ -69,6 +70,7 @@ function shapeUI(){
 $('shape').onpointermove=e=>{if(!drag)return;const p=new DOMPoint(e.clientX,e.clientY).matrixTransform($('shape').getScreenCTM().inverse()),points=copy(drag.points);points[drag.index]=[Math.max(-1.5,Math.min(1.5,(p.x-150)/90)),Math.max(-1.5,Math.min(1.5,(150-p.y)/90))];try{draft=validateVfx({...draft,shapes:{...draft.shapes,[drag.id]:points}});shapeUI();render();status('Silhouette changed. Save to preview it in the fight.');}catch(error){status(error.message,true);}};
 $('shape').onpointerup=$('shape').onpointercancel=()=>drag=null;
 function sync(){for(const key of Object.keys(VFX_LIMITS)){$(key).value=draft[key];$(key).nextElementSibling.value=draft[key];}shapeUI();render();}
+$('compareFlow').onchange=render;
 $('fighter').onchange=()=>{shapeUI();render();};$('asset').onchange=render;$('silhouette').onchange=render;
 $('camera').onchange=()=>{yaw={three:.8,side:0,back:Math.PI/2}[$('camera').value];pitch=$('camera').value==='three'?.3:.06;render();};
 views.forEach(v=>{const c=v.renderer.domElement;let orbit=null;c.onpointerdown=e=>{orbit={x:e.clientX,y:e.clientY};c.setPointerCapture(e.pointerId);};c.onpointermove=e=>{if(!orbit)return;yaw-=(e.clientX-orbit.x)*.008;pitch=Math.max(-.4,Math.min(1.2,pitch+(e.clientY-orbit.y)*.008));orbit={x:e.clientX,y:e.clientY};render();};c.onpointerup=c.onpointercancel=()=>orbit=null;c.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(3,Math.min(12,distance+e.deltaY*.005));render();},{passive:false});});
@@ -84,5 +86,6 @@ $('export').onclick=()=>download(new Blob([JSON.stringify(draft,null,2)],{type:'
 $('capture').onclick=()=>{render();const canvas=document.createElement('canvas'),[a,b]=views.map(v=>v.renderer.domElement);canvas.width=a.width+b.width;canvas.height=Math.max(a.height,b.height)+44;const ctx=canvas.getContext('2d');ctx.fillStyle='#10141e';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(a,0,44);ctx.drawImage(b,a.width,44);ctx.fillStyle='white';ctx.font='18px sans-serif';ctx.fillText(`LIVE DEFAULT · ${$('asset').value} · frame ${frame}`,16,28);ctx.fillText('EDITABLE DRAFT',a.width+16,28);canvas.toBlob(blob=>download(blob,`rift-vfx-${$('asset').value}-f${frame}.png`));};
 let samples=[];function tick(now){if(last){const elapsed=(now-last)/1000;samples.push(elapsed);if(samples.length>60)samples.shift();if(playing&&!document.hidden){accumulator+=Math.min(.25,elapsed)*+$('speed').value;const steps=Math.floor(accumulator*60);accumulator-=steps/60;if(steps){frame=(frame+steps)%90;render();}}}last=now;$('metrics').textContent=samples.length?`${Math.round(samples.length/samples.reduce((a,b)=>a+b,0))} UI fps`:'';requestAnimationFrame(tick);}
 window.vfxWorkbench={seek,setDraft(value){draft=validateVfx(value);sync();},getDraft:()=>copy(draft),getState:()=>({frame,playing,asset:$('asset').value,fighter:+$('fighter').value}),views};
+document.addEventListener('vfx-assets-ready',()=>{render();});
 window.addEventListener('resize',render);document.addEventListener('visibilitychange',()=>{last=0;accumulator=0;});
 sync();requestAnimationFrame(tick);

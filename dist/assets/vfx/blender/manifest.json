@@ -1,0 +1,53 @@
+{
+  "generator": "Blender 3.6.23",
+  "author": "Original Rift Duel project artwork authored by Codex for Adam",
+  "license": "CC0-1.0",
+  "source": "scripts/vfx-blender/build.py",
+  "files": [
+    {
+      "name": "sol-shell.glb",
+      "bytes": 54552,
+      "triangles": 2364,
+      "sha256": "7c3d7d73d025ddf9b7b5548a686dcb05ff56a9e3478ae76ba27547a12da09409"
+    },
+    {
+      "name": "vesper-shell.glb",
+      "bytes": 32736,
+      "triangles": 1340,
+      "sha256": "8ddf358c6b066422d9dc3136e0412e0d36c44d63f5e4492eb51a52e748a3301d"
+    },
+    {
+      "name": "capture-collar.glb",
+      "bytes": 61136,
+      "triangles": 2660,
+      "sha256": "f04f2e2e8ff9655d1ab8608876853a086042b42a95d303390e075e2ff89129d4"
+    },
+    {
+      "name": "release-burst.glb",
+      "bytes": 45436,
+      "triangles": 1932,
+      "sha256": "f57ef2c83b5927d518890b099e348e0748f04d8a82779591e870ccefffb01256"
+    },
+    {
+      "name": "wisps.png",
+      "bytes": 14636,
+      "width": 128,
+      "height": 128,
+      "sha256": "156c2f38f8cdd3e8d5d247b3f66261b672b7b856b917df59bbf2c530906417f7"
+    },
+    {
+      "name": "cracks.png",
+      "bytes": 8979,
+      "width": 128,
+      "height": 128,
+      "sha256": "d9f486419ce11c64772299284a70f8f9fa2cc614bbae004986eeebcf3c8d9512"
+    },
+    {
+      "name": "sparks.png",
+      "bytes": 4043,
+      "width": 128,
+      "height": 128,
+      "sha256": "97224765b0697114b3859236f08df6dac970732c7d07cc6fcb34dd03260f3823"
+    }
+  ]
+}

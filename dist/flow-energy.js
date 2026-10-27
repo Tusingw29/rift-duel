@@ -1,3 +1,4 @@
+import {createBlenderVfx} from './blender-vfx.js';
 import * as T from './vendor/three.module.js';
 import {vfxSettings} from './vfx-settings.js';
 // Closed curved volumes with flowing translucent surfaces. Imported images are
@@ -125,15 +126,20 @@ export function createFlowEnergy(kind,id=0,color='#6fe7ff'){
   }
  }
  if(kind==='coil')g.scale.y=.24;
+ const procedural=[...g.children];let modeled=null;
  const rotations=g.children.map(n=>n.rotation.clone());
  g.userData.updateFlow=(time,reduced=false,opacity=1,tint=color)=>{
   const t=reduced?0:time;
+  if(vfxSettings().blenderAssets){modeled??=createBlenderVfx(kind,id,color,surface);if(modeled&&!modeled.parent)g.add(modeled);}
+  const ready=!!(vfxSettings().blenderAssets&&modeled?.userData.sync());
+  procedural.forEach(n=>n.visible=!ready);if(modeled)modeled.visible=ready;
+
   g.traverse(n=>{if(!n.material)return;const role=n.material.userData.energyRole;
    if(n.material.uniforms){n.material.uniforms.uTime.value=t;n.material.uniforms.uOpacity.value=opacity*(role==='body'?.9:.7);n.material.color.set(tint);}
    else{n.material.opacity=opacity*(role==='shadow'?.85:.9);n.material.color.set(tint);if(role==='shadow')n.material.color.multiplyScalar(.18);else if(id!==3)n.material.color.lerp(new T.Color('#ffffff'),.12);}
    if(n.userData.home){const phase=(t*.6+n.userData.phase)%1;n.position.copy(n.userData.home).multiplyScalar(.8+phase*.45);n.material.opacity*=Math.sin(phase*Math.PI);}
   });
-  if(kind==='capture')g.children.forEach((n,i)=>{n.rotation.copy(rotations[i]);if(i<6)n.rotation.z+=t*(Math.floor(i/2)%2?.22:-.17);});
+  if(kind==='capture')procedural.forEach((n,i)=>{n.rotation.copy(rotations[i]);if(i<6)n.rotation.z+=t*(Math.floor(i/2)%2?.22:-.17);});
  };
  return g;
 }

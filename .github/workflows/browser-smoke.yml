@@ -106,7 +106,12 @@ jobs:
           RIFT_TOOLS: ${{ github.workspace }}
           RIFT_BASE: http://127.0.0.1:4173
           SHOTS: artifacts/browser-smoke/kinetic-vfx
-        run: node scripts/review/refined-energy.mjs
+        run: |
+          if [ -f scripts/review/blender-vfx.mjs ]; then
+            node scripts/review/blender-vfx.mjs
+          else
+            node scripts/review/refined-energy.mjs
+          fi
       - name: Review the published VFX workbench
         if: github.event_name == 'workflow_run'
         env:

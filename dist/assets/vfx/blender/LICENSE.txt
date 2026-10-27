@@ -1,0 +1,7 @@
+Original Rift Duel effect meshes and grayscale masks, authored for Adam Williams
+using scripts/vfx-blender/build.py. No third-party source assets were used.
+
+These assets are dedicated to the public domain under CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+To the extent possible under law, the author has waived all copyright and related
+or neighboring rights to these assets. Provided without warranty.
