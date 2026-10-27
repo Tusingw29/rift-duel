@@ -80,6 +80,6 @@ export function createEnergyBurst(color='#6fe7ff'){
   const direction=new T.Vector3(...axis),spike=layer(facetColors(new T.ConeGeometry(.17,.65,4)),color,2);
   spike.position.copy(direction).multiplyScalar(.42);spike.quaternion.setFromUnitVectors(up,direction);g.add(spike);
  }
- g.userData.updateInk=(time,reduced,opacity=1)=>{const f=frameAt(time,reduced);g.userData.frame=f;g.children.forEach((mesh,i)=>{mesh.material.opacity=opacity;if(i)mesh.scale.setScalar(1+Math.sin(i+f)*.08);});};
- return g;
+ const spikes=[...g.children];g.userData.updateInk=(time,reduced,opacity=1)=>{const f=frameAt(time,reduced);g.userData.frame=f;spikes.forEach((mesh,i)=>{mesh.material.opacity=opacity;if(i)mesh.scale.setScalar(1+Math.sin(i+f)*.08);});};
+ return attachFlowEnergy(g,'burst',0,color);
 }
