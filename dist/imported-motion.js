@@ -5,6 +5,9 @@ import * as retreat from './clips/import/retreat.js';
 import * as left from './clips/import/left.js';
 import * as right from './clips/import/right.js';
 import * as getup from './clips/import/getup.js';
+import * as hitHead from './clips/import/hit-head.js';
+import * as hitChest from './clips/import/hit-chest.js';
+import {HURT_TIME} from './grounded-animation.js';
 // TALA-IMPORT-AB: retargeted motion capture for Tala's combat footwork and get-up, for a controlled comparison with
 // the authored animation. Everything is sampled from simulation state — stride phase from distance travelled, the
 // get-up from the simulation's getUp frame — so hitstop freezes it and replays are deterministic. The simulation owns
@@ -12,7 +15,7 @@ import * as getup from './clips/import/getup.js';
 // head motion as deviations around Tala's own stance (her approved fists and guard stay hers), and the feet as paths
 // relative to the travel line, which keeps a planted source foot planted in the world without any latching.
 // Lengths in the clips are in source leg lengths (thigh+shin) and are rescaled to the rig's own legs here.
-export const IMPORT_CLIPS={advance,retreat,left,right,getup};
+export const IMPORT_CLIPS={advance,retreat,left,right,getup,hitHead,hitChest};
 const FOOTWORK={advance,retreat,left,right};
 const CANON={advance:[0,1],retreat:[0,-1],left:[-1,0],right:[1,0]};
 // Channels taken as deviations from the clip's cycle mean, added to Tala's stance.
@@ -168,4 +171,30 @@ export function importedGetUpPose(r,stance,player,downPose){
  if(leave>0)res=Object.fromEntries(CHANNELS.map(k=>[k,lerp(res[k]??0,stance[k]??0,leave)]));
  return res;
 }
+// QUATERNIUS-REACTIONS: the Quaternius UAL Standard Hit_Chest and Hit_Head (CC0) as Tala's hit reactions, imported
+// source only. Both takes open on the hit and settle into the pack's idle stand, so each is applied as deviations from
+// its own settled last key added to Tala's pose: the reaction starts at the hit and lands exactly back in her stance or
+// guard. Sampled from the simulation's own timers, which stop during hitstop, so replays and scrubbing are exact:
+//  - an unguarded hit (anim 'hurt', animTime counting down from HURT_TIME) plays Hit_Chest over the whole hurt window,
+//    the full-body arch closest in kind to her authored recoil; the hitstop keeps the roster's shudder;
+//  - a guarded hit (blockStun counting down from the 0.12 s set in combat.js) plays Hit_Head behind the guard: head,
+//    spine and pelvis only, her arms stay in guard.
+// Legs stay hers (plantSupportFeet solves the planted knees); the hips follow the take's small settle.
+export const REACTIONS={hurt:hitChest,guard:hitHead};
+export const BLOCK_STUN=.12;
+const REACT_BODY=['lean','side','twist','hx','hy','hz','neckY','neckZ','hipYaw'],REACT_ARMS=['lax','lay','laz','rax','ray','raz','le','re'];
+function reactionPose(clip,u,base,arms){
+ const {pose,data}=sample(clip,u,false),end=clip.keys.at(-1)[1],out={...base},s=currentScale;
+ for(const ch of arms?[...REACT_BODY,...REACT_ARMS]:REACT_BODY)out[ch]=(base[ch]??0)+pose[ch]-end[ch];
+ out.bodyX=(base.bodyX||0)+data.hip[0]*s;out.bodyY=(base.bodyY||0)+data.hip[1]*s;out.bodyZ=(base.bodyZ||0)+data.hip[2]*s;
+ return out;
+}
+export const hurtClipU=animTime=>Math.max(0,Math.min(1,(HURT_TIME-Math.min(HURT_TIME,animTime||0))/HURT_TIME));
+export function importedHurtPose(stance,animTime,hitstop){
+ const out=reactionPose(REACTIONS.hurt,hurtClipU(animTime),stance,true);
+ if(hitstop>0)out.bodyX+=.025*(hitstop%2?1:-1);
+ return out;
+}
+export const guardHitClipU=blockStun=>1-Math.max(0,Math.min(1,(blockStun||0)/BLOCK_STUN));
+export function importedGuardHitPose(guard,blockStun){return blockStun>0?reactionPose(REACTIONS.guard,guardHitClipU(blockStun),guard,false):guard;}
 export const importMeta=Object.fromEntries(Object.entries(IMPORT_CLIPS).map(([k,c])=>[k,c.meta]));

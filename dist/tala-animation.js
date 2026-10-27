@@ -9,7 +9,7 @@ import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,riseP
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {locomotionSource} from './locomotion-clips.js';
-import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
+import {importedMovePose,importedGetUpPose,setImportRig,importedHurtPose,importedGuardHitPose} from './imported-motion.js';
 import {applyWeight} from './weight-transfer.js';
 import {applyTweaks} from './anim-tweaks.js';
 import {combatClip,combatPose,combatWeight} from './imported-combat.js';
@@ -200,8 +200,10 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!move&&!p.launched&&['jump','recover','idle','run'].includes(p.anim)&&(p.air>0||(p.airMotion?.height||0)>.01))return {pose:freeFlightPose(p),rate:20,kind:'freeFlight'};
  if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
- if(p.guard)return {pose:pose(rhythmPose(guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
- if(p.anim==='hurt')return {pose:hurtPose(p.animTime||0,p.hitstop),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
+ // QUATERNIUS-REACTIONS (imported source only): Hit_Head behind the guard, Hit_Chest on an unguarded hit.
+ const reactImported=locomotionSource()==='imported';
+ if(p.guard)return {pose:pose(rhythmPose(reactImported&&p.blockStun>0?importedGuardHitPose(guard,p.blockStun):guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
+ if(p.anim==='hurt')return {pose:reactImported?pose(importedHurtPose(stance,p.animTime||0,p.hitstop)):hurtPose(p.animTime||0,p.hitstop),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};
  if(p.anim==='run')return {pose:movePose(motion?motion.forward:p.prev?.x??1,motion?motion.side:p.prev?.z||0,stridePhase,true),rate:13,kind:'run'};
  return {pose:idlePose(t),rate:8,kind:'idle'};
