@@ -1,3 +1,7 @@
+## BLENDER-VFX-ASSETS — modeled flow-preview effects
+
+Owner: **Codex** · Branch: `codex/blender-vfx-assets` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced main `8e2e80e`. Blender 3.6.23 headless only: low-poly Sol/Vesper shells, capture profile, burst and small original masks. Flow preview only; preserve default game, Claude character/rig/pose/mocap/animation and combat. Deliver branch and localhost review; **do not merge implementation to main**.
+
 ## ROSTER-ENERGY — distinct flowing signatures
 
 Rear-camera verification follow-up (Codex, 2026-10-27): previous focused run `40470396558` passed but roster evidence was side-only. Synced Claude `a3ff8c4` WEIGHT-TRANSFER with TALA-IMPORT-AB preserved. Added explicit lock-on captures at release +4f and +16f; status **Review; awaiting normal-speed verdict**, same isolated branch/worktree. Final run 40478793913 passes; **592 tests pass**. All four rear flight samples retain visible height and shape after increasing only the flowing preview shoulder offset. Morrow early +4f is still occluded by the release pose/sword. [Evidence and exact limits](../art/review-2026-10-27/roster-rear/README.md).
@@ -360,12 +364,12 @@ Adam (2026-10-27): try the Quaternius Universal Animation Library Standard `Punc
 
 ## QUATERNIUS-REACTIONS — Quaternius hit reactions for Tala (opt-in A/B)
 
-Owner: **Claude** · Branch: `claude/quaternius-reactions` · Worktree: `~/rift-worktrees/quaternius-reactions` · Status: **In progress** (claimed 2026-10-27)
+Owner: **Claude** · Branch: `claude/quaternius-reactions` · Worktree: `~/rift-worktrees/quaternius-reactions` · Status: **Review — awaiting Adam's normal-speed verdict** (claimed and implemented 2026-10-27; branch only, not merged)
 
 Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) as Tala's hit reactions, opt-in behind `&anim=imported` only. Same rules as the jab: the simulation owns timing and root, deviations around her stance, deterministic replay, default unchanged, no edits to `dist/combat.js`. Review with the `guard-hit` and `recoil` sandbox recipes.
 
-- [ ] Convert both takes (they start on the hit frame and settle into an idle stand), hook into `dist/imported-motion.js` for Tala's hurt and guarded-hit states
-- [ ] Tests, side-camera strips authored vs imported (`recoil`, `guard-hit`), README `art/review-2026-10-27/quaternius-reactions/`
+- [x] Both takes converted (`--keep-first`, `--mode reaction`: they open on the hit and settle into an idle stand). Hit_Chest on an unguarded hit over the 0.42 s hurt timer; Hit_Head behind the guard over the 0.12 s block stun, arms held in guard. Deviations from the settled end around her stance or guard, sampled from the simulation timers
+- [x] 608 tests (5 new), side-camera strips authored vs imported (`recoil`, `guard-hit`), README `art/review-2026-10-27/quaternius-reactions/`. Finding: clean but small; recoil head travel 0.25 against 0.85 authored, guarded Hit_Head nearly invisible in 7 frames
 - [ ] **Adam's normal-speed verdict**
 
 ## Handoff log
@@ -380,6 +384,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-27 | Claude | QUATERNIUS-JAB | Review on `claude/quaternius-jab` (not merged): Quaternius `Punch_Jab` (CC0) mirrored onto Tala's strike 1 behind `&anim=imported`, contact on frame 9, feet planted, no wrong hand / arm through body / back lean. Reads as an arm-only flick: fist 0.6 short of the authored punch. 606 tests. Evidence `art/review-2026-10-27/quaternius-jab/`. Next: Adam's normal-speed verdict. |
 | 2026-10-27 | Claude | QUATERNIUS-JAB | **Done (rejected).** Adam prefers Tala's authored strike 1 (more stylish); authored punch kept, jab hookup not merged. Converter guard and tests go to `claude/bvh-strike-mode`. Next: QUATERNIUS-REACTIONS. |
 | 2026-10-27 | Claude | QUATERNIUS-REACTIONS | Claimed on `claude/quaternius-reactions`: Quaternius `Hit_Chest` / `Hit_Head` (CC0) as Tala's hit reactions behind `&anim=imported`. Combat untouched; branch only. |
+| 2026-10-27 | Claude | QUATERNIUS-REACTIONS | Review on `claude/quaternius-reactions` (not merged): Hit_Chest on unguarded hits, Hit_Head behind the guard, behind `&anim=imported`. No wrong side, clipping or sliding; reactions are about a third of the authored snap. 608 tests. Evidence `art/review-2026-10-27/quaternius-reactions/`. Also `claude/bvh-strike-mode` (converter guard + tests, 603) ready to land. Next: Adam's verdict. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |

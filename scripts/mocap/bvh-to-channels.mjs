@@ -130,15 +130,17 @@ const rest=worldPositions(bvh,0);
 const restHip=pick(rest,NAMES.hips),restAnkle=pick(rest,NAMES.lAnkle),restKnee=pick(rest,NAMES.lKnee);
 const bvhLeg=restHip.distanceTo(restKnee)+restKnee.distanceTo(restAnkle),scale=1.6/bvhLeg;// our thigh+shin at game scale is about 1.6 units
 const mirror=!!args.mirror;
-const all=[];for(let f=1;f<bvh.frames;f++)all.push(frameChannels(worldPositions(bvh,f),restHip.y,scale,mirror));
+// Frame 0 is usually a rest pose and is skipped; --keep-first keeps it for takes that start on a real pose (Quaternius hit reactions open on the hit).
+const first=args['keep-first']?0:1;
+const all=[];for(let f=first;f<bvh.frames;f++)all.push(frameChannels(worldPositions(bvh,f),restHip.y,scale,mirror));
 if(args.debug){const z=all.map(c=>c._lFootZ),h=all.map(c=>c._hipY);const f=k=>v=>+v.toFixed(2);
  console.log('DEBUG frames',bvh.frames,'joints',bvh.joints.length,'per-frame channels',bvh.data[0].length,'rest hips',restHip.toArray().map(f()),'rest lAnkle',restAnkle.toArray().map(f()),'bvhLeg',bvhLeg.toFixed(2));
  console.log('DEBUG lFootZ min/max',Math.min(...z).toFixed(2),Math.max(...z).toFixed(2),'first',z.slice(0,6).map(f()),'mid',z.slice(150,156).map(f()));
  console.log('DEBUG hipY min/max',Math.min(...h).toFixed(2),Math.max(...h).toFixed(2));
  const p=[60,200].map(fr=>pick(worldPositions(bvh,fr),NAMES.hips).toArray().map(f()));console.log('DEBUG hips f60',p[0],'f200',p[1]);}
-if(args.dump){const r=v=>typeof v==='number'?+v.toFixed(4):v;writeFileSync(args.dump,JSON.stringify({source:args.in,frameTime:bvh.frameTime,scale:+scale.toFixed(4),frames:all.map((c,i)=>Object.fromEntries(Object.entries({f:i+1,...c}).map(([k,v])=>[k,r(v)])))}));console.log('DUMP',args.dump,all.length,'frames at',bvh.frameTime);if(!args.out)process.exit(0);}
+if(args.dump){const r=v=>typeof v==='number'?+v.toFixed(4):v;writeFileSync(args.dump,JSON.stringify({source:args.in,frameTime:bvh.frameTime,scale:+scale.toFixed(4),frames:all.map((c,i)=>Object.fromEntries(Object.entries({f:i+first,...c}).map(([k,v])=>[k,r(v)])))}));console.log('DUMP',args.dump,all.length,'frames at',bvh.frameTime);if(!args.out)process.exit(0);}
 // ---- segment export (TALA-IMPORT-AB) --------------------------------------------------------------
-// --segment a:b --mode loop|oneshot|strike [--keys N] [--lead l|r] [--pelvis-frame] [--impact i --hand l|r --type t]
+// --segment a:b --mode loop|oneshot|strike|reaction [--keys N] [--lead l|r] [--pelvis-frame] [--impact i --hand l|r --type t] [--keep-first]
 // Writes a "segment clip": pose channels plus the data a retarget needs, all lengths in source leg lengths (thigh + shin)
 // so the runtime rescales them to the rig's own legs. Footwork (loop): one step cycle cut between two lift-offs of the
 // same foot, with travel separated from the pelvis — the cycle's straight-line travel is removed, what is left is the
@@ -152,7 +154,7 @@ if(args.segment){
  const pelvis=!!args['pelvis-frame'];
  // oneshot is floor work only (its facing blends from the lying direction); standing one-shots use --mode strike.
  if(mode==='oneshot'&&!pelvis)throw new Error('--mode oneshot is for floor work and needs --pelvis-frame; convert a standing one-shot (a punch, kick or cut) with --mode strike --impact <frame>');
- const frames=pelvis?Array.from({length:bvh.frames-1},(_,i)=>frameChannels(worldPositions(bvh,i+1),restHip.y,scale,false,true)):all;
+ const frames=pelvis?Array.from({length:bvh.frames-first},(_,i)=>frameChannels(worldPositions(bvh,i+first),restHip.y,scale,false,true)):all;
  const ankleY=frames.flatMap(f=>[f._lAnkleW[1],f._rAnkleW[1]]).sort((x,y)=>x-y),floorY=ankleY[Math.floor(ankleY.length*.02)];
  const wrap=v=>{while(v>Math.PI)v-=2*Math.PI;while(v<-Math.PI)v+=2*Math.PI;return v;};
  const r4=v=>+v.toFixed(4);
@@ -201,6 +203,20 @@ if(args.segment){
   meta={name:args.name,source:args.source||args.in,mode,frames:[s0,s1],segment:[a,b],frameTime:dt,seconds:r4(len*dt),startFoot:cyc.foot,cycle:cyc.single?'step-and-drag':'two lift-offs of one foot',
    travel:[r4(travel[0]/LEG),r4(travel[1]/LEG)],cycleDistance:r4(Math.hypot(...travel)/LEG),units:'source leg lengths (thigh+shin)',
    duty:{l:r4(cl.slice(s0,s1).filter(Boolean).length/len),r:r4(cr.slice(s0,s1).filter(Boolean).length/len)}};
+ }else if(mode==='reaction'){
+  // QUATERNIUS-REACTIONS: a hit reaction that opens on the hit and settles into a stand. Heading is the settled pelvis
+  // facing (the hands hang at the sides, so they give no guard direction). Hips and ankles are stored relative to the
+  // settled end, so a runtime adding deviations from the last key lands exactly back in its own stance.
+  const step=Math.max(1,Math.round((1/60)/dt)),hd=frames[b]._hipYawWorld,fx=Math.sin(hd),fz=Math.cos(hd),toH=(x,z)=>[x*(-fz)+z*fx,x*fx+z*fz];
+  const toeY=frames.flatMap(f=>[f._lToeW[1],f._rToeW[1]]).sort((x,y)=>x-y),toeFloor=toeY[Math.floor(toeY.length*.02)],hE=frames[b]._hipsWorld;
+  const list=[];for(let fi=a;fi<b;fi+=step)list.push(fi);list.push(b);
+  for(const fi of list){
+   const f=frames[fi],hv=toH(f._hipsWorld[0]-hE[0],f._hipsWorld[2]-hE[2]);
+   const ank=key=>{const v=toH(f[key][0]-hE[0],f[key][2]-hE[2]);return [r4(v[0]/LEG),r4((f[key][1]-floorY)/LEG),r4(v[1]/LEG)];};
+   const out={};for(const ch of CHANNELS)out[ch]=r4(f[ch]??0);out.hipYaw=r4(-wrap(f._hipYawWorld-hd));
+   keys.push([+((fi-a)/(b-a)).toFixed(4),out,{hip:[r4(hv[0]/LEG),r4((f._hipsWorld[1]-hE[1])/LEG),r4(hv[1]/LEG)],l:ank('_lAnkleW'),r:ank('_rAnkleW'),lc:f._lToeW[1]<toeFloor+.05,rc:f._rToeW[1]<toeFloor+.05}]);
+  }
+  meta={name:args.name,source:args.source||args.in,mode,frames:[a,b],firstFrame:first,type:args.type||'reaction',frameTime:dt,seconds:r4((b-a)*dt),units:'source leg lengths (thigh+shin)',reference:'settled end'};
  }else if(mode==='strike'){
   // MOCAP-COMBAT strike: one real punch, kick or cut from its wind-up (a) to its settle (b), impact at --impact.
   // Heading is where the guard faced at the start (pelvis yaw minus the hand angle, as the footwork uses), held for

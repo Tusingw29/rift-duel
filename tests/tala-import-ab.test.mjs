@@ -35,7 +35,7 @@ test('authored is the default animation source everywhere until the comparison i
 });
 test('imported clips record their CMU source and licence, travel the way their names say, and loop closed',()=>{
  for(const [name,clip] of Object.entries(IMPORT_CLIPS)){
-  assert.match(clip.meta.source,/^CMU \d+_\d+ .*free for research and commercial use/,`${name} source and licence recorded`);
+  assert.match(clip.meta.source,/^CMU \d+_\d+ .*free for research and commercial use|^Quaternius Universal Animation Library Standard, \w+, CC0/,`${name} source and licence recorded`);
   if(clip.meta.mode!=='loop')continue;
   const [x,z]=clip.meta.travel;
   if(name==='advance')assert.ok(z>Math.abs(x),'advance travels forward');if(name==='retreat')assert.ok(-z>Math.abs(x),'retreat travels backward');
