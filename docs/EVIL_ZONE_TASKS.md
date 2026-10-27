@@ -1,6 +1,9 @@
 ## BLENDER-VFX-ASSETS — modeled flow-preview effects
 
-Owner: **Codex** · Branch: `codex/blender-vfx-assets` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced main `8e2e80e`. Blender 3.6.23 headless only: low-poly Sol/Vesper shells, capture profile, burst and small original masks. Flow preview only; preserve default game, Claude character/rig/pose/mocap/animation and combat. Deliver branch and localhost review; **do not merge implementation to main**.
+Owner: **Codex** · Branch: `codex/blender-vfx-assets` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting Adam’s normal-speed verdict** (2026-10-27). Synced main `8e2e80e`. Blender 3.6.23 headless only: low-poly Sol/Vesper shells, capture profile, burst and small original masks. Flow preview only; preserve default game, Claude character/rig/pose/mocap/animation and combat. Deliver branch and localhost review; **do not merge implementation to main**.
+
+
+Four original Blender 3.6.23 meshes and three small grayscale masks built, licensed CC0, and loaded only in the explicit flow preview. **603 tests pass**; [focused browser review passed](https://github.com/Tusingw29/rift-duel/actions/runs/40515825999) with actual combat, default no-load and loaded reduced-motion checks. [28 inspected captures, budgets and remaining weaknesses](../art/review-2026-10-27/blender-vfx/README.md). Side thickness is improved; pale-floor contrast and release-burst occlusion remain review points. Local workbench: `http://localhost:4791/vfx-workbench.html?look=flow`; game: `http://localhost:4791/?energy=flow`. Implementation stays on `codex/blender-vfx-assets`; no default promotion or main merge.
 
 ## ROSTER-ENERGY — distinct flowing signatures
 
