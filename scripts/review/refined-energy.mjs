@@ -29,6 +29,13 @@ try{
    await fight.waitForFunction(()=>effectFight.view.fighterModels.every(m=>['graphic','v3'].includes(m.status)),null,{timeout:240000});
    await fight.evaluate(()=>{const r=effectFight;for(let i=0;i<55;i++){r.combat.update(r.m,[{...r.combat.neutral(),attack:true},r.combat.neutral()]);r.view.render(1/60,r.m,{camera:'side',cameraZoom:.65,reduced:false});}});
    const file=`${OUT}/refined-fight-tala-charge-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);
+   for(const fighter of [1,3,4,5]){
+    await fight.evaluate(fighter=>{const r=effectFight;r.m=r.combat.createMatch(fighter,0,'training');r.view.match(r.m);},fighter);
+    await fight.waitForFunction(()=>effectFight.view.fighterModels.every(m=>['graphic','v3'].includes(m.status)),null,{timeout:240000});
+    await fight.evaluate(()=>{const {m,combat,view}=effectFight;const step=(attack=false)=>{combat.update(m,[{...combat.neutral(),attack},combat.neutral()]);view.render(1/60,m,{camera:'side',cameraZoom:.65,reduced:false});};for(let i=0;i<70;i++)step();m.players[0].x=-4;m.players[1].x=4;step(true);step();let safety=80;while(!m.projectiles.length&&safety-->0)step();if(!m.projectiles.length)throw new Error('Roster projectile did not release');for(let i=0;i<4;i++)step();});
+    const file=`${OUT}/refined-fight-signature-${fighter}-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);
+   }
+
   }
   await fight.close();
  }
