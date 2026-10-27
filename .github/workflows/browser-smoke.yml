@@ -14,6 +14,10 @@ on:
         description: Test the checked-out branch locally on the runner before publishing
         default: false
         type: boolean
+      vfx_only:
+        description: Capture flowing energy only on a branch preview
+        default: false
+        type: boolean
       review_model:
         description: Also capture model-review face, side, back and guard views
         default: false
@@ -70,7 +74,7 @@ jobs:
         if: inputs.preview_branch
         run: python3 -m http.server 4173 --directory dist > /tmp/rift-preview.log 2>&1 &
       - name: Run the browser smoke test
-        if: ${{ !inputs.morrow_only }}
+        if: ${{ !inputs.morrow_only && !inputs.vfx_only }}
         env:
           SMOKE_URL: ${{ inputs.preview_branch && 'http://127.0.0.1:4173/' || inputs.url || 'https://tusingw29.github.io/rift-duel/' }}
           SMOKE_TALA: ${{ inputs.tala || 'graphic' }}
@@ -78,10 +82,10 @@ jobs:
           REVIEW_ONLY: ${{ inputs.review_only || 'false' }}
         run: node scripts/browser-smoke.mjs --url "$SMOKE_URL" --tala "$SMOKE_TALA" --review "$REVIEW_MODEL" --review-only "$REVIEW_ONLY" --out artifacts/browser-smoke
       - name: Review Morrow Gravebound
-        if: inputs.preview_branch
+        if: inputs.preview_branch && !inputs.vfx_only
         run: node scripts/morrow-art-smoke.mjs
       - name: Capture kinetic effects on branch previews
-        if: inputs.preview_branch
+        if: inputs.preview_branch && !inputs.vfx_only
         run: |
           if [ -f scripts/review/kinetic-vfx.mjs ]; then
             npm run prepare:release
@@ -92,6 +96,13 @@ jobs:
             node scripts/review/vfx-workbench.mjs
             node scripts/review/refined-energy.mjs
           fi
+      - name: Review flowing energy only
+        if: inputs.preview_branch && inputs.vfx_only
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4173
+          SHOTS: artifacts/browser-smoke/kinetic-vfx
+        run: node scripts/review/refined-energy.mjs
       - name: Review the published VFX workbench
         if: github.event_name == 'workflow_run'
         env:
