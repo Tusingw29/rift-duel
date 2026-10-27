@@ -9,7 +9,7 @@ import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,riseP
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {locomotionSource} from './locomotion-clips.js';
-import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
+import {importedMovePose,importedGetUpPose,setImportRig,jabClip,importedJabPose,importedJabWeight} from './imported-motion.js';
 import {applyWeight} from './weight-transfer.js';
 import {applyTweaks} from './anim-tweaks.js';
 import {combatClip,combatPose,combatWeight} from './imported-combat.js';
@@ -52,6 +52,8 @@ export function strikePose(move){
  const retract=pose({...mix(track.follow,stance,.6),[hand+'e']:-1.5,[hand+'ax']:-.85,bodyX:-sign*.035,bodyY:-.19});
  // Shared schedule: held wind-up, two-frame whip, locked contact through the hitstop, open follow-through, retract.
  if(move.frame>=end)return stance;
+ // QUATERNIUS-JAB (imported source only): strike 1 plays the Quaternius jab, warped onto this move's frames.
+ if(locomotionSource()==='imported'&&jabClip('tala',move))return importedJabPose(move,stance,track.strike);
  // MOCAP-COMBAT (imported source only): the captured punch, warped onto this move's frames, contact on the authored pose.
  const clip=locomotionSource()==='imported'&&combatClip('tala',move);
  if(clip){const out=combatPose(move,clip,stance,track.strike),w=combatWeight(move,clip);if(w){out.bodyX+=w.bodyX;out.bodyY+=w.bodyY;out.bodyZ+=w.bodyZ;}return out;}
@@ -219,7 +221,7 @@ export function blendPose(current,target,rate,dt){
 }
 // Returns true when the sample system handled this frame.
 export function animateTala(r,p,time){
- const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;setImportRig(r);r.combatWeight??=(m,f)=>{const c=locomotionSource()==='imported'&&combatClip('tala',m);return c?combatWeight(m,c,f):null;};
+ const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;setImportRig(r);r.combatWeight??=(m,f)=>{if(locomotionSource()!=='imported')return null;if(jabClip('tala',m))return importedJabWeight(m,f);const c=combatClip('tala',m);return c?combatWeight(m,c,f):null;};
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
  let target=null;

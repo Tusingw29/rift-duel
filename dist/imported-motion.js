@@ -5,6 +5,8 @@ import * as retreat from './clips/import/retreat.js';
 import * as left from './clips/import/left.js';
 import * as right from './clips/import/right.js';
 import * as getup from './clips/import/getup.js';
+import * as jab from './clips/import/jab.js';
+import {clipU} from './imported-combat.js';
 // TALA-IMPORT-AB: retargeted motion capture for Tala's combat footwork and get-up, for a controlled comparison with
 // the authored animation. Everything is sampled from simulation state — stride phase from distance travelled, the
 // get-up from the simulation's getUp frame — so hitstop freezes it and replays are deterministic. The simulation owns
@@ -12,7 +14,7 @@ import * as getup from './clips/import/getup.js';
 // head motion as deviations around Tala's own stance (her approved fists and guard stay hers), and the feet as paths
 // relative to the travel line, which keeps a planted source foot planted in the world without any latching.
 // Lengths in the clips are in source leg lengths (thigh+shin) and are rescaled to the rig's own legs here.
-export const IMPORT_CLIPS={advance,retreat,left,right,getup};
+export const IMPORT_CLIPS={advance,retreat,left,right,getup,jab};
 const FOOTWORK={advance,retreat,left,right};
 const CANON={advance:[0,1],retreat:[0,-1],left:[-1,0],right:[1,0]};
 // Channels taken as deviations from the clip's cycle mean, added to Tala's stance.
@@ -167,5 +169,33 @@ export function importedGetUpPose(r,stance,player,downPose){
  if(enter<1&&downPose)res=Object.fromEntries(CHANNELS.map(k=>[k,lerp(downPose[k]??0,res[k]??0,enter)]));
  if(leave>0)res=Object.fromEntries(CHANNELS.map(k=>[k,lerp(res[k]??0,stance[k]??0,leave)]));
  return res;
+}
+// QUATERNIUS-JAB: the Quaternius UAL Standard jab (CC0, mirrored to the right hand) on Tala's strike 1, imported
+// source only. Time-warped like the captured strikes (imported-combat.js clipU): the wind-up onto the startup, the
+// contact held through the active frames and the hitstop (the move frame stops), the follow-through onto the recovery,
+// so the arm is straight on the simulation's contact frame and replays sample the same pose. The upper body and the
+// pelvis turn are deviations from the clip's own guard added to Tala's stance (the clip's guard leans back about 0.23;
+// only the change from it is used). Her legs and feet stay hers: the mirrored clip stands southpaw and its feet never
+// leave the floor, so plantSupportFeet keeps her planted stance. The clip has no hands or collarbones: the wrists and
+// the punching collarbone turn over toward her authored contact as the arm extends.
+export const jabState={enabled:true};
+export const jabClip=(fighter,move)=>jabState.enabled&&fighter==='tala'&&move?.kind==='strike'&&!move.travel&&!move.aerial&&(move.chain||1)===1?jab:null;
+const JAB_DEVIATE=[...DEVIATE,'hipYaw'],JAB_HANDS=['rw','rwx','rwz','lw','lwx','lwz','rc'];
+const jabImpact=()=>sample(jab,jab.meta.impact,false).pose;
+export function importedJabPose(move,stance,contact,frame=move.frame){
+ const u=clipU(move,jab,frame),k0=jab.keys[0][1],{pose,data}=sample(jab,u,false),out={...stance};
+ for(const ch of JAB_DEVIATE)out[ch]=(stance[ch]??0)+pose[ch]-k0[ch];
+ const ext=Math.max(0,Math.min(1,(pose.re-k0.re)/((jabImpact().re-k0.re)||1)));
+ for(const ch of JAB_HANDS)out[ch]=(stance[ch]??0)+((contact[ch]??stance[ch]??0)-(stance[ch]??0))*ext;
+ const s=currentScale;out.bodyX=(stance.bodyX||0)+data.hip[0]*s;out.bodyY=(stance.bodyY||0)+data.hip[1]*s;out.bodyZ=(stance.bodyZ||0)+data.hip[2]*s;
+ return out;
+}
+// The weight hook's view of the jab (footwork.js): the clip's planted feet (no step) and its hips, which the pose
+// already carries. Supplying it keeps the authored weight transfer from stepping Tala in under the imported jab.
+const ZERO={x:0,y:0,z:0};
+export function importedJabWeight(move,frame=move.frame){
+ if(frame>=move.startup+(move.active||1)+move.recovery)return null;
+ const h=sample(jab,clipU(move,jab,frame),false).data.hip,s=currentScale;
+ return {bodyX:h[0]*s,bodyY:h[1]*s,bodyZ:h[2]*s,lean:0,lead:{...ZERO},rear:{...ZERO},feet:[{...ZERO},{...ZERO}]};
 }
 export const importMeta=Object.fromEntries(Object.entries(IMPORT_CLIPS).map(([k,c])=>[k,c.meta]));

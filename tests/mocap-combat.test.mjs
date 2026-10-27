@@ -4,7 +4,7 @@ import {strikePose,stance} from '../dist/tala-animation.js';
 import {setLocomotionSource} from '../dist/locomotion-clips.js';
 import {moveTiming} from '../dist/moves.js';
 import {fighters} from '../dist/fighters.js';
-import {getUpClipU,IMPORT_CYCLE} from '../dist/imported-motion.js';
+import {getUpClipU,IMPORT_CYCLE,jabState} from '../dist/imported-motion.js';
 import {run} from '../scripts/review/import-metrics.mjs';
 // MOCAP-COMBAT: captured punches warped onto the simulation's frames, and the IMPORT-POLISH of the captured footwork.
 const move=(chain,frame=0)=>({kind:'strike',chain,...moveTiming(fighters[2],'strike',chain),frame});
@@ -27,7 +27,7 @@ test('the time warp puts the impact on the damage frame, holds it through the ac
  }
 });
 test('a captured punch reaches the authored contact on the damage frame and drives the hips at the rival',()=>{
- setLocomotionSource('imported');
+ setLocomotionSource('imported');jabState.enabled=false; // the CMU strike 1 (QUATERNIUS-JAB replaces it while enabled)
  try{
   for(const chain of [1,2,3]){
    const m=move(chain,0),contact=move(chain,0);contact.frame=contact.startup;
@@ -41,7 +41,7 @@ test('a captured punch reaches the authored contact on the damage frame and driv
    for(const v of [late.bodyX,late.bodyZ,...late.feet.flatMap(f=>[f.x,f.z])])assert.ok(Math.abs(v)<.03,`strike ${chain}: home by the end (${v.toFixed(3)})`);
    const frozen=[strikePose({...contact,frame:m.startup+1}),strikePose({...contact,frame:m.startup+1})];assert.deepEqual(frozen[0],frozen[1],'a function of the move frame (hitstop holds it)');
   }
- }finally{setLocomotionSource('authored');}
+ }finally{setLocomotionSource('authored');jabState.enabled=true;}
  assert.deepEqual(strikePose(move(1,5)),strikePose(move(1,5)),'authored stays authored');
 });
 test('the get-up time warp is monotonic, spans the clip and compresses the slow stretches',()=>{
