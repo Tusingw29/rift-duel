@@ -1,6 +1,6 @@
 ## ROSTER-ENERGY — distinct flowing signatures
 
-Rear-camera verification follow-up (Codex, 2026-10-27): previous focused run `40470396558` passed but roster evidence was side-only. Synced Claude `a3ff8c4` WEIGHT-TRANSFER with TALA-IMPORT-AB preserved. Adding explicit lock-on captures at release +4f and +16f; status **In progress**, same isolated branch/worktree.
+Rear-camera verification follow-up (Codex, 2026-10-27): previous focused run `40470396558` passed but roster evidence was side-only. Synced Claude `a3ff8c4` WEIGHT-TRANSFER with TALA-IMPORT-AB preserved. Added explicit lock-on captures at release +4f and +16f; status **Review; awaiting normal-speed verdict**, same isolated branch/worktree. Final run 40478793913 passes; **592 tests pass**. All four rear flight samples retain visible height and shape after increasing only the flowing preview shoulder offset. Morrow early +4f is still occluded by the release pose/sword. [Evidence and exact limits](../art/review-2026-10-27/roster-rear/README.md).
 
 Owner: **Codex** · Branch: `codex/roster-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting normal-speed verdict** (2026-10-27). Synced `cf56ec0`, then Claude claim `b54cf55`. Refine Morrow crimson/weight, Rei paired cuts, Sol flame and Vesper angular seals using the existing 3D preview. Inspect production effects in browser captures; preserve Claude character/rig/animation/combat work.
 
