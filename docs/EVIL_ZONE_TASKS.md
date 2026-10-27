@@ -345,6 +345,17 @@ Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`
 - [x] 600 tests, probe passing, captures and README `art/review-2026-10-27/mocap-combat/`
 - [ ] **Adam's normal-speed verdict** (open questions: the hook's torso turn during the step-through, the long step home after captured strikes)
 
+## QUATERNIUS-JAB — Quaternius jab on Tala's first punch (opt-in A/B)
+
+Owner: **Claude** · Branch: `claude/quaternius-jab` · Worktree: `~/rift-worktrees/quaternius-jab` · Status: **In progress** (claimed 2026-10-27)
+
+Adam (2026-10-27): try the Quaternius Universal Animation Library Standard `Punch_Jab` (CC0) on Tala's strike 1 as an opt-in A/B in the sandbox (`&anim=imported`), next to her current first punch. Clip time-warped so its contact lands on the simulation's strike-1 contact frame (9/3/16); the simulation owns timing and root. No edits to `dist/combat.js` or combat timing; authored stays the default everywhere. Not merged to main until Adam's verdict.
+
+- [ ] Standing one-shot conversion path, lean-axis check, mirror to Tala's strike-1 hand, `dist/clips/import/jab.js`
+- [ ] Hooked into `dist/imported-motion.js` for strike 1 only, as deviations around Tala's stance, sampled from simulation state
+- [ ] Tests (clip loads, contact frame, replay equals step, default unchanged), side-camera strips authored vs imported, README `art/review-2026-10-27/quaternius-jab/`
+- [ ] **Adam's normal-speed verdict**
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
@@ -353,6 +364,7 @@ Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
 | 2026-10-27 | Claude | WEIGHT-TRANSFER | Ground-up weight transfer for every grounded fighter's strikes and specials, chain advance absorbed into the step, feet drag instead of dropping, heel pivot blended across chained hits, get-up floor clamp. 589 tests. Evidence `art/review-2026-10-27/weight-transfer/`. Next: Adam's normal-speed verdict (Aegis finisher wind-up flagged). |
 | 2026-10-27 | Claude | MOCAP-COMBAT + ANIM-WORKBENCH | Imported footwork/get-up polish, captured CMU punches for Tala time-warped onto moveTiming, and `dist/anim-workbench.html` (real rigs, A/B, joint tweaks, trails, centre of mass, time-warp sliders, export, automation hooks). 600 tests; workbench probe gates browser smoke. Evidence `art/review-2026-10-27/mocap-combat/`. Next: Adam's verdict; tune in the workbench. |
+| 2026-10-27 | Claude | QUATERNIUS-JAB | Claimed on `claude/quaternius-jab`: Quaternius UAL `Punch_Jab` (CC0) as an opt-in A/B on Tala's strike 1 behind `&anim=imported`. Combat timing untouched; branch only, not merged. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
