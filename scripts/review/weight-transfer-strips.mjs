@@ -10,7 +10,8 @@ export const PLAN={
  'morrow-combo':{scenario:'strike3',p1:3,p2:1,frames:[0,5,9,12,26,32,37,42,60,68,76,82,88]}
 };
 const only=process.env.ONLY?.split(','),id=stamp(),W=340,H=520;
-const builds=[['BEFORE (main)',process.env.BEFORE||'http://localhost:4192/dist'],['AFTER (weight transfer)',process.env.AFTER||'http://localhost:4191/dist']];
+// Optional query suffixes (e.g. AFTER_Q='&anim=imported') and row labels compare two modes of one build.
+const builds=[[process.env.BEFORE_LABEL||'BEFORE (main)',process.env.BEFORE||'http://localhost:4192/dist',process.env.BEFORE_Q||''],[process.env.AFTER_LABEL||'AFTER (weight transfer)',process.env.AFTER||'http://localhost:4191/dist',process.env.AFTER_Q||'']];
 const browser=await launch(),page=await browser.newPage({viewport:{width:W,height:H}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const stack=rows=>{const w=Math.max(...rows.map(r=>r.width)),h=rows.reduce((s,r)=>s+r.height,0)+rows.length-1,out=new PNG({width:w,height:h});out.data.fill(255);let y=0;for(const r of rows){PNG.bitblt(r,out,0,0,r.width,r.height,0,y);y+=r.height+1;}return out;};
 const row=frames=>{const out=new PNG({width:frames.length*(W+1)-1,height:H});out.data.fill(255);frames.forEach((f,i)=>PNG.bitblt(f,out,0,0,W,H,i*(W+1),0));return out;};
@@ -18,8 +19,8 @@ try{
  for(const [name,plan] of Object.entries(PLAN)){
   if(only&&!only.includes(name))continue;
   const rows={side:[],lock:[]};
-  for(const [label,base] of builds){
-   await page.goto(`${base}/sandbox.html?scenario=${plan.scenario}&p1=${plan.p1}&p2=${plan.p2}&zoom=${process.env.ZOOM||.5}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
+  for(const [label,base,q] of builds){
+   await page.goto(`${base}/sandbox.html?scenario=${plan.scenario}&p1=${plan.p1}&p2=${plan.p2}&zoom=${process.env.ZOOM||.5}${q}&x=${id}`,{waitUntil:'domcontentloaded',timeout:180000});
    await page.waitForFunction(()=>window.sandbox?.state?.scenario&&window.sandbox.models.every(m=>m.status&&m.status!=='loading'),null,{timeout:240000});
    await page.evaluate(()=>{const a=document.querySelector('aside');if(a)a.style.display='none';const l=document.createElement('div');l.id='wt-label';l.style.cssText='position:fixed;left:8px;top:6px;color:#fff;font:600 14px system-ui;text-shadow:0 1px 3px #000;z-index:9';document.body.append(l);});
    for(const cam of ['side','lock']){

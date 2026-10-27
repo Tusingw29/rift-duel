@@ -24,7 +24,7 @@ function play(name,source,{onFrame}={}){
   r.g.position.set(p.x,airHeight(p),p.z);r.g.rotation.y=Math.atan2(p.lookX,p.lookZ);animateCharacter(r,p,time);r.g.updateMatrixWorld(true);
   const m=[];r.g.traverse(n=>{if(n.isBone)m.push(...n.matrixWorld.elements);});
   // The simulation mutates one player object; keep per-frame copies of what the checks read.
-  out.push({f,sim:snapshot(p),anim:p.anim,hitstop:s.m.hitstop>0||!!s.m.frozen,bones:m,ankles:ankles(r),r,player:structuredClone({...p,prev:p.prev}),contacts:r.importFoot?.contacts?[...r.importFoot.contacts]:null,hipY:r.limbs[1].parent.getWorldPosition(new Vector3()).y});onFrame?.(r,p,f);
+  out.push({f,sim:snapshot(p),anim:p.anim,hitstop:s.m.hitstop>0||!!s.m.frozen,bones:m,ankles:ankles(r),balls:r.feet&&r.footBall?r.feet.map(ft=>ft.localToWorld(r.footBall.clone())):null,r,player:structuredClone({...p,prev:p.prev}),contacts:r.importFoot?.contacts?[...r.importFoot.contacts]:null,hipY:r.limbs[1].parent.getWorldPosition(new Vector3()).y});onFrame?.(r,p,f);
  }
  setLocomotionSource('authored');return out;
 }
@@ -46,7 +46,7 @@ test('imported clips record their CMU source and licence, travel the way their n
  const g=IMPORT_CLIPS.getup;assert.equal(g.meta.mode,'oneshot');assert.ok(g.keys[0][2].hip[1]<.35&&g.keys.at(-1)[2].hip[1]>.85,'get-up rises from lying to standing (hip height in leg lengths)');
  assert.ok(Math.abs(g.keys[0][1].bodyPitch)>1.1,'get-up starts lying (pelvis pitched back)');
 });
-test('direction classes follow the lock-on frame and the stride stretch matches the authored cadence',()=>{
+test('direction classes follow the lock-on frame and the stride stretch matches the import cadence',()=>{
  assert.equal(footworkClass(1,0),'advance');assert.equal(footworkClass(-1,0),'retreat');assert.equal(footworkClass(0,1),'left');assert.equal(footworkClass(0,-1),'right');
  for(const cls of ['advance','retreat','left','right'])assert.ok(Math.abs(strideStretch(cls,1.28)*IMPORT_CLIPS[cls].meta.cycleDistance*1.28-cycleUnits(cls))<1e-9);
 });
@@ -67,7 +67,8 @@ test('imported footwork holds a contact foot still in the world and keeps both f
  const frames=play('ab-circle-left-guard','imported');
  for(let i=2;i<frames.length;i++){const a=frames[i-1],b=frames[i];if(a.anim!=='run'||b.anim!=='run')continue;
   const ca=a.contacts,cb=b.contacts;
-  for(let k=0;k<2;k++){if(!(ca?.[k]&&cb?.[k]))continue;held++;const d=Math.hypot(b.ankles[k].x-a.ankles[k].x,b.ankles[k].z-a.ankles[k].z);assert.ok(d<.03,`frame ${b.f} held ${k?'right':'left'} foot moved ${d.toFixed(3)}`);}
+  // The ball of the foot is the contact (a heel raise pitches the foot about it, which moves the ankle, not the contact).
+  for(let k=0;k<2;k++){if(!(ca?.[k]&&cb?.[k]))continue;held++;const P=b.balls||b.ankles,Q=a.balls||a.ankles,d=Math.hypot(P[k].x-Q[k].x,P[k].z-Q[k].z);assert.ok(d<.03,`frame ${b.f} held ${k?'right':'left'} foot ball moved ${d.toFixed(3)}`);}
   for(const an of b.ankles)assert.ok(an.y>.1,'ankle stays above the floor');}
  assert.ok(held>10,`contacts were exercised (${held})`);
 });

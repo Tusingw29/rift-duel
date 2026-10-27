@@ -11,6 +11,7 @@ import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {locomotionSource} from './locomotion-clips.js';
 import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
 import {applyWeight} from './weight-transfer.js';
+import {combatClip,combatPose,combatWeight} from './imported-combat.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -50,6 +51,9 @@ export function strikePose(move){
  const retract=pose({...mix(track.follow,stance,.6),[hand+'e']:-1.5,[hand+'ax']:-.85,bodyX:-sign*.035,bodyY:-.19});
  // Shared schedule: held wind-up, two-frame whip, locked contact through the hitstop, open follow-through, retract.
  if(move.frame>=end)return stance;
+ // MOCAP-COMBAT (imported source only): the captured punch, warped onto this move's frames, contact on the authored pose.
+ const clip=locomotionSource()==='imported'&&combatClip('tala',move);
+ if(clip){const out=combatPose(move,clip,stance,track.strike),w=combatWeight(move,clip);if(w){out.bodyX+=w.bodyX;out.bodyY+=w.bodyY;out.bodyZ+=w.bodyZ;}return out;}
  return sampleSchedule(strikeSchedule(move,stance,track.wind,drive,track.strike,track.follow,retract),move.frame);
 }
 // Basic ranged fire: gather at the rear hip, drive the palm from the floor,
@@ -214,7 +218,7 @@ export function blendPose(current,target,rate,dt){
 }
 // Returns true when the sample system handled this frame.
 export function animateTala(r,p,time){
- const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;setImportRig(r);
+ const dt=Math.max(0,Math.min(.1,r.lastTime===undefined?0:time-r.lastTime));r.lastTime=time;r.footOffsets??=rhythmFootOffsets;setImportRig(r);r.combatWeight??=(m,f)=>{const c=locomotionSource()==='imported'&&combatClip('tala',m);return c?combatWeight(m,c,f):null;};
  const motion=travelMotion(p,r.lastPos);
  if(p)advanceStride(r,p);
  let target=null;

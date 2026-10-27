@@ -60,6 +60,13 @@ export function plantSupportFeet(r,p,kind){
    const ground=position.y+ankleHeight*r.g.scale.y;
    r.gaitLanding={start:r.lastTime||0,heights:r.talaGait.feet.map(foot=>Math.max(0,foot.at.y-ground)/r.g.scale.y)};
    r.footPlants=r.talaGait.feet.map(foot=>{const at=foot.at.clone();at.y=ground;return at;});r.gaitPlants=null;r.talaGait=null;
+   // IMPORT-POLISH: the captured footwork can stop mid-stride with the feet far apart. Re-anchor the stance under the
+   // fighter and walk the old spots off as two quick lifted steps (farther foot first) instead of holding a straddle.
+   if(r.importFoot){
+    const home=[0,1].map(i=>new Vector3(i===0?-.25:.25,ankleHeight,i===0?.24:-.24)),from=r.footPlants.map((at,i)=>{const v=r.g.worldToLocal(at.clone()).sub(home[i]);v.y=0;return v;});
+    if(from.some(v=>v.length()>.05)){r.gaitHome={start:r.lastTime||0,from,order:from[0].length()>=from[1].length()?[0,1]:[1,0]};r.footPlants=home.map(v=>r.g.localToWorld(v.clone()));}
+    r.importFoot=null;
+   }
   }
   if(r.gaitPlants){r.footPlants=null;r.gaitPlants=null;}
   if(!r.footPlants)r.footPlants=[0,1].map(i=>r.g.localToWorld(new Vector3(i===0?-.25:.25,ankleHeight,i===0?.24:-.24)));
@@ -95,6 +102,11 @@ export function plantSupportFeet(r,p,kind){
   if(r.pivotBlend){r.pivotBlend.frame=m.frame;const u=smooth(m.frame/Math.max(1,m.startup*.42));if(u<1)pivots.forEach((q,i)=>q.copy(r.pivotBlend.from[i].clone().slerp(q,u)));}
   r.pivotLast=pivots.map(q=>q.clone());
  }else r.pivotLast=null;
+ if(r.gaitHome){
+  const e=(r.lastTime||0)-r.gaitHome.start;
+  if(kind==='run'||e>.45||!offsets)r.gaitHome=null;
+  else r.gaitHome.from.forEach((d,i)=>{const u=smooth((e-r.gaitHome.order.indexOf(i)*.09)/.14);offsets[i].x+=d.x*(1-u);offsets[i].z+=d.z*(1-u);if(u>0&&u<1)offsets[i].y+=.07*Math.sin(Math.PI*u);});
+ }
  const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
  r.footAnchors=[];
  const targets=r.footPlants.map((plant,i)=>{

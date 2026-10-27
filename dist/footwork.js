@@ -75,12 +75,13 @@ export function rhythmFootOffsets(r,p,kind){
  // step home (weight-transfer.js). The previous move's offsets carry into the next one (a combo stays stepped in)
  // and anything that interrupts a strike (a hit, a guard) walks the feet home over 0.12 s instead of snapping them.
  // plantSupportFeet already passes the move with the lower-body lead applied, as a fresh object each frame.
- const w=['strike','shot','forward','back'].includes(kind)&&p?.move?weightShift(p.move,p.move.frame):null,id=p?.move&&`${p.move.started??'-'}|${p.move.kind}|${p.move.chain}`;
+ // A rig with captured strikes (imported-combat.js) supplies its own hips and feet for the moves it covers.
+ const w=['strike','shot','forward','back'].includes(kind)&&p?.move?(r.combatWeight?.(p.move,p.move.frame)||weightShift(p.move,p.move.frame)):null,id=p?.move&&`${p.move.started??'-'}|${p.move.kind}|${p.move.chain}`;
  const pose=r.lastPose,lead=pose&&pose.rlx<pose.llx?1:0,rear=1-lead;
  const root=r.g.getWorldPosition(new Vector3());
  let feet=null;
  if(w){
-  feet=[null,null];feet[lead]={x:0,y:w.lead.y,z:w.lead.z};feet[rear]={x:0,y:w.rear.y,z:w.rear.z};
+  feet=[null,null];if(w.feet)feet=w.feet.map(o=>({...o}));else{feet[lead]={x:0,y:w.lead.y,z:w.lead.z};feet[rear]={x:0,y:w.rear.y,z:w.rear.z};}
   const c=r.weightCarry,m=p.move;
   // A new move: a new identity, or (fixtures without a start tick) the same kind restarting its frame count.
   if(!c||c.move!==id||m.frame<c.frame){

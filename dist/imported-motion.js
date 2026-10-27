@@ -47,13 +47,18 @@ export function footworkClass(forward,side){
  return forward<0?'retreat':'advance';
 }
 const legScale=r=>(r.legLength||.56)+(r.shinLength||r.legLength||.56);
-// Authored cadence: one stride cycle per 1.5 units forward and 0.975 units strafing (tala-animation advanceStride with
-// strideLength .75), so both modes take the same number of steps over the same distance.
-export const cycleUnits=cls=>cls==='left'||cls==='right'?.975:1.5;
-// The stride stretch: authored cycle length / the clip's own cycle length at this rig's scale.
+// Cadence. The stride phase arrives at the authored rate: one cycle (2*pi) per 1.5 units forward and 0.975 strafing
+// (tala-animation advanceStride, strideLength .75). The import plays shorter, quicker steps than that: the athlete's
+// steps are 6-20x slower than the simulation's travel, so matching the authored stride stretched them 2-4x and the
+// planted feet skated and the stance split. IMPORT-POLISH: one captured cycle per 0.6 units forward or back and 0.65 strafing (0.6 measured best: 0.003 skate per support frame on advance, against 0.022 at 1.2).
+export const authoredCycle=cls=>cls==='left'||cls==='right'?.975:1.5;
+export const IMPORT_CYCLE={advance:.6,retreat:.6,left:.65,right:.65};
+export const cycleUnits=cls=>IMPORT_CYCLE[cls];
+const clipPhase=(cls,phase)=>phase/(Math.PI*2)*authoredCycle(cls)/cycleUnits(cls);
+// The stride stretch: the import's cycle length / the clip's own cycle length at this rig's scale.
 export const strideStretch=(cls,scale)=>cycleUnits(cls)/(prepared[cls].distance*scale);
 export function importedMovePose(forward,side,phase,stance){
- const cls=footworkClass(forward,side),p=prepared[cls],{pose,data}=sample(p.clip,phase/(Math.PI*2),true);
+ const cls=footworkClass(forward,side),p=prepared[cls],{pose,data}=sample(p.clip,clipPhase(cls,phase),true);
  const out={...stance};
  for(const ch of DEVIATE)out[ch]=(stance[ch]??0)+pose[ch]-p.mean[ch];
  for(const ch of ABSOLUTE_LEGS)out[ch]=pose[ch];
@@ -91,13 +96,16 @@ function rawTargets(r,cls,u,ankleHeight){
   // world (its offset changes at exactly the stretched travel rate) and the cycle still closes, but the stance keeps its width.
   const a=data[foot],[x,z]=rot(pr,[a[0],a[2]]),along=x*cx+z*cz,px=x-along*cx,pz=z-along*cz,m=footMean[cls][i],g=m+(along-m)*stretch;
   const lift=Math.max(0,a[1]-contactBase[cls][i])*scale;heel[i]=data[foot+'c']?lift:0;
-  local.set((px+g*cx)*scale,ankleHeight+(data[foot+'c']?0:lift),(pz+g*cz)*scale);
+  // IMPORT-POLISH: the lateral spread is the athlete's, scaled, but kept inside a stance band (each foot on its own
+  // side, at most 0.42 from the centre line) so a stretched sidestep does not split the legs into a straddle.
+  let lx=(px+g*cx)*scale;const lz=(pz+g*cz)*scale;lx=i===0?Math.max(-.42,Math.min(-.08,lx)):Math.min(.42,Math.max(.08,lx));
+  local.set(lx,ankleHeight+(data[foot+'c']?0:lift),lz);
   return r.g.localToWorld(local.clone());
  });
  return {targets,contacts:[!!data.lc,!!data.rc],stretch,heel};
 }
 export function importedGaitTargets(r,p,phase,ankleHeight){
- const forward=p.prev?.x??1,side=p.prev?.z||0,cls=footworkClass(forward,side),u=((phase/(Math.PI*2))%1+1)%1;
+ const forward=p.prev?.x??1,side=p.prev?.z||0,cls=footworkClass(forward,side),u=((clipPhase(cls,phase))%1+1)%1;
  r.g.updateMatrixWorld(true);
  const {targets,contacts,stretch,heel}=rawTargets(r,cls,u,ankleHeight);
  let st=r.importLatch;if(!st||st.cls!==cls)st=r.importLatch={cls,feet:[{},{}]};
@@ -132,8 +140,21 @@ export function importedFootPivot(r,player,kind){
 // Get-up: the simulation's 28-frame getUp state drives the clip (frame / frames). The source take lasts 3.75 s, so this
 // is an ~8x time compression; the first and last 15% blend from the knockdown pose and into Tala's stance.
 const P0=new Vector3(),Rq=new Quaternion();
+// IMPORT-POLISH: a non-linear time warp instead of a flat 8x. The take's activity (how much the hips and limbs move
+// between keys) is accumulated; game time maps through a mix of that curve and linear time, so the slow stretches
+// (settling on the floor, a pause before the push) are compressed hardest and the sit-up, tuck and push keep their
+// share of the 28 frames. Plants hold because the capture's own planted frames are low-activity and pass quickly.
+export const getUpWarp={activity:.7};
+const gkeys=getup.keys,gAct=[0];
+for(let i=1;i<gkeys.length;i++){const a=gkeys[i-1],b=gkeys[i];let d=Math.hypot(...b[2].hip.map((v,k)=>v-a[2].hip[k]))*4;for(const ch of ['lean','twist','lax','rax','le','re','llx','rlx','lk','rk','bodyPitch','bodyRoll'])d+=Math.abs((b[1][ch]??0)-(a[1][ch]??0));gAct.push(gAct[i-1]+d);}
+const gTotal=gAct.at(-1)||1;
+export function getUpClipU(t){
+ const w=getUpWarp.activity,f=i=>w*gAct[i]/gTotal+(1-w)*i/(gkeys.length-1);
+ if(t<=0)return 0;if(t>=1)return 1;let i=1;while(i<gkeys.length-1&&f(i)<t)i++;
+ const a=f(i-1),b=f(i),k=(t-a)/((b-a)||1e-6);return (i-1+k)/(gkeys.length-1);
+}
 export function importedGetUpPose(r,stance,player,downPose){
- const st=player.getUp,u=st&&Number.isFinite(st.frame)?Math.max(0,Math.min(1,st.frame/(st.frames||28))):Number.isFinite(player.animTime)?1-Math.max(0,Math.min(1,player.animTime/(28/60))):.5;
+ const st=player.getUp,t=st&&Number.isFinite(st.frame)?Math.max(0,Math.min(1,st.frame/(st.frames||28))):Number.isFinite(player.animTime)?1-Math.max(0,Math.min(1,player.animTime/(28/60))):.5,u=getUpClipU(t);
  const {pose,data}=sample(getup,u,false),out={...stance};
  for(const ch of CHANNELS)if(!['lw','rw','lwx','lwz','rwx','rwz','bodyX','bodyY','bodyZ'].includes(ch))out[ch]=pose[ch];
  // root from the source hips: height above the floor and offset from where they finish standing
@@ -141,7 +162,7 @@ export function importedGetUpPose(r,stance,player,downPose){
  Rq.setFromEuler(new Euler(out.bodyPitch,out.hipYaw,out.bodyRoll,'XYZ'));
  P0.set(0,P,0).applyQuaternion(Rq);
  out.bodyX=hip[0]*scale-P0.x;out.bodyY=hip[1]*scale+(r.ankleHeight??.14)-P0.y;out.bodyZ=hip[2]*scale-P0.z;
- const enter=smooth(u/.15),leave=smooth((u-.85)/.15);
+ const enter=smooth(t/.15),leave=smooth((t-.85)/.15);
  let res=out;
  if(enter<1&&downPose)res=Object.fromEntries(CHANNELS.map(k=>[k,lerp(downPose[k]??0,res[k]??0,enter)]));
  if(leave>0)res=Object.fromEntries(CHANNELS.map(k=>[k,lerp(res[k]??0,stance[k]??0,leave)]));

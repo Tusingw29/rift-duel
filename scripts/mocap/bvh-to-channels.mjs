@@ -103,7 +103,7 @@ function frameChannels(pos,restHipHeight,scale,mirror,pelvisFrame=false){
   _lFootZ:toBody(L.an.clone().sub(hips)).z,_rFootZ:toBody(R.an.clone().sub(hips)).z,_hipY:hips.y,
   // Raw measurements for take studies (scaled to game units; forward is the pelvis facing):
   _lAnkleY:L.an.y*scale,_rAnkleY:R.an.y*scale,_lWrist:toBody(L.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),_rWrist:toBody(R.wr.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(3)),
-  _lToeW:P('lToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rToeW:P('rToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
+  _lToeW:P(mirror?'rToe':'lToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rToeW:P(mirror?'lToe':'rToe').multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
   _lAnkleW:L.an.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rAnkleW:R.an.clone().multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
   _lAnkleB:toBody(L.an.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),_rAnkleB:toBody(R.an.clone().sub(hips)).multiplyScalar(scale).toArray().map(v=>+v.toFixed(4)),
   _axes:[right.toArray(),up.toArray(),forward.toArray()],_hipsRaw:hips.toArray(),
@@ -199,6 +199,29 @@ if(args.segment){
   meta={name:args.name,source:args.source||args.in,mode,frames:[s0,s1],segment:[a,b],frameTime:dt,seconds:r4(len*dt),startFoot:cyc.foot,cycle:cyc.single?'step-and-drag':'two lift-offs of one foot',
    travel:[r4(travel[0]/LEG),r4(travel[1]/LEG)],cycleDistance:r4(Math.hypot(...travel)/LEG),units:'source leg lengths (thigh+shin)',
    duty:{l:r4(cl.slice(s0,s1).filter(Boolean).length/len),r:r4(cr.slice(s0,s1).filter(Boolean).length/len)}};
+ }else if(mode==='strike'){
+  // MOCAP-COMBAT strike: one real punch, kick or cut from its wind-up (a) to its settle (b), impact at --impact.
+  // Heading is where the guard faced at the start (pelvis yaw minus the hand angle, as the footwork uses), held for
+  // the whole strike so the hips' drive toward the target stays a drive. Stored per key, in source leg lengths:
+  // hip offset from its start position, both ankles relative to the start hips with height above the floor, toe
+  // contacts. The runtime warps time onto the move's startup / active / recovery and retargets lengths to the rig.
+  const imp=+args.impact;if(!(imp>a&&imp<b))throw new Error('--impact must fall inside the segment');
+  const step=Math.max(1,Math.round((1/60)/dt)); // keep 60 Hz keys
+  const raw=frames.map(f=>f._hipYawWorld-Math.atan2((f._lWrist[0]+f._rWrist[0])/2,Math.max(.05,(f._lWrist[2]+f._rWrist[2])/2)));
+  const W=Math.round(.1/dt);let hd=0,c=0;for(let k=Math.max(0,a-W);k<=a;k++){hd+=raw[k];c++;}hd/=c;
+  const fx=Math.sin(hd),fz=Math.cos(hd),toH=(x,z)=>[x*(-fz)+z*fx,x*fx+z*fz];
+  const toeY=frames.flatMap(f=>[f._lToeW[1],f._rToeW[1]]).sort((x,y)=>x-y),toeFloor=toeY[Math.floor(toeY.length*.02)];
+  const h0=frames[a]._hipsWorld,yaw0=frames[a]._hipYawWorld;
+  const list=[];for(let fi=a;fi<b;fi+=step)list.push(fi);list.push(b);if(!list.includes(imp)){list.push(imp);list.sort((x,y)=>x-y);}
+  for(const fi of list){
+   const f=frames[fi],u=(fi-a)/(b-a),hv=toH(f._hipsWorld[0]-h0[0],f._hipsWorld[2]-h0[2]);
+   const ank=key=>{const v=toH(f[key][0]-h0[0],f[key][2]-h0[2]);return [r4(v[0]/LEG),r4((f[key][1]-floorY)/LEG),r4(v[1]/LEG)];};
+   const out={};for(const ch of CHANNELS)out[ch]=r4(f[ch]??0);
+   out.hipYaw=r4(-wrap(f._hipYawWorld-hd));
+   keys.push([+u.toFixed(4),out,{hip:[r4(hv[0]/LEG),r4((f._hipsWorld[1]-h0[1])/LEG),r4(hv[1]/LEG)],l:ank('_lAnkleW'),r:ank('_rAnkleW'),lc:f._lToeW[1]<toeFloor+.05,rc:f._rToeW[1]<toeFloor+.05}]);
+  }
+  meta={name:args.name,source:args.source||args.in,mode,frames:[a,b],impactFrame:imp,impact:r4((imp-a)/(b-a)),effector:args.hand||'r',type:args.type||'strike',frameTime:dt,
+   seconds:r4((b-a)*dt),windup:r4((imp-a)*dt),follow:r4((b-imp)*dt),units:'source leg lengths (thigh+shin)',startYawOffset:r4(-wrap(yaw0-hd))};
  }else{
   // oneshot floor work: reference facing blends from the lying direction (head to feet) to the standing pelvis facing
   const yawAt=i=>Math.atan2(frames[i]._axes[2][0],frames[i]._axes[2][2]);
