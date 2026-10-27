@@ -138,7 +138,7 @@ if(args.debug){const z=all.map(c=>c._lFootZ),h=all.map(c=>c._hipY);const f=k=>v=
  const p=[60,200].map(fr=>pick(worldPositions(bvh,fr),NAMES.hips).toArray().map(f()));console.log('DEBUG hips f60',p[0],'f200',p[1]);}
 if(args.dump){const r=v=>typeof v==='number'?+v.toFixed(4):v;writeFileSync(args.dump,JSON.stringify({source:args.in,frameTime:bvh.frameTime,scale:+scale.toFixed(4),frames:all.map((c,i)=>Object.fromEntries(Object.entries({f:i+1,...c}).map(([k,v])=>[k,r(v)])))}));console.log('DUMP',args.dump,all.length,'frames at',bvh.frameTime);if(!args.out)process.exit(0);}
 // ---- segment export (TALA-IMPORT-AB) --------------------------------------------------------------
-// --segment a:b --mode loop|oneshot [--keys N] [--lead l|r] [--pelvis-frame]
+// --segment a:b --mode loop|oneshot|strike [--keys N] [--lead l|r] [--pelvis-frame] [--impact i --hand l|r --type t]
 // Writes a "segment clip": pose channels plus the data a retarget needs, all lengths in source leg lengths (thigh + shin)
 // so the runtime rescales them to the rig's own legs. Footwork (loop): one step cycle cut between two lift-offs of the
 // same foot, with travel separated from the pelvis — the cycle's straight-line travel is removed, what is left is the
@@ -150,6 +150,8 @@ if(args.segment){
  const [a,b]=String(args.segment).split(':').map(Number),mode=args.mode||'loop',N=+(args.keys||24),dt=bvh.frameTime;
  const LEG=1.6; // dump/frameChannels lengths are in units where the source leg is 1.6
  const pelvis=!!args['pelvis-frame'];
+ // oneshot is floor work only (its facing blends from the lying direction); standing one-shots use --mode strike.
+ if(mode==='oneshot'&&!pelvis)throw new Error('--mode oneshot is for floor work and needs --pelvis-frame; convert a standing one-shot (a punch, kick or cut) with --mode strike --impact <frame>');
  const frames=pelvis?Array.from({length:bvh.frames-1},(_,i)=>frameChannels(worldPositions(bvh,i+1),restHip.y,scale,false,true)):all;
  const ankleY=frames.flatMap(f=>[f._lAnkleW[1],f._rAnkleW[1]]).sort((x,y)=>x-y),floorY=ankleY[Math.floor(ankleY.length*.02)];
  const wrap=v=>{while(v>Math.PI)v-=2*Math.PI;while(v<-Math.PI)v+=2*Math.PI;return v;};
