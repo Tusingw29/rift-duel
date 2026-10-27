@@ -33,11 +33,16 @@ try{
     await fight.evaluate(fighter=>{const r=effectFight;r.m=r.combat.createMatch(fighter,0,'training');r.view.match(r.m);},fighter);
     await fight.waitForFunction(()=>effectFight.view.fighterModels.every(m=>['graphic','v3'].includes(m.status)),null,{timeout:240000});
     await fight.evaluate(()=>{const {m,combat,view}=effectFight;const step=(attack=false)=>{combat.update(m,[{...combat.neutral(),attack},combat.neutral()]);view.render(1/60,m,{camera:'side',cameraZoom:.65,reduced:false});};for(let i=0;i<70;i++)step();m.players[0].x=-4;m.players[1].x=4;step(true);step();let safety=80;while(!m.projectiles.length&&safety-->0)step();if(!m.projectiles.length)throw new Error('Roster projectile did not release');for(let i=0;i<4;i++)step();});
-    const file=`${OUT}/refined-fight-signature-${fighter}-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);
+    for(const camera of ['side','lock']){
+     await fight.evaluate(camera=>{const {view,m}=effectFight;view.render(0,m,{camera,cameraZoom:.65,reduced:false});},camera);
+     const file=`${OUT}/refined-fight-signature-${fighter}-${camera}-f4-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);
+    }
+    await fight.evaluate(()=>{const {view,m,combat}=effectFight;for(let i=0;i<12;i++){combat.update(m,[combat.neutral(),combat.neutral()]);view.render(1/60,m,{camera:'lock',cameraZoom:.65,reduced:false});}if(!m.projectiles.length)throw new Error('Projectile missing from rear-camera travel sample');view.render(0,m,{camera:'lock',cameraZoom:.65,reduced:false});});
+    const file=`${OUT}/refined-fight-signature-${fighter}-lock-f16-${id}.jpg`;await fight.screenshot({path:file,type:'jpeg',quality:87,timeout:240000});shots.push(file);
    }
 
   }
   await fight.close();
  }
- assert.deepEqual(errors,[]);writeFileSync(`${OUT}/refined-report-${id}.json`,JSON.stringify({shots,errors,checks:['both imported masks loaded','eleven reference-driven effect views','real combat default/draft cameras']},null,2));
+ assert.deepEqual(errors,[]);writeFileSync(`${OUT}/refined-report-${id}.json`,JSON.stringify({shots,errors,checks:['both imported masks loaded','reference-driven effect views','real combat default/draft cameras','roster side and rear cameras at release +4f; rear at +16f']},null,2));
 }finally{await browser.close();}

@@ -1,5 +1,7 @@
 ## ROSTER-ENERGY — distinct flowing signatures
 
+Rear-camera verification follow-up (Codex, 2026-10-27): previous focused run `40470396558` passed but roster evidence was side-only. Synced Claude `a3ff8c4` WEIGHT-TRANSFER with TALA-IMPORT-AB preserved. Adding explicit lock-on captures at release +4f and +16f; status **In progress**, same isolated branch/worktree.
+
 Owner: **Codex** · Branch: `codex/roster-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting normal-speed verdict** (2026-10-27). Synced `cf56ec0`, then Claude claim `b54cf55`. Refine Morrow crimson/weight, Rei paired cuts, Sol flame and Vesper angular seals using the existing 3D preview. Inspect production effects in browser captures; preserve Claude character/rig/animation/combat work.
 
 **579 tests pass**. All six flowing signatures refined: cutting sheets, branching electricity, crimson shadow-backed Morrow sweep, layered Sol flame and straight-edged Vesper seals. Fine spatial rays replace chunky release stars in the flow preview. Actual combat captures exposed edge-on orientation; the follow-up tilts flowing signature visuals without changing collision or movement. New regressions cover color roles, opacity, reverse seek, reduced motion, burst switching and orientation restoration. Evidence: [roster review](../art/review-2026-10-27/roster-energy/README.md). Normal play retains the earlier finish; explicit `?energy=flow` enables this preview. Claude character, rig, animation, mocap and combat code preserved.
