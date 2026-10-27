@@ -1,3 +1,7 @@
+## ROSTER-ENERGY — distinct flowing signatures
+
+Owner: **Codex** · Branch: `codex/roster-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced `cf56ec0`. Refine Morrow crimson/weight, Rei paired cuts, Sol flame and Vesper angular seals using the existing 3D preview. Inspect production effects in browser captures; preserve Claude character/rig/animation/combat work.
+
 ## REFINED-ENERGY — reference study and flowing 3D effects
 
 Owner: **Codex** · Branch: `codex/refined-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting normal-speed verdict** (2026-10-26)
