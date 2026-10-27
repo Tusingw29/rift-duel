@@ -1,4 +1,5 @@
 import {talaFootOffsets} from './tala-footwork.js';
+import {weightShift,weightWindows} from './weight-transfer.js';
 import {Quaternion,Vector3} from './vendor/three.module.js';
 // Shared weight rhythm and footwork for every grounded fighter. A boxing stance is never still: in CMU 14_01 the
 // hips drift 0.6 units sideways and 0.7 forward/back over three seconds, the pelvis yaw swings ±0.4 rad and the
@@ -70,11 +71,46 @@ export function rhythmFootOffsets(r,p,kind){
    else for(const [i,f] of r.stepFeet.entries())if(f.last){offsets[i].x+=f.last.x*k;offsets[i].y+=f.last.y*k;offsets[i].z+=f.last.z*k;}
   }
  }
- // Rigs with an articulated foot pivot on the ball instead (talaFootPivot, Morrow's transition); the slide is for the others.
- if(kind==='strike'&&p?.move&&!p.move.travel&&!r.footPivot){
-  const m=p.move,pose=r.lastPose,rear=pose&&pose.rlx>pose.llx?1:0;
-  const drive=smooth((m.frame-m.startup*.5)/Math.max(1,m.startup*.5))*(1-smooth((m.frame-m.startup-(m.active||1)-m.recovery*.4)/Math.max(1,m.recovery*.4)));
-  offsets[rear].z+=.2*drive;offsets[rear].y+=.04*Math.sin(Math.PI*Math.min(1,drive));offsets[1-rear].z+=.06*drive;
- }
+ // WEIGHT-TRANSFER: the lead foot steps in under the strike and the rear foot is dragged after the hips, then both
+ // step home (weight-transfer.js). The previous move's offsets carry into the next one (a combo stays stepped in)
+ // and anything that interrupts a strike (a hit, a guard) walks the feet home over 0.12 s instead of snapping them.
+ // plantSupportFeet already passes the move with the lower-body lead applied, as a fresh object each frame.
+ const w=['strike','shot','forward','back'].includes(kind)&&p?.move?weightShift(p.move,p.move.frame):null,id=p?.move&&`${p.move.started??'-'}|${p.move.kind}|${p.move.chain}`;
+ const pose=r.lastPose,lead=pose&&pose.rlx<pose.llx?1:0,rear=1-lead;
+ const root=r.g.getWorldPosition(new Vector3());
+ let feet=null;
+ if(w){
+  feet=[null,null];feet[lead]={x:0,y:w.lead.y,z:w.lead.z};feet[rear]={x:0,y:w.rear.y,z:w.rear.z};
+  const c=r.weightCarry,m=p.move;
+  // A new move: a new identity, or (fixtures without a start tick) the same kind restarting its frame count.
+  if(!c||c.move!==id||m.frame<c.frame){
+   const from=r.weightLast?.map(o=>({...o,y:0}))||[{x:0,y:0,z:0},{x:0,y:0,z:0}],body={x:0,z:0};
+   // A chained strike starts with the simulation's advance: the root jumps up to 0.4 toward the rival in one frame.
+   // Move the foot anchors with it but keep the feet and hips where they were; the step-in pays the jump off.
+   const jump=r.weightRootPrev&&m.chain>1?root.clone().sub(r.weightRootPrev):null;
+   if(jump&&jump.length()>.02&&jump.length()<.6&&r.footPlants){
+    for(const at of r.footPlants)at.add(jump);
+    const local=jump.clone().applyQuaternion(r.g.getWorldQuaternion(new Quaternion()).invert()).divide(r.g.getWorldScale(new Vector3()));
+    for(const o of from){o.x-=local.x;o.z-=local.z;}body.x=local.x;body.z=local.z;
+   }
+   r.weightCarry={move:id,from,body};
+  }
+  r.weightCarry.frame=m.frame;const {from,body}=r.weightCarry,win=weightWindows(m),f=m.frame,pay=([a,b])=>1-smooth((f-a)/Math.max(1,b-a));
+  for(const [i,range] of [[lead,win.lead],[rear,win.rear]]){
+   const k=pay(range),gap=Math.hypot(from[i].x-feet[i].x,from[i].z-feet[i].z);
+   // A foot paying off a carried offset lifts as it travels (a step, not a slide).
+   if(gap>.03&&k>0&&k<1)feet[i].y=Math.max(feet[i].y,Math.min(.08,gap*.35)*Math.sin(Math.PI*(1-k)));
+   feet[i].x+=(from[i].x-feet[i].x)*k;feet[i].z+=(from[i].z-feet[i].z)*k;
+  }
+  // The hips start behind by the advance and drive through it by contact.
+  const kb=pay(win.body);if(kb>0){r.body.position.x-=body.x*kb;r.body.position.z-=body.z*kb;}
+  r.weightFade=null;
+ }else if(r.weightLast&&r.weightLast.some(o=>o.z||o.y)){
+  r.weightFade??={start:time,from:r.weightLast};const k=1-smooth((time-r.weightFade.start)/.12);
+  feet=k>0?r.weightFade.from.map(o=>({x:o.x*k,y:o.y*k,z:o.z*k})):null;
+  if(!feet){r.weightFade=null;r.weightCarry=null;}
+ }else r.weightCarry=null;
+ r.weightLast=feet;r.weightRootPrev=root;
+ if(feet)for(let i=0;i<2;i++){offsets[i].x+=feet[i].x;offsets[i].y+=feet[i].y;offsets[i].z+=feet[i].z;}
  return offsets;
 }

@@ -1,4 +1,5 @@
-import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
+import {CHANNELS,STRIDE,applyPose,plantSupportFeet,clampToFloor} from './rig-pose.js';
+import {applyWeight} from './weight-transfer.js';
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
@@ -181,7 +182,7 @@ export function kineticKeys(move,stance,load,peak,follow){
  const keys=[[0,stance,smooth],[coilAt,load,smooth],[driveAt,drive,smooth]];
  if(s-2>driveAt+.25)keys.push([s-2,drive,smooth]); // long startups: hips and chest driven, arms still trailing at the load
  keys.push([whipAt,whip,snapOut],[s,peak,snapOut],[hold,peak,smooth],[s+active+move.recovery*.45,overshoot,smooth],[s+active+move.recovery*.78,recovery,smooth],[end,stance,smooth]);
- keys.holdEnd=hold;return keys;
+ keys.holdEnd=hold;keys.move=move;return keys;
 }
 // Same signature as before so every animator keeps calling it; drive and retract are now derived from the chain.
 export function strikeSchedule(move,stance,wind,drive,contact,follow,retract){return kineticKeys(move,stance,wind,contact,follow);}
@@ -193,7 +194,8 @@ export function sampleSchedule(keys,frame){
  if(keys.holdEnd!==undefined&&frame>keys.holdEnd){const drag=Math.min(WRIST_DRAG,frame-keys.holdEnd),behind=sampleAt(keys,frame-drag);for(const k of SEG.wrists)out[k]=behind[k];}
  // The head counters the chest turn to keep the eyes on the rival.
  out.hy=base.hy-(out.twist-keys[0][1].twist)*.25;
- return out;
+ // WEIGHT-TRANSFER: the hips sink, step in and drive through the strike (frame-driven, same lead as the feet).
+ return keys.move&&Number.isFinite(frame)?applyWeight(out,{...keys.move,frame}):out;
 }
 // ---- Travel burst and brake. combat-travel paths ease in and out; the body pushes off into the acceleration and
 // counter-leans with bent knees and a wide plant on the brake, so a travelling fighter is never a statue on a dolly.
@@ -368,6 +370,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  const weight=['hurt','squat','rise','knockdown','collapse','launched','bounce','grapple','roll'].includes(target.kind)||prevKind==='launched'||prevKind==='bounce'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
+ if(target.kind==='rise'&&(player?.getUp||player?.anim==='getUp'))clampToFloor(r); // getting up is not foot-planted: nothing passes below the stone
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.
  for(const cloth of r.clothParts){cloth.rotation.x=.04+Math.sin(time*2)*.035+(target.kind==='run'?.2:0);cloth.rotation.z=-r[`${prefix}Pose`].twist*.13;}
  return true;

@@ -86,6 +86,15 @@ export function plantSupportFeet(r,p,kind){
  // The kinetic chain samples the lower body two frames ahead; the foot pivot and drive read the same lead so the ball never slips.
  const led=p?.move&&p.move.frame<p.move.startup&&['strike','shot','forward','back'].includes(kind)?{...p,move:{...p.move,frame:Math.min(p.move.startup,p.move.frame+Math.min(2,p.move.frame))}}:p; // lead ramps in over two frames and never passes contact
  const pivots=r.footPivot?.(led,kind),offsets=r.footOffsets?.(r,led,kind);
+ // A chained move restarts the pivot curve at flat; blend the heel down from where the last move left it over the new
+ // load instead of snapping the foot (and the ankle above it) in one frame. Frame-driven, so hitstop holds it.
+ if(pivots){
+  const m=p?.move,id=m?`${m.started??'-'}|${m.kind}|${m.chain}`:null;
+  if(id&&r.pivotLast&&(r.pivotBlend?.id!==id||m.frame<r.pivotBlend.frame))r.pivotBlend={id,from:r.pivotLast.map(q=>q.clone())};
+  if(!id)r.pivotBlend=null;
+  if(r.pivotBlend){r.pivotBlend.frame=m.frame;const u=smooth(m.frame/Math.max(1,m.startup*.42));if(u<1)pivots.forEach((q,i)=>q.copy(r.pivotBlend.from[i].clone().slerp(q,u)));}
+  r.pivotLast=pivots.map(q=>q.clone());
+ }else r.pivotLast=null;
  const footRotations=r.feet?.map((_,i)=>facing.clone().multiply(pivots?.[i]||new Quaternion()));
  r.footAnchors=[];
  const targets=r.footPlants.map((plant,i)=>{
@@ -105,7 +114,15 @@ export function plantSupportFeet(r,p,kind){
  r.body.position.y-=Math.min(.12,settle);r.g.updateMatrixWorld(true);
  for(let i=0;i<2;i++){
   const leg=r.limbs[i*2+1],knee=r.knees[i];
-  const v=leg.parent.worldToLocal(targets[i].clone()).sub(leg.position),d=v.length();
+  const v=leg.parent.worldToLocal(targets[i].clone()).sub(leg.position);let d=v.length();
+  // Out of reach with the hip still above the floor point: the foot is dragged along the floor toward the hips (the
+  // rear foot trailing a drive) and its anchor moves with it, instead of dropping under a knee pointing anywhere.
+  const along=reach-.012,h=Math.hypot(v.x,v.z);
+  if(d>reach-.005&&Math.abs(v.y)<along&&h>1e-6){
+   const k=Math.sqrt(along*along-v.y*v.y)/h;v.x*=k;v.z*=k;d=v.length();
+   const moved=leg.parent.localToWorld(v.clone().add(leg.position)),shift=moved.clone().sub(targets[i]);shift.y=0;
+   r.footPlants[i].add(shift);if(r.talaGait)r.talaGait.feet[i].at.add(shift);targets[i].add(shift);r.footTargets[i].add(shift);r.footAnchors[i].add(shift);
+  }
   if(d>reach-.005||d<Math.max(.2,Math.abs(upper-lower)+.005)){r.footPlants[i]=groundAnkle(knee);if(r.talaGait)r.talaGait.feet[i].at.copy(r.footPlants[i]);if(r.gaitPlants)r.gaitPlants[i]=null;continue;}
   // Law of cosines preserves the planted ankle on rigs with unequal segments.
   const clamp=v=>Math.max(-1,Math.min(1,v));
@@ -119,4 +136,16 @@ export function plantSupportFeet(r,p,kind){
  // Only rigs with independent feet participate; shared aerial poses reset them.
  if(r.feet){r.g.updateMatrixWorld(true);for(const [i,foot] of r.feet.entries()){const parent=foot.parent.getWorldQuaternion(new Quaternion());foot.quaternion.copy(parent.invert().multiply(footRotations[i]));}}
 
+}
+// Floor clamp for grounded poses that are not foot-planted (getting up): if any joint would pass below the stone,
+// lift the whole body by the deficit. Ankles keep their sole height, knees, elbows and hands a little skin, the head
+// its skull. Returns the lift applied (0 when the pose is already clear).
+export function clampToFloor(r){
+ r.g.updateMatrixWorld(true);
+ const ground=r.g.getWorldPosition(new Vector3()).y,scale=r.g.getWorldScale(new Vector3()).y,shin=r.shinLength||r.legLength||.48;
+ const points=[...r.knees.map(k=>[k.localToWorld(new Vector3(0,-shin,0)),(r.ankleHeight??.14)*.6]),...r.knees.map(k=>[k.getWorldPosition(new Vector3()),.05]),
+  ...r.elbows.map(e=>[e.getWorldPosition(new Vector3()),.04]),...[r.limbs[0],r.limbs[2]].map(a=>[a.userData.hand.getWorldPosition(new Vector3()),.03]),[r.head.getWorldPosition(new Vector3()),.1]];
+ let lift=0;for(const [p,pad] of points)lift=Math.max(lift,ground+pad*scale-p.y);
+ if(lift>0){r.body.position.y+=lift/scale;r.g.updateMatrixWorld(true);}
+ return lift;
 }

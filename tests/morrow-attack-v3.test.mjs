@@ -12,7 +12,7 @@ test('anatomical Morrow retains a closed grip through all three cuts at rotated 
   for(let frame=0;frame<=m.total;frame++){
    m.frame=frame;animateCharacter(r,{anim:'strike',x:3,z:4,move:m},frame/60);r.g.updateMatrixWorld(true);
    if(r.morrowGrip?.weight===1)assert.ok(r.morrowGrip.error<1e-5,`cut ${chain}, frame ${frame}: grip error ${r.morrowGrip.error}`);
-   for(const foot of r.feet){const ball=foot.localToWorld(r.footBall.clone());assert.ok(Math.abs(ball.y)<.001,'pivot contact remains on the floor');}
+   for(const foot of r.feet){const ball=foot.localToWorld(r.footBall.clone());assert.ok(ball.y>-.001,'pivot contact never sinks below the floor (WEIGHT-TRANSFER lifts the stepping foot)');}
    r.g.traverse(n=>{if(n.isBone)assert.ok(n.getWorldPosition(new Vector3()).toArray().every(Number.isFinite));});
   }
  }

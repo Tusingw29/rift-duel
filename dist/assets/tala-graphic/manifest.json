@@ -2,7 +2,7 @@
   "style": "graphic-flat",
   "source": "tala-v3.glb (CC0 MakeHuman-derived body and skin weights)",
   "sourceSHA256": "544dec5055901cb1328b53ce03e2427ca4ef9efa65b3f211532235fa1b836dc3",
-  "modelSHA256": "3c5e2959a285b3b1ec9c2088cb8a5710e9dd5d40236b9eb1b67c27a5ba99dea1",
+  "modelSHA256": "76fa68f96dd48b4f38bcb97828f0aa4dece8b3639f6094deaa1291060d18399f",
   "bytes": 5144096,
   "meshes": 82,
   "triangles": 26103,
@@ -119,5 +119,11 @@
     "Body and costume skinning reuse the existing rig; original shorts coverage retained; clean vest panels and closed fists.",
     "Portable clips are local skeletal motion, not game logic, VFX or root travel.",
     "Two-tone shader is in dist/graphic-flat.js; other GLB viewers use matte base materials."
-  ]
+  ],
+  "clipRefresh": {
+    "modelDataSHA256": "c01a870ebb15021a9960dda3f47394512d8ba5b0fe1c7e785a9611674e17c1ca",
+    "modelDefinitionSHA256": "ab53e81317d751dc7698b09db47f68b36d70325d9cef91d34abbbaa00eb05b75",
+    "preservedModelBytes": 1450976,
+    "geometryRigAndMaterialsUnchanged": true
+  }
 }

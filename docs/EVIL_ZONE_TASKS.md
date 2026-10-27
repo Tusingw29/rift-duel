@@ -320,14 +320,27 @@ Found on the way (separate from the experiment): the **authored get-up on main p
 
 ## WEIGHT-TRANSFER — Ground-up power and whole-body weight shift (footsies, then burst)
 
-Owner: **Claude** · Branch: `claude/weight-transfer` · Worktree: `~/rift-worktrees/weight-transfer` · Status: **In progress** (claimed 2026-10-27)
+Owner: **Claude** · Branch: `claude/weight-transfer` · Worktree: `~/rift-worktrees/weight-transfer` · Status: **Merged to main — awaiting Adam's normal-speed verdict** (2026-10-27)
 
 Adam (2026-10-27, after playing `?gait=imported`): fighters "still not loading up power and momentum from their feet and shifting weight through the entire body at once… still move like Rock 'Em Sock 'Em Robots". Target feel: Soul Calibur supers × Tekken combos — light footsies, then a burst into full-body committed motion (stepping, jumping, grabbing, throwing). Scope: animation only (shared grounded strike schedule, footwork, Tala first); combat timing, travel and hit boxes untouched.
 
-- [ ] Diagnose the current strike and footwork motion from captures
-- [ ] Strikes driven from the floor: load sinks into the rear leg, the lead foot steps in, the pelvis travels through the punch and the whole body carries past, then resettles
-- [ ] Footsies: lighter, springier stance and steps so the burst contrasts
-- [ ] Tests, captures, README; awaiting Adam's normal-speed verdict
+- [x] Diagnose: feet and hips fixed through the combo; the simulation's 0.4 chain advance left planted feet behind (dropped under the knee, crossed on Tala's finisher); heel pivot snapped flat on each chained hit
+- [x] Strikes driven from the floor (`dist/weight-transfer.js`, every grounded fighter): load into the rear leg, lead foot steps in, hips drive over the front foot (cap 0.5), weight carries past and drags the rear foot, both step home; chain advance absorbed into the step; unreachable feet drag instead of dropping; heel pivot blends across chained hits
+- [ ] Footsies: lighter, springier stance and steps so the burst contrasts (not done this pass)
+- [x] Get-up floor clamp (authored −0.66 → +0.05, imported −0.31 → +0.07), all fighters
+- [x] Tests (589, 13 new), captures and README: `art/review-2026-10-27/weight-transfer/`
+- [ ] **Adam's normal-speed verdict.** Known: Aegis's overhead finisher now winds up low and compact (may read as a squat)
+
+## MOCAP-COMBAT + ANIM-WORKBENCH — Retargeted mocap strikes and a live animation workbench
+
+Owner: **Claude** · Branch: `claude/mocap-combat` · Status: **In progress** (claimed 2026-10-27)
+
+Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`: footwork skating, right-sidestep straddle, get-up time warp. (2) Import real CMU punches, kicks and sword cuts with a piecewise time warp onto `moveTiming` (wind-up to startup, impact held through active and hitstop, follow-through to recovery), the simulation still owning the root and the chain advance absorbed into the step. (3) `dist/anim-workbench.html`: fighter/move/source switcher, joint picking and channel sliders per key, motion trails and a centre-of-mass plumb line, time-warp controls and clip export, `window.animWorkbench` hooks.
+
+- [ ] Imported footwork and get-up polish
+- [ ] BVH strike / kick / sword import with time warp (sources: CMU 14_01–03 boxing, 74_03–06 kicks, 02_07–09 swordplay)
+- [ ] Animation workbench
+- [ ] Tests, captures `art/review-2026-10-27/`, browser smoke, awaiting Adam's verdict
 
 ## Handoff log
 
@@ -335,6 +348,7 @@ Adam (2026-10-27, after playing `?gait=imported`): fighters "still not loading u
 | --- | --- | --- | --- |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
+| 2026-10-27 | Claude | WEIGHT-TRANSFER | Ground-up weight transfer for every grounded fighter's strikes and specials, chain advance absorbed into the step, feet drag instead of dropping, heel pivot blended across chained hits, get-up floor clamp. 589 tests. Evidence `art/review-2026-10-27/weight-transfer/`. Next: Adam's normal-speed verdict (Aegis finisher wind-up flagged). |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |

@@ -4,12 +4,13 @@ import {retreatLift} from './retreat-motion.js';
 // footwork, strikes, guard and hit reactions flow from the current pose instead
 // of snapping back to neutral. Footwork advances with distance travelled, not time.
 import {sampleClip} from './pose-clips.js';
-import {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
+import {CHANNELS,STRIDE,applyPose,plantSupportFeet,clampToFloor} from './rig-pose.js';
 import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose,grapplePose,launchedPose,rollPose,victoryPose,aerialStrikePose,bouncePose} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {locomotionSource} from './locomotion-clips.js';
 import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
+import {applyWeight} from './weight-transfer.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
 const pose=o=>Object.fromEntries(CHANNELS.map(k=>[k,o[k]??0]));
@@ -186,10 +187,10 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(move?.kind==='strike')return {pose:move.reversal?reversalPose(move,strikePose):strikePose(move),rate:34,kind:'strike'};
  const travel=travelTarget(p,stance,strikePose);if(travel)return {pose:travel.pose,rate:34,kind:travel.kind};
  if(p.staggerState&&!move&&!p.air)return {pose:pose(staggerPose(stance,impact,p.staggerState)),rate:18,kind:'stagger'};
- if(move?.kind==='shot'&&!p.air)return {pose:shotPose(move),rate:34,kind:'shot'};
- if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:specialPose(move),rate:34,kind:move.kind};
+ if(move?.kind==='shot'&&!p.air)return {pose:applyWeight(shotPose(move),move),rate:34,kind:'shot'};
+ if(['forward','back'].includes(move?.kind)&&!p.air)return {pose:applyWeight(specialPose(move),move),rate:34,kind:move.kind};
  if(move?.kind==='technique'&&['rise','kick'].includes(move.effect)&&!p.air)return {pose:techniquePose(move),rate:34,kind:'technique'};
- if(move?.kind==='launch'&&!p.air)return {pose:launcherPose(move),rate:34,kind:'launch'};
+ if(move?.kind==='launch'&&!p.air)return {pose:applyWeight(launcherPose(move),move),rate:34,kind:'launch'};
  if(move?.kind==='pursuit'&&move.aerial)return {pose:pursuitPose(move),rate:34,kind:'aerial'};
  if(!move&&!p.launched&&['jump','recover','idle','run'].includes(p.anim)&&(p.air>0||(p.airMotion?.height||0)>.01))return {pose:freeFlightPose(p),rate:20,kind:'freeFlight'};
  if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
@@ -296,6 +297,8 @@ export function animateTala(r,p,time){
   r.footPlants=r.techniqueLanding.anchors.map(at=>{const v=at.clone();v.y=ground+Math.max(0,at.y-ground)*(1-u);return v;});
  }else r.techniqueLanding=null;
  plantSupportFeet(r,p,technique?(flying?'flight':'strike'):target.kind==='launch'?'strike':target.kind==='aerial'?(p.air>0?'flight':'strike'):target.kind==='freeFlight'&&p.air>.6&&(p.airMotion?.height||0)<.16?'strike':plantKind);
+ // Getting up is not foot-planted: keep every joint on or above the stone (the rise used to push a foot through it).
+ if(target.kind==='rise'&&(p?.getUp||p?.anim==='getUp'))clampToFloor(r);
  // Small delayed neck response lets the head settle after the ribcage turns.
  // Guard keeps its deliberate chin tuck even when an impact checks the torso.
  if(dt>0){const velocity=(r.pose.lean-(r.prevLean??r.pose.lean))/dt;r.prevLean=r.pose.lean;const retention=Math.exp(-14*dt);r.neckLag=(r.neckLag||0)*retention+Math.max(-.08,Math.min(.08,velocity*.035))*(1-retention);}

@@ -1,3 +1,4 @@
+import {applyWeight,weightShift} from '../dist/weight-transfer.js';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {strikePose,movePose,idlePose,hurtPose,guardPose,targetFor,blendPose,advanceStride,animateTala,stance,CHANNELS,STRIDE} from '../dist/tala-animation.js';
 import {animateCharacter} from '../dist/animation.js';
@@ -17,7 +18,11 @@ test('punches start in the hips and chest, snap to extension at contact, and rec
   const half=strikePose({...m,frame:m.startup-.5}),early=strikePose({...m,frame:m.startup-2}); // the wrist whips in the last frame
   const wristK=chain===2?'lw':'rw';if(Math.abs(contact[wristK]-early[wristK])>.3)assert.ok(Math.abs(contact[wristK]-half[wristK])<Math.abs(contact[wristK]-early[wristK])*.6,'the wrist eases out fast into contact'); // the hook barely turns the wrist // the shoulder leads by two frames and is already there
  }
- assert.ok(strikePose(strike(3,5)).bodyZ>strikePose(strike(1,5)).bodyZ+.15,'hook steps in');
+ // WEIGHT-TRANSFER: every punch drives the hips over the front foot by contact (capped where the rear leg can keep
+ // its ball down), and the stepping hook commits the longest lead step.
+ for(const c of [1,3]){const m={...strike(c,0),...moveTiming(fighters[2],'strike',c)};assert.ok(strikePose({...m,frame:m.startup}).bodyZ>.4,`punch ${c} drives the hips through`);}
+ const step=c=>{const m={kind:'strike',chain:c,...moveTiming(fighters[2],'strike',c)};return weightShift(m,m.startup).lead.z;};
+ assert.ok(step(3)>step(1)+.05,'hook steps in further than the straight');
 });
 test('footwork phase advances with distance travelled, not time, and feet plant on strikes',()=>{
  const r={},p={anim:'run',x:0,z:0};advanceStride(r,p);p.x=.5;advanceStride(r,p);const moved=r.stridePhase;p.x=.5;advanceStride(r,p);assert.equal(r.stridePhase,moved,'standing still keeps the phase');
@@ -108,7 +113,7 @@ test('Tala ranged release transfers weight and reaches its authored pose on the 
  assert.ok(release.re>-.15&&release.rax< -1.5);assert.deepEqual(shotPose({...move,frame:move.total}),stance);
  const r=buildCharacter(2),p={anim:'attack',move,x:0,z:0};
  for(let frame=0;frame<=move.startup;frame++){move.frame=frame;animateCharacter(r,p,frame/60);}
- assert.equal(r.animationFamily,'grounded');assert.deepEqual(r.pose,release);
+ assert.equal(r.animationFamily,'grounded');assert.deepEqual(r.pose,applyWeight(release,move),'authored release plus the ground-up weight shift');
  const arm=r.limbs[2].quaternion.clone();animateCharacter(r,p,move.startup/60);assert.ok(arm.angleTo(r.limbs[2].quaternion)<1e-7);
  assert.equal(targetFor({...p,air:1},0),null,'airborne shot retains aerial fallback');
 });
@@ -120,7 +125,7 @@ test('Tala base signatures have distinct release silhouettes and exact combat ti
   const move={kind,...moveTiming(fighters[2],kind),frame:0},r=buildCharacter(2),p={anim:kind,move,x:0,z:0};
   const contact=specialPose({...move,frame:move.startup});poses.push(contact);
   for(let frame=0;frame<=move.startup;frame++){move.frame=frame;animateCharacter(r,p,frame/60);}
-  assert.deepEqual(r.pose,contact);assert.equal(r.animationFamily,'grounded');
+  assert.deepEqual(r.pose,applyWeight(contact,move),'authored release plus the ground-up weight shift');assert.equal(r.animationFamily,'grounded');
   assert.deepEqual(specialPose({...move,frame:move.total}),stance);
   for(const flag of ['empowered','followup'])assert.equal(targetFor({...p,move:{...move,[flag]:true}},0).kind,kind);
   assert.equal(targetFor({...p,air:1},0),null);
@@ -136,7 +141,7 @@ test('special follow-up upgrades blend from the outgoing pose and still reach ex
   const before={...r.pose};move.followup=true;animateCharacter(r,p,4/60);
   for(const key of CHANNELS)assert.ok(Math.abs(r.pose[key]-before[key])<1e-12,'upgrade preserves outgoing pose');
   for(let f=5;f<=move.startup;f++){move.frame=f;animateCharacter(r,p,f/60);}
-  assert.deepEqual(r.pose,specialPose(move));
+  assert.deepEqual(r.pose,applyWeight(specialPose(move),move));
   assert.notDeepEqual(specialPose(move),specialPose({...move,followup:false}));
   assert.notDeepEqual(specialPose({...move,followup:false,empowered:true}),specialPose({...move,followup:false}));
  }
