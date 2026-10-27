@@ -8,7 +8,7 @@ import {CHANNELS,STRIDE,applyPose,plantSupportFeet,clampToFloor} from './rig-pos
 import {travelTarget,travelMotion,staggerPose,reversalPose,isDown,downPose,risePose,flightPose,landingAbsorb,RISE_TIME,LANDING_TIME,strikeSchedule,sampleSchedule,travelOverlay,squatPose,getUpPose,recoilPose,grapplePose,launchedPose,rollPose,victoryPose,aerialStrikePose,bouncePose} from './grounded-animation.js';
 import {clipMovePose} from './locomotion-clips.js';
 import {rhythmFootOffsets,rhythmPose} from './footwork.js';
-import {locomotionSource} from './locomotion-clips.js';
+import {locomotionSource,reactionSource} from './locomotion-clips.js';
 import {importedMovePose,importedGetUpPose,setImportRig,importedHurtPose,importedGuardHitPose} from './imported-motion.js';
 import {applyWeight} from './weight-transfer.js';
 import {applyTweaks} from './anim-tweaks.js';
@@ -201,7 +201,7 @@ export function targetFor(p,t,stridePhase=p?.stridePhase||0,motion=null){
  if(!move&&p.anim==='recover'&&!p.air)return {pose:idlePose(t),rate:12,kind:'idle'};
  if(move||p.air>0||p.roll||['knockdown','defeat','victory','launch','roll','jump','recover','pursuit','jumpAttack'].includes(p.anim))return null;
  // QUATERNIUS-REACTIONS (imported source only): Hit_Head behind the guard, Hit_Chest on an unguarded hit.
- const reactImported=locomotionSource()==='imported';
+ const reactImported=reactionSource()==='imported';
  if(p.guard)return {pose:pose(rhythmPose(reactImported&&p.blockStun>0?importedGuardHitPose(guard,p.blockStun):guardPose(p.blockStun||0),t,.4)),rate:20,kind:'guard'};
  if(p.anim==='hurt')return {pose:reactImported?pose(importedHurtPose(stance,p.animTime||0,p.hitstop)):hurtPose(p.animTime||0,p.hitstop),rate:p.animTime>.38?Infinity:16,kind:'hurt'};
  if(p.anim==='charge')return {pose:charge,rate:14,kind:'charge'};

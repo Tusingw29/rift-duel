@@ -1,5 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {Vector3} from '../dist/vendor/three.module.js';import {buildTala} from '../dist/tala-model.js';import {animateCharacter} from '../dist/animation.js';import {strikePose} from '../dist/tala-animation.js';
+import {setReactionSource} from '../dist/locomotion-clips.js';
+// The authored guard tuck and flinch. Tala's shipped reactions are the imported Quaternius ones; these checks pin the authored reactions (?react=authored).
+setReactionSource('authored');
 function sample(r,p,start,count){for(let i=0;i<count;i++)animateCharacter(r,p,start+i/60);r.g.updateMatrixWorld(true);}
 function hands(r){return [0,2].map(i=>r.spine.worldToLocal(r.limbs[i].userData.hand.getWorldPosition(new Vector3())));}
 test('live Tala guard crosses hands over the chest during hold and block recoil',()=>{

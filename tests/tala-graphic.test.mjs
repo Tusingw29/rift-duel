@@ -9,6 +9,9 @@ import {Vector3,AnimationMixer} from '../dist/vendor/three.module.js';
 import {createLiveTalaReview,LIVE_TALA_CLIPS} from '../dist/tala-live-review.js';
 import {applyGraphicFlat} from '../dist/graphic-flat.js';
 import {upgradeMaterials} from '../dist/shading.js';
+import {setReactionSource} from '../dist/locomotion-clips.js';
+// The GLB bakes Recoil and Guard + block from the authored reactions. Tala's shipped reactions are the imported Quaternius ones; these checks pin the authored reactions (?react=authored).
+setReactionSource('authored');
 globalThis.ProgressEvent??=class{constructor(t,data){Object.assign(this,data);}};
 const bytes=readFileSync(new URL('../dist/assets/tala-graphic/tala-graphic.glb',import.meta.url));
 const doc=JSON.parse(bytes.subarray(20,20+bytes.readUInt32LE(12)));

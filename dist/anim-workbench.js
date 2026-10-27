@@ -2,7 +2,7 @@ import * as T from './vendor/three.module.js';
 import {createView} from './render.js';
 import {fighters} from './fighters.js';
 import {RECIPES,createScenario,stepScenario} from './sandbox-recipes.js';
-import {setLocomotionSource} from './locomotion-clips.js';
+import {setLocomotionSource,setReactionSource} from './locomotion-clips.js';
 import {TWEAKS,KEY_NAMES,keyTimes,moveKey,tweakState} from './anim-tweaks.js';
 import {combatTuning,combatClip,clipU} from './imported-combat.js';
 import {weightTuning,weightShift} from './weight-transfer.js';
@@ -63,7 +63,7 @@ function settings(noDraw){
  return {camera:state.camera==='orbit'?'custom':state.camera,cameraPosition:pos,cameraTarget:target,reduced:true,quality:'high',cameraZoom:.7,noDraw};
 }
 // Render one view with its own animation source and tweak switch (the modules are shared, so set them per call).
-function renderView(v,dt,noDraw){setLocomotionSource(v.source);tweakState.enabled=v.tweaks;v.view.render(dt,state.s.m,settings(noDraw));setLocomotionSource('authored');tweakState.enabled=true;
+function renderView(v,dt,noDraw){setLocomotionSource(v.source);setReactionSource(v.source==='authored'&&!v.tweaks?'authored':'imported');tweakState.enabled=v.tweaks;v.view.render(dt,state.s.m,settings(noDraw));setLocomotionSource('authored');setReactionSource('imported');tweakState.enabled=true;
  const rv=v.view.models?.[1];if(rv)rv.g.visible=$('#rival').checked;}
 const visibleViews=()=>state.layout==='overlay'?['A']:state.layout==='single'?['B']:['A','B'];
 function step(dt=1/60){stepScenario(state.s);state.s.recipe.stage?.(state.s.m,state.s.frame);for(const k of ['A','B'])renderView(views[k],dt,true);}

@@ -3,12 +3,12 @@ import {IMPORT_CLIPS,REACTIONS,BLOCK_STUN,hurtClipU,guardHitClipU,importedHurtPo
 import {HURT_TIME} from '../dist/grounded-animation.js';
 import {targetFor,hurtPose,guardPose,stance,guard} from '../dist/tala-animation.js';
 import {rhythmPose} from '../dist/footwork.js';
-import {setLocomotionSource,locomotionSource} from '../dist/locomotion-clips.js';
+import {setLocomotionSource,locomotionSource,setReactionSource,reactionSource} from '../dist/locomotion-clips.js';
 import {createScenario,stepScenario,scenarioAt} from '../dist/sandbox-recipes.js';
 import {buildCharacter} from '../dist/characters.js';
 import {animateCharacter} from '../dist/animation.js';
 import {Vector3} from '../dist/vendor/three.module.js';
-// QUATERNIUS-REACTIONS: Quaternius Hit_Chest / Hit_Head as Tala's hit reactions, imported source only.
+// QUATERNIUS-REACTIONS: Quaternius Hit_Chest / Hit_Head as Tala's hit reactions (the default since Adam accepted them).
 const imported=fn=>{setLocomotionSource('imported');try{return fn();}finally{setLocomotionSource('authored');}};
 const close=(a,b,eps=1e-9)=>Object.keys(b).every(k=>Math.abs((a[k]??0)-(b[k]??0))<eps);
 // Tala (P1) in the two review recipes, frame by frame.
@@ -44,10 +44,18 @@ test('the recoil and guard-hit recipes reach the hurt and guarded-hit states the
   const blk=g.find(s=>s.p.guard&&s.p.blockStun>0).p;assert.ok(close(targetFor(blk,0).pose,rhythmPose(importedGuardHitPose(guard,blk.blockStun),0,.4)),'imported guarded hit = Hit_Head');
  });
 });
-test('default unchanged: the authored source still plays the authored recoil and guard',()=>{
- assert.equal(locomotionSource(),'authored');
- for(const {p} of states('recoil'))if(p.anim==='hurt'&&!p.guard)assert.deepEqual(targetFor(p,0).pose,hurtPose(p.animTime||0,p.hitstop));
- for(const {p} of states('guard-hit'))if(p.guard)assert.deepEqual(targetFor(p,.5).pose,rhythmPose(guardPose(p.blockStun||0),.5,.4));
+test('the imported reactions are the default on the authored gait; ?react=authored restores the authored recoil and guard',()=>{
+ assert.equal(locomotionSource(),'authored');assert.equal(reactionSource(),'imported');
+ const hurt=states('recoil').find(s=>s.p.anim==='hurt'&&!s.p.guard).p,blk=states('guard-hit').find(s=>s.p.guard&&s.p.blockStun>0).p;
+ assert.ok(close(targetFor(hurt,0).pose,importedHurtPose(stance,hurt.animTime,hurt.hitstop)),'default hurt = Hit_Chest');
+ assert.ok(close(targetFor(blk,0).pose,rhythmPose(importedGuardHitPose(guard,blk.blockStun),0,.4)),'default guarded hit = Hit_Head');
+ assert.equal(setReactionSource('nonsense'),'imported');
+ setReactionSource('authored');
+ try{
+  for(const {p} of states('recoil'))if(p.anim==='hurt'&&!p.guard)assert.deepEqual(targetFor(p,0).pose,hurtPose(p.animTime||0,p.hitstop));
+  for(const {p} of states('guard-hit'))if(p.guard)assert.deepEqual(targetFor(p,.5).pose,rhythmPose(guardPose(p.blockStun||0),.5,.4));
+  assert.equal(imported(()=>reactionSource()),'imported','the imported gait still plays the imported reactions');
+ }finally{setReactionSource('imported');}
 });
 test('replays: identical bones on fresh rigs, and scrubbing equals stepping, through both recipes',()=>{
  const bones=r=>[r.body,r.spine,r.head,...r.limbs,...r.elbows,...r.knees].map(b=>b.getWorldPosition(new Vector3()).toArray().map(v=>+v.toFixed(9)));

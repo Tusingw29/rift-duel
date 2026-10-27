@@ -63,6 +63,9 @@ test('an interrupted step preserves ankle position when guard, strike or hurt be
 });
 
 import {createLiveTalaReview,LIVE_TALA_CLIPS} from '../dist/tala-live-review.js';
+import {setReactionSource} from '../dist/locomotion-clips.js';
+// The authored guard tuck and impact brace. Tala's shipped reactions are the imported Quaternius ones; these checks pin the authored reactions (?react=authored).
+setReactionSource('authored');
 test('review uses live guard tuck and deeper impact brace',()=>{
  const review=createLiveTalaReview(asset.scene),r=review.rig;
  review.sample('Guard + block',.6);const normal=r.head.rotation.x;

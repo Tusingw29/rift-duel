@@ -12,6 +12,13 @@ export const SOURCES=['authored','mocap','imported'];
 let source='authored';
 export function setLocomotionSource(name){source=SOURCES.includes(name)?name:'authored';return source;}
 export function locomotionSource(){return source;}
+// Tala's hit reactions (QUATERNIUS-REACTIONS, accepted 2026-10-27): imported Quaternius Hit_Chest / Hit_Head by default,
+// switchable back to the authored recoil and guard flinch for review (?react=authored). The gait 'imported' source also
+// plays them, so the old &anim=imported A/B links still match.
+export const REACTION_SOURCES=['imported','authored'];
+let reaction='imported';
+export function setReactionSource(name){reaction=REACTION_SOURCES.includes(name)?name:'imported';return reaction;}
+export function reactionSource(){return source==='imported'?'imported':reaction;}
 const mean=(keys,ch)=>keys.slice(0,-1).reduce((s,k)=>s+k[1][ch],0)/(keys.length-1);
 const RUN_BOB=mean(run.keys,'bodyY'),WALK_BOB=mean(walk.keys,'bodyY');
 // phase: stride phase in radians (2π per stride), as the animators already track it from travelled distance.
