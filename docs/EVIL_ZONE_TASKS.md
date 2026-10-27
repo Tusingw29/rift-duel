@@ -1,3 +1,7 @@
+## BLENDER-VFX-ASSETS — modeled flow-preview effects
+
+Owner: **Codex** · Branch: `codex/blender-vfx-assets` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced main `8e2e80e`. Blender 3.6.23 headless only: low-poly Sol/Vesper shells, capture profile, burst and small original masks. Flow preview only; preserve default game, Claude character/rig/pose/mocap/animation and combat. Deliver branch and localhost review; **do not merge implementation to main**.
+
 ## ROSTER-ENERGY — distinct flowing signatures
 
 Rear-camera verification follow-up (Codex, 2026-10-27): previous focused run `40470396558` passed but roster evidence was side-only. Synced Claude `a3ff8c4` WEIGHT-TRANSFER with TALA-IMPORT-AB preserved. Added explicit lock-on captures at release +4f and +16f; status **Review; awaiting normal-speed verdict**, same isolated branch/worktree. Final run 40478793913 passes; **592 tests pass**. All four rear flight samples retain visible height and shape after increasing only the flowing preview shoulder offset. Morrow early +4f is still occluded by the release pose/sword. [Evidence and exact limits](../art/review-2026-10-27/roster-rear/README.md).
