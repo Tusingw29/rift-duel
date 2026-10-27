@@ -335,14 +335,15 @@ Adam (2026-10-27, after playing `?gait=imported`): fighters "still not loading u
 
 ## MOCAP-COMBAT + ANIM-WORKBENCH — Retargeted mocap strikes and a live animation workbench
 
-Owner: **Claude** · Branch: `claude/mocap-combat` · Status: **In progress** (claimed 2026-10-27)
+Owner: **Claude** · Branch: `claude/mocap-combat` · Status: **Merged to main — awaiting Adam's normal-speed verdict** (2026-10-27)
 
 Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`: footwork skating, right-sidestep straddle, get-up time warp. (2) Import real CMU punches, kicks and sword cuts with a piecewise time warp onto `moveTiming` (wind-up to startup, impact held through active and hitstop, follow-through to recovery), the simulation still owning the root and the chain advance absorbed into the step. (3) `dist/anim-workbench.html`: fighter/move/source switcher, joint picking and channel sliders per key, motion trails and a centre-of-mass plumb line, time-warp controls and clip export, `window.animWorkbench` hooks.
 
-- [ ] Imported footwork and get-up polish
-- [ ] BVH strike / kick / sword import with time warp (sources: CMU 14_01–03 boxing, 74_03–06 kicks, 02_07–09 swordplay)
-- [ ] Animation workbench
-- [ ] Tests, captures `art/review-2026-10-27/`, browser smoke, awaiting Adam's verdict
+- [x] Imported footwork and get-up polish: cadence 0.6/0.65 units per cycle, stance band, recovery step on stop, activity time warp (skate advance 0.150 → 0.003, stance after stop 1.5 → 0.75)
+- [x] Captured strikes for Tala's three-hit combo (CMU 13_17, 14_01, 14_03 mirrored) warped onto moveTiming, contact on the authored aim, hips and feet from the capture, chain advance absorbed. Gaps: CMU kicks travel 1–2 units (no grounded fit), CMU swordplay is slow sparring — not imported
+- [x] `dist/anim-workbench.html`: six fighters, every combat state, A authored vs B imported / hybrid / authored+tweaks, side by side or overlay, joint picking, keyed additive tweaks (`dist/anim-tweaks.js`, empty in the game), trails, centre-of-mass plumb line, time-warp and lead sliders, export, `window.animWorkbench`; probe in the browser-smoke workflow
+- [x] 600 tests, probe passing, captures and README `art/review-2026-10-27/mocap-combat/`
+- [ ] **Adam's normal-speed verdict** (open questions: the hook's torso turn during the step-through, the long step home after captured strikes)
 
 ## Handoff log
 
@@ -351,6 +352,7 @@ Adam (2026-10-27): stop hand-coding animation blind. (1) Polish `?gait=imported`
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
 | 2026-10-27 | Claude | WEIGHT-TRANSFER | Ground-up weight transfer for every grounded fighter's strikes and specials, chain advance absorbed into the step, feet drag instead of dropping, heel pivot blended across chained hits, get-up floor clamp. 589 tests. Evidence `art/review-2026-10-27/weight-transfer/`. Next: Adam's normal-speed verdict (Aegis finisher wind-up flagged). |
+| 2026-10-27 | Claude | MOCAP-COMBAT + ANIM-WORKBENCH | Imported footwork/get-up polish, captured CMU punches for Tala time-warped onto moveTiming, and `dist/anim-workbench.html` (real rigs, A/B, joint tweaks, trails, centre of mass, time-warp sliders, export, automation hooks). 600 tests; workbench probe gates browser smoke. Evidence `art/review-2026-10-27/mocap-combat/`. Next: Adam's verdict; tune in the workbench. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |

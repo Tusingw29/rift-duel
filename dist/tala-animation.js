@@ -11,6 +11,7 @@ import {rhythmFootOffsets,rhythmPose} from './footwork.js';
 import {locomotionSource} from './locomotion-clips.js';
 import {importedMovePose,importedGetUpPose,setImportRig} from './imported-motion.js';
 import {applyWeight} from './weight-transfer.js';
+import {applyTweaks} from './anim-tweaks.js';
 import {combatClip,combatPose,combatWeight} from './imported-combat.js';
 export {CHANNELS,STRIDE,applyPose,plantSupportFeet} from './rig-pose.js';
 
@@ -287,6 +288,7 @@ export function animateTala(r,p,time){
  }
  // Ponytail and head trail the chest turn slightly.
  if(dt>0){const twistVelocity=(r.pose.twist-(r.prevTwist??r.pose.twist))/dt;r.prevTwist=r.pose.twist;const retention=Math.exp(-13.4*dt);r.twistLag=(r.twistLag||0)*retention+twistVelocity*.1*(1-retention);}else r.twistLag=r.twistLag||0;
+ if(p?.move)r.pose=applyTweaks('tala',p.move,r.pose); // ANIM-WORKBENCH additive keyed tweaks
  r.lastPose=r.pose;applyPose(r,r.pose);
  if(target.kind==='charge')r.body.position.y+=Math.sin(time*30)*.008;
  const technique=target.kind==='technique',m=p?.move;

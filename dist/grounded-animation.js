@@ -1,5 +1,6 @@
 import {CHANNELS,STRIDE,applyPose,plantSupportFeet,clampToFloor} from './rig-pose.js';
 import {applyWeight} from './weight-transfer.js';
+import {applyTweaks} from './anim-tweaks.js';
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 export const snapOut=t=>{t=Math.max(0,Math.min(1,t));return 1-(1-t)**3;};
 const mix=(a,b,t)=>Object.fromEntries(CHANNELS.map(k=>[k,a[k]+(b[k]-a[k])*t]));
@@ -168,7 +169,7 @@ export function rearLoad(stance,wind,contact){
 // and sampled with a per-segment lead so the feet and pelvis arrive two frames before the arms, the spine one.
 const SEG={lower:['bodyX','bodyY','bodyZ','hipYaw','llx','llz','rlx','rlz','lk','rk'],spine:['lean','twist','side'],clav:['lc','rc'],arms:['lax','lay','laz','rax','ray','raz'],elbows:['le','re'],wrists:['lw','rw','lwx','lwz','rwx','rwz'],head:['hx','hy','hz','neckY','neckZ']};
 // Kinetic wave in frames: feet and pelvis 5, spine 3.5, clavicles and shoulders 2, elbows 1, wrists on the beat at impact.
-const LEAD={lower:5,spine:3.5,clav:2,arms:2,elbows:1,wrists:0,head:0};
+export const LEAD={lower:5,spine:3.5,clav:2,arms:2,elbows:1,wrists:0,head:0}; // exported so the animation workbench can tune it live
 const WRIST_DRAG=3.5; // after the hitstop hold the wrist and weapon tip trail the torso into recovery
 const pick=(from,to,segs)=>{const o={...from};for(const s of segs)for(const k of SEG[s])o[k]=to[k];return o;};
 export function kineticKeys(move,stance,load,peak,follow){
@@ -369,6 +370,8 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  // Hits, jump squats and get-ups snap on their first frame: no entry blend.
  const weight=['hurt','squat','rise','knockdown','collapse','launched','bounce','grapple','roll'].includes(target.kind)||prevKind==='launched'||prevKind==='bounce'?0:1-smooth(['strike','leap'].includes(target.kind)&&move?move.frame/Math.max(1,entryFrames):entry.elapsed/(target.kind==='run'?.1:.14));
  r[`${prefix}Pose`]=Object.fromEntries(CHANNELS.map(k=>[k,target.pose[k]+entry.offset[k]*weight]));
+ // ANIM-WORKBENCH additive keyed tweaks (empty unless shipped data or the workbench sets them).
+ if(player?.move)r[`${prefix}Pose`]=applyTweaks(poses?.id||prefix,player.move,r[`${prefix}Pose`]);
  r.lastPose=r[`${prefix}Pose`];applyPose(r,r[`${prefix}Pose`]);plantSupportFeet(r,player,plantKind);
  if(target.kind==='rise'&&(player?.getUp||player?.anim==='getUp'))clampToFloor(r); // getting up is not foot-planted: nothing passes below the stone
  // Cloth follows the authored body turn; sampling a frozen time is deterministic.

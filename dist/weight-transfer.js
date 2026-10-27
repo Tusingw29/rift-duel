@@ -30,10 +30,12 @@ export function weightProfile(move){
 //   · impact (hips over the front foot, rear leg long) · hold (through the active frames and the hitstop)
 //   · carry (weight rolls past the line, rear foot dragged in) · regather (rear foot back home)
 //   · reset (lead foot steps home) · stance
+// Global scale on every curve, tuned live in the animation workbench (1 = as authored here).
+export const weightTuning={scale:1};
 function keys(move,p){
  const s=Math.max(2,move.startup),a=move.active||1,R=Math.max(4,move.recovery);
  const t=[0,s*.42,s-1,s,s+a+1,s+a+R*.3,s+a+R*.55,s+a+R*.85,s+a+R];
- const k=p.k,up=p.up;
+ const k=p.k*weightTuning.scale,up=p.up;
  return {t,
   z:[0,-.11,.22,.34,.34,.4,.24,.06,0].map(v=>v*k*(up?.55:1)),
   y:(up?[0,-.17,-.1,.05,.05,0,-.04,-.01,0]:[0,-.14,-.11,-.08,-.08,-.11,-.06,-.02,0]).map(v=>v*k),

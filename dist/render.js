@@ -142,6 +142,7 @@ export function createView(canvas,options={}){
   const target=v(),pos=v();let cut=false;
   if(m){const [a,b]=m.players;const airHeight=Math.max(liftOf(a),liftOf(b));
    if(settings.camera==='duel'){const shot=duelCamera(m.players,camera.aspect,duelState);pos.copy(shot.position);target.copy(shot.target);}
+   else if(settings.camera==='custom'&&settings.cameraPosition){pos.copy(settings.cameraPosition);target.copy(settings.cameraTarget);} // animation workbench orbit
    else (settings.camera==='side'?sideCamera:lockCamera)(m,pos,target,airHeight,settings.cameraZoom||1);
    if(stagedState&&!settings.reduced){
     const shot=stagedState.camera;target.set(shot.target.x,shot.target.y,shot.target.z);
@@ -177,9 +178,9 @@ export function createView(canvas,options={}){
   camera.lookAt(lookTarget);
   beamFX.orient(camera);attackFX.orient(camera); // Open target ring remains readable from every fight camera.
   // Fit after smoothing/shake; keep clear of the HUD in ordinary combat.
-  if(m&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf);
+  if(m&&settings.camera!=='custom'&&(!m.cinematic||settings.reduced)&&(!cue||settings.reduced||cue.kind==='fight'))fitFighters(camera,m.players,liftOf); // the workbench orbit frames itself
   if(m?.cinematic?.kind==='capture')fitFighters(camera,models.map(r=>({x:r.g.position.x,z:r.g.position.z,height:r.g.position.y})),p=>p.height);
   if(!settings.noDraw)renderer.render(scene,camera); // replays animate every simulated frame and draw only the last
  }
- select(0);return {get fighterModels(){return models;},select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3','graphic'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},get scene(){return scene;},get models(){return models;},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
+ select(0);return {get fighterModels(){return models;},select,match,arena,render,burst,shake,setTalaModel(value){talaModel=['classic','design02','v3','graphic'].includes(value)?value:'concept';},get talaModels(){return models.filter(r=>r.id===2).map(r=>r.talaStatus);},get fighterModels(){return models.map(r=>({id:fighters[r.id].id,status:r.talaStatus}));},get scene(){return scene;},get models(){return models;},get camera(){return camera;},block(n,perfect){if(models[n])trailFX.block(models[n],perfect);},ghost(n){if(models[n])trailFX.ghost(models[n]);},get arenaName(){return stageId?arenas[stageId].name:'';},quality(q){renderQuality=q;sharpenTextures(scene,renderer.capabilities.getMaxAnisotropy(),q,renderer.getContext().getContextAttributes().antialias);renderer.setPixelRatio(q==='low'?1:Math.min(devicePixelRatio,2));const shadows=q!=='low';if(renderer.shadowMap.enabled!==shadows){renderer.shadowMap.enabled=shadows;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true;});}}};
 }

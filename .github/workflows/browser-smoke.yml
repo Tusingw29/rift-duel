@@ -96,6 +96,10 @@ jobs:
             node scripts/review/vfx-workbench.mjs
             node scripts/review/refined-energy.mjs
           fi
+          if [ -f scripts/review/anim-workbench-probe.mjs ]; then
+            npm run prepare:release
+            RIFT_TOOLS="$PWD" RIFT_BASE=http://127.0.0.1:4173 SHOTS=artifacts/browser-smoke/anim-workbench node scripts/review/anim-workbench-probe.mjs
+          fi
       - name: Review flowing energy only
         if: inputs.preview_branch && inputs.vfx_only
         env:
@@ -112,6 +116,13 @@ jobs:
         run: |
           node scripts/review/vfx-workbench.mjs
           node scripts/review/refined-energy.mjs
+      - name: Review the published animation workbench
+        if: github.event_name == 'workflow_run'
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: https://tusingw29.github.io/rift-duel
+          SHOTS: artifacts/browser-smoke/anim-workbench
+        run: node scripts/review/anim-workbench-probe.mjs
       - name: Upload screenshots, console log and report
         if: always()
         uses: actions/upload-artifact@v4

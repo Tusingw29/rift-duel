@@ -1,0 +1,222 @@
+{
+ "errors": [],
+ "results": {
+  "tala-strike1-imported-impact": {
+   "ms": 10967,
+   "last": {
+    "A": {
+     "com": [
+      0.4982795938594814,
+      1.4924410148531673,
+      0.16151558611692388
+     ],
+     "comInside": true,
+     "comDistance": 0.068
+    },
+    "B": {
+     "com": [
+      0.3623513810961661,
+      1.4462161261833661,
+      0.1771795986788806
+     ],
+     "comInside": true,
+     "comDistance": 0.095
+    }
+   },
+   "frames": 50,
+   "move": {
+    "kind": "strike",
+    "chain": 1,
+    "startup": 9
+   },
+   "trail": 50
+  },
+  "tala-strike3-hybrid-overlay": {
+   "ms": 1353,
+   "last": {
+    "A": {
+     "com": [
+      0.959202261811351,
+      1.439309612381915,
+      -0.16506809100972686
+     ],
+     "comInside": false,
+     "comDistance": 0.497
+    },
+    "B": {
+     "com": [
+      0.7223157099592571,
+      1.5650086368393639,
+      -0.034039150295750706
+     ],
+     "comInside": true,
+     "comDistance": 0.058
+    }
+   },
+   "frames": 110,
+   "move": {
+    "kind": "strike",
+    "chain": 3,
+    "startup": 18
+   },
+   "trail": 110
+  },
+  "tweak": {
+   "before": {
+    "A": 0.1962,
+    "B": 0.06678
+   },
+   "after": {
+    "A": 0.1962,
+    "B": 0.20178000000000001
+   },
+   "exported": {
+    "tala": {
+     "strike1": {
+      "impact": {
+       "lean": 0.3
+      }
+     }
+    }
+   }
+  },
+  "aegis-strike3-blade-trail": {
+   "ms": 9365,
+   "last": {
+    "A": {
+     "com": [
+      0.9347845436401164,
+      1.382328951865597,
+      -0.11022682645402843
+     ],
+     "comInside": false,
+     "comDistance": 0.446
+    },
+    "B": {
+     "com": [
+      0.9347845436401164,
+      1.382328951865597,
+      -0.11022682645402843
+     ],
+     "comInside": false,
+     "comDistance": 0.446
+    }
+   },
+   "frames": 110,
+   "move": {
+    "kind": "strike",
+    "chain": 3,
+    "startup": 21
+   },
+   "trail": 110
+  },
+  "tala-getup": {
+   "ms": 1734,
+   "last": {
+    "A": {
+     "com": [
+      -0.9974535724088659,
+      0.6410837574445548,
+      0.0716281890845519
+     ],
+     "comInside": false,
+     "comDistance": 1.468
+    },
+    "B": {
+     "com": [
+      -0.9974535724088659,
+      0.6410837574445548,
+      0.0716281890845519
+     ],
+     "comInside": false,
+     "comDistance": 1.468
+    }
+   },
+   "frames": 180,
+   "move": null,
+   "trail": 180
+  },
+  "morrow-forward-special": {
+   "ms": 4526,
+   "last": {
+    "A": {
+     "com": [
+      0.8069312671140332,
+      1.4958487308736335,
+      0.13150960133093845
+     ],
+     "comInside": true,
+     "comDistance": 0.14
+    },
+    "B": {
+     "com": [
+      0.8069312671140332,
+      1.4958487308736335,
+      0.13150960133093845
+     ],
+     "comInside": true,
+     "comDistance": 0.14
+    }
+   },
+   "frames": 80,
+   "move": {
+    "kind": "forward",
+    "chain": 1,
+    "startup": 24
+   },
+   "trail": 80
+  },
+  "tala-defeat": {
+   "ms": 1418,
+   "last": {
+    "A": {
+     "com": [
+      -0.346379728188366,
+      0.501901913862525,
+      0.015338645127261588
+     ],
+     "comInside": false,
+     "comDistance": 1.177
+    },
+    "B": {
+     "com": [
+      -0.346379728188366,
+      0.501901913862525,
+      0.015338645127261588
+     ],
+     "comInside": false,
+     "comDistance": 1.177
+    }
+   },
+   "frames": 110,
+   "move": null,
+   "trail": 110
+  },
+  "tala-advance-run": {
+   "ms": 1746,
+   "last": {
+    "A": {
+     "com": [
+      3.276326404890317,
+      1.425272603293478,
+      0.059817968749661
+     ],
+     "comInside": true,
+     "comDistance": 0.128
+    },
+    "B": {
+     "com": [
+      3.413241641433035,
+      1.505027500198263,
+      0.04506128160070903
+     ],
+     "comInside": true,
+     "comDistance": 0.009
+    }
+   },
+   "frames": 50,
+   "move": null,
+   "trail": 50
+  }
+ }
+}
