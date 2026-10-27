@@ -314,6 +314,17 @@ Controlled A/B on Tala only: authored animation versus retargeted CMU motion cap
 
 Found on the way (separate from the experiment): the **authored get-up on main pushes Tala's left foot 0.66 units through the floor at get-up frame 12** (no floor clamp runs during `getUp`). Needs a fix whichever version is kept.
 
+## WEIGHT-TRANSFER — Ground-up power and whole-body weight shift (footsies, then burst)
+
+Owner: **Claude** · Branch: `claude/weight-transfer` · Worktree: `~/rift-worktrees/weight-transfer` · Status: **In progress** (claimed 2026-10-27)
+
+Adam (2026-10-27, after playing `?gait=imported`): fighters "still not loading up power and momentum from their feet and shifting weight through the entire body at once… still move like Rock 'Em Sock 'Em Robots". Target feel: Soul Calibur supers × Tekken combos — light footsies, then a burst into full-body committed motion (stepping, jumping, grabbing, throwing). Scope: animation only (shared grounded strike schedule, footwork, Tala first); combat timing, travel and hit boxes untouched.
+
+- [ ] Diagnose the current strike and footwork motion from captures
+- [ ] Strikes driven from the floor: load sinks into the rear leg, the lead foot steps in, the pelvis travels through the punch and the whole body carries past, then resettles
+- [ ] Footsies: lighter, springier stance and steps so the burst contrasts
+- [ ] Tests, captures, README; awaiting Adam's normal-speed verdict
+
 ## Handoff log
 
 | Date | Agent | Task | Change / evidence / next step |
