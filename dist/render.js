@@ -1,3 +1,4 @@
+import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
 import {createInkRing} from './ink-energy.js';
 import {createImpactEffects} from './impact-effects.js';
@@ -68,8 +69,10 @@ export function createView(canvas,options={}){
  // Lock-on camera: behind the first player, looking across at the rival.
  function lockCamera(m,pos,target,airHeight){
   const [a,b]=m.players;const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1,fx=dx/d,fz=dz/d,rx=-fz,rz=fx;
-  // At close range the camera slides further to the side and up so the rival stays visible past the player's back.
-  const widen=1/Math.min(1,camera.aspect/1.25),close=Math.max(0,4.5-d),back=(6.6+d*.22+(m.players.some(p=>p.move?.kind==='jumpAttack')?3.5:0))*widen,height=3.4+d*.1+airHeight*.6+close*.3,side=1.9+close*.45;
+  // Flow preview needs shoulder clearance for wide costumes and the projectile path.
+  // Keep the offset stable throughout the fight; do not jerk the camera on each release.
+  // At close range slide further to the side and up to keep the rival visible.
+  const widen=1/Math.min(1,camera.aspect/1.25),close=Math.max(0,4.5-d),back=(6.6+d*.22+(m.players.some(p=>p.move?.kind==='jumpAttack')?3.5:0))*widen,height=3.4+d*.1+airHeight*.6+close*.3,side=(vfxSettings().flowEnergy?4.2:1.9)+close*.45;
   pos.set(a.x-fx*back+rx*side,height,a.z-fz*back+rz*side);
   const ahead=Math.min(d,3.4+d*.4);target.set(a.x+fx*ahead+rx*.4,1.35+airHeight*.7,a.z+fz*ahead+rz*.4);
  }
