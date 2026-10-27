@@ -1,0 +1,32 @@
+{
+  "shots": [
+    "artifacts/browser-smoke/kinetic-vfx/refined-beam-0-24-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-beam-0-30-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-beam-0-36-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-beam-0-30-back-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-capture-5-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-2-30-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-3-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-beam-0-54-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-0-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-1-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-4-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-signature-5-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-charge-2-30-three-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-default-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-default-lock-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-draft-side-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-draft-lock-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-tala-charge-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-signature-1-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-signature-3-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-signature-4-1793087988281.jpg",
+    "artifacts/browser-smoke/kinetic-vfx/refined-fight-signature-5-1793087988281.jpg"
+  ],
+  "errors": [],
+  "checks": [
+    "both imported masks loaded",
+    "eleven reference-driven effect views",
+    "real combat default/draft cameras"
+  ]
+}

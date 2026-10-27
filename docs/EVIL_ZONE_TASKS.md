@@ -1,6 +1,10 @@
 ## ROSTER-ENERGY — distinct flowing signatures
 
-Owner: **Codex** · Branch: `codex/roster-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced `cf56ec0`. Refine Morrow crimson/weight, Rei paired cuts, Sol flame and Vesper angular seals using the existing 3D preview. Inspect production effects in browser captures; preserve Claude character/rig/animation/combat work.
+Owner: **Codex** · Branch: `codex/roster-energy` · Worktree: `/tmp/rift-ink-fx` · Status: **Review; awaiting normal-speed verdict** (2026-10-27). Synced `cf56ec0`, then Claude claim `b54cf55`. Refine Morrow crimson/weight, Rei paired cuts, Sol flame and Vesper angular seals using the existing 3D preview. Inspect production effects in browser captures; preserve Claude character/rig/animation/combat work.
+
+**579 tests pass**. All six flowing signatures refined: cutting sheets, branching electricity, crimson shadow-backed Morrow sweep, layered Sol flame and straight-edged Vesper seals. Fine spatial rays replace chunky release stars in the flow preview. Actual combat captures exposed edge-on orientation; the follow-up tilts flowing signature visuals without changing collision or movement. New regressions cover color roles, opacity, reverse seek, reduced motion, burst switching and orientation restoration. Evidence: [roster review](../art/review-2026-10-27/roster-energy/README.md). Normal play retains the earlier finish; explicit `?energy=flow` enables this preview. Claude character, rig, animation, mocap and combat code preserved.
+
+Implementation `e2000fa`, orientation fix `25aca3a`, build `86c85c4e7373`. [Focused cloud review passed](https://github.com/Tusingw29/rift-duel/actions/runs/40470396558). Captures show crimson Morrow and separate Rei arcs with restored vertical extent; Sol/Vesper side silhouettes remain thin. Fine release rays replace the previous solid star in the flowing preview.
 
 ## REFINED-ENERGY — reference study and flowing 3D effects
 
