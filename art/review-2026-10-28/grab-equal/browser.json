@@ -1,0 +1,64 @@
+{
+  "game": [
+    {
+      "query": "?grab=slow",
+      "action": "short",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?grab=slow",
+      "action": "held",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?grab=slow",
+      "action": "dedicated",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?grab=hold,slow",
+      "action": "short",
+      "move": "shot",
+      "startup": 11
+    },
+    {
+      "query": "?grab=hold,slow",
+      "action": "held",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?grab=hold,slow",
+      "action": "dedicated",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?balance=proposed&grab=hold,slow",
+      "action": "short",
+      "move": "shot",
+      "startup": 11
+    },
+    {
+      "query": "?balance=proposed&grab=hold,slow",
+      "action": "held",
+      "move": "capture",
+      "startup": 18
+    },
+    {
+      "query": "?balance=proposed&grab=hold,slow",
+      "action": "dedicated",
+      "move": "capture",
+      "startup": 18
+    }
+  ],
+  "dashboard": true,
+  "desktop": "dashboard-desktop-1793218319032.jpg",
+  "phone": "dashboard-phone-1793218319032.jpg",
+  "oldStudyAccessible": true,
+  "passed": true,
+  "errors": []
+}

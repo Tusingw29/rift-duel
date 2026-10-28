@@ -64,3 +64,10 @@ async function showGrabRetest(){try{
  }catch(e){document.getElementById('error').textContent=e.message;}}
 const retestButton=document.createElement('button');retestButton.id='grab-retest';retestButton.textContent='Grab retest: rules × inputs';retestButton.onclick=showGrabRetest;document.getElementById('grab-study').after(retestButton);
 if(new URLSearchParams(location.search).get('study')==='grab-retest')showGrabRetest();
+
+async function showGrabEqual(){try{
+ const response=await fetch('../art/skill-lab/2026-10-28-grab-equal/summary.json');if(!response.ok)throw Error('Equal-grab study not yet available');const study=await response.json();const {renderGrabEqual}=await import('./skill/grab-equal-view.js');
+ document.getElementById('B').hidden=true;const a=document.getElementById('A');a.hidden=false;a.classList.add('grab-study');a.innerHTML=renderGrabEqual(study,{esc,table});document.getElementById('error').textContent='';
+ }catch(e){document.getElementById('error').textContent=e.message;}}
+const equalButton=document.createElement('button');equalButton.id='grab-equal';equalButton.textContent='Equal grab attack comparison';equalButton.onclick=showGrabEqual;document.getElementById('grab-retest').after(equalButton);
+if(new URLSearchParams(location.search).get('study')==='grab-equal')showGrabEqual();

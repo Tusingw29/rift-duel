@@ -1,0 +1,4193 @@
+{
+  "files": 20,
+  "bouts": 100800,
+  "censored": 0,
+  "sourceHashesMatch": true,
+  "breakAccountingMatches": true,
+  "offensiveAccountingMatches": true,
+  "defaultFingerprint": "c1fc5ebc1cb77d6845830c4c67fa56d416bf079f78d16c51fac4e1b8d049071a",
+  "rates": {
+    "10/default+deliberate,slow": {
+      "timer": {
+        "attempts": 4993,
+        "eligible": 324760,
+        "starts": 1113,
+        "landed": 751,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1049,
+            "eligible": 68462
+          },
+          "2": {
+            "attempts": 631,
+            "eligible": 63339
+          },
+          "3": {
+            "attempts": 1506,
+            "eligible": 65893
+          },
+          "4": {
+            "attempts": 893,
+            "eligible": 63936
+          },
+          "5": {
+            "attempts": 914,
+            "eligible": 63130
+          }
+        },
+        "rate": 0.015374430348565095,
+        "interval": [
+          0.01189460788114697,
+          0.01957119096453252
+        ]
+      },
+      "reader": {
+        "attempts": 5001,
+        "eligible": 329695,
+        "starts": 1075,
+        "landed": 749,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1023,
+            "eligible": 67526
+          },
+          "2": {
+            "attempts": 650,
+            "eligible": 67456
+          },
+          "3": {
+            "attempts": 1454,
+            "eligible": 64496
+          },
+          "4": {
+            "attempts": 906,
+            "eligible": 64126
+          },
+          "5": {
+            "attempts": 968,
+            "eligible": 66091
+          }
+        },
+        "rate": 0.015168564885727718,
+        "interval": [
+          0.011615603048871619,
+          0.019348588300424432
+        ]
+      },
+      "punisher": {
+        "attempts": 4634,
+        "eligible": 306104,
+        "starts": 754,
+        "landed": 548,
+        "seedBlocks": {
+          "1": {
+            "attempts": 956,
+            "eligible": 62752
+          },
+          "2": {
+            "attempts": 595,
+            "eligible": 61137
+          },
+          "3": {
+            "attempts": 1418,
+            "eligible": 62470
+          },
+          "4": {
+            "attempts": 798,
+            "eligible": 59450
+          },
+          "5": {
+            "attempts": 867,
+            "eligible": 60295
+          }
+        },
+        "rate": 0.01513864568904686,
+        "interval": [
+          0.011580004777283688,
+          0.019404932625350438
+        ]
+      }
+    },
+    "10/default+hold,slow": {
+      "timer": {
+        "attempts": 5036,
+        "eligible": 326540,
+        "starts": 1156,
+        "landed": 773,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1059,
+            "eligible": 68692
+          },
+          "2": {
+            "attempts": 628,
+            "eligible": 63955
+          },
+          "3": {
+            "attempts": 1515,
+            "eligible": 65735
+          },
+          "4": {
+            "attempts": 892,
+            "eligible": 63190
+          },
+          "5": {
+            "attempts": 942,
+            "eligible": 64968
+          }
+        },
+        "rate": 0.015422306608685,
+        "interval": [
+          0.011845669612382509,
+          0.019739460993597437
+        ]
+      },
+      "reader": {
+        "attempts": 5116,
+        "eligible": 334462,
+        "starts": 1112,
+        "landed": 772,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1029,
+            "eligible": 67493
+          },
+          "2": {
+            "attempts": 640,
+            "eligible": 66878
+          },
+          "3": {
+            "attempts": 1471,
+            "eligible": 64967
+          },
+          "4": {
+            "attempts": 947,
+            "eligible": 65989
+          },
+          "5": {
+            "attempts": 1029,
+            "eligible": 69135
+          }
+        },
+        "rate": 0.015296207042952563,
+        "interval": [
+          0.011737837263649882,
+          0.01945594016742645
+        ]
+      },
+      "punisher": {
+        "attempts": 4663,
+        "eligible": 307659,
+        "starts": 771,
+        "landed": 559,
+        "seedBlocks": {
+          "1": {
+            "attempts": 944,
+            "eligible": 62140
+          },
+          "2": {
+            "attempts": 587,
+            "eligible": 60987
+          },
+          "3": {
+            "attempts": 1451,
+            "eligible": 63807
+          },
+          "4": {
+            "attempts": 795,
+            "eligible": 59062
+          },
+          "5": {
+            "attempts": 886,
+            "eligible": 61663
+          }
+        },
+        "rate": 0.015156390679291034,
+        "interval": [
+          0.011534932922389786,
+          0.019486730023062924
+        ]
+      }
+    },
+    "10/default+hold": {
+      "timer": {
+        "attempts": 5400,
+        "eligible": 346614,
+        "starts": 1119,
+        "landed": 867,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1066,
+            "eligible": 69977
+          },
+          "2": {
+            "attempts": 620,
+            "eligible": 64990
+          },
+          "3": {
+            "attempts": 1727,
+            "eligible": 75751
+          },
+          "4": {
+            "attempts": 984,
+            "eligible": 67741
+          },
+          "5": {
+            "attempts": 1003,
+            "eligible": 68155
+          }
+        },
+        "rate": 0.015579289930585608,
+        "interval": [
+          0.011752753330447747,
+          0.01981253305057114
+        ]
+      },
+      "reader": {
+        "attempts": 5254,
+        "eligible": 339451,
+        "starts": 1066,
+        "landed": 851,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1060,
+            "eligible": 69438
+          },
+          "2": {
+            "attempts": 622,
+            "eligible": 64498
+          },
+          "3": {
+            "attempts": 1535,
+            "eligible": 67740
+          },
+          "4": {
+            "attempts": 1002,
+            "eligible": 68445
+          },
+          "5": {
+            "attempts": 1035,
+            "eligible": 69330
+          }
+        },
+        "rate": 0.01547793348671826,
+        "interval": [
+          0.011853568594078647,
+          0.019545415900768977
+        ]
+      },
+      "punisher": {
+        "attempts": 4831,
+        "eligible": 315633,
+        "starts": 732,
+        "landed": 592,
+        "seedBlocks": {
+          "1": {
+            "attempts": 986,
+            "eligible": 64569
+          },
+          "2": {
+            "attempts": 579,
+            "eligible": 59960
+          },
+          "3": {
+            "attempts": 1521,
+            "eligible": 67327
+          },
+          "4": {
+            "attempts": 820,
+            "eligible": 60501
+          },
+          "5": {
+            "attempts": 925,
+            "eligible": 63276
+          }
+        },
+        "rate": 0.01530575066612173,
+        "interval": [
+          0.011705696532999164,
+          0.019474026986616766
+        ]
+      }
+    },
+    "10/default+slow": {
+      "timer": {
+        "attempts": 5252,
+        "eligible": 335653,
+        "starts": 1192,
+        "landed": 809,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1019,
+            "eligible": 66199
+          },
+          "2": {
+            "attempts": 623,
+            "eligible": 63560
+          },
+          "3": {
+            "attempts": 1598,
+            "eligible": 69443
+          },
+          "4": {
+            "attempts": 1000,
+            "eligible": 67340
+          },
+          "5": {
+            "attempts": 1012,
+            "eligible": 69111
+          }
+        },
+        "rate": 0.01564711174933637,
+        "interval": [
+          0.011963557164330195,
+          0.019860958738676344
+        ]
+      },
+      "reader": {
+        "attempts": 5319,
+        "eligible": 341473,
+        "starts": 1151,
+        "landed": 813,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1021,
+            "eligible": 67129
+          },
+          "2": {
+            "attempts": 648,
+            "eligible": 65790
+          },
+          "3": {
+            "attempts": 1593,
+            "eligible": 69448
+          },
+          "4": {
+            "attempts": 1003,
+            "eligible": 67988
+          },
+          "5": {
+            "attempts": 1054,
+            "eligible": 71118
+          }
+        },
+        "rate": 0.015576634170197936,
+        "interval": [
+          0.011934301190723246,
+          0.019775470222827482
+        ]
+      },
+      "punisher": {
+        "attempts": 4882,
+        "eligible": 317512,
+        "starts": 812,
+        "landed": 600,
+        "seedBlocks": {
+          "1": {
+            "attempts": 969,
+            "eligible": 63204
+          },
+          "2": {
+            "attempts": 635,
+            "eligible": 63419
+          },
+          "3": {
+            "attempts": 1467,
+            "eligible": 63625
+          },
+          "4": {
+            "attempts": 852,
+            "eligible": 61456
+          },
+          "5": {
+            "attempts": 959,
+            "eligible": 65808
+          }
+        },
+        "rate": 0.015375796820277659,
+        "interval": [
+          0.011877355354441036,
+          0.01971889013897032
+        ]
+      }
+    },
+    "10/default": {
+      "timer": {
+        "attempts": 5521,
+        "eligible": 352264,
+        "starts": 1185,
+        "landed": 896,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1083,
+            "eligible": 70011
+          },
+          "2": {
+            "attempts": 660,
+            "eligible": 66859
+          },
+          "3": {
+            "attempts": 1727,
+            "eligible": 76616
+          },
+          "4": {
+            "attempts": 1018,
+            "eligible": 68711
+          },
+          "5": {
+            "attempts": 1033,
+            "eligible": 70067
+          }
+        },
+        "rate": 0.01567290441259964,
+        "interval": [
+          0.012023895143180051,
+          0.019725566734968614
+        ]
+      },
+      "reader": {
+        "attempts": 5459,
+        "eligible": 351718,
+        "starts": 1102,
+        "landed": 885,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1105,
+            "eligible": 71757
+          },
+          "2": {
+            "attempts": 654,
+            "eligible": 67282
+          },
+          "3": {
+            "attempts": 1650,
+            "eligible": 72661
+          },
+          "4": {
+            "attempts": 965,
+            "eligible": 66500
+          },
+          "5": {
+            "attempts": 1085,
+            "eligible": 73518
+          }
+        },
+        "rate": 0.015520957130428354,
+        "interval": [
+          0.011855232091454648,
+          0.019655451497282924
+        ]
+      },
+      "punisher": {
+        "attempts": 5109,
+        "eligible": 330256,
+        "starts": 774,
+        "landed": 631,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1074,
+            "eligible": 69870
+          },
+          "2": {
+            "attempts": 602,
+            "eligible": 61653
+          },
+          "3": {
+            "attempts": 1583,
+            "eligible": 69027
+          },
+          "4": {
+            "attempts": 872,
+            "eligible": 63014
+          },
+          "5": {
+            "attempts": 978,
+            "eligible": 66692
+          }
+        },
+        "rate": 0.015469817353810377,
+        "interval": [
+          0.011817442192854877,
+          0.019693203712146837
+        ]
+      }
+    },
+    "10/proposed+deliberate,slow": {
+      "timer": {
+        "attempts": 4723,
+        "eligible": 310797,
+        "starts": 1178,
+        "landed": 569,
+        "seedBlocks": {
+          "1": {
+            "attempts": 975,
+            "eligible": 62973
+          },
+          "2": {
+            "attempts": 558,
+            "eligible": 59676
+          },
+          "3": {
+            "attempts": 1394,
+            "eligible": 61535
+          },
+          "4": {
+            "attempts": 882,
+            "eligible": 63742
+          },
+          "5": {
+            "attempts": 914,
+            "eligible": 62871
+          }
+        },
+        "rate": 0.015196414379804181,
+        "interval": [
+          0.011548915265435349,
+          0.019398047025568545
+        ]
+      },
+      "reader": {
+        "attempts": 4716,
+        "eligible": 311462,
+        "starts": 1172,
+        "landed": 523,
+        "seedBlocks": {
+          "1": {
+            "attempts": 950,
+            "eligible": 62662
+          },
+          "2": {
+            "attempts": 618,
+            "eligible": 62492
+          },
+          "3": {
+            "attempts": 1406,
+            "eligible": 61390
+          },
+          "4": {
+            "attempts": 842,
+            "eligible": 62485
+          },
+          "5": {
+            "attempts": 900,
+            "eligible": 62433
+          }
+        },
+        "rate": 0.01514149398642531,
+        "interval": [
+          0.011698714870238392,
+          0.019429905242841487
+        ]
+      },
+      "punisher": {
+        "attempts": 4393,
+        "eligible": 292437,
+        "starts": 877,
+        "landed": 442,
+        "seedBlocks": {
+          "1": {
+            "attempts": 912,
+            "eligible": 59927
+          },
+          "2": {
+            "attempts": 570,
+            "eligible": 58965
+          },
+          "3": {
+            "attempts": 1316,
+            "eligible": 58007
+          },
+          "4": {
+            "attempts": 801,
+            "eligible": 60101
+          },
+          "5": {
+            "attempts": 794,
+            "eligible": 55437
+          }
+        },
+        "rate": 0.015022038934881701,
+        "interval": [
+          0.011528241328559929,
+          0.019251893391917674
+        ]
+      }
+    },
+    "10/proposed+hold,slow": {
+      "timer": {
+        "attempts": 4689,
+        "eligible": 310743,
+        "starts": 1316,
+        "landed": 585,
+        "seedBlocks": {
+          "1": {
+            "attempts": 997,
+            "eligible": 64080
+          },
+          "2": {
+            "attempts": 561,
+            "eligible": 61077
+          },
+          "3": {
+            "attempts": 1362,
+            "eligible": 59969
+          },
+          "4": {
+            "attempts": 842,
+            "eligible": 61347
+          },
+          "5": {
+            "attempts": 927,
+            "eligible": 64270
+          }
+        },
+        "rate": 0.015089639991890405,
+        "interval": [
+          0.011410687557102036,
+          0.01940497946511034
+        ]
+      },
+      "reader": {
+        "attempts": 4857,
+        "eligible": 320543,
+        "starts": 1321,
+        "landed": 541,
+        "seedBlocks": {
+          "1": {
+            "attempts": 975,
+            "eligible": 63870
+          },
+          "2": {
+            "attempts": 640,
+            "eligible": 66291
+          },
+          "3": {
+            "attempts": 1437,
+            "eligible": 62401
+          },
+          "4": {
+            "attempts": 867,
+            "eligible": 63761
+          },
+          "5": {
+            "attempts": 938,
+            "eligible": 64220
+          }
+        },
+        "rate": 0.015152413248768495,
+        "interval": [
+          0.011597461756789372,
+          0.01954363251745364
+        ]
+      },
+      "punisher": {
+        "attempts": 4398,
+        "eligible": 294119,
+        "starts": 1027,
+        "landed": 450,
+        "seedBlocks": {
+          "1": {
+            "attempts": 923,
+            "eligible": 60478
+          },
+          "2": {
+            "attempts": 573,
+            "eligible": 59869
+          },
+          "3": {
+            "attempts": 1333,
+            "eligible": 58501
+          },
+          "4": {
+            "attempts": 747,
+            "eligible": 57766
+          },
+          "5": {
+            "attempts": 822,
+            "eligible": 57505
+          }
+        },
+        "rate": 0.014953131215596408,
+        "interval": [
+          0.01141481991874196,
+          0.01929892049961361
+        ]
+      }
+    },
+    "10/proposed+hold": {
+      "timer": {
+        "attempts": 4913,
+        "eligible": 323827,
+        "starts": 1231,
+        "landed": 657,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1033,
+            "eligible": 67601
+          },
+          "2": {
+            "attempts": 584,
+            "eligible": 62886
+          },
+          "3": {
+            "attempts": 1464,
+            "eligible": 64805
+          },
+          "4": {
+            "attempts": 883,
+            "eligible": 63081
+          },
+          "5": {
+            "attempts": 949,
+            "eligible": 65454
+          }
+        },
+        "rate": 0.015171681175442443,
+        "interval": [
+          0.011486190267426567,
+          0.01940343958879965
+        ]
+      },
+      "reader": {
+        "attempts": 4976,
+        "eligible": 324693,
+        "starts": 1152,
+        "landed": 619,
+        "seedBlocks": {
+          "1": {
+            "attempts": 969,
+            "eligible": 63693
+          },
+          "2": {
+            "attempts": 596,
+            "eligible": 63023
+          },
+          "3": {
+            "attempts": 1585,
+            "eligible": 69191
+          },
+          "4": {
+            "attempts": 890,
+            "eligible": 64246
+          },
+          "5": {
+            "attempts": 936,
+            "eligible": 64540
+          }
+        },
+        "rate": 0.015325245693624439,
+        "interval": [
+          0.011504441528289507,
+          0.019713154820095852
+        ]
+      },
+      "punisher": {
+        "attempts": 4654,
+        "eligible": 305195,
+        "starts": 900,
+        "landed": 487,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1018,
+            "eligible": 65202
+          },
+          "2": {
+            "attempts": 545,
+            "eligible": 57820
+          },
+          "3": {
+            "attempts": 1441,
+            "eligible": 63494
+          },
+          "4": {
+            "attempts": 777,
+            "eligible": 58217
+          },
+          "5": {
+            "attempts": 873,
+            "eligible": 60462
+          }
+        },
+        "rate": 0.015249266862170088,
+        "interval": [
+          0.011553528541931224,
+          0.019490221439243584
+        ]
+      }
+    },
+    "10/proposed+slow": {
+      "timer": {
+        "attempts": 4880,
+        "eligible": 321347,
+        "starts": 1705,
+        "landed": 614,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1027,
+            "eligible": 65942
+          },
+          "2": {
+            "attempts": 580,
+            "eligible": 62301
+          },
+          "3": {
+            "attempts": 1451,
+            "eligible": 64428
+          },
+          "4": {
+            "attempts": 843,
+            "eligible": 61723
+          },
+          "5": {
+            "attempts": 979,
+            "eligible": 66953
+          }
+        },
+        "rate": 0.015186076110870804,
+        "interval": [
+          0.011527108030011626,
+          0.01938937338954164
+        ]
+      },
+      "reader": {
+        "attempts": 4935,
+        "eligible": 326845,
+        "starts": 1724,
+        "landed": 550,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1003,
+            "eligible": 65169
+          },
+          "2": {
+            "attempts": 645,
+            "eligible": 68243
+          },
+          "3": {
+            "attempts": 1453,
+            "eligible": 65369
+          },
+          "4": {
+            "attempts": 877,
+            "eligible": 63199
+          },
+          "5": {
+            "attempts": 957,
+            "eligible": 64865
+          }
+        },
+        "rate": 0.015098900090256849,
+        "interval": [
+          0.01150813702127914,
+          0.019227983665921874
+        ]
+      },
+      "punisher": {
+        "attempts": 4502,
+        "eligible": 298830,
+        "starts": 1349,
+        "landed": 467,
+        "seedBlocks": {
+          "1": {
+            "attempts": 918,
+            "eligible": 59829
+          },
+          "2": {
+            "attempts": 575,
+            "eligible": 59797
+          },
+          "3": {
+            "attempts": 1346,
+            "eligible": 59048
+          },
+          "4": {
+            "attempts": 804,
+            "eligible": 60507
+          },
+          "5": {
+            "attempts": 859,
+            "eligible": 59649
+          }
+        },
+        "rate": 0.015065421811732423,
+        "interval": [
+          0.011527039830726943,
+          0.01936264622831787
+        ]
+      }
+    },
+    "10/proposed": {
+      "timer": {
+        "attempts": 5106,
+        "eligible": 328730,
+        "starts": 1549,
+        "landed": 706,
+        "seedBlocks": {
+          "1": {
+            "attempts": 984,
+            "eligible": 64829
+          },
+          "2": {
+            "attempts": 600,
+            "eligible": 62104
+          },
+          "3": {
+            "attempts": 1666,
+            "eligible": 73341
+          },
+          "4": {
+            "attempts": 835,
+            "eligible": 59852
+          },
+          "5": {
+            "attempts": 1021,
+            "eligible": 68604
+          }
+        },
+        "rate": 0.015532503878562955,
+        "interval": [
+          0.011875618199802176,
+          0.019776387857408095
+        ]
+      },
+      "reader": {
+        "attempts": 5035,
+        "eligible": 326384,
+        "starts": 1443,
+        "landed": 622,
+        "seedBlocks": {
+          "1": {
+            "attempts": 994,
+            "eligible": 65399
+          },
+          "2": {
+            "attempts": 610,
+            "eligible": 62655
+          },
+          "3": {
+            "attempts": 1591,
+            "eligible": 70008
+          },
+          "4": {
+            "attempts": 829,
+            "eligible": 60428
+          },
+          "5": {
+            "attempts": 1011,
+            "eligible": 67894
+          }
+        },
+        "rate": 0.015426614049708319,
+        "interval": [
+          0.011897959246709684,
+          0.019639661635665818
+        ]
+      },
+      "punisher": {
+        "attempts": 4756,
+        "eligible": 310472,
+        "starts": 1204,
+        "landed": 506,
+        "seedBlocks": {
+          "1": {
+            "attempts": 960,
+            "eligible": 62644
+          },
+          "2": {
+            "attempts": 570,
+            "eligible": 59244
+          },
+          "3": {
+            "attempts": 1556,
+            "eligible": 69215
+          },
+          "4": {
+            "attempts": 766,
+            "eligible": 57586
+          },
+          "5": {
+            "attempts": 904,
+            "eligible": 61783
+          }
+        },
+        "rate": 0.015318611662243294,
+        "interval": [
+          0.011676147866895897,
+          0.01950133434998094
+        ]
+      }
+    },
+    "15/default+deliberate,slow": {
+      "timer": {
+        "attempts": 4070,
+        "eligible": 273913,
+        "starts": 1006,
+        "landed": 552,
+        "seedBlocks": {
+          "1": {
+            "attempts": 830,
+            "eligible": 57146
+          },
+          "2": {
+            "attempts": 553,
+            "eligible": 58355
+          },
+          "3": {
+            "attempts": 1145,
+            "eligible": 51071
+          },
+          "4": {
+            "attempts": 725,
+            "eligible": 51455
+          },
+          "5": {
+            "attempts": 817,
+            "eligible": 55886
+          }
+        },
+        "rate": 0.014858732517259129,
+        "interval": [
+          0.011470259921135484,
+          0.019087682397791506
+        ]
+      },
+      "reader": {
+        "attempts": 4191,
+        "eligible": 277205,
+        "starts": 1047,
+        "landed": 604,
+        "seedBlocks": {
+          "1": {
+            "attempts": 816,
+            "eligible": 55923
+          },
+          "2": {
+            "attempts": 548,
+            "eligible": 59612
+          },
+          "3": {
+            "attempts": 1227,
+            "eligible": 52977
+          },
+          "4": {
+            "attempts": 738,
+            "eligible": 50945
+          },
+          "5": {
+            "attempts": 862,
+            "eligible": 57748
+          }
+        },
+        "rate": 0.015118774913872405,
+        "interval": [
+          0.01128234021611733,
+          0.019695333692000345
+        ]
+      },
+      "punisher": {
+        "attempts": 4066,
+        "eligible": 268946,
+        "starts": 727,
+        "landed": 451,
+        "seedBlocks": {
+          "1": {
+            "attempts": 828,
+            "eligible": 55686
+          },
+          "2": {
+            "attempts": 514,
+            "eligible": 53954
+          },
+          "3": {
+            "attempts": 1187,
+            "eligible": 52042
+          },
+          "4": {
+            "attempts": 716,
+            "eligible": 51571
+          },
+          "5": {
+            "attempts": 821,
+            "eligible": 55693
+          }
+        },
+        "rate": 0.0151182765313483,
+        "interval": [
+          0.011652418315962056,
+          0.01938242027769446
+        ]
+      }
+    },
+    "15/default+hold,slow": {
+      "timer": {
+        "attempts": 4187,
+        "eligible": 277826,
+        "starts": 1024,
+        "landed": 582,
+        "seedBlocks": {
+          "1": {
+            "attempts": 844,
+            "eligible": 57767
+          },
+          "2": {
+            "attempts": 564,
+            "eligible": 59181
+          },
+          "3": {
+            "attempts": 1214,
+            "eligible": 53590
+          },
+          "4": {
+            "attempts": 734,
+            "eligible": 50887
+          },
+          "5": {
+            "attempts": 831,
+            "eligible": 56401
+          }
+        },
+        "rate": 0.01507058374666158,
+        "interval": [
+          0.011532805371967094,
+          0.019374665954035274
+        ]
+      },
+      "reader": {
+        "attempts": 4327,
+        "eligible": 282489,
+        "starts": 1093,
+        "landed": 640,
+        "seedBlocks": {
+          "1": {
+            "attempts": 868,
+            "eligible": 58530
+          },
+          "2": {
+            "attempts": 555,
+            "eligible": 59080
+          },
+          "3": {
+            "attempts": 1269,
+            "eligible": 54657
+          },
+          "4": {
+            "attempts": 766,
+            "eligible": 52352
+          },
+          "5": {
+            "attempts": 869,
+            "eligible": 57870
+          }
+        },
+        "rate": 0.015317410589438881,
+        "interval": [
+          0.011556235134216785,
+          0.01979603642674448
+        ]
+      },
+      "punisher": {
+        "attempts": 4178,
+        "eligible": 274543,
+        "starts": 746,
+        "landed": 483,
+        "seedBlocks": {
+          "1": {
+            "attempts": 883,
+            "eligible": 58836
+          },
+          "2": {
+            "attempts": 514,
+            "eligible": 54351
+          },
+          "3": {
+            "attempts": 1222,
+            "eligible": 53140
+          },
+          "4": {
+            "attempts": 731,
+            "eligible": 52317
+          },
+          "5": {
+            "attempts": 828,
+            "eligible": 55899
+          }
+        },
+        "rate": 0.015218016849819518,
+        "interval": [
+          0.011635395177750854,
+          0.019522784677696574
+        ]
+      }
+    },
+    "15/default+hold": {
+      "timer": {
+        "attempts": 3715,
+        "eligible": 247485,
+        "starts": 879,
+        "landed": 583,
+        "seedBlocks": {
+          "1": {
+            "attempts": 829,
+            "eligible": 54976
+          },
+          "2": {
+            "attempts": 462,
+            "eligible": 47375
+          },
+          "3": {
+            "attempts": 1052,
+            "eligible": 47736
+          },
+          "4": {
+            "attempts": 628,
+            "eligible": 45801
+          },
+          "5": {
+            "attempts": 744,
+            "eligible": 51597
+          }
+        },
+        "rate": 0.015011010768329393,
+        "interval": [
+          0.011715358370122168,
+          0.018906900014345144
+        ]
+      },
+      "reader": {
+        "attempts": 3798,
+        "eligible": 255160,
+        "starts": 892,
+        "landed": 599,
+        "seedBlocks": {
+          "1": {
+            "attempts": 843,
+            "eligible": 55979
+          },
+          "2": {
+            "attempts": 458,
+            "eligible": 50163
+          },
+          "3": {
+            "attempts": 1074,
+            "eligible": 48364
+          },
+          "4": {
+            "attempts": 644,
+            "eligible": 47335
+          },
+          "5": {
+            "attempts": 779,
+            "eligible": 53319
+          }
+        },
+        "rate": 0.014884778178397867,
+        "interval": [
+          0.01140292540262205,
+          0.018956868996723105
+        ]
+      },
+      "punisher": {
+        "attempts": 3741,
+        "eligible": 249383,
+        "starts": 611,
+        "landed": 429,
+        "seedBlocks": {
+          "1": {
+            "attempts": 839,
+            "eligible": 56058
+          },
+          "2": {
+            "attempts": 446,
+            "eligible": 46591
+          },
+          "3": {
+            "attempts": 1051,
+            "eligible": 47064
+          },
+          "4": {
+            "attempts": 595,
+            "eligible": 45260
+          },
+          "5": {
+            "attempts": 810,
+            "eligible": 54410
+          }
+        },
+        "rate": 0.015001022523588215,
+        "interval": [
+          0.011691896471903634,
+          0.018923699047587415
+        ]
+      }
+    },
+    "15/default+slow": {
+      "timer": {
+        "attempts": 4426,
+        "eligible": 292018,
+        "starts": 1147,
+        "landed": 657,
+        "seedBlocks": {
+          "1": {
+            "attempts": 884,
+            "eligible": 60558
+          },
+          "2": {
+            "attempts": 591,
+            "eligible": 61472
+          },
+          "3": {
+            "attempts": 1317,
+            "eligible": 57993
+          },
+          "4": {
+            "attempts": 778,
+            "eligible": 54455
+          },
+          "5": {
+            "attempts": 856,
+            "eligible": 57540
+          }
+        },
+        "rate": 0.015156599935620407,
+        "interval": [
+          0.011589620727125145,
+          0.019484587968241252
+        ]
+      },
+      "reader": {
+        "attempts": 4544,
+        "eligible": 297188,
+        "starts": 1166,
+        "landed": 694,
+        "seedBlocks": {
+          "1": {
+            "attempts": 944,
+            "eligible": 63364
+          },
+          "2": {
+            "attempts": 578,
+            "eligible": 60906
+          },
+          "3": {
+            "attempts": 1297,
+            "eligible": 56334
+          },
+          "4": {
+            "attempts": 839,
+            "eligible": 57260
+          },
+          "5": {
+            "attempts": 886,
+            "eligible": 59324
+          }
+        },
+        "rate": 0.015289984790772171,
+        "interval": [
+          0.011633694577357764,
+          0.019613288079810758
+        ]
+      },
+      "punisher": {
+        "attempts": 4368,
+        "eligible": 284851,
+        "starts": 791,
+        "landed": 500,
+        "seedBlocks": {
+          "1": {
+            "attempts": 929,
+            "eligible": 61347
+          },
+          "2": {
+            "attempts": 555,
+            "eligible": 56511
+          },
+          "3": {
+            "attempts": 1231,
+            "eligible": 54130
+          },
+          "4": {
+            "attempts": 785,
+            "eligible": 55160
+          },
+          "5": {
+            "attempts": 868,
+            "eligible": 57703
+          }
+        },
+        "rate": 0.015334332686211387,
+        "interval": [
+          0.011935888032175308,
+          0.01942213163889222
+        ]
+      }
+    },
+    "15/default": {
+      "timer": {
+        "attempts": 3514,
+        "eligible": 240425,
+        "starts": 813,
+        "landed": 510,
+        "seedBlocks": {
+          "1": {
+            "attempts": 797,
+            "eligible": 53983
+          },
+          "2": {
+            "attempts": 424,
+            "eligible": 46643
+          },
+          "3": {
+            "attempts": 951,
+            "eligible": 43091
+          },
+          "4": {
+            "attempts": 615,
+            "eligible": 46447
+          },
+          "5": {
+            "attempts": 727,
+            "eligible": 50261
+          }
+        },
+        "rate": 0.014615784548195903,
+        "interval": [
+          0.011337029166025511,
+          0.01856745449558778
+        ]
+      },
+      "reader": {
+        "attempts": 3574,
+        "eligible": 243181,
+        "starts": 829,
+        "landed": 561,
+        "seedBlocks": {
+          "1": {
+            "attempts": 802,
+            "eligible": 53821
+          },
+          "2": {
+            "attempts": 403,
+            "eligible": 46445
+          },
+          "3": {
+            "attempts": 1007,
+            "eligible": 45359
+          },
+          "4": {
+            "attempts": 612,
+            "eligible": 46722
+          },
+          "5": {
+            "attempts": 750,
+            "eligible": 50834
+          }
+        },
+        "rate": 0.014696871877325943,
+        "interval": [
+          0.011240523976879956,
+          0.01876019226735949
+        ]
+      },
+      "punisher": {
+        "attempts": 3466,
+        "eligible": 238693,
+        "starts": 554,
+        "landed": 358,
+        "seedBlocks": {
+          "1": {
+            "attempts": 746,
+            "eligible": 50873
+          },
+          "2": {
+            "attempts": 462,
+            "eligible": 49795
+          },
+          "3": {
+            "attempts": 919,
+            "eligible": 41966
+          },
+          "4": {
+            "attempts": 583,
+            "eligible": 46354
+          },
+          "5": {
+            "attempts": 756,
+            "eligible": 49705
+          }
+        },
+        "rate": 0.014520744219562367,
+        "interval": [
+          0.011200408963679333,
+          0.01845402487869272
+        ]
+      }
+    },
+    "15/proposed+deliberate,slow": {
+      "timer": {
+        "attempts": 3791,
+        "eligible": 253387,
+        "starts": 1156,
+        "landed": 460,
+        "seedBlocks": {
+          "1": {
+            "attempts": 811,
+            "eligible": 55496
+          },
+          "2": {
+            "attempts": 468,
+            "eligible": 50304
+          },
+          "3": {
+            "attempts": 1095,
+            "eligible": 48229
+          },
+          "4": {
+            "attempts": 636,
+            "eligible": 46666
+          },
+          "5": {
+            "attempts": 781,
+            "eligible": 52692
+          }
+        },
+        "rate": 0.01496130425002072,
+        "interval": [
+          0.011553851793023397,
+          0.019266938474461676
+        ]
+      },
+      "reader": {
+        "attempts": 3994,
+        "eligible": 263230,
+        "starts": 1248,
+        "landed": 512,
+        "seedBlocks": {
+          "1": {
+            "attempts": 891,
+            "eligible": 60681
+          },
+          "2": {
+            "attempts": 437,
+            "eligible": 48343
+          },
+          "3": {
+            "attempts": 1170,
+            "eligible": 50693
+          },
+          "4": {
+            "attempts": 647,
+            "eligible": 47352
+          },
+          "5": {
+            "attempts": 849,
+            "eligible": 56161
+          }
+        },
+        "rate": 0.015173042586331346,
+        "interval": [
+          0.01161075261551629,
+          0.019522461986977588
+        ]
+      },
+      "punisher": {
+        "attempts": 3792,
+        "eligible": 253921,
+        "starts": 948,
+        "landed": 421,
+        "seedBlocks": {
+          "1": {
+            "attempts": 856,
+            "eligible": 57159
+          },
+          "2": {
+            "attempts": 469,
+            "eligible": 50017
+          },
+          "3": {
+            "attempts": 1055,
+            "eligible": 45888
+          },
+          "4": {
+            "attempts": 626,
+            "eligible": 48157
+          },
+          "5": {
+            "attempts": 786,
+            "eligible": 52700
+          }
+        },
+        "rate": 0.014933778616183774,
+        "interval": [
+          0.011517146888611685,
+          0.019189086076278398
+        ]
+      }
+    },
+    "15/proposed+hold,slow": {
+      "timer": {
+        "attempts": 3864,
+        "eligible": 258032,
+        "starts": 1324,
+        "landed": 498,
+        "seedBlocks": {
+          "1": {
+            "attempts": 792,
+            "eligible": 53534
+          },
+          "2": {
+            "attempts": 531,
+            "eligible": 55393
+          },
+          "3": {
+            "attempts": 1099,
+            "eligible": 48833
+          },
+          "4": {
+            "attempts": 627,
+            "eligible": 46336
+          },
+          "5": {
+            "attempts": 815,
+            "eligible": 53936
+          }
+        },
+        "rate": 0.014974886835741304,
+        "interval": [
+          0.011626843112641675,
+          0.01920403937253567
+        ]
+      },
+      "reader": {
+        "attempts": 4119,
+        "eligible": 268445,
+        "starts": 1413,
+        "landed": 568,
+        "seedBlocks": {
+          "1": {
+            "attempts": 900,
+            "eligible": 60370
+          },
+          "2": {
+            "attempts": 471,
+            "eligible": 51328
+          },
+          "3": {
+            "attempts": 1205,
+            "eligible": 52188
+          },
+          "4": {
+            "attempts": 694,
+            "eligible": 49359
+          },
+          "5": {
+            "attempts": 849,
+            "eligible": 55200
+          }
+        },
+        "rate": 0.0153439251988303,
+        "interval": [
+          0.011695374266536596,
+          0.019710877729353923
+        ]
+      },
+      "punisher": {
+        "attempts": 3845,
+        "eligible": 255500,
+        "starts": 1093,
+        "landed": 446,
+        "seedBlocks": {
+          "1": {
+            "attempts": 871,
+            "eligible": 57657
+          },
+          "2": {
+            "attempts": 505,
+            "eligible": 52089
+          },
+          "3": {
+            "attempts": 1052,
+            "eligible": 45790
+          },
+          "4": {
+            "attempts": 660,
+            "eligible": 49187
+          },
+          "5": {
+            "attempts": 757,
+            "eligible": 50777
+          }
+        },
+        "rate": 0.015048923679060666,
+        "interval": [
+          0.011748461141644784,
+          0.019268204302796903
+        ]
+      }
+    },
+    "15/proposed+hold": {
+      "timer": {
+        "attempts": 3486,
+        "eligible": 237063,
+        "starts": 953,
+        "landed": 532,
+        "seedBlocks": {
+          "1": {
+            "attempts": 771,
+            "eligible": 52284
+          },
+          "2": {
+            "attempts": 444,
+            "eligible": 47754
+          },
+          "3": {
+            "attempts": 964,
+            "eligible": 43497
+          },
+          "4": {
+            "attempts": 557,
+            "eligible": 43337
+          },
+          "5": {
+            "attempts": 750,
+            "eligible": 50191
+          }
+        },
+        "rate": 0.014704951848242873,
+        "interval": [
+          0.011347159219400582,
+          0.018743945826023685
+        ]
+      },
+      "reader": {
+        "attempts": 3542,
+        "eligible": 238520,
+        "starts": 962,
+        "landed": 522,
+        "seedBlocks": {
+          "1": {
+            "attempts": 835,
+            "eligible": 55303
+          },
+          "2": {
+            "attempts": 397,
+            "eligible": 45307
+          },
+          "3": {
+            "attempts": 997,
+            "eligible": 44993
+          },
+          "4": {
+            "attempts": 584,
+            "eligible": 43926
+          },
+          "5": {
+            "attempts": 729,
+            "eligible": 48991
+          }
+        },
+        "rate": 0.014849907764548047,
+        "interval": [
+          0.011325207457792332,
+          0.01888580756134377
+        ]
+      },
+      "punisher": {
+        "attempts": 3481,
+        "eligible": 237742,
+        "starts": 714,
+        "landed": 416,
+        "seedBlocks": {
+          "1": {
+            "attempts": 799,
+            "eligible": 54197
+          },
+          "2": {
+            "attempts": 416,
+            "eligible": 46084
+          },
+          "3": {
+            "attempts": 959,
+            "eligible": 43863
+          },
+          "4": {
+            "attempts": 573,
+            "eligible": 45230
+          },
+          "5": {
+            "attempts": 734,
+            "eligible": 48368
+          }
+        },
+        "rate": 0.014641922756601694,
+        "interval": [
+          0.011195569170272713,
+          0.018580113416849106
+        ]
+      }
+    },
+    "15/proposed+slow": {
+      "timer": {
+        "attempts": 4215,
+        "eligible": 281038,
+        "starts": 1695,
+        "landed": 574,
+        "seedBlocks": {
+          "1": {
+            "attempts": 913,
+            "eligible": 61048
+          },
+          "2": {
+            "attempts": 562,
+            "eligible": 58491
+          },
+          "3": {
+            "attempts": 1172,
+            "eligible": 53689
+          },
+          "4": {
+            "attempts": 705,
+            "eligible": 50902
+          },
+          "5": {
+            "attempts": 863,
+            "eligible": 56908
+          }
+        },
+        "rate": 0.014997971804524656,
+        "interval": [
+          0.01179443393976266,
+          0.01890827404352176
+        ]
+      },
+      "reader": {
+        "attempts": 4311,
+        "eligible": 285429,
+        "starts": 1833,
+        "landed": 663,
+        "seedBlocks": {
+          "1": {
+            "attempts": 913,
+            "eligible": 61116
+          },
+          "2": {
+            "attempts": 552,
+            "eligible": 59514
+          },
+          "3": {
+            "attempts": 1245,
+            "eligible": 55460
+          },
+          "4": {
+            "attempts": 734,
+            "eligible": 51891
+          },
+          "5": {
+            "attempts": 867,
+            "eligible": 57448
+          }
+        },
+        "rate": 0.015103580925554166,
+        "interval": [
+          0.011552695969847123,
+          0.01935303696879794
+        ]
+      },
+      "punisher": {
+        "attempts": 4220,
+        "eligible": 278985,
+        "starts": 1443,
+        "landed": 495,
+        "seedBlocks": {
+          "1": {
+            "attempts": 929,
+            "eligible": 61561
+          },
+          "2": {
+            "attempts": 541,
+            "eligible": 55627
+          },
+          "3": {
+            "attempts": 1142,
+            "eligible": 51545
+          },
+          "4": {
+            "attempts": 733,
+            "eligible": 52942
+          },
+          "5": {
+            "attempts": 875,
+            "eligible": 57310
+          }
+        },
+        "rate": 0.015126261268526982,
+        "interval": [
+          0.011982195445131634,
+          0.0190043301483274
+        ]
+      }
+    },
+    "15/proposed": {
+      "timer": {
+        "attempts": 3584,
+        "eligible": 245572,
+        "starts": 1127,
+        "landed": 562,
+        "seedBlocks": {
+          "1": {
+            "attempts": 802,
+            "eligible": 54813
+          },
+          "2": {
+            "attempts": 498,
+            "eligible": 52814
+          },
+          "3": {
+            "attempts": 976,
+            "eligible": 44590
+          },
+          "4": {
+            "attempts": 508,
+            "eligible": 41490
+          },
+          "5": {
+            "attempts": 800,
+            "eligible": 51865
+          }
+        },
+        "rate": 0.01459449774404248,
+        "interval": [
+          0.011128011850816332,
+          0.0186505228398459
+        ]
+      },
+      "reader": {
+        "attempts": 3586,
+        "eligible": 244467,
+        "starts": 1194,
+        "landed": 595,
+        "seedBlocks": {
+          "1": {
+            "attempts": 769,
+            "eligible": 53778
+          },
+          "2": {
+            "attempts": 460,
+            "eligible": 50561
+          },
+          "3": {
+            "attempts": 1062,
+            "eligible": 47351
+          },
+          "4": {
+            "attempts": 556,
+            "eligible": 43628
+          },
+          "5": {
+            "attempts": 739,
+            "eligible": 49149
+          }
+        },
+        "rate": 0.014668646483983524,
+        "interval": [
+          0.011154883925415722,
+          0.01908188902610399
+        ]
+      },
+      "punisher": {
+        "attempts": 3650,
+        "eligible": 249638,
+        "starts": 921,
+        "landed": 470,
+        "seedBlocks": {
+          "1": {
+            "attempts": 812,
+            "eligible": 54609
+          },
+          "2": {
+            "attempts": 491,
+            "eligible": 52628
+          },
+          "3": {
+            "attempts": 995,
+            "eligible": 45516
+          },
+          "4": {
+            "attempts": 584,
+            "eligible": 46347
+          },
+          "5": {
+            "attempts": 768,
+            "eligible": 50538
+          }
+        },
+        "rate": 0.014621171456268678,
+        "interval": [
+          0.01119129584071847,
+          0.018579206881631987
+        ]
+      }
+    }
+  },
+  "rateComparisons": [
+    {
+      "delay": 10,
+      "suffix": "",
+      "bot": "timer",
+      "default": {
+        "attempts": 5521,
+        "eligible": 352264,
+        "starts": 1185,
+        "landed": 896,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1083,
+            "eligible": 70011
+          },
+          "2": {
+            "attempts": 660,
+            "eligible": 66859
+          },
+          "3": {
+            "attempts": 1727,
+            "eligible": 76616
+          },
+          "4": {
+            "attempts": 1018,
+            "eligible": 68711
+          },
+          "5": {
+            "attempts": 1033,
+            "eligible": 70067
+          }
+        },
+        "rate": 0.01567290441259964,
+        "interval": [
+          0.012023895143180051,
+          0.019725566734968614
+        ]
+      },
+      "proposed": {
+        "attempts": 5106,
+        "eligible": 328730,
+        "starts": 1549,
+        "landed": 706,
+        "seedBlocks": {
+          "1": {
+            "attempts": 984,
+            "eligible": 64829
+          },
+          "2": {
+            "attempts": 600,
+            "eligible": 62104
+          },
+          "3": {
+            "attempts": 1666,
+            "eligible": 73341
+          },
+          "4": {
+            "attempts": 835,
+            "eligible": 59852
+          },
+          "5": {
+            "attempts": 1021,
+            "eligible": 68604
+          }
+        },
+        "rate": 0.015532503878562955,
+        "interval": [
+          0.011875618199802176,
+          0.019776387857408095
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "",
+      "bot": "reader",
+      "default": {
+        "attempts": 5459,
+        "eligible": 351718,
+        "starts": 1102,
+        "landed": 885,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1105,
+            "eligible": 71757
+          },
+          "2": {
+            "attempts": 654,
+            "eligible": 67282
+          },
+          "3": {
+            "attempts": 1650,
+            "eligible": 72661
+          },
+          "4": {
+            "attempts": 965,
+            "eligible": 66500
+          },
+          "5": {
+            "attempts": 1085,
+            "eligible": 73518
+          }
+        },
+        "rate": 0.015520957130428354,
+        "interval": [
+          0.011855232091454648,
+          0.019655451497282924
+        ]
+      },
+      "proposed": {
+        "attempts": 5035,
+        "eligible": 326384,
+        "starts": 1443,
+        "landed": 622,
+        "seedBlocks": {
+          "1": {
+            "attempts": 994,
+            "eligible": 65399
+          },
+          "2": {
+            "attempts": 610,
+            "eligible": 62655
+          },
+          "3": {
+            "attempts": 1591,
+            "eligible": 70008
+          },
+          "4": {
+            "attempts": 829,
+            "eligible": 60428
+          },
+          "5": {
+            "attempts": 1011,
+            "eligible": 67894
+          }
+        },
+        "rate": 0.015426614049708319,
+        "interval": [
+          0.011897959246709684,
+          0.019639661635665818
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "",
+      "bot": "punisher",
+      "default": {
+        "attempts": 5109,
+        "eligible": 330256,
+        "starts": 774,
+        "landed": 631,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1074,
+            "eligible": 69870
+          },
+          "2": {
+            "attempts": 602,
+            "eligible": 61653
+          },
+          "3": {
+            "attempts": 1583,
+            "eligible": 69027
+          },
+          "4": {
+            "attempts": 872,
+            "eligible": 63014
+          },
+          "5": {
+            "attempts": 978,
+            "eligible": 66692
+          }
+        },
+        "rate": 0.015469817353810377,
+        "interval": [
+          0.011817442192854877,
+          0.019693203712146837
+        ]
+      },
+      "proposed": {
+        "attempts": 4756,
+        "eligible": 310472,
+        "starts": 1204,
+        "landed": 506,
+        "seedBlocks": {
+          "1": {
+            "attempts": 960,
+            "eligible": 62644
+          },
+          "2": {
+            "attempts": 570,
+            "eligible": 59244
+          },
+          "3": {
+            "attempts": 1556,
+            "eligible": 69215
+          },
+          "4": {
+            "attempts": 766,
+            "eligible": 57586
+          },
+          "5": {
+            "attempts": 904,
+            "eligible": 61783
+          }
+        },
+        "rate": 0.015318611662243294,
+        "interval": [
+          0.011676147866895897,
+          0.01950133434998094
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 5252,
+        "eligible": 335653,
+        "starts": 1192,
+        "landed": 809,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1019,
+            "eligible": 66199
+          },
+          "2": {
+            "attempts": 623,
+            "eligible": 63560
+          },
+          "3": {
+            "attempts": 1598,
+            "eligible": 69443
+          },
+          "4": {
+            "attempts": 1000,
+            "eligible": 67340
+          },
+          "5": {
+            "attempts": 1012,
+            "eligible": 69111
+          }
+        },
+        "rate": 0.01564711174933637,
+        "interval": [
+          0.011963557164330195,
+          0.019860958738676344
+        ]
+      },
+      "proposed": {
+        "attempts": 4880,
+        "eligible": 321347,
+        "starts": 1705,
+        "landed": 614,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1027,
+            "eligible": 65942
+          },
+          "2": {
+            "attempts": 580,
+            "eligible": 62301
+          },
+          "3": {
+            "attempts": 1451,
+            "eligible": 64428
+          },
+          "4": {
+            "attempts": 843,
+            "eligible": 61723
+          },
+          "5": {
+            "attempts": 979,
+            "eligible": 66953
+          }
+        },
+        "rate": 0.015186076110870804,
+        "interval": [
+          0.011527108030011626,
+          0.01938937338954164
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 5319,
+        "eligible": 341473,
+        "starts": 1151,
+        "landed": 813,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1021,
+            "eligible": 67129
+          },
+          "2": {
+            "attempts": 648,
+            "eligible": 65790
+          },
+          "3": {
+            "attempts": 1593,
+            "eligible": 69448
+          },
+          "4": {
+            "attempts": 1003,
+            "eligible": 67988
+          },
+          "5": {
+            "attempts": 1054,
+            "eligible": 71118
+          }
+        },
+        "rate": 0.015576634170197936,
+        "interval": [
+          0.011934301190723246,
+          0.019775470222827482
+        ]
+      },
+      "proposed": {
+        "attempts": 4935,
+        "eligible": 326845,
+        "starts": 1724,
+        "landed": 550,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1003,
+            "eligible": 65169
+          },
+          "2": {
+            "attempts": 645,
+            "eligible": 68243
+          },
+          "3": {
+            "attempts": 1453,
+            "eligible": 65369
+          },
+          "4": {
+            "attempts": 877,
+            "eligible": 63199
+          },
+          "5": {
+            "attempts": 957,
+            "eligible": 64865
+          }
+        },
+        "rate": 0.015098900090256849,
+        "interval": [
+          0.01150813702127914,
+          0.019227983665921874
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4882,
+        "eligible": 317512,
+        "starts": 812,
+        "landed": 600,
+        "seedBlocks": {
+          "1": {
+            "attempts": 969,
+            "eligible": 63204
+          },
+          "2": {
+            "attempts": 635,
+            "eligible": 63419
+          },
+          "3": {
+            "attempts": 1467,
+            "eligible": 63625
+          },
+          "4": {
+            "attempts": 852,
+            "eligible": 61456
+          },
+          "5": {
+            "attempts": 959,
+            "eligible": 65808
+          }
+        },
+        "rate": 0.015375796820277659,
+        "interval": [
+          0.011877355354441036,
+          0.01971889013897032
+        ]
+      },
+      "proposed": {
+        "attempts": 4502,
+        "eligible": 298830,
+        "starts": 1349,
+        "landed": 467,
+        "seedBlocks": {
+          "1": {
+            "attempts": 918,
+            "eligible": 59829
+          },
+          "2": {
+            "attempts": 575,
+            "eligible": 59797
+          },
+          "3": {
+            "attempts": 1346,
+            "eligible": 59048
+          },
+          "4": {
+            "attempts": 804,
+            "eligible": 60507
+          },
+          "5": {
+            "attempts": 859,
+            "eligible": 59649
+          }
+        },
+        "rate": 0.015065421811732423,
+        "interval": [
+          0.011527039830726943,
+          0.01936264622831787
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold",
+      "bot": "timer",
+      "default": {
+        "attempts": 5400,
+        "eligible": 346614,
+        "starts": 1119,
+        "landed": 867,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1066,
+            "eligible": 69977
+          },
+          "2": {
+            "attempts": 620,
+            "eligible": 64990
+          },
+          "3": {
+            "attempts": 1727,
+            "eligible": 75751
+          },
+          "4": {
+            "attempts": 984,
+            "eligible": 67741
+          },
+          "5": {
+            "attempts": 1003,
+            "eligible": 68155
+          }
+        },
+        "rate": 0.015579289930585608,
+        "interval": [
+          0.011752753330447747,
+          0.01981253305057114
+        ]
+      },
+      "proposed": {
+        "attempts": 4913,
+        "eligible": 323827,
+        "starts": 1231,
+        "landed": 657,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1033,
+            "eligible": 67601
+          },
+          "2": {
+            "attempts": 584,
+            "eligible": 62886
+          },
+          "3": {
+            "attempts": 1464,
+            "eligible": 64805
+          },
+          "4": {
+            "attempts": 883,
+            "eligible": 63081
+          },
+          "5": {
+            "attempts": 949,
+            "eligible": 65454
+          }
+        },
+        "rate": 0.015171681175442443,
+        "interval": [
+          0.011486190267426567,
+          0.01940343958879965
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold",
+      "bot": "reader",
+      "default": {
+        "attempts": 5254,
+        "eligible": 339451,
+        "starts": 1066,
+        "landed": 851,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1060,
+            "eligible": 69438
+          },
+          "2": {
+            "attempts": 622,
+            "eligible": 64498
+          },
+          "3": {
+            "attempts": 1535,
+            "eligible": 67740
+          },
+          "4": {
+            "attempts": 1002,
+            "eligible": 68445
+          },
+          "5": {
+            "attempts": 1035,
+            "eligible": 69330
+          }
+        },
+        "rate": 0.01547793348671826,
+        "interval": [
+          0.011853568594078647,
+          0.019545415900768977
+        ]
+      },
+      "proposed": {
+        "attempts": 4976,
+        "eligible": 324693,
+        "starts": 1152,
+        "landed": 619,
+        "seedBlocks": {
+          "1": {
+            "attempts": 969,
+            "eligible": 63693
+          },
+          "2": {
+            "attempts": 596,
+            "eligible": 63023
+          },
+          "3": {
+            "attempts": 1585,
+            "eligible": 69191
+          },
+          "4": {
+            "attempts": 890,
+            "eligible": 64246
+          },
+          "5": {
+            "attempts": 936,
+            "eligible": 64540
+          }
+        },
+        "rate": 0.015325245693624439,
+        "interval": [
+          0.011504441528289507,
+          0.019713154820095852
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4831,
+        "eligible": 315633,
+        "starts": 732,
+        "landed": 592,
+        "seedBlocks": {
+          "1": {
+            "attempts": 986,
+            "eligible": 64569
+          },
+          "2": {
+            "attempts": 579,
+            "eligible": 59960
+          },
+          "3": {
+            "attempts": 1521,
+            "eligible": 67327
+          },
+          "4": {
+            "attempts": 820,
+            "eligible": 60501
+          },
+          "5": {
+            "attempts": 925,
+            "eligible": 63276
+          }
+        },
+        "rate": 0.01530575066612173,
+        "interval": [
+          0.011705696532999164,
+          0.019474026986616766
+        ]
+      },
+      "proposed": {
+        "attempts": 4654,
+        "eligible": 305195,
+        "starts": 900,
+        "landed": 487,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1018,
+            "eligible": 65202
+          },
+          "2": {
+            "attempts": 545,
+            "eligible": 57820
+          },
+          "3": {
+            "attempts": 1441,
+            "eligible": 63494
+          },
+          "4": {
+            "attempts": 777,
+            "eligible": 58217
+          },
+          "5": {
+            "attempts": 873,
+            "eligible": 60462
+          }
+        },
+        "rate": 0.015249266862170088,
+        "interval": [
+          0.011553528541931224,
+          0.019490221439243584
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold,slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 5036,
+        "eligible": 326540,
+        "starts": 1156,
+        "landed": 773,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1059,
+            "eligible": 68692
+          },
+          "2": {
+            "attempts": 628,
+            "eligible": 63955
+          },
+          "3": {
+            "attempts": 1515,
+            "eligible": 65735
+          },
+          "4": {
+            "attempts": 892,
+            "eligible": 63190
+          },
+          "5": {
+            "attempts": 942,
+            "eligible": 64968
+          }
+        },
+        "rate": 0.015422306608685,
+        "interval": [
+          0.011845669612382509,
+          0.019739460993597437
+        ]
+      },
+      "proposed": {
+        "attempts": 4689,
+        "eligible": 310743,
+        "starts": 1316,
+        "landed": 585,
+        "seedBlocks": {
+          "1": {
+            "attempts": 997,
+            "eligible": 64080
+          },
+          "2": {
+            "attempts": 561,
+            "eligible": 61077
+          },
+          "3": {
+            "attempts": 1362,
+            "eligible": 59969
+          },
+          "4": {
+            "attempts": 842,
+            "eligible": 61347
+          },
+          "5": {
+            "attempts": 927,
+            "eligible": 64270
+          }
+        },
+        "rate": 0.015089639991890405,
+        "interval": [
+          0.011410687557102036,
+          0.01940497946511034
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold,slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 5116,
+        "eligible": 334462,
+        "starts": 1112,
+        "landed": 772,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1029,
+            "eligible": 67493
+          },
+          "2": {
+            "attempts": 640,
+            "eligible": 66878
+          },
+          "3": {
+            "attempts": 1471,
+            "eligible": 64967
+          },
+          "4": {
+            "attempts": 947,
+            "eligible": 65989
+          },
+          "5": {
+            "attempts": 1029,
+            "eligible": 69135
+          }
+        },
+        "rate": 0.015296207042952563,
+        "interval": [
+          0.011737837263649882,
+          0.01945594016742645
+        ]
+      },
+      "proposed": {
+        "attempts": 4857,
+        "eligible": 320543,
+        "starts": 1321,
+        "landed": 541,
+        "seedBlocks": {
+          "1": {
+            "attempts": 975,
+            "eligible": 63870
+          },
+          "2": {
+            "attempts": 640,
+            "eligible": 66291
+          },
+          "3": {
+            "attempts": 1437,
+            "eligible": 62401
+          },
+          "4": {
+            "attempts": 867,
+            "eligible": 63761
+          },
+          "5": {
+            "attempts": 938,
+            "eligible": 64220
+          }
+        },
+        "rate": 0.015152413248768495,
+        "interval": [
+          0.011597461756789372,
+          0.01954363251745364
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+hold,slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4663,
+        "eligible": 307659,
+        "starts": 771,
+        "landed": 559,
+        "seedBlocks": {
+          "1": {
+            "attempts": 944,
+            "eligible": 62140
+          },
+          "2": {
+            "attempts": 587,
+            "eligible": 60987
+          },
+          "3": {
+            "attempts": 1451,
+            "eligible": 63807
+          },
+          "4": {
+            "attempts": 795,
+            "eligible": 59062
+          },
+          "5": {
+            "attempts": 886,
+            "eligible": 61663
+          }
+        },
+        "rate": 0.015156390679291034,
+        "interval": [
+          0.011534932922389786,
+          0.019486730023062924
+        ]
+      },
+      "proposed": {
+        "attempts": 4398,
+        "eligible": 294119,
+        "starts": 1027,
+        "landed": 450,
+        "seedBlocks": {
+          "1": {
+            "attempts": 923,
+            "eligible": 60478
+          },
+          "2": {
+            "attempts": 573,
+            "eligible": 59869
+          },
+          "3": {
+            "attempts": 1333,
+            "eligible": 58501
+          },
+          "4": {
+            "attempts": 747,
+            "eligible": 57766
+          },
+          "5": {
+            "attempts": 822,
+            "eligible": 57505
+          }
+        },
+        "rate": 0.014953131215596408,
+        "interval": [
+          0.01141481991874196,
+          0.01929892049961361
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+deliberate,slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 4993,
+        "eligible": 324760,
+        "starts": 1113,
+        "landed": 751,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1049,
+            "eligible": 68462
+          },
+          "2": {
+            "attempts": 631,
+            "eligible": 63339
+          },
+          "3": {
+            "attempts": 1506,
+            "eligible": 65893
+          },
+          "4": {
+            "attempts": 893,
+            "eligible": 63936
+          },
+          "5": {
+            "attempts": 914,
+            "eligible": 63130
+          }
+        },
+        "rate": 0.015374430348565095,
+        "interval": [
+          0.01189460788114697,
+          0.01957119096453252
+        ]
+      },
+      "proposed": {
+        "attempts": 4723,
+        "eligible": 310797,
+        "starts": 1178,
+        "landed": 569,
+        "seedBlocks": {
+          "1": {
+            "attempts": 975,
+            "eligible": 62973
+          },
+          "2": {
+            "attempts": 558,
+            "eligible": 59676
+          },
+          "3": {
+            "attempts": 1394,
+            "eligible": 61535
+          },
+          "4": {
+            "attempts": 882,
+            "eligible": 63742
+          },
+          "5": {
+            "attempts": 914,
+            "eligible": 62871
+          }
+        },
+        "rate": 0.015196414379804181,
+        "interval": [
+          0.011548915265435349,
+          0.019398047025568545
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+deliberate,slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 5001,
+        "eligible": 329695,
+        "starts": 1075,
+        "landed": 749,
+        "seedBlocks": {
+          "1": {
+            "attempts": 1023,
+            "eligible": 67526
+          },
+          "2": {
+            "attempts": 650,
+            "eligible": 67456
+          },
+          "3": {
+            "attempts": 1454,
+            "eligible": 64496
+          },
+          "4": {
+            "attempts": 906,
+            "eligible": 64126
+          },
+          "5": {
+            "attempts": 968,
+            "eligible": 66091
+          }
+        },
+        "rate": 0.015168564885727718,
+        "interval": [
+          0.011615603048871619,
+          0.019348588300424432
+        ]
+      },
+      "proposed": {
+        "attempts": 4716,
+        "eligible": 311462,
+        "starts": 1172,
+        "landed": 523,
+        "seedBlocks": {
+          "1": {
+            "attempts": 950,
+            "eligible": 62662
+          },
+          "2": {
+            "attempts": 618,
+            "eligible": 62492
+          },
+          "3": {
+            "attempts": 1406,
+            "eligible": 61390
+          },
+          "4": {
+            "attempts": 842,
+            "eligible": 62485
+          },
+          "5": {
+            "attempts": 900,
+            "eligible": 62433
+          }
+        },
+        "rate": 0.01514149398642531,
+        "interval": [
+          0.011698714870238392,
+          0.019429905242841487
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 10,
+      "suffix": "+deliberate,slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4634,
+        "eligible": 306104,
+        "starts": 754,
+        "landed": 548,
+        "seedBlocks": {
+          "1": {
+            "attempts": 956,
+            "eligible": 62752
+          },
+          "2": {
+            "attempts": 595,
+            "eligible": 61137
+          },
+          "3": {
+            "attempts": 1418,
+            "eligible": 62470
+          },
+          "4": {
+            "attempts": 798,
+            "eligible": 59450
+          },
+          "5": {
+            "attempts": 867,
+            "eligible": 60295
+          }
+        },
+        "rate": 0.01513864568904686,
+        "interval": [
+          0.011580004777283688,
+          0.019404932625350438
+        ]
+      },
+      "proposed": {
+        "attempts": 4393,
+        "eligible": 292437,
+        "starts": 877,
+        "landed": 442,
+        "seedBlocks": {
+          "1": {
+            "attempts": 912,
+            "eligible": 59927
+          },
+          "2": {
+            "attempts": 570,
+            "eligible": 58965
+          },
+          "3": {
+            "attempts": 1316,
+            "eligible": 58007
+          },
+          "4": {
+            "attempts": 801,
+            "eligible": 60101
+          },
+          "5": {
+            "attempts": 794,
+            "eligible": 55437
+          }
+        },
+        "rate": 0.015022038934881701,
+        "interval": [
+          0.011528241328559929,
+          0.019251893391917674
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "",
+      "bot": "timer",
+      "default": {
+        "attempts": 3514,
+        "eligible": 240425,
+        "starts": 813,
+        "landed": 510,
+        "seedBlocks": {
+          "1": {
+            "attempts": 797,
+            "eligible": 53983
+          },
+          "2": {
+            "attempts": 424,
+            "eligible": 46643
+          },
+          "3": {
+            "attempts": 951,
+            "eligible": 43091
+          },
+          "4": {
+            "attempts": 615,
+            "eligible": 46447
+          },
+          "5": {
+            "attempts": 727,
+            "eligible": 50261
+          }
+        },
+        "rate": 0.014615784548195903,
+        "interval": [
+          0.011337029166025511,
+          0.01856745449558778
+        ]
+      },
+      "proposed": {
+        "attempts": 3584,
+        "eligible": 245572,
+        "starts": 1127,
+        "landed": 562,
+        "seedBlocks": {
+          "1": {
+            "attempts": 802,
+            "eligible": 54813
+          },
+          "2": {
+            "attempts": 498,
+            "eligible": 52814
+          },
+          "3": {
+            "attempts": 976,
+            "eligible": 44590
+          },
+          "4": {
+            "attempts": 508,
+            "eligible": 41490
+          },
+          "5": {
+            "attempts": 800,
+            "eligible": 51865
+          }
+        },
+        "rate": 0.01459449774404248,
+        "interval": [
+          0.011128011850816332,
+          0.0186505228398459
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "",
+      "bot": "reader",
+      "default": {
+        "attempts": 3574,
+        "eligible": 243181,
+        "starts": 829,
+        "landed": 561,
+        "seedBlocks": {
+          "1": {
+            "attempts": 802,
+            "eligible": 53821
+          },
+          "2": {
+            "attempts": 403,
+            "eligible": 46445
+          },
+          "3": {
+            "attempts": 1007,
+            "eligible": 45359
+          },
+          "4": {
+            "attempts": 612,
+            "eligible": 46722
+          },
+          "5": {
+            "attempts": 750,
+            "eligible": 50834
+          }
+        },
+        "rate": 0.014696871877325943,
+        "interval": [
+          0.011240523976879956,
+          0.01876019226735949
+        ]
+      },
+      "proposed": {
+        "attempts": 3586,
+        "eligible": 244467,
+        "starts": 1194,
+        "landed": 595,
+        "seedBlocks": {
+          "1": {
+            "attempts": 769,
+            "eligible": 53778
+          },
+          "2": {
+            "attempts": 460,
+            "eligible": 50561
+          },
+          "3": {
+            "attempts": 1062,
+            "eligible": 47351
+          },
+          "4": {
+            "attempts": 556,
+            "eligible": 43628
+          },
+          "5": {
+            "attempts": 739,
+            "eligible": 49149
+          }
+        },
+        "rate": 0.014668646483983524,
+        "interval": [
+          0.011154883925415722,
+          0.01908188902610399
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "",
+      "bot": "punisher",
+      "default": {
+        "attempts": 3466,
+        "eligible": 238693,
+        "starts": 554,
+        "landed": 358,
+        "seedBlocks": {
+          "1": {
+            "attempts": 746,
+            "eligible": 50873
+          },
+          "2": {
+            "attempts": 462,
+            "eligible": 49795
+          },
+          "3": {
+            "attempts": 919,
+            "eligible": 41966
+          },
+          "4": {
+            "attempts": 583,
+            "eligible": 46354
+          },
+          "5": {
+            "attempts": 756,
+            "eligible": 49705
+          }
+        },
+        "rate": 0.014520744219562367,
+        "interval": [
+          0.011200408963679333,
+          0.01845402487869272
+        ]
+      },
+      "proposed": {
+        "attempts": 3650,
+        "eligible": 249638,
+        "starts": 921,
+        "landed": 470,
+        "seedBlocks": {
+          "1": {
+            "attempts": 812,
+            "eligible": 54609
+          },
+          "2": {
+            "attempts": 491,
+            "eligible": 52628
+          },
+          "3": {
+            "attempts": 995,
+            "eligible": 45516
+          },
+          "4": {
+            "attempts": 584,
+            "eligible": 46347
+          },
+          "5": {
+            "attempts": 768,
+            "eligible": 50538
+          }
+        },
+        "rate": 0.014621171456268678,
+        "interval": [
+          0.01119129584071847,
+          0.018579206881631987
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 4426,
+        "eligible": 292018,
+        "starts": 1147,
+        "landed": 657,
+        "seedBlocks": {
+          "1": {
+            "attempts": 884,
+            "eligible": 60558
+          },
+          "2": {
+            "attempts": 591,
+            "eligible": 61472
+          },
+          "3": {
+            "attempts": 1317,
+            "eligible": 57993
+          },
+          "4": {
+            "attempts": 778,
+            "eligible": 54455
+          },
+          "5": {
+            "attempts": 856,
+            "eligible": 57540
+          }
+        },
+        "rate": 0.015156599935620407,
+        "interval": [
+          0.011589620727125145,
+          0.019484587968241252
+        ]
+      },
+      "proposed": {
+        "attempts": 4215,
+        "eligible": 281038,
+        "starts": 1695,
+        "landed": 574,
+        "seedBlocks": {
+          "1": {
+            "attempts": 913,
+            "eligible": 61048
+          },
+          "2": {
+            "attempts": 562,
+            "eligible": 58491
+          },
+          "3": {
+            "attempts": 1172,
+            "eligible": 53689
+          },
+          "4": {
+            "attempts": 705,
+            "eligible": 50902
+          },
+          "5": {
+            "attempts": 863,
+            "eligible": 56908
+          }
+        },
+        "rate": 0.014997971804524656,
+        "interval": [
+          0.01179443393976266,
+          0.01890827404352176
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 4544,
+        "eligible": 297188,
+        "starts": 1166,
+        "landed": 694,
+        "seedBlocks": {
+          "1": {
+            "attempts": 944,
+            "eligible": 63364
+          },
+          "2": {
+            "attempts": 578,
+            "eligible": 60906
+          },
+          "3": {
+            "attempts": 1297,
+            "eligible": 56334
+          },
+          "4": {
+            "attempts": 839,
+            "eligible": 57260
+          },
+          "5": {
+            "attempts": 886,
+            "eligible": 59324
+          }
+        },
+        "rate": 0.015289984790772171,
+        "interval": [
+          0.011633694577357764,
+          0.019613288079810758
+        ]
+      },
+      "proposed": {
+        "attempts": 4311,
+        "eligible": 285429,
+        "starts": 1833,
+        "landed": 663,
+        "seedBlocks": {
+          "1": {
+            "attempts": 913,
+            "eligible": 61116
+          },
+          "2": {
+            "attempts": 552,
+            "eligible": 59514
+          },
+          "3": {
+            "attempts": 1245,
+            "eligible": 55460
+          },
+          "4": {
+            "attempts": 734,
+            "eligible": 51891
+          },
+          "5": {
+            "attempts": 867,
+            "eligible": 57448
+          }
+        },
+        "rate": 0.015103580925554166,
+        "interval": [
+          0.011552695969847123,
+          0.01935303696879794
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4368,
+        "eligible": 284851,
+        "starts": 791,
+        "landed": 500,
+        "seedBlocks": {
+          "1": {
+            "attempts": 929,
+            "eligible": 61347
+          },
+          "2": {
+            "attempts": 555,
+            "eligible": 56511
+          },
+          "3": {
+            "attempts": 1231,
+            "eligible": 54130
+          },
+          "4": {
+            "attempts": 785,
+            "eligible": 55160
+          },
+          "5": {
+            "attempts": 868,
+            "eligible": 57703
+          }
+        },
+        "rate": 0.015334332686211387,
+        "interval": [
+          0.011935888032175308,
+          0.01942213163889222
+        ]
+      },
+      "proposed": {
+        "attempts": 4220,
+        "eligible": 278985,
+        "starts": 1443,
+        "landed": 495,
+        "seedBlocks": {
+          "1": {
+            "attempts": 929,
+            "eligible": 61561
+          },
+          "2": {
+            "attempts": 541,
+            "eligible": 55627
+          },
+          "3": {
+            "attempts": 1142,
+            "eligible": 51545
+          },
+          "4": {
+            "attempts": 733,
+            "eligible": 52942
+          },
+          "5": {
+            "attempts": 875,
+            "eligible": 57310
+          }
+        },
+        "rate": 0.015126261268526982,
+        "interval": [
+          0.011982195445131634,
+          0.0190043301483274
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold",
+      "bot": "timer",
+      "default": {
+        "attempts": 3715,
+        "eligible": 247485,
+        "starts": 879,
+        "landed": 583,
+        "seedBlocks": {
+          "1": {
+            "attempts": 829,
+            "eligible": 54976
+          },
+          "2": {
+            "attempts": 462,
+            "eligible": 47375
+          },
+          "3": {
+            "attempts": 1052,
+            "eligible": 47736
+          },
+          "4": {
+            "attempts": 628,
+            "eligible": 45801
+          },
+          "5": {
+            "attempts": 744,
+            "eligible": 51597
+          }
+        },
+        "rate": 0.015011010768329393,
+        "interval": [
+          0.011715358370122168,
+          0.018906900014345144
+        ]
+      },
+      "proposed": {
+        "attempts": 3486,
+        "eligible": 237063,
+        "starts": 953,
+        "landed": 532,
+        "seedBlocks": {
+          "1": {
+            "attempts": 771,
+            "eligible": 52284
+          },
+          "2": {
+            "attempts": 444,
+            "eligible": 47754
+          },
+          "3": {
+            "attempts": 964,
+            "eligible": 43497
+          },
+          "4": {
+            "attempts": 557,
+            "eligible": 43337
+          },
+          "5": {
+            "attempts": 750,
+            "eligible": 50191
+          }
+        },
+        "rate": 0.014704951848242873,
+        "interval": [
+          0.011347159219400582,
+          0.018743945826023685
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold",
+      "bot": "reader",
+      "default": {
+        "attempts": 3798,
+        "eligible": 255160,
+        "starts": 892,
+        "landed": 599,
+        "seedBlocks": {
+          "1": {
+            "attempts": 843,
+            "eligible": 55979
+          },
+          "2": {
+            "attempts": 458,
+            "eligible": 50163
+          },
+          "3": {
+            "attempts": 1074,
+            "eligible": 48364
+          },
+          "4": {
+            "attempts": 644,
+            "eligible": 47335
+          },
+          "5": {
+            "attempts": 779,
+            "eligible": 53319
+          }
+        },
+        "rate": 0.014884778178397867,
+        "interval": [
+          0.01140292540262205,
+          0.018956868996723105
+        ]
+      },
+      "proposed": {
+        "attempts": 3542,
+        "eligible": 238520,
+        "starts": 962,
+        "landed": 522,
+        "seedBlocks": {
+          "1": {
+            "attempts": 835,
+            "eligible": 55303
+          },
+          "2": {
+            "attempts": 397,
+            "eligible": 45307
+          },
+          "3": {
+            "attempts": 997,
+            "eligible": 44993
+          },
+          "4": {
+            "attempts": 584,
+            "eligible": 43926
+          },
+          "5": {
+            "attempts": 729,
+            "eligible": 48991
+          }
+        },
+        "rate": 0.014849907764548047,
+        "interval": [
+          0.011325207457792332,
+          0.01888580756134377
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold",
+      "bot": "punisher",
+      "default": {
+        "attempts": 3741,
+        "eligible": 249383,
+        "starts": 611,
+        "landed": 429,
+        "seedBlocks": {
+          "1": {
+            "attempts": 839,
+            "eligible": 56058
+          },
+          "2": {
+            "attempts": 446,
+            "eligible": 46591
+          },
+          "3": {
+            "attempts": 1051,
+            "eligible": 47064
+          },
+          "4": {
+            "attempts": 595,
+            "eligible": 45260
+          },
+          "5": {
+            "attempts": 810,
+            "eligible": 54410
+          }
+        },
+        "rate": 0.015001022523588215,
+        "interval": [
+          0.011691896471903634,
+          0.018923699047587415
+        ]
+      },
+      "proposed": {
+        "attempts": 3481,
+        "eligible": 237742,
+        "starts": 714,
+        "landed": 416,
+        "seedBlocks": {
+          "1": {
+            "attempts": 799,
+            "eligible": 54197
+          },
+          "2": {
+            "attempts": 416,
+            "eligible": 46084
+          },
+          "3": {
+            "attempts": 959,
+            "eligible": 43863
+          },
+          "4": {
+            "attempts": 573,
+            "eligible": 45230
+          },
+          "5": {
+            "attempts": 734,
+            "eligible": 48368
+          }
+        },
+        "rate": 0.014641922756601694,
+        "interval": [
+          0.011195569170272713,
+          0.018580113416849106
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold,slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 4187,
+        "eligible": 277826,
+        "starts": 1024,
+        "landed": 582,
+        "seedBlocks": {
+          "1": {
+            "attempts": 844,
+            "eligible": 57767
+          },
+          "2": {
+            "attempts": 564,
+            "eligible": 59181
+          },
+          "3": {
+            "attempts": 1214,
+            "eligible": 53590
+          },
+          "4": {
+            "attempts": 734,
+            "eligible": 50887
+          },
+          "5": {
+            "attempts": 831,
+            "eligible": 56401
+          }
+        },
+        "rate": 0.01507058374666158,
+        "interval": [
+          0.011532805371967094,
+          0.019374665954035274
+        ]
+      },
+      "proposed": {
+        "attempts": 3864,
+        "eligible": 258032,
+        "starts": 1324,
+        "landed": 498,
+        "seedBlocks": {
+          "1": {
+            "attempts": 792,
+            "eligible": 53534
+          },
+          "2": {
+            "attempts": 531,
+            "eligible": 55393
+          },
+          "3": {
+            "attempts": 1099,
+            "eligible": 48833
+          },
+          "4": {
+            "attempts": 627,
+            "eligible": 46336
+          },
+          "5": {
+            "attempts": 815,
+            "eligible": 53936
+          }
+        },
+        "rate": 0.014974886835741304,
+        "interval": [
+          0.011626843112641675,
+          0.01920403937253567
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold,slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 4327,
+        "eligible": 282489,
+        "starts": 1093,
+        "landed": 640,
+        "seedBlocks": {
+          "1": {
+            "attempts": 868,
+            "eligible": 58530
+          },
+          "2": {
+            "attempts": 555,
+            "eligible": 59080
+          },
+          "3": {
+            "attempts": 1269,
+            "eligible": 54657
+          },
+          "4": {
+            "attempts": 766,
+            "eligible": 52352
+          },
+          "5": {
+            "attempts": 869,
+            "eligible": 57870
+          }
+        },
+        "rate": 0.015317410589438881,
+        "interval": [
+          0.011556235134216785,
+          0.01979603642674448
+        ]
+      },
+      "proposed": {
+        "attempts": 4119,
+        "eligible": 268445,
+        "starts": 1413,
+        "landed": 568,
+        "seedBlocks": {
+          "1": {
+            "attempts": 900,
+            "eligible": 60370
+          },
+          "2": {
+            "attempts": 471,
+            "eligible": 51328
+          },
+          "3": {
+            "attempts": 1205,
+            "eligible": 52188
+          },
+          "4": {
+            "attempts": 694,
+            "eligible": 49359
+          },
+          "5": {
+            "attempts": 849,
+            "eligible": 55200
+          }
+        },
+        "rate": 0.0153439251988303,
+        "interval": [
+          0.011695374266536596,
+          0.019710877729353923
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+hold,slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4178,
+        "eligible": 274543,
+        "starts": 746,
+        "landed": 483,
+        "seedBlocks": {
+          "1": {
+            "attempts": 883,
+            "eligible": 58836
+          },
+          "2": {
+            "attempts": 514,
+            "eligible": 54351
+          },
+          "3": {
+            "attempts": 1222,
+            "eligible": 53140
+          },
+          "4": {
+            "attempts": 731,
+            "eligible": 52317
+          },
+          "5": {
+            "attempts": 828,
+            "eligible": 55899
+          }
+        },
+        "rate": 0.015218016849819518,
+        "interval": [
+          0.011635395177750854,
+          0.019522784677696574
+        ]
+      },
+      "proposed": {
+        "attempts": 3845,
+        "eligible": 255500,
+        "starts": 1093,
+        "landed": 446,
+        "seedBlocks": {
+          "1": {
+            "attempts": 871,
+            "eligible": 57657
+          },
+          "2": {
+            "attempts": 505,
+            "eligible": 52089
+          },
+          "3": {
+            "attempts": 1052,
+            "eligible": 45790
+          },
+          "4": {
+            "attempts": 660,
+            "eligible": 49187
+          },
+          "5": {
+            "attempts": 757,
+            "eligible": 50777
+          }
+        },
+        "rate": 0.015048923679060666,
+        "interval": [
+          0.011748461141644784,
+          0.019268204302796903
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+deliberate,slow",
+      "bot": "timer",
+      "default": {
+        "attempts": 4070,
+        "eligible": 273913,
+        "starts": 1006,
+        "landed": 552,
+        "seedBlocks": {
+          "1": {
+            "attempts": 830,
+            "eligible": 57146
+          },
+          "2": {
+            "attempts": 553,
+            "eligible": 58355
+          },
+          "3": {
+            "attempts": 1145,
+            "eligible": 51071
+          },
+          "4": {
+            "attempts": 725,
+            "eligible": 51455
+          },
+          "5": {
+            "attempts": 817,
+            "eligible": 55886
+          }
+        },
+        "rate": 0.014858732517259129,
+        "interval": [
+          0.011470259921135484,
+          0.019087682397791506
+        ]
+      },
+      "proposed": {
+        "attempts": 3791,
+        "eligible": 253387,
+        "starts": 1156,
+        "landed": 460,
+        "seedBlocks": {
+          "1": {
+            "attempts": 811,
+            "eligible": 55496
+          },
+          "2": {
+            "attempts": 468,
+            "eligible": 50304
+          },
+          "3": {
+            "attempts": 1095,
+            "eligible": 48229
+          },
+          "4": {
+            "attempts": 636,
+            "eligible": 46666
+          },
+          "5": {
+            "attempts": 781,
+            "eligible": 52692
+          }
+        },
+        "rate": 0.01496130425002072,
+        "interval": [
+          0.011553851793023397,
+          0.019266938474461676
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+deliberate,slow",
+      "bot": "reader",
+      "default": {
+        "attempts": 4191,
+        "eligible": 277205,
+        "starts": 1047,
+        "landed": 604,
+        "seedBlocks": {
+          "1": {
+            "attempts": 816,
+            "eligible": 55923
+          },
+          "2": {
+            "attempts": 548,
+            "eligible": 59612
+          },
+          "3": {
+            "attempts": 1227,
+            "eligible": 52977
+          },
+          "4": {
+            "attempts": 738,
+            "eligible": 50945
+          },
+          "5": {
+            "attempts": 862,
+            "eligible": 57748
+          }
+        },
+        "rate": 0.015118774913872405,
+        "interval": [
+          0.01128234021611733,
+          0.019695333692000345
+        ]
+      },
+      "proposed": {
+        "attempts": 3994,
+        "eligible": 263230,
+        "starts": 1248,
+        "landed": 512,
+        "seedBlocks": {
+          "1": {
+            "attempts": 891,
+            "eligible": 60681
+          },
+          "2": {
+            "attempts": 437,
+            "eligible": 48343
+          },
+          "3": {
+            "attempts": 1170,
+            "eligible": 50693
+          },
+          "4": {
+            "attempts": 647,
+            "eligible": 47352
+          },
+          "5": {
+            "attempts": 849,
+            "eligible": 56161
+          }
+        },
+        "rate": 0.015173042586331346,
+        "interval": [
+          0.01161075261551629,
+          0.019522461986977588
+        ]
+      },
+      "overlap": true
+    },
+    {
+      "delay": 15,
+      "suffix": "+deliberate,slow",
+      "bot": "punisher",
+      "default": {
+        "attempts": 4066,
+        "eligible": 268946,
+        "starts": 727,
+        "landed": 451,
+        "seedBlocks": {
+          "1": {
+            "attempts": 828,
+            "eligible": 55686
+          },
+          "2": {
+            "attempts": 514,
+            "eligible": 53954
+          },
+          "3": {
+            "attempts": 1187,
+            "eligible": 52042
+          },
+          "4": {
+            "attempts": 716,
+            "eligible": 51571
+          },
+          "5": {
+            "attempts": 821,
+            "eligible": 55693
+          }
+        },
+        "rate": 0.0151182765313483,
+        "interval": [
+          0.011652418315962056,
+          0.01938242027769446
+        ]
+      },
+      "proposed": {
+        "attempts": 3792,
+        "eligible": 253921,
+        "starts": 948,
+        "landed": 421,
+        "seedBlocks": {
+          "1": {
+            "attempts": 856,
+            "eligible": 57159
+          },
+          "2": {
+            "attempts": 469,
+            "eligible": 50017
+          },
+          "3": {
+            "attempts": 1055,
+            "eligible": 45888
+          },
+          "4": {
+            "attempts": 626,
+            "eligible": 48157
+          },
+          "5": {
+            "attempts": 786,
+            "eligible": 52700
+          }
+        },
+        "rate": 0.014933778616183774,
+        "interval": [
+          0.011517146888611685,
+          0.019189086076278398
+        ]
+      },
+      "overlap": true
+    }
+  ]
+}
