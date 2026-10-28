@@ -1,3 +1,4 @@
+import {restoreGrabTell,applyGrabTell} from './grab-tell.js';
 import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
 import {createInkRing} from './ink-energy.js';
@@ -108,7 +109,7 @@ export function createView(canvas,options={}){
    else{r.g.rotation.y=-.45+Math.sin(time*.2)*.12;r.g.position.y=Math.sin(time*1.4)*.04;}
    if(r.spirit)r.spirit.scale.setScalar(1);
    r.g.rotation.z=anim==='hurt'?.15:0;
-   animateCharacter(r,p,time);
+   restoreGrabTell(r);animateCharacter(r,p,time);applyGrabTell(r,p,m,settings.reduced);
    const areaSpec=p?.move?.stockSpecial||p?.move?.special;
    const active=(p?.move?.kind==='technique'||!!areaSpec?.area)&&p.move.frame>=p.move.startup&&p.move.frame<p.move.startup+p.move.active;
    r.techniqueFX.visible=active&&(p.move.effect==='sphere'||!!areaSpec?.area);r.techniqueRing.visible=active;

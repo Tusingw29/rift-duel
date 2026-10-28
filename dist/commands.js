@@ -13,7 +13,7 @@ export function directionOf(input,face) {
  if(input.x*face<-.5)return 'back';
  return null;
 }
-export function readCommand(state,input,previous,face,tick) {
+export function readCommand(state,input,previous,face,tick,options={}) {
  const direction=directionOf(input,face);
  if(direction&&direction!==state.direction){
   if(direction===state.last&&tick-state.lastTick<=DOUBLE_TAP_WINDOW){state.double=direction;state.doubleTick=tick;}
@@ -25,6 +25,7 @@ export function readCommand(state,input,previous,face,tick) {
  const double=state.double;
  if(input.attack&&!previous.attack){
   state.attack=double?({forward:'pursuit',back:'super',down:'launch',up:'jumpAttack'}[double]):({forward:'forward',back:'back',down:'capture',up:'technique'}[direction]||'attack');
+  if(options.deliberate&&state.attack==='capture')state.attack='attack';
   state.double=null;
  }
  if(input.guard&&!previous.guard&&double==='up'){state.double=null;return 'jump';}

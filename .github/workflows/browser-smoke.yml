@@ -2,6 +2,10 @@ name: Browser smoke test
 on:
   workflow_dispatch:
     inputs:
+      grab_study:
+        description: Run the opt-in five-seed grab study instead of renderer smoke
+        default: false
+        type: boolean
       url:
         description: Page to test
         default: https://tusingw29.github.io/rift-duel/
@@ -40,7 +44,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   smoke:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: inputs.grab_study != true && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
@@ -130,3 +134,22 @@ jobs:
           name: browser-smoke
           path: artifacts/browser-smoke
           retention-days: 14
+
+  grab-study:
+    if: inputs.grab_study == true
+    strategy:
+      fail-fast: false
+      matrix:
+        delay: [10, 15]
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/grab-tournament.mjs --delay=${{ matrix.delay }} --workers=4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grab-options-${{ matrix.delay }}
+          path: art/skill-lab/2026-10-28-grab-options/*.json.gz

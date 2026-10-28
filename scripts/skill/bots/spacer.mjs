@@ -1,8 +1,8 @@
-import {tap,threat,grabbing,recovering} from './common.mjs';
+import {tap,incomingSoon,grabbing,recovering} from './common.mjs';
 export const directionalAttacks=[];
 export default c=>{
- if(grabbing(c))return {x:-1};
- if(threat(c))return {guard:true};
+ if(incomingSoon(c))return {guard:true};
+ if(grabbing(c)||c.rival.move&&!recovering(c))return {x:-1};
  if(recovering(c))return c.d<c.self.reach?{attack:tap(c.frame,2)}:{x:1};
- return {x:c.d<c.rival.reach+.2?-1:c.d>c.rival.reach+.65?1:0};
+ const target=c.rival.reach+.3;return {x:c.d<target-.1?-1:c.d>target+.1?1:0};
 };

@@ -20,5 +20,5 @@ export function showBalancePreview(preview){
  Object.assign(bar.style,{position:'fixed',bottom:'42px',left:'8px',right:'8px',zIndex:'100',padding:'8px 12px',background:'#19212ef2',color:preview.error?'#ffb3a8':'#ffe295',font:'bold 13px system-ui',border:'1px solid currentColor'});
  bar.append(document.createTextNode(preview.message+' · '));
  const lab=document.createElement('a');lab.href='./balance-lab.html';lab.textContent='Balance lab';lab.style.color='inherit';bar.append(lab,document.createTextNode(' · '));
- const reset=document.createElement('a'),url=new URL(location.href);url.searchParams.delete('balance');reset.href=url.href;reset.textContent='Use normal rules';reset.style.color='inherit';bar.append(reset);document.body.append(bar);
+ const reset=document.createElement('a'),url=new URL(location.href);url.searchParams.delete('balance');url.searchParams.delete('grab');reset.href=url.href;reset.textContent='Use normal rules';reset.style.color='inherit';bar.append(reset);document.body.append(bar);
 }

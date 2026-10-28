@@ -1,3 +1,4 @@
+import {grabOptions} from './grab-options.js';
 // Match-owned tuning only. No browser state or mutation of the shared roster.
 import {fighters} from './fighters.js';
 import {baseSpecials,specialVariants} from './special-variants.js';
@@ -58,6 +59,6 @@ export function balanceDamageScale(m,a,move){return m.balance?.fighters[fighters
 export const balanceRule=(m,key,fallback)=>m.balance?.sys[key]??fallback;
 export function balanceGuard(m,b,key,fallback){const n=m.balance?.sys[key];return b.guard&&(n===undefined?b.guardTime<fallback:Math.round(b.guardTime*60)<=n&&n>0);}
 export function balanceCaptureBreak(m,b,fallback=.2){
- if(!m.balance?.sys.splitGuard)return balanceGuard(m,b,'captureBreak',fallback);
+ if(grabOptions(m).fresh||!m.balance?.sys.splitGuard)return balanceGuard(m,b,'captureBreak',fallback);
  const age=m.tick-(b.captureTapTick??-Infinity);return age>=0&&age<balanceRule(m,'captureBreak',12)&&b.stun<=0&&!b.guard&&(!b.move||b.move.kind==='capture'&&b.move.started>=b.captureTapTick);
 }
