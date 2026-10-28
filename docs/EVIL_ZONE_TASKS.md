@@ -1,16 +1,17 @@
+## SKILL-LAB — measured skill versus mashing
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Measurement only: delayed-input seeded bots, all-roster tournaments, opt-in live telemetry, local dashboard. Based on balance-local; no default gameplay or character/animation changes. Implementation stays on branch for review.
+
 ## BALANCE-PASS — game-wide risk and roster identity
 
 Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiting Adam’s normal-speed verdict** (2026-10-28). Builds on playable lab preview: miss-only strike recovery, 12f block stun and split-guard preset; Rei trim, Aegis beam tuning; source-derived Control score before any Vesper buff. Owns combat/balance files, preserves character/animation work. Preview remains unmerged for normal-speed review.
 
 
-Implemented proposed presets: +7f missed-basic-strike recovery only, 12f block stun, split guard; Rei reach/speed 2.85/5.6; Aegis shot speed 14, basic-shot recovery 14 and reach 2.5. Vesper stats unchanged; source-derived Control capability score added separately from the six-score budget. Repo lab and generated standalone Frame Codex use identical data/formulas. **643 tests pass**, browser review passes with no errors; default simulation fingerprint unchanged. [Evidence, exact math and limits](../art/review-2026-10-28/balance-pass/README.md). Rules-only estimates 17/30 whiff punish pairings; full proposal 16/30. Play `http://localhost:4202/?balance=proposed`; lab `http://localhost:4202/balance-lab.html`; standalone `http://localhost:4202/frame-codex.html`. **Original hosted lab deployment pending its URL/source**, requested from Adam. Implementation remains on the review branch.
+Implemented proposed presets: +7f missed-basic-strike recovery only, 12f block stun, split guard; Rei reach/speed 2.85/5.6; Aegis shot speed 14, basic-shot recovery 14 and reach 2.5. Vesper stats unchanged; source-derived Control capability score added separately from the six-score budget. Repo lab and generated standalone Frame Codex use identical data/formulas. **643 tests pass**, browser review passes with no errors; default simulation fingerprint unchanged. [Evidence, exact math and limits](https://github.com/Tusingw29/rift-duel/blob/codex/balance-local/art/review-2026-10-28/balance-pass/README.md). Rules-only estimates 17/30 whiff punish pairings; full proposal 16/30. Play `http://localhost:4202/?balance=proposed`; lab `http://localhost:4202/balance-lab.html`; standalone `http://localhost:4202/frame-codex.html`. **Original hosted lab deployment pending its URL/source**, requested from Adam. Implementation remains on the review branch.
 
 ## BALANCE-LOCAL — playable tuning preview
 
-Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiting Adam’s normal-speed verdict** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
-
-
-Implemented game/sandbox `?balance=local` with validated match-owned snapshots, all 116 move-row mappings, stats/rules overrides, pulse-preserving active-window edits, a visible status and normal-rule/error fallback. **634 tests pass**; local browser review passed (real lab edit → sandbox → real training strike at 11/3/40; reload snapshot, no-flag recovery 20, invalid JSON fallback). Default trace matches unchanged main across 3,600 input frames. [Evidence and limits](../art/review-2026-10-28/balance-local/README.md). Open `http://localhost:4202/balance-lab.html`, then `http://localhost:4202/?balance=local`. Port 4198 storage is separate: export/import into this lab to carry edits over. Custom fighters remain lab-only; reaction/band are analysis-only. Branch only; no gameplay merge or Pages deployment.
+Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — implemented on branch** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
 
 ## BALANCE-LAB — in-repo balance lab and roster data
 
