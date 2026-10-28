@@ -1,2 +1,8 @@
-import {tap,threat} from './common.mjs';
-export default c=>{const safe=c.rival.move?.phase==='recovery'&&!threat(c);return {guard:!safe,attack:safe&&c.d<c.self.reach&&tap(c.frame,12),x:safe&&c.d>c.self.reach?1:0};};
+import {tap,threat,grabbing,recovering} from './common.mjs';
+export const directionalAttacks=[];
+export default c=>{
+ if(grabbing(c))return {x:-1};
+ if(threat(c))return {guard:true};
+ if(recovering(c)&&c.d<c.self.reach)return {attack:tap(c.frame,2)};
+ return {guard:true};
+};

@@ -27,3 +27,7 @@ export function metricRollups(matches){
  }
  return out;
 }
+
+export const VALIDITY=['shotsReceived','shotsGuarded','basicStrikesStarted','directionalSpecialsStarted','punishAttemptsStarted'];
+export function validityRollups(matches){return metricRollups(matches).map(({mode,bot,playerBouts})=>{const ps=matches.filter(m=>m.mode===mode).flatMap(m=>m.players.filter((p,i)=>m.bots?.[i]===bot));return {mode,bot,playerBouts,...Object.fromEntries(VALIDITY.map(k=>[k,ps.every(p=>Number.isFinite(p[k]))?ps.reduce((n,p)=>n+p[k],0):null]))};});}
+export function captureShare(matches,bot,opponents,winsOnly=false){let damage=0,captureDamage=0,n=0;for(const m of matches){const i=m.bots?.indexOf(bot);if(i==null||i<0||!m.completed||opponents&&!opponents.includes(m.bots[1-i])||winsOnly&&m.winner!==i)continue;const p=m.players[i];n++;damage+=p.damage;captureDamage+=Object.entries(p.damageByMove).filter(([k])=>k.startsWith('system-capture-')).reduce((s,[,v])=>s+v,0);}return {n,damage,captureDamage,share:damage?captureDamage/damage:null};}

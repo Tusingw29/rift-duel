@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "old/full versus corrected/full",
+    "all three quick delay selectors",
+    "validity counters",
+    "390px no page overflow",
+    "light theme",
+    "original both-seat button"
+  ],
+  "errors": []
+}

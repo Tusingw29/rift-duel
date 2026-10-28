@@ -4,18 +4,18 @@ import {fighters} from '../fighters.js';
 import {matchFighter,balanceMoveKey} from '../balance-runtime.js';
 export const BANDS=['close','inside reach','tip','whiff band','mid','far'];
 export function distanceBand(d,r){return d<1.5?'close':d<r-.35?'inside reach':d<=r?'tip':d<=r+.7?'whiff band':d<7?'mid':'far';}
-const blank=()=>({attackPresses:0,actionPresses:0,damage:0,chipTaken:0,blocks:0,perfectGuards:0,captureBreaks:0,captures:0,capturesThroughGuard:0,meleeAttempts:0,whiffs:0,whiffPunishes:0,punishedWhiffs:0,damageByMove:{},moveUses:{},distanceFrames:Object.fromEntries(BANDS.map(k=>[k,0]))});
+const blank=()=>({attackPresses:0,actionPresses:0,damage:0,chipTaken:0,blocks:0,perfectGuards:0,captureBreaks:0,captures:0,capturesThroughGuard:0,meleeAttempts:0,whiffs:0,whiffPunishes:0,punishedWhiffs:0,shotsReceived:0,shotsGuarded:0,basicStrikesStarted:0,directionalSpecialsStarted:0,punishAttemptsStarted:0,damageByMove:{},moveUses:{},distanceFrames:Object.fromEntries(BANDS.map(k=>[k,0]))});
 export function createTelemetry(m,meta={}){
- const data={schema:1,...meta,mode:meta.mode||'default',fighters:m.players.map(p=>fighters[p.id].id),players:[blank(),blank()],inputFrames:0,simulationFrames:0,winner:null,completed:false,koCause:null};
+ const data={schema:1,telemetryVersion:2,...meta,mode:meta.mode||'default',fighters:m.players.map(p=>fighters[p.id].id),players:[blank(),blank()],inputFrames:0,simulationFrames:0,winner:null,completed:false,koCause:null};
  const measuredEvents=[];const dispose=observeCombat(m,e=>measuredEvents.push(e));
  let before,previousInputs=[{},{}],lastWhiffs=[null,null],capture=null,lastDamage=['unknown','unknown'];
  const seen=new WeakSet(),resolved=new WeakSet(),projectileSource=new WeakMap();
  const label=(i,mv)=>mv?balanceMoveKey(fighters[m.players[i].id],mv)||mv.kind:'unknown';
- function track(i,mv){if(mv&&!seen.has(mv)){seen.add(mv);const k=label(i,mv);data.players[i].moveUses[k]=(data.players[i].moveUses[k]||0)+1;if(['strike','launch'].includes(mv.kind))data.players[i].meleeAttempts++;}}
+ function track(i,mv){if(mv&&!seen.has(mv)){seen.add(mv);const p=data.players[i],k=label(i,mv);if(mv.kind==='strike')p.basicStrikesStarted++;if(['forward','back','technique','capture'].includes(mv.kind))p.directionalSpecialsStarted++;if(before?.rivalRecovery?.[i])p.punishAttemptsStarted++;data.players[i].moveUses[k]=(data.players[i].moveUses[k]||0)+1;if(['strike','launch'].includes(mv.kind))data.players[i].meleeAttempts++;}}
  return {
   dispose,
   before(inputs){
-   before={tick:m.tick,hp:m.players.map(p=>p.hp),guard:m.players.map(p=>p.guard),moves:m.players.map(p=>p.move),projectiles:[...m.projectiles],cinematic:m.cinematic};
+   before={rivalRecovery:m.players.map((p,i)=>{const v=m.players[1-i].move;return !!v&&v.frame>=v.startup+v.active;}),tick:m.tick,hp:m.players.map(p=>p.hp),guard:m.players.map(p=>p.guard),moves:m.players.map(p=>p.move),projectiles:[...m.projectiles],cinematic:m.cinematic};
    data.inputFrames++;
    inputs.forEach((a,i)=>{if(a.attack&&!previousInputs[i].attack)data.players[i].attackPresses++;for(const k of ['attack','guard','capture','launch','pursuit','super'])if(a[k]&&!previousInputs[i][k])data.players[i].actionPresses++;previousInputs[i]={...a};});
    m.players.forEach((p,i)=>track(i,p.move));
@@ -39,6 +39,10 @@ export function createTelemetry(m,meta={}){
     const a=e.attacker,b=e.defender;
     if(e.type==='captureStart'){capture={a,b,guard:e.guard};continue;}
     if(e.type==='captureBreak'){data.players[b].captureBreaks++;continue;}
+    // Non-melee typed hit kinds are projectile contacts in the existing diagnostic contract.
+    const shot=e.kind&&!['hit','capture','burst'].includes(e.kind);
+    if(shot&&e.type==='damage')data.players[b].shotsReceived++;
+    if(shot&&['block','perfectGuard'].includes(e.type))data.players[b].shotsGuarded++;
     if(e.type==='perfectGuard'){data.players[b].perfectGuards++;continue;}
     if(e.type==='block'){data.players[b].blocks++;data.players[b].chipTaken+=e.damage;}
     if(!['block','damage'].includes(e.type))continue;

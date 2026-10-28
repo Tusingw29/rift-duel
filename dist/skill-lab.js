@@ -1,4 +1,4 @@
-import {summarize,SKILLED} from './skill/report.js';import {BANDS,readMatches,exportMatches} from './skill/telemetry.js';
+import {summarize,SKILLED,validityRollups} from './skill/report.js';import {BANDS,readMatches,exportMatches} from './skill/telemetry.js';
 const esc=x=>String(x??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const table=(heads,rows)=>`<div class="scroll"><table><thead><tr>${heads.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 const pct=(x,n)=>n?`${(100*x/n).toFixed(1)}% (${x}/${n})`:'no sample';
@@ -9,6 +9,7 @@ export function renderReport(report){
  for(const [mode,v] of Object.entries(s.modes)){
   const matches=rows.filter(m=>m.mode===mode),bots=Object.keys(v.grid);
   html+=`<section class="panel"><h2>${esc(mode)} <small>n=${v.n} bouts</small></h2><h3>Bot versus bot · strict wins</h3>${table(['Bot',...bots],bots.map(a=>[a,...bots.map(b=>a===b?'—':pct(v.grid[a][b].wins,v.grid[a][b].n))]))}<h3>Skill versus mashing by fighter</h3>${table(['Fighter','Skilled wins / bouts','Draws'],Object.entries(v.fighters).map(([f,r])=>[f,pct(r.wins,r.n),r.draws]))}<h3>Sanity check · wins against random</h3>${table(['Policy','Wins / bouts','95% interval','Trust'],Object.entries(v.sanity).map(([b,r])=>[b,pct(r.wins,r.n),r.interval.map(x=>(100*x).toFixed(1)+'%').join('–'),r.trusted?'passes screen':'UNTRUSTWORTHY']))}</section>`;
+  html+=`<section class="panel"><h3>Bot validity · actual contacts and move starts</h3>${table(['Policy','Bouts','Shots received / guarded','Basic / directional specials','Punish attempts'],validityRollups(matches).map(v=>[v.bot,v.playerBouts,v.shotsReceived==null?'not recorded':`${v.shotsReceived} / ${v.shotsGuarded}`,v.basicStrikesStarted==null?'not recorded':`${v.basicStrikesStarted} / ${v.directionalSpecialsStarted}`,v.punishAttemptsStarted??'not recorded']))}</section>`;
   const players=matches.flatMap(m=>m.players.map((p,i)=>({...p,bot:m.bots?.[i]||'human / CPU',fighter:m.fighters[i],seconds:m.seconds})));
   const groups=[['masher',p=>p.bot==='masher'],['skilled policies',p=>SKILLED.includes(p.bot)],['human / CPU',p=>p.bot==='human / CPU']];
   html+=`<section class="panel"><h3>Mash payoff · all damage / attack presses</h3>${table(['Group','Damage / presses','Presses','Player-bouts'],groups.map(([name,filter])=>{const ps=players.filter(filter),press=ps.reduce((s,p)=>s+p.attackPresses,0),d=ps.reduce((s,p)=>s+p.damage,0);return [name,press?(d/press).toFixed(3):'—',press,ps.length];}))}<h3>Guard and whiff outcomes</h3>${table(['Policy','n player-bouts','Whiffs / melee attempts','Punished / whiffs','Blocks','Perfect guards','Breaks','Captures through guard','Chip taken'],[...new Set(players.map(p=>p.bot))].map(b=>{const ps=players.filter(p=>p.bot===b),sum=k=>ps.reduce((n,p)=>n+p[k],0);return [b,ps.length,pct(sum('whiffs'),sum('meleeAttempts')),pct(sum('punishedWhiffs'),sum('whiffs')),sum('blocks'),sum('perfectGuards'),sum('captureBreaks'),sum('capturesThroughGuard'),sum('chipTaken').toFixed(1)];}))}</section>`;
@@ -28,3 +29,19 @@ if(new URLSearchParams(location.search).has('saved'))document.getElementById('sa
 
 document.getElementById('full').onclick=async()=>{try{const r=await fetch('../art/skill-lab/2026-10-28/full/report.json');if(!r.ok)throw Error('Both-seat report not found. Run --full or import a report.');show('A',await r.json());}catch(e){document.getElementById('error').textContent=e.message;}};
 if(new URLSearchParams(location.search).get('report')==='full')document.getElementById('full').click();
+
+// Keep the original report buttons and files available; compare corrected runs alongside them.
+async function botStudy(run='full-15'){
+ try{
+  const base='../art/skill-lab/2026-10-28-skill-bots/';
+  const fetchJSON=async path=>{const r=await fetch(path);if(!r.ok)throw Error('Report unavailable: '+path);return r.json();};
+  const study=await fetchJSON(base+'study.json');
+  const old=run.startsWith('full')?'../art/skill-lab/2026-10-28/full/report.json':'../art/skill-lab/2026-10-28/report.json';
+  const [a,b]=await Promise.all([fetchJSON(old),fetchJSON(base+run+'/report.json')]);show('A',a);show('B',b);document.querySelector('#A h2').prepend('Original · ');document.querySelector('#B h2').prepend('Corrected · ');
+  let panel=document.getElementById('bot-study');if(!panel){panel=document.createElement('section');panel.id='bot-study';panel.className='panel';document.getElementById('A').parentElement.before(panel);}
+  panel.innerHTML=`<h2>Bot fixes · old and new</h2><p>Left: original 15f ${run.startsWith('full')?'mirrored':'quick'} run. Right: corrected ${esc(run)}. Quick alternates seats; full mirrors every pairing. The original three-policy aggregate is kept unchanged; punisher is reported separately.</p><label>Corrected run <select id="study-run">${['quick-6','quick-10','quick-15','full-15'].map(k=>`<option ${k===run?'selected':''}>${k}</option>`).join('')}</select></label>${table(['Run','Mode','Original three vs masher','Punisher vs masher','Capture share in punisher losses'],study.runs.flatMap(r=>Object.entries(r.modes).map(([mode,v])=>{const p=v.vsMasher.punisher,c=v.capture.inPunisherLosses;return [r.name,mode,pct(v.gap.wins,v.gap.n),p?pct(p.wins,p.n):'not run',c.n?`${(100*c.share).toFixed(1)}% (${c.n} bouts)`:'not run'];})))}<p>Capture share uses actual HP damage. These are bot measurements, not a verdict about skilled human play. Old counters not recorded are shown as missing.</p>`;
+  document.getElementById('study-run').onchange=e=>botStudy(e.target.value);
+ }catch(e){document.getElementById('error').textContent=e.message;}
+}
+const studyButton=document.createElement('button');studyButton.textContent='Compare corrected bots';studyButton.id='corrected';studyButton.onclick=()=>botStudy();document.getElementById('full').after(studyButton);
+if(new URLSearchParams(location.search).get('study')==='skill-bots')botStudy(new URLSearchParams(location.search).get('run')||'full-15');

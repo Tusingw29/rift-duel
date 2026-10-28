@@ -9,4 +9,9 @@ export function delayedBot(policy,{seed=1,delay=15,seat=0}={}){
  return {next(observation){queue.push(observation);const now=frame++;if(queue.length<=delay)return neutral();const obs=queue.shift(),self=obs.players[seat],rival=obs.players[1-seat];return {...neutral(),...policy({self,rival,obs,seat,frame:now,random,memory,d:Math.hypot(self.x-rival.x,self.z-rival.z)})};}};
 }
 export const tap=(frame,period=16)=>frame%period===0;
-export const threat=c=>c.rival.move?.phase!=='recovery'&&!!c.rival.move&&c.d<c.rival.reach+1||c.obs.projectiles.some(p=>p.owner!==c.seat&&Math.hypot(p.x-c.self.x,p.z-c.self.z)<3);
+// Nine-unit detection acts on the delayed visible snapshot, never the current match.
+export const incoming=c=>c.obs.projectiles.some(p=>p.owner!==c.seat&&Math.hypot(p.x-c.self.x,p.z-c.self.z)<9);
+export const closeThreat=c=>!!c.rival.move&&c.rival.move.phase!=='recovery'&&c.d<c.rival.reach+1;
+export const threat=c=>incoming(c)||closeThreat(c);
+export const grabbing=c=>c.rival.move?.kind==='capture'&&c.rival.move.phase!=='recovery';
+export const recovering=c=>c.rival.move?.phase==='recovery';

@@ -1,0 +1,5737 @@
+{
+  "created": "2026-10-28T13:30:17.606Z",
+  "runs": [
+    {
+      "name": "old quick (15f)",
+      "path": "art/skill-lab/2026-10-28/report.json",
+      "config": {
+        "full": false,
+        "seeds": 1,
+        "delay": 15,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 79.778072475
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 216,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 108,
+            "wins": 11,
+            "draws": 0,
+            "rate": 0.10185185185185185,
+            "margin": -0.7962962962962963
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4219996966427768,
+                0.7285966649491271
+              ],
+              "trusted": false
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 26,
+              "draws": 0,
+              "rate": 0.7222222222222222,
+              "interval": [
+                0.5600719978365485,
+                0.841518299741862
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 10,
+              "draws": 0,
+              "rate": 0.2777777777777778,
+              "interval": [
+                0.15848170025813796,
+                0.43992800216345146
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 28,
+              "draws": 0,
+              "rate": 0.7777777777777778,
+              "interval": [
+                0.6191498017214091,
+                0.882838070251604
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.19444444444444445,
+              "interval": [
+                0.09752972019453349,
+                0.350283620635152
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 6,
+              "draws": 0,
+              "rate": 0.16666666666666666,
+              "interval": [
+                0.07870340628564097,
+                0.3189111473467432
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 216,
+              "damage": 21214.4966,
+              "captureDamage": 4351.672799999999,
+              "share": 0.20512731845826593
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 10610.2316,
+              "captureDamage": 1949.5774999999999,
+              "share": 0.1837450466208485
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 108,
+            "wins": 11,
+            "draws": 0,
+            "rate": 0.10185185185185185,
+            "margin": -0.7962962962962963
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 24,
+              "draws": 0,
+              "rate": 0.6666666666666666,
+              "interval": [
+                0.5033369709296683,
+                0.7978557522541395
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.4757478039083198,
+                0.7752461320781867
+              ],
+              "trusted": false
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 26,
+              "draws": 0,
+              "rate": 0.7222222222222222,
+              "interval": [
+                0.5600719978365485,
+                0.841518299741862
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.19444444444444445,
+              "interval": [
+                0.09752972019453349,
+                0.350283620635152
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.1388888888888889,
+              "interval": [
+                0.060817253631150966,
+                0.2865985128039319
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 216,
+              "damage": 21187.1922,
+              "captureDamage": 4618.6887000000015,
+              "share": 0.2179943739784454
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 10621.7316,
+              "captureDamage": 1992.21,
+              "share": 0.18755981369365426
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 108,
+            "wins": 11,
+            "draws": 0,
+            "rate": 0.10185185185185185,
+            "margin": -0.7962962962962963
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4219996966427768,
+                0.7285966649491271
+              ],
+              "trusted": false
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 24,
+              "draws": 0,
+              "rate": 0.6666666666666666,
+              "interval": [
+                0.5033369709296683,
+                0.7978557522541395
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.5892923231679656,
+                0.8624967616077461
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.19444444444444445,
+              "interval": [
+                0.09752972019453349,
+                0.350283620635152
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 216,
+              "damage": 21271.6172,
+              "captureDamage": 4536.0062,
+              "share": 0.2132421882808233
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 10610.2316,
+              "captureDamage": 1965.7024999999999,
+              "share": 0.18526480609527882
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "old mirrored (15f)",
+      "path": "art/skill-lab/2026-10-28/full/report.json",
+      "config": {
+        "full": true,
+        "seeds": 1,
+        "delay": 15,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 150.32800765800002
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 432,
+          "shotsReceived": null,
+          "shotsGuarded": null,
+          "basicStrikesStarted": null,
+          "directionalSpecialsStarted": null,
+          "punishAttemptsStarted": null
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 216,
+            "wins": 20,
+            "draws": 0,
+            "rate": 0.09259259259259259,
+            "margin": -0.8148148148148148
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 45,
+              "draws": 0,
+              "rate": 0.625,
+              "interval": [
+                0.5095268590406966,
+                0.7278099060064543
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.041666666666666664,
+              "interval": [
+                0.01427054877259009,
+                0.11549464605452325
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 49,
+              "draws": 0,
+              "rate": 0.6805555555555556,
+              "interval": [
+                0.5660743422203383,
+                0.7767454295144354
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.3194444444444444,
+              "interval": [
+                0.22325457048556474,
+                0.43392565777966174
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 58,
+              "draws": 0,
+              "rate": 0.8055555555555556,
+              "interval": [
+                0.6996702472161007,
+                0.8804862895658236
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 72,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.02181386292692504,
+                0.13432208357209396
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 8,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.05738751060073767,
+                0.20423144258590392
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.013888888888888888,
+              "interval": [
+                0.002455888640432169,
+                0.07456780284286987
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 11,
+              "draws": 0,
+              "rate": 0.1527777777777778,
+              "interval": [
+                0.08750619034775439,
+                0.25322501785460416
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 10,
+              "draws": 0,
+              "rate": 0.1388888888888889,
+              "interval": [
+                0.07722647811471899,
+                0.23713397841573391
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 6,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.03875189713049035,
+                0.17012555271233995
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 432,
+              "damage": 42327.666600000004,
+              "captureDamage": 8756.604800000003,
+              "share": 0.20687662475587543
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 21212.5832,
+              "captureDamage": 3993.641,
+              "share": 0.18826754678326965
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 216,
+            "wins": 20,
+            "draws": 0,
+            "rate": 0.09259259259259259,
+            "margin": -0.8148148148148148
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 45,
+              "draws": 0,
+              "rate": 0.625,
+              "interval": [
+                0.5095268590406966,
+                0.7278099060064543
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.013888888888888888,
+              "interval": [
+                0.002455888640432169,
+                0.07456780284286987
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 46,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.5235226614759323,
+                0.740184855243124
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.06944444444444445,
+              "interval": [
+                0.03002493884382272,
+                0.15248175932710195
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 54,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.6390627413475594,
+                0.8356107887467423
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 72,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.02181386292692504,
+                0.13432208357209396
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 6,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.03875189713049035,
+                0.17012555271233995
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.013888888888888888,
+              "interval": [
+                0.002455888640432169,
+                0.07456780284286987
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 13,
+              "draws": 0,
+              "rate": 0.18055555555555555,
+              "interval": [
+                0.10866714144495851,
+                0.2848055701012113
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 8,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.05738751060073767,
+                0.20423144258590392
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 8,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.05738751060073767,
+                0.20423144258590392
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 432,
+              "damage": 42250.525200000004,
+              "captureDamage": 9411.033600000004,
+              "share": 0.22274358852230322
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 21209.699800000002,
+              "captureDamage": 4164.297600000001,
+              "share": 0.19633929943694914
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 216,
+            "wins": 19,
+            "draws": 0,
+            "rate": 0.08796296296296297,
+            "margin": -0.8240740740740741
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 67,
+              "draws": 0,
+              "rate": 0.9305555555555556,
+              "interval": [
+                0.847518240672898,
+                0.9699750611561773
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 44,
+              "draws": 0,
+              "rate": 0.6111111111111112,
+              "interval": [
+                0.4956214320752605,
+                0.7153445812999848
+              ],
+              "trusted": false
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.041666666666666664,
+              "interval": [
+                0.01427054877259009,
+                0.11549464605452325
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 46,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.5235226614759323,
+                0.740184855243124
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 6,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.03875189713049035,
+                0.17012555271233995
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 55,
+              "draws": 0,
+              "rate": 0.7638888888888888,
+              "interval": [
+                0.6540101280256627,
+                0.8470341537405446
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [],
+          "vsMasher": {
+            "random": {
+              "n": 72,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.06944444444444445,
+              "interval": [
+                0.03002493884382272,
+                0.15248175932710195
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.09722222222222222,
+              "interval": [
+                0.04789571126116793,
+                0.18735249025356804
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.013888888888888888,
+              "interval": [
+                0.002455888640432169,
+                0.07456780284286987
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 11,
+              "draws": 0,
+              "rate": 0.1527777777777778,
+              "interval": [
+                0.08750619034775439,
+                0.25322501785460416
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 9,
+              "draws": 0,
+              "rate": 0.125,
+              "interval": [
+                0.06717708293105555,
+                0.22081262192749168
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 6,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.03875189713049035,
+                0.17012555271233995
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 432,
+              "damage": 42424.319800000005,
+              "captureDamage": 9075.080800000003,
+              "share": 0.21391222871179663
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 21258.8432,
+              "captureDamage": 4034.7409999999995,
+              "share": 0.18979118299343775
+            },
+            "againstPunisher": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            },
+            "inPunisherLosses": {
+              "n": 0,
+              "damage": 0,
+              "captureDamage": 0,
+              "share": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "quick-6",
+      "path": "art/skill-lab/2026-10-28-skill-bots/quick-6/report.json",
+      "config": {
+        "full": false,
+        "seeds": 1,
+        "delay": 6,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 51.329680866
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1154,
+          "shotsGuarded": 4,
+          "basicStrikesStarted": 568,
+          "directionalSpecialsStarted": 3561,
+          "punishAttemptsStarted": 827
+        },
+        {
+          "mode": "default",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 97,
+          "shotsGuarded": 900,
+          "basicStrikesStarted": 8620,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 223
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1073,
+          "shotsGuarded": 69,
+          "basicStrikesStarted": 91,
+          "directionalSpecialsStarted": 1527,
+          "punishAttemptsStarted": 474
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 91,
+          "shotsGuarded": 996,
+          "basicStrikesStarted": 7777,
+          "directionalSpecialsStarted": 191,
+          "punishAttemptsStarted": 381
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 96,
+          "shotsGuarded": 2236,
+          "basicStrikesStarted": 2268,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 1145
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 119,
+          "shotsGuarded": 928,
+          "basicStrikesStarted": 6408,
+          "directionalSpecialsStarted": 353,
+          "punishAttemptsStarted": 245
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 188,
+          "shotsGuarded": 6226,
+          "basicStrikesStarted": 1310,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 369
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 690,
+          "shotsGuarded": 1028,
+          "basicStrikesStarted": 45,
+          "directionalSpecialsStarted": 2661,
+          "punishAttemptsStarted": 279
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1267,
+          "shotsGuarded": 7,
+          "basicStrikesStarted": 468,
+          "directionalSpecialsStarted": 3533,
+          "punishAttemptsStarted": 736
+        },
+        {
+          "mode": "proposed",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 113,
+          "shotsGuarded": 969,
+          "basicStrikesStarted": 8185,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 681
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1080,
+          "shotsGuarded": 75,
+          "basicStrikesStarted": 83,
+          "directionalSpecialsStarted": 1466,
+          "punishAttemptsStarted": 440
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 145,
+          "shotsGuarded": 1009,
+          "basicStrikesStarted": 6729,
+          "directionalSpecialsStarted": 187,
+          "punishAttemptsStarted": 720
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 207,
+          "shotsGuarded": 2515,
+          "basicStrikesStarted": 2289,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 1312
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 156,
+          "shotsGuarded": 1060,
+          "basicStrikesStarted": 6203,
+          "directionalSpecialsStarted": 243,
+          "punishAttemptsStarted": 235
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 182,
+          "shotsGuarded": 6074,
+          "basicStrikesStarted": 1367,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 477
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 691,
+          "shotsGuarded": 1362,
+          "basicStrikesStarted": 47,
+          "directionalSpecialsStarted": 2647,
+          "punishAttemptsStarted": 333
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1288,
+          "shotsGuarded": 6,
+          "basicStrikesStarted": 480,
+          "directionalSpecialsStarted": 3562,
+          "punishAttemptsStarted": 780
+        },
+        {
+          "mode": "rules",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 106,
+          "shotsGuarded": 1006,
+          "basicStrikesStarted": 8380,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 685
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1065,
+          "shotsGuarded": 70,
+          "basicStrikesStarted": 82,
+          "directionalSpecialsStarted": 1498,
+          "punishAttemptsStarted": 451
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 135,
+          "shotsGuarded": 1024,
+          "basicStrikesStarted": 6688,
+          "directionalSpecialsStarted": 183,
+          "punishAttemptsStarted": 719
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 143,
+          "shotsGuarded": 2658,
+          "basicStrikesStarted": 2343,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 1316
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 124,
+          "shotsGuarded": 1083,
+          "basicStrikesStarted": 6119,
+          "directionalSpecialsStarted": 232,
+          "punishAttemptsStarted": 217
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 192,
+          "shotsGuarded": 6051,
+          "basicStrikesStarted": 1379,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 487
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 708,
+          "shotsGuarded": 1391,
+          "basicStrikesStarted": 47,
+          "directionalSpecialsStarted": 2603,
+          "punishAttemptsStarted": 317
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 108,
+            "wins": 105,
+            "draws": 0,
+            "rate": 0.9722222222222222,
+            "margin": 0.9444444444444444
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 31,
+              "draws": 0,
+              "rate": 0.8611111111111112,
+              "interval": [
+                0.7134014871960681,
+                0.9391827463688489
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 31,
+              "draws": 0,
+              "rate": 0.8611111111111112,
+              "interval": [
+                0.7134014871960681,
+                0.9391827463688489
+              ],
+              "trusted": true
+            },
+            "timer": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              54.35040000000001
+            ],
+            [
+              "chain-shot-3",
+              19.652399999999997
+            ],
+            [
+              "chain-shot-2",
+              10.670800000000007
+            ],
+            [
+              "bolt (source unresolved)",
+              7.9103999999999814
+            ],
+            [
+              "chain-shot-1",
+              5.191200000000009
+            ],
+            [
+              "variant-orbit-fan",
+              1.730400000000003
+            ],
+            [
+              "variant-fourfold-flame",
+              0.49439999999999884
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.1388888888888889,
+              "interval": [
+                0.060817253631150966,
+                0.2865985128039319
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4219996966427768,
+                0.7285966649491271
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 15046.611700000001,
+              "captureDamage": 4973.754599999998,
+              "share": 0.3305564534505797
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 4172.635800000002,
+              "captureDamage": 1266.9054,
+              "share": 0.30362232908033804
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 1232.0046000000002,
+              "captureDamage": 368.22540000000004,
+              "share": 0.2988831372869874
+            },
+            "inPunisherLosses": {
+              "n": 1,
+              "damage": 100.00000000000001,
+              "captureDamage": 54.35040000000001,
+              "share": 0.543504
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 108,
+            "wins": 91,
+            "draws": 0,
+            "rate": 0.8425925925925926,
+            "margin": 0.6851851851851852
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 29,
+              "draws": 0,
+              "rate": 0.8055555555555556,
+              "interval": [
+                0.6497163793648479,
+                0.9024702798054665
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 17,
+              "draws": 0,
+              "rate": 0.4722222222222222,
+              "interval": [
+                0.31985792907209337,
+                0.6299432837306054
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              201.7336
+            ],
+            [
+              "chain-shot-1",
+              55.20600000000004
+            ],
+            [
+              "chain-shot-2",
+              50.1592
+            ],
+            [
+              "variant-falling-ember",
+              26.642
+            ],
+            [
+              "chain-shot-3",
+              22.1976
+            ],
+            [
+              "variant-solar-ward",
+              10.32
+            ],
+            [
+              "chain-strike-1",
+              10.319999999999993
+            ],
+            [
+              "chain-strike-2",
+              10.319999999999993
+            ],
+            [
+              "bolt (source unresolved)",
+              5.932799999999986
+            ],
+            [
+              "variant-astral-blast",
+              4.449599999999997
+            ],
+            [
+              "variant-orbit-fan",
+              1.730400000000003
+            ],
+            [
+              "variant-fourfold-flame",
+              0.9888000000000012
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 32,
+              "draws": 0,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.19444444444444445,
+              "interval": [
+                0.09752972019453349,
+                0.350283620635152
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.4757478039083198,
+                0.7752461320781867
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 32,
+              "draws": 0,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 19,
+              "draws": 0,
+              "rate": 0.5277777777777778,
+              "interval": [
+                0.3700567162693947,
+                0.6801420709279067
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 16927.915999999994,
+              "captureDamage": 6077.0825,
+              "share": 0.35899767579186964
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 5765.441399999999,
+              "captureDamage": 2103.9714000000004,
+              "share": 0.3649280695143308
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 1641.9322000000002,
+              "captureDamage": 615.2386000000001,
+              "share": 0.3747040224925244
+            },
+            "inPunisherLosses": {
+              "n": 4,
+              "damage": 400,
+              "captureDamage": 201.7336,
+              "share": 0.504334
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 108,
+            "wins": 95,
+            "draws": 0,
+            "rate": 0.8796296296296297,
+            "margin": 0.7592592592592593
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 31,
+              "draws": 0,
+              "rate": 0.8611111111111112,
+              "interval": [
+                0.7134014871960681,
+                0.9391827463688489
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 22,
+              "draws": 0,
+              "rate": 0.6111111111111112,
+              "interval": [
+                0.4486417029674347,
+                0.7521534458217705
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              201.7336
+            ],
+            [
+              "chain-shot-1",
+              55.20600000000004
+            ],
+            [
+              "chain-shot-2",
+              50.1592
+            ],
+            [
+              "variant-falling-ember",
+              26.642
+            ],
+            [
+              "chain-shot-3",
+              22.1976
+            ],
+            [
+              "variant-solar-ward",
+              10.32
+            ],
+            [
+              "chain-strike-1",
+              10.319999999999993
+            ],
+            [
+              "chain-strike-2",
+              10.319999999999993
+            ],
+            [
+              "bolt (source unresolved)",
+              5.932799999999986
+            ],
+            [
+              "variant-astral-blast",
+              4.449599999999997
+            ],
+            [
+              "variant-orbit-fan",
+              1.730400000000003
+            ],
+            [
+              "variant-fourfold-flame",
+              0.9888000000000012
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 32,
+              "draws": 0,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.1388888888888889,
+              "interval": [
+                0.060817253631150966,
+                0.2865985128039319
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.5892923231679656,
+                0.8624967616077461
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4219996966427768,
+                0.7285966649491271
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 16627.8602,
+              "captureDamage": 6163.137499999998,
+              "share": 0.3706512699691809
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 5487.715400000002,
+              "captureDamage": 2187.945400000001,
+              "share": 0.3986987736280931
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 1582.6426000000006,
+              "captureDamage": 609.8686,
+              "share": 0.3853482776212392
+            },
+            "inPunisherLosses": {
+              "n": 4,
+              "damage": 400,
+              "captureDamage": 201.7336,
+              "share": 0.504334
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "quick-10",
+      "path": "art/skill-lab/2026-10-28-skill-bots/quick-10/report.json",
+      "config": {
+        "full": false,
+        "seeds": 1,
+        "delay": 10,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 52.141540919
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1339,
+          "shotsGuarded": 14,
+          "basicStrikesStarted": 593,
+          "directionalSpecialsStarted": 3703,
+          "punishAttemptsStarted": 725
+        },
+        {
+          "mode": "default",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 216,
+          "shotsGuarded": 796,
+          "basicStrikesStarted": 7008,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 376
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1124,
+          "shotsGuarded": 78,
+          "basicStrikesStarted": 93,
+          "directionalSpecialsStarted": 1543,
+          "punishAttemptsStarted": 512
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 226,
+          "shotsGuarded": 776,
+          "basicStrikesStarted": 7407,
+          "directionalSpecialsStarted": 34,
+          "punishAttemptsStarted": 274
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 405,
+          "shotsGuarded": 1663,
+          "basicStrikesStarted": 1913,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 576
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 215,
+          "shotsGuarded": 793,
+          "basicStrikesStarted": 4506,
+          "directionalSpecialsStarted": 269,
+          "punishAttemptsStarted": 234
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 167,
+          "shotsGuarded": 6499,
+          "basicStrikesStarted": 1402,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 156
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 858,
+          "shotsGuarded": 787,
+          "basicStrikesStarted": 30,
+          "directionalSpecialsStarted": 2723,
+          "punishAttemptsStarted": 227
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1415,
+          "shotsGuarded": 21,
+          "basicStrikesStarted": 526,
+          "directionalSpecialsStarted": 3569,
+          "punishAttemptsStarted": 672
+        },
+        {
+          "mode": "proposed",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 243,
+          "shotsGuarded": 786,
+          "basicStrikesStarted": 6979,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 422
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1095,
+          "shotsGuarded": 72,
+          "basicStrikesStarted": 89,
+          "directionalSpecialsStarted": 1486,
+          "punishAttemptsStarted": 482
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 204,
+          "shotsGuarded": 872,
+          "basicStrikesStarted": 7432,
+          "directionalSpecialsStarted": 30,
+          "punishAttemptsStarted": 302
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 361,
+          "shotsGuarded": 1604,
+          "basicStrikesStarted": 2172,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 806
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 245,
+          "shotsGuarded": 810,
+          "basicStrikesStarted": 4445,
+          "directionalSpecialsStarted": 229,
+          "punishAttemptsStarted": 371
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 168,
+          "shotsGuarded": 6279,
+          "basicStrikesStarted": 1359,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 117
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 850,
+          "shotsGuarded": 714,
+          "basicStrikesStarted": 22,
+          "directionalSpecialsStarted": 2728,
+          "punishAttemptsStarted": 216
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1365,
+          "shotsGuarded": 16,
+          "basicStrikesStarted": 502,
+          "directionalSpecialsStarted": 3549,
+          "punishAttemptsStarted": 678
+        },
+        {
+          "mode": "rules",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 240,
+          "shotsGuarded": 812,
+          "basicStrikesStarted": 6893,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 389
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1095,
+          "shotsGuarded": 72,
+          "basicStrikesStarted": 77,
+          "directionalSpecialsStarted": 1476,
+          "punishAttemptsStarted": 471
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 251,
+          "shotsGuarded": 820,
+          "basicStrikesStarted": 7465,
+          "directionalSpecialsStarted": 24,
+          "punishAttemptsStarted": 315
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 400,
+          "shotsGuarded": 1605,
+          "basicStrikesStarted": 2053,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 766
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 219,
+          "shotsGuarded": 840,
+          "basicStrikesStarted": 4361,
+          "directionalSpecialsStarted": 223,
+          "punishAttemptsStarted": 305
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 187,
+          "shotsGuarded": 6251,
+          "basicStrikesStarted": 1357,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 112
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 897,
+          "shotsGuarded": 712,
+          "basicStrikesStarted": 27,
+          "directionalSpecialsStarted": 2689,
+          "punishAttemptsStarted": 215
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 108,
+            "wins": 72,
+            "draws": 0,
+            "rate": 0.6666666666666666,
+            "margin": 0.3333333333333333
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 10,
+              "draws": 0,
+              "rate": 0.2777777777777778,
+              "interval": [
+                0.15848170025813796,
+                0.43992800216345146
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              128.0375
+            ],
+            [
+              "variant-sustained-verdict",
+              37.44000000000001
+            ],
+            [
+              "chain-shot-1",
+              36.906000000000034
+            ],
+            [
+              "variant-skybreaker-kick",
+              24.64239999999995
+            ],
+            [
+              "chain-shot-2",
+              24.413200000000018
+            ],
+            [
+              "chain-strike-1",
+              18.36
+            ],
+            [
+              "bolt (source unresolved)",
+              10.104499999999986
+            ],
+            [
+              "chain-shot-3",
+              6.577200000000001
+            ],
+            [
+              "chain-strike-2",
+              6.1200000000000045
+            ],
+            [
+              "variant-astral-blast",
+              2.9663999999999966
+            ],
+            [
+              "variant-orbit-fan",
+              1.730400000000003
+            ],
+            [
+              "variant-twin-spark",
+              1.7136000000000138
+            ],
+            [
+              "variant-fourfold-flame",
+              0.9887999999999977
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 32,
+              "draws": 1,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 25,
+              "draws": 0,
+              "rate": 0.6944444444444444,
+              "interval": [
+                0.5314342132091627,
+                0.8199572971719464
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 20,
+              "draws": 0,
+              "rate": 0.5555555555555556,
+              "interval": [
+                0.3958078731600341,
+                0.7045897012345685
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.5892923231679656,
+                0.8624967616077461
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.4757478039083198,
+                0.7752461320781867
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 18379.45930000001,
+              "captureDamage": 5104.325999999998,
+              "share": 0.2777190512889569
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 6870.412799999999,
+              "captureDamage": 1732.2427,
+              "share": 0.25213080355229894
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 2020.2754000000004,
+              "captureDamage": 583.9025,
+              "share": 0.2890212393815219
+            },
+            "inPunisherLosses": {
+              "n": 3,
+              "damage": 300,
+              "captureDamage": 128.0375,
+              "share": 0.4267916666666666
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 108,
+            "wins": 68,
+            "draws": 0,
+            "rate": 0.6296296296296297,
+            "margin": 0.25925925925925924
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 1,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              287.443
+            ],
+            [
+              "chain-shot-1",
+              119.37280000000001
+            ],
+            [
+              "variant-sustained-verdict",
+              107.79999999999998
+            ],
+            [
+              "chain-shot-2",
+              80.48880000000001
+            ],
+            [
+              "chain-shot-3",
+              71.9064
+            ],
+            [
+              "variant-iron-eruption",
+              24.7568
+            ],
+            [
+              "chain-strike-1",
+              22.68
+            ],
+            [
+              "variant-iron-lance",
+              17.36
+            ],
+            [
+              "special-meteor-drive",
+              12
+            ],
+            [
+              "variant-falling-ember",
+              11.558400000000006
+            ],
+            [
+              "variant-solar-ward",
+              10.32
+            ],
+            [
+              "spirit (source unresolved)",
+              9
+            ],
+            [
+              "bolt (source unresolved)",
+              6.921599999999984
+            ],
+            [
+              "variant-spirit-wings",
+              6.660000000000004
+            ],
+            [
+              "variant-sword-fan",
+              4.032
+            ],
+            [
+              "wheel (source unresolved)",
+              1.730400000000003
+            ],
+            [
+              "chain-strike-2",
+              1.5525999999999858
+            ],
+            [
+              "variant-astral-blast",
+              1.4831999999999965
+            ],
+            [
+              "crescent (source unresolved)",
+              1.0800000000000125
+            ],
+            [
+              "variant-fourfold-flame",
+              0.9887999999999977
+            ],
+            [
+              "variant-orbit-fan",
+              0.8652000000000015
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 28,
+              "draws": 0,
+              "rate": 0.7777777777777778,
+              "interval": [
+                0.6191498017214091,
+                0.882838070251604
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.5892923231679656,
+                0.8624967616077461
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 16,
+              "draws": 0,
+              "rate": 0.4444444444444444,
+              "interval": [
+                0.2954102987654314,
+                0.6041921268399659
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 25,
+              "draws": 0,
+              "rate": 0.6944444444444444,
+              "interval": [
+                0.5314342132091627,
+                0.8199572971719464
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 24,
+              "draws": 0,
+              "rate": 0.6666666666666666,
+              "interval": [
+                0.5033369709296683,
+                0.7978557522541395
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 18717.216200000003,
+              "captureDamage": 6005.612699999999,
+              "share": 0.3208603584971144
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 7314.874599999999,
+              "captureDamage": 2393.4934000000003,
+              "share": 0.32720908161569856
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 2060.3471999999997,
+              "captureDamage": 657.703,
+              "share": 0.3192194985388871
+            },
+            "inPunisherLosses": {
+              "n": 8,
+              "damage": 800,
+              "captureDamage": 287.443,
+              "share": 0.35930375
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 108,
+            "wins": 72,
+            "draws": 0,
+            "rate": 0.6666666666666666,
+            "margin": 0.3333333333333333
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 32,
+              "draws": 0,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              258.01
+            ],
+            [
+              "chain-shot-1",
+              74.71639999999998
+            ],
+            [
+              "variant-sustained-verdict",
+              74.40000000000002
+            ],
+            [
+              "chain-shot-2",
+              53.97420000000006
+            ],
+            [
+              "bolt (source unresolved)",
+              35.481599999999986
+            ],
+            [
+              "variant-iron-eruption",
+              24.7568
+            ],
+            [
+              "chain-shot-3",
+              20.887199999999993
+            ],
+            [
+              "chain-strike-1",
+              17.519999999999996
+            ],
+            [
+              "variant-iron-lance",
+              17.36
+            ],
+            [
+              "variant-solar-ward",
+              12.558399999999999
+            ],
+            [
+              "variant-falling-ember",
+              3.715199999999996
+            ],
+            [
+              "wheel (source unresolved)",
+              1.730400000000003
+            ],
+            [
+              "chain-strike-2",
+              1.5525999999999858
+            ],
+            [
+              "variant-astral-blast",
+              1.4831999999999965
+            ],
+            [
+              "variant-fourfold-flame",
+              0.9887999999999977
+            ],
+            [
+              "variant-orbit-fan",
+              0.8652000000000015
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 29,
+              "draws": 1,
+              "rate": 0.8055555555555556,
+              "interval": [
+                0.6497163793648479,
+                0.9024702798054665
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.1111111111111111,
+              "interval": [
+                0.04406568908741834,
+                0.2531512901503632
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.75,
+              "interval": [
+                0.5892923231679656,
+                0.8624967616077461
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 16,
+              "draws": 0,
+              "rate": 0.4444444444444444,
+              "interval": [
+                0.2954102987654314,
+                0.6041921268399659
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 29,
+              "draws": 0,
+              "rate": 0.8055555555555556,
+              "interval": [
+                0.6497163793648479,
+                0.9024702798054665
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.4757478039083198,
+                0.7752461320781867
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 18744.59920000001,
+              "captureDamage": 5972.719299999998,
+              "share": 0.3186368103298786
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 7221.544999999999,
+              "captureDamage": 2347.9804,
+              "share": 0.3251354661640965
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 2139.1306000000004,
+              "captureDamage": 717.355,
+              "share": 0.3353488562128932
+            },
+            "inPunisherLosses": {
+              "n": 6,
+              "damage": 600,
+              "captureDamage": 258.01,
+              "share": 0.43001666666666666
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "quick-15",
+      "path": "art/skill-lab/2026-10-28-skill-bots/quick-15/report.json",
+      "config": {
+        "full": false,
+        "seeds": 1,
+        "delay": 15,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 56.173034145
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1032,
+          "shotsGuarded": 7,
+          "basicStrikesStarted": 447,
+          "directionalSpecialsStarted": 3089,
+          "punishAttemptsStarted": 485
+        },
+        {
+          "mode": "default",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 550,
+          "shotsGuarded": 768,
+          "basicStrikesStarted": 4773,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 367
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1075,
+          "shotsGuarded": 77,
+          "basicStrikesStarted": 126,
+          "directionalSpecialsStarted": 1484,
+          "punishAttemptsStarted": 467
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 588,
+          "shotsGuarded": 764,
+          "basicStrikesStarted": 4632,
+          "directionalSpecialsStarted": 2,
+          "punishAttemptsStarted": 441
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 759,
+          "shotsGuarded": 1133,
+          "basicStrikesStarted": 1582,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 476
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 563,
+          "shotsGuarded": 793,
+          "basicStrikesStarted": 3445,
+          "directionalSpecialsStarted": 234,
+          "punishAttemptsStarted": 385
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 199,
+          "shotsGuarded": 5982,
+          "basicStrikesStarted": 1420,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 445
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 915,
+          "shotsGuarded": 606,
+          "basicStrikesStarted": 223,
+          "directionalSpecialsStarted": 2295,
+          "punishAttemptsStarted": 235
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 1002,
+          "shotsGuarded": 5,
+          "basicStrikesStarted": 411,
+          "directionalSpecialsStarted": 3174,
+          "punishAttemptsStarted": 432
+        },
+        {
+          "mode": "proposed",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 560,
+          "shotsGuarded": 819,
+          "basicStrikesStarted": 5022,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 513
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1046,
+          "shotsGuarded": 72,
+          "basicStrikesStarted": 124,
+          "directionalSpecialsStarted": 1354,
+          "punishAttemptsStarted": 443
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 516,
+          "shotsGuarded": 949,
+          "basicStrikesStarted": 4687,
+          "directionalSpecialsStarted": 3,
+          "punishAttemptsStarted": 584
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 725,
+          "shotsGuarded": 1230,
+          "basicStrikesStarted": 1781,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 310
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 550,
+          "shotsGuarded": 844,
+          "basicStrikesStarted": 3559,
+          "directionalSpecialsStarted": 235,
+          "punishAttemptsStarted": 528
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 210,
+          "shotsGuarded": 5850,
+          "basicStrikesStarted": 1377,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 428
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 862,
+          "shotsGuarded": 575,
+          "basicStrikesStarted": 210,
+          "directionalSpecialsStarted": 2254,
+          "punishAttemptsStarted": 232
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 252,
+          "shotsReceived": 997,
+          "shotsGuarded": 7,
+          "basicStrikesStarted": 402,
+          "directionalSpecialsStarted": 3192,
+          "punishAttemptsStarted": 451
+        },
+        {
+          "mode": "rules",
+          "bot": "punisher",
+          "playerBouts": 252,
+          "shotsReceived": 546,
+          "shotsGuarded": 799,
+          "basicStrikesStarted": 5028,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 524
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 252,
+          "shotsReceived": 1042,
+          "shotsGuarded": 85,
+          "basicStrikesStarted": 111,
+          "directionalSpecialsStarted": 1400,
+          "punishAttemptsStarted": 453
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 252,
+          "shotsReceived": 555,
+          "shotsGuarded": 893,
+          "basicStrikesStarted": 4714,
+          "directionalSpecialsStarted": 6,
+          "punishAttemptsStarted": 570
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 252,
+          "shotsReceived": 717,
+          "shotsGuarded": 1211,
+          "basicStrikesStarted": 1789,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 304
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 252,
+          "shotsReceived": 558,
+          "shotsGuarded": 809,
+          "basicStrikesStarted": 3575,
+          "directionalSpecialsStarted": 234,
+          "punishAttemptsStarted": 516
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 252,
+          "shotsReceived": 214,
+          "shotsGuarded": 5834,
+          "basicStrikesStarted": 1379,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 423
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 252,
+          "shotsReceived": 914,
+          "shotsGuarded": 586,
+          "basicStrikesStarted": 217,
+          "directionalSpecialsStarted": 2273,
+          "punishAttemptsStarted": 257
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 108,
+            "wins": 22,
+            "draws": 0,
+            "rate": 0.2037037037037037,
+            "margin": -0.5925925925925926
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.1388888888888889,
+              "interval": [
+                0.060817253631150966,
+                0.2865985128039319
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              534.1614000000001
+            ],
+            [
+              "chain-shot-1",
+              281.42639999999994
+            ],
+            [
+              "variant-sustained-verdict",
+              237.66
+            ],
+            [
+              "bolt (source unresolved)",
+              225.50420000000003
+            ],
+            [
+              "chain-shot-2",
+              191.2212
+            ],
+            [
+              "crescent (source unresolved)",
+              168.15800000000002
+            ],
+            [
+              "variant-twin-drive",
+              107.66
+            ],
+            [
+              "chain-shot-3",
+              103.43799999999992
+            ],
+            [
+              "chain-strike-1",
+              88.62320000000003
+            ],
+            [
+              "variant-solar-ward",
+              52.83839999999999
+            ],
+            [
+              "fire (source unresolved)",
+              51.6
+            ],
+            [
+              "variant-spirit-wings",
+              46.08000000000001
+            ],
+            [
+              "chain-strike-2",
+              43.19999999999999
+            ],
+            [
+              "variant-falling-ember",
+              42.380000000000024
+            ],
+            [
+              "variant-twin-spark",
+              28.560000000000002
+            ],
+            [
+              "variant-astral-blast",
+              19.525199999999984
+            ],
+            [
+              "beam (source unresolved)",
+              16
+            ],
+            [
+              "variant-skybreaker-kick",
+              14.8512
+            ],
+            [
+              "wheel (source unresolved)",
+              14.419999999999995
+            ],
+            [
+              "variant-orbit-fan",
+              10.670799999999996
+            ],
+            [
+              "variant-fourfold-flame",
+              10.21760000000001
+            ],
+            [
+              "special-comet-script",
+              8.600000000000001
+            ],
+            [
+              "variant-sword-fan",
+              4.031999999999995
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 13,
+              "draws": 0,
+              "rate": 0.3611111111111111,
+              "interval": [
+                0.2247538679218132,
+                0.5242521960916802
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 11,
+              "draws": 0,
+              "rate": 0.3055555555555556,
+              "interval": [
+                0.18004270282805354,
+                0.46856578679083716
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 9,
+              "draws": 0,
+              "rate": 0.25,
+              "interval": [
+                0.13750323839225387,
+                0.41070767683203424
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.6388888888888888,
+              "interval": [
+                0.4757478039083198,
+                0.7752461320781867
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 22864.325200000003,
+              "captureDamage": 6047.0961,
+              "share": 0.264477348319031
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 9959.561599999999,
+              "captureDamage": 2231.421,
+              "share": 0.22404811472826275
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 3065.4040000000005,
+              "captureDamage": 681.2214000000001,
+              "share": 0.22222891338303208
+            },
+            "inPunisherLosses": {
+              "n": 23,
+              "damage": 2300.8276,
+              "captureDamage": 534.1614000000001,
+              "share": 0.2321605495344371
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 108,
+            "wins": 21,
+            "draws": 0,
+            "rate": 0.19444444444444445,
+            "margin": -0.6111111111111112
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 32,
+              "draws": 0,
+              "rate": 0.8888888888888888,
+              "interval": [
+                0.7468487098496367,
+                0.9559343109125816
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 36,
+              "draws": 0,
+              "rate": 1,
+              "interval": [
+                0.9035781695514236,
+                1
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.015369663767066846,
+                0.18144974107611211
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              666.1963000000001
+            ],
+            [
+              "bolt (source unresolved)",
+              259.48819999999995
+            ],
+            [
+              "chain-shot-1",
+              232.82560000000004
+            ],
+            [
+              "variant-sustained-verdict",
+              212.81
+            ],
+            [
+              "chain-shot-2",
+              156.40120000000002
+            ],
+            [
+              "crescent (source unresolved)",
+              124.38
+            ],
+            [
+              "chain-strike-1",
+              110.4784
+            ],
+            [
+              "chain-shot-3",
+              87.70599999999993
+            ],
+            [
+              "chain-strike-2",
+              52.07999999999999
+            ],
+            [
+              "variant-solar-ward",
+              50.86500000000008
+            ],
+            [
+              "variant-falling-ember",
+              50.774399999999986
+            ],
+            [
+              "variant-twin-drive",
+              48
+            ],
+            [
+              "wheel (source unresolved)",
+              32.00969999999998
+            ],
+            [
+              "fire (source unresolved)",
+              31.959999999999994
+            ],
+            [
+              "variant-twin-spark",
+              28.560000000000002
+            ],
+            [
+              "variant-spirit-wings",
+              27.540000000000006
+            ],
+            [
+              "beam (source unresolved)",
+              23.479999999999997
+            ],
+            [
+              "variant-astral-blast",
+              19.77599999999999
+            ],
+            [
+              "variant-iron-lance",
+              17.36
+            ],
+            [
+              "special-comet-script",
+              17.200000000000003
+            ],
+            [
+              "variant-skybreaker-kick",
+              14.8512
+            ],
+            [
+              "variant-orbit-fan",
+              12.521199999999991
+            ],
+            [
+              "variant-fourfold-flame",
+              10.217600000000008
+            ],
+            [
+              "chain-strike-3",
+              8.600000000000001
+            ],
+            [
+              "special-astral-wheel",
+              1.4832
+            ],
+            [
+              "special-event-horizon",
+              1.235999999999997
+            ],
+            [
+              "special-thunder-snare",
+              1.1999999999999993
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 13,
+              "draws": 0,
+              "rate": 0.3611111111111111,
+              "interval": [
+                0.2247538679218132,
+                0.5242521960916802
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 11,
+              "draws": 0,
+              "rate": 0.3055555555555556,
+              "interval": [
+                0.18004270282805354,
+                0.46856578679083716
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 10,
+              "draws": 0,
+              "rate": 0.2777777777777778,
+              "interval": [
+                0.15848170025813796,
+                0.43992800216345146
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 24,
+              "draws": 0,
+              "rate": 0.6666666666666666,
+              "interval": [
+                0.5033369709296683,
+                0.7978557522541395
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 22914.992800000004,
+              "captureDamage": 7150.601400000001,
+              "share": 0.31204903542452783
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 10075.677999999998,
+              "captureDamage": 2924.323299999998,
+              "share": 0.290235882885499
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 3109.9488,
+              "captureDamage": 841.0063,
+              "share": 0.27042448415871023
+            },
+            "inPunisherLosses": {
+              "n": 23,
+              "damage": 2300,
+              "captureDamage": 666.1963000000001,
+              "share": 0.28965056521739135
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 108,
+            "wins": 19,
+            "draws": 0,
+            "rate": 0.17592592592592593,
+            "margin": -0.6481481481481481
+          },
+          "sanity": {
+            "masher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 36,
+              "wins": 34,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.8185502589238878,
+                0.9846303362329332
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 36,
+              "wins": 35,
+              "draws": 0,
+              "rate": 0.9722222222222222,
+              "interval": [
+                0.8582996626496918,
+                0.9950797197044302
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.004920280295569679,
+                0.141700337350308
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.7817298972308114,
+                0.9712519107287082
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              669.9327
+            ],
+            [
+              "bolt (source unresolved)",
+              321.42420000000004
+            ],
+            [
+              "chain-shot-1",
+              257.03560000000004
+            ],
+            [
+              "variant-sustained-verdict",
+              226.42000000000002
+            ],
+            [
+              "chain-shot-2",
+              173.4632
+            ],
+            [
+              "crescent (source unresolved)",
+              139.582
+            ],
+            [
+              "chain-shot-3",
+              83.37879999999994
+            ],
+            [
+              "chain-strike-1",
+              56.68
+            ],
+            [
+              "variant-twin-drive",
+              48
+            ],
+            [
+              "variant-falling-ember",
+              40.454399999999985
+            ],
+            [
+              "variant-spirit-wings",
+              40.32000000000001
+            ],
+            [
+              "chain-strike-2",
+              39.72
+            ],
+            [
+              "wheel (source unresolved)",
+              32.00969999999998
+            ],
+            [
+              "variant-solar-ward",
+              31.08580000000002
+            ],
+            [
+              "variant-twin-spark",
+              28.560000000000002
+            ],
+            [
+              "fire (source unresolved)",
+              20.64
+            ],
+            [
+              "variant-astral-blast",
+              18.29279999999999
+            ],
+            [
+              "special-comet-script",
+              17.200000000000003
+            ],
+            [
+              "beam (source unresolved)",
+              16
+            ],
+            [
+              "variant-skybreaker-kick",
+              14.8512
+            ],
+            [
+              "variant-fourfold-flame",
+              9.22880000000001
+            ],
+            [
+              "variant-orbit-fan",
+              8.940399999999995
+            ],
+            [
+              "variant-sword-fan",
+              5.327999999999998
+            ],
+            [
+              "special-thunder-snare",
+              1.1999999999999993
+            ],
+            [
+              "special-crescent-wing",
+              1.08
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 36,
+              "wins": 13,
+              "draws": 0,
+              "rate": 0.3611111111111111,
+              "interval": [
+                0.2247538679218132,
+                0.5242521960916802
+              ]
+            },
+            "random": {
+              "n": 36,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.08333333333333333,
+              "interval": [
+                0.0287480892712918,
+                0.21827010276918848
+              ]
+            },
+            "reader": {
+              "n": 36,
+              "wins": 10,
+              "draws": 0,
+              "rate": 0.2777777777777778,
+              "interval": [
+                0.15848170025813796,
+                0.43992800216345146
+              ]
+            },
+            "spacer": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "timer": {
+              "n": 36,
+              "wins": 9,
+              "draws": 0,
+              "rate": 0.25,
+              "interval": [
+                0.13750323839225387,
+                0.41070767683203424
+              ]
+            },
+            "turtle": {
+              "n": 36,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.09642183044857634
+              ]
+            },
+            "zoner": {
+              "n": 36,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4219996966427768,
+                0.7285966649491271
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 252,
+              "damage": 23052.650600000004,
+              "captureDamage": 7102.016,
+              "share": 0.3080780654351304
+            },
+            "againstOriginalSkilled": {
+              "n": 108,
+              "damage": 10103.7832,
+              "captureDamage": 2900.320299999999,
+              "share": 0.2870529031145481
+            },
+            "againstPunisher": {
+              "n": 36,
+              "damage": 3075.9808000000007,
+              "captureDamage": 813.3927000000001,
+              "share": 0.2644336076480061
+            },
+            "inPunisherLosses": {
+              "n": 23,
+              "damage": 2300.8276,
+              "captureDamage": 669.9327,
+              "share": 0.29117031628097645
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "full-15",
+      "path": "art/skill-lab/2026-10-28-skill-bots/full-15/report.json",
+      "config": {
+        "full": true,
+        "seeds": 1,
+        "delay": 15,
+        "workers": 4,
+        "roundSeconds": 60,
+        "elapsedSeconds": 138.941816902
+      },
+      "validity": [
+        {
+          "mode": "default",
+          "bot": "masher",
+          "playerBouts": 504,
+          "shotsReceived": 2051,
+          "shotsGuarded": 11,
+          "basicStrikesStarted": 935,
+          "directionalSpecialsStarted": 6329,
+          "punishAttemptsStarted": 957
+        },
+        {
+          "mode": "default",
+          "bot": "punisher",
+          "playerBouts": 504,
+          "shotsReceived": 1042,
+          "shotsGuarded": 1520,
+          "basicStrikesStarted": 9604,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 739
+        },
+        {
+          "mode": "default",
+          "bot": "random",
+          "playerBouts": 504,
+          "shotsReceived": 2129,
+          "shotsGuarded": 156,
+          "basicStrikesStarted": 248,
+          "directionalSpecialsStarted": 2941,
+          "punishAttemptsStarted": 931
+        },
+        {
+          "mode": "default",
+          "bot": "reader",
+          "playerBouts": 504,
+          "shotsReceived": 1176,
+          "shotsGuarded": 1552,
+          "basicStrikesStarted": 9287,
+          "directionalSpecialsStarted": 4,
+          "punishAttemptsStarted": 882
+        },
+        {
+          "mode": "default",
+          "bot": "spacer",
+          "playerBouts": 504,
+          "shotsReceived": 1502,
+          "shotsGuarded": 2282,
+          "basicStrikesStarted": 3151,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 945
+        },
+        {
+          "mode": "default",
+          "bot": "timer",
+          "playerBouts": 504,
+          "shotsReceived": 1101,
+          "shotsGuarded": 1548,
+          "basicStrikesStarted": 6909,
+          "directionalSpecialsStarted": 468,
+          "punishAttemptsStarted": 778
+        },
+        {
+          "mode": "default",
+          "bot": "turtle",
+          "playerBouts": 504,
+          "shotsReceived": 389,
+          "shotsGuarded": 12156,
+          "basicStrikesStarted": 2865,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 900
+        },
+        {
+          "mode": "default",
+          "bot": "zoner",
+          "playerBouts": 504,
+          "shotsReceived": 1809,
+          "shotsGuarded": 1306,
+          "basicStrikesStarted": 442,
+          "directionalSpecialsStarted": 4590,
+          "punishAttemptsStarted": 486
+        },
+        {
+          "mode": "proposed",
+          "bot": "masher",
+          "playerBouts": 504,
+          "shotsReceived": 2033,
+          "shotsGuarded": 14,
+          "basicStrikesStarted": 861,
+          "directionalSpecialsStarted": 6464,
+          "punishAttemptsStarted": 857
+        },
+        {
+          "mode": "proposed",
+          "bot": "punisher",
+          "playerBouts": 504,
+          "shotsReceived": 1079,
+          "shotsGuarded": 1750,
+          "basicStrikesStarted": 10068,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 1034
+        },
+        {
+          "mode": "proposed",
+          "bot": "random",
+          "playerBouts": 504,
+          "shotsReceived": 2058,
+          "shotsGuarded": 146,
+          "basicStrikesStarted": 249,
+          "directionalSpecialsStarted": 2787,
+          "punishAttemptsStarted": 888
+        },
+        {
+          "mode": "proposed",
+          "bot": "reader",
+          "playerBouts": 504,
+          "shotsReceived": 1067,
+          "shotsGuarded": 1784,
+          "basicStrikesStarted": 9391,
+          "directionalSpecialsStarted": 6,
+          "punishAttemptsStarted": 1167
+        },
+        {
+          "mode": "proposed",
+          "bot": "spacer",
+          "playerBouts": 504,
+          "shotsReceived": 1473,
+          "shotsGuarded": 2344,
+          "basicStrikesStarted": 3549,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 623
+        },
+        {
+          "mode": "proposed",
+          "bot": "timer",
+          "playerBouts": 504,
+          "shotsReceived": 1077,
+          "shotsGuarded": 1807,
+          "basicStrikesStarted": 7099,
+          "directionalSpecialsStarted": 473,
+          "punishAttemptsStarted": 1048
+        },
+        {
+          "mode": "proposed",
+          "bot": "turtle",
+          "playerBouts": 504,
+          "shotsReceived": 418,
+          "shotsGuarded": 11758,
+          "basicStrikesStarted": 2749,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 853
+        },
+        {
+          "mode": "proposed",
+          "bot": "zoner",
+          "playerBouts": 504,
+          "shotsReceived": 1720,
+          "shotsGuarded": 1332,
+          "basicStrikesStarted": 418,
+          "directionalSpecialsStarted": 4511,
+          "punishAttemptsStarted": 475
+        },
+        {
+          "mode": "rules",
+          "bot": "masher",
+          "playerBouts": 504,
+          "shotsReceived": 1995,
+          "shotsGuarded": 17,
+          "basicStrikesStarted": 846,
+          "directionalSpecialsStarted": 6512,
+          "punishAttemptsStarted": 883
+        },
+        {
+          "mode": "rules",
+          "bot": "punisher",
+          "playerBouts": 504,
+          "shotsReceived": 1050,
+          "shotsGuarded": 1697,
+          "basicStrikesStarted": 10083,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 1056
+        },
+        {
+          "mode": "rules",
+          "bot": "random",
+          "playerBouts": 504,
+          "shotsReceived": 2069,
+          "shotsGuarded": 167,
+          "basicStrikesStarted": 213,
+          "directionalSpecialsStarted": 2816,
+          "punishAttemptsStarted": 903
+        },
+        {
+          "mode": "rules",
+          "bot": "reader",
+          "playerBouts": 504,
+          "shotsReceived": 1135,
+          "shotsGuarded": 1706,
+          "basicStrikesStarted": 9401,
+          "directionalSpecialsStarted": 12,
+          "punishAttemptsStarted": 1140
+        },
+        {
+          "mode": "rules",
+          "bot": "spacer",
+          "playerBouts": 504,
+          "shotsReceived": 1424,
+          "shotsGuarded": 2320,
+          "basicStrikesStarted": 3567,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 612
+        },
+        {
+          "mode": "rules",
+          "bot": "timer",
+          "playerBouts": 504,
+          "shotsReceived": 1097,
+          "shotsGuarded": 1719,
+          "basicStrikesStarted": 7153,
+          "directionalSpecialsStarted": 467,
+          "punishAttemptsStarted": 1037
+        },
+        {
+          "mode": "rules",
+          "bot": "turtle",
+          "playerBouts": 504,
+          "shotsReceived": 418,
+          "shotsGuarded": 11800,
+          "basicStrikesStarted": 2788,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 860
+        },
+        {
+          "mode": "rules",
+          "bot": "zoner",
+          "playerBouts": 504,
+          "shotsReceived": 1820,
+          "shotsGuarded": 1372,
+          "basicStrikesStarted": 434,
+          "directionalSpecialsStarted": 4543,
+          "punishAttemptsStarted": 510
+        }
+      ],
+      "modes": {
+        "default": {
+          "gap": {
+            "n": 216,
+            "wins": 52,
+            "draws": 0,
+            "rate": 0.24074074074074073,
+            "margin": -0.5185185185185185
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 65,
+              "draws": 0,
+              "rate": 0.9027777777777778,
+              "interval": [
+                0.812647509746432,
+                0.9521042887388321
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 12,
+              "draws": 0,
+              "rate": 0.16666666666666666,
+              "interval": [
+                0.09799275085321624,
+                0.26910920902104796
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.041666666666666664,
+              "interval": [
+                0.01427054877259009,
+                0.11549464605452325
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              874.9906
+            ],
+            [
+              "chain-shot-1",
+              476.50719999999995
+            ],
+            [
+              "bolt (source unresolved)",
+              465.7884
+            ],
+            [
+              "variant-sustained-verdict",
+              443.26
+            ],
+            [
+              "chain-shot-2",
+              349.66200000000003
+            ],
+            [
+              "crescent (source unresolved)",
+              209.52200000000002
+            ],
+            [
+              "variant-twin-drive",
+              200.53999999999996
+            ],
+            [
+              "chain-shot-3",
+              190.1405999999999
+            ],
+            [
+              "chain-strike-1",
+              123.1832
+            ],
+            [
+              "variant-solar-ward",
+              83.79839999999999
+            ],
+            [
+              "variant-spirit-wings",
+              73.08000000000001
+            ],
+            [
+              "fire (source unresolved)",
+              72.24000000000001
+            ],
+            [
+              "chain-strike-2",
+              66.63999999999999
+            ],
+            [
+              "variant-falling-ember",
+              44.85680000000002
+            ],
+            [
+              "beam (source unresolved)",
+              40
+            ],
+            [
+              "variant-twin-spark",
+              28.560000000000002
+            ],
+            [
+              "variant-skybreaker-kick",
+              28.111199999999997
+            ],
+            [
+              "variant-astral-blast",
+              23.974799999999977
+            ],
+            [
+              "wheel (source unresolved)",
+              14.419999999999995
+            ],
+            [
+              "variant-orbit-fan",
+              14.251599999999993
+            ],
+            [
+              "special-meteor-drive",
+              12
+            ],
+            [
+              "special-event-horizon",
+              11.535999999999994
+            ],
+            [
+              "variant-fourfold-flame",
+              10.21760000000001
+            ],
+            [
+              "special-storm-spark",
+              10.200000000000003
+            ],
+            [
+              "special-still-water-discus",
+              10.200000000000003
+            ],
+            [
+              "chain-strike-3",
+              8.600000000000001
+            ],
+            [
+              "special-comet-script",
+              8.600000000000001
+            ],
+            [
+              "variant-sword-fan",
+              4.463999999999997
+            ],
+            [
+              "special-astral-wheel",
+              1.4832
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 72,
+              "wins": 33,
+              "draws": 0,
+              "rate": 0.4583333333333333,
+              "interval": [
+                0.3482843869513592,
+                0.5726033580329238
+              ]
+            },
+            "random": {
+              "n": 72,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.02181386292692504,
+                0.13432208357209396
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 25,
+              "draws": 0,
+              "rate": 0.3472222222222222,
+              "interval": [
+                0.2475326163175922,
+                0.4623891152914456
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.007650861466140468,
+                0.09574358168906721
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 25,
+              "draws": 0,
+              "rate": 0.3472222222222222,
+              "interval": [
+                0.2475326163175922,
+                0.4623891152914456
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.05065293981139638
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 42,
+              "draws": 0,
+              "rate": 0.5833333333333334,
+              "interval": [
+                0.4680748922563983,
+                0.6901496177750356
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 504,
+              "damage": 45113.055000000015,
+              "captureDamage": 11867.369999999999,
+              "share": 0.2630584428387746
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 19836.529599999998,
+              "captureDamage": 4403.981399999996,
+              "share": 0.22201370344538474
+            },
+            "againstPunisher": {
+              "n": 72,
+              "damage": 5770.058000000001,
+              "captureDamage": 1214.8006000000003,
+              "share": 0.21053524938570808
+            },
+            "inPunisherLosses": {
+              "n": 39,
+              "damage": 3900.8276,
+              "captureDamage": 874.9906,
+              "share": 0.2243089645899757
+            }
+          }
+        },
+        "proposed": {
+          "gap": {
+            "n": 216,
+            "wins": 45,
+            "draws": 0,
+            "rate": 0.20833333333333334,
+            "margin": -0.5833333333333334
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 72,
+              "wins": 65,
+              "draws": 0,
+              "rate": 0.9027777777777778,
+              "interval": [
+                0.812647509746432,
+                0.9521042887388321
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 67,
+              "draws": 0,
+              "rate": 0.9305555555555556,
+              "interval": [
+                0.847518240672898,
+                0.9699750611561773
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.09722222222222222,
+              "interval": [
+                0.04789571126116793,
+                0.18735249025356804
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 69,
+              "draws": 0,
+              "rate": 0.9583333333333334,
+              "interval": [
+                0.8845053539454768,
+                0.98572945122741
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 3,
+              "draws": 0,
+              "rate": 0.041666666666666664,
+              "interval": [
+                0.01427054877259009,
+                0.11549464605452325
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 67,
+              "draws": 0,
+              "rate": 0.9305555555555556,
+              "interval": [
+                0.847518240672898,
+                0.9699750611561773
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              1361.321
+            ],
+            [
+              "bolt (source unresolved)",
+              484.7822
+            ],
+            [
+              "chain-shot-1",
+              472.6308
+            ],
+            [
+              "variant-sustained-verdict",
+              408.4
+            ],
+            [
+              "chain-shot-2",
+              365.36080000000004
+            ],
+            [
+              "chain-shot-3",
+              206.33119999999997
+            ],
+            [
+              "chain-strike-1",
+              176.14079999999998
+            ],
+            [
+              "crescent (source unresolved)",
+              159.76800000000003
+            ],
+            [
+              "variant-twin-drive",
+              104.96000000000001
+            ],
+            [
+              "variant-falling-ember",
+              85.44959999999998
+            ],
+            [
+              "chain-strike-2",
+              82.07999999999997
+            ],
+            [
+              "variant-spirit-wings",
+              71.56000000000003
+            ],
+            [
+              "variant-solar-ward",
+              70.02500000000006
+            ],
+            [
+              "beam (source unresolved)",
+              60.839999999999996
+            ],
+            [
+              "fire (source unresolved)",
+              52.599999999999994
+            ],
+            [
+              "wheel (source unresolved)",
+              49.59939999999996
+            ],
+            [
+              "variant-twin-spark",
+              42.84
+            ],
+            [
+              "variant-skybreaker-kick",
+              41.900799999999975
+            ],
+            [
+              "variant-astral-blast",
+              28.67519999999998
+            ],
+            [
+              "chain-strike-3",
+              27.200000000000003
+            ],
+            [
+              "special-comet-script",
+              25.800000000000004
+            ],
+            [
+              "variant-orbit-fan",
+              21.29319999999999
+            ],
+            [
+              "variant-iron-eruption",
+              18.054399999999998
+            ],
+            [
+              "variant-fourfold-flame",
+              17.62999999999999
+            ],
+            [
+              "variant-iron-lance",
+              17.36
+            ],
+            [
+              "special-event-horizon",
+              12.771999999999991
+            ],
+            [
+              "special-storm-spark",
+              10.200000000000003
+            ],
+            [
+              "special-echo-blade",
+              9
+            ],
+            [
+              "variant-sword-fan",
+              8.927999999999997
+            ],
+            [
+              "special-astral-wheel",
+              2.9664
+            ],
+            [
+              "special-thunder-snare",
+              2.3999999999999986
+            ],
+            [
+              "variant-twin-dragons",
+              1.2032000000000482
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 72,
+              "wins": 27,
+              "draws": 0,
+              "rate": 0.375,
+              "interval": [
+                0.27219009399354577,
+                0.4904731409593034
+              ]
+            },
+            "random": {
+              "n": 72,
+              "wins": 4,
+              "draws": 0,
+              "rate": 0.05555555555555555,
+              "interval": [
+                0.02181386292692504,
+                0.13432208357209396
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 23,
+              "draws": 0,
+              "rate": 0.3194444444444444,
+              "interval": [
+                0.22325457048556474,
+                0.43392565777966174
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.05065293981139638
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 22,
+              "draws": 0,
+              "rate": 0.3055555555555556,
+              "interval": [
+                0.21126482045921047,
+                0.4195446561341104
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.05065293981139638
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 44,
+              "draws": 0,
+              "rate": 0.6111111111111112,
+              "interval": [
+                0.4956214320752605,
+                0.7153445812999848
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 504,
+              "damage": 45822.2926,
+              "captureDamage": 14318.386000000008,
+              "share": 0.3124764211383
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 20060.967999999993,
+              "captureDamage": 5755.300799999999,
+              "share": 0.28689048305146597
+            },
+            "againstPunisher": {
+              "n": 72,
+              "damage": 6245.136800000001,
+              "captureDamage": 1715.3809999999994,
+              "share": 0.27467468767057257
+            },
+            "inPunisherLosses": {
+              "n": 45,
+              "damage": 4500.071999999999,
+              "captureDamage": 1361.321,
+              "share": 0.30251093760277614
+            }
+          }
+        },
+        "rules": {
+          "gap": {
+            "n": 216,
+            "wins": 44,
+            "draws": 0,
+            "rate": 0.2037037037037037,
+            "margin": -0.5925925925925926
+          },
+          "sanity": {
+            "masher": {
+              "n": 72,
+              "wins": 67,
+              "draws": 0,
+              "rate": 0.9305555555555556,
+              "interval": [
+                0.847518240672898,
+                0.9699750611561773
+              ],
+              "trusted": true
+            },
+            "punisher": {
+              "n": 72,
+              "wins": 66,
+              "draws": 0,
+              "rate": 0.9166666666666666,
+              "interval": [
+                0.8298744472876599,
+                0.9612481028695096
+              ],
+              "trusted": true
+            },
+            "reader": {
+              "n": 72,
+              "wins": 65,
+              "draws": 0,
+              "rate": 0.9027777777777778,
+              "interval": [
+                0.812647509746432,
+                0.9521042887388321
+              ],
+              "trusted": true
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 7,
+              "draws": 0,
+              "rate": 0.09722222222222222,
+              "interval": [
+                0.04789571126116793,
+                0.18735249025356804
+              ],
+              "trusted": false
+            },
+            "timer": {
+              "n": 72,
+              "wins": 68,
+              "draws": 0,
+              "rate": 0.9444444444444444,
+              "interval": [
+                0.865677916427906,
+                0.9781861370730749
+              ],
+              "trusted": true
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 2,
+              "draws": 0,
+              "rate": 0.027777777777777776,
+              "interval": [
+                0.007650861466140468,
+                0.09574358168906721
+              ],
+              "trusted": false
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 67,
+              "draws": 0,
+              "rate": 0.9305555555555556,
+              "interval": [
+                0.847518240672898,
+                0.9699750611561773
+              ],
+              "trusted": true
+            }
+          },
+          "punisherLossSources": [
+            [
+              "system-capture-close-",
+              1269.0025
+            ],
+            [
+              "bolt (source unresolved)",
+              571.3066
+            ],
+            [
+              "chain-shot-1",
+              453.06600000000003
+            ],
+            [
+              "variant-sustained-verdict",
+              447.18000000000006
+            ],
+            [
+              "chain-shot-2",
+              339.4388
+            ],
+            [
+              "crescent (source unresolved)",
+              191.89000000000001
+            ],
+            [
+              "chain-shot-3",
+              165.34879999999993
+            ],
+            [
+              "variant-twin-drive",
+              144.97999999999996
+            ],
+            [
+              "chain-strike-1",
+              121.78279999999998
+            ],
+            [
+              "variant-falling-ember",
+              80.15119999999999
+            ],
+            [
+              "variant-spirit-wings",
+              77.22000000000001
+            ],
+            [
+              "chain-strike-2",
+              74.74
+            ],
+            [
+              "variant-solar-ward",
+              62.045800000000014
+            ],
+            [
+              "beam (source unresolved)",
+              57.36
+            ],
+            [
+              "fire (source unresolved)",
+              41.28
+            ],
+            [
+              "wheel (source unresolved)",
+              32.00969999999998
+            ],
+            [
+              "variant-twin-spark",
+              28.560000000000002
+            ],
+            [
+              "variant-skybreaker-kick",
+              28.111199999999997
+            ],
+            [
+              "variant-astral-blast",
+              27.19199999999998
+            ],
+            [
+              "special-comet-script",
+              25.800000000000004
+            ],
+            [
+              "variant-fourfold-flame",
+              24.8812
+            ],
+            [
+              "variant-iron-eruption",
+              18.054399999999998
+            ],
+            [
+              "special-echo-blade",
+              18
+            ],
+            [
+              "chain-strike-3",
+              17.71279999999998
+            ],
+            [
+              "variant-orbit-fan",
+              17.712399999999995
+            ],
+            [
+              "special-event-horizon",
+              11.535999999999994
+            ],
+            [
+              "special-thunder-snare",
+              11.2
+            ],
+            [
+              "variant-sword-fan",
+              10.224000000000002
+            ],
+            [
+              "special-storm-spark",
+              10.200000000000003
+            ],
+            [
+              "special-still-water-discus",
+              10.200000000000003
+            ],
+            [
+              "variant-twin-moon",
+              8.874999999999972
+            ],
+            [
+              "special-astral-wheel",
+              1.4832
+            ],
+            [
+              "variant-twin-dragons",
+              1.2032000000000482
+            ],
+            [
+              "special-crescent-wing",
+              1.08
+            ]
+          ],
+          "vsMasher": {
+            "punisher": {
+              "n": 72,
+              "wins": 28,
+              "draws": 0,
+              "rate": 0.3888888888888889,
+              "interval": [
+                0.2846554187000152,
+                0.5043785679247396
+              ]
+            },
+            "random": {
+              "n": 72,
+              "wins": 5,
+              "draws": 0,
+              "rate": 0.06944444444444445,
+              "interval": [
+                0.03002493884382272,
+                0.15248175932710195
+              ]
+            },
+            "reader": {
+              "n": 72,
+              "wins": 21,
+              "draws": 0,
+              "rate": 0.2916666666666667,
+              "interval": [
+                0.19937911717246715,
+                0.4050596077489481
+              ]
+            },
+            "spacer": {
+              "n": 72,
+              "wins": 1,
+              "draws": 0,
+              "rate": 0.013888888888888888,
+              "interval": [
+                0.002455888640432169,
+                0.07456780284286987
+              ]
+            },
+            "timer": {
+              "n": 72,
+              "wins": 22,
+              "draws": 0,
+              "rate": 0.3055555555555556,
+              "interval": [
+                0.21126482045921047,
+                0.4195446561341104
+              ]
+            },
+            "turtle": {
+              "n": 72,
+              "wins": 0,
+              "draws": 0,
+              "rate": 0,
+              "interval": [
+                0,
+                0.05065293981139638
+              ]
+            },
+            "zoner": {
+              "n": 72,
+              "wins": 37,
+              "draws": 0,
+              "rate": 0.5138888888888888,
+              "interval": [
+                0.40069555910198956,
+                0.625675192569916
+              ]
+            }
+          },
+          "capture": {
+            "allMasher": {
+              "n": 504,
+              "damage": 45899.08620000002,
+              "captureDamage": 13995.256100000002,
+              "share": 0.30491361067663253
+            },
+            "againstOriginalSkilled": {
+              "n": 216,
+              "damage": 20050.964799999998,
+              "captureDamage": 5647.175299999996,
+              "share": 0.28164107594463467
+            },
+            "againstPunisher": {
+              "n": 72,
+              "damage": 6132.7068,
+              "captureDamage": 1583.0124999999998,
+              "share": 0.2581262322862068
+            },
+            "inPunisherLosses": {
+              "n": 44,
+              "damage": 4400.8276000000005,
+              "captureDamage": 1269.0025,
+              "share": 0.288355422057433
+            }
+          }
+        }
+      }
+    }
+  ]
+}
