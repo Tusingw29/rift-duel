@@ -1,3 +1,7 @@
+## SKILL-BOTS — validate policies before balance conclusions
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Fix delayed projectile response, intentional neutral attack inputs and recovery punish cadence; add punisher, validity counters and 6/10/15f sweep. Measurement only: combat, move, fighter and hitbox files untouched; grab changes deferred to Adam. Preserve all original reports under `art/skill-lab/2026-10-28/`; new runs under `art/skill-lab/2026-10-28-skill-bots/`.
+
 ## SKILL-LAB — measured skill versus mashing
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review — awaiting Adam’s verdict** (2026-10-28). Measurement only; default gameplay and Claude’s model/animation files unchanged. Implementation remains on branch.
