@@ -1,3 +1,8 @@
+## GRAB-EQUAL — equal offensive capture policy
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns equal offensive capture decisions for timer/reader/punisher, passive offensive counters, ten-mode paired tournament and dashboard. Existing capture options only; no default gameplay or combat/rig/animation changes. Earlier proposed-vs-default comparisons confounded unequal offensive capture access; preserved as historical evidence.
+
+
 ## GRAB-RETEST — rule-aware grab defence and hold preview
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
