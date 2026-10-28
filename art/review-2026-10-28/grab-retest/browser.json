@@ -1,0 +1,40 @@
+{
+  "game": [
+    {
+      "query": "?grab=hold",
+      "action": "short",
+      "move": "shot"
+    },
+    {
+      "query": "?grab=hold",
+      "action": "held",
+      "move": "capture"
+    },
+    {
+      "query": "?grab=hold",
+      "action": "dedicated",
+      "move": "capture"
+    },
+    {
+      "query": "?balance=proposed&grab=hold",
+      "action": "short",
+      "move": "shot"
+    },
+    {
+      "query": "?balance=proposed&grab=hold",
+      "action": "held",
+      "move": "capture"
+    },
+    {
+      "query": "?balance=proposed&grab=hold",
+      "action": "dedicated",
+      "move": "capture"
+    }
+  ],
+  "dashboard": true,
+  "desktop": "dashboard-desktop-1793202535573.jpg",
+  "phone": "dashboard-phone-1793202535573.jpg",
+  "oldStudyAccessible": true,
+  "passed": true,
+  "errors": []
+}

@@ -1,0 +1,2 @@
+{"fighters":[0,1],"frame":579,"attempt":{"kind":"reaction","button":"capture","n":572,"tick":490},"before":{"captureProjectiles":1,"d":3.8751007948539558,"rival":{"kind":"capture","frame":22,"startup":13},"hitstop":0},"tick":498}
+{"fighters":[5,1],"frame":296,"attempt":{"kind":"reaction","button":"capture","n":294,"tick":240},"before":{"captureProjectiles":1,"d":3.0475254048104747,"rival":{"kind":"capture","frame":17,"startup":13},"hitstop":0},"tick":243}
