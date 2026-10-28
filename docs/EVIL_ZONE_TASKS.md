@@ -1,3 +1,7 @@
+## SKILL-LAB — measured skill versus mashing
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Measurement only: delayed-input seeded bots, all-roster tournaments, opt-in live telemetry, local dashboard. Based on balance-local; no default gameplay or character/animation changes. Implementation stays on branch for review.
+
 ## BALANCE-PASS — game-wide risk and roster identity
 
 Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiting Adam’s normal-speed verdict** (2026-10-28). Builds on playable lab preview: miss-only strike recovery, 12f block stun and split-guard preset; Rei trim, Aegis beam tuning; source-derived Control score before any Vesper buff. Owns combat/balance files, preserves character/animation work. Preview remains unmerged for normal-speed review.
