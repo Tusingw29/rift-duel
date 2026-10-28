@@ -1,5 +1,8 @@
 import {setLocomotionSource,setReactionSource} from './locomotion-clips.js';
 setLocomotionSource(new URLSearchParams(location.search).get('gait'));setReactionSource(new URLSearchParams(location.search).get('react'));
+import {setCombatVariant} from './spacing-commitment.js';
+import {createSpacingMarker} from './spacing-marker.js';
+setCombatVariant({spacing:new URLSearchParams(location.search).get('spacing'),guard:new URLSearchParams(location.search).get('guard')});
 import {lessons,lessonMatch,lessonOpponent,updateLesson,lessonText} from './lessons.js';
 import {pressureText} from './pressure-dash.js';
 import {recoveryText} from './recovery.js';
@@ -23,6 +26,7 @@ import {homeArena} from './arenas.js';
 import {updateStaggerHud,gaugeState,gaugeLabel,gemStates,shardPlan,damageShards,createTrail,updateTrail,healthClass,barShatterEvent} from './hud.js';
 const $=s=>document.querySelector(s),keys=createKeyboardInput();let selected=2,match=null,paused=false,round=0,wins=[0,0],stage=0,mode='arcade',last=0,acc=0,calloutTime=0,view,controllerMenuTime=0,previousPad=[],padAwaitRelease=false,inputHistory=[],flow=null,hitstop=0,arenaIndex=0;
 const audio=createAudio();
+let spacingMarker=null; // SPACING-COMMITMENT reach/band floor marker, training only, when &spacing= is on
 let bindings=defaultBindings(),bindingCapture=null;try{bindings=normalizeBindings(JSON.parse(localStorage.getItem('rift-keyboard')||'null'));}catch{}
 keys.configure(bindings);
 let settings=normalizeOptions();try{settings=normalizeOptions(JSON.parse(localStorage.getItem('rift-options')||'{}'));}catch{}
@@ -233,7 +237,7 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
  lessonPanel.hidden=!match?.lesson;if(match?.lesson){$('#lesson-text').textContent=(match.lesson.ready>0?'GET READY · ':'')+lessonText(match,bindings,!!pads.length);$('#lesson-next').disabled=match.lesson.status!=='passed';}
  if(match?.pressure){$('#callout').textContent=pressureText(match);$('#callout').dataset.kind='pressure';calloutTime=.1;}
  if(match){$('#timer').textContent=mode==='training'?'∞':Math.max(0,Math.ceil(match.time));updateHud(paused?0:dt);if(match.players.every(p=>p.comboTime===0))$('#combo').textContent='';}
- if(calloutTime>0){calloutTime-=dt;if(calloutTime<=0)$('#callout').textContent='';}hitstop=(match?.hitstop||0)*STEP;view.render(paused||hitstop>0?0:dt,match,settings,flow?cameraCue(flow):null);updateModelBadge();requestAnimationFrame(frame);
+ if(calloutTime>0){calloutTime-=dt;if(calloutTime<=0)$('#callout').textContent='';}hitstop=(match?.hitstop||0)*STEP;spacingMarker??=view&&createSpacingMarker(view.scene);spacingMarker?.update(match,0,mode==='training'&&!match?.lesson);view.render(paused||hitstop>0?0:dt,match,settings,flow?cameraCue(flow):null);updateModelBadge();requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 // Read-only diagnostics for browser verification and bug reports.

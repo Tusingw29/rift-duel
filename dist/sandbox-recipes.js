@@ -1,9 +1,18 @@
 import {createMatch,update,neutral,hit,STEP} from './combat.js';
 import {canChain} from './moves.js';
+import {fighters} from './fighters.js';
 // Deterministic scripted scenarios for the local sandbox and its tests. A recipe places both
 // fighters, then supplies both players' inputs for every simulation frame; scrubbing to frame N
 // means replaying N frames from the reset, which is exact because the simulation is fixed-step.
 const tap=(frames,input)=>f=>frames.includes(f)?input:{};
+// P2 punisher for the SPACING-COMMITMENT recipes (see 'band-whiff').
+function punishOpening(f,m){
+ // The opening starts once P1's move is past its active frames and none of its bolts is still in flight.
+ const a=m.players[0],b=m.players[1],d=Math.hypot(a.x-b.x,a.z-b.z),opening=a.move&&a.move.frame>=a.move.startup+(a.move.active||1)&&!m.projectiles.some(p=>p.owner===0);
+ if(b.move||b.prev.attack)return {};
+ if(!opening)return {guard:true};
+ return d<fighters[b.id].reach-.05?{attack:true}:{x:1};
+}
 const combo=limit=>(f,m)=>f===0||m.players[0].move?.chain<limit&&canChain(m.players[0].move)&&!m.players[0].prev.attack?{attack:true}:{};
 export const RECIPES={
  idle:{distance:3,p1:()=>({})},
@@ -38,11 +47,17 @@ export const RECIPES={
  // Third-hit reversal (EZ-04): the defender settles into guard first (a guard fresher than .2 s deflects instead),
  // the attacker chains three basic strikes tapping each as the previous reaches its connected cancel window, and the defender re-taps
  // guard two frames before the third strike lands.
+ // SPACING-COMMITMENT (compare with &spacing=band / &spacing=riskyshot): P1 attacks from just outside its reach.
+ // P2 guards, then punishes on the first recovery frame (an instant reaction, the best case): it taps attack when inside
+ // its reach, otherwise walks in. Distances follow P1's reach, so the same recipe works for every fighter.
+ // P1 holds guard after its press; the guard engages, fresh, the moment its move ends, so a late punish is deflected.
+ 'band-whiff':{distance:f=>f.reach+.3,frames:70,p1:f=>f===4?{attack:true}:f>=8?{guard:true}:{},p2:punishOpening},
+ 'risky-shot':{distance:f=>f.reach+.5,frames:80,p1:f=>f===4?{attack:true}:f>=8?{guard:true}:{},p2:punishOpening},
  reversal:{distance:1.7,p1:(f,m)=>{const a=m.players[1].move;return {guard:!(a?.chain===3&&a.frame===a.startup-2)};},p2:(f,m)=>{const a=m.players[1].move;return f===12||(a&&canChain(a)&&!m.players[1].prev.attack)?{attack:true}:{};}},
 };
 export function createScenario(name,p1=2,p2=1){
  const recipe=RECIPES[name]||RECIPES.idle,m=createMatch(p1,p2,'training');
- m.players[0].x=0;m.players[0].z=0;m.players[1].x=recipe.distance??3;m.players[1].z=0;
+ m.players[0].x=0;m.players[0].z=0;m.players[1].x=typeof recipe.distance==='function'?recipe.distance(fighters[p1],fighters[p2]):recipe.distance??3;m.players[1].z=0;
  for(const p of m.players){p.lookX=p===m.players[0]?1:-1;p.lookZ=0;p.face=p===m.players[0]?1:-1;}
  if(recipe.stocks)m.players[0].stocks=recipe.stocks;
  recipe.setup?.(m);
