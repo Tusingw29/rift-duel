@@ -27,7 +27,7 @@ export function movePhase(move){
 }
 export const INPUT_BUFFER_FRAMES=6;
 export const CHAIN_WINDOW_FRAMES=10;
-export const chainCancelFrame=move=>move?.kind==='strike'?(move.chain===1?14:20):move?.startup;
+export const chainCancelFrame=move=>move?.cancelFrame??(move?.kind==='strike'?(move.chain===1?14:20):move?.startup);
 export function canChain(move){
  return !!move&&!move.reversal&&['strike','shot'].includes(move.kind)&&move.chain<3&&move.connected&&move.frame>=chainCancelFrame(move)&&move.frame<=chainCancelFrame(move)+CHAIN_WINDOW_FRAMES;
 }

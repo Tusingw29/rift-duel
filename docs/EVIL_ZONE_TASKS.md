@@ -1,6 +1,9 @@
 ## BALANCE-LOCAL — playable tuning preview
 
-Owner: **Codex** · Branch: `codex/balance-local` · Status: **In progress** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
+Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiting Adam’s normal-speed verdict** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
+
+
+Implemented game/sandbox `?balance=local` with validated match-owned snapshots, all 116 move-row mappings, stats/rules overrides, pulse-preserving active-window edits, a visible status and normal-rule/error fallback. **634 tests pass**; local browser review passed (real lab edit → sandbox → real training strike at 11/3/40; reload snapshot, no-flag recovery 20, invalid JSON fallback). Default trace matches unchanged main across 3,600 input frames. [Evidence and limits](../art/review-2026-10-28/balance-local/README.md). Open `http://localhost:4202/balance-lab.html`, then `http://localhost:4202/?balance=local`. Port 4198 storage is separate: export/import into this lab to carry edits over. Custom fighters remain lab-only; reaction/band are analysis-only. Branch only; no gameplay merge or Pages deployment.
 
 ## BALANCE-LAB — in-repo balance lab and roster data
 

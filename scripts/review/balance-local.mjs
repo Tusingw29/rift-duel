@@ -1,0 +1,35 @@
+import {launch,BASE,OUT,stamp} from './common.mjs';
+import {writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const browser=await launch(),context=await browser.newContext({viewport:{width:1000,height:720}}),page=await context.newPage(),errors=[],report={};
+const suffix=stamp();page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+const shot=async name=>{const file=`${name}-${suffix}.jpg`;await page.screenshot({path:`${OUT}/${file}`,type:'jpeg',quality:76,timeout:240000});return file;};
+try{
+ await page.goto(`${BASE}/balance-lab.html?fighter=morrow`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.balanceLab?.ready);
+ const cell=page.locator('input[data-move="chain-strike-1"][data-k="recovery"]');await cell.fill('40');await cell.dispatchEvent('change');
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('rift-balance-lab')).fighters.morrow.moves.find(m=>m.key==='chain-strike-1').recovery),40);
+ report.lab=await shot('lab-recovery-40');
+ await page.goto(`${BASE}/sandbox.html?balance=local&p1=3&p2=1&scenario=strike1&quality=low`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.sandbox);
+ await page.evaluate(async()=>{await sandbox.state.ready;await sandbox.seek(4);});
+ report.sandbox=await page.evaluate(()=>({balance:sandbox.state.scenario.m.balance,move:sandbox.state.scenario.m.players[0].move}));assert.equal(report.sandbox.move.recovery,40);
+ assert.ok((await page.locator('#balance-preview-status').boundingBox()).height<100,'banner must not inherit sandbox sidebar height');
+ report.sandboxShot=await shot('sandbox-tuned');
+ await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('rift-balance-lab'));s.fighters.morrow.moves.find(m=>m.key==='chain-strike-1').recovery=50;localStorage.setItem('rift-balance-lab',JSON.stringify(s));});
+ await page.evaluate(async()=>{await sandbox.reset();await sandbox.seek(4);});assert.equal(await page.evaluate(()=>sandbox.state.scenario.m.players[0].move.recovery),40);
+ await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.sandbox);await page.evaluate(async()=>{await sandbox.state.ready;await sandbox.seek(4);});assert.equal(await page.evaluate(()=>sandbox.state.scenario.m.players[0].move.recovery),50);
+ await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('rift-balance-lab'));s.fighters.morrow.moves.find(m=>m.key==='chain-strike-1').recovery=40;localStorage.setItem('rift-balance-lab',JSON.stringify(s));localStorage.setItem('rift-options',JSON.stringify({quality:'low',music:false,announcer:false,reduced:true}));});
+ await page.goto(`${BASE}/?energy=flow&balance=local`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.riftDebug);
+ report.menu=await shot('game-tuned-menu');
+ report.controls=await page.locator('select').evaluateAll(es=>es.map(e=>({id:e.id,options:[...e.options].map(o=>o.value)})));
+ await page.locator('#roster [data-id="3"]').click();await page.selectOption('#mode','training');await page.click('#start');
+ await page.waitForFunction(()=>riftDebug().tick>2);report.game=await page.evaluate(()=>riftDebug());assert.equal(report.game.balance.fighters.morrow.moves['chain-strike-1'].recovery,40);
+ await page.keyboard.down('KeyW');await page.waitForFunction(()=>{const p=riftDebug().players;return Math.hypot(p[0].x-p[1].x,p[0].z-p[1].z)<2.2;});await page.keyboard.up('KeyW');
+ const before=await page.evaluate(()=>riftDebug().tick);await page.keyboard.down('KeyJ');await page.waitForFunction(t=>riftDebug().tick>t+1,before);await page.keyboard.up('KeyJ');
+ await page.waitForFunction(()=>riftDebug().players[0].move==='strike');report.strike=await page.evaluate(()=>riftDebug().players[0]);assert.equal(report.strike.recovery,40);
+ report.gameShot=await shot('game-tuned-fight');
+ await page.goto(`${BASE}/sandbox.html?p1=3&p2=1&scenario=strike1&quality=low`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.sandbox);await page.evaluate(async()=>{await sandbox.state.ready;await sandbox.seek(4);});assert.equal(await page.evaluate(()=>sandbox.state.scenario.m.players[0].move.recovery),20);assert.equal(await page.locator('#balance-preview-status').count(),0);
+ report.defaultShot=await shot('sandbox-default');
+ await page.evaluate(()=>localStorage.setItem('rift-balance-lab','{broken'));
+ await page.goto(`${BASE}/sandbox.html?balance=local&p1=3&scenario=strike1&quality=low`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.sandbox);assert.match(await page.locator('#balance-preview-status').innerText(),/TUNING NOT APPLIED/);assert.equal(await page.evaluate(()=>sandbox.state.scenario.m.balance??null),null);
+ report.invalidShot=await shot('invalid-tuning');report.errors=errors;assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,suffix,shots:Object.values(report).filter(x=>typeof x==='string')}));
+}finally{writeFileSync(`${OUT}/browser-report-${suffix}.json`,JSON.stringify({...report,errors},null,2));await browser.close();}

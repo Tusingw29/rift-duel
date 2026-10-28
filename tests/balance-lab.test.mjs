@@ -36,7 +36,7 @@ test('game constants are read from the combat code',()=>{
  // A literal that moves or changes in dist/combat.js changes the extract; one that stops matching fails loudly.
  const source=readFileSync(new URL('../dist/combat.js',import.meta.url),'utf8');
  assert.equal(buildRoster(source.replace('b.stun=launch?.82:.32','b.stun=launch?.82:.4')).constants.hitStun,24);
- assert.throws(()=>readCombatLiterals(source.replace('const perfect=b.guard&&b.guardTime<.17','const perfect=isPerfect(b)')),/perfectGuard/);
+ assert.throws(()=>readCombatLiterals(source.replace('const perfect=balanceGuard(m,b,\'perfectGuard\',.17)','const perfect=isPerfect(b)')),/perfectGuard/);
 });
 
 test('known values on main: Tala and Morrow Strike 1, chain gaps, no reaction-punishable whiff',()=>{

@@ -1,3 +1,5 @@
+import {loadBalancePreview,showBalancePreview} from './balance-preview.js';
+const balancePreview=await loadBalancePreview(location.search,{getItem:key=>localStorage.getItem(key)});showBalancePreview(balancePreview);
 import * as T from './vendor/three.module.js';
 import {createView} from './render.js';
 import {fighters} from './fighters.js';
@@ -20,7 +22,7 @@ for(const [id,sel] of [['#p1','p1'],['#p2','p2']]){const el=$(id);fighters.forEa
 {const el=$('#anim');el.value=locomotionSource();el.onchange=async()=>{const frame=state.frame;setLocomotionSource(el.value);await reset();await seek(frame);};}
 {const el=$('#scenario');for(const name of Object.keys(RECIPES)){const o=document.createElement('option');o.value=name;o.textContent=name;el.append(o);}el.value=state.recipe;el.onchange=()=>{state.recipe=el.value;reset();};}
 function reset(){
- state.scenario=createScenario(state.recipe,state.p1,state.p2);state.frame=0;$('#frame').max=state.scenario.recipe.frames||64;
+ state.scenario=createScenario(state.recipe,state.p1,state.p2,{balance:balancePreview.balance});state.frame=0;$('#frame').max=state.scenario.recipe.frames||64;
  view.match(state.scenario.m);clearHelpers();settings.camera=$('#camera').value;
  state.ready=modelsReady().then(()=>{view.render(0,state.scenario.m,settings);updateReadout();});
  return state.ready;

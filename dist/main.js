@@ -1,3 +1,5 @@
+import {loadBalancePreview,showBalancePreview} from './balance-preview.js';
+const balancePreview=await loadBalancePreview(location.search,{getItem:key=>localStorage.getItem(key)});showBalancePreview(balancePreview);
 import {setLocomotionSource,setReactionSource} from './locomotion-clips.js';
 setLocomotionSource(new URLSearchParams(location.search).get('gait'));setReactionSource(new URLSearchParams(location.search).get('react'));
 import {lessons,lessonMatch,lessonOpponent,updateLesson,lessonText} from './lessons.js';
@@ -84,7 +86,7 @@ const lessonPanel=document.createElement('div');lessonPanel.id='lesson-panel';le
 lessonPanel.innerHTML='<p id="lesson-text" role="status"></p><div><button id="lesson-retry">RETRY</button><button id="lesson-next">NEXT LESSON</button><button id="lesson-exit">FREE PRACTICE</button></div>';
 $('#hud').append(lessonPanel);
 function startLesson(id){
- match=lessonMatch(id,selected,settings);mode='training';paused=false;keys.clear();inputHistory=[];hitstop=0;acc=0;
+ match=lessonMatch(id,selected,{...settings,balance:balancePreview.balance});mode='training';paused=false;keys.clear();inputHistory=[];hitstop=0;acc=0;
  flow=createFlow({training:true,reduced:settings.reduced,round,names:[fighters[selected].name,fighters[0].name]});match.lesson.ready=2.5;view.match(match,arenaIndex);$('#modal').close();audio.duck(false);$('#callout').textContent='';
  trails=[createTrail(),createTrail()];lastHp=[100,100];lastStocks=match.players.map(p=>p.stocks);
  $('#round-label').textContent='GUIDED PRACTICE';$('#p1-name').textContent=fighters[match.players[0].id].name;$('#p2-name').textContent=fighters[match.players[1].id].name;pips();
@@ -127,7 +129,7 @@ function pips(){match?.players.forEach((p,i)=>{$('#pips'+(i+1)).textContent='●
 function beginRound(){
  inputHistory=[];
  const opponent=mode==='arcade'?(selected+stage+1)%6:Number($('#opponent').value);
- match=createMatch(selected,opponent,mode,settings.difficulty,settings);round++;paused=false;keys.clear();hitstop=0;trails=[createTrail(),createTrail()];lastStocks=[1,1];lastHp=[100,100];
+ match=createMatch(selected,opponent,mode,settings.difficulty,{...settings,balance:balancePreview.balance});round++;paused=false;keys.clear();hitstop=0;trails=[createTrail(),createTrail()];lastStocks=[1,1];lastHp=[100,100];
  arenaIndex=homeArena(mode,selected,opponent);view.match(match,arenaIndex);$('#menu').hidden=true;$('#hud').hidden=false;document.body.classList.add('playing');$('#modal').close();
  $('#p1-name').textContent=fighters[selected].name;$('#p2-name').textContent=fighters[opponent].name;$('#p2-label').textContent=mode==='local'?'PLAYER 02':mode==='training'?'TRAINING':'CPU';$('#round-label').textContent=mode==='arcade'?`BOUT ${stage+1} / 6`:mode==='training'?'FREE PRACTICE':`ROUND ${round}`;$('#arena-name').textContent=view.arenaName;pips();
  flow=createFlow({training:mode==='training',reduced:settings.reduced,round,names:[fighters[selected].name,fighters[opponent].name]});
@@ -237,7 +239,7 @@ function frame(ms){const dt=Math.min((ms-last)/1000,.1)||STEP;last=ms;const pads
 }
 requestAnimationFrame(frame);
 // Read-only diagnostics for browser verification and bug reports.
-window.riftDebug=()=>({tick:match?.tick,phase:match?.phase||'menu',mode,paused,selected,stage,wins:[...wins],flow:flow?.state,arena:view.arenaName,camera:settings.camera,lesson:match?.lesson,pressure:match?.pressure,talaModels:view.talaModels,fighterModels:view.fighterModels,music:audio.playing,hitstop,rules:match?.rules,time:match?.time,players:match?.players.map(p=>({id:p.id,x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,stagger:p.stagger,staggerState:p.staggerState,staggerResist:p.staggerResist,counterWindow:p.counterWindow,air:p.air,visualHeight:p.airMotion?.height,anim:p.anim,move:p.move?.kind,pursuitHit:p.move?.pursuitHit,reversal:!!p.move?.reversal,empowered:!!p.move?.empowered,followup:!!p.move?.followup,moveFrame:p.move?.frame,chain:p.move?.chain,canChain:canChain(p.move),movePhase:movePhase(p.move)})),projectiles:match?.projectiles.length,cinematic:match?.cinematic?.kind,cinematicTime:match?.cinematic?.t,cinematicDuration:match?.cinematic?.duration,captureProfile:match?.cinematic?.profile,captureContext:match?.cinematic?.context});
+window.riftDebug=()=>({balance:match?.balance||null,tick:match?.tick,phase:match?.phase||'menu',mode,paused,selected,stage,wins:[...wins],flow:flow?.state,arena:view.arenaName,camera:settings.camera,lesson:match?.lesson,pressure:match?.pressure,talaModels:view.talaModels,fighterModels:view.fighterModels,music:audio.playing,hitstop,rules:match?.rules,time:match?.time,players:match?.players.map(p=>({id:p.id,x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,stagger:p.stagger,staggerState:p.staggerState,staggerResist:p.staggerResist,counterWindow:p.counterWindow,air:p.air,visualHeight:p.airMotion?.height,anim:p.anim,move:p.move?.kind,pursuitHit:p.move?.pursuitHit,reversal:!!p.move?.reversal,empowered:!!p.move?.empowered,followup:!!p.move?.followup,moveFrame:p.move?.frame,startup:p.move?.startup,active:p.move?.active,recovery:p.move?.recovery,chain:p.move?.chain,canChain:canChain(p.move),movePhase:movePhase(p.move)})),projectiles:match?.projectiles.length,cinematic:match?.cinematic?.kind,cinematicTime:match?.cinematic?.t,cinematicDuration:match?.cinematic?.duration,captureProfile:match?.cinematic?.profile,captureContext:match?.cinematic?.context});
 
 const modelBadge=document.createElement('a');modelBadge.href='./tala-blender.html';modelBadge.style.cssText='position:fixed;bottom:10px;left:10px;z-index:90;background:#171b22;color:#edbb68;padding:6px 10px;font:12px system-ui';modelBadge.hidden=true;document.body.append(modelBadge);
 function updateModelBadge(){

@@ -1,0 +1,180 @@
+{
+  "lab": "lab-recovery-40-1793188548504.jpg",
+  "sandbox": {
+    "balance": {
+      "version": 1,
+      "sys": {},
+      "fighters": {
+        "morrow": {
+          "stats": {},
+          "moves": {
+            "chain-strike-1": {
+              "recovery": 40
+            }
+          }
+        }
+      }
+    },
+    "move": {
+      "kind": "strike",
+      "startup": 11,
+      "active": 3,
+      "recovery": 40,
+      "total": 54,
+      "empowered": false,
+      "chain": 1,
+      "connected": false,
+      "frame": 2,
+      "started": 2,
+      "aimX": 1,
+      "aimZ": 0,
+      "balanceOriginal": {
+        "startup": 11,
+        "active": 3,
+        "recovery": 20
+      }
+    }
+  },
+  "sandboxShot": "sandbox-tuned-1793188548504.jpg",
+  "menu": "game-tuned-menu-1793188548504.jpg",
+  "controls": [
+    {
+      "id": "mode",
+      "options": [
+        "arcade",
+        "duel",
+        "training",
+        "local"
+      ]
+    },
+    {
+      "id": "opponent",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    }
+  ],
+  "game": {
+    "balance": {
+      "version": 1,
+      "sys": {},
+      "fighters": {
+        "morrow": {
+          "stats": {},
+          "moves": {
+            "chain-strike-1": {
+              "recovery": 40
+            }
+          }
+        }
+      }
+    },
+    "tick": 10,
+    "phase": "fight",
+    "mode": "training",
+    "paused": false,
+    "selected": 3,
+    "stage": 0,
+    "wins": [
+      0,
+      0
+    ],
+    "flow": "fight",
+    "arena": "IRON WASTES",
+    "camera": "duel",
+    "talaModels": [],
+    "fighterModels": [
+      {
+        "id": "morrow",
+        "status": "v3"
+      },
+      {
+        "id": "rei",
+        "status": "v3"
+      }
+    ],
+    "music": "morrow",
+    "hitstop": 0,
+    "rules": {
+      "roundSeconds": 90,
+      "winsNeeded": 2,
+      "pressureAssist": false
+    },
+    "time": 90,
+    "players": [
+      {
+        "id": 3,
+        "x": -4,
+        "z": 0,
+        "hp": 100,
+        "stocks": 1,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0,
+        "visualHeight": 0,
+        "anim": "idle",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "canChain": false,
+        "movePhase": "ready"
+      },
+      {
+        "id": 1,
+        "x": 4,
+        "z": 0,
+        "hp": 100,
+        "stocks": 1,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0,
+        "visualHeight": 0,
+        "anim": "idle",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "canChain": false,
+        "movePhase": "ready"
+      }
+    ],
+    "projectiles": 0
+  },
+  "strike": {
+    "id": 3,
+    "x": 1.8766666666666685,
+    "z": 0,
+    "hp": 100,
+    "stocks": 1,
+    "stagger": 0,
+    "staggerState": null,
+    "staggerResist": 0,
+    "counterWindow": 0,
+    "air": 0,
+    "visualHeight": 0,
+    "anim": "strike",
+    "move": "strike",
+    "reversal": false,
+    "empowered": false,
+    "followup": false,
+    "moveFrame": 5,
+    "startup": 11,
+    "active": 3,
+    "recovery": 40,
+    "chain": 1,
+    "canChain": false,
+    "movePhase": "startup"
+  },
+  "gameShot": "game-tuned-fight-1793188548504.jpg",
+  "defaultShot": "sandbox-default-1793188548504.jpg",
+  "invalidShot": "invalid-tuning-1793188548504.jpg",
+  "errors": []
+}

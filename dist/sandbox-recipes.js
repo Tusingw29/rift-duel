@@ -40,8 +40,8 @@ export const RECIPES={
  // guard two frames before the third strike lands.
  reversal:{distance:1.7,p1:(f,m)=>{const a=m.players[1].move;return {guard:!(a?.chain===3&&a.frame===a.startup-2)};},p2:(f,m)=>{const a=m.players[1].move;return f===12||(a&&canChain(a)&&!m.players[1].prev.attack)?{attack:true}:{};}},
 };
-export function createScenario(name,p1=2,p2=1){
- const recipe=RECIPES[name]||RECIPES.idle,m=createMatch(p1,p2,'training');
+export function createScenario(name,p1=2,p2=1,options={}){
+ const recipe=RECIPES[name]||RECIPES.idle,m=createMatch(p1,p2,'training','normal',options);
  m.players[0].x=0;m.players[0].z=0;m.players[1].x=recipe.distance??3;m.players[1].z=0;
  for(const p of m.players){p.lookX=p===m.players[0]?1:-1;p.lookZ=0;p.face=p===m.players[0]?1:-1;}
  if(recipe.stocks)m.players[0].stocks=recipe.stocks;
