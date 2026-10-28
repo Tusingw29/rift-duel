@@ -1,3 +1,16 @@
+## SPACING-COMMITMENT — spacing and defensive choices carry risk (opt-in switches)
+
+Owner: **Codex** (work carried out by Claude at Adam's request, 2026-10-28) · Branch: `codex/spacing-commitment` · Worktree: `~/rift-worktrees/spacing-commitment` · Status: **In progress** (2026-10-28)
+
+Make spacing and defensive choices earn something and expose something. Tune startup, recovery, reach, tracking, pushback and movement only; no damage multipliers. Everything behind URL switches (`&spacing=band|riskyshot`, `&guard=split`); default game unchanged until Adam picks. Keep whiffs never chaining, perfect guard stun and charge, projectile reflection, the third-hit reversal, fresh-guard capture breaks (in the default) and deterministic replay.
+
+- [ ] Part 1: line 100 spacing switch (`band`, `riskyshot`), one named config, training floor marker for reach and band edge
+- [ ] Part 2: guard overlap measured in frames; `&guard=split` variant with notes
+- [ ] Part 3: `scripts/review/frame-advantage.mjs` blocked-chain table → `docs/FRAME_ADVANTAGE.md` (measurement only)
+- [ ] Part 4: whiff punish table (band mode) and Sol shot safety; recovery proposals in notes only
+- [ ] Tests `tests/spacing-commitment.test.mjs`, full suite, sandbox strips and evidence README
+- [ ] **Adam's normal-speed verdict**
+
 ## BLENDER-VFX-ASSETS — modeled flow-preview effects
 
 Owner: **Codex** · Branch: `codex/blender-vfx-assets` · Worktree: `/tmp/rift-ink-fx` · Status: **In progress** (2026-10-27). Synced main `8e2e80e`. Blender 3.6.23 headless only: low-poly Sol/Vesper shells, capture profile, burst and small original masks. Flow preview only; preserve default game, Claude character/rig/pose/mocap/animation and combat. Deliver branch and localhost review; **do not merge implementation to main**.
@@ -387,6 +400,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-27 | Claude | QUATERNIUS-REACTIONS | Review on `claude/quaternius-reactions` (not merged): Hit_Chest on unguarded hits, Hit_Head behind the guard, behind `&anim=imported`. No wrong side, clipping or sliding; reactions are about a third of the authored snap. 608 tests. Evidence `art/review-2026-10-27/quaternius-reactions/`. Also `claude/bvh-strike-mode` (converter guard + tests, 603) ready to land. Next: Adam's verdict. |
 | 2026-10-27 | Claude | QUATERNIUS-REACTIONS | **Done (accepted).** Adam: "i like it". Merged `claude/quaternius-reactions` (includes `claude/bvh-strike-mode`) to main; reactions stay opt-in behind `&anim=imported`, authored default unchanged. Fixed the converter test's script path (it broke under a checkout path with spaces). 608 tests. Next: Adam decides whether imported reactions become Tala's default. |
 | 2026-10-27 | Claude | QUATERNIUS-REACTIONS | **Imported reactions are now Tala's default** (Adam: "yea import"). New reaction source in `locomotion-clips.js` (`setReactionSource`, default `imported`; `?react=authored` in game and sandbox restores authored; `&anim=imported` still plays them). Gait, strikes and get-up unchanged (authored default). Workbench view A stays the fully authored reference. Authored guard-tuck / recoil / GLB-bake tests pinned to `react=authored`. 608 tests; game and sandbox load with no errors. |
+| 2026-10-28 | Claude (for Codex) | SPACING-COMMITMENT | Claimed on `codex/spacing-commitment` as owner Codex at Adam's request; Claude does the work. Opt-in switches only; default game unchanged. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
