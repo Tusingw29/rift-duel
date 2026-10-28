@@ -1,6 +1,15 @@
 ## SKILL-LAB — measured skill versus mashing
 
-Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Measurement only: delayed-input seeded bots, all-roster tournaments, opt-in live telemetry, local dashboard. Based on balance-local; no default gameplay or character/animation changes. Implementation stays on branch for review.
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review — awaiting Adam’s verdict** (2026-10-28). Measurement only; default gameplay and Claude’s model/animation files unchanged. Implementation remains on branch.
+
+- [x] Seven deterministic input-only policies with 15-frame delayed, whitelisted visible observations; no pending input/buffer/remaining-air-time access. Masher includes neutral taps and directions at 30 rising presses/sec.
+- [x] All-pairs tournament for default/rules/proposed. Quick: 2,268 bouts in 79.8s alone (124.4s while the full test suite competed for CPU). Mirrored `--full --seeds=1`: 4,536 bouts in 150.3s, no censored results. Default eight-seed full preset was not run. Source hashes and sample sizes recorded.
+- [x] Passive telemetry, opt-in Options / `?stats=1`, both-player round results and training snapshots, bounded 50-round storage and shared JSON export. Added out-of-band diagnostic hooks for exact damage/chip, guard, projectile deflect/barrier and capture outcomes; no gameplay events/state/timing changed.
+- [x] Local skill dashboard: comparisons, mode/fighter gaps, grid, payoff, distance, guard, variety and sanity warnings; phone/light/dark. Dashboard excluded from Pages artifact.
+- [x] **661 tests pass**; real-renderer training/export browser smoke, completed-round UI/storage integration (renderer stub), and final dashboard captures pass. Default-vs-main fingerprint and observed/unobserved state equivalence remain green.
+- [ ] Adam’s normal-speed verdict. Skilled-policy wins versus masher: default 20/216, rules 19/216, proposed 20/216. All six fighters flag as autopilot candidates in this bot sample. **Do not infer human skill balance:** spacer and turtle fail sanity in all modes, reader in rules-only (72 random-opponent bouts per policy/mode). Improve those bots before using their losses to justify balance changes.
+
+[Evidence and limits](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/skill-lab/README.md) · [Definitions](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/docs/SKILL_LAB.md). Local dashboard: `http://localhost:4203/dist/skill-lab.html?report=full`; live stats: `http://localhost:4203/dist/index.html?stats=1`. No gameplay merge or Pages deployment.
 
 ## BALANCE-PASS — game-wide risk and roster identity
 
