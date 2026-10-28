@@ -25,3 +25,6 @@ document.getElementById('theme').onclick=()=>document.body.classList.toggle('lig
 document.getElementById('saved').onclick=()=>{try{show('A',exportMatches(readMatches(localStorage)));}catch(e){document.getElementById('error').textContent=e.message;}};
 document.getElementById('latest').onclick=async()=>{try{const r=await fetch('../art/skill-lab/2026-10-28/report.json');if(!r.ok)throw Error('Local report not found. Import report.json instead.');show('A',await r.json());}catch(e){document.getElementById('error').textContent=e.message;}};
 if(new URLSearchParams(location.search).has('saved'))document.getElementById('saved').click();
+
+document.getElementById('full').onclick=async()=>{try{const r=await fetch('../art/skill-lab/2026-10-28/full/report.json');if(!r.ok)throw Error('Both-seat report not found. Run --full or import a report.');show('A',await r.json());}catch(e){document.getElementById('error').textContent=e.message;}};
+if(new URLSearchParams(location.search).get('report')==='full')document.getElementById('full').click();

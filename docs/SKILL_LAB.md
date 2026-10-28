@@ -29,7 +29,7 @@ Stats appear in each round result, including the last round of a match. In train
 Every bot returns `neutral()`-compatible input. No bot receives the actual match. Each receives an explicitly whitelisted copy of visible positions, HP, stocks, guard, airborne state, animation/move phase, known roster reach and visible projectile positions. The snapshot arrives **15 input frames later**, configurable. Initial frames are neutral; the delay includes hitstop just as wall-clock human perception does. There is no access to opponent input, queued actions, invulnerability timers or future frames. Seeded random choices are independent of game RNG.
 
 - Random changes held choices at 5 Hz. It is a baseline, not a human model.
-- Masher alternates attack press/release every frame (30 rising presses/sec), changes directions every 10 frames and never guards intentionally. Holding attack every frame would charge instead of mash.
+- Masher alternates attack press/release every frame (30 rising presses/sec), changes directions every 10 frames (50% neutral forward-axis, 35% advance, 15% retreat; 20% circling) and never guards intentionally. Holding attack every frame would charge instead of mash.
 - Spacer waits outside reach, approaches/pursues visible recovery, reacts to close active attacks.
 - Timer responds to visible threats with guard; presses counters between threats. Perfect guard and third-hit reversal still depend on the actual delayed timing and simulation rules.
 - Reader stores the last 20 visible choice transitions, pressures guard with capture and approaches zoning. It has no input oracle.
