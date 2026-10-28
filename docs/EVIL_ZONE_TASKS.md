@@ -1,6 +1,14 @@
 ## GRAB-EQUAL — equal offensive capture policy
 
-Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns equal offensive capture decisions for timer/reader/punisher, passive offensive counters, ten-mode paired tournament and dashboard. Existing capture options only; no default gameplay or combat/rig/animation changes. Earlier proposed-vs-default comparisons confounded unequal offensive capture access; preserved as historical evidence.
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
+
+- [x] Common 1/60 eligible-frame offensive capture lottery for timer/reader/punisher on every rule set, with separate seeded stream. Default timed guard defence retained; split offensive tap doubles as one guess break, without a second tap. Reaction behaviour remains rule-aware and delayed.
+- [x] Per-bot/opponent captures started, connected, dedicated presses, offensive attempts/opportunities and actual capture HP share; break counters retained. Controlled equal-observation decisions match exactly across five seeds; all 30 live normalized-rate comparisons overlap with seed-block uncertainty.
+- [x] **100,800 bouts**, ten modes, both mashers, 10/15f, all fighter pairs, mirrored seats, five seeds; **zero censored**. Old archives preserved. Capture damage reported both ways; measured source hashes and accounting verified.
+- [x] **688 tests pass**, default fingerprint and passive replay equality pass. Browser controls/manual and desktop/phone dashboard checks pass (game input fixture stubs renderer). No combat/move/fighter/hitbox/rig/animation changes; existing switches only.
+- Findings: all four base proposed-vs-default comparisons **could be luck** with equal offence. At 15f slow improves the primary bots vs masher-all by **+33.5pp on default / +33.1pp on proposed** (non-overlapping ranges); original-masher gains overlap. No set satisfies the strict no-observed-10f-drop criterion. Exploratory largest 15f mean gain is proposed+slow, but its 10f original-masher drop of 2.6pp could be luck, not proof of no downside. Earlier comparisons had unequal grab attack.
+- [Full review](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/grab-equal/README.md) · [Dashboard](http://localhost:4203/dist/skill-lab.html?study=grab-equal) · [Default + slow](http://localhost:4203/dist/index.html?grab=slow) · [Default + hold,slow](http://localhost:4203/dist/index.html?grab=hold,slow) · [Proposed + hold,slow](http://localhost:4203/dist/index.html?balance=proposed&grab=hold,slow).
+- Measured implementation: `bdff062`; workflow `40737151754` succeeded, 8m 25s wall time. No gameplay merge or default promotion.
 
 
 ## GRAB-RETEST — rule-aware grab defence and hold preview
