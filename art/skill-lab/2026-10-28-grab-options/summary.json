@@ -1,0 +1,4857 @@
+{
+  "created": "2026-10-28T14:01:58.592Z",
+  "runs": [
+    {
+      "config": {
+        "mode": "default",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 37.948329607
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 596,
+          "draws": 0,
+          "rate": 0.5518518518518518,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.522060440660136,
+            0.5812756925903314
+          ],
+          "clusterInterval": [
+            0.5259259259259259,
+            0.575925925925926
+          ],
+          "interval": [
+            0.522060440660136,
+            0.5812756925903314
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 407,
+          "draws": 0,
+          "rate": 0.3768518518518518,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3484344868827672,
+            0.4061421966473722
+          ],
+          "clusterInterval": [
+            0.34629629629629627,
+            0.40925925925925927
+          ],
+          "interval": [
+            0.34629629629629627,
+            0.40925925925925927
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 281,
+          "draws": 2,
+          "rate": 0.7805555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7349633469811061,
+            0.8202233056721364
+          ],
+          "clusterInterval": [
+            0.7388888888888889,
+            0.8222222222222222
+          ],
+          "interval": [
+            0.7349633469811061,
+            0.8222222222222222
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 223,
+          "draws": 0,
+          "rate": 0.6194444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.5682777497437036,
+            0.6680888449502512
+          ],
+          "clusterInterval": [
+            0.5638888888888889,
+            0.6777777777777778
+          ],
+          "interval": [
+            0.5638888888888889,
+            0.6777777777777778
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 47,
+          "draws": 0,
+          "rate": 0.13055555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.09961792889088089,
+            0.16929469682316617
+          ],
+          "clusterInterval": [
+            0.09444444444444444,
+            0.17222222222222222
+          ],
+          "interval": [
+            0.09444444444444444,
+            0.17222222222222222
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 5,
+          "draws": 0,
+          "rate": 0.013888888888888888,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.005946618004726728,
+            0.03209631056638774
+          ],
+          "clusterInterval": [
+            0.002777777777777778,
+            0.027777777777777776
+          ],
+          "interval": [
+            0.002777777777777778,
+            0.03209631056638774
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 17,
+          "draws": 0,
+          "rate": 0.04722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.02968911468883021,
+            0.07431658449455067
+          ],
+          "clusterInterval": [
+            0.025,
+            0.06944444444444445
+          ],
+          "interval": [
+            0.025,
+            0.07431658449455067
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 306,
+          "draws": 0,
+          "rate": 0.85,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8094282988010074,
+            0.8831807926277903
+          ],
+          "clusterInterval": [
+            0.8166666666666667,
+            0.8833333333333333
+          ],
+          "interval": [
+            0.8094282988010074,
+            0.8833333333333333
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 321,
+          "draws": 0,
+          "rate": 0.8916666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8553285212748231,
+            0.9197340334193077
+          ],
+          "clusterInterval": [
+            0.8583333333333333,
+            0.9222222222222223
+          ],
+          "interval": [
+            0.8553285212748231,
+            0.9222222222222223
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 314,
+          "draws": 0,
+          "rate": 0.8722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ],
+          "clusterInterval": [
+            0.8388888888888889,
+            0.9027777777777778
+          ],
+          "interval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 321,
+          "draws": 0,
+          "rate": 0.8916666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8553285212748231,
+            0.9197340334193077
+          ],
+          "clusterInterval": [
+            0.8555555555555555,
+            0.9222222222222223
+          ],
+          "interval": [
+            0.8553285212748231,
+            0.9222222222222223
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 94034.21220000002,
+          "captureDamage": 27130.785200000002,
+          "share": 0.28852036471891657,
+          "breaksAgainstMasher": 1434,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 119809.94300000003,
+          "captureDamage": 54014.591399999976,
+          "share": 0.4508356322312912,
+          "breaksAgainstMasher": 667,
+          "breaksByMasher": 0
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 5.925925925925924,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 6.111111111111106,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 5.000000000000004,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 6.388888888888888,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 5.833333333333335,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 1.3888888888888888,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "proposed",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 41.068542824
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 532,
+          "draws": 1,
+          "rate": 0.4925925925925926,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.46285454769655915,
+            0.522383147553374
+          ],
+          "clusterInterval": [
+            0.46111111111111114,
+            0.5259259259259259
+          ],
+          "interval": [
+            0.46111111111111114,
+            0.5259259259259259
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 341,
+          "draws": 0,
+          "rate": 0.31574074074074077,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.288713602185024,
+            0.3440740671570644
+          ],
+          "clusterInterval": [
+            0.28703703703703703,
+            0.3453703703703704
+          ],
+          "interval": [
+            0.28703703703703703,
+            0.3453703703703704
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 263,
+          "draws": 0,
+          "rate": 0.7305555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6824671903951676,
+            0.7737753063396753
+          ],
+          "clusterInterval": [
+            0.6833333333333333,
+            0.7777777777777778
+          ],
+          "interval": [
+            0.6824671903951676,
+            0.7777777777777778
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 200,
+          "draws": 0,
+          "rate": 0.5555555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.503906596992823,
+            0.6060313540276211
+          ],
+          "clusterInterval": [
+            0.5,
+            0.6111111111111112
+          ],
+          "interval": [
+            0.5,
+            0.6111111111111112
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 26,
+          "draws": 0,
+          "rate": 0.07222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.04975961902703419,
+            0.10371815811554652
+          ],
+          "clusterInterval": [
+            0.044444444444444446,
+            0.10277777777777777
+          ],
+          "interval": [
+            0.044444444444444446,
+            0.10371815811554652
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 4,
+          "draws": 0,
+          "rate": 0.011111111111111112,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0043290733267216715,
+            0.028216957693370584
+          ],
+          "clusterInterval": [
+            0.002777777777777778,
+            0.022222222222222223
+          ],
+          "interval": [
+            0.002777777777777778,
+            0.028216957693370584
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 307,
+          "draws": 0,
+          "rate": 0.8527777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8124543135909402,
+            0.8856516753888796
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8861111111111111
+          ],
+          "interval": [
+            0.8124543135909402,
+            0.8861111111111111
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 318,
+          "draws": 0,
+          "rate": 0.8833333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8460521011242447,
+            0.9125197609168193
+          ],
+          "clusterInterval": [
+            0.8472222222222222,
+            0.9166666666666666
+          ],
+          "interval": [
+            0.8460521011242447,
+            0.9166666666666666
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 313,
+          "draws": 1,
+          "rate": 0.8694444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.830705303176834,
+            0.9003820711091192
+          ],
+          "clusterInterval": [
+            0.8388888888888889,
+            0.9
+          ],
+          "interval": [
+            0.830705303176834,
+            0.9003820711091192
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 332,
+          "draws": 0,
+          "rate": 0.9222222222222223,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8898856584544573,
+            0.9456427693009176
+          ],
+          "clusterInterval": [
+            0.8916666666666667,
+            0.9472222222222222
+          ],
+          "interval": [
+            0.8898856584544573,
+            0.9472222222222222
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 101919.5635999999,
+          "captureDamage": 42522.85339999991,
+          "share": 0.417219735819198,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 123247.41510000003,
+          "captureDamage": 60938.97299999994,
+          "share": 0.49444422790170084,
+          "breaksAgainstMasher": 9,
+          "breaksByMasher": 4
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "slow",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 42.329591807999996
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 530,
+          "draws": 0,
+          "rate": 0.49074074074074076,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.46101109084989333,
+            0.5205360282125232
+          ],
+          "clusterInterval": [
+            0.4601851851851852,
+            0.5212962962962963
+          ],
+          "interval": [
+            0.4601851851851852,
+            0.5212962962962963
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 399,
+          "draws": 0,
+          "rate": 0.36944444444444446,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.34116858204634004,
+            0.3986457967337327
+          ],
+          "clusterInterval": [
+            0.34074074074074073,
+            0.39814814814814814
+          ],
+          "interval": [
+            0.34074074074074073,
+            0.3986457967337327
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 260,
+          "draws": 0,
+          "rate": 0.7222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6737921637197266,
+            0.7659596403620497
+          ],
+          "clusterInterval": [
+            0.675,
+            0.7694444444444445
+          ],
+          "interval": [
+            0.6737921637197266,
+            0.7694444444444445
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 227,
+          "draws": 0,
+          "rate": 0.6305555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.579563139292167,
+            0.6787910456058766
+          ],
+          "clusterInterval": [
+            0.5777777777777777,
+            0.6805555555555556
+          ],
+          "interval": [
+            0.5777777777777777,
+            0.6805555555555556
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 32,
+          "draws": 0,
+          "rate": 0.08888888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.06366702103539015,
+            0.12279214141332379
+          ],
+          "clusterInterval": [
+            0.06111111111111111,
+            0.11944444444444445
+          ],
+          "interval": [
+            0.06111111111111111,
+            0.12279214141332379
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 7,
+          "draws": 0,
+          "rate": 0.019444444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.009449995950304772,
+            0.0395867277228541
+          ],
+          "clusterInterval": [
+            0.008333333333333333,
+            0.03333333333333333
+          ],
+          "interval": [
+            0.008333333333333333,
+            0.0395867277228541
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 307,
+          "draws": 0,
+          "rate": 0.8527777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8124543135909402,
+            0.8856516753888796
+          ],
+          "clusterInterval": [
+            0.8166666666666667,
+            0.8861111111111111
+          ],
+          "interval": [
+            0.8124543135909402,
+            0.8861111111111111
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 320,
+          "draws": 0,
+          "rate": 0.8888888888888888,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8522302756638112,
+            0.9173353814792973
+          ],
+          "clusterInterval": [
+            0.8555555555555555,
+            0.9222222222222223
+          ],
+          "interval": [
+            0.8522302756638112,
+            0.9222222222222223
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 324,
+          "draws": 0,
+          "rate": 0.9,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8646623732240906,
+            0.9268908741231068
+          ],
+          "clusterInterval": [
+            0.8694444444444445,
+            0.9305555555555556
+          ],
+          "interval": [
+            0.8646623732240906,
+            0.9305555555555556
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 316,
+          "draws": 0,
+          "rate": 0.8777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8398971269982537,
+            0.9076809399407658
+          ],
+          "clusterInterval": [
+            0.8416666666666667,
+            0.9111111111111111
+          ],
+          "interval": [
+            0.8398971269982537,
+            0.9111111111111111
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 312,
+          "draws": 0,
+          "rate": 0.8666666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8276516123256127,
+            0.8979388644093181
+          ],
+          "clusterInterval": [
+            0.8305555555555556,
+            0.9
+          ],
+          "interval": [
+            0.8276516123256127,
+            0.9
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 102860.0398999999,
+          "captureDamage": 42129.712299999956,
+          "share": 0.4095828889523889,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 117991.87880000011,
+          "captureDamage": 59326.292299999914,
+          "share": 0.5027997935396877,
+          "breaksAgainstMasher": 6,
+          "breaksByMasher": 0
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": -0.18518518518518268,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 5.37037037037037,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": -0.8333333333333304,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 7.499999999999996,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 1.6666666666666676,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "tell",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 38.45555699900001
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 532,
+          "draws": 1,
+          "rate": 0.4925925925925926,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.46285454769655915,
+            0.522383147553374
+          ],
+          "clusterInterval": [
+            0.46111111111111114,
+            0.5259259259259259
+          ],
+          "interval": [
+            0.46111111111111114,
+            0.5259259259259259
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 341,
+          "draws": 0,
+          "rate": 0.31574074074074077,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.288713602185024,
+            0.3440740671570644
+          ],
+          "clusterInterval": [
+            0.28703703703703703,
+            0.3453703703703704
+          ],
+          "interval": [
+            0.28703703703703703,
+            0.3453703703703704
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 263,
+          "draws": 0,
+          "rate": 0.7305555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6824671903951676,
+            0.7737753063396753
+          ],
+          "clusterInterval": [
+            0.6833333333333333,
+            0.7777777777777778
+          ],
+          "interval": [
+            0.6824671903951676,
+            0.7777777777777778
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 200,
+          "draws": 0,
+          "rate": 0.5555555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.503906596992823,
+            0.6060313540276211
+          ],
+          "clusterInterval": [
+            0.5,
+            0.6111111111111112
+          ],
+          "interval": [
+            0.5,
+            0.6111111111111112
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 26,
+          "draws": 0,
+          "rate": 0.07222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.04975961902703419,
+            0.10371815811554652
+          ],
+          "clusterInterval": [
+            0.044444444444444446,
+            0.10277777777777777
+          ],
+          "interval": [
+            0.044444444444444446,
+            0.10371815811554652
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 4,
+          "draws": 0,
+          "rate": 0.011111111111111112,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0043290733267216715,
+            0.028216957693370584
+          ],
+          "clusterInterval": [
+            0.002777777777777778,
+            0.022222222222222223
+          ],
+          "interval": [
+            0.002777777777777778,
+            0.028216957693370584
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 307,
+          "draws": 0,
+          "rate": 0.8527777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8124543135909402,
+            0.8856516753888796
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8861111111111111
+          ],
+          "interval": [
+            0.8124543135909402,
+            0.8861111111111111
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 318,
+          "draws": 0,
+          "rate": 0.8833333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8460521011242447,
+            0.9125197609168193
+          ],
+          "clusterInterval": [
+            0.8472222222222222,
+            0.9166666666666666
+          ],
+          "interval": [
+            0.8460521011242447,
+            0.9166666666666666
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 313,
+          "draws": 1,
+          "rate": 0.8694444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.830705303176834,
+            0.9003820711091192
+          ],
+          "clusterInterval": [
+            0.8388888888888889,
+            0.9
+          ],
+          "interval": [
+            0.830705303176834,
+            0.9003820711091192
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 332,
+          "draws": 0,
+          "rate": 0.9222222222222223,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8898856584544573,
+            0.9456427693009176
+          ],
+          "clusterInterval": [
+            0.8916666666666667,
+            0.9472222222222222
+          ],
+          "interval": [
+            0.8898856584544573,
+            0.9472222222222222
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 101919.5635999999,
+          "captureDamage": 42522.85339999991,
+          "share": 0.417219735819198,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 123247.41510000003,
+          "captureDamage": 60938.97299999994,
+          "share": 0.49444422790170084,
+          "breaksAgainstMasher": 9,
+          "breaksByMasher": 4
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "deliberate",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 41.99876494600001
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 734,
+          "draws": 1,
+          "rate": 0.6796296296296296,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6512054424612811,
+            0.7067804477278387
+          ],
+          "clusterInterval": [
+            0.6537037037037037,
+            0.7046296296296296
+          ],
+          "interval": [
+            0.6512054424612811,
+            0.7067804477278387
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 455,
+          "draws": 0,
+          "rate": 0.4212962962962963,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3921774670154119,
+            0.45097304501512836
+          ],
+          "clusterInterval": [
+            0.39351851851851855,
+            0.44814814814814813
+          ],
+          "interval": [
+            0.3921774670154119,
+            0.45097304501512836
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 314,
+          "draws": 0,
+          "rate": 0.8722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ],
+          "clusterInterval": [
+            0.8361111111111111,
+            0.9083333333333333
+          ],
+          "interval": [
+            0.8337640267195401,
+            0.9083333333333333
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 261,
+          "draws": 0,
+          "rate": 0.725,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6766816381544957,
+            0.7685670634783027
+          ],
+          "clusterInterval": [
+            0.6805555555555556,
+            0.7694444444444445
+          ],
+          "interval": [
+            0.6766816381544957,
+            0.7694444444444445
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 95,
+          "draws": 0,
+          "rate": 0.2638888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2210253959101926,
+            0.3117383122529201
+          ],
+          "clusterInterval": [
+            0.20833333333333334,
+            0.3194444444444444
+          ],
+          "interval": [
+            0.20833333333333334,
+            0.3194444444444444
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 1,
+          "draws": 0,
+          "rate": 0.002777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0004905017720812479,
+            0.015564836594944405
+          ],
+          "clusterInterval": [
+            0,
+            0.008333333333333333
+          ],
+          "interval": [
+            0,
+            0.015564836594944405
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 7,
+          "draws": 0,
+          "rate": 0.019444444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.009449995950304772,
+            0.0395867277228541
+          ],
+          "clusterInterval": [
+            0.005555555555555556,
+            0.03333333333333333
+          ],
+          "interval": [
+            0.005555555555555556,
+            0.0395867277228541
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 328,
+          "draws": 0,
+          "rate": 0.9111111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8772078585866762,
+            0.9363329789646099
+          ],
+          "clusterInterval": [
+            0.8805555555555555,
+            0.9388888888888889
+          ],
+          "interval": [
+            0.8772078585866762,
+            0.9388888888888889
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 339,
+          "draws": 0,
+          "rate": 0.9416666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.9124732209269436,
+            0.9615334896855866
+          ],
+          "clusterInterval": [
+            0.9166666666666666,
+            0.9638888888888889
+          ],
+          "interval": [
+            0.9124732209269436,
+            0.9638888888888889
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 336,
+          "draws": 1,
+          "rate": 0.9333333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.9027214338648246,
+            0.954794584094639
+          ],
+          "clusterInterval": [
+            0.9055555555555556,
+            0.9583333333333334
+          ],
+          "interval": [
+            0.9027214338648246,
+            0.9583333333333334
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 319,
+          "draws": 0,
+          "rate": 0.8861111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8491381994029678,
+            0.9149305601891183
+          ],
+          "clusterInterval": [
+            0.8527777777777777,
+            0.9166666666666666
+          ],
+          "interval": [
+            0.8491381994029678,
+            0.9166666666666666
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 319,
+          "draws": 0,
+          "rate": 0.8861111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8491381994029678,
+            0.9149305601891183
+          ],
+          "clusterInterval": [
+            0.8527777777777777,
+            0.9166666666666666
+          ],
+          "interval": [
+            0.8491381994029678,
+            0.9166666666666666
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 80853.27560000004,
+          "captureDamage": 0,
+          "share": 0,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 114205.71780000007,
+          "captureDamage": 44589.53409999987,
+          "share": 0.3904317135687216,
+          "breaksAgainstMasher": 11,
+          "breaksByMasher": 5
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 18.7037037037037,
+          "label": "ranges do not overlap"
+        },
+        "skilled/masher-all": {
+          "difference": 10.555555555555552,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 14.166666666666671,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher-all": {
+          "difference": 16.94444444444444,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher": {
+          "difference": 19.166666666666668,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher-all": {
+          "difference": 0.2777777777777778,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "fresh",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 40.135669351999994
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 585,
+          "draws": 1,
+          "rate": 0.5416666666666666,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.5118545989179556,
+            0.5711833653011701
+          ],
+          "clusterInterval": [
+            0.5111111111111111,
+            0.5731481481481482
+          ],
+          "interval": [
+            0.5111111111111111,
+            0.5731481481481482
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 381,
+          "draws": 0,
+          "rate": 0.3527777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.32484689335716743,
+            0.38175229973525493
+          ],
+          "clusterInterval": [
+            0.32314814814814813,
+            0.38333333333333336
+          ],
+          "interval": [
+            0.32314814814814813,
+            0.38333333333333336
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 280,
+          "draws": 0,
+          "rate": 0.7777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7320252839013244,
+            0.817664471200896
+          ],
+          "clusterInterval": [
+            0.7361111111111112,
+            0.8194444444444444
+          ],
+          "interval": [
+            0.7320252839013244,
+            0.8194444444444444
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 219,
+          "draws": 0,
+          "rate": 0.6083333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.5570197551957107,
+            0.6573592492941552
+          ],
+          "clusterInterval": [
+            0.5555555555555556,
+            0.6611111111111111
+          ],
+          "interval": [
+            0.5555555555555556,
+            0.6611111111111111
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 54,
+          "draws": 0,
+          "rate": 0.15,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.11681920737220983,
+            0.1905717011989926
+          ],
+          "clusterInterval": [
+            0.1111111111111111,
+            0.19166666666666668
+          ],
+          "interval": [
+            0.1111111111111111,
+            0.19166666666666668
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 7,
+          "draws": 0,
+          "rate": 0.019444444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.009449995950304772,
+            0.0395867277228541
+          ],
+          "clusterInterval": [
+            0.005555555555555556,
+            0.03611111111111111
+          ],
+          "interval": [
+            0.005555555555555556,
+            0.0395867277228541
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 16,
+          "draws": 0,
+          "rate": 0.044444444444444446,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.027539347577120128,
+            0.07096945405523858
+          ],
+          "clusterInterval": [
+            0.025,
+            0.06666666666666667
+          ],
+          "interval": [
+            0.025,
+            0.07096945405523858
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 310,
+          "draws": 0,
+          "rate": 0.8611111111111112,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8215588150249362,
+            0.8930378666079504
+          ],
+          "clusterInterval": [
+            0.8277777777777777,
+            0.8916666666666667
+          ],
+          "interval": [
+            0.8215588150249362,
+            0.8930378666079504
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 320,
+          "draws": 0,
+          "rate": 0.8888888888888888,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8522302756638112,
+            0.9173353814792973
+          ],
+          "clusterInterval": [
+            0.8527777777777777,
+            0.9222222222222223
+          ],
+          "interval": [
+            0.8522302756638112,
+            0.9222222222222223
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 315,
+          "draws": 1,
+          "rate": 0.875,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.836827919877943,
+            0.9052532495100544
+          ],
+          "clusterInterval": [
+            0.8444444444444444,
+            0.9055555555555556
+          ],
+          "interval": [
+            0.836827919877943,
+            0.9055555555555556
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 313,
+          "draws": 0,
+          "rate": 0.8694444444444445,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.830705303176834,
+            0.9003820711091192
+          ],
+          "clusterInterval": [
+            0.8361111111111111,
+            0.9
+          ],
+          "interval": [
+            0.830705303176834,
+            0.9003820711091192
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 328,
+          "draws": 0,
+          "rate": 0.9111111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8772078585866762,
+            0.9363329789646099
+          ],
+          "clusterInterval": [
+            0.8805555555555555,
+            0.9388888888888889
+          ],
+          "interval": [
+            0.8772078585866762,
+            0.9388888888888889
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 96328.65169999997,
+          "captureDamage": 27697.913099999972,
+          "share": 0.2875355630042518,
+          "breaksAgainstMasher": 1400,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 121605.36699999998,
+          "captureDamage": 54326.100799999986,
+          "share": 0.4467409797792888,
+          "breaksAgainstMasher": 634,
+          "breaksByMasher": 0
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 4.907407407407405,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 3.7037037037037033,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 4.722222222222228,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 5.27777777777777,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 7.777777777777778,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher-all": {
+          "difference": 1.9444444444444444,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "deliberate,slow",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 42.225566969000006
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 734,
+          "draws": 1,
+          "rate": 0.6796296296296296,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.6512054424612811,
+            0.7067804477278387
+          ],
+          "clusterInterval": [
+            0.6537037037037037,
+            0.7046296296296296
+          ],
+          "interval": [
+            0.6512054424612811,
+            0.7067804477278387
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 485,
+          "draws": 0,
+          "rate": 0.44907407407407407,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.4196412759513019,
+            0.47886787889198884
+          ],
+          "clusterInterval": [
+            0.4203703703703704,
+            0.4777777777777778
+          ],
+          "interval": [
+            0.4196412759513019,
+            0.47886787889198884
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 314,
+          "draws": 0,
+          "rate": 0.8722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ],
+          "clusterInterval": [
+            0.8361111111111111,
+            0.9083333333333333
+          ],
+          "interval": [
+            0.8337640267195401,
+            0.9083333333333333
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 273,
+          "draws": 0,
+          "rate": 0.7583333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7115328338912483,
+            0.7996786383538166
+          ],
+          "clusterInterval": [
+            0.7111111111111111,
+            0.8055555555555556
+          ],
+          "interval": [
+            0.7111111111111111,
+            0.8055555555555556
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 95,
+          "draws": 0,
+          "rate": 0.2638888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2210253959101926,
+            0.3117383122529201
+          ],
+          "clusterInterval": [
+            0.20833333333333334,
+            0.3194444444444444
+          ],
+          "interval": [
+            0.20833333333333334,
+            0.3194444444444444
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 4,
+          "draws": 0,
+          "rate": 0.011111111111111112,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0043290733267216715,
+            0.028216957693370584
+          ],
+          "clusterInterval": [
+            0.002777777777777778,
+            0.022222222222222223
+          ],
+          "interval": [
+            0.002777777777777778,
+            0.028216957693370584
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 8,
+          "draws": 0,
+          "rate": 0.022222222222222223,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.011302292288345374,
+            0.0432313289358357
+          ],
+          "clusterInterval": [
+            0.008333333333333333,
+            0.03888888888888889
+          ],
+          "interval": [
+            0.008333333333333333,
+            0.0432313289358357
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 315,
+          "draws": 0,
+          "rate": 0.875,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.836827919877943,
+            0.9052532495100544
+          ],
+          "clusterInterval": [
+            0.8416666666666667,
+            0.9083333333333333
+          ],
+          "interval": [
+            0.836827919877943,
+            0.9083333333333333
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 327,
+          "draws": 0,
+          "rate": 0.9083333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8740599157191836,
+            0.9339840242810803
+          ],
+          "clusterInterval": [
+            0.8777777777777778,
+            0.9388888888888889
+          ],
+          "interval": [
+            0.8740599157191836,
+            0.9388888888888889
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 332,
+          "draws": 0,
+          "rate": 0.9222222222222223,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8898856584544573,
+            0.9456427693009176
+          ],
+          "clusterInterval": [
+            0.8944444444444445,
+            0.9472222222222222
+          ],
+          "interval": [
+            0.8898856584544573,
+            0.9472222222222222
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 330,
+          "draws": 0,
+          "rate": 0.9166666666666666,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8835288082626117,
+            0.9410058243907188
+          ],
+          "clusterInterval": [
+            0.8888888888888888,
+            0.9444444444444444
+          ],
+          "interval": [
+            0.8835288082626117,
+            0.9444444444444444
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 296,
+          "draws": 0,
+          "rate": 0.8222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7793874319180883,
+            0.8582526840004873
+          ],
+          "clusterInterval": [
+            0.7805555555555556,
+            0.8611111111111112
+          ],
+          "interval": [
+            0.7793874319180883,
+            0.8611111111111112
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 80853.27560000004,
+          "captureDamage": 0,
+          "share": 0,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 111922.05380000004,
+          "captureDamage": 43738.32469999994,
+          "share": 0.3907927277510335,
+          "breaksAgainstMasher": 4,
+          "breaksByMasher": 1
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 18.7037037037037,
+          "label": "ranges do not overlap"
+        },
+        "skilled/masher-all": {
+          "difference": 13.33333333333333,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 14.166666666666671,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher-all": {
+          "difference": 20.27777777777777,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher": {
+          "difference": 19.166666666666668,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher-all": {
+          "difference": 1.1111111111111112,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "default",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 40.65587588699999
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 273,
+          "draws": 0,
+          "rate": 0.25277777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.22776497207785465,
+            0.27954310688866585
+          ],
+          "clusterInterval": [
+            0.2222222222222222,
+            0.2833333333333333
+          ],
+          "interval": [
+            0.2222222222222222,
+            0.2833333333333333
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 247,
+          "draws": 0,
+          "rate": 0.22870370370370371,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.20464218411881177,
+            0.25468840440999174
+          ],
+          "clusterInterval": [
+            0.2,
+            0.25925925925925924
+          ],
+          "interval": [
+            0.2,
+            0.25925925925925924
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 168,
+          "draws": 0,
+          "rate": 0.4666666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.41575456812604267,
+            0.518282661261691
+          ],
+          "clusterInterval": [
+            0.41388888888888886,
+            0.5194444444444445
+          ],
+          "interval": [
+            0.41388888888888886,
+            0.5194444444444445
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 149,
+          "draws": 1,
+          "rate": 0.41388888888888886,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3641804556084783,
+            0.4654157203098334
+          ],
+          "clusterInterval": [
+            0.3638888888888889,
+            0.46944444444444444
+          ],
+          "interval": [
+            0.3638888888888889,
+            0.46944444444444444
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 16,
+          "draws": 0,
+          "rate": 0.044444444444444446,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.027539347577120128,
+            0.07096945405523858
+          ],
+          "clusterInterval": [
+            0.025,
+            0.06666666666666667
+          ],
+          "interval": [
+            0.025,
+            0.07096945405523858
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 3,
+          "draws": 0,
+          "rate": 0.008333333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.002838001057521952,
+            0.024211132411548104
+          ],
+          "clusterInterval": [
+            0,
+            0.019444444444444445
+          ],
+          "interval": [
+            0,
+            0.024211132411548104
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.8222222222222222,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 309,
+          "draws": 0,
+          "rate": 0.8583333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8185194673662658,
+            0.8905803167155982
+          ],
+          "clusterInterval": [
+            0.825,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8185194673662658,
+            0.8905803167155982
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 312,
+          "draws": 0,
+          "rate": 0.8666666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8276516123256127,
+            0.8979388644093181
+          ],
+          "clusterInterval": [
+            0.8333333333333334,
+            0.8972222222222223
+          ],
+          "interval": [
+            0.8276516123256127,
+            0.8979388644093181
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 300,
+          "draws": 0,
+          "rate": 0.8333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7913582051703031,
+            0.8682695009523614
+          ],
+          "clusterInterval": [
+            0.7972222222222223,
+            0.8722222222222222
+          ],
+          "interval": [
+            0.7913582051703031,
+            0.8722222222222222
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 327,
+          "draws": 0,
+          "rate": 0.9083333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8740599157191836,
+            0.9339840242810803
+          ],
+          "clusterInterval": [
+            0.875,
+            0.9388888888888889
+          ],
+          "interval": [
+            0.8740599157191836,
+            0.9388888888888889
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 126812.21420000007,
+          "captureDamage": 32734.915899999934,
+          "share": 0.2581369318918486,
+          "breaksAgainstMasher": 513,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 129636.10180000009,
+          "captureDamage": 59621.410899999886,
+          "share": 0.45991363572458055,
+          "breaksAgainstMasher": 374,
+          "breaksByMasher": 2
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 1.944444444444443,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 3.518518518518521,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 4.999999999999999,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 7.777777777777772,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 0.8333333333333338,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "proposed",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 41.211187597000006
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 252,
+          "draws": 0,
+          "rate": 0.23333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2090802526685079,
+            0.2594767763290873
+          ],
+          "clusterInterval": [
+            0.20277777777777778,
+            0.2638888888888889
+          ],
+          "interval": [
+            0.20277777777777778,
+            0.2638888888888889
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 209,
+          "draws": 0,
+          "rate": 0.1935185185185185,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.17106005547731992,
+            0.21814958548866623
+          ],
+          "clusterInterval": [
+            0.16574074074074074,
+            0.2222222222222222
+          ],
+          "interval": [
+            0.16574074074074074,
+            0.2222222222222222
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 150,
+          "draws": 0,
+          "rate": 0.4166666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.36688035600559743,
+            0.4682127174637365
+          ],
+          "clusterInterval": [
+            0.3638888888888889,
+            0.4722222222222222
+          ],
+          "interval": [
+            0.3638888888888889,
+            0.4722222222222222
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 121,
+          "draws": 0,
+          "rate": 0.33611111111111114,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.28927188802073334,
+            0.38641115646895674
+          ],
+          "clusterInterval": [
+            0.2833333333333333,
+            0.3888888888888889
+          ],
+          "interval": [
+            0.2833333333333333,
+            0.3888888888888889
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 13,
+          "draws": 0,
+          "rate": 0.03611111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.021222732405162127,
+            0.06079537657412994
+          ],
+          "clusterInterval": [
+            0.019444444444444445,
+            0.05555555555555555
+          ],
+          "interval": [
+            0.019444444444444445,
+            0.06079537657412994
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 1,
+          "draws": 0,
+          "rate": 0.002777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0004905017720812479,
+            0.015564836594944405
+          ],
+          "clusterInterval": [
+            0,
+            0.008333333333333333
+          ],
+          "interval": [
+            0,
+            0.015564836594944405
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 296,
+          "draws": 0,
+          "rate": 0.8222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7793874319180883,
+            0.8582526840004873
+          ],
+          "clusterInterval": [
+            0.7861111111111111,
+            0.8583333333333333
+          ],
+          "interval": [
+            0.7793874319180883,
+            0.8583333333333333
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 298,
+          "draws": 0,
+          "rate": 0.8277777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ],
+          "clusterInterval": [
+            0.7888888888888889,
+            0.8638888888888889
+          ],
+          "interval": [
+            0.7853656158330482,
+            0.8638888888888889
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 298,
+          "draws": 0,
+          "rate": 0.8277777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ],
+          "clusterInterval": [
+            0.7916666666666666,
+            0.8611111111111112
+          ],
+          "interval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 300,
+          "draws": 1,
+          "rate": 0.8333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7913582051703031,
+            0.8682695009523614
+          ],
+          "clusterInterval": [
+            0.7972222222222223,
+            0.8722222222222222
+          ],
+          "interval": [
+            0.7913582051703031,
+            0.8722222222222222
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 326,
+          "draws": 0,
+          "rate": 0.9055555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8709198853629655,
+            0.9316271570862761
+          ],
+          "clusterInterval": [
+            0.875,
+            0.9333333333333333
+          ],
+          "interval": [
+            0.8709198853629655,
+            0.9333333333333333
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 129056.41440000013,
+          "captureDamage": 38403.52059999996,
+          "share": 0.29757157579917953,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 131952.18320000003,
+          "captureDamage": 64495.69179999995,
+          "share": 0.4887807858566749,
+          "breaksAgainstMasher": 5,
+          "breaksByMasher": 8
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "slow",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 42.58388035899999
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 238,
+          "draws": 0,
+          "rate": 0.22037037037037038,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.1966645128373429,
+            0.24605848284763546
+          ],
+          "clusterInterval": [
+            0.19166666666666668,
+            0.25092592592592594
+          ],
+          "interval": [
+            0.19166666666666668,
+            0.25092592592592594
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 298,
+          "draws": 1,
+          "rate": 0.2759259259259259,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2500973085449616,
+            0.3033429727655177
+          ],
+          "clusterInterval": [
+            0.24444444444444444,
+            0.3074074074074074
+          ],
+          "interval": [
+            0.24444444444444444,
+            0.3074074074074074
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 150,
+          "draws": 0,
+          "rate": 0.4166666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.36688035600559743,
+            0.4682127174637365
+          ],
+          "clusterInterval": [
+            0.3638888888888889,
+            0.46944444444444444
+          ],
+          "interval": [
+            0.3638888888888889,
+            0.46944444444444444
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 169,
+          "draws": 1,
+          "rate": 0.46944444444444444,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.4184849371143165,
+            0.5210491898244392
+          ],
+          "clusterInterval": [
+            0.41388888888888886,
+            0.5305555555555556
+          ],
+          "interval": [
+            0.41388888888888886,
+            0.5305555555555556
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 9,
+          "draws": 0,
+          "rate": 0.025,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.013207082162958558,
+            0.04682343661224472
+          ],
+          "clusterInterval": [
+            0.008333333333333333,
+            0.044444444444444446
+          ],
+          "interval": [
+            0.008333333333333333,
+            0.04682343661224472
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 1,
+          "draws": 0,
+          "rate": 0.002777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0004905017720812479,
+            0.015564836594944405
+          ],
+          "clusterInterval": [
+            0,
+            0.008333333333333333
+          ],
+          "interval": [
+            0,
+            0.015564836594944405
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 2,
+          "draws": 0,
+          "rate": 0.005555555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.001524826236302344,
+            0.02002740968174551
+          ],
+          "clusterInterval": [
+            0,
+            0.013888888888888888
+          ],
+          "interval": [
+            0,
+            0.02002740968174551
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 293,
+          "draws": 0,
+          "rate": 0.8138888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7704460366187813,
+            0.8507033866467277
+          ],
+          "clusterInterval": [
+            0.7777777777777778,
+            0.85
+          ],
+          "interval": [
+            0.7704460366187813,
+            0.8507033866467277
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 302,
+          "draws": 0,
+          "rate": 0.8388888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7973657644784621,
+            0.8732557367462467
+          ],
+          "clusterInterval": [
+            0.8055555555555556,
+            0.875
+          ],
+          "interval": [
+            0.7973657644784621,
+            0.875
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 305,
+          "draws": 0,
+          "rate": 0.8472222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8064065274828431,
+            0.8807056663949322
+          ],
+          "clusterInterval": [
+            0.8111111111111111,
+            0.8833333333333333
+          ],
+          "interval": [
+            0.8064065274828431,
+            0.8833333333333333
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 312,
+          "draws": 0,
+          "rate": 0.8666666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8276516123256127,
+            0.8979388644093181
+          ],
+          "clusterInterval": [
+            0.8333333333333334,
+            0.9
+          ],
+          "interval": [
+            0.8276516123256127,
+            0.9
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 317,
+          "draws": 0,
+          "rate": 0.8805555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8429718004230137,
+            0.9101031640670282
+          ],
+          "clusterInterval": [
+            0.8472222222222222,
+            0.9111111111111111
+          ],
+          "interval": [
+            0.8429718004230137,
+            0.9111111111111111
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 129133.64660000011,
+          "captureDamage": 38915.39989999999,
+          "share": 0.3013575541666765,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 126414.74599999996,
+          "captureDamage": 61220.3902999999,
+          "share": 0.4842820338380454,
+          "breaksAgainstMasher": 7,
+          "breaksByMasher": 0
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": -1.2962962962962954,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 8.24074074074074,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 13.33333333333333,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher": {
+          "difference": -1.1111111111111107,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0.2777777777777778,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "tell",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 41.081465893000015
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 252,
+          "draws": 0,
+          "rate": 0.23333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2090802526685079,
+            0.2594767763290873
+          ],
+          "clusterInterval": [
+            0.20277777777777778,
+            0.2638888888888889
+          ],
+          "interval": [
+            0.20277777777777778,
+            0.2638888888888889
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 209,
+          "draws": 0,
+          "rate": 0.1935185185185185,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.17106005547731992,
+            0.21814958548866623
+          ],
+          "clusterInterval": [
+            0.16574074074074074,
+            0.2222222222222222
+          ],
+          "interval": [
+            0.16574074074074074,
+            0.2222222222222222
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 150,
+          "draws": 0,
+          "rate": 0.4166666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.36688035600559743,
+            0.4682127174637365
+          ],
+          "clusterInterval": [
+            0.3638888888888889,
+            0.4722222222222222
+          ],
+          "interval": [
+            0.3638888888888889,
+            0.4722222222222222
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 121,
+          "draws": 0,
+          "rate": 0.33611111111111114,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.28927188802073334,
+            0.38641115646895674
+          ],
+          "clusterInterval": [
+            0.2833333333333333,
+            0.3888888888888889
+          ],
+          "interval": [
+            0.2833333333333333,
+            0.3888888888888889
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 13,
+          "draws": 0,
+          "rate": 0.03611111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.021222732405162127,
+            0.06079537657412994
+          ],
+          "clusterInterval": [
+            0.019444444444444445,
+            0.05555555555555555
+          ],
+          "interval": [
+            0.019444444444444445,
+            0.06079537657412994
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 1,
+          "draws": 0,
+          "rate": 0.002777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0004905017720812479,
+            0.015564836594944405
+          ],
+          "clusterInterval": [
+            0,
+            0.008333333333333333
+          ],
+          "interval": [
+            0,
+            0.015564836594944405
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 296,
+          "draws": 0,
+          "rate": 0.8222222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7793874319180883,
+            0.8582526840004873
+          ],
+          "clusterInterval": [
+            0.7861111111111111,
+            0.8583333333333333
+          ],
+          "interval": [
+            0.7793874319180883,
+            0.8583333333333333
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 298,
+          "draws": 0,
+          "rate": 0.8277777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ],
+          "clusterInterval": [
+            0.7888888888888889,
+            0.8638888888888889
+          ],
+          "interval": [
+            0.7853656158330482,
+            0.8638888888888889
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 298,
+          "draws": 0,
+          "rate": 0.8277777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ],
+          "clusterInterval": [
+            0.7916666666666666,
+            0.8611111111111112
+          ],
+          "interval": [
+            0.7853656158330482,
+            0.8632682951875716
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 300,
+          "draws": 1,
+          "rate": 0.8333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7913582051703031,
+            0.8682695009523614
+          ],
+          "clusterInterval": [
+            0.7972222222222223,
+            0.8722222222222222
+          ],
+          "interval": [
+            0.7913582051703031,
+            0.8722222222222222
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 326,
+          "draws": 0,
+          "rate": 0.9055555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8709198853629655,
+            0.9316271570862761
+          ],
+          "clusterInterval": [
+            0.875,
+            0.9333333333333333
+          ],
+          "interval": [
+            0.8709198853629655,
+            0.9333333333333333
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 129056.41440000013,
+          "captureDamage": 38403.52059999996,
+          "share": 0.29757157579917953,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 131952.18320000003,
+          "captureDamage": 64495.69179999995,
+          "share": 0.4887807858566749,
+          "breaksAgainstMasher": 5,
+          "breaksByMasher": 8
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 0,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "deliberate",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 43.164397540999985
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 361,
+          "draws": 0,
+          "rate": 0.33425925925925926,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.30675602325176327,
+            0.36293740796549206
+          ],
+          "clusterInterval": [
+            0.2935185185185185,
+            0.37407407407407406
+          ],
+          "interval": [
+            0.2935185185185185,
+            0.37407407407407406
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 306,
+          "draws": 3,
+          "rate": 0.2833333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.25726277896841393,
+            0.31093980709213215
+          ],
+          "clusterInterval": [
+            0.25555555555555554,
+            0.3111111111111111
+          ],
+          "interval": [
+            0.25555555555555554,
+            0.3111111111111111
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 181,
+          "draws": 0,
+          "rate": 0.5027777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.45137209628975655,
+            0.5541248012612656
+          ],
+          "clusterInterval": [
+            0.44722222222222224,
+            0.5555555555555556
+          ],
+          "interval": [
+            0.44722222222222224,
+            0.5555555555555556
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 166,
+          "draws": 0,
+          "rate": 0.46111111111111114,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.41029857013908305,
+            0.5127448641466061
+          ],
+          "clusterInterval": [
+            0.4083333333333333,
+            0.5138888888888888
+          ],
+          "interval": [
+            0.4083333333333333,
+            0.5138888888888888
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 81,
+          "draws": 0,
+          "rate": 0.225,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.18489707353921658,
+            0.27091006890958536
+          ],
+          "clusterInterval": [
+            0.17777777777777778,
+            0.275
+          ],
+          "interval": [
+            0.17777777777777778,
+            0.275
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 1,
+          "draws": 0,
+          "rate": 0.002777777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.0004905017720812479,
+            0.015564836594944405
+          ],
+          "clusterInterval": [
+            0,
+            0.008333333333333333
+          ],
+          "interval": [
+            0,
+            0.015564836594944405
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 306,
+          "draws": 0,
+          "rate": 0.85,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8094282988010074,
+            0.8831807926277903
+          ],
+          "clusterInterval": [
+            0.8138888888888889,
+            0.8833333333333333
+          ],
+          "interval": [
+            0.8094282988010074,
+            0.8833333333333333
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.8166666666666667,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 312,
+          "draws": 0,
+          "rate": 0.8666666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8276516123256127,
+            0.8979388644093181
+          ],
+          "clusterInterval": [
+            0.8333333333333334,
+            0.9
+          ],
+          "interval": [
+            0.8276516123256127,
+            0.9
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 310,
+          "draws": 0,
+          "rate": 0.8611111111111112,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8215588150249362,
+            0.8930378666079504
+          ],
+          "clusterInterval": [
+            0.825,
+            0.8972222222222223
+          ],
+          "interval": [
+            0.8215588150249362,
+            0.8972222222222223
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 311,
+          "draws": 0,
+          "rate": 0.8638888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8246028241415979,
+            0.8954907550423108
+          ],
+          "clusterInterval": [
+            0.8277777777777777,
+            0.9
+          ],
+          "interval": [
+            0.8246028241415979,
+            0.9
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 120456.23360000015,
+          "captureDamage": 0,
+          "share": 0,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 126717.5488999999,
+          "captureDamage": 46675.20339999997,
+          "share": 0.36834048484345333,
+          "breaksAgainstMasher": 5,
+          "breaksByMasher": 1
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 10.092592592592592,
+          "label": "ranges do not overlap"
+        },
+        "skilled/masher-all": {
+          "difference": 8.981481481481483,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 8.611111111111109,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 12.5,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher": {
+          "difference": 18.88888888888889,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "fresh",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 39.053441154
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 262,
+          "draws": 1,
+          "rate": 0.24259259259259258,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.2179688841233485,
+            0.26904102581183015
+          ],
+          "clusterInterval": [
+            0.21203703703703702,
+            0.2722222222222222
+          ],
+          "interval": [
+            0.21203703703703702,
+            0.2722222222222222
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 220,
+          "draws": 0,
+          "rate": 0.2037037037037037,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.18075308186027178,
+            0.22875472813705622
+          ],
+          "clusterInterval": [
+            0.17685185185185184,
+            0.2324074074074074
+          ],
+          "interval": [
+            0.17685185185185184,
+            0.2324074074074074
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 160,
+          "draws": 0,
+          "rate": 0.4444444444444444,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.39396864597237885,
+            0.496093403007177
+          ],
+          "clusterInterval": [
+            0.39166666666666666,
+            0.49444444444444446
+          ],
+          "interval": [
+            0.39166666666666666,
+            0.496093403007177
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 129,
+          "draws": 0,
+          "rate": 0.35833333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3105346348902175,
+            0.4091235900076502
+          ],
+          "clusterInterval": [
+            0.30833333333333335,
+            0.4111111111111111
+          ],
+          "interval": [
+            0.30833333333333335,
+            0.4111111111111111
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 17,
+          "draws": 0,
+          "rate": 0.04722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.02968911468883021,
+            0.07431658449455067
+          ],
+          "clusterInterval": [
+            0.027777777777777776,
+            0.06944444444444445
+          ],
+          "interval": [
+            0.027777777777777776,
+            0.07431658449455067
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 2,
+          "draws": 0,
+          "rate": 0.005555555555555556,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.001524826236302344,
+            0.02002740968174551
+          ],
+          "clusterInterval": [
+            0,
+            0.013888888888888888
+          ],
+          "interval": [
+            0,
+            0.02002740968174551
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 303,
+          "draws": 0,
+          "rate": 0.8416666666666667,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8003753473566385,
+            0.8757430514190926
+          ],
+          "clusterInterval": [
+            0.8055555555555556,
+            0.875
+          ],
+          "interval": [
+            0.8003753473566385,
+            0.8757430514190926
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 304,
+          "draws": 0,
+          "rate": 0.8444444444444444,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8033889066479166,
+            0.8782263896788366
+          ],
+          "clusterInterval": [
+            0.8083333333333333,
+            0.8777777777777778
+          ],
+          "interval": [
+            0.8033889066479166,
+            0.8782263896788366
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 307,
+          "draws": 0,
+          "rate": 0.8527777777777777,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8124543135909402,
+            0.8856516753888796
+          ],
+          "clusterInterval": [
+            0.8194444444444444,
+            0.8861111111111111
+          ],
+          "interval": [
+            0.8124543135909402,
+            0.8861111111111111
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 302,
+          "draws": 1,
+          "rate": 0.8388888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7973657644784621,
+            0.8732557367462467
+          ],
+          "clusterInterval": [
+            0.8027777777777778,
+            0.8777777777777778
+          ],
+          "interval": [
+            0.7973657644784621,
+            0.8777777777777778
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 327,
+          "draws": 0,
+          "rate": 0.9083333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8740599157191836,
+            0.9339840242810803
+          ],
+          "clusterInterval": [
+            0.875,
+            0.9388888888888889
+          ],
+          "interval": [
+            0.8740599157191836,
+            0.9388888888888889
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 127869.71260000012,
+          "captureDamage": 32122.924099999942,
+          "share": 0.2512160498904563,
+          "breaksAgainstMasher": 536,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 131560.8628,
+          "captureDamage": 60336.84709999987,
+          "share": 0.45862307236251926,
+          "breaksAgainstMasher": 377,
+          "breaksByMasher": 2
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 0.9259259259259245,
+          "label": "could be luck"
+        },
+        "skilled/masher-all": {
+          "difference": 1.0185185185185186,
+          "label": "could be luck"
+        },
+        "punisher/masher": {
+          "difference": 2.7777777777777732,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 2.2222222222222197,
+          "label": "could be luck"
+        },
+        "spacer/masher": {
+          "difference": 1.1111111111111114,
+          "label": "could be luck"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "deliberate,slow",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "spacer",
+            "masher"
+          ],
+          [
+            "spacer",
+            "masher-all"
+          ],
+          [
+            "timer",
+            "masher"
+          ],
+          [
+            "timer",
+            "masher-all"
+          ],
+          [
+            "reader",
+            "masher"
+          ],
+          [
+            "reader",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "spacer",
+            "random"
+          ],
+          [
+            "timer",
+            "random"
+          ],
+          [
+            "reader",
+            "random"
+          ],
+          [
+            "punisher",
+            "random"
+          ],
+          [
+            "masher",
+            "random"
+          ],
+          [
+            "masher-all",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 41.09930520299999
+      },
+      "commit": "f72f81693ea967694bb01f529cb82a64041faea9",
+      "bouts": 5040,
+      "censored": 0,
+      "outcomes": {
+        "skilled/masher": {
+          "n": 1080,
+          "wins": 361,
+          "draws": 0,
+          "rate": 0.33425925925925926,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.30675602325176327,
+            0.36293740796549206
+          ],
+          "clusterInterval": [
+            0.2935185185185185,
+            0.37407407407407406
+          ],
+          "interval": [
+            0.2935185185185185,
+            0.37407407407407406
+          ]
+        },
+        "skilled/masher-all": {
+          "n": 1080,
+          "wins": 356,
+          "draws": 4,
+          "rate": 0.3296296296296296,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3022407969352029,
+            0.3582261938132607
+          ],
+          "clusterInterval": [
+            0.3,
+            0.3592592592592593
+          ],
+          "interval": [
+            0.3,
+            0.3592592592592593
+          ]
+        },
+        "punisher/masher": {
+          "n": 360,
+          "wins": 181,
+          "draws": 0,
+          "rate": 0.5027777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.45137209628975655,
+            0.5541248012612656
+          ],
+          "clusterInterval": [
+            0.44722222222222224,
+            0.5555555555555556
+          ],
+          "interval": [
+            0.44722222222222224,
+            0.5555555555555556
+          ]
+        },
+        "punisher/masher-all": {
+          "n": 360,
+          "wins": 184,
+          "draws": 0,
+          "rate": 0.5111111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.45962921142968316,
+            0.5623583787744055
+          ],
+          "clusterInterval": [
+            0.4583333333333333,
+            0.5666666666666667
+          ],
+          "interval": [
+            0.4583333333333333,
+            0.5666666666666667
+          ]
+        },
+        "spacer/masher": {
+          "n": 360,
+          "wins": 81,
+          "draws": 0,
+          "rate": 0.225,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.18489707353921658,
+            0.27091006890958536
+          ],
+          "clusterInterval": [
+            0.17777777777777778,
+            0.275
+          ],
+          "interval": [
+            0.17777777777777778,
+            0.275
+          ]
+        },
+        "spacer/masher-all": {
+          "n": 360,
+          "wins": 0,
+          "draws": 0,
+          "rate": 0,
+          "clusters": 180,
+          "wilsonInterval": [
+            0,
+            0.010558440816003448
+          ],
+          "clusterInterval": [
+            0,
+            0
+          ],
+          "interval": [
+            0,
+            0.010558440816003448
+          ]
+        }
+      },
+      "sanity": {
+        "spacer": {
+          "n": 360,
+          "wins": 3,
+          "draws": 0,
+          "rate": 0.008333333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.002838001057521952,
+            0.024211132411548104
+          ],
+          "clusterInterval": [
+            0,
+            0.019444444444444445
+          ],
+          "interval": [
+            0,
+            0.024211132411548104
+          ]
+        },
+        "timer": {
+          "n": 360,
+          "wins": 308,
+          "draws": 0,
+          "rate": 0.8555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8154846691499923,
+            0.8881182173808496
+          ],
+          "clusterInterval": [
+            0.825,
+            0.8888888888888888
+          ],
+          "interval": [
+            0.8154846691499923,
+            0.8888888888888888
+          ]
+        },
+        "reader": {
+          "n": 360,
+          "wins": 314,
+          "draws": 0,
+          "rate": 0.8722222222222222,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ],
+          "clusterInterval": [
+            0.8416666666666667,
+            0.9027777777777778
+          ],
+          "interval": [
+            0.8337640267195401,
+            0.9028202451174352
+          ]
+        },
+        "punisher": {
+          "n": 360,
+          "wins": 319,
+          "draws": 0,
+          "rate": 0.8861111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8491381994029678,
+            0.9149305601891183
+          ],
+          "clusterInterval": [
+            0.8555555555555555,
+            0.9166666666666666
+          ],
+          "interval": [
+            0.8491381994029678,
+            0.9166666666666666
+          ]
+        },
+        "masher": {
+          "n": 360,
+          "wins": 317,
+          "draws": 0,
+          "rate": 0.8805555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8429718004230137,
+            0.9101031640670282
+          ],
+          "clusterInterval": [
+            0.8472222222222222,
+            0.9083333333333333
+          ],
+          "interval": [
+            0.8429718004230137,
+            0.9101031640670282
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 300,
+          "draws": 0,
+          "rate": 0.8333333333333334,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7913582051703031,
+            0.8682695009523614
+          ],
+          "clusterInterval": [
+            0.8,
+            0.8666666666666667
+          ],
+          "interval": [
+            0.7913582051703031,
+            0.8682695009523614
+          ]
+        }
+      },
+      "captures": {
+        "masher": {
+          "n": 1440,
+          "damage": 120456.23360000015,
+          "captureDamage": 0,
+          "share": 0,
+          "breaksAgainstMasher": 0,
+          "breaksByMasher": 0
+        },
+        "masher-all": {
+          "n": 1440,
+          "damage": 123825.90089999996,
+          "captureDamage": 44229.61589999988,
+          "share": 0.3571919572442206,
+          "breaksAgainstMasher": 5,
+          "breaksByMasher": 0
+        }
+      },
+      "comparisons": {
+        "skilled/masher": {
+          "difference": 10.092592592592592,
+          "label": "ranges do not overlap"
+        },
+        "skilled/masher-all": {
+          "difference": 13.61111111111111,
+          "label": "ranges do not overlap"
+        },
+        "punisher/masher": {
+          "difference": 8.611111111111109,
+          "label": "could be luck"
+        },
+        "punisher/masher-all": {
+          "difference": 17.499999999999993,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher": {
+          "difference": 18.88888888888889,
+          "label": "ranges do not overlap"
+        },
+        "spacer/masher-all": {
+          "difference": 0,
+          "label": "could be luck"
+        }
+      }
+    }
+  ],
+  "notes": [
+    "All non-default modes use proposed balance; option names mean proposed plus that option.",
+    "Original skilled group is spacer + timer + reader. Punisher is reported separately.",
+    "36 ordered fighter pairs, both seats, five seeds per matchup: 360 bouts per policy/opponent; aggregate 1080.",
+    "Ranges conservatively envelope 95% Wilson and 2,000-draw cluster-bootstrap intervals of strict wins; draws count in the denominator. Fighter-pair/seed blocks keep mirrored seats and aggregate policies together (180 blocks per estimate). Overlapping mode ranges are labeled could be luck, not statistical equivalence. Cluster resampling addresses repeated-seat dependence, but five seeds and these ranges do not prove human balance. No multiple-comparison correction.",
+    "tell is visual only and cannot be measured by bots, which already read visible move state after their delay. Human playtest required.",
+    "Capture shares use actual HP damage against the original three plus punisher. Capture breaks are event counts, not inferred guard presses."
+  ]
+}

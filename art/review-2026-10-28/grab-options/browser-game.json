@@ -1,0 +1,19 @@
+{
+  "?balance=proposed&grab=deliberate,slow": {
+    "deliberate": true,
+    "slow": true
+  },
+  "?balance=proposed&grab=tell": {
+    "tell": true
+  },
+  "default": {},
+  "captures": [
+    "tell-side-off-1793196537578.jpg",
+    "tell-side-on-1793196537578.jpg",
+    "tell-lock-off-1793196537578.jpg",
+    "tell-lock-on-1793196537578.jpg"
+  ],
+  "visual": "real renderer, exact frame-zero reduced-motion captures",
+  "passed": true,
+  "errors": []
+}

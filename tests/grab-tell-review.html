@@ -1,0 +1,6 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Grab tell review fixture</title><style>body{margin:0;background:#141d26;color:white;font:16px system-ui}canvas{width:100vw;height:100vh;display:block}#label{position:fixed;top:10px;left:14px;background:#121b28dd;padding:10px}</style></head><body><canvas id="scene"></canvas><div id="label"></div><script type="module">
+import {createView} from '../dist/render.js';import {createMatch,update,neutral} from '../dist/combat.js';import {configureGrab} from '../dist/grab-options.js';
+const view=createView(document.querySelector('canvas'),{quality:'low',talaModel:'design02'});view.quality('low');const m=createMatch(2,1);m.players[0].x=-1.4;m.players[1].x=1.4;update(m,[{...neutral(),capture:true},neutral()]);view.match(m);const settings={quality:'low',camera:'lock',reduced:true};
+window.reviewGrab=({frame=0,camera='lock',tell=true,reduced=true}={})=>{const state=structuredClone(m);configureGrab(state,tell?'tell':'');state.players[0].move.frame=frame;settings.camera=camera;settings.reduced=reduced;view.render(0,state,settings);document.querySelector('#label').textContent=`${tell?'TELL ON':'DEFAULT'} · startup frame ${frame} · ${camera} · reduced ${reduced}`;return {cue:view.models[0].grabTell?.visible||false,models:view.fighterModels};};
+window.grabReviewView=view;window.reviewGrab();
+</script></body></html>

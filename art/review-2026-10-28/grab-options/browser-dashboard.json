@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "all seven modes side by side at both delays",
+    "confidence ranges and overlap labels",
+    "pairwise comparison details",
+    "capture damage and breaks",
+    "sanity flags",
+    "390px no page overflow",
+    "old report still accessible"
+  ]
+}
