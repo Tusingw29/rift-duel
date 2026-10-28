@@ -1,3 +1,7 @@
+## BALANCE-LOCAL — playable tuning preview
+
+Owner: **Codex** · Branch: `codex/balance-local` · Status: **In progress** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
+
 ## BALANCE-LAB — in-repo balance lab and roster data
 
 Owner: **Claude** · Branch: `claude/balance-lab` · Worktree: `~/rift-worktrees/balance-lab` · Status: **Review — awaiting Adam's verdict** (2026-10-28; branch `6a49a77`, not merged)
