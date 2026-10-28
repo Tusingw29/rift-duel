@@ -1,3 +1,7 @@
+## GRAB-OPTIONS — opt-in capture experiments
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns opt-in hooks in combat/commands, separate visual capture cue and minimal renderer call site, balance/game URL wiring, spacer and masher-all policies, five-seed mirrored measurement at 10/15f. Default gameplay preserved. No fighter/rig/animation authoring changes; tell uses a separate temporary visual overlay. Old reports preserved. Grab options remain previews pending Adam’s verdict.
+
 ## SKILL-BOTS — validate policies before balance conclusions
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
@@ -6,7 +10,9 @@ Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam
 - [x] Add per-bot/mode validity counters, 6/10/15f quick sweeps and mirrored 15f seed-1 run: **15,120 new bouts**. All old reports retained unchanged; dashboard compares old/new.
 - [x] **666 tests pass**, default fingerprint matches main, observed/unobserved tick equivalence passes, browser dashboard smoke passes.
 - [x] Report grab finding without changing it: default mirrored punisher **33/72**, original three **24.1% vs old 9.3%**; capture is largest single damage source in punisher losses (22.4% default / 28.8% rules / 30.3% proposed). Spacer/turtle remain untrusted.
-- Evidence: [SKILL-BOTS review](../art/review-2026-10-28/skill-bots/README.md). Local: http://localhost:4203/dist/skill-lab.html?study=skill-bots . Combat/move/fighter/hitbox/animation files untouched in this task. Grab timing/visibility changes remain Adam’s separate decision. No merge to main.
+- Evidence: [SKILL-BOTS review](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/skill-bots/README.md). Local: http://localhost:4203/dist/skill-lab.html?study=skill-bots . Combat/move/fighter/hitbox/animation files untouched in this task. Grab timing/visibility changes remain Adam’s separate decision. No merge to main.
+
+Implementation commit: `48c5bc5` (branch only).
 
 
 ## SKILL-LAB — measured skill versus mashing
