@@ -1,0 +1,18 @@
+import {launch,BASE,OUT,stamp} from './common.mjs';import {writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const browser=await launch(),context=await browser.newContext({viewport:{width:1240,height:900}}),page=await context.newPage(),errors=[],report={},suffix=stamp();
+page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+const shot=async name=>{const file=`${name}-${suffix}.jpg`;await page.screenshot({path:`${OUT}/${file}`,type:'jpeg',quality:76,timeout:120000});return file;};
+try{
+ await page.goto(`${BASE}/skill-lab.html`);await page.click('#latest');await page.waitForSelector('#A .panel');assert.match(await page.locator('#A').innerText(),/2268 bouts/);report.desktop=await shot('dashboard-dark');
+ await page.setInputFiles('#fileB','art/skill-lab/2026-10-28/report.json');await page.waitForSelector('#B .panel');assert.equal(await page.locator('#B').isVisible(),true);report.compare=await shot('comparison');
+ await page.click('#theme');await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));report.phone=await shot('dashboard-phone-light');
+ await page.setInputFiles('#fileA',{name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{broken')});assert.ok((await page.locator('#error').innerText()).length>0);
+ await page.setViewportSize({width:960,height:720});await page.evaluate(()=>localStorage.setItem('rift-options',JSON.stringify({quality:'low',music:false,announcer:false,reduced:true,roundSeconds:60,winsNeeded:1})));
+ await page.goto(`${BASE}/index.html`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.riftDebug);await page.click('#settings');assert.equal(await page.locator('#showMatchStats').isChecked(),false);report.option=await shot('stats-option-off');
+ await page.goto(`${BASE}/index.html?stats=1&balance=proposed`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.riftDebug);await page.selectOption('#mode','training');await page.click('#start');await page.waitForFunction(()=>riftDebug().tick>5);
+ await page.keyboard.press('j');await page.keyboard.press('j');await page.keyboard.press('j');await page.click('#pause');await page.click('#open-match-stats');await page.waitForSelector('#match-stats');assert.match(await page.locator('#match-stats').innerText(),/Player 1/);report.training=await shot('training-stats');
+ const downloadPromise=page.waitForEvent('download');await page.click('#export-match-stats');const download=await downloadPromise;await download.saveAs(`${OUT}/live-export-${suffix}.json`);
+ const {readFileSync}=await import('node:fs');const exported=JSON.parse(readFileSync(`${OUT}/live-export-${suffix}.json`));assert.equal(exported.kind,'rift-skill-report');assert.equal(exported.matches.at(-1).mode,'proposed');assert.equal(exported.matches.at(-1).source,'live');assert.ok(exported.matches.at(-1).players[0].attackPresses>0);assert.ok(exported.matches.at(-1).inputFrames>0);
+ await page.goto(`${BASE}/skill-lab.html`);await page.setInputFiles('#fileA',`${OUT}/live-export-${suffix}.json`);await page.waitForSelector('#A .panel');assert.match(await page.locator('#A').innerText(),/no completed skilled-versus-masher/);report.live=await shot('live-import');
+ report.errors=errors;assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,suffix,liveFrames:exported.matches.at(-1).inputFrames}));
+}finally{writeFileSync(`${OUT}/browser-report-${suffix}.json`,JSON.stringify({...report,errors},null,2));await browser.close();}

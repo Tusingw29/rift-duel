@@ -1,3 +1,4 @@
+import {measured} from './skill/observer.js';
 import {matchFighter,applyBalanceMove,balanceDamageScale,balanceRule,balanceGuard,balanceCaptureBreak} from './balance-runtime.js';
 import {canPressureDash,beginPressureDash,advancePressureDash,pressureInput} from './pressure-dash.js';
 import {expandCapture,advanceCapture,captureClashes} from './long-capture.js';
@@ -48,12 +49,15 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  const perfect=balanceGuard(m,b,'perfectGuard',.17);
  if(b.guard&&kind!=='capture'){
   event(m,perfect?'parry':'block',{x:b.x,z:b.z,color:fighters[b.id].color});
+  const hpBefore=b.hp;
   b.hp=Math.max(1,b.hp-(perfect?0:damage*balanceRule(m,'chip',.12))); b.blockStun=perfect?0:(m.balance?.sys.blockstun===undefined?.12:m.balance.sys.blockstun/60);
+  measured(m,perfect?'perfectGuard':'block',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:Math.max(0,hpBefore-b.hp),kind,source:sourceMove});
   if(perfect){a.stun=.4;a.travel=null;a.move=null;a.buffer=null;a.cool=0;b.charge+=.35;}
   return false;
  }
  const staggerEligible=!launch&&b.air<=0&&!['knockdown','roll'].includes(b.anim)&&!['capture','burst'].includes(kind);
  b.slam=null;b.bounce=null;b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
+ const hpBefore=b.hp;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32;if(m.balance?.sys[launch?'launchStun':'hitstun']!==undefined)b.stun=m.balance.sys[launch?'launchStun':'hitstun']*STEP; b.air=launch?.85:0;
  b.anim=launch?'launch':'hurt';b.animTime=.42;
  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1;
@@ -64,6 +68,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  }else{b.x=clamp(b.x+dx/d*.5,-11,11);b.z=clamp(b.z+dz/d*.5,-6,6);}
  a.combo=a.comboTime>0?a.combo+1:1;a.comboTime=1.35;
  if(staggerHit(b,damage,staggerEligible,kind!=='hit'))event(m,'hint',{text:`${fighters[b.id].name.toUpperCase()} STAGGERED — ALTERNATE LEFT / RIGHT`,player:m.players.indexOf(b)});
+ measured(m,'damage',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:Math.max(0,hpBefore-b.hp),kind,source:sourceMove});
  event(m,'hit',{x:b.x,z:b.z,color:fighters[a.id].color,damage,combo:a.combo,attacker:m.players.indexOf(a),defender:m.players.indexOf(b)});
  return true;
 }
@@ -75,6 +80,7 @@ export function captureContext(a,b){
  return dot<-.25?'back':'front';
 }
 function beginCapture(m,a,b,context){
+ measured(m,'captureStart',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),guard:b.guard});
  clearStagger(b);
  const multiplier={front:1,back:1.2,mid:1.1,far:1.25}[context];
  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,...capturePresentation(fighters[a.id].id,context),damage:15*matchFighter(m,a).power*multiplier*balanceDamageScale(m,a,{kind:'capture'}),kind:'capture',context,name:fighters[a.id].capture};
@@ -237,7 +243,7 @@ function executeActionFrame(m,a,b,move){
   
   const close=d<3.1;
   if(close){
-   if(balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){if(m.balance?.sys.splitGuard){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}a.move=null;a.buffer=null;a.cool=0;a.stun=.6;event(m,'hint',{text:'CAPTURE BREAK'});return;}
+   if(balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){if(m.balance?.sys.splitGuard){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}a.move=null;a.buffer=null;a.cool=0;a.stun=.6;measured(m,'captureBreak',{defender:m.players.indexOf(b)});event(m,'hint',{text:'CAPTURE BREAK'});return;}
    if(m.balance)move.contactResolved=true;
    beginCapture(m,a,b,captureContext(a,b));
   }else{
@@ -450,10 +456,10 @@ export function update(m,inputs,dt=STEP){
    if(m.cinematic||m.pressure)break;
    const a=m.players[p.owner],b=m.players[1-p.owner];
    const barrier=b.move?.kind==='technique'&&b.move.effect==='sphere'&&b.move.frame>=b.move.startup&&b.move.frame<b.move.startup+b.move.active;
-   if(barrier&&p.kind!=='capture'&&Math.hypot(p.x-b.x,p.z-b.z)<b.move.reach){p.life=0;event(m,'block',{x:p.x,z:p.z,color:fighters[b.id].color});continue;}
+   if(barrier&&p.kind!=='capture'&&Math.hypot(p.x-b.x,p.z-b.z)<b.move.reach){p.life=0;measured(m,'block',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:0,kind:p.kind});event(m,'block',{x:p.x,z:p.z,color:fighters[b.id].color});continue;}
    if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&b.air<.5&&b.inv<=0){
-    if(p.kind!=='capture'&&balanceGuard(m,b,'perfectGuard',.17)){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
-    else if(p.kind==='capture'&&balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){p.life=0;if(m.balance?.sys.splitGuard){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}event(m,'hint',{text:'CAPTURE BREAK'});}
+    if(p.kind!=='capture'&&balanceGuard(m,b,'perfectGuard',.17)){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;measured(m,'perfectGuard',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:0,kind:p.kind});event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
+    else if(p.kind==='capture'&&balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){p.life=0;if(m.balance?.sys.splitGuard){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}measured(m,'captureBreak',{defender:m.players.indexOf(b)});event(m,'hint',{text:'CAPTURE BREAK'});}
     else if(p.kind==='capture'&&!m.cinematic){beginCapture(m,a,b,p.context||captureContext(a,b));p.life=0;}
     else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&(p.kind==='snare'||p.stun)){b.stun=Math.max(b.stun,p.kind==='snare'?.85:p.stun);b.animTime=Math.max(b.animTime,b.stun);}if(landed&&p.knockdown){clearStagger(b);b.air=0;b.launched=false;b.stun=KNOCKDOWN_FRAMES*STEP;b.anim='knockdown';b.animTime=.55;}p.life=0;}
    }

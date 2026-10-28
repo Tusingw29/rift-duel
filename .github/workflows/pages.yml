@@ -21,6 +21,8 @@ jobs:
       - run: npm run prepare:release
       - run: npm test
       - uses: actions/configure-pages@v5
+      - name: Exclude local skill dashboard
+        run: rm -f dist/skill-lab.html dist/skill-lab.js
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist

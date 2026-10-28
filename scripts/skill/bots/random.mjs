@@ -1,0 +1,1 @@
+export default function({frame,random,memory}){if(!memory.input||frame%12===0)memory.input={x:random()<.65?1:-1,z:random()<.3?(random()<.5?1:-1):0,attack:random()<.55,guard:random()<.15,capture:random()<.1,launch:random()<.1,pursuit:random()<.05,super:random()<.04};return memory.input;}
