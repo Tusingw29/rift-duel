@@ -1,3 +1,7 @@
+## BALANCE-PASS — game-wide risk and roster identity
+
+Owner: **Codex** · Branch: `codex/balance-local` · Status: **In progress** (2026-10-28). Builds on playable lab preview: miss-only strike recovery, 12f block stun and split-guard preset; Rei trim, Aegis beam tuning; source-derived Control score before any Vesper buff. Owns combat/balance files, preserves character/animation work. Preview remains unmerged for normal-speed review.
+
 ## BALANCE-LOCAL — playable tuning preview
 
 Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiting Adam’s normal-speed verdict** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
