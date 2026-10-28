@@ -1,3 +1,16 @@
+## BALANCE-LAB — in-repo balance lab and roster data
+
+Owner: **Claude** · Branch: `claude/balance-lab` · Worktree: `~/rift-worktrees/balance-lab` · Status: **In progress** (2026-10-28)
+
+A browser balance lab (like the VFX workbench, not part of the public game) that reads every fighter, move and rule from the game's code, lets Adam tune values, and exports the changes as JSON (shared with the hosted Rift Duel Frame Codex artifact) and as a plain-text task for Codex. No combat rules or timings change; Codex owns `dist/combat.js`, `moves.js`, `techniques.js`, `special-variants.js`, `stock-specials.js` and `fighters.js`.
+
+- [ ] Part 1: `scripts/balance/extract.mjs` → `dist/balance/roster.json` from the real modules
+- [ ] Part 2: `dist/balance-lab.html` + `balance-lab.js` (Tune, Balance, Matchups, Game rules, Changes; new fighter; live checks; localStorage; JSON import/export; Codex task text)
+- [ ] Part 3: `npm run balance:extract`, `tests/balance-lab.test.mjs`, `docs/DESIGN.md` timing table replaced by a pointer
+- [ ] Part 4: hand-off proposal for an opt-in `&balance=local` sandbox switch (Codex)
+- [ ] Browser check (Morrow Strike 1 recovery 40) with before/after captures
+- [ ] **Adam's verdict**
+
 ## SPACING-COMMITMENT — spacing and defensive choices carry risk (opt-in switches)
 
 Owner: **Codex** (work carried out by Claude at Adam's request, 2026-10-28) · Branch: `codex/spacing-commitment` · Worktree: `~/rift-worktrees/spacing-commitment` · Status: **Review — awaiting Adam's normal-speed verdict** (2026-10-28; branch `ec771a3`, not merged)
@@ -402,6 +415,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-27 | Claude | QUATERNIUS-REACTIONS | **Imported reactions are now Tala's default** (Adam: "yea import"). New reaction source in `locomotion-clips.js` (`setReactionSource`, default `imported`; `?react=authored` in game and sandbox restores authored; `&anim=imported` still plays them). Gait, strikes and get-up unchanged (authored default). Workbench view A stays the fully authored reference. Authored guard-tuck / recoil / GLB-bake tests pinned to `react=authored`. 608 tests; game and sandbox load with no errors. |
 | 2026-10-28 | Claude (for Codex) | SPACING-COMMITMENT | Claimed on `codex/spacing-commitment` as owner Codex at Adam's request; Claude does the work. Opt-in switches only; default game unchanged. |
 | 2026-10-28 | Claude (for Codex) | SPACING-COMMITMENT | Review on `codex/spacing-commitment` `ec771a3` (not merged): `&spacing=band`, `&spacing=riskyshot`, `&guard=split`, training reach/band marker, `docs/FRAME_ADVANTAGE.md`. Default identical to main (fingerprint test). 618 tests (`node --test`; the `npm test` wrapper exits 194 with no output in this environment, also on main). Next: Adam's normal-speed verdict; then block stun / pushback and whiff recovery from the proposals. |
+| 2026-10-28 | Claude | BALANCE-LAB | Claimed on `claude/balance-lab`: balance lab page, roster extract and sync test. No combat rule or timing changes. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
