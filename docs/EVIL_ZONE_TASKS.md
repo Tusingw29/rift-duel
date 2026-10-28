@@ -1,6 +1,17 @@
 ## GRAB-RETEST — rule-aware grab defence and hold preview
 
-Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns command hold opt-in, rule-aware timer/reader/punisher break decisions, passive break measurement, paired default/proposed tournament and dashboard. Default simulation preserved; all existing archives retained. No rig/animation edits.
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
+
+- [x] Rule-aware reaction and 1/60 eligible-frame guess breaks for timer/reader/punisher; passive per-bot attempt/success/waste counters. Fresh capture under split guard, timed guard under default; delayed observations only.
+- [x] Opt-in `grab=hold`: eight prior input frames of down before attack; short presses stay normal attacks; dedicated capture unchanged. Eight frames is a playtest guess. Other switches compose; no default change.
+- [x] **80,640 bouts**, eight modes separating rule sets and grab choices, both mashers, 10/15f, mirrored seats, five seeds; **zero censored**. Archived source hashes and break accounting verified. Older archives retained.
+- [x] **683 tests pass**, default fingerprint and observed/unobserved replay equality pass. Browser game/control/manual and desktop/phone dashboard checks pass; deterministic game browser checks stub the renderer. No rig/animation or combat.js changes.
+- Finding: proposed is mixed. Defence-capable group at 15f vs original masher: **40.0% → 48.9% (+8.9pp; ranges do not overlap)**; at 10f vs masher-all: **76.8% → 67.5% (−9.3pp; ranges do not overlap)**. Other base comparisons could be luck. Hold trails deliberate by 0.5–2.7pp, all overlapping; promising, not proven equivalent. Highest observed averages: default+deliberate and proposed+hold,slow, without a universal winner. Spacer remains untrusted.
+- [Review and full tables](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/grab-retest/README.md). [Dashboard](http://localhost:4203/dist/skill-lab.html?study=grab-retest). [Default + hold](http://localhost:4203/dist/index.html?grab=hold). [Proposed + hold](http://localhost:4203/dist/index.html?balance=proposed&grab=hold).
+- Measured implementation: `f7e0c66`; workflow `40718209050` succeeded (3m 51s wall time). No gameplay merge or default promotion.
+
+
+Review branch commit: `747c5ce`.
 
 ## GRAB-OPTIONS — opt-in capture experiments
 
