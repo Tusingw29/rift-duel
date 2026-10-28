@@ -1,6 +1,16 @@
 ## GRAB-OPTIONS — opt-in capture experiments
 
-Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns opt-in hooks in combat/commands, separate visual capture cue and minimal renderer call site, balance/game URL wiring, spacer and masher-all policies, five-seed mirrored measurement at 10/15f. Default gameplay preserved. No fighter/rig/animation authoring changes; tell uses a separate temporary visual overlay. Old reports preserved. Grab options remain previews pending Adam’s verdict.
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
+
+- [x] Independent `grab=slow,tell,deliberate,fresh` previews; combinable with balance previews. Default fingerprint unchanged. Tell is visual-only; no character/rig/animation authoring changes.
+- [x] Spacer trajectory warning and recovery policy; still untrusted. Original masher retained; masher-all samples every button.
+- [x] **70,560 bouts**, seven modes, 10/15f, mirrored seats, five seeds, zero censored. Both old result folders preserved. Dashboard shows confidence ranges and overlap labels.
+- [x] **676 tests pass**, default replay/observer equality passes; game and dashboard browser checks pass. Captured tell in real WebGL from side and rear.
+- Finding: deliberate+slow is the highest-average playtest candidate at 15f, but not proven better than deliberate alone. Trusted punisher vs masher-all **33.6% → 51.1% (+17.5pp; ranges do not overlap)**; vs original masher **41.7% → 50.3% (+8.6pp; could be luck)**. Tell needs a human verdict.
+- [Evidence and links](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/grab-options/README.md). Local dashboard: http://localhost:4203/dist/skill-lab.html?study=grab-options . **No default promotion; awaiting Adam’s normal-speed verdict.**
+
+Branch implementation/review commit: `efd90de`.
+
 
 ## SKILL-BOTS — validate policies before balance conclusions
 
