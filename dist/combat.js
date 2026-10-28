@@ -20,6 +20,7 @@ export const STEP=1/60;
 export const BALANCE_CAPTURE_BREAK_DEFAULT=.2;
 export {JUMP_SQUAT_FRAMES,GET_UP_FRAMES};
 export const COMMAND_BUFFER_FRAMES=6;
+export const STRIKE_MISS_PENALTY=0; // Production baseline; proposed tuning opts into +7f.
 // Power gauge, Evil Zone style: holding attack sweeps a charge up the life bar from the bottom
 // to the current life line; when the sweep reaches it a crystal (stock) appears. The sweep covers
 // only the life that is left, so a full-life fighter takes CHARGE_PER_STOCK seconds and a fighter
@@ -416,7 +417,14 @@ export function update(m,inputs,dt=STEP){
   const contacts=[];
   for(const a of m.players){
    const move=a.move;if(!move||move.started===m.tick)continue;
-   move.frame++;a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
+   move.frame++;
+   // Resolve a miss only after the entire contact window. Blocks count as contact,
+   // and an interrupted/parried move never reaches this transition.
+   if(move.kind==='strike'&&!move.reversal&&!move.connected&&move.frame===move.startup+move.active){
+    const penalty=balanceRule(m,'missPenalty',STRIKE_MISS_PENALTY);
+    if(penalty>0){move.missPenalty=penalty;move.recovery+=penalty;move.total+=penalty;}
+   }
+   a.cool=Math.max(0,(move.total-move.frame)*STEP);a.animTime=a.cool;
    if(move.travel&&move.frame<=move.startup){advanceTravel(a,move.travel);if(move.crossover)faceOpponent(a,m.players[1-m.players.indexOf(a)]);}
    if(move.retreatTravel&&move.frame<=move.startup){
     const distance=RETREAT_DISTANCE*(retreatProgress(move)-retreatProgress(move,move.frame-1));

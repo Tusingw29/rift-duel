@@ -49,7 +49,7 @@ test('known values on main: Tala and Morrow Strike 1, chain gaps, no reaction-pu
 });
 
 test('scores, budget and playstyle use the fixed scales',()=>{
- assert.deepEqual(scores(S,F.tala),{Mobility:85,Reach:17,Damage:50,'Attack speed':63,Safety:45,Zoning:24});
+ assert.deepEqual(Object.fromEntries(Object.entries(scores(S,F.tala)).filter(([k])=>k!=='Control')),{Mobility:85,Reach:17,Damage:50,'Attack speed':63,Safety:45,Zoning:24});
  assert.equal(budget(scores(S,F.tala)),47);assert.equal(playstyle(scores(S,F.tala)),'Rushdown');
  assert.equal(playstyle(scores(S,F.sol)),'Zoner');assert.equal(playstyle(scores(S,F.morrow)),'Footsies');assert.equal(playstyle(scores(S,F.aegis)),'Balanced');
  const titles=checks(base).map(c=>c[2]);

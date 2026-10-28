@@ -1,0 +1,3324 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Standalone · Rift Duel · Balance Lab</title><style>
+*{box-sizing:border-box}[hidden]{display:none!important}input[type=color]{padding:2px;height:34px;width:64px;cursor:pointer}body{margin:0;background:#10141e;color:#e7edf5;font:14px system-ui,sans-serif}
+header{padding:20px 24px;border-bottom:1px solid #354151;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}h1{font-size:22px;margin:0}header p{margin:5px 0;color:#aab9ca;max-width:80ch}a{color:#81e5f7}
+.status{font-variant-numeric:tabular-nums;color:#a4e2cc}.status.edited{color:#f3c76a}
+nav{display:flex;gap:4px;padding:0 18px;border-bottom:1px solid #354151;background:#141a26;position:sticky;top:0;z-index:5;overflow-x:auto}
+nav button{background:none;border:0;border-bottom:3px solid transparent;color:#aab9ca;padding:12px 14px;font:600 13px system-ui;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+nav button[aria-current=page]{color:#eef5ff;border-color:#7fe6ec}nav .n{background:#e0644f;color:#fff;border-radius:99px;padding:0 6px;margin-left:6px;font-size:11px}
+main{padding:18px}section{display:grid;gap:14px}section[hidden]{display:none}h2{font-size:16px;margin:0}h3{font-size:14px;margin:0}
+button,select,input{background:#263348;color:#eef5ff;border:1px solid #526278;border-radius:5px;padding:7px 9px;font:13px system-ui}button{cursor:pointer}button:hover{border-color:#82eaff}
+button.primary{background:#a7ebef;color:#101b24;border:0;font-weight:700}button.danger{border-color:#e0644f;color:#ffb3a3}button:disabled{opacity:.5;cursor:default}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pick button{display:inline-flex;align-items:center;gap:7px;border-radius:99px}.pick button i{width:9px;height:9px;border-radius:2px;background:var(--c)}.pick button[aria-pressed=true]{background:#33445e;border-color:#cfe9ff;font-weight:600}.pick .dot{width:6px;height:6px;border-radius:50%;background:#f3c76a}
+.tune{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start}@media(max-width:1050px){.tune{grid-template-columns:1fr}}
+.panel{background:#1a2230;border:1px solid #354151;border-radius:8px;padding:14px;display:grid;gap:10px;min-width:0}
+aside{position:sticky;top:56px;display:grid;gap:12px}@media(max-width:1050px){aside{position:static}}
+.ident{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}label.f{display:grid;gap:4px;color:#aab9ca;font-size:12px}
+.stat{display:grid;grid-template-columns:80px minmax(0,1fr) 76px;gap:10px;align-items:center}.stat span{color:#aab9ca;font-size:12px;text-transform:uppercase;letter-spacing:.06em}.stat input[type=range]{accent-color:var(--c,#7fe6ec);padding:0;border:0;background:none}
+.stat input[type=number],td input{font-variant-numeric:tabular-nums;text-align:right}
+.changed{background:#4a3d14!important;border-color:#f3c76a!important}
+.tablebox{overflow:auto;background:#1a2230;border:1px solid #354151;border-radius:8px;max-height:72vh}
+table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{padding:5px 8px;border-bottom:1px solid #2b3647;text-align:left;white-space:nowrap}
+th{position:sticky;top:0;background:#1a2230;color:#aab9ca;font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.05em;z-index:1}th.grp{position:static;background:#222d3e;color:#eef5ff;font-size:12px}
+td.num{text-align:right;font-variant-numeric:tabular-nums}td input{width:58px;padding:3px 5px}td.text{white-space:normal;min-width:150px;max-width:240px;color:#aab9ca;font-size:12px}
+.bar3{display:flex;height:8px;width:110px;border-radius:2px;overflow:hidden;background:#263348}.bar3 .s{background:#4c9ee6}.bar3 .a{background:#e86a55}.bar3 .r{background:#68728c}
+.plus{color:#6fdca0}.even{color:#f3c76a}.minus{color:#ff8e7a}
+.who{display:inline-flex;align-items:center;gap:6px;font-weight:700;letter-spacing:.04em}.who i{width:9px;height:9px;border-radius:2px;background:var(--c)}
+.score{display:grid;grid-template-columns:92px minmax(0,1fr) 32px;gap:8px;align-items:center;font-size:12px}.score span{color:#aab9ca}.score .bar{height:8px;background:#263348;border-radius:2px;position:relative;overflow:hidden}.score .bar i{display:block;height:100%;background:var(--c,#7fe6ec)}.score .bar b{position:absolute;top:0;bottom:0;width:2px;background:#eef5ff;opacity:.6}.score em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{font-size:19px;font-weight:700}.muted,small{color:#aab9ca;line-height:1.5}.row2{display:grid;grid-template-columns:auto 1fr;gap:8px;font-size:12.5px}.sev{width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--sev)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}.card{border-top:4px solid var(--c)}.card .top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#263348}
+.finding{background:#1a2230;border:1px solid #354151;border-left:5px solid var(--sev);border-radius:6px;padding:12px 14px;display:grid;gap:4px;max-width:110ch}.finding .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sev)}
+.grid{display:grid;gap:4px;padding:10px}.grid .h{font-weight:600;font-size:13px;display:flex;align-items:center;padding:6px}.cell{border-radius:5px;padding:8px;font-size:11.5px;display:grid;gap:2px;background:#222d3e}.cell b{font-size:13px;font-variant-numeric:tabular-nums}.cell.self{opacity:.35}.cell.a{background:#1d3a31}.cell.d{background:#3d2328}.cell.react{outline:2px solid #6fdca0}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}.rules input[type=number]{width:90px;text-align:right}
+pre{white-space:pre-wrap;background:#161d29;border:1px solid #354151;border-radius:6px;padding:12px;margin:0;max-height:440px;overflow:auto;font:12px ui-monospace,Menlo,monospace}
+.note{padding:12px 14px;border-left:3px solid #76cfd8;background:#192432;line-height:1.55;max-width:100ch}
+#toast{position:fixed;right:16px;bottom:16px;background:#eef5ff;color:#10141e;padding:8px 14px;border-radius:5px;z-index:20}
+</style></head><body>
+<header><div><h1>RIFT DUEL / FRAME CODEX</h1><p>Tune fighters, moves and shared rules, and watch frame advantage, playstyle and matchups update live. Starting values are read from the game's code (<code>dist/balance/roster.json</code>, regenerated by <code>npm run balance:extract</code>). Yellow cells differ from the code. Frame advantage is estimated from the shared constants, about ±2 frames.</p></div>
+<span class="status" id="status">Loading…</span><a href="http://localhost:4202/">Back to game</a><a href="http://localhost:4202/sandbox.html">Sandbox</a></header>
+<nav id="tabs"><button data-tab="tune">Tune</button><button data-tab="balance">Balance</button><button data-tab="matchups">Matchups</button><button data-tab="rules">Game rules</button><button data-tab="changes">Changes</button></nav>
+<main><p class="note">Standalone lab: roster and formulas are embedded from the repository. Saved tuning belongs to this browser address. If hosted elsewhere, export your JSON and import it into the playable lab at localhost:4202. Play links below target that local preview; it must be running.</p>
+<div class="panel"><b>Proposed balance pass</b><p>12f block stun · +7f recovery on missed strikes only · split guard. Full proposal also trims Rei and specializes Aegis. Vesper’s stats stay unchanged; Control is now measured separately.</p><div class="toolbar"><button id="preset-rules">Load game-wide proposal</button><button id="preset-full">Load full proposal</button><button id="preset-undo" hidden>Undo preset load</button><a href="http://localhost:4202/?balance=local">Play saved draft</a><a href="http://localhost:4202/?balance=proposed">Play full proposal</a><a href="http://localhost:4202/?balance=rules">Play game-wide rules only</a></div><small>Loading a proposal replaces the draft; Undo restores it. Direct play links do not change saved edits. Reload an open game after editing.</small></div>
+<section id="v-tune">
+ <div class="toolbar"><div class="toolbar pick" id="pick"></div><button id="add">+ New fighter</button></div>
+ <div class="panel" id="addform" hidden><h3>New fighter</h3><div class="toolbar"><label class="f">Name<input id="nf-name" placeholder="e.g. Kade"></label><label class="f">Start from<select id="nf-tpl"></select></label><label class="f">Color<input id="nf-color" type="color" value="#4fd1b0"></label><button class="primary" id="nf-go">Create</button><button id="nf-cancel">Cancel</button></div><small>The new fighter copies every stat and move from the template. Then tune it like any other.</small></div>
+ <div class="tune"><div style="display:grid;gap:14px;min-width:0"><div class="panel" id="ident"></div>
+  <small><span style="color:#4c9ee6">■</span> startup <span style="color:#e86a55">■</span> active <span style="color:#68728c">■</span> recovery · Block / Hit: + means the attacker moves first · Open: frames stuck after contact or a miss (active − 1 + recovery).</small>
+  <div class="tablebox"><table id="moves"></table></div>
+  <small>Base damage is before the fighter's power multiplier; multi-hit moves are summed. Block and hit are blank where they depend on distance (projectiles, areas, grabs).</small></div>
+  <aside id="side"></aside></div>
+</section>
+<section id="v-balance" hidden><h2>Roster balance</h2><p class="muted">Six core scores plus a Control capability estimate (hold, coverage, ring persistence and traps). Core budget remains the average of the original six scores; Control is not a win-rate or power measurement. The tick on each bar is the roster average. The playstyle label is what the numbers say, shown beside the intended style.</p><div class="cards" id="cards"></div><h2>Live checks</h2><div style="display:grid;gap:10px" id="checks"></div></section>
+<section id="v-matchups" hidden><h2>Matchup grid</h2><p class="muted">Rows whiff, columns punish. Top line: reach gap (green, the row fighter outreaches). Below: if the row fighter whiffs Strike 1 at max reach, can the column fighter close in and punish in time, with the reaction time on the Game rules tab? Outlined cells are punishable on reaction.</p><div class="tablebox"><div class="grid" id="grid"></div></div></section>
+<section id="v-rules" hidden><h2>Game rules</h2><p class="muted">Shared timings that apply to every fighter. Changing one updates every table.</p><div class="rules" id="rules"></div></section>
+<section id="v-changes" hidden><h2>Changes from the code</h2><p class="muted">Everything you changed, written as a task for Codex with the source file each value lives in. Export saves the tuning as JSON in the format the hosted Rift Duel Frame Codex uses, so the two can trade files.</p>
+ <div class="toolbar"><button class="primary" id="copy">Copy task for Codex</button><button id="export">Export tuning JSON</button><button id="import">Import tuning JSON</button><input id="file" type="file" accept="application/json,.json" hidden><button class="danger" id="reset">Reset everything to code</button><span id="resetask" hidden>Remove every change and new fighter? <button class="danger" id="reset-yes">Yes, reset</button> <button id="reset-no">Keep</button></span></div>
+ <pre id="task"></pre>
+ <p class="note"><a href="http://localhost:4202/?balance=local">Play saved tuning</a> · <a href="http://localhost:4202/?energy=flow&amp;balance=local">Play with flowing effects</a> · <a href="http://localhost:4202/sandbox.html?balance=local">Inspect in sandbox</a>. These links load a snapshot of this browser’s saved tuning. Reload the game after editing. Custom fighters are not playable yet. Reaction and band are analysis-only.</p></section>
+</main><div id="toast" hidden></div>
+<script type="module">
+// BALANCE-LAB formulas, shared by dist/balance-lab.js and tests/balance-lab.test.mjs. Pure functions over a lab state
+// {sys, fighters, order}. The original six metrics match the hosted Frame Codex; miss penalty and Control extend that model
+// and can trade tuning files. Frame advantage here is an estimate from the shared constants (about ±2 frames); the
+// simulation-measured tables are docs/FRAME_ADVANTAGE.md on the SPACING-COMMITMENT branch.
+const SYS_KEYS=['hitstun','launchStun','blockstun','chip','perfectGuard','captureBreak','splitGuard','missPenalty','reaction','band','cancel1','cancel2'];
+const STATS=['speed','power','reach','shotSpeed'];
+const EDITABLE=['startup','active','recovery','base'];
+const clone=o=>JSON.parse(JSON.stringify(o));
+// Lab state from dist/balance/roster.json.
+function baseState(roster){
+ const c=roster.constants;
+ const sys={hitstun:c.hitStun,launchStun:c.launchStun,blockstun:c.blockStun,chip:c.chip,perfectGuard:c.perfectGuard,captureBreak:c.captureBreak,splitGuard:false,missPenalty:c.missPenalty??0,reaction:c.reaction,band:c.band,cancel1:c.cancel1,cancel2:c.cancel2};
+ const fighters={};
+ for(const f of roster.fighters)fighters[f.id]={id:f.id,name:f.name,title:f.title,color:f.color,intended:f.style,custom:false,
+  stats:{speed:f.speed,power:f.power,reach:f.reach,shotSpeed:f.shotSpeed},
+  moves:f.moves.map(m=>({key:m.key,move:m.move,group:m.group,input:m.input,type:m.type,startup:m.startup,active:m.active,recovery:m.recovery,base:m.base,range:m.range,effect:m.effect,beats:m.beats,losesTo:m.losesTo,launch:!!m.launch,control:m.control||{},source:m.source}))};
+ const cs=roster.constantSources||{},sources={hitstun:cs.hitStun,launchStun:cs.launchStun,blockstun:cs.blockStun,chip:cs.chip,perfectGuard:cs.perfectGuard,captureBreak:cs.captureBreak,cancel1:cs.cancel1,cancel2:cs.cancel2,reaction:cs.reaction,band:cs.band,missPenalty:'dist/combat.js STRIKE_MISS_PENALTY / balance preview',splitGuard:'dist/balance-runtime.js balanceCaptureBreak'};
+ return {sys,fighters,order:roster.fighters.map(f=>f.id),sources};
+}
+const copyState=s=>clone(s);
+
+// ---- Per move ----
+const MELEE=['Melee','Rush','Air','Burst'];
+const open=m=>m.active-1+m.recovery;
+const missRecovery=(sys,m)=>m.recovery+(/^chain-strike-[123]$/.test(m.key)?sys.missPenalty||0:0);
+const total=m=>m.startup+m.active+m.recovery;
+const onBlock=(sys,m)=>MELEE.includes(m.type)?sys.blockstun-open(m):null;
+const onHit=(sys,m)=>['Melee','Rush','Air'].includes(m.type)?(m.launch?sys.launchStun:sys.hitstun)-open(m):null;
+const damage=(f,m)=>m.base*f.stats.power;
+const chip=(sys,f,m)=>['Grab','Counter'].includes(m.type)?0:damage(f,m)*sys.chip;
+const ratio=(f,m)=>open(m)?damage(f,m)/open(m)*10:null;
+const move=(f,key)=>f.moves.find(m=>m.key===key);
+// Frames between a blocked chain hit n and hit n+1 landing, after the defender's block stun ends.
+function chainGap(sys,f,n){
+ const s=move(f,'chain-strike-'+n),next=move(f,'chain-strike-'+(n+1));if(!s||!next)return null;
+ return (sys['cancel'+n]-s.startup)+next.startup-sys.blockstun;
+}
+// Attacker A whiffs Strike 1 at max reach; can defender D close in and land Strike 1 before A recovers?
+function whiff(sys,A,D){
+ const a1=move(A,'chain-strike-1'),d1=move(D,'chain-strike-1');
+ const gap=Math.max(0,A.stats.reach-D.stats.reach+.05),travel=Math.ceil(gap/D.stats.speed*60);
+ const need=sys.reaction+travel+d1.startup,o=open(a1)+(sys.missPenalty||0);
+ return {open:o,travel,need,margin:o-need,verdict:o>=need?'Reaction punish':o>=need-sys.reaction?'Guess punish':'Not punishable'};
+}
+
+// ---- Scores (0..100 on fixed scales, so new fighters compare fairly) ----
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const norm=(v,lo,hi)=>Math.round(clamp((v-lo)/(hi-lo),0,1)*100);
+// Control is a heuristic (0–100), not win rate or a balance budget.
+// Best non-stock tool per component: variants are alternatives, not additive bonuses.
+function controlScore(f){
+ const tools=f.moves.filter(m=>m.group==='Special'||m.group==='Variant');
+ const best=fn=>Math.max(0,...tools.map(m=>fn(m.control||{},m)));
+ const hold=Math.round(best(c=>Math.min(1,(c.holdSeconds||0)/.85))*30);
+ const space=Math.round(best(c=>Math.min(1,Math.max((c.radius||0)/1.4,(c.lanes||1)>1?.6:0,c.area?1:0)))*20);
+ const persistence=Math.round(best(c=>c.ring?Math.min(1,(c.lifetime||0)/2.6)*Math.min(1,9/Math.max(1,c.speed||9)):0)*25);
+ const traps=best(c=>c.trap?1:0)*25;
+ return {hold,coverage:space,persistence,traps,total:hold+space+persistence+traps};
+}
+
+function scores(sys,f){
+ const s1=move(f,'chain-strike-1'),s2=move(f,'chain-strike-2'),s3=move(f,'chain-strike-3'),sh=move(f,'chain-shot-1');
+ return {
+  Mobility:norm(f.stats.speed,3,7),
+  Reach:norm(f.stats.reach,2,3.5),
+  Damage:norm((s1.base+s2.base+s3.base)*f.stats.power,15,30),
+  'Attack speed':norm(14-s1.startup,0,8),
+  Safety:norm(onBlock(sys,s1),-20,0),
+  Zoning:Math.round(norm(f.stats.shotSpeed,6,16)*.5+norm(30-(sh.startup+sh.recovery),0,15)*.5),
+  Control:controlScore(f).total
+ };
+}
+// Keep the original six-score budget comparable; Control is an explanatory capability index.
+const budget=sc=>Math.round(Object.entries(sc).filter(([k])=>k!=='Control').reduce((a,[,v])=>a+v,0)/6);
+function playstyle(sc){
+ const c={Rushdown:(sc.Mobility+sc['Attack speed'])/2,Footsies:(sc.Reach+sc.Damage)/2,Zoner:sc.Zoning,Controller:sc.Control||0,Turtle:sc.Safety};
+ const top=Object.entries(c).sort((a,b)=>b[1]-a[1]);
+ if(top[0][1]<55)return 'Balanced';
+ return top[0][1]-top[1][1]<6?`Hybrid ${top[0][0]} / ${top[1][0]}`:top[0][0];
+}
+const fighterList=state=>state.order.map(id=>state.fighters[id]).filter(Boolean);
+function rosterAverage(state){
+ const all=fighterList(state).map(f=>scores(state.sys,f)),keys=Object.keys(all[0]);
+ return Object.fromEntries(keys.map(k=>[k,Math.round(all.reduce((a,s)=>a+s[k],0)/all.length)]));
+}
+
+// ---- Live checks: [severity, area, title, detail] ----
+function checks(state){
+ const F=fighterList(state),S=state.sys,out=[];
+ let reactCount=0,best=null;
+ for(const A of F)for(const D of F){if(A===D)continue;const w=whiff(S,A,D);if(w.verdict==='Reaction punish')reactCount++;if(!best||w.margin>best.m)best={m:w.margin,a:A.name,d:D.name};}
+ if(!reactCount)out.push(['bad','Missed strike','No Strike 1 whiff can be punished on reaction',`Closest pairing: ${best.d} punishing ${best.a}, still ${-best.m} frames short. Raise miss-only recovery, lower punisher startup, or lower the reaction time on the Game rules tab to test.`]);
+ else out.push(['good','Missed strike',`${reactCount} pairings can punish a whiff on reaction`,'Estimated from frames and reach, not a measured punish guarantee. Check the Matchups tab and play at normal speed.']);
+ const minStart=Math.min(...F.map(f=>move(f,'chain-strike-1').startup));
+ const lose=F.filter(f=>-onBlock(S,move(f,'chain-strike-1'))>minStart&&chainGap(S,f,1)>minStart);
+ if(lose.length)out.push(['bad','Blocked chain',`After a blocked hit, the defender wins both choices for ${lose.map(f=>f.name).join(', ')}`,`Stopping leaves them minus on block, and continuing gives a gap the fastest jab (${minStart} frames) beats. Add pushback, shorten the chain cancel frame, or speed up hit 2 so continuing is a real gamble.`]);
+ else out.push(['good','Blocked chain','No fighter loses both blocked-chain options in this estimate','At least one option avoids the fastest-jab test. Spacing, pushback and input timing still decide actual exchanges.']);
+ if(!S.splitGuard&&S.perfectGuard>0&&S.captureBreak>0)out.push(['warn','Guard',`One guard tap beats both strike and capture (${Math.min(S.perfectGuard,S.captureBreak)} shared frames)`,'Turn on split guard on the Game rules tab so perfect guard covers strikes only and the defender has to guess.']);
+ else out.push(['good','Guard','The defender has to guess between strike and capture','Split guard is on, so one tap no longer covers both.']);
+ const budgets=F.map(f=>budget(scores(S,f))),mean=budgets.reduce((a,b)=>a+b,0)/budgets.length;
+ F.forEach((f,i)=>{const b=budgets[i],sc=scores(S,f);
+  if(b>mean+8)out.push(['warn','Budget',`${f.name} is over budget (${b} vs roster ${Math.round(mean)})`,'Strong across the board compared to the rest. Trim a strength or add a clear weakness.']);
+  if(b<mean-8)out.push(['warn','Budget',`${f.name} is under budget (${b} vs roster ${Math.round(mean)})`,'Weaker overall. Give them a stronger signature tool or speed up a key move.']);
+  if(Object.values(sc).every(v=>v>=40))out.push(['warn','Weakness',`${f.name} has no clear weakness`,'Every score is 40 or higher. Pros will pick them for everything.']);
+  if(Math.max(...Object.values(sc))<55)out.push(['warn','Identity',`${f.name} has no clear strength`,'No score reaches 55. Give them one thing they do best.']);
+ });
+ const confirms=F.filter(f=>onHit(S,move(f,'chain-strike-1'))>0);
+ out.push([confirms.length?'good':'warn','Hit confirm',confirms.length?`Plus on hit with Strike 1: ${confirms.map(f=>f.name).join(', ')}`:'No Strike 1 is plus on hit','A plus jab gives the next turn without needing the chain. Usually a rushdown trait.']);
+ return out;
+}
+
+// ---- Exchange format, shared with the hosted Frame Codex ----
+// {sys:{...}, fighters:{id:{id,name,color,intended,custom,stats:{speed,power,reach,shotSpeed},moves:[{key,startup,active,recovery,base}]}}}
+function exportTuning(state){
+ const fighters={};
+ for(const f of fighterList(state))fighters[f.id]={id:f.id,name:f.name,color:f.color,intended:f.intended,custom:!!f.custom,...(f.custom&&f.template?{template:f.template}:{}),stats:{...f.stats},moves:f.moves.map(m=>({key:m.key,startup:m.startup,active:m.active,recovery:m.recovery,base:m.base}))};
+ return {sys:{...state.sys},fighters};
+}
+const finite=v=>typeof v==='number'&&Number.isFinite(v);
+// Applies an exported tuning file on top of the code baseline. Unknown keys are ignored; a custom fighter is created
+// from the fighter it lists as a template (or the first fighter) and then takes the file's values.
+function importTuning(base,data){
+ if(!data||typeof data!=='object')throw new Error('Not a balance tuning file');
+ const state=copyState(base),notes=[];
+ for(const k of SYS_KEYS)if(data.sys&&k in data.sys)state.sys[k]=k==='splitGuard'?!!data.sys[k]:finite(data.sys[k])?data.sys[k]:state.sys[k];
+ for(const [id,src] of Object.entries(data.fighters||{})){
+  let f=state.fighters[id];
+  if(!f){
+   if(!src.custom){notes.push(`skipped unknown fighter ${id}`);continue;}
+   const tpl=state.fighters[src.template]||state.fighters[state.order[0]];
+   f=state.fighters[id]={...copyState(tpl),id,title:'New fighter',custom:true,template:tpl.id};state.order.push(id);
+  }
+  if(typeof src.name==='string'&&f.custom)f.name=src.name;
+  if(typeof src.color==='string')f.color=src.color;
+  if(typeof src.intended==='string')f.intended=src.intended;
+  for(const k of STATS)if(finite(src.stats?.[k]))f.stats[k]=src.stats[k];
+  for(const m of src.moves||[]){const t=move(f,m.key);if(!t){notes.push(`${id}: unknown move ${m.key}`);continue;}for(const k of EDITABLE)if(finite(m[k]))t[k]=m[k];}
+ }
+ return {state,notes};
+}
+
+// ---- Changes, as a plain-text task for Codex ----
+const SYS_SOURCE={hitstun:'hit stun',launchStun:'launch stun',blockstun:'block stun',chip:'chip share',perfectGuard:'perfect guard window',captureBreak:'capture break window',splitGuard:'split guard',missPenalty:'extra recovery on missed strikes only',reaction:'human reaction (lab assumption, not a game value)',band:'whiff band (needs the line 100 change)',cancel1:'chain cancel, hit 1',cancel2:'chain cancel, hit 2'};
+function changes(base,state){
+ const out={sys:[],fighters:[]};
+ for(const k of SYS_KEYS)if(state.sys[k]!==base.sys[k])out.sys.push({key:k,label:SYS_SOURCE[k],from:base.sys[k],to:state.sys[k]});
+ for(const f of fighterList(state)){
+  if(f.custom){out.fighters.push({id:f.id,name:f.name,custom:true,f});continue;}
+  const b=base.fighters[f.id],lines=[];
+  for(const k of STATS)if(f.stats[k]!==b.stats[k])lines.push({what:k,from:b.stats[k],to:f.stats[k],source:'dist/fighters.js'});
+  if(f.intended!==b.intended)lines.push({what:'intended playstyle',from:b.intended,to:f.intended,source:'dist/fighters.js style'});
+  if(f.color!==b.color)lines.push({what:'color',from:b.color,to:f.color,source:'dist/fighters.js'});
+  for(const m of f.moves){const bm=move(b,m.key);for(const k of EDITABLE)if(bm[k]!==m[k]){
+   const src=m.source||{},where=k==='base'?src.damage:k==='active'&&src.active?src.active:src.timing;
+   lines.push({move:m.move,key:m.key,what:k==='base'?'base damage':k,from:bm[k],to:m[k],source:where||'see dist/balance/roster.json'});}}
+  if(lines.length)out.fighters.push({id:f.id,name:f.name,lines});
+ }
+ return out;
+}
+function codexTask(base,state){
+ const c=changes(base,state),L=[];
+ if(!c.sys.length&&!c.fighters.length)return 'No changes yet. Edit a value on the Tune or Game rules tab and it will appear here.';
+ L.push('Task: BALANCE-PASS. Apply these tuning changes from the Rift Duel balance lab (dist/balance-lab.html). The simulation owns timing. Keep replay deterministic, add tests for each changed value, regenerate dist/balance/roster.json with npm run balance:extract, and run npm test.','');
+ if(c.sys.length){L.push('Game rules:');for(const s of c.sys)L.push(`- ${s.label} (${s.key}): ${s.from} -> ${s.to}${base.sources?.[s.key]?` (${base.sources[s.key]})`:''}`);L.push('');}
+ for(const f of c.fighters){
+  if(f.custom){const x=f.f;L.push(`New fighter ${x.name} (id ${x.id}, color ${x.color}, intended: ${x.intended}):`,`- stats: speed ${x.stats.speed}, power ${x.stats.power}, reach ${x.stats.reach}, shot speed ${x.stats.shotSpeed} (new entry in dist/fighters.js)`);for(const m of x.moves)L.push(`- ${m.move} [${m.key}]: ${m.startup}/${m.active}/${m.recovery}, base damage ${m.base}`);L.push('');continue;}
+  L.push(`${f.name}:`);
+  for(const l of f.lines)L.push(l.move?`- ${l.move} ${l.what}: ${l.from} -> ${l.to} (${l.source})`:`- ${l.what}: ${l.from} -> ${l.to} (${l.source})`);
+  L.push('');
+ }
+ L.push('Timings shared by several rows (for example every fighter\'s shot, or a special and its variant) change for all of them when edited at the source. Damage is base damage times the fighter\'s power multiplier.');
+ return L.join('\n');
+}
+
+// Proposed tuning, not the production baseline. No Vesper stat buff before playtesting control.
+function proposedBalance(base,stage='full'){
+ const state=copyState(base);
+ Object.assign(state.sys,{blockstun:12,missPenalty:7,splitGuard:true});
+ if(stage==='full'){
+  Object.assign(state.fighters.rei.stats,{reach:2.85,speed:5.6});
+  Object.assign(state.fighters.aegis.stats,{reach:2.5,shotSpeed:14});
+  for(let chain=1;chain<=3;chain++)move(state.fighters.aegis,`chain-shot-${chain}`).recovery=14;
+ }
+ return state;
+}
+
+// BALANCE-LAB page. Reads dist/balance/roster.json (generated from the game modules), lets you tune it, and exports
+// the result. All the numbers come from dist/balance/formulas.js, shared with the tests and the hosted Frame Codex.
+const $=id=>document.getElementById(id);
+const STORAGE_KEY='rift-balance-lab';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+let base,work,sel='tala',tab='tune';
+
+// ---- Persistence (per-viewer convenience; the export file is the durable copy) ----
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(exportTuning(work)));}catch{}}
+function load(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)return importTuning(base,JSON.parse(raw)).state;}catch{}return copyState(base);}
+const edited=id=>{const f=work.fighters[id];return f.custom||!same(exportTuning({...work,order:[id]}).fighters[id],exportTuning({...base,order:[id]}).fighters[id]);};
+function changeCount(){const c=changes(base,work);return c.fighters.length+(c.sys.length?1:0);}
+
+// ---- Rendering ----
+const who=f=>`<span class="who" style="--c:${f.color}"><i></i>${esc(f.name)}</span>`;
+const adv=v=>v==null?'':`<span class="${v>0?'plus':v>=-2?'even':'minus'}">${v>0?'+':''}${v}</span>`;
+function renderHeader(){
+ const n=changeCount();
+ $('status').textContent=n?`${n} change set${n>1?'s':''} vs code`:'Matches the code';$('status').classList.toggle('edited',!!n);
+ for(const b of $('tabs').querySelectorAll('button')){b.setAttribute('aria-current',b.dataset.tab===tab?'page':'false');if(b.dataset.tab==='changes')b.innerHTML='Changes'+(n?`<span class="n">${n}</span>`:'');}
+ for(const v of ['tune','balance','matchups','rules','changes'])$('v-'+v).hidden=v!==tab;
+}
+function renderPick(){
+ $('pick').innerHTML=fighterList(work).map(f=>`<button data-id="${f.id}" aria-pressed="${f.id===sel}" style="--c:${f.color}"><i></i>${esc(f.name)}${edited(f.id)?'<span class="dot" title="Changed from code"></span>':''}</button>`).join('');
+ $('nf-tpl').innerHTML=fighterList(work).map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join('');
+}
+const STAT_UI=[['speed','Speed',3,8,.1],['power','Power',.7,1.4,.01],['reach','Reach',1.5,4,.05],['shotSpeed','Shot spd',5,20,.5]];
+function renderIdent(){
+ const f=work.fighters[sel],b=base.fighters[sel];
+ const rows=STAT_UI.map(([k,l,lo,hi,step])=>{const ch=b&&b.stats[k]!==f.stats[k];return `<div class="stat" style="--c:${f.color}"><span>${l}</span><input type="range" min="${lo}" max="${hi}" step="${step}" value="${f.stats[k]}" data-stat="${k}" aria-label="${l}"><input type="number" step="${step}" value="${f.stats[k]}" data-stat="${k}" class="${ch?'changed':''}" title="${b?'Code: '+b.stats[k]:'New fighter'}" aria-label="${l} value"></div>`;}).join('');
+ $('ident').innerHTML=`<div class="toolbar" style="justify-content:space-between"><h2>${who(f)} <small>${esc(f.title||'')}</small></h2><div class="toolbar">${f.custom?`<button class="danger" id="del">Delete fighter</button>`:`<button id="resetf" ${edited(sel)?'':'disabled'}>Reset ${esc(f.name)} to code</button>`}</div></div>
+  <div class="ident"><label class="f">Name<input id="i-name" value="${esc(f.name)}" ${f.custom?'':'disabled'}></label><label class="f">Intended playstyle<input id="i-int" value="${esc(f.intended)}" class="${b&&b.intended!==f.intended?'changed':''}"></label><label class="f">Color<input id="i-color" type="color" value="${f.color}"></label></div>
+  <div style="display:grid;gap:8px">${rows}</div>`;
+}
+const COLS=[['startup','Start'],['active','Active'],['recovery','Recov'],['base','Base dmg']];
+function renderMoves(){
+ const a=document.activeElement,keep=a?.dataset?.move?[a.dataset.move,a.dataset.k]:null;
+ const f=work.fighters[sel],b=base.fighters[sel],S=work.sys,w=v=>Math.min(100,v/60*100);
+ let h=`<thead><tr><th>Move</th><th>Input</th><th>Frames</th>${COLS.map(c=>`<th>${c[1]}</th>`).join('')}<th>Miss recov</th><th>Total</th><th>Dmg</th><th>Chip</th><th>Block</th><th>Hit</th><th>Open</th><th>Ratio</th><th>Range</th><th>Effect</th><th>Beats</th><th>Loses to</th></tr></thead><tbody>`;
+ for(const g of [...new Set(f.moves.map(m=>m.group))]){
+  h+=`<tr><th class="grp" colspan="18">${g}</th></tr>`;
+  for(const m of f.moves.filter(x=>x.group===g)){
+   const bm=b&&move(b,m.key),d=damage(f,m),r=ratio(f,m);
+   h+=`<tr><td><b>${esc(m.move)}</b><br><small>${esc(m.type)}</small></td><td>${esc(m.input)}</td><td><div class="bar3"><span class="s" style="width:${w(m.startup)}%"></span><span class="a" style="width:${w(m.active)}%"></span><span class="r" style="width:${w(m.recovery)}%"></span></div></td>`+
+    COLS.map(([k])=>{const ch=bm&&bm[k]!==m[k];return `<td><input type="number" step="${k==='base'?.5:1}" min="${k==='active'?1:0}" value="${m[k]}" data-move="${m.key}" data-k="${k}" class="${ch?'changed':''}" title="${bm?`Code: ${bm[k]}${m.source?' · '+esc(k==='base'?m.source.damage:k==='active'&&m.source.active?m.source.active:m.source.timing):''}`:'New fighter'}" aria-label="${esc(m.move)} ${k}"></td>`;}).join('')+
+    `<td class="num">${/^chain-strike-[123]$/.test(m.key)?missRecovery(S,m):'—'}</td><td class="num">${total(m)}</td><td class="num">${d.toFixed(1)}</td><td class="num">${chip(S,f,m).toFixed(1)}</td><td class="num">${adv(onBlock(S,m))}</td><td class="num">${adv(onHit(S,m))}</td><td class="num">${open(m)}</td><td class="num">${r==null?'':r.toFixed(2)}</td><td>${esc(m.range)}</td><td class="text">${esc(m.effect)}</td><td class="text">${esc(m.beats)}</td><td class="text">${esc(m.losesTo)}</td></tr>`;
+  }
+ }
+ $('moves').innerHTML=h+'</tbody>';
+ if(keep)document.querySelector(`#moves input[data-move="${keep[0]}"][data-k="${keep[1]}"]`)?.focus();
+}
+function scoreBars(f,avg){return Object.entries(scores(work.sys,f)).map(([k,v])=>`<div class="score" style="--c:${f.color}"><span title="${k==='Control'?'Control estimate: hold + coverage + ring persistence + traps. Excluded from core budget.':k}">${k}</span><div class="bar"><i style="width:${v}%"></i>${avg?`<b style="left:${avg[k]}%"></b>`:''}</div><em>${v}</em></div>`).join('');}
+function renderSide(){
+ const f=work.fighters[sel],S=work.sys,sc=scores(S,f),avg=rosterAverage(work),bud=budget(sc),F=fighterList(work),mean=Math.round(F.map(x=>budget(scores(S,x))).reduce((a,b)=>a+b,0)/F.length);
+ const s1=move(f,'chain-strike-1'),others=F.filter(x=>x!==f),ws=others.map(D=>({w:whiff(S,f,D),p:whiff(S,D,f)}));
+ const mine=checks(work).filter(c=>c[2].includes(f.name)||c[1]==='Guard');
+ $('side').innerHTML=`<div class="panel"><small>NUMBERS SAY</small><div class="verdict">${playstyle(sc)}</div><small>Intended: ${esc(f.intended)}</small>${scoreBars(f,avg)}<div class="score"><span>Core budget</span><div class="bar"><i style="width:${bud}%;background:#eef5ff"></i><b style="left:${mean}%"></b></div><em>${bud}</em></div></div>
+  <div class="panel"><small>STRIKE 1 EXCHANGES</small>
+   <div class="row2"><span>On hit</span><span>${adv(onHit(S,s1))}</span></div><div class="row2"><span>On block</span><span>${adv(onBlock(S,s1))}</span></div>
+   <div class="row2"><span>Chain gap after block</span><span>${chainGap(S,f,1)} frames</span></div>
+   <div class="row2"><span>Whiffs punishable on reaction</span><span id="side-whiff">${ws.filter(x=>x.w.verdict==='Reaction punish').length} of ${others.length}</span></div>
+   <div class="row2"><span>Can punish rivals on reaction</span><span>${ws.filter(x=>x.p.verdict==='Reaction punish').length} of ${others.length}</span></div></div>
+  <div class="panel"><small>CHECKS FOR ${esc(f.name)}</small>${mine.length?mine.map(([s,,t])=>`<div class="row2" style="--sev:${SEV[s]}"><i class="sev"></i><span>${esc(t)}</span></div>`).join(''):'<small>No issues flagged.</small>'}</div>`;
+}
+const SEV={good:'#6fdca0',warn:'#f3c76a',bad:'#ff8e7a'},SEV_LABEL={good:'Working',warn:'Watch',bad:'Fix'};
+function renderBalance(){
+ const avg=rosterAverage(work);
+ $('cards').innerHTML=fighterList(work).map(f=>{const sc=scores(work.sys,f);return `<article class="panel card" style="--c:${f.color}"><div class="top">${who(f)}<span class="tag">Core budget ${budget(sc)}</span></div><div><b>${playstyle(sc)}</b><br><small>Intended: ${esc(f.intended)}</small></div>${scoreBars(f,avg)}<small>Control estimate: hold ${controlScore(f).hold}/30 · coverage ${controlScore(f).coverage}/20 · rings ${controlScore(f).persistence}/25 · traps ${controlScore(f).traps}/25. Capability only; excluded from core budget.</small></article>`;}).join('');
+ $('checks').innerHTML=checks(work).map(([s,a,t,d])=>`<article class="finding" style="--sev:${SEV[s]}"><div class="toolbar"><span class="label">${SEV_LABEL[s]}</span><span class="tag">${a}</span></div><h3>${esc(t)}</h3><small>${esc(d)}</small></article>`).join('');
+}
+function renderGrid(){
+ const F=fighterList(work),g=$('grid');
+ g.style.gridTemplateColumns=`110px repeat(${F.length},minmax(100px,1fr))`;g.style.minWidth=(110+F.length*104)+'px';
+ g.innerHTML='<div class="h">Whiffs ↓ / punishes →</div>'+F.map(f=>`<div class="h">${who(f)}</div>`).join('')+F.map(A=>`<div class="h">${who(A)}</div>`+F.map(D=>{
+  if(A===D)return '<div class="cell self"><b>Mirror</b></div>';
+  const gap=+(A.stats.reach-D.stats.reach).toFixed(2),w=whiff(work.sys,A,D);
+  return `<div class="cell ${gap>0?'a':gap<0?'d':''} ${w.verdict==='Reaction punish'?'react':''}" data-a="${A.id}" data-d="${D.id}"><b>${gap>0?'+':''}${gap}</b><span>${w.verdict}</span><small>${w.margin>=0?'+':''}${w.margin}f (open ${w.open}, needs ${w.need})</small></div>`;}).join('')).join('');
+}
+const RULES=[['missPenalty','Miss-only strike recovery','Extra recovery after a basic strike misses its entire active window. Hits and blocks are unchanged. Try 5, 6 or 7 frames.',1],['hitstun','Hit stun','Frames a normal hit freezes the defender.',1],['launchStun','Launch stun','Frames a launcher keeps the defender airborne.',1],['blockstun','Block stun','Frames held guard freezes the defender after blocking.',1],['chip','Chip damage','Share of damage held guard still takes (0.12 = 12%).',.01],['perfectGuard','Perfect guard window','Frames after pressing guard that count as a perfect guard.',1],['captureBreak','Capture break window','Frames to break capture: guard with shared defense, a separate capture tap with split guard.',1],['cancel1','Chain cancel, hit 1','Frame of Strike 1 when hit 2 can start on hit or block.',1],['cancel2','Chain cancel, hit 2','Frame of Strike 2 when hit 3 can start.',1],['reaction','Human reaction','Frames a player needs to see a whiff and respond. 15 is about a quarter second. A lab assumption, not a game value.',1],['band','Whiff band','Distance just outside reach where a swing could miss (needs the line 100 change, SPACING-COMMITMENT).',.05]];
+function renderRules(){
+ const S=work.sys;
+ $('rules').innerHTML=RULES.map(([k,l,d,step])=>`<div class="panel"><h3>${l}</h3><small>${d}</small><div class="toolbar"><input type="number" step="${step}" value="${S[k]}" data-sys="${k}" class="${S[k]!==base.sys[k]?'changed':''}" aria-label="${l}"><small>Code: ${base.sys[k]}${base.sources?.[k]?' · '+esc(base.sources[k]):''}</small></div></div>`).join('')+
+  `<div class="panel"><h3>Split guard</h3><small>Perfect guard covers strikes only; a capture needs its own read. Playable with <code>?balance=local</code>. Tap capture without guarding to break a grab; holding guard and capture together does not defend both.</small><label><input type="checkbox" data-sys="splitGuard" ${S.splitGuard?'checked':''}> Turn on</label></div>`;
+}
+function renderChanges(){$('task').textContent=codexTask(base,work);}
+function renderAll(){renderHeader();renderPick();renderIdent();renderMoves();renderSide();renderBalance();renderGrid();renderRules();renderChanges();}
+function changed(){save();renderHeader();renderPick();renderMoves();renderSide();renderBalance();renderGrid();renderChanges();}
+
+// ---- Events ----
+function wire(){
+ for(const [id,stage] of [['preset-rules','rules'],['preset-full','full']])$(id).onclick=()=>{
+  try{localStorage.setItem('rift-balance-lab-before-preset',JSON.stringify(exportTuning(work)));}catch{}
+  work=proposedBalance(base,stage);save();renderAll();$('preset-undo').hidden=false;toast('Proposal loaded and saved. Reload your game to use it.');
+ };
+ $('preset-undo').onclick=()=>{try{const saved=localStorage.getItem('rift-balance-lab-before-preset');if(!saved)return;work=importTuning(base,JSON.parse(saved)).state;save();renderAll();$('preset-undo').hidden=true;toast('Previous draft restored');}catch{toast('Previous draft unavailable');}};
+
+ $('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.tab;history.replaceState(null,'','#'+tab);renderHeader();};
+ $('pick').onclick=e=>{const b=e.target.closest('button');if(!b)return;sel=b.dataset.id;renderAll();};
+ $('ident').addEventListener('input',e=>{
+  const t=e.target,f=work.fighters[sel];
+  if(t.dataset.stat){const v=parseFloat(t.value);if(isNaN(v))return;f.stats[t.dataset.stat]=v;document.querySelectorAll(`#ident [data-stat="${t.dataset.stat}"]`).forEach(x=>{if(x!==t)x.value=v;});document.querySelector(`#ident input[type=number][data-stat="${t.dataset.stat}"]`).classList.toggle('changed',!!base.fighters[sel]&&base.fighters[sel].stats[t.dataset.stat]!==v);}
+  else if(t.id==='i-name')f.name=t.value.trim().toUpperCase()||'UNNAMED';else if(t.id==='i-int')f.intended=t.value;else if(t.id==='i-color')f.color=t.value;else return;
+  changed();
+ });
+ $('ident').addEventListener('click',e=>{
+  if(e.target.id==='resetf'){work.fighters[sel]=copyState(base.fighters[sel]);save();renderAll();toast('Reset to code');}
+  if(e.target.id==='del'){if(e.target.dataset.sure){delete work.fighters[sel];work.order=work.order.filter(x=>x!==sel);sel=work.order[0];save();renderAll();toast('Fighter deleted');}else{e.target.dataset.sure='1';e.target.textContent='Click again to delete';}}
+ });
+ $('moves').addEventListener('change',e=>{
+  const t=e.target;if(!t.dataset.move)return;const m=move(work.fighters[sel],t.dataset.move);let v=parseFloat(t.value);
+  if(isNaN(v)){t.value=m[t.dataset.k];return;}
+  if(t.dataset.k!=='base')v=Math.max(t.dataset.k==='active'?1:0,Math.round(v));
+  m[t.dataset.k]=v;changed();
+ });
+ $('rules').addEventListener('change',e=>{const t=e.target,k=t.dataset.sys;if(!k)return;if(k==='splitGuard')work.sys.splitGuard=t.checked;else{const v=parseFloat(t.value);if(isNaN(v)){t.value=work.sys[k];return;}work.sys[k]=v;}save();renderAll();});
+ $('add').onclick=()=>{$('addform').hidden=false;$('nf-name').focus();};
+ $('nf-cancel').onclick=()=>{$('addform').hidden=true;};
+ $('nf-go').onclick=()=>{
+  const name=$('nf-name').value.trim();if(!name){$('nf-name').focus();toast('Give the fighter a name');return;}
+  let id=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'fighter';while(work.fighters[id])id+='-2';
+  const tpl=work.fighters[$('nf-tpl').value],f=copyState(tpl);
+  Object.assign(f,{id,name:name.toUpperCase(),title:'New fighter',color:$('nf-color').value,custom:true,template:tpl.id,intended:'Copied from '+tpl.name+', not set yet'});
+  work.fighters[id]=f;work.order.push(id);sel=id;$('addform').hidden=true;$('nf-name').value='';save();renderAll();toast(`${f.name} created from ${tpl.name}`);
+ };
+ $('copy').onclick=async()=>{try{await navigator.clipboard.writeText(codexTask(base,work));toast('Copied');}catch{const r=document.createRange();r.selectNodeContents($('task'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Text selected, press copy');}};
+ $('export').onclick=()=>{const blob=new Blob([JSON.stringify(exportTuning(work),null,1)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rift-duel-balance.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
+ $('import').onclick=()=>$('file').click();
+ $('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;try{const {state,notes}=importTuning(base,JSON.parse(await file.text()));work=state;if(!work.fighters[sel])sel=work.order[0];save();renderAll();toast(notes.length?`Imported with ${notes.length} note(s): ${notes[0]}`:'Imported');}catch(err){toast('Import failed: '+err.message);}$('file').value='';};
+ $('reset').onclick=()=>{$('resetask').hidden=false;};$('reset-no').onclick=()=>{$('resetask').hidden=true;};
+ $('reset-yes').onclick=()=>{work=copyState(base);sel='tala';$('resetask').hidden=true;save();renderAll();toast('Everything matches the code again');};
+}
+let toastTimer;function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,2200);}
+
+// ---- Start ----
+(async()=>{
+ try{
+  const roster={
+ "about": "Generated by scripts/balance/extract.mjs from the game modules. Do not edit by hand; run npm run balance:extract.",
+ "sources": {
+  "dist/combat.js": {
+   "snareHold": 458,
+   "perfectGuard": 48,
+   "chip": 51,
+   "blockStun": 51,
+   "parryStun": 52,
+   "stun": 57,
+   "captureMultiplier": 79,
+   "captureDamage": 80,
+   "pursuitDash": 130,
+   "crossover": 134,
+   "jump": 207,
+   "burstRange": 216,
+   "burstDamage": 218,
+   "captureClose": 238,
+   "captureBreak": 20,
+   "pursuit": 261,
+   "pursuitDamage": 263,
+   "launcher": 268,
+   "strikeDamage": 270,
+   "shot": 271
+  }
+ },
+ "constants": {
+  "missPenalty": 0,
+  "hitStun": 19,
+  "hitStunSeconds": 0.32,
+  "launchStun": 49,
+  "launchStunSeconds": 0.82,
+  "blockStun": 7,
+  "blockStunSeconds": 0.12,
+  "chip": 0.12,
+  "parryStun": 24,
+  "perfectGuard": 10,
+  "perfectGuardSeconds": 0.17,
+  "captureBreak": 12,
+  "captureBreakSeconds": 0.2,
+  "cancel1": 14,
+  "cancel2": 20,
+  "reversalWindow": 6,
+  "knockdownFrames": 49,
+  "reaction": 15,
+  "band": 1.15
+ },
+ "constantSources": {
+  "missPenalty": "dist/combat.js STRIKE_MISS_PENALTY",
+  "hitStun": "dist/combat.js line 57",
+  "launchStun": "dist/combat.js line 57",
+  "blockStun": "dist/combat.js line 51",
+  "chip": "dist/combat.js line 51",
+  "parryStun": "dist/combat.js line 52",
+  "perfectGuard": "dist/combat.js line 48",
+  "captureBreak": "dist/combat.js line 20",
+  "cancel1": "dist/moves.js chainCancelFrame",
+  "cancel2": "dist/moves.js chainCancelFrame",
+  "reversalWindow": "dist/reversal.js REVERSAL_WINDOW",
+  "knockdownFrames": "dist/recovery.js KNOCKDOWN_FRAMES",
+  "reaction": "balance lab assumption (not in the game)",
+  "band": "balance lab assumption; needs the line 100 change (SPACING-COMMITMENT &spacing=band)"
+ },
+ "fighters": [
+  {
+   "id": "aegis",
+   "name": "AEGIS",
+   "title": "The fallen sentinel",
+   "color": "#6fe7ff",
+   "style": "Balanced / beam specialist",
+   "speed": 5.1,
+   "power": 1,
+   "reach": 2.6,
+   "shotSpeed": 12,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 10,
+     "active": 3,
+     "recovery": 18,
+     "base": 6,
+     "range": "2.6 (own reach)",
+     "rangeMax": 2.6,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 14,
+     "active": 4,
+     "recovery": 24,
+     "base": 6,
+     "range": "2.6 (own reach)",
+     "rangeMax": 2.6,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 21,
+     "active": 5,
+     "recovery": 30,
+     "base": 10,
+     "range": "2.6 (own reach)",
+     "rangeMax": 2.6,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "24 (speed 12)",
+     "rangeMax": 24,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "24 (speed 12)",
+     "rangeMax": 24,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 9,
+     "range": "24 (speed 12)",
+     "rangeMax": 24,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-pulse-lance",
+     "group": "Special",
+     "move": "Pulse lance",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "50 (speed 19.2)",
+     "rangeMax": 49.92,
+     "effect": "Clean shot",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "A fast, straight energy beam.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.aegis.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.aegis.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.4,
+      "lifetime": 2.6,
+      "speed": 19.2,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-sustained-verdict",
+     "group": "Variant",
+     "move": "Sustained verdict",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 11,
+     "recovery": 28,
+     "base": 12,
+     "range": "47 (speed 18)",
+     "rangeMax": 46.8,
+     "effect": "3 hits (all must land)",
+     "beats": "Approach",
+     "losesTo": "Punish in recovery",
+     "note": "Three aligned beam pulses. Later pulses stop if you are interrupted.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.aegis.forward",
+      "damage": "dist/special-variants.js specialVariants.aegis.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.45,
+      "lifetime": 2.6,
+      "speed": 18,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-thunder-snare",
+     "group": "Special",
+     "move": "Thunder snare",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "Stun 0.7s, Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and send a lightning bolt that stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.aegis.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.aegis.back"
+     },
+     "control": {
+      "holdSeconds": 0.7,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.5,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-split-current",
+     "group": "Variant",
+     "move": "Split current",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 12,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "2 hits (all must land), Covers sidesteps",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Two separated shots cover sidesteps and leave a gap in the middle.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.aegis.back",
+      "damage": "dist/special-variants.js specialVariants.aegis.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.45,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-meteor-drive",
+     "group": "Special",
+     "move": "Meteor drive",
+     "input": "Up + Attack",
+     "type": "Rush",
+     "startup": 18,
+     "active": 18,
+     "recovery": 28,
+     "base": 12,
+     "range": "1.9 reach, travels 3.6",
+     "rangeMax": 5.5,
+     "effect": "drive",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.aegis",
+      "damage": "dist/techniques.js techniques.aegis"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-twin-drive",
+     "group": "Variant",
+     "move": "Twin drive",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Rush",
+     "startup": 18,
+     "active": 28,
+     "recovery": 28,
+     "base": 16,
+     "range": "1.9 reach, travels 5.6",
+     "rangeMax": 7.5,
+     "effect": "Two hits",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.aegis + techniqueVariants.aegis",
+      "damage": "dist/techniques.js techniqueVariants.aegis"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 20,
+     "active": 5,
+     "recovery": 28,
+     "base": 8,
+     "range": "2.90",
+     "rangeMax": 2.9,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-sentinel-verdict",
+     "group": "System",
+     "move": "SENTINEL VERDICT",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-sentinel-volley",
+     "group": "Stock",
+     "move": "Sentinel volley",
+     "input": "Toward + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 16,
+     "range": "42 (speed 16)",
+     "rangeMax": 41.6,
+     "effect": "4 hits",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "four aligned beam shots.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/stock-specials.js stockSpecials.aegis.forward (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.aegis.forward"
+     }
+    },
+    {
+     "key": "stock-thunder-core",
+     "group": "Stock",
+     "move": "Thunder core",
+     "input": "Away + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 20,
+     "range": "23 (speed 9)",
+     "rangeMax": 23.4,
+     "effect": "Huge hitbox",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "a large stunning energy sphere.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/stock-specials.js stockSpecials.aegis.back (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.aegis.back"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 2.6,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "rei",
+   "name": "REI",
+   "title": "The echo bearer",
+   "color": "#f2a0ce",
+   "style": "Sword / agile pressure",
+   "speed": 5.9,
+   "power": 0.9,
+   "reach": 3.1,
+   "shotSpeed": 11,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 10,
+     "active": 3,
+     "recovery": 18,
+     "base": 6,
+     "range": "3.1 (own reach)",
+     "rangeMax": 3.1,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 14,
+     "active": 4,
+     "recovery": 24,
+     "base": 6,
+     "range": "3.1 (own reach)",
+     "rangeMax": 3.1,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 21,
+     "active": 5,
+     "recovery": 30,
+     "base": 10,
+     "range": "3.1 (own reach)",
+     "rangeMax": 3.1,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "22 (speed 11)",
+     "rangeMax": 22,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "22 (speed 11)",
+     "rangeMax": 22,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 9,
+     "range": "22 (speed 11)",
+     "rangeMax": 22,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-crescent-wing",
+     "group": "Special",
+     "move": "Crescent wing",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "24 (speed 9.35)",
+     "rangeMax": 24.31,
+     "effect": "Stun 0.6s",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "A winged spirit shot that briefly stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.rei.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.rei.forward"
+     },
+     "control": {
+      "holdSeconds": 0.6,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.9,
+      "lifetime": 2.6,
+      "speed": 9.35,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-spirit-wings",
+     "group": "Variant",
+     "move": "Spirit wings",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 1,
+     "recovery": 28,
+     "base": 15,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "3 hits (all must land), Spread",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Three crescent shots spread across the arena.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.rei.forward",
+      "damage": "dist/special-variants.js specialVariants.rei.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 3,
+      "radius": 0.65,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-echo-blade",
+     "group": "Special",
+     "move": "Echo blade",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and send a straight spectral sword.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.rei.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.rei.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.45,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-sword-fan",
+     "group": "Variant",
+     "move": "Sword fan",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 20,
+     "range": "26 (speed 10)",
+     "rangeMax": 26,
+     "effect": "5 hits (all must land), Spread",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Five narrow sword waves cover a wider angle.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.rei.back",
+      "damage": "dist/special-variants.js specialVariants.rei.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 5,
+      "radius": 0.55,
+      "lifetime": 2.6,
+      "speed": 10,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-spiral-bloom",
+     "group": "Special",
+     "move": "Spiral bloom",
+     "input": "Up + Attack",
+     "type": "Rush",
+     "startup": 18,
+     "active": 16,
+     "recovery": 28,
+     "base": 11,
+     "range": "3.3 reach, travels 0.0",
+     "rangeMax": 3.3,
+     "effect": "spin",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.rei",
+      "damage": "dist/techniques.js techniques.rei"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": true,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-twin-moon",
+     "group": "Variant",
+     "move": "Twin moon",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Rush",
+     "startup": 18,
+     "active": 28,
+     "recovery": 28,
+     "base": 14,
+     "range": "3.3 reach",
+     "rangeMax": 3.3,
+     "effect": "Two hits",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.rei + techniqueVariants.rei",
+      "damage": "dist/techniques.js techniqueVariants.rei"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": true,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 20,
+     "active": 5,
+     "recovery": 28,
+     "base": 8,
+     "range": "3.40",
+     "rangeMax": 3.4,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-thousandth-echo",
+     "group": "System",
+     "move": "THOUSANDTH ECHO",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-phantom-flock",
+     "group": "Stock",
+     "move": "Phantom flock",
+     "input": "Toward + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 25,
+     "range": "34 (speed 13)",
+     "rangeMax": 33.8,
+     "effect": "5 hits",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "five spreading spirit waves.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/stock-specials.js stockSpecials.rei.forward (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.rei.forward"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 3.1,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tala",
+   "name": "TALA",
+   "title": "The storm disciple",
+   "color": "#f5b65d",
+   "style": "Close combat / rushdown",
+   "speed": 6.4,
+   "power": 1.02,
+   "reach": 2.25,
+   "shotSpeed": 10,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 9,
+     "active": 3,
+     "recovery": 16,
+     "base": 6,
+     "range": "2.25 (own reach)",
+     "rangeMax": 2.25,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 13,
+     "active": 4,
+     "recovery": 22,
+     "base": 6,
+     "range": "2.25 (own reach)",
+     "rangeMax": 2.25,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 18,
+     "active": 5,
+     "recovery": 26,
+     "base": 10,
+     "range": "2.25 (own reach)",
+     "rangeMax": 2.25,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "20 (speed 10)",
+     "rangeMax": 20,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "20 (speed 10)",
+     "rangeMax": 20,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 9,
+     "range": "20 (speed 10)",
+     "rangeMax": 20,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-storm-spark",
+     "group": "Special",
+     "move": "Storm spark",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "28 (speed 12)",
+     "rangeMax": 27.6,
+     "effect": "Clean shot",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "One travelling energy shot; the up special remains your rush attack.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.tala.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.tala.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.55,
+      "lifetime": 2.3,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-twin-spark",
+     "group": "Variant",
+     "move": "Twin spark",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 14,
+     "range": "34 (speed 13)",
+     "rangeMax": 33.8,
+     "effect": "2 hits (all must land), Spread",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Two close energy shots pressure nearby opponents.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.tala.forward",
+      "damage": "dist/special-variants.js specialVariants.tala.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.55,
+      "lifetime": 2.6,
+      "speed": 13,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-still-water-discus",
+     "group": "Special",
+     "move": "Still-water discus",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "21 (speed 9)",
+     "rangeMax": 20.7,
+     "effect": "Stun 0.65s, Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and throw a disc that stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.tala.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.tala.back"
+     },
+     "control": {
+      "holdSeconds": 0.65,
+      "ring": true,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.7,
+      "lifetime": 2.3,
+      "speed": 9,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-crosswind-discs",
+     "group": "Variant",
+     "move": "Crosswind discs",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 14,
+     "range": "29 (speed 11)",
+     "rangeMax": 28.6,
+     "effect": "2 hits (all must land), Covers sidesteps",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Two separated rings cover either sidestep.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.tala.back",
+      "damage": "dist/special-variants.js specialVariants.tala.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": true,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.65,
+      "lifetime": 2.6,
+      "speed": 11,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-rising-tempest",
+     "group": "Special",
+     "move": "Rising tempest",
+     "input": "Up + Attack",
+     "type": "Rush",
+     "startup": 18,
+     "active": 15,
+     "recovery": 28,
+     "base": 10,
+     "range": "1.8 reach, travels 2.5",
+     "rangeMax": 4.3,
+     "effect": "Launches, rise",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "launch": true,
+     "source": {
+      "timing": "dist/techniques.js techniques.tala",
+      "damage": "dist/techniques.js techniques.tala"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-skybreaker-kick",
+     "group": "Variant",
+     "move": "Skybreaker kick",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Rush",
+     "startup": 18,
+     "active": 15,
+     "recovery": 28,
+     "base": 13,
+     "range": "2.2 reach, travels 3.5",
+     "rangeMax": 5.7,
+     "effect": "kick",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.tala + techniqueVariants.tala",
+      "damage": "dist/techniques.js techniqueVariants.tala"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 18,
+     "active": 5,
+     "recovery": 28,
+     "base": 8,
+     "range": "2.55",
+     "rangeMax": 2.55,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-eightfold-tempest",
+     "group": "System",
+     "move": "EIGHTFOLD TEMPEST",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-blazing-palm",
+     "group": "Stock",
+     "move": "Blazing palm",
+     "input": "Toward + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 20,
+     "range": "29 (speed 11)",
+     "rangeMax": 28.6,
+     "effect": "Huge hitbox",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "a large close-pressure energy shot.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/stock-specials.js stockSpecials.tala.forward (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.tala.forward"
+     }
+    },
+    {
+     "key": "stock-giant-discus",
+     "group": "Stock",
+     "move": "Giant discus",
+     "input": "Away + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 19,
+     "range": "23 (speed 9)",
+     "rangeMax": 23.4,
+     "effect": "Huge hitbox",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "a slow, oversized energy disc.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/stock-specials.js stockSpecials.tala.back (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.tala.back"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 2.25,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "morrow",
+   "name": "MORROW",
+   "title": "The iron pilgrim",
+   "color": "#a5c69e",
+   "style": "Heavy / punishing reach",
+   "speed": 4.1,
+   "power": 1.24,
+   "reach": 3.25,
+   "shotSpeed": 9,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 11,
+     "active": 3,
+     "recovery": 20,
+     "base": 6,
+     "range": "3.25 (own reach)",
+     "rangeMax": 3.25,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 16,
+     "active": 4,
+     "recovery": 26,
+     "base": 6,
+     "range": "3.25 (own reach)",
+     "rangeMax": 3.25,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 24,
+     "active": 5,
+     "recovery": 34,
+     "base": 10,
+     "range": "3.25 (own reach)",
+     "rangeMax": 3.25,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "18 (speed 9)",
+     "rangeMax": 18,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "18 (speed 9)",
+     "rangeMax": 18,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 9,
+     "range": "18 (speed 9)",
+     "rangeMax": 18,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-fault-line",
+     "group": "Special",
+     "move": "Fault line",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 24,
+     "active": 4,
+     "recovery": 32,
+     "base": 10,
+     "range": "26 (speed 10)",
+     "rangeMax": 26,
+     "effect": "Stun 0.7s, Low",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "A ground wave stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.morrow.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.morrow.forward"
+     },
+     "control": {
+      "holdSeconds": 0.7,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.7,
+      "lifetime": 2.6,
+      "speed": 10,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-iron-eruption",
+     "group": "Variant",
+     "move": "Iron eruption",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Area",
+     "startup": 24,
+     "active": 12,
+     "recovery": 32,
+     "base": 13,
+     "range": "3.5 radius",
+     "rangeMax": 3.5,
+     "effect": "Single hit",
+     "beats": "Approach",
+     "losesTo": "Punish in recovery",
+     "note": "A close radial blast protects your space. It does not travel.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.morrow.forward",
+      "damage": "dist/special-variants.js specialVariants.morrow.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 2.6,
+      "speed": 0,
+      "area": true,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-siege-salvo",
+     "group": "Special",
+     "move": "Siege salvo",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 22,
+     "active": 13,
+     "recovery": 28,
+     "base": 16,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "Knockdown, 8 hits, Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and fire eight missiles in four pairs. Interruption stops later pairs.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.morrow.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.morrow.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.4,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": true
+     }
+    },
+    {
+     "key": "variant-ground-salvo",
+     "group": "Variant",
+     "move": "Ground salvo",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 22,
+     "active": 1,
+     "recovery": 28,
+     "base": 16,
+     "range": "23 (speed 9)",
+     "rangeMax": 23.4,
+     "effect": "Low, 2 hits (all must land), Covers sidesteps",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Two low missiles cover sidesteps, leaving the center open.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.morrow.back",
+      "damage": "dist/special-variants.js specialVariants.morrow.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.5,
+      "lifetime": 2.6,
+      "speed": 9,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-iron-advance",
+     "group": "Special",
+     "move": "Iron advance",
+     "input": "Up + Attack",
+     "type": "Rush",
+     "startup": 18,
+     "active": 20,
+     "recovery": 26,
+     "base": 15,
+     "range": "2.5 reach, travels 2.7",
+     "rangeMax": 5.17,
+     "effect": "charge",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.morrow",
+      "damage": "dist/techniques.js techniques.morrow"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-iron-lance",
+     "group": "Variant",
+     "move": "Iron lance",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 26,
+     "base": 14,
+     "range": "47 (speed 18)",
+     "rangeMax": 46.8,
+     "effect": "lance",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.morrow + techniqueVariants.morrow",
+      "damage": "dist/techniques.js techniqueVariants.morrow"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.5,
+      "lifetime": 2.6,
+      "speed": 18,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 24,
+     "active": 5,
+     "recovery": 34,
+     "base": 8,
+     "range": "3.55",
+     "rangeMax": 3.55,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-last-horizon",
+     "group": "System",
+     "move": "LAST HORIZON",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-siege-line",
+     "group": "Stock",
+     "move": "Siege line",
+     "input": "Toward + hold attack (1 stock)",
+     "type": "Area",
+     "startup": 24,
+     "active": 17,
+     "recovery": 32,
+     "base": 21,
+     "range": "Advances to 7.7",
+     "rangeMax": 7.7,
+     "effect": "3 hits",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "three eruptions advance along the ground.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/stock-specials.js stockSpecials.morrow.forward (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.morrow.forward"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 3.25,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sol",
+   "name": "SOL",
+   "title": "The ember archivist",
+   "color": "#ff795e",
+   "style": "Ranged / rapid projectiles",
+   "speed": 5.6,
+   "power": 0.86,
+   "reach": 2.35,
+   "shotSpeed": 15,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 10,
+     "active": 3,
+     "recovery": 18,
+     "base": 6,
+     "range": "2.35 (own reach)",
+     "rangeMax": 2.35,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 14,
+     "active": 4,
+     "recovery": 24,
+     "base": 6,
+     "range": "2.35 (own reach)",
+     "rangeMax": 2.35,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 21,
+     "active": 5,
+     "recovery": 30,
+     "base": 10,
+     "range": "2.35 (own reach)",
+     "rangeMax": 2.35,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 7,
+     "active": 1,
+     "recovery": 11,
+     "base": 7,
+     "range": "30 (speed 15)",
+     "rangeMax": 30,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 7,
+     "active": 1,
+     "recovery": 11,
+     "base": 7,
+     "range": "30 (speed 15)",
+     "rangeMax": 30,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 7,
+     "active": 1,
+     "recovery": 11,
+     "base": 9,
+     "range": "30 (speed 15)",
+     "rangeMax": 30,
+     "effect": "Radius 0.4",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-comet-script",
+     "group": "Special",
+     "move": "Comet script",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "36 (speed 14)",
+     "rangeMax": 36.4,
+     "effect": "Stun 0.6s",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "One quick fire shot that stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.sol.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.sol.forward"
+     },
+     "control": {
+      "holdSeconds": 0.6,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.55,
+      "lifetime": 2.6,
+      "speed": 14,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-falling-ember",
+     "group": "Variant",
+     "move": "Falling ember",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 1,
+     "recovery": 28,
+     "base": 12,
+     "range": "16 (speed 6)",
+     "rangeMax": 15.6,
+     "effect": "Knockdown",
+     "beats": "Approach",
+     "losesTo": "Punish in recovery",
+     "note": "One slow fireball knocks the rival down on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.sol.forward",
+      "damage": "dist/special-variants.js specialVariants.sol.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.75,
+      "lifetime": 2.6,
+      "speed": 6,
+      "area": false,
+      "knockdown": true
+     }
+    },
+    {
+     "key": "special-ember-familiar",
+     "group": "Special",
+     "move": "Ember familiar",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "26 (speed 10)",
+     "rangeMax": 26,
+     "effect": "Knockdown, Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and send a travelling flame that knocks the rival down on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.sol.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.sol.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.65,
+      "lifetime": 2.6,
+      "speed": 10,
+      "area": false,
+      "knockdown": true
+     }
+    },
+    {
+     "key": "variant-twin-dragons",
+     "group": "Variant",
+     "move": "Twin dragons",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 12,
+     "range": "26 (speed 10)",
+     "rangeMax": 26,
+     "effect": "2 hits (all must land), Covers sidesteps",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Two separated fire shots cover either side.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.sol.back",
+      "damage": "dist/special-variants.js specialVariants.sol.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 2,
+      "radius": 0.6,
+      "lifetime": 2.6,
+      "speed": 10,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-solar-mantle",
+     "group": "Special",
+     "move": "Solar mantle",
+     "input": "Up + Attack",
+     "type": "Rush",
+     "startup": 18,
+     "active": 20,
+     "recovery": 26,
+     "base": 10,
+     "range": "3 reach, travels 0.0",
+     "rangeMax": 3,
+     "effect": "sphere",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.sol",
+      "damage": "dist/techniques.js techniques.sol"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": true,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-solar-ward",
+     "group": "Variant",
+     "move": "Solar ward",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Rush",
+     "startup": 18,
+     "active": 28,
+     "recovery": 26,
+     "base": 12,
+     "range": "4.2 reach",
+     "rangeMax": 4.2,
+     "effect": "Single hit",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.sol + techniqueVariants.sol",
+      "damage": "dist/techniques.js techniqueVariants.sol"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0,
+      "lifetime": 0,
+      "speed": 0,
+      "area": true,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 20,
+     "active": 5,
+     "recovery": 28,
+     "base": 8,
+     "range": "2.65",
+     "rangeMax": 2.65,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-sunfall-scripture",
+     "group": "System",
+     "move": "SUNFALL SCRIPTURE",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-ember-fan",
+     "group": "Stock",
+     "move": "Ember fan",
+     "input": "Away + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 30,
+     "range": "36 (speed 14)",
+     "rangeMax": 36.4,
+     "effect": "5 hits",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "retreat and release five fire shots.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/stock-specials.js stockSpecials.sol.back (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.sol.back"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 2.35,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  },
+  {
+   "id": "vesper",
+   "name": "VESPER",
+   "title": "The hollow oracle",
+   "color": "#c4a3ff",
+   "style": "Control / rings and traps",
+   "speed": 4.8,
+   "power": 1.03,
+   "reach": 2.7,
+   "shotSpeed": 8,
+   "moves": [
+    {
+     "key": "chain-strike-1",
+     "group": "Chain",
+     "move": "Strike 1",
+     "input": "Attack (close)",
+     "type": "Melee",
+     "startup": 10,
+     "active": 3,
+     "recovery": 18,
+     "base": 6,
+     "range": "2.7 (own reach)",
+     "rangeMax": 2.7,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 1",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-2",
+     "group": "Chain",
+     "move": "Strike 2",
+     "input": "Attack (chain hit 2)",
+     "type": "Melee",
+     "startup": 14,
+     "active": 4,
+     "recovery": 24,
+     "base": 6,
+     "range": "2.7 (own reach)",
+     "rangeMax": 2.7,
+     "effect": "Stagger build",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Timed guard, quicker strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 2",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-strike-3",
+     "group": "Chain",
+     "move": "Strike 3",
+     "input": "Attack (chain hit 3)",
+     "type": "Melee",
+     "startup": 21,
+     "active": 5,
+     "recovery": 30,
+     "base": 10,
+     "range": "2.7 (own reach)",
+     "rangeMax": 2.7,
+     "effect": "Longer hitstop",
+     "beats": "Slow startups, approaches",
+     "losesTo": "Third-hit reversal, timed guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'strike' chain 3",
+      "damage": "dist/combat.js line 270"
+     }
+    },
+    {
+     "key": "chain-shot-1",
+     "group": "Chain",
+     "move": "Shot 1",
+     "input": "Attack (out of reach)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "16 (speed 8)",
+     "rangeMax": 16,
+     "effect": "Wide shot (radius 0.7)",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-2",
+     "group": "Chain",
+     "move": "Shot 2",
+     "input": "Attack (shot chain 2)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 7,
+     "range": "16 (speed 8)",
+     "rangeMax": 16,
+     "effect": "Wide shot (radius 0.7)",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "chain-shot-3",
+     "group": "Chain",
+     "move": "Shot 3",
+     "input": "Attack (shot chain 3)",
+     "type": "Projectile",
+     "startup": 11,
+     "active": 1,
+     "recovery": 18,
+     "base": 9,
+     "range": "16 (speed 8)",
+     "rangeMax": 16,
+     "effect": "Wide shot (radius 0.7)",
+     "beats": "Charging, slow approach",
+     "losesTo": "Sidestep, timed-guard reflect, rush during recovery",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'shot'",
+      "damage": "dist/combat.js line 271"
+     }
+    },
+    {
+     "key": "special-binary-star",
+     "group": "Special",
+     "move": "Binary star",
+     "input": "Toward + Attack",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "26 (speed 10)",
+     "rangeMax": 26,
+     "effect": "Stun 0.6s",
+     "beats": "Approach, charge",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "A fire shot that briefly stuns on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js baseSpecials.vesper.forward (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.vesper.forward"
+     },
+     "control": {
+      "holdSeconds": 0.6,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.6,
+      "lifetime": 2.6,
+      "speed": 10,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-fourfold-flame",
+     "group": "Variant",
+     "move": "Fourfold flame",
+     "input": "Toward + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 20,
+     "active": 1,
+     "recovery": 28,
+     "base": 16,
+     "range": "31 (speed 12)",
+     "rangeMax": 31.2,
+     "effect": "4 hits (all must land), Spread",
+     "beats": "Sidesteps",
+     "losesTo": "Punish in recovery",
+     "note": "Four spreading shots trade focused damage for coverage.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'forward'",
+      "active": "dist/special-variants.js specialVariants.vesper.forward",
+      "damage": "dist/special-variants.js specialVariants.vesper.forward"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 4,
+      "radius": 0.55,
+      "lifetime": 2.6,
+      "speed": 12,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-event-horizon",
+     "group": "Special",
+     "move": "Event horizon",
+     "input": "Away + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 10,
+     "range": "18 (speed 6.8)",
+     "rangeMax": 17.68,
+     "effect": "Retreats 1.2",
+     "beats": "Rushdown, pursuit",
+     "losesTo": "Sidestep, reflect, punish in recovery",
+     "note": "Retreat and throw a ring that holds the rival in place on a clean hit.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js baseSpecials.vesper.back (pulses, interval)",
+      "damage": "dist/special-variants.js baseSpecials.vesper.back"
+     },
+     "control": {
+      "holdSeconds": 0.85,
+      "ring": true,
+      "trap": true,
+      "lanes": 1,
+      "radius": 0.8,
+      "lifetime": 2.6,
+      "speed": 6.8,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-astral-blast",
+     "group": "Variant",
+     "move": "Astral blast",
+     "input": "Away + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 1,
+     "recovery": 28,
+     "base": 12,
+     "range": "42 (speed 16)",
+     "rangeMax": 41.6,
+     "effect": "Single hit",
+     "beats": "Approach",
+     "losesTo": "Punish in recovery",
+     "note": "A fast straight blast replaces the trapping ring.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'back'",
+      "active": "dist/special-variants.js specialVariants.vesper.back",
+      "damage": "dist/special-variants.js specialVariants.vesper.back"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": false,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.65,
+      "lifetime": 2.6,
+      "speed": 16,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "special-astral-wheel",
+     "group": "Special",
+     "move": "Astral wheel",
+     "input": "Up + Attack",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 4,
+     "recovery": 28,
+     "base": 12,
+     "range": "23 (speed 9)",
+     "rangeMax": 23.4,
+     "effect": "wheel",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.vesper",
+      "damage": "dist/techniques.js techniques.vesper"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": true,
+      "trap": false,
+      "lanes": 1,
+      "radius": 0.9,
+      "lifetime": 2.6,
+      "speed": 9,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "variant-orbit-fan",
+     "group": "Variant",
+     "move": "Orbit fan",
+     "input": "Up + Attack, tap again in wind-up",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 18,
+     "recovery": 28,
+     "base": 21,
+     "range": "23 (speed 9)",
+     "rangeMax": 23.4,
+     "effect": "fan",
+     "beats": "Mid-range waiting",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/techniques.js techniques.vesper + techniqueVariants.vesper",
+      "damage": "dist/techniques.js techniqueVariants.vesper"
+     },
+     "control": {
+      "holdSeconds": 0,
+      "ring": true,
+      "trap": false,
+      "lanes": 3,
+      "radius": 0.9,
+      "lifetime": 2.6,
+      "speed": 9,
+      "area": false,
+      "knockdown": false
+     }
+    },
+    {
+     "key": "system-capture-close-",
+     "group": "System",
+     "move": "Capture (close)",
+     "input": "Down + Attack",
+     "type": "Grab",
+     "startup": 13,
+     "active": 1,
+     "recovery": 40,
+     "base": 15,
+     "range": "< 3.1 (projectile beyond)",
+     "rangeMax": 3.1,
+     "effect": "Beats held guard. Back +20%, mid +10%",
+     "beats": "Held guard",
+     "losesTo": "Fresh guard (12f window), any strike",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'capture'",
+      "damage": "dist/combat.js line 80"
+     }
+    },
+    {
+     "key": "system-launcher",
+     "group": "System",
+     "move": "Launcher",
+     "input": "Double-tap Down + Attack",
+     "type": "Melee",
+     "startup": 20,
+     "active": 5,
+     "recovery": 28,
+     "base": 8,
+     "range": "3.00",
+     "rangeMax": 3,
+     "effect": "Launches into pursuit",
+     "beats": "Grounded rival",
+     "losesTo": "Guard",
+     "launch": true,
+     "source": {
+      "timing": "dist/moves.js moveTiming 'launch'",
+      "damage": "dist/combat.js line 268"
+     }
+    },
+    {
+     "key": "system-pursuit",
+     "group": "System",
+     "move": "Pursuit",
+     "input": "Double-tap Toward + Attack",
+     "type": "Rush",
+     "startup": 7,
+     "active": 1,
+     "recovery": 30,
+     "base": 7,
+     "range": "2.2 after a dash up to 2",
+     "rangeMax": 4.2,
+     "effect": "Stagger punish does 12 + knockdown",
+     "beats": "Staggered or launched rival",
+     "losesTo": "Guard, sidestep",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'pursuit'",
+      "damage": "dist/combat.js line 263"
+     }
+    },
+    {
+     "key": "system-jumping-crossover",
+     "group": "System",
+     "move": "Jumping crossover",
+     "input": "Double-tap Up + Attack",
+     "type": "Air",
+     "startup": 18,
+     "active": 1,
+     "recovery": 25,
+     "base": 9,
+     "range": "2.3, crosses over inside 3.5",
+     "rangeMax": 2.3,
+     "effect": "Turns rival around 0.5s",
+     "beats": "Guard facing wrong way",
+     "losesTo": "Anti-air timing",
+     "source": {
+      "timing": "dist/combat-travel.js CROSSOVER_FRAMES (startup), dist/moves.js moveTiming 'jumpAttack' (recovery)",
+      "damage": "dist/combat.js line 207"
+     }
+    },
+    {
+     "key": "system-silence-between-stars",
+     "group": "System",
+     "move": "SILENCE BETWEEN STARS",
+     "input": "Double-tap Away + Attack (1 stock)",
+     "type": "Burst",
+     "startup": 22,
+     "active": 4,
+     "recovery": 34,
+     "base": 27,
+     "range": "9",
+     "rangeMax": 9,
+     "effect": "Cinematic, costs a stock",
+     "beats": "Recovery, slow moves",
+     "losesTo": "Guard, long range",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'super'",
+      "damage": "dist/combat.js line 218"
+     }
+    },
+    {
+     "key": "stock-astral-stream",
+     "group": "Stock",
+     "move": "Astral stream",
+     "input": "Up + hold attack (1 stock)",
+     "type": "Projectile",
+     "startup": 18,
+     "active": 19,
+     "recovery": 28,
+     "base": 20,
+     "range": "34 (speed 13)",
+     "rangeMax": 33.8,
+     "effect": "4 hits",
+     "beats": "Defensive play",
+     "losesTo": "Punish in recovery",
+     "note": "four rings fire in sequence.",
+     "source": {
+      "timing": "dist/moves.js moveTiming 'technique'",
+      "active": "dist/stock-specials.js stockSpecials.vesper.technique (pulses, interval)",
+      "damage": "dist/stock-specials.js stockSpecials.vesper.technique"
+     }
+    },
+    {
+     "key": "defense-third-hit-reversal",
+     "group": "Defense",
+     "move": "Third-hit reversal",
+     "input": "Guard in the window before chain hit 3",
+     "type": "Counter",
+     "startup": 6,
+     "active": 1,
+     "recovery": 18,
+     "base": 8,
+     "range": "Point blank",
+     "rangeMax": 2.7,
+     "effect": "Answers a predictable third hit",
+     "beats": "Autopilot chains",
+     "losesTo": "Stopping after hit 2",
+     "source": {
+      "timing": "dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY",
+      "damage": "dist/reversal.js REVERSAL_DAMAGE"
+     }
+    }
+   ]
+  }
+ ]
+};
+  base=baseState(roster);work=load();
+  const h=location.hash.slice(1);if(['tune','balance','matchups','rules','changes'].includes(h))tab=h;
+  const q=new URLSearchParams(location.search).get('fighter');if(q&&work.fighters[q])sel=q;
+  wire();renderAll();
+  // Automation hook for review scripts: read and set values without clicking.
+  window.balanceLab={get base(){return base;},get state(){return work;},checks:()=>checks(work),whiff:(a,d)=>whiff(work.sys,work.fighters[a],work.fighters[d]),task:()=>codexTask(base,work),exportTuning:()=>exportTuning(work),
+   select(id){sel=id;renderAll();},show(t){tab=t;renderAll();},setMove(id,key,k,v){move(work.fighters[id],key)[k]=v;changed();renderIdent();},reset(){work=copyState(base);save();renderAll();},ready:true};
+ }catch(err){$('status').textContent='Could not load dist/balance/roster.json: '+err.message;}
+})();
+
+</script></body></html>

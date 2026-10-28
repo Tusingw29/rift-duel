@@ -13,7 +13,7 @@ export function balanceMoveKey(f,move){
  if(k==='technique')return (move.followup?'variant-':'special-')+slug(move.followup?techniqueVariants[f.id].name:f.moves[2]);
  return {capture:'system-capture-close-',launch:'system-launcher',pursuit:'system-pursuit',jumpAttack:'system-jumping-crossover',super:'system-'+slug(f.special)}[k];
 }
-const ranges={startup:[1,180],active:[1,180],recovery:[0,240],base:[0,200],speed:[.1,15],power:[.1,3],reach:[.5,8],shotSpeed:[1,40],hitstun:[0,180],launchStun:[1,240],blockstun:[0,180],chip:[0,1],perfectGuard:[0,60],captureBreak:[0,60],cancel1:[0,240],cancel2:[0,240],reaction:[0,120],band:[0,100]};
+const ranges={missPenalty:[0,30],startup:[1,180],active:[1,180],recovery:[0,240],base:[0,200],speed:[.1,15],power:[.1,3],reach:[.5,8],shotSpeed:[1,40],hitstun:[0,180],launchStun:[1,240],blockstun:[0,180],chip:[0,1],perfectGuard:[0,60],captureBreak:[0,60],cancel1:[0,240],cancel2:[0,240],reaction:[0,120],band:[0,100]};
 const fractional=new Set(['base','speed','power','reach','shotSpeed','chip','band']);
 function number(k,v){const [lo,hi]=ranges[k];if(typeof v!=='number'||!Number.isFinite(v)||v<lo||v>hi||!fractional.has(k)&&!Number.isInteger(v))throw Error(`${k} must be ${lo}–${hi}${fractional.has(k)?'':' whole frames'}`);}
 export function validateBalance(raw,base){

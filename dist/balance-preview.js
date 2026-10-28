@@ -1,13 +1,17 @@
+import {proposedBalance} from './balance/presets.js';
+import {exportTuning} from './balance/formulas.js';
 import {baseState} from './balance/formulas.js';
 import {validateBalance} from './balance-runtime.js';
 export async function loadBalancePreview(search,storage,fetcher=fetch){
- if(new URLSearchParams(search).get('balance')!=='local')return {balance:null,message:''};
+ const mode=new URLSearchParams(search).get('balance');
+ if(!['local','proposed','rules'].includes(mode))return {balance:null,message:''};
  try{
-  const text=storage.getItem('rift-balance-lab');if(!text)throw Error('No saved tuning. Open the balance lab on this same address and save an edit first.');
+  const text=mode==='local'?storage.getItem('rift-balance-lab'):'{}';if(!text)throw Error('No saved tuning. Open the balance lab on this same address and save an edit first.');
   if(text.length>250000)throw Error('Tuning file exceeds 250 KB.');
   const response=await fetcher('./balance/roster.json',{cache:'no-store'});if(!response.ok)throw Error('Cannot load the code baseline.');
-  const balance=validateBalance(JSON.parse(text),baseState(await response.json()));
-  return {balance,message:'TUNED VALUES · local preview'};
+  const base=baseState(await response.json());
+  const balance=validateBalance(mode==='local'?JSON.parse(text):exportTuning(proposedBalance(base,mode==='rules'?'rules':'full')),base);
+  return {balance,message:'TUNED VALUES · '+(mode==='local'?'local preview':mode==='rules'?'game-wide proposal':'full balance proposal')};
  }catch(e){return {balance:null,message:'TUNING NOT APPLIED · '+e.message,error:true};}
 }
 export function showBalancePreview(preview){

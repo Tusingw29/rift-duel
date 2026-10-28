@@ -22,6 +22,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {fighters} from '../../dist/fighters.js';
+import {STRIKE_MISS_PENALTY} from '../../dist/combat.js';
 import {moveTiming,chainCancelFrame} from '../../dist/moves.js';
 import {techniques,techniqueVariants} from '../../dist/techniques.js';
 import {baseSpecials,specialVariants} from '../../dist/special-variants.js';
@@ -41,6 +42,7 @@ const windowFrames=limit=>{let t=0,n=0;for(;;){t+=STEP;if(!(t<limit))return n;n+
 
 // ---- Literals in dist/combat.js ----
 const PATTERNS={
+ snareHold:/p\.kind==='snare'\?([\d.]+):p\.stun/,
  perfectGuard:/const perfect=balanceGuard\(m,b,'perfectGuard',([\d.]+)\)/,
  chip:/perfect\?0:damage\*balanceRule\(m,'chip',([\d.]+)\)/,
  blockStun:/b\.blockStun=perfect\?0:\(m\.balance\?\.sys\.blockstun===undefined\?([\d.]+)/,
@@ -139,6 +141,15 @@ export function fighterMoves(f,L,lines){
   push('Stock',s.name,`${DIRECTION[kind]} + hold attack (1 stock)`,s.area?'Area':'Projectile',{...t,active:Math.max(t.active,stockTiming(s))},s.damage*hits,{...projectileRange(s),effect:hits>1?`${hits} hits`:s.radius>=1.2?'Huge hitbox':'Single hit',beats:'Defensive play',losesTo:'Punish in recovery',note:s.description.replace(/^[^:]*:\s*/,'')},{timing:M(kind),active:`dist/stock-specials.js stockSpecials.${id}.${kind} (pulses, interval)`,damage:`dist/stock-specials.js stockSpecials.${id}.${kind}`});
  }
  push('Defense','Third-hit reversal','Guard in the window before chain hit 3','Counter',{startup:REVERSAL_STARTUP,active:1,recovery:REVERSAL_RECOVERY},REVERSAL_DAMAGE,{range:'Point blank',rangeMax:f.reach,effect:'Answers a predictable third hit',beats:'Autopilot chains',losesTo:'Stopping after hit 2'},{timing:'dist/reversal.js REVERSAL_STARTUP / REVERSAL_RECOVERY',damage:'dist/reversal.js REVERSAL_DAMAGE'});
+ // Structured capability data for the lab: never infer gameplay from prose labels.
+ const control=s=>({holdSeconds:s.type==='snare'?L.snareHold[0]:s.stun||0,ring:['wheel','snare'].includes(s.type),trap:s.type==='snare',lanes:s.count||1,radius:s.radius||0,lifetime:s.life||2.6,speed:s.speed||0,area:!!s.area,knockdown:!!s.knockdown});
+ for(const kind of ['forward','back']){
+  for(const [group,s] of [['special',baseSpecials[id][kind]],['variant',specialVariants[id][kind]]])moves.find(m=>m.key===`${group}-${slug(s.name)}`).control=control(s);
+ }
+ for(const [group,m,name] of [['special',tech,f.moves[2]],['variant',tv,techniqueVariants[id].name]]){
+  const projectile=projectileTypes.includes(m.effect),c={holdSeconds:0,ring:['wheel','fan'].includes(m.effect),trap:false,lanes:m.effect==='fan'?3:1,radius:projectile?(m.effect==='lance'?.5:.9):0,lifetime:projectile?2.6:0,speed:projectile?(m.effect==='lance'?18:9):0,area:['sphere','spin'].includes(m.effect),knockdown:false};
+  moves.find(x=>x.key===`${group}-${slug(name)}`).control=c;
+ }
  for(const m of moves)if(!m.launch)delete m.launch;
  return moves;
 }
@@ -147,7 +158,7 @@ export function buildRoster(source){
  const {values:L,lines}=readCombatLiterals(source);
  const [launch,hit]=L.stun;
  const constants={
-  hitStun:frames(hit),hitStunSeconds:hit,launchStun:frames(launch),launchStunSeconds:launch,
+  missPenalty:STRIKE_MISS_PENALTY,hitStun:frames(hit),hitStunSeconds:hit,launchStun:frames(launch),launchStunSeconds:launch,
   blockStun:frames(L.blockStun[0]),blockStunSeconds:L.blockStun[0],chip:L.chip[0],parryStun:frames(L.parryStun[0]),
   perfectGuard:windowFrames(L.perfectGuard[0]),perfectGuardSeconds:L.perfectGuard[0],
   captureBreak:windowFrames(L.captureBreak[0]),captureBreakSeconds:L.captureBreak[0],
@@ -157,7 +168,7 @@ export function buildRoster(source){
   reaction:15,band:1.15
  };
  const C=name=>`dist/combat.js line ${lines[name]}`;
- const constantSources={hitStun:C('stun'),launchStun:C('stun'),blockStun:C('blockStun'),chip:C('chip'),parryStun:C('parryStun'),perfectGuard:C('perfectGuard'),captureBreak:C('captureBreak'),
+ const constantSources={missPenalty:'dist/combat.js STRIKE_MISS_PENALTY',hitStun:C('stun'),launchStun:C('stun'),blockStun:C('blockStun'),chip:C('chip'),parryStun:C('parryStun'),perfectGuard:C('perfectGuard'),captureBreak:C('captureBreak'),
   cancel1:'dist/moves.js chainCancelFrame',cancel2:'dist/moves.js chainCancelFrame',reversalWindow:'dist/reversal.js REVERSAL_WINDOW',knockdownFrames:'dist/recovery.js KNOCKDOWN_FRAMES',
   reaction:'balance lab assumption (not in the game)',band:'balance lab assumption; needs the line 100 change (SPACING-COMMITMENT &spacing=band)'};
  return {

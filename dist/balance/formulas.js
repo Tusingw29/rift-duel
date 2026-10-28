@@ -1,20 +1,20 @@
 // BALANCE-LAB formulas, shared by dist/balance-lab.js and tests/balance-lab.test.mjs. Pure functions over a lab state
-// {sys, fighters, order}. They match the hosted Rift Duel Frame Codex exactly, so both tools give the same numbers
+// {sys, fighters, order}. The original six metrics match the hosted Frame Codex; miss penalty and Control extend that model
 // and can trade tuning files. Frame advantage here is an estimate from the shared constants (about ±2 frames); the
 // simulation-measured tables are docs/FRAME_ADVANTAGE.md on the SPACING-COMMITMENT branch.
-export const SYS_KEYS=['hitstun','launchStun','blockstun','chip','perfectGuard','captureBreak','splitGuard','reaction','band','cancel1','cancel2'];
+export const SYS_KEYS=['hitstun','launchStun','blockstun','chip','perfectGuard','captureBreak','splitGuard','missPenalty','reaction','band','cancel1','cancel2'];
 export const STATS=['speed','power','reach','shotSpeed'];
 export const EDITABLE=['startup','active','recovery','base'];
 const clone=o=>JSON.parse(JSON.stringify(o));
 // Lab state from dist/balance/roster.json.
 export function baseState(roster){
  const c=roster.constants;
- const sys={hitstun:c.hitStun,launchStun:c.launchStun,blockstun:c.blockStun,chip:c.chip,perfectGuard:c.perfectGuard,captureBreak:c.captureBreak,splitGuard:false,reaction:c.reaction,band:c.band,cancel1:c.cancel1,cancel2:c.cancel2};
+ const sys={hitstun:c.hitStun,launchStun:c.launchStun,blockstun:c.blockStun,chip:c.chip,perfectGuard:c.perfectGuard,captureBreak:c.captureBreak,splitGuard:false,missPenalty:c.missPenalty??0,reaction:c.reaction,band:c.band,cancel1:c.cancel1,cancel2:c.cancel2};
  const fighters={};
  for(const f of roster.fighters)fighters[f.id]={id:f.id,name:f.name,title:f.title,color:f.color,intended:f.style,custom:false,
   stats:{speed:f.speed,power:f.power,reach:f.reach,shotSpeed:f.shotSpeed},
-  moves:f.moves.map(m=>({key:m.key,move:m.move,group:m.group,input:m.input,type:m.type,startup:m.startup,active:m.active,recovery:m.recovery,base:m.base,range:m.range,effect:m.effect,beats:m.beats,losesTo:m.losesTo,launch:!!m.launch,source:m.source}))};
- const cs=roster.constantSources||{},sources={hitstun:cs.hitStun,launchStun:cs.launchStun,blockstun:cs.blockStun,chip:cs.chip,perfectGuard:cs.perfectGuard,captureBreak:cs.captureBreak,cancel1:cs.cancel1,cancel2:cs.cancel2,reaction:cs.reaction,band:cs.band,splitGuard:'SPACING-COMMITMENT &guard=split (Codex branch)'};
+  moves:f.moves.map(m=>({key:m.key,move:m.move,group:m.group,input:m.input,type:m.type,startup:m.startup,active:m.active,recovery:m.recovery,base:m.base,range:m.range,effect:m.effect,beats:m.beats,losesTo:m.losesTo,launch:!!m.launch,control:m.control||{},source:m.source}))};
+ const cs=roster.constantSources||{},sources={hitstun:cs.hitStun,launchStun:cs.launchStun,blockstun:cs.blockStun,chip:cs.chip,perfectGuard:cs.perfectGuard,captureBreak:cs.captureBreak,cancel1:cs.cancel1,cancel2:cs.cancel2,reaction:cs.reaction,band:cs.band,missPenalty:'dist/combat.js STRIKE_MISS_PENALTY / balance preview',splitGuard:'dist/balance-runtime.js balanceCaptureBreak'};
  return {sys,fighters,order:roster.fighters.map(f=>f.id),sources};
 }
 export const copyState=s=>clone(s);
@@ -22,6 +22,7 @@ export const copyState=s=>clone(s);
 // ---- Per move ----
 export const MELEE=['Melee','Rush','Air','Burst'];
 export const open=m=>m.active-1+m.recovery;
+export const missRecovery=(sys,m)=>m.recovery+(/^chain-strike-[123]$/.test(m.key)?sys.missPenalty||0:0);
 export const total=m=>m.startup+m.active+m.recovery;
 export const onBlock=(sys,m)=>MELEE.includes(m.type)?sys.blockstun-open(m):null;
 export const onHit=(sys,m)=>['Melee','Rush','Air'].includes(m.type)?(m.launch?sys.launchStun:sys.hitstun)-open(m):null;
@@ -38,13 +39,25 @@ export function chainGap(sys,f,n){
 export function whiff(sys,A,D){
  const a1=move(A,'chain-strike-1'),d1=move(D,'chain-strike-1');
  const gap=Math.max(0,A.stats.reach-D.stats.reach+.05),travel=Math.ceil(gap/D.stats.speed*60);
- const need=sys.reaction+travel+d1.startup,o=open(a1);
+ const need=sys.reaction+travel+d1.startup,o=open(a1)+(sys.missPenalty||0);
  return {open:o,travel,need,margin:o-need,verdict:o>=need?'Reaction punish':o>=need-sys.reaction?'Guess punish':'Not punishable'};
 }
 
 // ---- Scores (0..100 on fixed scales, so new fighters compare fairly) ----
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const norm=(v,lo,hi)=>Math.round(clamp((v-lo)/(hi-lo),0,1)*100);
+// Control is a heuristic (0–100), not win rate or a balance budget.
+// Best non-stock tool per component: variants are alternatives, not additive bonuses.
+export function controlScore(f){
+ const tools=f.moves.filter(m=>m.group==='Special'||m.group==='Variant');
+ const best=fn=>Math.max(0,...tools.map(m=>fn(m.control||{},m)));
+ const hold=Math.round(best(c=>Math.min(1,(c.holdSeconds||0)/.85))*30);
+ const space=Math.round(best(c=>Math.min(1,Math.max((c.radius||0)/1.4,(c.lanes||1)>1?.6:0,c.area?1:0)))*20);
+ const persistence=Math.round(best(c=>c.ring?Math.min(1,(c.lifetime||0)/2.6)*Math.min(1,9/Math.max(1,c.speed||9)):0)*25);
+ const traps=best(c=>c.trap?1:0)*25;
+ return {hold,coverage:space,persistence,traps,total:hold+space+persistence+traps};
+}
+
 export function scores(sys,f){
  const s1=move(f,'chain-strike-1'),s2=move(f,'chain-strike-2'),s3=move(f,'chain-strike-3'),sh=move(f,'chain-shot-1');
  return {
@@ -53,12 +66,14 @@ export function scores(sys,f){
   Damage:norm((s1.base+s2.base+s3.base)*f.stats.power,15,30),
   'Attack speed':norm(14-s1.startup,0,8),
   Safety:norm(onBlock(sys,s1),-20,0),
-  Zoning:Math.round(norm(f.stats.shotSpeed,6,16)*.5+norm(30-(sh.startup+sh.recovery),0,15)*.5)
+  Zoning:Math.round(norm(f.stats.shotSpeed,6,16)*.5+norm(30-(sh.startup+sh.recovery),0,15)*.5),
+  Control:controlScore(f).total
  };
 }
-export const budget=sc=>Math.round(Object.values(sc).reduce((a,b)=>a+b,0)/6);
+// Keep the original six-score budget comparable; Control is an explanatory capability index.
+export const budget=sc=>Math.round(Object.entries(sc).filter(([k])=>k!=='Control').reduce((a,[,v])=>a+v,0)/6);
 export function playstyle(sc){
- const c={Rushdown:(sc.Mobility+sc['Attack speed'])/2,Footsies:(sc.Reach+sc.Damage)/2,Zoner:sc.Zoning,Turtle:sc.Safety};
+ const c={Rushdown:(sc.Mobility+sc['Attack speed'])/2,Footsies:(sc.Reach+sc.Damage)/2,Zoner:sc.Zoning,Controller:sc.Control||0,Turtle:sc.Safety};
  const top=Object.entries(c).sort((a,b)=>b[1]-a[1]);
  if(top[0][1]<55)return 'Balanced';
  return top[0][1]-top[1][1]<6?`Hybrid ${top[0][0]} / ${top[1][0]}`:top[0][0];
@@ -74,12 +89,12 @@ export function checks(state){
  const F=fighterList(state),S=state.sys,out=[];
  let reactCount=0,best=null;
  for(const A of F)for(const D of F){if(A===D)continue;const w=whiff(S,A,D);if(w.verdict==='Reaction punish')reactCount++;if(!best||w.margin>best.m)best={m:w.margin,a:A.name,d:D.name};}
- if(!reactCount)out.push(['bad','Missed strike','No Strike 1 whiff can be punished on reaction',`Closest pairing: ${best.d} punishing ${best.a}, still ${-best.m} frames short. Raise Strike 1 recovery, lower punisher startup, or lower the reaction time on the Game rules tab to test.`]);
- else out.push(['good','Missed strike',`${reactCount} pairings can punish a whiff on reaction`,'Missing a jab now carries a real cost in those matchups. Check the Matchups tab.']);
+ if(!reactCount)out.push(['bad','Missed strike','No Strike 1 whiff can be punished on reaction',`Closest pairing: ${best.d} punishing ${best.a}, still ${-best.m} frames short. Raise miss-only recovery, lower punisher startup, or lower the reaction time on the Game rules tab to test.`]);
+ else out.push(['good','Missed strike',`${reactCount} pairings can punish a whiff on reaction`,'Estimated from frames and reach, not a measured punish guarantee. Check the Matchups tab and play at normal speed.']);
  const minStart=Math.min(...F.map(f=>move(f,'chain-strike-1').startup));
  const lose=F.filter(f=>-onBlock(S,move(f,'chain-strike-1'))>minStart&&chainGap(S,f,1)>minStart);
  if(lose.length)out.push(['bad','Blocked chain',`After a blocked hit, the defender wins both choices for ${lose.map(f=>f.name).join(', ')}`,`Stopping leaves them minus on block, and continuing gives a gap the fastest jab (${minStart} frames) beats. Add pushback, shorten the chain cancel frame, or speed up hit 2 so continuing is a real gamble.`]);
- else out.push(['good','Blocked chain','Continuing a blocked chain is a gamble for every fighter','At least one option after a block is not a guaranteed loss.']);
+ else out.push(['good','Blocked chain','No fighter loses both blocked-chain options in this estimate','At least one option avoids the fastest-jab test. Spacing, pushback and input timing still decide actual exchanges.']);
  if(!S.splitGuard&&S.perfectGuard>0&&S.captureBreak>0)out.push(['warn','Guard',`One guard tap beats both strike and capture (${Math.min(S.perfectGuard,S.captureBreak)} shared frames)`,'Turn on split guard on the Game rules tab so perfect guard covers strikes only and the defender has to guess.']);
  else out.push(['good','Guard','The defender has to guess between strike and capture','Split guard is on, so one tap no longer covers both.']);
  const budgets=F.map(f=>budget(scores(S,f))),mean=budgets.reduce((a,b)=>a+b,0)/budgets.length;
@@ -125,7 +140,7 @@ export function importTuning(base,data){
 }
 
 // ---- Changes, as a plain-text task for Codex ----
-const SYS_SOURCE={hitstun:'hit stun',launchStun:'launch stun',blockstun:'block stun',chip:'chip share',perfectGuard:'perfect guard window',captureBreak:'capture break window',splitGuard:'split guard',reaction:'human reaction (lab assumption, not a game value)',band:'whiff band (needs the line 100 change)',cancel1:'chain cancel, hit 1',cancel2:'chain cancel, hit 2'};
+const SYS_SOURCE={hitstun:'hit stun',launchStun:'launch stun',blockstun:'block stun',chip:'chip share',perfectGuard:'perfect guard window',captureBreak:'capture break window',splitGuard:'split guard',missPenalty:'extra recovery on missed strikes only',reaction:'human reaction (lab assumption, not a game value)',band:'whiff band (needs the line 100 change)',cancel1:'chain cancel, hit 1',cancel2:'chain cancel, hit 2'};
 export function changes(base,state){
  const out={sys:[],fighters:[]};
  for(const k of SYS_KEYS)if(state.sys[k]!==base.sys[k])out.sys.push({key:k,label:SYS_SOURCE[k],from:base.sys[k],to:state.sys[k]});

@@ -1,0 +1,125 @@
+{
+  "rules": "game-wide-checks-1793189399860.jpg",
+  "full": "roster-control-1793189399860.jpg",
+  "standalone": "standalone-frame-codex-1793189399860.jpg",
+  "phone": "phone-control-1793189399860.jpg",
+  "match": {
+    "balance": {
+      "version": 1,
+      "sys": {
+        "blockstun": 12,
+        "splitGuard": true,
+        "missPenalty": 7
+      },
+      "fighters": {
+        "aegis": {
+          "stats": {
+            "reach": 2.5,
+            "shotSpeed": 14
+          },
+          "moves": {
+            "chain-shot-1": {
+              "recovery": 14
+            },
+            "chain-shot-2": {
+              "recovery": 14
+            },
+            "chain-shot-3": {
+              "recovery": 14
+            }
+          }
+        },
+        "rei": {
+          "stats": {
+            "speed": 5.6,
+            "reach": 2.85
+          },
+          "moves": {}
+        }
+      }
+    },
+    "tick": 11,
+    "phase": "fight",
+    "mode": "training",
+    "paused": false,
+    "selected": 2,
+    "stage": 0,
+    "wins": [
+      0,
+      0
+    ],
+    "flow": "fight",
+    "arena": "STORM SUMMIT",
+    "camera": "duel",
+    "talaModels": [
+      "graphic"
+    ],
+    "fighterModels": [
+      {
+        "id": "tala",
+        "status": "graphic"
+      },
+      {
+        "id": "rei",
+        "status": "loading"
+      }
+    ],
+    "music": "tala",
+    "hitstop": 0,
+    "rules": {
+      "roundSeconds": 90,
+      "winsNeeded": 2,
+      "pressureAssist": false
+    },
+    "time": 90,
+    "players": [
+      {
+        "id": 2,
+        "x": -4,
+        "z": 0,
+        "hp": 100,
+        "stocks": 1,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0,
+        "visualHeight": 0,
+        "anim": "idle",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "canChain": false,
+        "movePhase": "ready"
+      },
+      {
+        "id": 1,
+        "x": 4,
+        "z": 0,
+        "hp": 100,
+        "stocks": 1,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0,
+        "visualHeight": 0,
+        "anim": "idle",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "canChain": false,
+        "movePhase": "ready"
+      }
+    ],
+    "projectiles": 0
+  },
+  "game": "proposed-training-1793189399860.jpg",
+  "whiff": {
+    "kind": "strike",
+    "penalty": 7,
+    "recovery": 23,
+    "total": 35
+  },
+  "errors": []
+}
