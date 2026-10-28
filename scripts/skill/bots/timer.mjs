@@ -1,6 +1,8 @@
+import {grabDefence} from './grab-defence.mjs';
 import {tap,threat,grabbing,recovering} from './common.mjs';
 export const directionalAttacks=[];
 export default c=>{
+ const defence=grabDefence(c);if(defence)return defence;
  if(grabbing(c))return {x:-1};
  if(threat(c))return {guard:true};
  if(recovering(c))return c.d<c.self.reach?{attack:tap(c.frame,2)}:{x:1};

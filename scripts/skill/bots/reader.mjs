@@ -1,6 +1,8 @@
+import {grabDefence} from './grab-defence.mjs';
 import {tap,threat,grabbing,recovering} from './common.mjs';
 export const directionalAttacks=[];
 export default c=>{
+ const defence=grabDefence(c);if(defence)return defence;
  const {memory,rival,frame,d,self}=c;memory.history??=[];
  const choice=rival.move?.kind||(rival.guard?'guard':'movement');
  if(choice!==memory.last){memory.history.push(choice);if(memory.history.length>20)memory.history.shift();memory.last=choice;}
