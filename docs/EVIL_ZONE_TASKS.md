@@ -60,6 +60,18 @@ Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — awaiti
 
 Implemented proposed presets: +7f missed-basic-strike recovery only, 12f block stun, split guard; Rei reach/speed 2.85/5.6; Aegis shot speed 14, basic-shot recovery 14 and reach 2.5. Vesper stats unchanged; source-derived Control capability score added separately from the six-score budget. Repo lab and generated standalone Frame Codex use identical data/formulas. **643 tests pass**, browser review passes with no errors; default simulation fingerprint unchanged. [Evidence, exact math and limits](https://github.com/Tusingw29/rift-duel/blob/codex/balance-local/art/review-2026-10-28/balance-pass/README.md). Rules-only estimates 17/30 whiff punish pairings; full proposal 16/30. Play `http://localhost:4202/?balance=proposed`; lab `http://localhost:4202/balance-lab.html`; standalone `http://localhost:4202/frame-codex.html`. **Original hosted lab deployment pending its URL/source**, requested from Adam. Implementation remains on the review branch.
 
+## SIM-SKILLS — Claude skills for probing and auditing simulation results
+
+Owner: **Claude** · Branch: `claude/skills` · Status: **Review — awaiting Adam's verdict** (2026-10-28; branch `6a4c0f0`, not merged)
+
+Tooling only, in `.claude/skills/`; no game, combat or skill-lab files change. Scripts run against a skill-lab worktree via `--root`.
+
+- [x] `bot-probe`: bot head-to-heads across fighter pairs, both seats, delays, `default/rules/proposed`, `?grab=` options and custom bot files; win ranges, defence counters, damage in losses (about 70 bouts/s). Template `bots/breaker.mjs` breaks grabs the split-guard way
+- [x] `reaction-check`: per move and delay, reactable vs guess-only answers and whiff punishes from `dist/balance/roster.json`; `--startup=` what-ifs (close capture: slack −3 at 15f, +2 with grab=slow)
+- [x] `sim-audit`: 8-point flaw checklist for Codex simulation reports, verification steps, Codex prompt format
+- [x] Finding for GRAB-RETEST: the breaker template landed only 2 breaks against 91 masher captures at 10f (proposed + slow), so breaking is harder than the timing suggests; cause not found yet
+- [ ] **Adam's verdict**
+
 ## BALANCE-LOCAL — playable tuning preview
 
 Owner: **Codex** · Branch: `codex/balance-local` · Status: **Review — implemented on branch** (2026-10-28). Opt-in local balance snapshot for game/sandbox, validation, visible badge and deterministic tests. Owns combat override hooks; preserve Claude animation files. Based on balance-lab; implementation stays unmerged for review.
@@ -483,6 +495,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-28 | Claude (for Codex) | SPACING-COMMITMENT | Review on `codex/spacing-commitment` `ec771a3` (not merged): `&spacing=band`, `&spacing=riskyshot`, `&guard=split`, training reach/band marker, `docs/FRAME_ADVANTAGE.md`. Default identical to main (fingerprint test). 618 tests (`node --test`; the `npm test` wrapper exits 194 with no output in this environment, also on main). Next: Adam's normal-speed verdict; then block stun / pushback and whiff recovery from the proposals. |
 | 2026-10-28 | Claude | BALANCE-LAB | Claimed on `claude/balance-lab`: balance lab page, roster extract and sync test. No combat rule or timing changes. |
 | 2026-10-28 | Claude | BALANCE-LAB | Review on `claude/balance-lab` `6a49a77` (not merged): balance lab page, roster extract (116 moves from the modules), shared formulas, sync test, DESIGN.md pointer. No combat rule or timing changes. 616 tests (`node --test`). Next: Adam's verdict; Codex: `&balance=local` proposal in the task notes. |
+| 2026-10-28 | Claude | SIM-SKILLS | Review on `claude/skills` `6a4c0f0` (not merged): `bot-probe`, `reaction-check`, `sim-audit` skills in `.claude/skills/`. Tooling only, no game files. Next: Adam's verdict. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
