@@ -2,6 +2,10 @@ name: Browser smoke test
 on:
   workflow_dispatch:
     inputs:
+      grab_equal:
+        description: Run equal-offensive-grab study (five seeds, both delays)
+        default: false
+        type: boolean
       grab_retest:
         description: Run rule-aware grab retest (five seeds, both delays)
         default: false
@@ -44,11 +48,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: ${{ inputs.grab_retest && 'grab-retest' || inputs.grab_study && 'grab-study' || 'browser-smoke' }}
+  group: ${{ inputs.grab_equal && 'grab-equal' || inputs.grab_retest && 'grab-retest' || inputs.grab_study && 'grab-study' || 'browser-smoke' }}
   cancel-in-progress: true
 jobs:
   smoke:
-    if: inputs.grab_retest != true && inputs.grab_study != true && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
+    if: inputs.grab_equal != true && inputs.grab_retest != true && inputs.grab_study != true && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
@@ -176,3 +180,22 @@ jobs:
         with:
           name: grab-retest-${{ matrix.delay }}
           path: art/skill-lab/2026-10-28-grab-retest/*.json.gz
+
+  grab-equal:
+    if: inputs.grab_equal == true
+    strategy:
+      fail-fast: false
+      matrix:
+        delay: [10, 15]
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/grab-equal.mjs --delay=${{ matrix.delay }} --workers=4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grab-equal-${{ matrix.delay }}
+          path: art/skill-lab/2026-10-28-grab-equal/*.json.gz

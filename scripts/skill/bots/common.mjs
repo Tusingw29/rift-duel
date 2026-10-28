@@ -6,10 +6,10 @@ export function rng(seed){let x=seed>>>0;return ()=>((x=(Math.imul(x,1664525)+10
 export function visible(m){return {rules:{captureBreak:m.balance?.sys.splitGuard&&!grabOptions(m).fresh?'capture':'guard'},players:m.players.map(p=>({x:p.x,z:p.z,hp:p.hp,stocks:p.stocks,guard:p.guard,air:p.air>0,anim:p.anim,reach:matchFighter(m,p).reach,move:p.move?{kind:p.move.kind,phase:p.move.frame<p.move.startup?'startup':p.move.frame<p.move.startup+p.move.active?'active':'recovery'}:null})),projectiles:m.projectiles.map(p=>({x:p.x,z:p.z,owner:p.owner,dx:p.dx,dz:p.dz}))};}
 export function delayedBot(policy,{seed=1,delay=15,seat=0}={}){
  if(!Number.isInteger(delay)||delay<0)throw Error('Reaction delay must be nonnegative whole frames');
- const queue=[],random=rng(seed),memory={};let frame=0,previous=neutral(),intent=null;
- return {get breakIntent(){return intent;},next(observation){queue.push(observation);const now=frame++;intent=null;if(queue.length<=delay)return neutral();const obs=queue.shift(),self=obs.players[seat],rival=obs.players[1-seat];
- const decision=policy({self,rival,obs,seat,frame:now,random,memory,previous:{...previous},d:Math.hypot(self.x-rival.x,self.z-rival.z)});
- const {breakIntent,...input}=decision;intent=['reaction','guess'].includes(breakIntent)?{kind:breakIntent,button:input.capture?'capture':'guard'}:null;
+ const queue=[],random=rng(seed),attackRandom=rng((seed^0x6a09e667)>>>0),memory={};let frame=0,previous=neutral(),intent=null,grabIntent=null;
+ return {get breakIntent(){return intent;},get grabIntent(){return grabIntent;},next(observation){queue.push(observation);const now=frame++;intent=null;grabIntent=null;if(queue.length<=delay)return neutral();const obs=queue.shift(),self=obs.players[seat],rival=obs.players[1-seat];
+ const measure={};const decision=policy({self,rival,obs,seat,frame:now,random,attackRandom,measure,memory,previous:{...previous},d:Math.hypot(self.x-rival.x,self.z-rival.z)});
+ const {breakIntent,grabAttackIntent,...input}=decision;grabIntent={eligible:!!measure.grabEligible,attempt:!!grabAttackIntent};intent=['reaction','guess'].includes(breakIntent)?{kind:breakIntent,button:input.capture?'capture':'guard'}:null;
  previous={...neutral(),...input};return {...previous};}};
 }
 export const tap=(frame,period=16)=>frame%period===0;

@@ -10,6 +10,6 @@ export function runMatch({bots=['random','masher'],fighters=[0,1],seed=1,delay=1
  const agents=bots.map((name,seat)=>delayedBot(policies[name],{seed:seed+seat*1000003,delay,seat}));
  const t=createTelemetry(m,{bots,seed,delay,mode,source:'tournament'});
  // Safety bound exceeds a full round with sustained hitstop; censored runs remain explicitly unfinished.
- for(let n=0;m.phase==='fight'&&n<roundSeconds*60*5;n++){const obs=visible(m),inputs=agents.map(a=>a.next(obs));t.before(inputs,agents.map(a=>a.breakIntent));update(m,inputs);t.after();}
+ for(let n=0;m.phase==='fight'&&n<roundSeconds*60*5;n++){const obs=visible(m),inputs=agents.map(a=>a.next(obs));t.before(inputs,agents.map(a=>a.breakIntent),agents.map(a=>a.grabIntent));update(m,inputs);t.after();}
  return t.snapshot();
 }
