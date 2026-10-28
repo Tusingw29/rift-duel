@@ -1,3 +1,7 @@
+## SKILL-BOTS — validate policies before balance conclusions
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Fix delayed projectile response, intentional neutral attack inputs and recovery punish cadence; add punisher, validity counters and 6/10/15f sweep. Measurement only: combat, move, fighter and hitbox files untouched; grab changes deferred to Adam. Preserve all original reports under `art/skill-lab/2026-10-28/`; new runs under `art/skill-lab/2026-10-28-skill-bots/`.
+
 ## SKILL-LAB — measured skill versus mashing
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review — awaiting Adam’s verdict** (2026-10-28). Measurement only; default gameplay and Claude’s model/animation files unchanged. Implementation remains on branch.
@@ -9,7 +13,7 @@ Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review — awaiting A
 - [x] **661 tests pass**; real-renderer training/export browser smoke, completed-round UI/storage integration (renderer stub), and final dashboard captures pass. Default-vs-main fingerprint and observed/unobserved state equivalence remain green.
 - [ ] Adam’s normal-speed verdict. Skilled-policy wins versus masher: default 20/216, rules 19/216, proposed 20/216. All six fighters flag as autopilot candidates in this bot sample. **Do not infer human skill balance:** spacer and turtle fail sanity in all modes, reader in rules-only (72 random-opponent bouts per policy/mode). Improve those bots before using their losses to justify balance changes.
 
-[Evidence and limits](../art/review-2026-10-28/skill-lab/README.md) · [Definitions](SKILL_LAB.md). Local dashboard: `http://localhost:4203/dist/skill-lab.html?report=full`; live stats: `http://localhost:4203/dist/index.html?stats=1`. No gameplay merge or Pages deployment.
+[Evidence and limits](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/art/review-2026-10-28/skill-lab/README.md) · [Definitions](https://github.com/Tusingw29/rift-duel/blob/codex/skill-lab/docs/SKILL_LAB.md). Local dashboard: `http://localhost:4203/dist/skill-lab.html?report=full`; live stats: `http://localhost:4203/dist/index.html?stats=1`. No gameplay merge or Pages deployment.
 
 ## BALANCE-PASS — game-wide risk and roster identity
 
