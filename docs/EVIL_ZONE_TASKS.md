@@ -1,3 +1,7 @@
+## GRAB-RETEST — rule-aware grab defence and hold preview
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns command hold opt-in, rule-aware timer/reader/punisher break decisions, passive break measurement, paired default/proposed tournament and dashboard. Default simulation preserved; all existing archives retained. No rig/animation edits.
+
 ## GRAB-OPTIONS — opt-in capture experiments
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
