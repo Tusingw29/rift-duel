@@ -64,20 +64,7 @@ Every attack now has an original frame schedule at 60 Hz. Direction and basic me
 
 Normal hits interrupt a pending move. Bursts spend stock at startup, so an interrupted burst loses that stock. Equally timed strikes trade; equally timed capture/burst attempts clash. Guard inputs are collected before contacts; held guard stays active through block stun. Close capture breaks must now be timed near contact, not simply held from the beginning of the attack.
 
-| Move | Startup frames | Contact frames | Recovery frames |
-|---|---:|---:|---:|
-| Standard strike | 8 | 1 | 17 |
-| Tala strike | 5 | 1 | 14 |
-| Morrow strike | 12 | 1 | 21 |
-| Standard projectile | 11 | 1 | 18 |
-| Sol projectile | 7 | 1 | 11 |
-| Forward special | 13 (Tala 9; Morrow 18) | 1 | 22 (Morrow 28) |
-| Retreat special | 12 (Morrow 16) | 1 | 26 |
-| Capture | 13 | 1 | 40 |
-| Launcher | 10 (Morrow 15) | 1 | 25 |
-| Pursuit | 7 | 1 | 30 |
-| Jumping crossover | 9 | 1 | 25 |
-| Burst | 22 | 1 | 42 |
+**Current timings and damage:** these early tables went out of date as the frame budgets were retuned. The source of truth is the code. [`dist/balance/roster.json`](../dist/balance/roster.json) lists every fighter and move with startup, active, recovery and base damage, generated from the game modules by `npm run balance:extract` (a test fails if it falls behind the code). The browser balance lab, [`dist/balance-lab.html`](../dist/balance-lab.html), shows them with frame advantage and matchups. [COMBAT_FRAME_BUDGETS.md](COMBAT_FRAME_BUDGETS.md) explains the targets.
 
 Confirmed cinematic sequences pause the attack timelines until their presentation finishes. Training reports wind-up/contact/recovery and remaining frames. The authoritative tuning lives in `dist/moves.js`. These are **not measured Evil Zone timings**; original-game timing research remains separate.
 
@@ -100,14 +87,7 @@ After the second basic attack, a launcher, capture, directional special, pursuit
 
 W + tap J / controller Up + attack now selects the third signature; I / LB and double-down + attack retain the launcher. `techniques.js` defines six original behaviors. Aegis and Morrow advance with committed attacks, Tala's advancing strike launches, Rei's spinning slash covers nearby angles, Sol's sphere intercepts ordinary projectiles during its active period, and Vesper emits a rolling ring. Captures bypass the sphere. Each melee technique can connect once per use; parries interrupt it. Aim locks at startup, so charging attacks can miss sidesteps. The timeline now supports multiple active frames before recovery. Techniques can replace the third chain step.
 
-| Fighter | Startup / active / recovery frames | Base damage |
-|---|---|---|
-| Aegis | 12 / 18 / 22 | 12 |
-| Rei | 10 / 16 / 23 | 11 |
-| Tala | 8 / 15 / 24 | 10, launches |
-| Morrow | 17 / 20 / 30 | 15 |
-| Sol | 9 / 22 / 26 | 10 |
-| Vesper | 14 / 1 / 25 | 12, projectile |
+Current technique timings and damage are in the balance lab and `dist/balance/roster.json` (see the note under the combat timing pass).
 
 Damage is multiplied by character power. All numbers are original tuning.
 
