@@ -1,0 +1,26 @@
+✔ skill tournament same seed produces identical complete bout (1692.310518ms)
+✔ all bot policies receive exactly delayed public observations, no earlier (160.11152ms)
+✔ observation excludes hidden inputs and is detached from simulation (0.745686ms)
+✔ masher alternates press/release at 30 Hz and never guards (8.052482ms)
+✔ known diagnostic fixture counts damage, chip, guard, capture and inputs exactly (2.341743ms)
+✔ real hit hooks clamp overkill and observer errors cannot break combat (3.612616ms)
+✔ known melee whiff is counted once and damage during recovery punishes it (0.775351ms)
+✔ stats off by default and disabled live observer is absent (1.294329ms)
+✔ observed and unobserved default games remain byte-identical every tick across roster (1251.038579ms)
+✔ distance bands use per-fighter reach (0.387421ms)
+✔ bounded storage, malformed storage and unavailable storage are safe (1.143945ms)
+✔ sanity flags inadequate bots without hiding their matchups; draws are not wins (10.191611ms)
+✔ public Pages workflow excludes local dashboard; observer never adds combat events (3.752212ms)
+✔ blocked launcher is contact, never a whiff; interrupted startup is not a whiff (0.578716ms)
+✔ option variety follows most-used move, not largest damage source (0.651828ms)
+✔ real projectile reflection and held-guard chip are measured at resolution (1.122447ms)
+✔ each policy has a deterministic seeded input stream and leaves observations untouched (130.366026ms)
+✔ masher and random baseline include neutral attack taps as well as directional specials (153.52616ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4604.035428

@@ -1,0 +1,173 @@
+{
+  "renderer": "stub; UI/combat integration only",
+  "result": {
+    "balance": {
+      "version": 1,
+      "sys": {
+        "blockstun": 12,
+        "splitGuard": true,
+        "missPenalty": 7
+      },
+      "fighters": {}
+    },
+    "tick": 1775,
+    "phase": "over",
+    "mode": "duel",
+    "paused": false,
+    "selected": 2,
+    "stage": 0,
+    "wins": [
+      0,
+      1
+    ],
+    "flow": "done",
+    "arena": "UI integration fixture",
+    "camera": "duel",
+    "talaModels": [],
+    "fighterModels": [],
+    "music": "rei",
+    "hitstop": 0,
+    "rules": {
+      "roundSeconds": 60,
+      "winsNeeded": 1,
+      "pressureAssist": false
+    },
+    "time": 30.41666666666835,
+    "players": [
+      {
+        "id": 2,
+        "x": -7.80333196564382,
+        "z": 1.6710539115002492,
+        "hp": 0,
+        "stocks": 1,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0.85,
+        "visualHeight": 0.27499999999999997,
+        "anim": "launch",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "canChain": false,
+        "movePhase": "ready"
+      },
+      {
+        "id": 1,
+        "x": -5.430626305843776,
+        "z": 0.25450016547703724,
+        "hp": 100,
+        "stocks": 2,
+        "stagger": 0,
+        "staggerState": null,
+        "staggerResist": 0,
+        "counterWindow": 0,
+        "air": 0,
+        "visualHeight": 0,
+        "anim": "launch",
+        "move": "launch",
+        "reversal": false,
+        "empowered": false,
+        "followup": false,
+        "moveFrame": 20,
+        "startup": 20,
+        "active": 5,
+        "recovery": 28,
+        "chain": 1,
+        "canChain": false,
+        "movePhase": "contact"
+      }
+    ],
+    "projectiles": 0
+  },
+  "saved": {
+    "schema": 1,
+    "mode": "rules",
+    "source": "live",
+    "fighters": [
+      "tala",
+      "rei"
+    ],
+    "players": [
+      {
+        "attackPresses": 0,
+        "actionPresses": 0,
+        "damage": 0,
+        "chipTaken": 0,
+        "blocks": 0,
+        "perfectGuards": 0,
+        "captureBreaks": 0,
+        "captures": 0,
+        "capturesThroughGuard": 0,
+        "meleeAttempts": 0,
+        "whiffs": 0,
+        "whiffPunishes": 0,
+        "punishedWhiffs": 0,
+        "damageByMove": {},
+        "moveUses": {},
+        "distanceFrames": {
+          "close": 0,
+          "inside reach": 0,
+          "tip": 14,
+          "whiff band": 1278,
+          "mid": 445,
+          "far": 38
+        },
+        "damagePerPress": null,
+        "pressesPerMinute": 0,
+        "dominantMove": null,
+        "dominantMoveShare": 0
+      },
+      {
+        "attackPresses": 20,
+        "actionPresses": 59,
+        "damage": 100,
+        "chipTaken": 0,
+        "blocks": 0,
+        "perfectGuards": 0,
+        "captureBreaks": 0,
+        "captures": 5,
+        "capturesThroughGuard": 0,
+        "meleeAttempts": 4,
+        "whiffs": 1,
+        "whiffPunishes": 0,
+        "punishedWhiffs": 0,
+        "damageByMove": {
+          "stock-phantom-flock": 18,
+          "system-capture-close-": 67.5,
+          "system-launcher": 14.5
+        },
+        "moveUses": {
+          "stock-phantom-flock": 1,
+          "system-capture-close-": 5,
+          "system-launcher": 4
+        },
+        "distanceFrames": {
+          "close": 0,
+          "inside reach": 1192,
+          "tip": 260,
+          "whiff band": 134,
+          "mid": 151,
+          "far": 38
+        },
+        "damagePerPress": 5,
+        "pressesPerMinute": 38.52327447833066,
+        "dominantMove": "system-capture-close-",
+        "dominantMoveShare": 0.675
+      }
+    ],
+    "inputFrames": 1869,
+    "simulationFrames": 1775,
+    "winner": 1,
+    "completed": true,
+    "koCause": "system-launcher",
+    "hp": [
+      0,
+      100
+    ],
+    "seconds": 31.15
+  },
+  "capture": "completed-round-ui-1793191527272.jpg",
+  "errors": []
+}
