@@ -1,3 +1,7 @@
+## GRAB-OPTIONS — opt-in capture experiments
+
+Owner: **Codex** · Branch: `codex/skill-lab` · Status: **In progress** (2026-10-28). Owns opt-in hooks in combat/commands, separate visual capture cue and minimal renderer call site, balance/game URL wiring, spacer and masher-all policies, five-seed mirrored measurement at 10/15f. Default gameplay preserved. No fighter/rig/animation authoring changes; tell uses a separate temporary visual overlay. Old reports preserved. Grab options remain previews pending Adam’s verdict.
+
 ## SKILL-BOTS — validate policies before balance conclusions
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
