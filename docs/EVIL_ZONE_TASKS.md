@@ -1,3 +1,7 @@
+## MOVE-V2 — live-relative walking and grounded steps
+
+Owner: **Codex** · Branch: `codex/move-v2` · Status: **In progress** (2026-10-29). Owns opt-in movement hooks in combat.js, commands/main wiring, movement config, stepper measurement and browser review. Existing facing/captureContext/animation authoring preserved. No default gameplay change; no merge until Adam's verdict. Branch starts at skill-lab `d7ae48d`.
+
 ## GRAB-EQUAL — equal offensive capture policy
 
 Owner: **Codex** · Branch: `codex/skill-lab` · Status: **Review, awaiting Adam’s verdict** (2026-10-28).
