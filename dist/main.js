@@ -1,4 +1,6 @@
 import {setLocomotionSource,setReactionSource} from './locomotion-clips.js';
+import {setAttackTells} from './grounded-animation.js';
+setAttackTells(new URLSearchParams(location.search).get('tell'));
 setLocomotionSource(new URLSearchParams(location.search).get('gait'));setReactionSource(new URLSearchParams(location.search).get('react'));
 import {lessons,lessonMatch,lessonOpponent,updateLesson,lessonText} from './lessons.js';
 import {pressureText} from './pressure-dash.js';

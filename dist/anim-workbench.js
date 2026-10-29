@@ -3,6 +3,7 @@ import {createView} from './render.js';
 import {fighters} from './fighters.js';
 import {RECIPES,createScenario,stepScenario} from './sandbox-recipes.js';
 import {setLocomotionSource,setReactionSource} from './locomotion-clips.js';
+import {setAttackTells} from './grounded-animation.js';
 import {TWEAKS,KEY_NAMES,keyTimes,moveKey,tweakState} from './anim-tweaks.js';
 import {combatTuning,combatClip,clipU} from './imported-combat.js';
 import {weightTuning,weightShift} from './weight-transfer.js';
@@ -28,7 +29,7 @@ Object.assign(RECIPES,{
 const STATES=[
  ['Idle','idle',90],['Run · advance','approach',50],['Run · retreat','retreat',50],['Run · circle left','ab-circle-left-guard',90],['Run · circle right','ab-circle-right-guard',90],
  ['Strike 1','strike1',50],['Strike 1→2 chain','strike2',80],['Strike 1→2→3 chain','strike3',110],['Shot','wb-shot',60],['Forward special','wb-forward',80],['Back special','wb-back',80],
- ['Technique','wb-technique',80],['Launch','launch',90],['Grapple (capture)','capture',100],['Knockdown → get-up','ab-knockdown-getup-guard',180],['Defeat (KO collapse)','wb-defeat',110],
+ ['Technique','wb-technique',80],['Launch','launch',90],['Burst','burst',90],['Grapple (capture)','capture',100],['Knockdown → get-up','ab-knockdown-getup-guard',180],['Defeat (KO collapse)','wb-defeat',110],
  ['Hit reaction','recoil',60],['Stagger','stagger',90],['Victory','wb-victory',90]
 ];
 const ankle=(r,i)=>r.knees[i].localToWorld(new V(0,-(r.shinLength||r.legLength||.48),0));
@@ -54,7 +55,9 @@ const state={fighter:Number(params.get('fighter')??2),stateIndex:Math.max(0,STAT
  frame:0,frames:60,playing:false,speed:1,joint:null,key:'impact',orbit:{yaw:.45,pitch:.16,dist:7.2},move:null,trails:{A:[],B:[]},s:null,dirty:true};
 const views={A:{canvas:$('#viewA'),label:'A',source:'authored',tweaks:false},B:{canvas:$('#viewB'),label:'B',source:'imported',tweaks:false}};
 for(const v of Object.values(views)){v.view=createView(v.canvas,{talaModel:'graphic'});v.view.quality(params.get('quality')||'high');v.extras=new T.Group();v.extras.name='workbench-extras';v.view.scene.add(v.extras);}
-const configureB=()=>{const s=state.source;views.B.source=s==='authored'?'authored':'imported';views.B.tweaks=s!=='imported';$('#labelB').textContent={imported:'B · MOCAP IMPORTED',hybrid:'B · HYBRID (MOCAP + TWEAKS)',authored:'B · AUTHORED + TWEAKS'}[s];};
+// ATTACK-TELLS: ?tell=hold turns B into the authored rig with held wind-ups, A stays the shipped schedule.
+const tellB=params.get('tell');
+const configureB=()=>{if(tellB){views.B.source='authored';views.B.tweaks=false;views.B.tell=tellB;$('#labelB').textContent='B · TELL '+tellB.toUpperCase();return;}const s=state.source;views.B.source=s==='authored'?'authored':'imported';views.B.tweaks=s!=='imported';$('#labelB').textContent={imported:'B · MOCAP IMPORTED',hybrid:'B · HYBRID (MOCAP + TWEAKS)',authored:'B · AUTHORED + TWEAKS'}[s];};
 const ready=v=>new Promise(res=>{let n=0;const t=()=>{const ms=v.view.fighterModels||[];if(ms.length&&ms.every(m=>m.status&&m.status!=='loading')||n++>400)res();else setTimeout(t,25);};t();});
 const recipe=()=>STATES[state.stateIndex][1],rival=()=>state.fighter===1?0:1;
 function settings(noDraw){
@@ -63,7 +66,7 @@ function settings(noDraw){
  return {camera:state.camera==='orbit'?'custom':state.camera,cameraPosition:pos,cameraTarget:target,reduced:true,quality:'high',cameraZoom:.7,noDraw};
 }
 // Render one view with its own animation source and tweak switch (the modules are shared, so set them per call).
-function renderView(v,dt,noDraw){setLocomotionSource(v.source);setReactionSource(v.source==='authored'&&!v.tweaks?'authored':'imported');tweakState.enabled=v.tweaks;v.view.render(dt,state.s.m,settings(noDraw));setLocomotionSource('authored');setReactionSource('imported');tweakState.enabled=true;
+function renderView(v,dt,noDraw){setAttackTells(v.tell||'off');setLocomotionSource(v.source);setReactionSource(v.source==='authored'&&!v.tweaks?'authored':'imported');tweakState.enabled=v.tweaks;v.view.render(dt,state.s.m,settings(noDraw));setLocomotionSource('authored');setReactionSource('imported');tweakState.enabled=true;setAttackTells('off');
  const rv=v.view.models?.[1];if(rv)rv.g.visible=$('#rival').checked;}
 const visibleViews=()=>state.layout==='overlay'?['A']:state.layout==='single'?['B']:['A','B'];
 function step(dt=1/60){stepScenario(state.s);state.s.recipe.stage?.(state.s.m,state.s.frame);for(const k of ['A','B'])renderView(views[k],dt,true);}

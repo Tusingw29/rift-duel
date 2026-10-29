@@ -172,7 +172,28 @@ const SEG={lower:['bodyX','bodyY','bodyZ','hipYaw','llx','llz','rlx','rlz','lk',
 export const LEAD={lower:5,spine:3.5,clav:2,arms:2,elbows:1,wrists:0,head:0}; // exported so the animation workbench can tune it live
 const WRIST_DRAG=3.5; // after the hitstop hold the wrist and weapon tip trail the torso into recovery
 const pick=(from,to,segs)=>{const o={...from};for(const s of segs)for(const k of SEG[s])o[k]=to[k];return o;};
+// ATTACK-TELLS (?tell=hold): a long startup coils early into a deeper load and keeps sinking into it, so the wind-up
+// reads at reaction speed; the drive and whip are compressed into the last frames and contact stays on the startup frame.
+export const TELL_MODES=['off','hold'];
+export const TELL={minStartup:16,coil:.3,whip:5,amp:1.25,deepen:1.45}; // playtest guesses, tunable from the workbench
+let tellMode='off';
+export function setAttackTells(name){tellMode=TELL_MODES.includes(name)?name:'off';return tellMode;}
+export const attackTells=()=>tellMode;
+const amplify=(stance,pose,k)=>{const o={...pose};for(const c in pose)if(typeof pose[c]==='number'&&typeof stance[c]==='number')o[c]=stance[c]+(pose[c]-stance[c])*k;return o;};
+function tellKeys(move,stance,load,peak,follow){
+ const active=move.active||1,end=move.startup+active+move.recovery,s=move.startup;
+ const coilAt=s*TELL.coil,holdTo=s-TELL.whip,driveAt=s-2.5,whipAt=s-1;
+ const coiled=amplify(stance,load,TELL.amp),deep=amplify(stance,load,TELL.deepen);
+ const drive=pick(deep,mix(deep,peak,.85),['lower','spine']);
+ const whip={...pick(mix(deep,peak,.55),peak,['lower','spine','clav'])};for(const k of SEG.wrists)whip[k]=deep[k]+(peak[k]-deep[k])*.3;
+ const hold=s+active+Math.max(LEAD.lower+1,Math.min(6,Math.max(1,move.recovery*.4)));
+ const overshoot={...follow,twist:follow.twist*1.1,lean:follow.lean+.05,lk:follow.lk+.12,rk:follow.rk+.12,bodyY:follow.bodyY-.03};
+ const recovery=pick(mix(follow,stance,.6),mix(follow,stance,.75),['lower']);
+ const keys=[[0,stance,smooth],[coilAt,coiled,smooth],[holdTo,deep,smooth],[driveAt,drive,smooth],[whipAt,whip,snapOut],[s,peak,snapOut],[hold,peak,smooth],[s+active+move.recovery*.45,overshoot,smooth],[s+active+move.recovery*.78,recovery,smooth],[end,stance,smooth]];
+ keys.holdEnd=hold;keys.move=move;return keys;
+}
 export function kineticKeys(move,stance,load,peak,follow){
+ if(tellMode==='hold'&&move.startup>=TELL.minStartup)return tellKeys(move,stance,load,peak,follow);
  const active=move.active||1,end=move.startup+active+move.recovery,s=move.startup;
  const coilAt=Math.max(.5,s*.35),driveAt=Math.max(coilAt+.5,Math.min(s*.7,s-1.5)),whipAt=Math.max(driveAt+.5,s-1);
  const hold=s+active+Math.max(LEAD.lower+1,Math.min(6,Math.max(1,move.recovery*.4))); // long enough that the five-frame pelvis lead is still inside it
