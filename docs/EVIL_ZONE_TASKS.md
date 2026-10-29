@@ -1,3 +1,9 @@
+## ATTACK-TELLS — readable wind-ups (animation only)
+
+Owner: **Claude** · Branch: `claude/attack-tells` · Worktree: `~/rift-worktrees/attack-tells` · Status: **In progress** (2026-10-29)
+
+Adam can't see Morrow's attacks coming. Moves with 16+ frames of startup are reactable but their wind-up isn't readable: the shared kinetic schedule reaches the load at about 35% of startup and drives straight on. Opt-in `?tell=hold`: a bigger, held load for long-startup moves, whip compressed into the last frames, contact frame unchanged. Animation only; no frame data, hitbox or combat change. Fast moves (strike 1, shots, grab, 7-13f) stay unreactable by design.
+
 ## MOVE-V2 — live-relative walking and grounded steps
 
 Owner: **Codex** · Branch: `codex/move-v2` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-29). Branch starts at skill-lab `d7ae48d`; no gameplay merge or default promotion.
@@ -521,6 +527,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-28 | Claude | BALANCE-LAB | Claimed on `claude/balance-lab`: balance lab page, roster extract and sync test. No combat rule or timing changes. |
 | 2026-10-28 | Claude | BALANCE-LAB | Review on `claude/balance-lab` `6a49a77` (not merged): balance lab page, roster extract (116 moves from the modules), shared formulas, sync test, DESIGN.md pointer. No combat rule or timing changes. 616 tests (`node --test`). Next: Adam's verdict; Codex: `&balance=local` proposal in the task notes. |
 | 2026-10-28 | Claude | SIM-SKILLS | Review on `claude/skills` `6a4c0f0` (not merged): `bot-probe`, `reaction-check`, `sim-audit` skills in `.claude/skills/`. Tooling only, no game files. Next: Adam's verdict. |
+| 2026-10-29 | Claude | ATTACK-TELLS | Claimed on `claude/attack-tells`: opt-in held wind-ups for 16f+ startups, Morrow first. Animation only. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | ART-TALA-GRAPHIC | Round 2: face proportions, layered head-anchored ponytail, modeled curled fingers and fitted shoulder panels. Preserves live combat animation. [Before/release captures](../art/review-2026-10-25/tala-graphic-polish/README.md); root/tip deformation regression added; downloadable pack rebuilt. Shoulder seams and faceting still need refinement. Awaiting normal-speed verdict. |
 | 2026-10-25 | Codex | EZ-05–11 | Mechanics, Duel camera and nine guided lessons implemented. Preserved Claude’s sandbox/rig schema `e2c8699`. **390 tests pass**; [cloud review](https://github.com/Tusingw29/rift-duel/actions/runs/40237435218) checks real lesson flow, remapped input/controller prompts, Pressure Dash pause, 21 camera/capture/ring views and portrait fit. Detailed animation polish, physical controllers and Adam’s normal-speed/first-play verdict remain deferred. |
