@@ -1,3 +1,4 @@
+import {ringArena} from './arena-bounds.js';import {createBoundaryRing} from './arena-boundary-visual.js';
 import {restoreGrabTell,applyGrabTell} from './grab-tell.js';
 import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
@@ -27,6 +28,7 @@ export function createView(canvas,options={}){
  let talaModel=options.talaModel||'concept',renderQuality='high';
  const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
  const scene=new T.Scene();scene.background=new T.Color('#10191c');scene.fog=new T.FogExp2('#10191c',.023);
+ let boundaryRing=null;
  const camera=new T.PerspectiveCamera(40,1,.1,130);camera.position.set(14,9,18);
  const {hemisphere,sun,rim}=createLighting(scene);
  // Image-based lighting: a prefiltered studio tinted toward each arena's sky and ground.
@@ -82,6 +84,7 @@ export function createView(canvas,options={}){
   const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25)*zoom;pos.set(target.x-dz*back-dx*2*zoom,(3+airHeight*.5+distance*.035)*(.6+.4*zoom),target.z+dx*back-dz*2*zoom);
  }
  function render(dt,m,settings,cue=null){
+  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(boundaryRing)boundaryRing.visible=ringArena(m);
   if(m?.hitstop>0||m?.frozen)dt=0;
   time+=dt;stage?.update(time);
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}

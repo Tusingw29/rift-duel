@@ -1,4 +1,4 @@
-import {configureMovement,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
+import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
 import {configureGrab,grabOptions,applyGrabTiming} from './grab-options.js';
 import {measured} from './skill/observer.js';
 import {matchFighter,applyBalanceMove,balanceDamageScale,balanceRule,balanceGuard,balanceCaptureBreak} from './balance-runtime.js';
@@ -37,7 +37,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement);
+ return configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -68,7 +68,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  if(m.resolving){
   b.knockback={dx:dx/d,dz:dz/d,frame:0,frames:8,distance:.5};
   m.hitstop=Math.max(m.hitstop||0,sourceMove?.chain===3?12:launch||damage>=10||a.id===3&&sourceMove?.kind==='strike'?10:6);
- }else{b.x=clamp(b.x+dx/d*.5,-11,11);b.z=clamp(b.z+dz/d*.5,-6,6);}
+ }else{moveWithinBounds(b,dx/d*.5,dz/d*.5);}
  a.combo=a.comboTime>0?a.combo+1:1;a.comboTime=1.35;
  if(staggerHit(b,damage,staggerEligible,kind!=='hit'))event(m,'hint',{text:`${fighters[b.id].name.toUpperCase()} STAGGERED — ALTERNATE LEFT / RIGHT`,player:m.players.indexOf(b)});
  measured(m,'damage',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:Math.max(0,hpBefore-b.hp),kind,source:sourceMove});
@@ -145,7 +145,7 @@ function action(m,a,b,requested,empowered=false){
   a.move.travel=a.move.crossover?orbitTravel(a,b,CROSSOVER_FRAMES):lineTravel(a,a.move.aimX,a.move.aimZ,2.5,CROSSOVER_FRAMES);
   a.air=(CROSSOVER_FRAMES+12)*STEP;a.inv=.12;
  }
- applyBalanceMove(m,a,a.move);applyGrabTiming(m,a.move);
+ applyBalanceMove(m,a,a.move);applyGrabTiming(m,a.move);applyMorrowJab(m,a,a.move);
  if(m.balance&&a.move.aerial){
   const push=b.knockback,remainingPush=push?push.distance*(1-push.frame/push.frames)**3:0;
   a.move.glideX=(b.x+(push?.dx||0)*remainingPush-a.x-a.move.aimX*1.6)/a.move.startup;
@@ -155,7 +155,7 @@ function action(m,a,b,requested,empowered=false){
  a.buffer=null;a.pendingInput=null;
  if(chaining&&previous.kind==='strike'&&d<f.reach+.5){
   const advance=Math.min(.4,Math.max(0,d-1.2));
-  a.x=clamp(a.x+a.move.aimX*advance,-11,11);a.z=clamp(a.z+a.move.aimZ*advance,-6,6);
+  moveWithinBounds(a,a.move.aimX*advance,a.move.aimZ*advance);
  }
  if(chaining)event(m,'hint',{text:`CHAIN ${a.move.chain} / 3`});
  a.cool=a.move.total*STEP;a.anim=kind==='shot'?'attack':kind;a.animTime=a.cool;
@@ -182,7 +182,7 @@ function executeActionFrame(m,a,b,move){
   const s=move.stockSpecial,offset=move.frame-move.startup;
   if(offset===0){
    event(m,'hint',{text:s.name.toUpperCase()+' · 1 STOCK'});
-   if(kind==='back'&&!move.retreatTravel){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+   if(kind==='back'&&!move.retreatTravel){moveWithinBounds(a,-dx*1.2,-dz*1.2);}
   }
   if(offset>stockTiming(s)-1||offset%(s.interval||1)!==0)return;
   if(s.area){
@@ -205,7 +205,7 @@ function executeActionFrame(m,a,b,move){
    event(m,'shot',{color:f.color});return;
   }
   if(!move.connected){
-   a.x=clamp(a.x+dx*move.speed*STEP,-11,11);a.z=clamp(a.z+dz*move.speed*STEP,-6,6);
+   moveWithinBounds(a,dx*move.speed*STEP,dz*move.speed*STEP);
    const radial=['spin','sphere'].includes(move.effect);
    if(distance(a,b)<move.reach&&(radial||facing)&&b.inv<=0){
     move.connected=true;hit(m,a,b,move.damage*f.power,'hit',!!move.launch);
@@ -233,7 +233,7 @@ function executeActionFrame(m,a,b,move){
    const s=move.special,offset=move.frame-move.startup;
    if(offset===0){
     event(m,'hint',{text:s.name});
-    if(kind==='back'&&!move.retreatTravel){a.x=clamp(a.x-dx*1.2,-11,11);a.z=clamp(a.z-dz*1.2,-6,6);}
+    if(kind==='back'&&!move.retreatTravel){moveWithinBounds(a,-dx*1.2,-dz*1.2);}
     if(s.area){if(d<s.area)hit(m,a,b,s.damage*f.power);return;}
    }
    if(s.area)return;
@@ -313,7 +313,7 @@ export function update(m,inputs,dt=STEP){
   const a=m.players[n],i=inputs[n]||neutral(),b=m.players[1-n];
   // Inputs already use live opponent-relative axes (main.relative); never reinterpret x using stale face/look.
   if(v2&&!canStartStep(a))a.commands.stepTapDirection=null;
-  a.frameCommand=readCommand(a.commands,i,a.prev,1,m.inputTick,v2?{...grabOptions(m),steps:canStartStep(a)}:grabOptions(m));
+  a.frameCommand=readCommand(a.commands,i,a.prev,1,m.inputTick,v2?{...grabOptions(m),steps:canStartStep(a),stepWindow:MOVE_V2_GUESSES.doubleTapWindow}:grabOptions(m));
   if(m.balance?.sys.splitGuard&&i.capture&&!a.prev.capture)a.captureTapTick=m.tick+1;
   if(a.pendingInput&&a.pendingInput.expires<m.inputTick)a.pendingInput=null;
   const blocked=m.hitstop>0||a.step||a.move||a.travel||a.stun>0||a.cool>0||a.jumpSquat;
@@ -389,7 +389,7 @@ export function update(m,inputs,dt=STEP){
     a.slam=null;a.bounce={frame:0,frames:BOUNCE_FRAMES,phase:'rebound',airFrames:BOUNCE_AIR_FRAMES,height:.55};a.air=BOUNCE_AIR_FRAMES*STEP;a.stun=BOUNCE_FRAMES*STEP;a.anim='launch';a.animTime=BOUNCE_FRAMES*STEP;a.move=null;a.buffer=null;a.cool=0;
     a.lastGroundBounce={tick:m.tick,x:a.x,z:a.z};event(m,'groundBounce',{player:n,x:a.x,z:a.z,color:fighters[a.id].color});
    }
-   if(a.knockback){const k=a.knockback,u=k.frame/k.frames,v=++k.frame/k.frames,d=k.distance*((1-u)**3-(1-v)**3);a.x=clamp(a.x+k.dx*d,-11,11);a.z=clamp(a.z+k.dz*d,-6,6);if(k.frame===k.frames)a.knockback=null;}
+   if(a.knockback){const k=a.knockback,u=k.frame/k.frames,v=++k.frame/k.frames,d=k.distance*((1-u)**3-(1-v)**3);moveWithinBounds(a,k.dx*d,k.dz*d);if(k.frame===k.frames)a.knockback=null;}
    // Rise uses explicit simulation frames; the pre-rise fall keeps its existing pose clock.
    if(a.hp>0&&!a.bounce&&(a.anim==='knockdown'||a.getUp)){
     const remaining=Math.max(0,Math.round(a.stun/STEP));
@@ -397,7 +397,7 @@ export function update(m,inputs,dt=STEP){
     if(remaining<=GET_UP_FRAMES&&remaining>0){a.getUp={frame:GET_UP_FRAMES-remaining,frames:GET_UP_FRAMES,safe:a.getUp?.safe??true};a.anim='getUp';a.animTime=remaining*STEP;if(a.getUp.safe)a.inv=Math.max(a.inv,STEP);}
     if(remaining===0){a.getUp=null;a.knockdown=null;a.anim='idle';if(i.guard||a.pendingInput?.kind==='guard'){a.guard=true;a.guardTime=dt;a.guardTapTick=m.tick;a.pendingInput=null;}}
    }
-   if(a.roll){a.x=clamp(a.x+a.roll.dx*8*dt,-11,11);a.z=clamp(a.z+a.roll.dz*8*dt,-6,6);a.roll.elapsed+=dt;if(a.roll.elapsed>=.3)a.roll=null;}
+   if(a.roll){moveWithinBounds(a,a.roll.dx*8*dt,a.roll.dz*8*dt);a.roll.elapsed+=dt;if(a.roll.elapsed>=.3)a.roll=null;}
    if(a.travel){
     const done=advanceTravel(a,a.travel);faceOpponent(a,b);
     if(done){a.travel=null;a.cool=0;b.turnDelay=.45;}
@@ -419,7 +419,7 @@ export function update(m,inputs,dt=STEP){
     if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
     const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.move?.travel&&a.move.frame<a.move.startup?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     // Lock-on movement: x closes or retreats along the line to the rival, z circles.
-    if(v2)walks[n]={x:i.x,z:i.z,scale:speed*dt/len};else{const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);}
+    if(v2)walks[n]={x:i.x,z:i.z,scale:speed*dt/len};else{const fx=a.lookX,fz=a.lookZ;moveWithinBounds(a,(i.x*fx-i.z*fz)/len*speed*dt,(i.x*fz+i.z*fx)/len*speed*dt,true);}
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
     if(charging){a.anim='charge';if(a.stocks<MAX_STOCKS){a.charge+=dt*chargeRate(a.hp);if(a.charge>=CHARGE_PER_STOCK){a.charge=0;a.stocks++;event(m,'stock',{player:n});}}}
     if(!swallowed&&!i.attack&&a.prev.attack){if(a.held>0&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))action(m,a,b,a.commands.attack||'attack',a.held>.24);a.held=0;}
@@ -444,10 +444,10 @@ export function update(m,inputs,dt=STEP){
    if(move.travel&&move.frame<=move.startup){advanceTravel(a,move.travel);if(move.crossover)faceOpponent(a,m.players[1-m.players.indexOf(a)]);}
    if(move.retreatTravel&&move.frame<=move.startup){
     const distance=RETREAT_DISTANCE*(retreatProgress(move)-retreatProgress(move,move.frame-1));
-    a.x=clamp(a.x-move.aimX*distance,-11,11);a.z=clamp(a.z-move.aimZ*distance,-6,6);
+    moveWithinBounds(a,-move.aimX*distance,-move.aimZ*distance);
    }
    if(move.aerial&&move.frame<=move.startup){
-    a.x=clamp(a.x+move.glideX,-11,11);a.z=clamp(a.z+move.glideZ,-6,6);
+    moveWithinBounds(a,move.glideX,move.glideZ);
    }
    if(move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
    if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
@@ -459,7 +459,7 @@ export function update(m,inputs,dt=STEP){
   else if(!m.pressure)for(const {a,b,move} of contacts)executeAction(m,a,b,move);
   const [a,b]=m.players,d=distance(a,b);
   if(d<1.2){const dx=(b.x-a.x)/(d||1)||1,dz=(b.z-a.z)/(d||1);a.x-=dx*(1.2-d)/2;b.x+=dx*(1.2-d)/2;a.z-=dz*(1.2-d)/2;b.z+=dz*(1.2-d)/2;}
-  for(const p of m.players){p.x=clamp(p.x,-11,11);p.z=clamp(p.z,-6,6);}
+  for(const p of m.players)constrainPosition(p);
   for(const p of m.projectiles){p.x+=p.dx*dt;p.z+=p.dz*dt;p.life-=dt;advanceCapture(p,dt);}
   if(captureClashes(m.projectiles))event(m,'hint',{text:'CAPTURE CIRCLES CANCELLED'});
   for(const p of m.projectiles){

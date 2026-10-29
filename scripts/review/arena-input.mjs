@@ -1,0 +1,17 @@
+import {launch,BASE,OUT} from './common.mjs';import {writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const browser=await launch(),errors=[],report={inputs:[],captures:[]},stamp=Date.now();
+try{
+const p=await browser.newPage({viewport:{width:800,height:600}});p.setDefaultTimeout(90000);p.on('pageerror',e=>errors.push(e.message));
+await p.route('**/render.js*',r=>r.fulfill({contentType:'text/javascript',body:`export function createView(){return new Proxy({arenaName:'Input fixture',talaModels:[],fighterModels:[]},{get(o,k){return k in o?o[k]:()=>{};}});}`}));
+await p.addInitScript(()=>{localStorage.setItem('rift-options',JSON.stringify({volume:0,music:false,announcer:false,quality:'low',reduced:true}));let pending,t=0;window.requestAnimationFrame=cb=>{pending=cb;return 1;};window.stepFrames=n=>{for(let i=0;i<n;i++){const fn=pending;pending=null;fn?.(t+=1000/60);}};});
+for(const query of ['','?arena=ring','?move=v2&arena=rect','?move=v2','?move=v2&arena=ring&grab=slow','?move=v2&arena=ring&morrow=jab15']){
+ await p.goto(BASE+'/index.html'+query);await p.waitForFunction(()=>window.riftDebug,null,{polling:100});if(query.includes('jab15'))await p.click('[data-id="3"]');await p.selectOption('#mode','training');await p.click('#start');await p.evaluate(()=>stepFrames(200));let d=await p.evaluate(()=>riftDebug());assert.equal(d.arenaBounds,query&&!query.includes('arena=rect')?'ring':'rect');assert.equal(d.morrow,query.includes('jab15')?'jab15':'');
+ if(query.includes('move=v2')){for(const gap of [12,13]){await p.keyboard.down('KeyW');await p.evaluate(()=>stepFrames(1));await p.keyboard.up('KeyW');await p.evaluate(n=>stepFrames(n),gap-1);await p.keyboard.down('KeyW');await p.evaluate(()=>stepFrames(1));await p.keyboard.up('KeyW');d=await p.evaluate(()=>riftDebug());assert.equal(!!d.players[0].step,gap<=12);if(d.players[0].step)assert.equal(d.players[0].step.distance,1.5);await p.evaluate(()=>stepFrames(40));}}
+ if(query.includes('jab15')){await p.keyboard.down('KeyW');await p.evaluate(()=>stepFrames(60));await p.keyboard.up('KeyW');await p.evaluate(()=>stepFrames(2));await p.keyboard.down('KeyJ');await p.evaluate(()=>stepFrames(1));await p.keyboard.up('KeyJ');await p.evaluate(()=>stepFrames(1));d=await p.evaluate(()=>riftDebug());assert.equal(d.players[0].move,'strike');assert.equal(d.players[0].startup,15);assert.equal(d.players[0].recovery,20);}
+ report.inputs.push({query,arena:d.arenaBounds,morrow:d.morrow,startup:d.players[0].startup});
+}
+await p.close();
+const v=await browser.newPage({viewport:{width:800,height:600}});v.setDefaultTimeout(180000);v.on('pageerror',e=>errors.push(e.message));await v.goto(BASE.replace(/\/dist$/,'')+'/tests/arena-input-review.html');await v.waitForFunction(()=>window.reviewArena);await v.waitForFunction(()=>arenaReviewView.fighterModels.every(x=>['graphic','v3'].includes(x.status)));
+for(let stage=0;stage<6;stage++)for(const camera of ['lock','side','duel']){const result=await v.evaluate(x=>reviewArena(x),{stage,camera});assert.equal(result.visible,true);assert.equal(result.radius,10);const file=`stage-${stage}-${camera}-${stamp}.jpg`;await v.screenshot({path:OUT+'/'+file,type:'jpeg',quality:82,timeout:240000});report.captures.push({file,stage,camera,...result});}
+assert.equal((await v.evaluate(()=>reviewArena({ring:false}))).visible,false);assert.deepEqual(errors,[]);report.passed=true;
+}finally{writeFileSync(OUT+'/browser.json',JSON.stringify({...report,errors},null,2));await browser.close();}

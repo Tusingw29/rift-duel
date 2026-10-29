@@ -1,0 +1,46 @@
+name: ARENA-INPUT preview checks
+on:
+  push:
+    branches: [codex/arena-input]
+    paths: ['dist/**', 'scripts/**', 'tests/**', '.github/workflows/arena-input.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  study:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        delay: [10, 15]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/arena-input.mjs --delay=${{ matrix.delay }} --workers=2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arena-study-${{ matrix.delay }}
+          path: art/skill-lab/2026-10-29-arena-input/
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run prepare:release
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 4205 > /tmp/arena-http.log 2>&1 &
+      - run: node scripts/review/arena-input.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4205/dist
+          SHOTS: art/review-2026-10-29/arena-input
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arena-browser
+          path: art/review-2026-10-29/arena-input/

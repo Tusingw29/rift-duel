@@ -21,7 +21,7 @@ export function readCommand(state,input,previous,face,tick,options={}) {
   const busy=['attack','guard','capture','launch','pursuit','super','circle','crossover'].some(k=>input[k]||previous[k]);
   if(busy)state.stepTapDirection=null;
   else if(direction&&direction!==state.direction){
-   if(state.stepTapDirection===direction&&tick-state.stepTapTick<=DOUBLE_TAP_WINDOW){stepDirection=direction;state.stepTapDirection=null;}
+   if(state.stepTapDirection===direction&&tick-state.stepTapTick<=(options.stepWindow??DOUBLE_TAP_WINDOW)){stepDirection=direction;state.stepTapDirection=null;}
    else{state.stepTapDirection=direction;state.stepTapTick=tick;}
   }
  }
