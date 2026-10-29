@@ -1,0 +1,54 @@
+{
+  "captures": [
+    {
+      "file": "back-exact-frame-1793263566056.jpg",
+      "step": {
+        "kind": "backdash",
+        "direction": "back",
+        "phase": "travel",
+        "frame": 4,
+        "frames": 14,
+        "distance": 2.2,
+        "recovery": 0,
+        "started": 3
+      },
+      "anim": "run",
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "rei",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "side-exact-frame-1793263566056.jpg",
+      "step": {
+        "kind": "sidestep",
+        "direction": "down",
+        "phase": "travel",
+        "frame": 4,
+        "frames": 14,
+        "distance": 1.8,
+        "recovery": 0,
+        "started": 3
+      },
+      "anim": "run",
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "rei",
+          "status": "v3"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "errors": []
+}

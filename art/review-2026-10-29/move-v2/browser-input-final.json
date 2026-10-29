@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "query": "",
+      "key": "KeyW",
+      "step": null
+    },
+    {
+      "query": "",
+      "key": "KeyS",
+      "step": null
+    },
+    {
+      "query": "",
+      "key": "KeyA",
+      "step": null
+    },
+    {
+      "query": "",
+      "key": "KeyD",
+      "step": null
+    },
+    {
+      "query": "?move=v2",
+      "key": "KeyW",
+      "step": "dash"
+    },
+    {
+      "query": "?move=v2",
+      "key": "KeyS",
+      "step": "backdash"
+    },
+    {
+      "query": "?move=v2",
+      "key": "KeyA",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2",
+      "key": "KeyD",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&grab=slow",
+      "key": "KeyW",
+      "step": "dash"
+    },
+    {
+      "query": "?move=v2&grab=slow",
+      "key": "KeyS",
+      "step": "backdash"
+    },
+    {
+      "query": "?move=v2&grab=slow",
+      "key": "KeyA",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&grab=slow",
+      "key": "KeyD",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&mode=training",
+      "key": "KeyW",
+      "step": "dash"
+    },
+    {
+      "query": "?move=v2&mode=training",
+      "key": "KeyS",
+      "step": "backdash"
+    },
+    {
+      "query": "?move=v2&mode=training",
+      "key": "KeyA",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&mode=training",
+      "key": "KeyD",
+      "step": "sidestep"
+    }
+  ],
+  "captures": [],
+  "passed": true,
+  "errors": []
+}

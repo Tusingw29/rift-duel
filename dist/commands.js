@@ -16,6 +16,15 @@ export function directionOf(input,face) {
 }
 export function readCommand(state,input,previous,face,tick,options={}) {
  const direction=directionOf(input,face);
+ let stepDirection=null;
+ if(options.steps){
+  const busy=['attack','guard','capture','launch','pursuit','super','circle','crossover'].some(k=>input[k]||previous[k]);
+  if(busy)state.stepTapDirection=null;
+  else if(direction&&direction!==state.direction){
+   if(state.stepTapDirection===direction&&tick-state.stepTapTick<=DOUBLE_TAP_WINDOW){stepDirection=direction;state.stepTapDirection=null;}
+   else{state.stepTapDirection=direction;state.stepTapTick=tick;}
+  }
+ }
  if(options.hold){if(direction==='down'){if(state.direction!=='down'||state.downSince===undefined)state.downSince=tick;}else delete state.downSince;}
  if(direction&&direction!==state.direction){
   if(direction===state.last&&tick-state.lastTick<=DOUBLE_TAP_WINDOW){state.double=direction;state.doubleTick=tick;}
@@ -31,5 +40,5 @@ export function readCommand(state,input,previous,face,tick,options={}) {
   state.double=null;
  }
  if(input.guard&&!previous.guard&&double==='up'){state.double=null;return 'jump';}
- return null;
+ return stepDirection?'step:'+stepDirection:null;
 }

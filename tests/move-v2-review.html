@@ -1,0 +1,6 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><base href="../dist/"><title>Movement v2 exact-frame review</title><style>body{margin:0;background:#141d26;color:white;font:16px system-ui}canvas{width:100vw;height:100vh;display:block}#label{position:fixed;top:10px;left:14px;background:#121b28dd;padding:10px}</style><canvas id="scene"></canvas><div id="label"></div><script type="module">
+import {createView} from '../dist/render.js';import {createMatch,update,neutral} from '../dist/combat.js';
+const view=createView(document.querySelector('canvas'),{quality:'low',talaModel:'graphic'});view.quality('low');const settings={quality:'low',camera:'lock',reduced:true};
+let matched=false;
+window.reviewMove=({direction='back',frame=4}={})=>{const m=createMatch(2,1,'training','normal',{movement:'v2'});for(let n=0;n<frame+2;n++){const i=n===0||n===2?(direction==='back'?{x:-1}:{z:1}):{};update(m,[{...neutral(),...i},neutral()]);}if(!matched){view.match(m);matched=true;}view.render(0,m,settings);document.querySelector('#label').textContent=`MOVE V2 · ${direction} · step frame ${m.players[0].step?.frame} · existing run animation`;return {step:m.players[0].step,anim:m.players[0].anim,models:view.fighterModels};};window.moveReviewView=view;reviewMove();
+</script></html>

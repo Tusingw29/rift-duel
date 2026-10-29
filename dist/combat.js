@@ -1,3 +1,4 @@
+import {configureMovement,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
 import {configureGrab,grabOptions,applyGrabTiming} from './grab-options.js';
 import {measured} from './skill/observer.js';
 import {matchFighter,applyBalanceMove,balanceDamageScale,balanceRule,balanceGuard,balanceCaptureBreak} from './balance-runtime.js';
@@ -36,7 +37,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab);
+ return configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -57,6 +58,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
   return false;
  }
  const staggerEligible=!launch&&b.air<=0&&!['knockdown','roll'].includes(b.anim)&&!['capture','burst'].includes(kind);
+ if(b.step)cancelStep(b);
  b.slam=null;b.bounce=null;b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  const hpBefore=b.hp;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32;if(m.balance?.sys[launch?'launchStun':'hitstun']!==undefined)b.stun=m.balance.sys[launch?'launchStun':'hitstun']*STEP; b.air=launch?.85:0;
@@ -81,6 +83,7 @@ export function captureContext(a,b){
  return dot<-.25?'back':'front';
 }
 function beginCapture(m,a,b,context){
+ if(a.step)cancelStep(a);if(b.step)cancelStep(b);
  measured(m,'captureStart',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),guard:b.guard});
  clearStagger(b);
  const multiplier={front:1,back:1.2,mid:1.1,far:1.25}[context];
@@ -88,7 +91,7 @@ function beginCapture(m,a,b,context){
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
 function action(m,a,b,requested,empowered=false){
- if(a.staggerState||a.stun>0||a.jumpSquat||a.guard||a.travel||m.cinematic)return;
+ if(a.step||a.staggerState||a.stun>0||a.jumpSquat||a.guard||a.travel||m.cinematic)return;
  const previous=a.move;
  if(!empowered&&canSpecialFollowUp(previous)&&(requested==='attack'||requested===previous.kind)){
   if(previous.balanceOriginal){Object.assign(previous,previous.balanceOriginal);delete previous.balanceOriginal;}
@@ -304,13 +307,16 @@ export function aiInput(m,dt){
 export function update(m,inputs,dt=STEP){
  m.events=[];if(m.phase!=='fight')return;
  inputs=inputs.map(i=>({...i}));m.frozen=false;
+ const v2=movementV2(m),walks=v2?[null,null]:null;
  m.inputTick=(m.inputTick||0)+1;
  for(let n=0;n<m.players.length;n++){
   const a=m.players[n],i=inputs[n]||neutral(),b=m.players[1-n];
-  a.frameCommand=readCommand(a.commands,i,a.prev,1,m.inputTick,grabOptions(m));
+  // Inputs already use live opponent-relative axes (main.relative); never reinterpret x using stale face/look.
+  if(v2&&!canStartStep(a))a.commands.stepTapDirection=null;
+  a.frameCommand=readCommand(a.commands,i,a.prev,1,m.inputTick,v2?{...grabOptions(m),steps:canStartStep(a)}:grabOptions(m));
   if(m.balance?.sys.splitGuard&&i.capture&&!a.prev.capture)a.captureTapTick=m.tick+1;
   if(a.pendingInput&&a.pendingInput.expires<m.inputTick)a.pendingInput=null;
-  const blocked=m.hitstop>0||a.move||a.travel||a.stun>0||a.cool>0||a.jumpSquat;
+  const blocked=m.hitstop>0||a.step||a.move||a.travel||a.stun>0||a.cool>0||a.jumpSquat;
   let kind=null,button='attack';
   if(blocked&&i.attack&&!a.prev.attack)kind=a.commands.attack||'attack';
   if(blocked&&!i.attack&&a.prev.attack&&!a.suppressAttackRelease&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))kind=a.commands.attack||'attack';
@@ -343,24 +349,26 @@ export function update(m,inputs,dt=STEP){
    if(recovery){a.commands=createCommandState();event(m,'hint',{text:recovery.clean?'CLEAN RECOVERY — COUNTER READY':recovery.manual?'STAGGER RECOVERED':'STAGGER ENDED',player:n});}
    if(recovering)return;
    const command=a.frameCommand;
+   if(v2&&a.step?.phase==='travel'&&(i.attack&&!a.prev.attack||i.guard&&!a.prev.guard))cancelStep(a);
+   if(v2&&command?.startsWith('step:')&&!m.cinematic&&!m.pressure)startStep(a,command.slice(5),m.tick);
    let freshGuard=i.guard&&!a.prev.guard;
    const pending=a.pendingInput,path=a.travel||a.move?.crossover&&a.move.travel;
    if(path&&path.frames-path.frame<=5&&pending&&(pending.button==='attack'||pending.kind==='guard')){
     a.travel=null;a.move=null;a.cool=0;a.air=0;a.launched=false;a.anim='idle';a.animTime=0;
    }
-   if(pending?.kind==='guard'&&a.stun<=0&&a.cool<=0&&!a.move&&!a.travel&&!a.jumpSquat&&a.air<=0){i.guard=true;freshGuard=true;a.pendingInput=null;}
+   if(pending?.kind==='guard'&&!a.step&&a.stun<=0&&a.cool<=0&&!a.move&&!a.travel&&!a.jumpSquat&&a.air<=0){i.guard=true;freshGuard=true;a.pendingInput=null;}
    if(pending?.kind==='guard'&&a.air>0){freshGuard=true;a.pendingInput=null;}
    if(a.jumpSquat)return;
-   if(freshGuard&&a.stun<=0&&a.air<=0&&!a.move&&!a.travel)a.guardTapTick=m.tick;
+   if(freshGuard&&!a.step&&a.stun<=0&&a.air<=0&&!a.move&&!a.travel)a.guardTapTick=m.tick;
    const getup=recoveryInput(a,b,i);if(getup){a.commands=createCommandState();event(m,'hint',{text:getup,player:n});}
    if(freshGuard&&a.air>0&&!a.bounce&&!a.slam){a.travel=null;a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
-   else if((command==='jump'||a.pendingInput?.kind==='jump')&&a.air<=0&&a.stun<=0&&a.cool<=0&&!a.move){a.jumpSquat={frame:0,frames:JUMP_SQUAT_FRAMES,started:m.tick};a.pendingInput=null;a.air=0;a.anim='jumpSquat';a.animTime=JUMP_SQUAT_FRAMES*STEP;a.guard=false;event(m,'hint',{text:'JUMP',player:n});}
-   else if((freshGuard&&i.x>.5&&distance(a,b)<3.5||a.pendingInput?.kind==='circle')&&a.stun<=0&&a.cool<=0&&!a.move){
+   else if(!a.step&&(command==='jump'||a.pendingInput?.kind==='jump')&&a.air<=0&&a.stun<=0&&a.cool<=0&&!a.move){a.jumpSquat={frame:0,frames:JUMP_SQUAT_FRAMES,started:m.tick};a.pendingInput=null;a.air=0;a.anim='jumpSquat';a.animTime=JUMP_SQUAT_FRAMES*STEP;a.guard=false;event(m,'hint',{text:'JUMP',player:n});}
+   else if(!a.step&&(freshGuard&&i.x>.5&&distance(a,b)<3.5||a.pendingInput?.kind==='circle')&&a.stun<=0&&a.cool<=0&&!a.move){
     a.pendingInput=null;
     a.travel=orbitTravel(a,b,CIRCLE_FRAMES);b.turnDelay=CIRCLE_FRAMES*STEP+.45;a.inv=.15;a.cool=CIRCLE_FRAMES*STEP;a.anim='run';a.animTime=a.cool;a.held=0;
     event(m,'hint',{text:'CIRCLE STEP',player:n});
    }
-   a.guard=(i.guard||a.blockStun>0)&&a.stun<=0&&a.air===0&&!a.move&&!a.travel&&!a.jumpSquat;a.guardTime=a.guard?a.guardTime+dt:0;
+   a.guard=!a.step&&(i.guard||a.blockStun>0)&&a.stun<=0&&a.air===0&&!a.move&&!a.travel&&!a.jumpSquat;a.guardTime=a.guard?a.guardTime+dt:0;
   });
   m.players.forEach((a,n)=>{
    const b=m.players[1-n],i=inputs[n]||neutral(),f=matchFighter(m,a);
@@ -395,6 +403,7 @@ export function update(m,inputs,dt=STEP){
     if(done){a.travel=null;a.cool=0;b.turnDelay=.45;}
    }
    if(a.animTime===0&&!a.bounce&&!a.knockdown)a.anim='idle';
+   if(a.step){a.held=0;a.prev={...i};return;}
    if(expandCapture(m,n,i))event(m,'hint',{text:'CAPTURE CIRCLE EXPANDED',player:n});
    const swallowed=a.suppressAttackRelease;
    if(swallowed)a.held=0;
@@ -410,7 +419,7 @@ export function update(m,inputs,dt=STEP){
     if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
     const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.move?.travel&&a.move.frame<a.move.startup?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     // Lock-on movement: x closes or retreats along the line to the rival, z circles.
-    const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);
+    if(v2)walks[n]={x:i.x,z:i.z,scale:speed*dt/len};else{const fx=a.lookX,fz=a.lookZ;a.x=clamp(a.x+(i.x*fx-i.z*fz)/len*speed*dt,-11,11);a.z=clamp(a.z+(i.x*fz+i.z*fx)/len*speed*dt,-6,6);}
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
     if(charging){a.anim='charge';if(a.stocks<MAX_STOCKS){a.charge+=dt*chargeRate(a.hp);if(a.charge>=CHARGE_PER_STOCK){a.charge=0;a.stocks++;event(m,'stock',{player:n});}}}
     if(!swallowed&&!i.attack&&a.prev.attack){if(a.held>0&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))action(m,a,b,a.commands.attack||'attack',a.held>.24);a.held=0;}
@@ -443,6 +452,7 @@ export function update(m,inputs,dt=STEP){
    if(move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
    if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
   }
+  if(v2)applyLiveMovement(m,walks);
   if(canPressureDash(m.players))beginPressureDash(m);
   const clash=contacts.length===2&&contacts.every(c=>['capture','super'].includes(c.move.kind));
   if(clash){for(const {a} of contacts){a.move=null;a.buffer=null;a.cool=0;a.stun=.3;a.anim='hurt';a.animTime=.3;}event(m,'hint',{text:'POWER CLASH'});}

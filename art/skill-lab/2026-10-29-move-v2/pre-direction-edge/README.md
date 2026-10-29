@@ -1,0 +1,1 @@
+Preliminary, incomplete run retained for provenance. Do not use for conclusions: the first back tap directly after forward was not recognized as a fresh direction edge. Final runs one directory above fix that input bug. Interrupted before the full 15-frame sweep completed.

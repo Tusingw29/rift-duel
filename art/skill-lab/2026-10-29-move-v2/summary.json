@@ -1,0 +1,1265 @@
+{
+  "runs": [
+    {
+      "config": {
+        "mode": "default",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 109.72224415100001
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 121,
+          "draws": 0,
+          "rate": 0.33611111111111114,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.28927188802073334,
+            0.38641115646895674
+          ],
+          "clusterInterval": [
+            0.2861111111111111,
+            0.39444444444444443
+          ],
+          "interval": [
+            0.2861111111111111,
+            0.39444444444444443
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 77,
+          "draws": 0,
+          "rate": 0.21388888888888888,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.174667302700818,
+            0.25915224954389504
+          ],
+          "clusterInterval": [
+            0.16666666666666666,
+            0.2638888888888889
+          ],
+          "interval": [
+            0.16666666666666666,
+            0.2638888888888889
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 315,
+          "draws": 0,
+          "rate": 0.875,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.836827919877943,
+            0.9052532495100544
+          ],
+          "clusterInterval": [
+            0.8416666666666667,
+            0.9083333333333333
+          ],
+          "interval": [
+            0.836827919877943,
+            0.9083333333333333
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 3532,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 705,
+          "whiffPunishes": 3,
+          "shotsReceived": 3132,
+          "shotsGuarded": 1217,
+          "damage": 24438.42,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 4022,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 784,
+          "whiffPunishes": 43,
+          "shotsReceived": 432,
+          "shotsGuarded": 56,
+          "damage": 21411.520000000004,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    },
+    {
+      "config": {
+        "mode": "move-v2",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 86.694089675
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 126,
+          "draws": 0,
+          "rate": 0.35,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.302547518297233,
+            0.400620013947568
+          ],
+          "clusterInterval": [
+            0.30277777777777776,
+            0.40555555555555556
+          ],
+          "interval": [
+            0.302547518297233,
+            0.40555555555555556
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 108,
+          "draws": 0,
+          "rate": 0.3,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.25497643810277004,
+            0.3492469382236313
+          ],
+          "clusterInterval": [
+            0.25,
+            0.35
+          ],
+          "interval": [
+            0.25,
+            0.35
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 311,
+          "draws": 0,
+          "rate": 0.8638888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8246028241415979,
+            0.8954907550423108
+          ],
+          "clusterInterval": [
+            0.8277777777777777,
+            0.8972222222222223
+          ],
+          "interval": [
+            0.8246028241415979,
+            0.8972222222222223
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 3486,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 668,
+          "whiffPunishes": 4,
+          "shotsReceived": 3144,
+          "shotsGuarded": 1231,
+          "damage": 24214.469999999994,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 4596,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 851,
+          "whiffPunishes": 39,
+          "shotsReceived": 452,
+          "shotsGuarded": 47,
+          "damage": 24574.040000000008,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    },
+    {
+      "config": {
+        "mode": "move-v2+slow",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 88.16483878700002
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 132,
+          "draws": 0,
+          "rate": 0.36666666666666664,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.3185377403928801,
+            0.41761117715805407
+          ],
+          "clusterInterval": [
+            0.3138888888888889,
+            0.425
+          ],
+          "interval": [
+            0.3138888888888889,
+            0.425
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 138,
+          "draws": 0,
+          "rate": 0.38333333333333336,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.33459100342465264,
+            0.43453929943241487
+          ],
+          "clusterInterval": [
+            0.3277777777777778,
+            0.4388888888888889
+          ],
+          "interval": [
+            0.3277777777777778,
+            0.4388888888888889
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 323,
+          "draws": 0,
+          "rate": 0.8972222222222223,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.8615443466880368,
+            0.9245120031081384
+          ],
+          "clusterInterval": [
+            0.8666666666666667,
+            0.9277777777777778
+          ],
+          "interval": [
+            0.8615443466880368,
+            0.9277777777777778
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 3662,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 720,
+          "whiffPunishes": 3,
+          "shotsReceived": 3209,
+          "shotsGuarded": 1268,
+          "damage": 25482.739999999983,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 4816,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 957,
+          "whiffPunishes": 33,
+          "shotsReceived": 412,
+          "shotsGuarded": 35,
+          "damage": 27135.800000000014,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    },
+    {
+      "config": {
+        "mode": "default",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 104.34516196
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 48,
+          "draws": 0,
+          "rate": 0.13333333333333333,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.1020611355906819,
+            0.17234838767438732
+          ],
+          "clusterInterval": [
+            0.09722222222222222,
+            0.16944444444444445
+          ],
+          "interval": [
+            0.09722222222222222,
+            0.17234838767438732
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 55,
+          "draws": 0,
+          "rate": 0.1527777777777778,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.1192943336050678,
+            0.19359347251715686
+          ],
+          "clusterInterval": [
+            0.1111111111111111,
+            0.19444444444444445
+          ],
+          "interval": [
+            0.1111111111111111,
+            0.19444444444444445
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 266,
+          "draws": 0,
+          "rate": 0.7388888888888889,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.691162345841353,
+            0.7815708435465566
+          ],
+          "clusterInterval": [
+            0.6916666666666667,
+            0.7861111111111111
+          ],
+          "interval": [
+            0.691162345841353,
+            0.7861111111111111
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 2362,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 568,
+          "whiffPunishes": 20,
+          "shotsReceived": 3674,
+          "shotsGuarded": 663,
+          "damage": 17266.13999999998,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 3466,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 656,
+          "whiffPunishes": 43,
+          "shotsReceived": 452,
+          "shotsGuarded": 63,
+          "damage": 18210.489999999994,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    },
+    {
+      "config": {
+        "mode": "move-v2",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 84.94973287200001
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 52,
+          "draws": 0,
+          "rate": 0.14444444444444443,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.11188178261915036,
+            0.18451533085000768
+          ],
+          "clusterInterval": [
+            0.10833333333333334,
+            0.18055555555555555
+          ],
+          "interval": [
+            0.10833333333333334,
+            0.18451533085000768
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 74,
+          "draws": 0,
+          "rate": 0.20555555555555555,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.16702449038040862,
+            0.2503043692112379
+          ],
+          "clusterInterval": [
+            0.1638888888888889,
+            0.25
+          ],
+          "interval": [
+            0.1638888888888889,
+            0.2503043692112379
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 274,
+          "draws": 0,
+          "rate": 0.7611111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7144526270737506,
+            0.8022557427223365
+          ],
+          "clusterInterval": [
+            0.7166666666666667,
+            0.8027777777777778
+          ],
+          "interval": [
+            0.7144526270737506,
+            0.8027777777777778
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 2365,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 555,
+          "whiffPunishes": 22,
+          "shotsReceived": 3671,
+          "shotsGuarded": 669,
+          "damage": 17238.92999999998,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 3747,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 679,
+          "whiffPunishes": 34,
+          "shotsReceived": 465,
+          "shotsGuarded": 66,
+          "damage": 20091.929999999986,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    },
+    {
+      "config": {
+        "mode": "move-v2+slow",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "stepper",
+            "random"
+          ]
+        ],
+        "elapsedSeconds": 83.00544343699998
+      },
+      "outcomes": {
+        "masher": {
+          "n": 360,
+          "wins": 54,
+          "draws": 1,
+          "rate": 0.15,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.11681920737220983,
+            0.1905717011989926
+          ],
+          "clusterInterval": [
+            0.11388888888888889,
+            0.18888888888888888
+          ],
+          "interval": [
+            0.11388888888888889,
+            0.1905717011989926
+          ]
+        },
+        "masher-all": {
+          "n": 360,
+          "wins": 76,
+          "draws": 0,
+          "rate": 0.2111111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.17211682183336058,
+            0.25620583286033033
+          ],
+          "clusterInterval": [
+            0.16666666666666666,
+            0.2611111111111111
+          ],
+          "interval": [
+            0.16666666666666666,
+            0.2611111111111111
+          ]
+        },
+        "random": {
+          "n": 360,
+          "wins": 301,
+          "draws": 1,
+          "rate": 0.8361111111111111,
+          "clusters": 180,
+          "wilsonInterval": [
+            0.7943600764701135,
+            0.8707645272035731
+          ],
+          "clusterInterval": [
+            0.7972222222222223,
+            0.8722222222222222
+          ],
+          "interval": [
+            0.7943600764701135,
+            0.8722222222222222
+          ]
+        }
+      },
+      "validity": {
+        "masher": {
+          "basicStrikesStarted": 2381,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 536,
+          "whiffPunishes": 26,
+          "shotsReceived": 3743,
+          "shotsGuarded": 660,
+          "damage": 17307.889999999985,
+          "captureDamage": 0
+        },
+        "masher-all": {
+          "basicStrikesStarted": 3825,
+          "directionalSpecialsStarted": 0,
+          "punishAttemptsStarted": 653,
+          "whiffPunishes": 21,
+          "shotsReceived": 360,
+          "shotsGuarded": 13,
+          "damage": 20331.810000000005,
+          "captureDamage": 0
+        }
+      },
+      "bouts": 1080,
+      "censored": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "delay": 10,
+      "mode": "move-v2",
+      "opponent": "masher",
+      "difference": 1.388888888888884,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "move-v2",
+      "opponent": "masher-all",
+      "difference": 8.61111111111111,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "move-v2+slow",
+      "opponent": "masher",
+      "difference": 3.05555555555555,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "move-v2+slow",
+      "opponent": "masher-all",
+      "difference": 16.944444444444446,
+      "label": "ranges do not overlap"
+    },
+    {
+      "delay": 15,
+      "mode": "move-v2",
+      "opponent": "masher",
+      "difference": 1.1111111111111098,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "move-v2",
+      "opponent": "masher-all",
+      "difference": 5.277777777777776,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "move-v2+slow",
+      "opponent": "masher",
+      "difference": 1.6666666666666663,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "move-v2+slow",
+      "opponent": "masher-all",
+      "difference": 5.833333333333332,
+      "label": "could be luck"
+    }
+  ],
+  "findings": [
+    "Back now follows the current rival in free space. In the Morrow circle fixture, all 120 frames in both seats stay below 0.000002 degrees of error; default peaks at 123.4 degrees. Walls are a physical exception: Tala reaches the side wall, then correctly slides along it rather than moving out of bounds. All frame samples, including those wall-clipped angles, are preserved.",
+    "Does backdash make whiffs punishable for this bot? Not reliably demonstrated. At 15f, v2 lands 22 whiff punishes vs 20 on default against masher, but 34 vs 43 against masher-all. V2’s win-rate gains all have overlapping ranges. Movement is corrected; stronger punishment balance is not established by this experiment.",
+    "10f, move-v2 vs default against masher: +1.4 percentage points (could be luck).",
+    "10f, move-v2 vs default against masher-all: +8.6 percentage points (could be luck).",
+    "10f, move-v2+slow vs default against masher: +3.1 percentage points (could be luck).",
+    "10f, move-v2+slow vs default against masher-all: +16.9 percentage points (ranges do not overlap).",
+    "15f, move-v2 vs default against masher: +1.1 percentage points (could be luck).",
+    "15f, move-v2 vs default against masher-all: +5.3 percentage points (could be luck).",
+    "15f, move-v2+slow vs default against masher: +1.7 percentage points (could be luck).",
+    "15f, move-v2+slow vs default against masher-all: +5.8 percentage points (could be luck).",
+    "The whiff-punish counts below measure actual hits during an opponent’s missed-strike recovery. They do not prove that a preceding backdash caused each punish; the comparison changes live walking and steps together. This is one simple bot, not a measurement of human skill.",
+    "In the tested spacing, sidesteps avoid straight shots and far capture projectiles, but all six basic first strikes and close grabs still connect. Rei’s spin, Sol’s sphere and Morrow’s Iron eruption catch the step. Spreads and offset shots can catch it too: Split current, Crosswind discs, Ground salvo and Twin dragons hit a sidestepping target while their idle control misses. See each fighter’s timing table; this is not invulnerability."
+  ],
+  "notes": [
+    "Opt-in only: ?move=v2. Uses existing run animation; no character, rig, pose, move damage, hitbox or default timing edits. Attack aim still snapshots at action startup, and back throws still use defender look. Command x/z already mean toward/away/circle, so the reader uses those semantics without multiplying by stale facing.",
+    "Playtest guesses in dist/movement-v2.js: dash 12f / 2.4 units, backdash 14f / 2.2 units, sidestep 14f / 1.8 units, then 6f recovery. Quadratic ease-out; no added invulnerability. Walls shorten displacement. Clean double taps require release and no attack/guard; attacks during travel retain double-tap commands. The consumed double is cleared on entry to recovery so a later guard is not mistaken for jump.",
+    "Wall sliding projects out the blocked component; head-on input has no tangent and stops, as do outward corners. The old axis clamps already preserved diagonal wall tangents. This task makes that rule explicit for live movement and steps; it does not invent a sideways direction for a head-on retreat.",
+    "Live movement is applied together from a position snapshot after legacy travel advances, before contacts. Look/turnDelay updates are unchanged. This avoids player-seat ordering when the other fighter circles. Free-space angle is measured against the rival position at that walking calculation; walls and collision displacement must be assessed separately.",
+    "Stepper sees only delayed visible state. On visible close strike/capture/launcher it sends back, release, back, then waits through travel/recovery before approaching recovery and striking. It uses the identical gesture in default (where it is ordinary walking). It guards visible incoming trajectories; neutral attacks never hold directions. Its own 23-frame input plan is memory of its actions, not future game state. Random-opponent sanity results are shown; failed screens mean the policy is not a reliable general-skilled benchmark.",
+    "Each mode/delay/opponent has 360 bouts: 36 ordered fighter pairs, both seats, five seeds. Two mashers give 4,320 primary bouts, with 2,160 extra random sanity bouts. Strict wins count draws as non-wins. 95% ranges envelope Wilson and 2,000 fighter-pair/seed block-bootstrap resamples. Overlapping mode ranges are labeled could be luck, not equivalence; no multiple-comparison correction.",
+    "Sidestep fixtures use Tala as defender, each roster fighter as attacker, two directions, four input delays. Strike/close capture/signature start at distance 2; shot/far capture/directional shots at 6, except Morrow’s radial Iron eruption at 2. A step begins on the second tap, two input frames after the listed delay. No guard or added invulnerability. Each single real input-started move is followed for 240 ticks against an idle control. Basic strike, shot, capture and all free base/alternate directional specials and signatures are covered; stock attacks and later combo hits are not covered. Radial Rei spin and Sol sphere are area tests; other signatures retain their real geometry. A caught-before-step result is a loss, not excluded.",
+    "Existing archive results remain untouched. Default fingerprint and observer passivity are tested. Local preview only; awaiting Adam’s normal-speed verdict."
+  ],
+  "dodgeRows": [
+    [
+      "aegis",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "aegis",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "aegis",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "aegis",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "aegis",
+      "technique / drive",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "aegis",
+      "technique / Twin drive",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "aegis",
+      "forward / Pulse lance",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "aegis",
+      "forward / Sustained verdict",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "aegis",
+      "back / Thunder snare",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "aegis",
+      "back / Split current",
+      6,
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)"
+    ],
+    [
+      "rei",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "rei",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "rei",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "rei",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "rei",
+      "technique / spin",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "rei",
+      "technique / Twin moon",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "rei",
+      "forward / Crescent wing",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "rei",
+      "forward / Spirit wings",
+      6,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "rei",
+      "back / Echo blade",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "rei",
+      "back / Sword fan",
+      6,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "tala",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "tala",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "tala",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "tala",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "tala",
+      "technique / rise",
+      2,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "tala",
+      "technique / Skybreaker kick",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "tala",
+      "forward / Storm spark",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "tala",
+      "forward / Twin spark",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "tala",
+      "back / Still-water discus",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "tala",
+      "back / Crosswind discs",
+      6,
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)"
+    ],
+    [
+      "morrow",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "morrow",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "morrow",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "morrow",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "morrow",
+      "technique / charge",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "morrow",
+      "technique / Iron lance",
+      2,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L hit; R hit"
+    ],
+    [
+      "morrow",
+      "forward / Fault line",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "morrow",
+      "forward / Iron eruption",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "morrow",
+      "back / Siege salvo",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "morrow",
+      "back / Ground salvo",
+      6,
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)"
+    ],
+    [
+      "sol",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "sol",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "sol",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "sol",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "sol",
+      "technique / sphere",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "sol",
+      "technique / Solar ward",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "sol",
+      "forward / Comet script",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "sol",
+      "forward / Falling ember",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "sol",
+      "back / Ember familiar",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "sol",
+      "back / Twin dragons",
+      6,
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)",
+      "L stepped into hit (idle missed); R stepped into hit (idle missed)"
+    ],
+    [
+      "vesper",
+      "strike / strike",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "vesper",
+      "shot / shot",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "vesper",
+      "capture / capture",
+      2,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit (step never started); R hit (step never started)"
+    ],
+    [
+      "vesper",
+      "capture / far capture",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "vesper",
+      "technique / wheel",
+      2,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L hit; R hit"
+    ],
+    [
+      "vesper",
+      "technique / Orbit fan",
+      2,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L hit; R hit"
+    ],
+    [
+      "vesper",
+      "forward / Binary star",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "vesper",
+      "forward / Fourfold flame",
+      6,
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit",
+      "L hit; R hit"
+    ],
+    [
+      "vesper",
+      "back / Event horizon",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ],
+    [
+      "vesper",
+      "back / Astral blast",
+      6,
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged",
+      "L dodged; R dodged"
+    ]
+  ],
+  "totalRuntimeSeconds": 556.881510882
+}
