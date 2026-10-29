@@ -1,7 +1,14 @@
 ## MOVE-V2 — live-relative walking and grounded steps
 
-Owner: **Codex** · Branch: `codex/move-v2` · Status: **In progress** (2026-10-29). Owns opt-in movement hooks in combat.js, commands/main wiring, movement config, stepper measurement and browser review. Existing facing/captureContext/animation authoring preserved. No default gameplay change; no merge until Adam's verdict. Branch starts at skill-lab `d7ae48d`.
+Owner: **Codex** · Branch: `codex/move-v2` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-29). Branch starts at skill-lab `d7ae48d`; no gameplay merge or default promotion.
 
+- [x] Explicit `?move=v2`: live rival-relative walking, wall tangent projection and clean double-tap grounded dash/backdash/sidestep with 6f guard-locked recovery. Playtest distances/timings centralized; no added invulnerability. Existing double-tap attack/jump commands preserved during travel.
+- [x] Facing/turn-delay and back-throw context preserved. No rig/pose/animation files edited; existing run animation reused. Note: existing attack aim snapshots the rival at startup, rather than using lookX directly; this behavior was preserved.
+- [x] Circle retreat: all 120 free-space frames in both seats below 0.000002 degrees (Morrow fixture). Tala reaches the wall and follows its tangent: those clipped frames remain in the report rather than being hidden. Old axis clamps already preserved diagonal tangents.
+- [x] **6,480 bouts**, default/v2/v2+slow, 10/15f, both mashers plus random sanity, all fighter pairs, mirrored seats, five seeds; zero censored. Stepper observes delayed visible state only. Per-fighter sidestep matrix covers strikes, shots, captures and free base/alternate specials, including radial areas.
+- [x] **699 tests pass**, default fingerprint unchanged, observer equality tick for tick. Browser keyboard checks cover all four directions and URLs; real game captures and desktop/phone results dashboard pass with no page errors. Source hashes match all six final archives.
+- Findings: v2 win gains all **could be luck**; v2+slow vs masher-all at 10f improves **16.9pp**, ranges do not overlap. Whiff punishment does not improve consistently. Sidesteps evade straight shots but remain vulnerable to close strikes/grabs, radial areas and spread/offset shots. Normal-speed feel remains Adam’s call.
+- [Full review](https://github.com/Tusingw29/rift-duel/blob/codex/move-v2/art/review-2026-10-29/move-v2/README.md) · [Results](http://localhost:4204/dist/move-lab.html) · [V2](http://localhost:4204/dist/index.html?move=v2) · [V2 + slow](http://localhost:4204/dist/index.html?move=v2&grab=slow) · [Training](http://localhost:4204/dist/index.html?move=v2&mode=training).
 
 ## GRAB-EQUAL — equal offensive capture policy
 
