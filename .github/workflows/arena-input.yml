@@ -2,7 +2,7 @@ name: ARENA-INPUT preview checks
 on:
   push:
     branches: [codex/arena-input]
-    paths: ['dist/**', 'scripts/**', 'tests/**', '.github/workflows/arena-input.yml']
+    paths: ['dist/combat*', 'dist/commands.js', 'dist/movement-v2.js', 'dist/arena-*js', 'dist/morrow-preview.js', 'dist/render.js', 'dist/main.js', 'dist/skill/observer.js', 'scripts/skill/run.mjs', 'scripts/skill/arena-input.mjs', 'scripts/skill/arena-observer.mjs', 'scripts/skill/bots/**', 'scripts/review/arena-input.mjs', 'tests/arena-input*', '.github/workflows/arena-input.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,11 +17,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node scripts/skill/arena-input.mjs --delay=${{ matrix.delay }} --workers=2
+      - run: node scripts/skill/arena-input.mjs --delay=${{ matrix.delay }} --workers=2 --out=/tmp/arena-study-${{ matrix.delay }}
       - uses: actions/upload-artifact@v4
         with:
           name: arena-study-${{ matrix.delay }}
-          path: art/skill-lab/2026-10-29-arena-input/
+          path: /tmp/arena-study-${{ matrix.delay }}/
   verify:
     runs-on: ubuntu-22.04
     steps:
@@ -38,9 +38,9 @@ jobs:
         env:
           RIFT_TOOLS: ${{ github.workspace }}
           RIFT_BASE: http://127.0.0.1:4205/dist
-          SHOTS: art/review-2026-10-29/arena-input
+          SHOTS: /tmp/arena-browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: arena-browser
-          path: art/review-2026-10-29/arena-input/
+          path: /tmp/arena-browser/
