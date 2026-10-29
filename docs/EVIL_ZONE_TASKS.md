@@ -1,6 +1,15 @@
 ## ARENA-INPUT — visible circular boundary and spacing inputs
 
-Owner: **Codex** · Branch: `codex/arena-input` · Status: **In progress** (2026-10-29). From MOVE-V2 `d1b8327`. Owns opt-in bounds hooks in combat.js/combat-travel.js, movement/commands, stage boundary indicator and Morrow jab preview; no character/rig/pose edits. Ring enabled by arena=ring or move=v2; explicit arena=rect retains the rectangle comparison. Default without switches stays unchanged. Measurement and normal-speed verdict pending.
+Owner: **Codex** · Branch: `codex/arena-input` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-29). Based on MOVE-V2 `d1b8327`; implementation `ce3938a`. No gameplay merge or default promotion.
+
+- [x] Radius-10 circular fighter bounds enabled by `arena=ring` or `move=v2`; explicit `arena=rect` retains the rectangle comparison. All fighter clamps, walking/steps, knockback/rolls, launches, travel/crossover and collision separation use the shared rule. Head-on voluntary retreat follows a consistent tangent; forced knockback does not receive that assist.
+- [x] Visible yellow boundary with dark outline shares the simulation radius on all six stages. Eighteen real-renderer captures cover lock-on/side/duel cameras; default hides it. No rig, character or pose-authoring edits.
+- [x] V2-only step window **12f**, dash **1.5 units**. Backdash/sidestep unchanged. Existing double-tap attack commands remain **18f**. Spacing taps 13–18f no longer dash; quicker spacing taps can still do so.
+- [x] `morrow=jab15` changes only Morrow Strike 1 startup **11 → 15f** and derived total, recovery still **20f**. Default balance data unchanged and not regenerated.
+- [x] **11,520 bouts**, four modes, stepper/punisher versus both mashers, 10/15f, 36 fighter pairs, mirrored seats, five seeds; zero censored. Both sides’ win ranges, edge/corner time, boundary-hit counts, actual steps and Morrow matchups reported. Preliminary broken pin counters retained and excluded; corrected parallel observers verified against all 11,520 original outcomes.
+- [x] **708 tests**, default fingerprint and extraction sync pass. [Cloud checks](https://github.com/Tusingw29/rift-duel/actions/runs/40854076420) all green; URL/input/jab checks and stage/camera captures pass. Desktop/phone results page checked locally.
+- Findings: the ring removes corners but **does not remove pinning**: total boundary hits at 15f rose **146 → 352** across 1,440 bouts per mode. Ring-only win differences all **could be luck**. Slow grabs improve skilled wins vs masher-all by **17.4pp at 15f**, non-overlapping ranges. Jab15 lowers skilled-policy Morrow’s 10f win rate **71.7% → 55.0%** (non-overlapping ranges); other Morrow aggregate comparisons overlap. Human accidental-input frequency remains unmeasured.
+- [Full review](https://github.com/Tusingw29/rift-duel/blob/codex/arena-input/art/review-2026-10-29/arena-input/README.md) · [Dashboard](http://localhost:4206/dist/arena-lab.html) · [Ring](http://localhost:4206/dist/index.html?move=v2&arena=ring) · [Ring + slow](http://localhost:4206/dist/index.html?move=v2&arena=ring&grab=slow) · [Ring + jab15](http://localhost:4206/dist/index.html?move=v2&arena=ring&morrow=jab15).
 
 ## MOVE-V2 — live-relative walking and grounded steps
 

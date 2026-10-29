@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "compared": 11520,
+  "checks": [
+    {
+      "delay": 10,
+      "mode": "v2-rect",
+      "matches": 1440,
+      "hitsReceived": 28458
+    },
+    {
+      "delay": 10,
+      "mode": "v2-ring",
+      "matches": 1440,
+      "hitsReceived": 28427
+    },
+    {
+      "delay": 10,
+      "mode": "v2-ring-slow",
+      "matches": 1440,
+      "hitsReceived": 28900
+    },
+    {
+      "delay": 10,
+      "mode": "v2-ring-jab15",
+      "matches": 1440,
+      "hitsReceived": 28429
+    },
+    {
+      "delay": 15,
+      "mode": "v2-rect",
+      "matches": 1440,
+      "hitsReceived": 27694
+    },
+    {
+      "delay": 15,
+      "mode": "v2-ring",
+      "matches": 1440,
+      "hitsReceived": 27674
+    },
+    {
+      "delay": 15,
+      "mode": "v2-ring-slow",
+      "matches": 1440,
+      "hitsReceived": 28368
+    },
+    {
+      "delay": 15,
+      "mode": "v2-ring-jab15",
+      "matches": 1440,
+      "hitsReceived": 27610
+    }
+  ],
+  "notes": "All winner, HP, input/simulation frame and original telemetry fields match the pre-observer-fix run. Only new contact-counter delivery changed. Recorded simulation source hashes match disk."
+}

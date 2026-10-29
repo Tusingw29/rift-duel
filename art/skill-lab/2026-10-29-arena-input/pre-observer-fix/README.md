@@ -1,0 +1,1 @@
+Excluded preliminary run: f0c37c6 / workflow 40853344725. The single-listener observer allowed telemetry to replace the arena contact listener, so pinned-hit and hits-received counters are invalid zeros. Win and position results are retained for provenance, but final conclusions use the corrected rerun one directory above.

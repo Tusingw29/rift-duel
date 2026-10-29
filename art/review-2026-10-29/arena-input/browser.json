@@ -1,0 +1,345 @@
+{
+  "inputs": [
+    {
+      "query": "",
+      "arena": "rect",
+      "morrow": ""
+    },
+    {
+      "query": "?arena=ring",
+      "arena": "ring",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=rect",
+      "arena": "rect",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2",
+      "arena": "ring",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=ring&grab=slow",
+      "arena": "ring",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=ring&morrow=jab15",
+      "arena": "ring",
+      "morrow": "jab15",
+      "startup": 15
+    }
+  ],
+  "captures": [
+    {
+      "file": "stage-0-lock-1793268104343.jpg",
+      "stage": 0,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-0-side-1793268104343.jpg",
+      "stage": 0,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-0-duel-1793268104343.jpg",
+      "stage": 0,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-1-lock-1793268104343.jpg",
+      "stage": 1,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-1-side-1793268104343.jpg",
+      "stage": 1,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-1-duel-1793268104343.jpg",
+      "stage": 1,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-2-lock-1793268104343.jpg",
+      "stage": 2,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-2-side-1793268104343.jpg",
+      "stage": 2,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-2-duel-1793268104343.jpg",
+      "stage": 2,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-3-lock-1793268104343.jpg",
+      "stage": 3,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-3-side-1793268104343.jpg",
+      "stage": 3,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-3-duel-1793268104343.jpg",
+      "stage": 3,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-4-lock-1793268104343.jpg",
+      "stage": 4,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-4-side-1793268104343.jpg",
+      "stage": 4,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-4-duel-1793268104343.jpg",
+      "stage": 4,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-5-lock-1793268104343.jpg",
+      "stage": 5,
+      "camera": "lock",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-5-side-1793268104343.jpg",
+      "stage": 5,
+      "camera": "side",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    },
+    {
+      "file": "stage-5-duel-1793268104343.jpg",
+      "stage": 5,
+      "camera": "duel",
+      "visible": true,
+      "radius": 10,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "errors": []
+}

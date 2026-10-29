@@ -1,0 +1,1 @@
+Preliminary captures: the dark torus occluded the thin yellow torus. Replaced with layered flat ring meshes above the floor; final captures one directory above show the correction. These images are not visual acceptance evidence.
