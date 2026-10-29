@@ -1,3 +1,7 @@
+## ARENA-INPUT — visible circular boundary and spacing inputs
+
+Owner: **Codex** · Branch: `codex/arena-input` · Status: **In progress** (2026-10-29). From MOVE-V2 `d1b8327`. Owns opt-in bounds hooks in combat.js/combat-travel.js, movement/commands, stage boundary indicator and Morrow jab preview; no character/rig/pose edits. Ring enabled by arena=ring or move=v2; explicit arena=rect retains the rectangle comparison. Default without switches stays unchanged. Measurement and normal-speed verdict pending.
+
 ## MOVE-V2 — live-relative walking and grounded steps
 
 Owner: **Codex** · Branch: `codex/move-v2` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-29). Branch starts at skill-lab `d7ae48d`; no gameplay merge or default promotion.
