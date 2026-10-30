@@ -9,10 +9,12 @@ A quick, reproducible check, not a replacement for Codex's tournament. About 70 
 
 Needs a worktree with the SKILL-LAB runner (`scripts/skill/run.mjs`), i.e. `codex/skill-lab` or later. Never run it in the main checkout, and never edit Codex's files to make a probe work.
 
+`$RIFT` is any checkout that has this skill: the main one (`/Users/adamwilliams/Evil Zone test`) or a worktree. `--root` is the branch being measured.
+
 ```bash
 git -C "/Users/adamwilliams/Evil Zone test" fetch -q origin
 git -C "/Users/adamwilliams/Evil Zone test" worktree add --detach ~/rift-worktrees/skill-probe origin/codex/skill-lab   # or: cd there && git checkout --detach origin/codex/skill-lab
-node "/Users/adamwilliams/Evil Zone test/.claude/skills/bot-probe/probe.mjs" --root=$HOME/rift-worktrees/skill-probe \
+node "$RIFT/skills/bot-probe/probe.mjs" --root=$HOME/rift-worktrees/skill-probe \
   --bots=punisher,timer --vs=masher,masher-all --delays=10,15 --modes=default,proposed [--grab=deliberate,slow] [--seeds=1]
 ```
 

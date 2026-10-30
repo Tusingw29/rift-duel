@@ -5,8 +5,10 @@ description: For every Rift Duel move, show whether a defender can answer it on 
 
 # Reaction check
 
+`$RIFT` is any checkout that has this skill: the main one (`/Users/adamwilliams/Evil Zone test`) or a worktree. `--root` is the branch being measured.
+
 ```bash
-node "/Users/adamwilliams/Evil Zone test/.claude/skills/reaction-check/reactable.mjs" --root=<worktree> --delays=10,15 \
+node "$RIFT/skills/reaction-check/reactable.mjs" --root=<worktree> --delays=10,15 \
   [--fighter=tala] [--kind=grab] [--all] [--startup=system-capture-close-:18]
 ```
 
