@@ -1,6 +1,6 @@
 ---
 name: rift-duel-character-pipeline
-description: Build and review Rift Duel character models, Blender exports, and combat animation, especially Tala Design 02. Use for translating approved concept art into the existing Three.js fighter rig, fixing deformation or footwork, and preparing cloud art builds. For unrelated Blender or React projects, use their own workflow.
+description: HISTORICAL (superseded 2026-10-25 by fighter-model-build, costume-authoring and grounded-animation-authoring). The Blender route for Tala Design 02; do not use for new work.
 ---
 
 > Superseded on 2026-10-25 by `skills/fighter-model-build`, `skills/costume-authoring` and `skills/grounded-animation-authoring`. The Blender route it describes is no longer used; kept for history.
