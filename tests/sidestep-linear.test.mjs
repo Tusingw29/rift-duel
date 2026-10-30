@@ -11,3 +11,5 @@ test('step observer remains passive and counts actual tracking catches, not ever
 test('ending the step permits a real recovery punish against Morrow',()=>{for(const id of [2,3]){const r=punishFixture(id);assert.equal(r.defenderDamage,0);assert.equal(r.punish?.inRecovery,true);}});
 
 test('tracking starts include a special converted in place to its tracking followup',()=>{const m=createMatch(3,2),o=stepObserver(m),move={kind:'forward',chain:1};m.players[0].move=move;o.after();assert.equal(o.snapshot().players[0].trackingStarts,0);move.followup=true;o.after();o.after();assert.equal(o.snapshot().players[0].trackingStarts,1);o.dispose();});
+
+test('tracking check is counted even if the move is interrupted before the end-of-tick snapshot',()=>{const m=createMatch(3,2,'duel','normal',{step:'linear'}),o=stepObserver(m),a=m.players[0],b=m.players[1];a.move={kind:'forward',followup:true,tracking:true,aimX:1,aimZ:0};meleeContact(m,a,b,a.move,3.5,true);a.move=null;o.after();assert.equal(o.snapshot().players[0].trackingStarts,1);assert.equal(o.snapshot().players[0].trackingChecks,1);o.dispose();});
