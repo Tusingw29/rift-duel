@@ -1,10 +1,15 @@
 ## HORIZON-FIX — dodgeable Burst and ring/jab comparisons
 
-Owner: **Codex** · Branch: `codex/horizon-fix` · Status: **In progress** (2026-10-30). Based on `codex/arena-input`. Simulation lane: opt-in Burst contact/guard, per-match ring size and Morrow Strike 1 variants; no character, rig, pose or animation edits. Default gameplay unchanged.
+Owner: **Codex** · Branch: `codex/horizon-fix` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-30). Measured implementation `b9dd222`, based on `codex/arena-input`. Default gameplay unchanged; no gameplay merge.
 
-- [ ] Add `burst=v2`, `ring=11/12`, `morrow=jab13/jab15heavy`; preserve existing previews.
-- [ ] Measure five modes, both delays/mashers, mirrored seats/five seeds, Burst damage/whiffs, Morrow outcomes and boundary pressure.
-- [ ] Sweep startup escape frames; explain old sidestep fixture; verify tests/browser and publish evidence.
+- [x] `burst=v2`: all six Bursts use fixed startup aim, 4.5 reach and ±60° arc. Outside targets whiff into existing recovery; held guard resolves at contact with 12% chip, perfect guard zero. Legacy Burst already allowed guard but locked the blocker into its cinematic. No invulnerability or animation edits.
+- [x] Per-match `ring=11/12` changes every ring clamp and the drawn boundary; `arena=ring` defaults to 10. Existing rectangle override and other previews preserved.
+- [x] `morrow=jab13` changes only Strike 1 startup; jab15 preserved. `jab15heavy`: 15f startup, base damage 16 (19.84 HP at default power), hit pushback 0.6 vs 0.5. Recovery/later moves unchanged. Pilot candidates/choice archived before the five-seed study.
+- [x] **14,400 bouts**, five modes, 10/15f, both policies/mashers, all 36 pairs, mirrored seats and five seeds; zero censored. Wins with 95% ranges/luck labels, all-roster/Morrow Burst damage and whiffs, Morrow controller/matchups and edge/pin counters per side. Exact startup-step sweep and real recovery punish fixture included. All **2,880 ring baseline bouts** match ARENA-INPUT outcomes, HP, frames and telemetry exactly.
+- [x] **717 tests pass**, default fingerprint and balance extract sync unchanged; no balance regeneration. [Final cloud run](https://github.com/Tusingw29/rift-duel/actions/runs/41038272566) succeeds. Seven browser URL/keyboard checks, eleven loaded-model real-renderer captures and desktop/phone dashboard checks pass, no page errors. Source-hash and measurement audit passes.
+- Findings: masher-Morrow Burst share falls **13.0% → 4.9% at 10f**, **11.6% → 4.7% at 15f**. His wins drop **2.5/5.4pp**, both could be luck. Skilled policies never start Burst, so their gains are not proof that losing Morrow’s own Burst is harmless. Heavy jab stays closest overall to skilled-Morrow baseline (**−5.4/+5.0pp**, overlapping ranges), with a substantial damage increase. The visible wind-up remains Claude’s separate animation task.
+- Sidestep finding: at 2 units the orbit arc is too small to clear Morrow’s jab cone, explaining ARENA-INPUT’s early-step failures. At 1.5 units, jab escapes with step starts on frames 0–4; close captures are radial and no tested sidestep start escapes them. Burst side escape at 1.5: frames 0–14; backdash at 3: 0–16; at 4: 0–21 (step starts, double-tap begins two frames earlier). Contact stills do not establish readable normal-speed tells.
+- [Full review](https://github.com/Tusingw29/rift-duel/blob/codex/horizon-fix/art/review-2026-10-30/horizon-fix/README.md) · [Dashboard](http://localhost:4207/dist/horizon-lab.html) · [Burst V2](http://localhost:4207/dist/index.html?move=v2&arena=ring&burst=v2) · [Radius 12 + Burst](http://localhost:4207/dist/index.html?move=v2&arena=ring&ring=12&burst=v2) · [Jab13](http://localhost:4207/dist/index.html?move=v2&arena=ring&morrow=jab13) · [Jab15heavy](http://localhost:4207/dist/index.html?move=v2&arena=ring&morrow=jab15heavy).
 
 ## ARENA-INPUT — visible circular boundary and spacing inputs
 
