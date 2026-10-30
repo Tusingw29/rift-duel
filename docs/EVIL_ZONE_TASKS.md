@@ -124,13 +124,17 @@ Implemented proposed presets: +7f missed-basic-strike recovery only, 12f block s
 
 ## SIM-SKILLS — Claude skills for probing and auditing simulation results
 
-Owner: **Claude** · Branch: `claude/skills` · Status: **Review — awaiting Adam's verdict** (2026-10-28; branch `6a4c0f0`, not merged)
+Owner: **Claude** · Status: **Done — merged to main 2026-10-30** (Adam asked for the department structure)
 
-Tooling only, in `.claude/skills/`; no game, combat or skill-lab files change. Scripts run against a skill-lab worktree via `--root`.
+Tooling only; no game, combat or skill-lab files change. All project skills now live in one `skills/` tree; `.claude/skills` links to it and `AGENTS.md` maps departments and owners for Codex. Scripts run against a skill-lab worktree via `--root`.
 
 - [x] `bot-probe`: bot head-to-heads across fighter pairs, both seats, delays, `default/rules/proposed`, `?grab=` options and custom bot files; win ranges, defence counters, damage in losses (about 70 bouts/s). Template `bots/breaker.mjs` breaks grabs the split-guard way
 - [x] `reaction-check`: per move and delay, reactable vs guess-only answers and whiff punishes from `dist/balance/roster.json`; `--startup=` what-ifs (close capture: slack −3 at 15f, +2 with grab=slow)
 - [x] `sim-audit`: 8-point flaw checklist for Codex simulation reports, verification steps, Codex prompt format
+- [x] `playtest-triage` (+ `codex-prompt.md` template): Adam's feedback → cause in code → lane → Claude's fix + Codex prompt
+- [x] `run-tests` + `scripts/run-tests.mjs`; the committed `node_modules` self-link that made `npm test` exit 194 is removed and ignored
+- [x] `visual-review-capture`: workbench A/B section + `scripts/review/workbench-ab.mjs` (move frames, one page load per state)
+- [x] Blender-era skills marked historical
 - [x] Finding for GRAB-RETEST: the breaker template landed only 2 breaks against 91 masher captures at 10f (proposed + slow), so breaking is harder than the timing suggests; cause not found yet
 - [ ] **Adam's verdict**
 
@@ -558,6 +562,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-10-28 | Claude | BALANCE-LAB | Claimed on `claude/balance-lab`: balance lab page, roster extract and sync test. No combat rule or timing changes. |
 | 2026-10-28 | Claude | BALANCE-LAB | Review on `claude/balance-lab` `6a49a77` (not merged): balance lab page, roster extract (116 moves from the modules), shared formulas, sync test, DESIGN.md pointer. No combat rule or timing changes. 616 tests (`node --test`). Next: Adam's verdict; Codex: `&balance=local` proposal in the task notes. |
 | 2026-10-28 | Claude | SIM-SKILLS | Review on `claude/skills` `6a4c0f0` (not merged): `bot-probe`, `reaction-check`, `sim-audit` skills in `.claude/skills/`. Tooling only, no game files. Next: Adam's verdict. |
+| 2026-10-30 | Claude | SIM-SKILLS | Merged to main: one shared `skills/` tree (sim skills moved in, playtest-triage, run-tests, workbench A/B), `AGENTS.md`, `npm test` exit-194 fix. 608/608 tests. Codex: read `AGENTS.md`. |
 | 2026-10-29 | Claude | ATTACK-TELLS | Claimed on `claude/attack-tells`: opt-in held wind-ups for 16f+ startups, Morrow first. Animation only. |
 | 2026-10-30 | Claude | ATTACK-TELLS | Review: `?tell=on` Morrow tell poses for Last Horizon, launcher and Gravefall (`01d2813`). Off by default. |
 | 2026-10-26 | Codex | VFX-WORKBENCH | `6665c5c` + `783e84f`: live production-mesh A/B editor, silhouette dragging, validated presets, explicit gameplay preview; visual inspection fixed crossing/clipped-core defects. 564 tests and [cloud preview](https://github.com/Tusingw29/rift-duel/actions/runs/40403042179) pass. [Captures and limits](../art/review-2026-10-26/vfx-workbench/README.md). Next: behind-player release clarity/capture thickness; awaiting normal-speed verdict. |
