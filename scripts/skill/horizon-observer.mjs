@@ -1,0 +1,3 @@
+import {observeCombat} from '../../dist/skill/observer.js';
+// Out-of-band: compare before/after without modifying any combat state.
+export function horizonObserver(m){const players=m.players.map(()=>({started:0,contacts:0,whiffs:0,guarded:0,landed:0,damage:0})),seen=new WeakSet();const dispose=observeCombat(m,e=>{if(e.type==='burstContact'){const p=players[e.attacker];p.contacts++;p.whiffs+=Number(e.whiff);p.guarded+=Number(e.guard);}if(e.kind==='burst'&&['damage','block'].includes(e.type)){const p=players[e.attacker];p.damage+=e.damage;if(e.type==='damage')p.landed++;}});return {dispose,after(){m.players.forEach((p,i)=>{if(p.move?.kind==='super'&&!seen.has(p.move)){seen.add(p.move);players[i].started++;}});},snapshot(){return {players};}};}

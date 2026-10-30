@@ -1,4 +1,4 @@
-import {ringArena} from './arena-bounds.js';import {createBoundaryRing} from './arena-boundary-visual.js';
+import {ringArena,arenaRadius} from './arena-bounds.js';import {createBoundaryRing} from './arena-boundary-visual.js';
 import {restoreGrabTell,applyGrabTell} from './grab-tell.js';
 import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
@@ -84,7 +84,7 @@ export function createView(canvas,options={}){
   const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25)*zoom;pos.set(target.x-dz*back-dx*2*zoom,(3+airHeight*.5+distance*.035)*(.6+.4*zoom),target.z+dx*back-dz*2*zoom);
  }
  function render(dt,m,settings,cue=null){
-  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(boundaryRing)boundaryRing.visible=ringArena(m);
+  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(boundaryRing){boundaryRing.visible=ringArena(m);boundaryRing.scale.set(arenaRadius(m)/10,1,arenaRadius(m)/10);}
   if(m?.hitstop>0||m?.frozen)dt=0;
   time+=dt;stage?.update(time);
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}

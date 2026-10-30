@@ -1,4 +1,4 @@
-import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
+import {configureBurst,burstV2,burstConnects,BURST_V2} from './burst-preview.js';import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
 import {configureGrab,grabOptions,applyGrabTiming} from './grab-options.js';
 import {measured} from './skill/observer.js';
 import {matchFighter,applyBalanceMove,balanceDamageScale,balanceRule,balanceGuard,balanceCaptureBreak} from './balance-runtime.js';
@@ -37,7 +37,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow);
+ return configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -52,7 +52,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  if(b.guard&&kind!=='capture'){
   event(m,perfect?'parry':'block',{x:b.x,z:b.z,color:fighters[b.id].color});
   const hpBefore=b.hp;
-  b.hp=Math.max(1,b.hp-(perfect?0:damage*balanceRule(m,'chip',.12))); b.blockStun=perfect?0:(m.balance?.sys.blockstun===undefined?.12:m.balance.sys.blockstun/60);
+  b.hp=Math.max(1,b.hp-(perfect?0:damage*(kind==='burst'&&burstV2(m)?BURST_V2.chip:balanceRule(m,'chip',.12)))); b.blockStun=perfect?0:(m.balance?.sys.blockstun===undefined?.12:m.balance.sys.blockstun/60);
   measured(m,perfect?'perfectGuard':'block',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:Math.max(0,hpBefore-b.hp),kind,source:sourceMove});
   if(perfect){a.stun=.4;a.travel=null;a.move=null;a.buffer=null;a.cool=0;b.charge+=.35;}
   return false;
@@ -66,9 +66,9 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz)||1;
  // Live contacts queue recoil after hitstop. Out-of-step hit() remains the synchronous setup API used by lessons/review fixtures.
  if(m.resolving){
-  b.knockback={dx:dx/d,dz:dz/d,frame:0,frames:8,distance:.5};
+  b.knockback={dx:dx/d,dz:dz/d,frame:0,frames:8,distance:sourceMove?.jabPushback??.5};
   m.hitstop=Math.max(m.hitstop||0,sourceMove?.chain===3?12:launch||damage>=10||a.id===3&&sourceMove?.kind==='strike'?10:6);
- }else{moveWithinBounds(b,dx/d*.5,dz/d*.5);}
+ }else{moveWithinBounds(b,dx/d*(sourceMove?.jabPushback??.5),dz/d*(sourceMove?.jabPushback??.5));}
  a.combo=a.comboTime>0?a.combo+1:1;a.comboTime=1.35;
  if(staggerHit(b,damage,staggerEligible,kind!=='hit'))event(m,'hint',{text:`${fighters[b.id].name.toUpperCase()} STAGGERED — ALTERNATE LEFT / RIGHT`,player:m.players.indexOf(b)});
  measured(m,'damage',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:Math.max(0,hpBefore-b.hp),kind,source:sourceMove});
@@ -223,7 +223,7 @@ function executeActionFrame(m,a,b,move){
  }
  if(kind==='super'){
   move.contactResolved=true;
-  if(d>9||b.inv>0){event(m,'hint',{text:'Burst missed — close the distance'});return;}
+  const connects=burstV2(m)?burstConnects(a,b,move):d<=9&&b.inv<=0;measured(m,'burstContact',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),whiff:!connects,guard:connects&&b.guard});if(!connects){event(m,'hint',{text:burstV2(m)?'Burst missed — outside reach or aim':'Burst missed — close the distance'});return;}if(burstV2(m)&&b.guard){hit(m,a,b,27*f.power,'burst');return;}
   clearStagger(b);
   m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,duration:BURST_DURATIONS[f.id],damage:27*f.power,kind:'super',name:f.special};
   event(m,'cinematic',{text:f.special});return;
@@ -277,7 +277,7 @@ function executeActionFrame(m,a,b,move){
  }
  if(kind==='launch') {if(d<f.reach+.3&&facing&&b.inv<=0){move.contactResolved=true;move.connected=hit(m,a,b,8*f.power,'hit',true,move);}return;}
  
- if(kind==='strike'){if(d<f.reach&&facing&&b.inv<=0){move.contactResolved=true;move.connected=true;hit(m,a,b,((move.reversal?REVERSAL_DAMAGE:move.chain===3?10:6)+(move.counter?2:0))*f.power,'hit',false,move);}}
+ if(kind==='strike'){if(d<f.reach&&facing&&b.inv<=0){move.contactResolved=true;move.connected=true;hit(m,a,b,((move.reversal?REVERSAL_DAMAGE:move.chain===3?10:(move.jabDamage??6))+(move.counter?2:0))*f.power,'hit',false,move);}}
  else {move.connected=true;if(m.balance)move.contactResolved=true;m.projectiles.push({x:a.x+dx*.8,z:a.z+dz*.8,dx:dx*f.shotSpeed,dz:dz*f.shotSpeed,life:2,owner:m.players.indexOf(a),damage:(move.chain===3?9:7)*f.power,kind:'bolt',radius:f.id==='vesper'?.7:.4});event(m,'shot',{color:f.color});}
 }
 export function aiInput(m,dt){

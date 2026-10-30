@@ -1,0 +1,65 @@
+name: HORIZON-FIX preview checks
+on:
+  push:
+    branches: [codex/horizon-fix]
+    paths: ['dist/combat*', 'dist/commands.js', 'dist/movement-v2.js', 'dist/arena-*js', 'dist/burst-preview.js', 'dist/morrow-preview.js', 'dist/render.js', 'dist/main.js', 'dist/skill/observer.js', 'scripts/skill/run.mjs', 'scripts/skill/horizon-fix.mjs', 'scripts/skill/arena-observer.mjs', 'scripts/skill/horizon-observer.mjs', 'scripts/skill/bots/**', 'scripts/review/horizon-fix.mjs', 'tests/horizon*', '.github/workflows/horizon-fix.yml']
+  workflow_dispatch:
+    inputs:
+      tournament:
+        type: boolean
+        default: false
+        description: Run the final five-mode tournament
+permissions:
+  contents: read
+jobs:
+  study:
+    if: github.event_name == 'workflow_dispatch' && inputs.tournament
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        delay: [10, 15]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/horizon-fix.mjs --delay=${{ matrix.delay }} --workers=2 --out=/tmp/horizon-study-${{ matrix.delay }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: horizon-study-${{ matrix.delay }}
+          path: /tmp/horizon-study-${{ matrix.delay }}/
+  pilot:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/horizon-pilot.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: horizon-pilot
+          path: art/skill-lab/2026-10-30-horizon-fix/pilot.json
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run prepare:release
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 4205 > /tmp/arena-http.log 2>&1 &
+      - run: node scripts/review/horizon-fix.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4205/dist
+          SHOTS: /tmp/horizon-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: horizon-browser
+          path: /tmp/horizon-browser/

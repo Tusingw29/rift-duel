@@ -44,7 +44,7 @@ const windowFrames=limit=>{let t=0,n=0;for(;;){t+=STEP;if(!(t<limit))return n;n+
 const PATTERNS={
  snareHold:/p\.kind==='snare'\?([\d.]+):p\.stun/,
  perfectGuard:/const perfect=balanceGuard\(m,b,'perfectGuard',([\d.]+)\)/,
- chip:/perfect\?0:damage\*balanceRule\(m,'chip',([\d.]+)\)/,
+ chip:/BURST_V2\.chip:balanceRule\(m,'chip',([\d.]+)\)/,
  blockStun:/b\.blockStun=perfect\?0:\(m\.balance\?\.sys\.blockstun===undefined\?([\d.]+)/,
  parryStun:/if\(perfect\)\{a\.stun=([\d.]+)/,
  stun:/b\.stun=launch\?([\d.]+):([\d.]+)/,
@@ -53,14 +53,14 @@ const PATTERNS={
  pursuitDash:/staggerPursuit\?(\d+):(\d+),Math\.max\(0,d-([\d.]+)\)\)/,
  crossover:/a\.move\.crossover=d<([\d.]+)/,
  jump:/if\(d<([\d.]+)&&b\.inv<=0\)\{\s*(?:if\(m\.balance\)move\.contactResolved=true;\s*)?move\.connected=hit\(m,a,b,(\d+)\*f\.power\);\s*if\(move\.crossover\)b\.turnDelay=([\d.]+)/,
- burstRange:/if\(d>(\d+)\|\|b\.inv>0\)\{event\(m,'hint',\{text:'Burst missed/,
+ burstRange:/burstConnects\(a,b,move\):d<=(\d+)&&b\.inv<=0/,
  burstDamage:/damage:(\d+)\*f\.power,kind:'super'/,
  captureClose:/const close=d<([\d.]+)/,
  captureBreak:/BALANCE_CAPTURE_BREAK_DEFAULT=([\d.]+)/,
  pursuit:/if\(d<([\d.]+)&&facing\)\{\s*const punish/,
  pursuitDamage:/\(punish\?(\d+):(\d+)\)\*f\.power/,
  launcher:/kind==='launch'\)\s*\{if\(d<f\.reach\+([\d.]+)&&facing&&b\.inv<=0\)\{move\.contactResolved=true;move\.connected=hit\(m,a,b,(\d+)\*f\.power/,
- strikeDamage:/move\.chain===3\?(\d+):(\d+)\)\+\(move\.counter/,
+ strikeDamage:/move\.chain===3\?(\d+):\(move\.jabDamage\?\?(\d+)\)\)\+\(move\.counter/,
  shot:/life:(\d+),owner:m\.players\.indexOf\(a\),damage:\(move\.chain===3\?(\d+):(\d+)\)\*f\.power,kind:'bolt',radius:f\.id==='vesper'\?([\d.]+):([\d.]+)/
 };
 export function readCombatLiterals(source=readFileSync(ROOT+'dist/combat.js','utf8')){

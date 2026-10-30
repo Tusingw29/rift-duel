@@ -1,0 +1,18 @@
+import {Worker} from 'node:worker_threads';import {readFileSync,writeFileSync,mkdirSync,existsSync,readdirSync} from 'node:fs';import {gzipSync} from 'node:zlib';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+import {baseState,exportTuning} from '../../dist/balance/formulas.js';import {proposedBalance} from '../../dist/balance/presets.js';import {validateBalance} from '../../dist/balance-runtime.js';
+const args=process.argv.slice(2),get=(k,d)=>args.find(s=>s.startsWith(k+'='))?.slice(k.length+1)||d;
+const out=get('--out','art/skill-lab/2026-10-30-horizon-fix'),delay=Number(get('--delay',15)),workers=Number(get('--workers',4)),seeds=5;
+if(![10,15].includes(delay))throw Error('This study requires delay 10 or 15');
+const base=baseState(JSON.parse(readFileSync('dist/balance/roster.json'))),proposed=validateBalance(exportTuning(proposedBalance(base)),base);
+export const modes={'ring':{movement:'v2',arena:'ring'},'ring-burst':{movement:'v2',arena:'ring',burst:'v2'},'ring12-burst':{movement:'v2',arena:'ring',ring:12,burst:'v2'},'ring-jab13':{movement:'v2',arena:'ring',morrow:'jab13'},'ring-jab15heavy':{movement:'v2',arena:'ring',morrow:'jab15heavy'}};
+const pairs=['stepper','punisher'].flatMap(bot=>['masher','masher-all'].map(op=>[bot,op]));
+const sources=['dist/combat.js','dist/commands.js','dist/grab-options.js','dist/balance-runtime.js','dist/balance/presets.js','dist/balance/roster.json','dist/skill/telemetry.js','dist/skill/observer.js','scripts/skill/run.mjs','scripts/skill/horizon-fix.mjs','scripts/skill/horizon-observer.mjs','dist/burst-preview.js','scripts/skill/arena-observer.mjs','dist/movement-v2.js','dist/arena-bounds.js','dist/morrow-preview.js','dist/combat-travel.js','scripts/skill/grab-worker.mjs',...readdirSync('scripts/skill/bots').map(f=>'scripts/skill/bots/'+f)];const sourceHashes=Object.fromEntries(sources.map(f=>[f,createHash('sha256').update(readFileSync(f)).digest('hex')]));
+mkdirSync(out,{recursive:true});
+for(const [mode,options] of Object.entries(modes)){
+ const file=`${out}/${delay}-${mode.replace(',','-')}.json.gz`;if(existsSync(file))throw Error('Refusing to overwrite '+file);
+ const jobs=[];for(const bots of pairs)for(let a=0;a<6;a++)for(let b=0;b<6;b++)for(let seed=1;seed<=seeds;seed++)for(let seat=0;seat<2;seat++)jobs.push({bots:seat?[...bots].reverse():bots,fighters:seat?[b,a]:[a,b],seed,delay,mode,measureArena:true,measureHorizon:true,...options});
+ const chunks=Array.from({length:workers},()=>[]);jobs.forEach((j,i)=>chunks[i%workers].push(j));const start=performance.now();console.log(`${delay}f ${mode}: ${jobs.length} bouts`);
+ const matches=(await Promise.all(chunks.map(jobs=>new Promise((resolve,reject)=>{const w=new Worker(new URL('./grab-worker.mjs',import.meta.url),{workerData:{jobs}});w.on('message',resolve);w.on('error',reject);w.on('exit',code=>{if(code)reject(Error('worker exit '+code));});})))).flat();
+ matches.sort((a,b)=>JSON.stringify([a.bots,a.fighters,a.seed]).localeCompare(JSON.stringify([b.bots,b.fighters,b.seed])));
+ const r={schema:1,kind:'rift-skill-report',created:new Date().toISOString(),commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),sourceHashes,config:{mode,delay,seeds,mirrored:true,pairs,elapsedSeconds:(performance.now()-start)/1000},matches};writeFileSync(file,gzipSync(JSON.stringify(r),{level:9}));console.log(`Saved ${file}, ${r.config.elapsedSeconds.toFixed(1)}s, ${matches.filter(m=>!m.completed).length} censored`);
+}
