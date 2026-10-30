@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "bouts": 14400,
+  "files": [
+    {
+      "file": "10-ring.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "10-ring-burst.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "10-ring12-burst.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "10-ring-jab13.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "10-ring-jab15heavy.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "15-ring.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "15-ring-burst.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "15-ring12-burst.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "15-ring-jab13.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    },
+    {
+      "file": "15-ring-jab15heavy.json.gz",
+      "bouts": 1440,
+      "commit": "b9dd2224c020292eb18600fb2a8adaae52cc7972"
+    }
+  ],
+  "checks": [
+    "All 2,880 ring-baseline bouts match ARENA-INPUT outcomes, HP, frames and telemetry exactly",
+    "All 14,400 bouts completed, no duplicated seats/pairs/seeds",
+    "All measured source hashes match current files",
+    "Burst starts/contact/outcome and actual HP accounting consistent",
+    "Pins within contacts, edge ticks within simulated ticks"
+  ]
+}

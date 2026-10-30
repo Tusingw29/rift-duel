@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "errors": [],
+  "captures": [
+    {
+      "file": "dashboard-desktop-1793355018360.jpg",
+      "width": 1280
+    },
+    {
+      "file": "dashboard-phone-1793355018360.jpg",
+      "width": 390
+    }
+  ]
+}

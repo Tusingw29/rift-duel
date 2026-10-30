@@ -1,0 +1,8 @@
+{
+  "choice": "heavy-16-short",
+  "startup": 15,
+  "baseDamage": 16,
+  "effectiveMorrowDamage": 19.84,
+  "hitPushback": 0.6,
+  "rationale": "Near baseline with less damage than the 20/.8 candidate: two-seed skilled Morrow baseline 71.9/43.8 vs candidate 67.7/43.8 at 10/15f. Favor the smaller damage increase among near-baseline candidates. Five-seed outcomes are not yet known when choosing. Same seeds are reused, so this is exploratory not held-out."
+}

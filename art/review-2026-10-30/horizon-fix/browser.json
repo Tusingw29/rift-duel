@@ -1,0 +1,239 @@
+{
+  "inputs": [
+    {
+      "query": "",
+      "burst": "",
+      "radius": 10,
+      "startup": 11
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2",
+      "burst": "v2",
+      "radius": 10,
+      "startup": 11
+    },
+    {
+      "query": "?move=v2&arena=ring&ring=11&burst=v2",
+      "burst": "v2",
+      "radius": 11,
+      "startup": 11
+    },
+    {
+      "query": "?move=v2&arena=ring&ring=12&burst=v2",
+      "burst": "v2",
+      "radius": 12,
+      "startup": 11
+    },
+    {
+      "query": "?move=v2&arena=ring&morrow=jab13",
+      "burst": "",
+      "radius": 10,
+      "startup": 13
+    },
+    {
+      "query": "?move=v2&arena=ring&morrow=jab15heavy",
+      "burst": "",
+      "radius": 10,
+      "startup": 15
+    },
+    {
+      "query": "?move=v2&arena=ring&morrow=jab15",
+      "burst": "",
+      "radius": 10,
+      "startup": 15
+    }
+  ],
+  "captures": [
+    {
+      "file": "ring-10-lock-1793354848617.jpg",
+      "radius": 10,
+      "drawnRadius": 10,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-10-side-1793354848617.jpg",
+      "radius": 10,
+      "drawnRadius": 10,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-10-duel-1793354848617.jpg",
+      "radius": 10,
+      "drawnRadius": 10,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-11-lock-1793354848617.jpg",
+      "radius": 11,
+      "drawnRadius": 11,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-11-side-1793354848617.jpg",
+      "radius": 11,
+      "drawnRadius": 11,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-11-duel-1793354848617.jpg",
+      "radius": 11,
+      "drawnRadius": 11,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-12-lock-1793354848617.jpg",
+      "radius": 12,
+      "drawnRadius": 12,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-12-side-1793354848617.jpg",
+      "radius": 12,
+      "drawnRadius": 12,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "ring-12-duel-1793354848617.jpg",
+      "radius": 12,
+      "drawnRadius": 12,
+      "cinematic": false,
+      "hp": 100,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "burst-escape-1793354848617.jpg",
+      "radius": 10,
+      "drawnRadius": 10,
+      "cinematic": false,
+      "hp": 100,
+      "moveFrame": 22,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "burst-inside-1793354848617.jpg",
+      "radius": 10,
+      "drawnRadius": 10,
+      "cinematic": true,
+      "hp": 100,
+      "moveFrame": 22,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "errors": []
+}
