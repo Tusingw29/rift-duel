@@ -1,3 +1,4 @@
+import {linearStep} from './linear-hits.js';
 import {moveWithinBounds} from './arena-bounds.js';
 // MOVE-V2 playtest guesses. Distances are world units; durations are 60 Hz simulation frames.
 export const MOVE_V2_GUESSES=Object.freeze({doubleTapWindow:12,dash:Object.freeze({frames:12,distance:1.5}),backdash:Object.freeze({frames:14,distance:2.2}),sidestep:Object.freeze({frames:14,distance:1.8}),recovery:6});
@@ -8,7 +9,7 @@ export const movementV2=m=>enabled.has(m);
 export function liveAxes(a,b){const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz);return d>1e-9?{x:dx/d,z:dz/d}:{x:1,z:0};}
 export function wallSlide(a,dx,dz){return moveWithinBounds(a,dx,dz,true);}
 export function canStartStep(p){return !p.step&&!p.move&&!p.travel&&!p.roll&&!p.jumpSquat&&!p.getUp&&!p.bounce&&!p.staggerState&&p.air<=0&&p.stun<=0&&p.blockStun<=0&&p.cool<=0&&p.hp>0;}
-export function startStep(p,direction,tick){if(!canStartStep(p))return false;const kind=direction==='forward'?'dash':direction==='back'?'backdash':'sidestep',config=MOVE_V2_GUESSES[kind];p.step={kind,direction,phase:'travel',frame:0,frames:config.frames,distance:config.distance,recovery:0,started:tick};p.cool=(config.frames+MOVE_V2_GUESSES.recovery)/60;p.anim='run';p.animTime=p.cool;p.guard=false;p.held=0;p.pendingInput=null;p.buffer=null;return true;}
+export function startStep(p,direction,tick){if(!canStartStep(p))return false;const kind=direction==='forward'?'dash':direction==='back'?'backdash':'sidestep',config=kind==='sidestep'?(linearStep(p)||MOVE_V2_GUESSES.sidestep):MOVE_V2_GUESSES[kind];p.step={kind,direction,phase:'travel',frame:0,frames:config.frames,distance:config.distance,recovery:0,started:tick};p.cool=(config.frames+MOVE_V2_GUESSES.recovery)/60;p.anim='run';p.animTime=p.cool;p.guard=false;p.held=0;p.pendingInput=null;p.buffer=null;return true;}
 export function cancelStep(p){p.step=null;p.cool=0;p.animTime=0;p.anim='idle';p.guard=false;}
 export function stepDelta(p,rival){const s=p.step;if(!s)return {x:0,z:0};if(s.phase==='recovery'){s.recovery++;p.anim='idle';if(s.recovery>=MOVE_V2_GUESSES.recovery){p.step=null;p.cool=0;p.animTime=0;}return {x:0,z:0};}
  const u=s.frame/s.frames,v=++s.frame/s.frames,ds=s.distance*((1-u)**2-(1-v)**2),f=liveAxes(p,rival);let delta;

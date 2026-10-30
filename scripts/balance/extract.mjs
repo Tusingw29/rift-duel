@@ -59,7 +59,7 @@ const PATTERNS={
  captureBreak:/BALANCE_CAPTURE_BREAK_DEFAULT=([\d.]+)/,
  pursuit:/if\(d<([\d.]+)&&facing\)\{\s*const punish/,
  pursuitDamage:/\(punish\?(\d+):(\d+)\)\*f\.power/,
- launcher:/kind==='launch'\)\s*\{if\(d<f\.reach\+([\d.]+)&&facing&&b\.inv<=0\)\{move\.contactResolved=true;move\.connected=hit\(m,a,b,(\d+)\*f\.power/,
+ launcher:/kind==='launch'\)\s*\{if\(meleeContact\(m,a,b,move,f\.reach\+([\d.]+)\)&&b\.inv<=0\)\{move\.contactResolved=true;move\.connected=hit\(m,a,b,(\d+)\*f\.power/,
  strikeDamage:/move\.chain===3\?(\d+):\(move\.jabDamage\?\?(\d+)\)\)\+\(move\.counter/,
  shot:/life:(\d+),owner:m\.players\.indexOf\(a\),damage:\(move\.chain===3\?(\d+):(\d+)\)\*f\.power,kind:'bolt',radius:f\.id==='vesper'\?([\d.]+):([\d.]+)/
 };

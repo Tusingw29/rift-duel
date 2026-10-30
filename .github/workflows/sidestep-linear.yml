@@ -1,0 +1,52 @@
+name: SIDESTEP-LINEAR preview checks
+on:
+  push:
+    branches: [codex/sidestep-linear]
+    paths: ['dist/**.js', 'scripts/skill/run.mjs', 'scripts/skill/sidestep-linear.mjs', 'scripts/skill/step-observer.mjs', 'scripts/skill/linear-fixtures.mjs', 'scripts/skill/bots/**', 'scripts/review/sidestep-linear.mjs', 'tests/sidestep-linear*', 'tests/linear-review.html', '.github/workflows/sidestep-linear.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  study:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        delay: [10, 15]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/skill/sidestep-linear.mjs --delay=${{ matrix.delay }} --workers=2 --out=/tmp/linear-study-${{ matrix.delay }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linear-study-${{ matrix.delay }}
+          path: /tmp/linear-study-${{ matrix.delay }}/
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/run-tests.mjs
+      - run: npm run prepare:release
+      - run: node scripts/skill/linear-fixtures.mjs --out=/tmp/linear-fixtures
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 4205 > /tmp/linear-http.log 2>&1 &
+      - run: node scripts/review/sidestep-linear.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4205/dist
+          SHOTS: /tmp/linear-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linear-browser
+          path: /tmp/linear-browser/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linear-fixtures
+          path: /tmp/linear-fixtures/
