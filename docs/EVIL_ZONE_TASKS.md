@@ -33,7 +33,7 @@ Adam can't see Morrow's attacks coming, and Last Horizon felt like an automatic 
 - [x] Launcher: blade low behind the hip in a deep crouch from about frame 7 of 24, then torn upward.
 - [x] Gravefall: its overhead load is reached early and held.
 - [x] Per-fighter `tells` entries; moves without one are unchanged. 269 animation tests pass. Review: `art/review-2026-10-29/attack-tells/README.md`.
-- [ ] Adam: playtest `?tell=on` (with `?move=v2&arena=ring`). Last Horizon still hits anyone within 9 units until Codex's `burst=v2` gives it a real reach. Fast moves (Strike 1, shots, grab, 7–13f) are beaten by spacing, not tells.
+- [ ] Adam: playtest `?tell=on` (branch is off main, so no ring yet). Last Horizon still hits anyone within 9 units until Codex's `burst=v2` gives it a real reach. Fast moves (Strike 1, shots, grab, 7–13f) are beaten by spacing, not tells.
 
 ## MOVE-V2 — live-relative walking and grounded steps
 
