@@ -31,7 +31,7 @@ Check it here:
 - `?state=launch`
 - `?state=strike3`
 
-Play it with `index.html?tell=on`. It combines with Codex's switches, for example `?move=v2&arena=ring&tell=on`.
+Play it with `index.html?tell=on`. This branch starts from main, so it does not include Codex's ring or move=v2 yet; the two combine once both are merged.
 
 ## Tests
 
