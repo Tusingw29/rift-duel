@@ -172,28 +172,28 @@ const SEG={lower:['bodyX','bodyY','bodyZ','hipYaw','llx','llz','rlx','rlz','lk',
 export const LEAD={lower:5,spine:3.5,clav:2,arms:2,elbows:1,wrists:0,head:0}; // exported so the animation workbench can tune it live
 const WRIST_DRAG=3.5; // after the hitstop hold the wrist and weapon tip trail the torso into recovery
 const pick=(from,to,segs)=>{const o={...from};for(const s of segs)for(const k of SEG[s])o[k]=to[k];return o;};
-// ATTACK-TELLS (?tell=hold): a long startup coils early into a deeper load and keeps sinking into it, so the wind-up
-// reads at reaction speed; the drive and whip are compressed into the last frames and contact stays on the startup frame.
-export const TELL_MODES=['off','hold'];
-export const TELL={minStartup:16,coil:.3,whip:5,amp:1.25,deepen:1.45}; // playtest guesses, tunable from the workbench
+// ATTACK-TELLS (?tell=on): a move that a fighter gives a tell load reaches that silhouette early (by ~30% of startup),
+// keeps sinking into it, and compresses drive and whip into the last frames; contact stays on the startup frame.
+// The load pose itself is the cue, so it must differ from stance at a glance (authored per fighter, per move).
+export const TELL_MODES=['off','on'];
+export const TELL={coil:.3,sink:4,deepen:1.12}; // playtest guesses, tunable from the workbench
 let tellMode='off';
-export function setAttackTells(name){tellMode=TELL_MODES.includes(name)?name:'off';return tellMode;}
+export function setAttackTells(name){tellMode=name==='hold'?'on':TELL_MODES.includes(name)?name:'off';return tellMode;}
 export const attackTells=()=>tellMode;
 const amplify=(stance,pose,k)=>{const o={...pose};for(const c in pose)if(typeof pose[c]==='number'&&typeof stance[c]==='number')o[c]=stance[c]+(pose[c]-stance[c])*k;return o;};
 function tellKeys(move,stance,load,peak,follow){
  const active=move.active||1,end=move.startup+active+move.recovery,s=move.startup;
- const coilAt=s*TELL.coil,holdTo=s-TELL.whip,driveAt=s-2.5,whipAt=s-1;
- const coiled=amplify(stance,load,TELL.amp),deep=amplify(stance,load,TELL.deepen);
+ const coilAt=s*TELL.coil,sinkTo=s-TELL.sink,driveAt=s-2,whipAt=s-1,deep=pick(load,amplify(stance,load,TELL.deepen),['lower']); // only the legs keep sinking; the arms hold the silhouette
  const drive=pick(deep,mix(deep,peak,.85),['lower','spine']);
  const whip={...pick(mix(deep,peak,.55),peak,['lower','spine','clav'])};for(const k of SEG.wrists)whip[k]=deep[k]+(peak[k]-deep[k])*.3;
  const hold=s+active+Math.max(LEAD.lower+1,Math.min(6,Math.max(1,move.recovery*.4)));
  const overshoot={...follow,twist:follow.twist*1.1,lean:follow.lean+.05,lk:follow.lk+.12,rk:follow.rk+.12,bodyY:follow.bodyY-.03};
  const recovery=pick(mix(follow,stance,.6),mix(follow,stance,.75),['lower']);
- const keys=[[0,stance,smooth],[coilAt,coiled,smooth],[holdTo,deep,smooth],[driveAt,drive,smooth],[whipAt,whip,snapOut],[s,peak,snapOut],[hold,peak,smooth],[s+active+move.recovery*.45,overshoot,smooth],[s+active+move.recovery*.78,recovery,smooth],[end,stance,smooth]];
+ const keys=[[0,stance,smooth],[coilAt,load,smooth],[sinkTo,deep,smooth],[driveAt,drive,smooth],[whipAt,whip,snapOut],[s,peak,snapOut],[hold,peak,smooth],[s+active+move.recovery*.45,overshoot,smooth],[s+active+move.recovery*.78,recovery,smooth],[end,stance,smooth]];
  keys.holdEnd=hold;keys.move=move;return keys;
 }
-export function kineticKeys(move,stance,load,peak,follow){
- if(tellMode==='hold'&&move.startup>=TELL.minStartup)return tellKeys(move,stance,load,peak,follow);
+export function kineticKeys(move,stance,load,peak,follow,tell=false){
+ if(tell&&tellMode==='on'&&move.startup>=TELL.sink+4)return tellKeys(move,stance,load,peak,follow);
  const active=move.active||1,end=move.startup+active+move.recovery,s=move.startup;
  const coilAt=Math.max(.5,s*.35),driveAt=Math.max(coilAt+.5,Math.min(s*.7,s-1.5)),whipAt=Math.max(driveAt+.5,s-1);
  const hold=s+active+Math.max(LEAD.lower+1,Math.min(6,Math.max(1,move.recovery*.4))); // long enough that the five-frame pelvis lead is still inside it
@@ -207,7 +207,7 @@ export function kineticKeys(move,stance,load,peak,follow){
  keys.holdEnd=hold;keys.move=move;return keys;
 }
 // Same signature as before so every animator keeps calling it; drive and retract are now derived from the chain.
-export function strikeSchedule(move,stance,wind,drive,contact,follow,retract){return kineticKeys(move,stance,wind,contact,follow);}
+export function strikeSchedule(move,stance,wind,drive,contact,follow,retract,tell=false){return kineticKeys(move,stance,wind,contact,follow,tell);}
 const sampleAt=(keys,frame)=>sampleKeys(keys,Math.max(0,frame));
 export function sampleSchedule(keys,frame){
  const base=sampleAt(keys,frame),out={...base};
@@ -263,8 +263,10 @@ export function specialPose(move,stance,specials){
  let wind={...stance,...triple[0]},peak={...stance,...triple[1]},follow={...stance,...triple[2]||triple[1]};
  const mod=kindModifiers[move.kind];if(mod){wind={...wind,...mod.wind};peak={...peak,...mod.peak};follow={...follow,...mod.follow};}
  const fx=move.kind==='technique'&&effectOverrides[move.effect];if(fx){peak={...peak,...fx};follow={...follow,...fx};}
+ const tell=tellMode==='on'&&specials.tells?.[move.kind];
+ if(tell){wind={...stance,...tell.load};if(tell.peak)peak={...stance,...tell.peak};if(tell.follow)follow={...stance,...tell.follow};}
  const drive=mix(wind,peak,.6),retract=mix(follow,stance,.6);
- const out=sampleSchedule(strikeSchedule(move,stance,wind,drive,peak,follow,retract),move.frame);
+ const out=sampleSchedule(strikeSchedule(move,stance,wind,drive,peak,follow,retract,!!tell),move.frame);
  // Spinning techniques turn the whole body through their active window (one turn, two on the follow-up).
  if(move.kind==='technique'&&spinning(move.effect)&&move.frame>=move.startup){const active=move.active||1,u=Math.min(1,(move.frame-move.startup)/active);out.hipYaw+=u*Math.PI*2*(move.followup?2:1);}
  return out;
@@ -370,7 +372,7 @@ export function animateGroundedRig(r,player,time,prefix,targetFor,poses){
  if(!target&&poses&&player?.anim==='roll'&&player.roll)target={kind:'roll',pose:rollPose(r,poses.stance,player)};
  if(!target&&poses&&player?.move?.kind==='pursuit'&&player.move.aerial)target={kind:'aerial',pose:aerialPursuitPose(poses.stance,player.move,player)};
  if(!target&&poses?.strikePose&&player?.move&&(player.air||0)>0&&!player.launched)target={kind:'aerial',pose:aerialStrikePose(poses.stance,player,poses.strikePose)};
- if(!target&&poses?.specials&&player?.move&&['shot','technique','launch','forward','back'].includes(player.move.kind)&&!(player.air>0))target={kind:'strike',pose:specialPose(player.move,poses.stance,poses.specials)};
+ if(!target&&poses?.specials&&player?.move&&(['shot','technique','launch','forward','back'].includes(player.move.kind)||tellMode==='on'&&poses.specials.tells?.[player.move.kind])&&!(player.air>0))target={kind:'strike',pose:specialPose(player.move,poses.stance,poses.specials)};
  if(!target&&poses&&isDown(player)){if(['launched','bounce'].includes(r[`${prefix}Kind`]))r[`${prefix}FromAir`]=true;const buckling=player.anim==='defeat'&&(player.animTime||0)<.3;target=player.getUp?{kind:'rise',pose:getUpPose(r,poses.stance,player)}:{kind:buckling?'collapse':'knockdown',pose:downPose(r,poses.stance,poses.impact,player,time,!!r[`${prefix}FromAir`])};}else r[`${prefix}FromAir`]=false;
  if(!target&&poses&&!player?.move&&!player?.launched&&(player?.air||0)>0&&['jump','recover','idle','run'].includes(player?.anim))target={kind:'flight',pose:flightPose(poses.stance,player)};
  if(!target){r[`${prefix}Pose`]=null;r[`${prefix}Entry`]=null;r[`${prefix}Kind`]=null;r.footPlants=null;r.gaitPlants=null;return false;}

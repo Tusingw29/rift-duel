@@ -1,58 +1,48 @@
-# ATTACK-TELLS (2026-10-29), in progress
+# ATTACK-TELLS (2026-10-30), Morrow ready for review
 
-Owner Claude. Branch `claude/attack-tells`. **Status: In progress.** Animation only; no frame data or combat change.
+Owner Claude. Branch `claude/attack-tells`. **Status: Review, awaiting Adam's verdict.** Animation only. No frame data, hitbox or combat change, and nothing changes unless `?tell=on` is in the URL.
 
-## What Adam reported
+## What changed under `?tell=on`
 
-Morrow's attacks come "out of nowhere", with no visible wind-up.
+**Last Horizon (Burst).** Before, it had no authored animation. The old fallback raised the sword slowly over all 22 frames with the body upright, so it looked like idle until about frame 15. Now:
+- the sword is raised high with the blade pointing at the sky, the chest leans back and the hips drop by about 0.3;
+- the pose is in place by about frame 6 of 22 and held until about frame 18;
+- the legs keep sinking while the arms hold still, so the pose reads as a load, not a freeze.
 
-## Findings so far
+See `burst-tell-ab.jpg`: top row shipped, bottom row tell on, at frames 2, 9 and 15.
 
-**Which moves can a tell help?** Morrow's moves that are faster than a 15-frame reaction can't be read, whatever the animation; they are beaten by spacing:
-- Strike 1 (11f)
-- shots (11f)
-- grab (13f)
-- pursuit (7f)
+**Launcher.** The blade drops low behind the hip and the hips sink by about 0.45 into a deep crouch from about frame 7 of 24. Then the blade tears upward on contact. This replaces the rejected `?tell=hold` approach, which delayed the launcher's visible cue. See `launch-tell-ab.jpg`.
 
-The moves a tell can help are:
+**Gravefall (Strike 3).** Its overhead load is reached earlier and held. The pose itself is unchanged.
 
-| Startup | Moves |
-| --- | --- |
-| 16f | Strike 2, just |
-| 18–24f | specials |
-| 22f | Burst |
-| 24f | Strike 3, launcher |
+## What this can't fix
 
-**What CPU Morrow actually lands.** 30 seeded CPU bouts against a wandering, part-guarding player. Share of the damage he dealt, by move:
+- **Reaction time.** Last Horizon is 22 frames, so its pose is readable for about 16 frames. That's roughly a human reaction, so it gives a warning, not a free dodge. It only becomes dodgeable once Codex's `burst=v2` gives it a real reach and arc. Today it hits anyone within 9 units.
+- **Fast moves.** Strike 1 (11f), shots (11f), grab (13f) and pursuit (7f) are too fast for any tell. They're beaten by spacing.
 
-| Move | Damage share |
-| --- | --- |
-| Burst | 44% |
-| Grab | 31% |
-| Launcher | 15% |
-| Forward special | 5% |
-| Pursuit | 4% |
+## How it's built
 
-So Burst and launcher matter most for tells.
+- Each fighter can give a move a `tells` entry: a load pose, plus an optional peak and follow-through. Only Morrow has entries so far.
+- With `tell=on`, an entry switches that move to a schedule that reaches the load at 30% of startup, sinks the legs until 4 frames before contact, then drives and whips in the last frames. Contact stays on the startup frame.
+- Moves without an entry are unchanged, including the other fighters' moves.
 
-**Burst** (`burst-strip.jpg`). It isn't animated by the kinetic schedule: the grounded rig returns no target for `super`, so the old `animation.js` fallback raises the sword with a linear ease over all 22 frames. The body stays upright. Once the startup ends, the cinematic is decided from up to 9 units away, so this tell is worth the most.
+Check it here:
+- `anim-workbench.html?fighter=3&state=burst&tell=on`
+- `?state=launch`
+- `?state=strike3`
 
-**Launcher** (`launch-ab.jpg`, A shipped, B `?tell=hold`). The visible cue is the sword rising toward the peak, not the load. The first `?tell=hold` attempt amplifies and holds the load, which keeps the sword low for longer. That makes the launcher read later, not earlier. Rejected as is.
+Play it with `index.html?tell=on`. It combines with Codex's switches, for example `?move=v2&arena=ring&tell=on`.
 
-## What's on the branch
+## Tests
 
-- `?tell=hold`: an opt-in held-load schedule for 16f+ startups. Off by default.
-- `anim-workbench.html?tell=hold`: view B renders the held version next to view A, the shipped version.
-- Burst added to the workbench states.
+- `tests/attack-tells.test.mjs`:
+  - off by default, with launcher and Gravefall poses identical to shipped;
+  - Last Horizon is overhead by 40% of startup;
+  - the launcher is low and crouched, then rises on contact.
+- All 269 tests across the 37 animation-related files pass.
 
-Morrow animation and kinetic tests pass (38).
+## Questions for Adam
 
-## Next
-
-Author a distinct, readable load silhouette for each of Morrow's reactable moves, reached by about 40% of startup and held:
-- **Burst:** sword overhead, lean back, rear knee sinks.
-- **Launcher:** sword dropped low behind, deep crouch.
-- **Strike 3:** the overhead it already has, held and deepened.
-- **Specials:** the shoulder load, exaggerated.
-
-Then check each one in the workbench at game camera distance. Burst needs a grounded-rig target so it stops using the fallback.
+1. Can you see Last Horizon and the launcher coming now, at normal speed?
+2. Should the poses be bigger or smaller?
+3. If yes, should tells become the default, then be authored for the other five fighters?

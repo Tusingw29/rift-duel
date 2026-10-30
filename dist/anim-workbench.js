@@ -55,7 +55,7 @@ const state={fighter:Number(params.get('fighter')??2),stateIndex:Math.max(0,STAT
  frame:0,frames:60,playing:false,speed:1,joint:null,key:'impact',orbit:{yaw:.45,pitch:.16,dist:7.2},move:null,trails:{A:[],B:[]},s:null,dirty:true};
 const views={A:{canvas:$('#viewA'),label:'A',source:'authored',tweaks:false},B:{canvas:$('#viewB'),label:'B',source:'imported',tweaks:false}};
 for(const v of Object.values(views)){v.view=createView(v.canvas,{talaModel:'graphic'});v.view.quality(params.get('quality')||'high');v.extras=new T.Group();v.extras.name='workbench-extras';v.view.scene.add(v.extras);}
-// ATTACK-TELLS: ?tell=hold turns B into the authored rig with held wind-ups, A stays the shipped schedule.
+// ATTACK-TELLS: ?tell=on turns B into the authored rig with per-move tell loads, A stays the shipped schedule.
 const tellB=params.get('tell');
 const configureB=()=>{if(tellB){views.B.source='authored';views.B.tweaks=false;views.B.tell=tellB;$('#labelB').textContent='B · TELL '+tellB.toUpperCase();return;}const s=state.source;views.B.source=s==='authored'?'authored':'imported';views.B.tweaks=s!=='imported';$('#labelB').textContent={imported:'B · MOCAP IMPORTED',hybrid:'B · HYBRID (MOCAP + TWEAKS)',authored:'B · AUTHORED + TWEAKS'}[s];};
 const ready=v=>new Promise(res=>{let n=0;const t=()=>{const ms=v.view.fighterModels||[];if(ms.length&&ms.every(m=>m.status&&m.status!=='loading')||n++>400)res();else setTimeout(t,25);};t();});
