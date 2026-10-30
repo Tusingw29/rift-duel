@@ -1,3 +1,11 @@
+## SIDESTEP-LINEAR — narrow attack paths and anti-step moves
+
+Owner: **Codex** · Branch: `codex/sidestep-linear` · Status: **In progress** (2026-10-30). Based on Horizon `f8b8696`. Owns switch-gated combat contact, move metadata, movement configuration and bot measurement. Claude retains all character/rig/pose/animation files; default gameplay unchanged.
+
+- [ ] Add `step=linear`, per-move tracking exceptions, and match-owned sidestep configuration.
+- [ ] Sweep every relevant move/startup frame/spacing/direction; test a true side-stepper policy through delayed visible state.
+- [ ] Three-mode tournament, both delays and mashers, five mirrored seeds; full tests, browser and audited evidence.
+
 ## HORIZON-FIX — dodgeable Burst and ring/jab comparisons
 
 Owner: **Codex** · Branch: `codex/horizon-fix` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-30). Measured implementation `b9dd222`, based on `codex/arena-input`. Default gameplay unchanged; no gameplay merge.
