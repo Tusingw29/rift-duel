@@ -1,3 +1,11 @@
+## HORIZON-FIX — dodgeable Burst and ring/jab comparisons
+
+Owner: **Codex** · Branch: `codex/horizon-fix` · Status: **In progress** (2026-10-30). Based on `codex/arena-input`. Simulation lane: opt-in Burst contact/guard, per-match ring size and Morrow Strike 1 variants; no character, rig, pose or animation edits. Default gameplay unchanged.
+
+- [ ] Add `burst=v2`, `ring=11/12`, `morrow=jab13/jab15heavy`; preserve existing previews.
+- [ ] Measure five modes, both delays/mashers, mirrored seats/five seeds, Burst damage/whiffs, Morrow outcomes and boundary pressure.
+- [ ] Sweep startup escape frames; explain old sidestep fixture; verify tests/browser and publish evidence.
+
 ## ARENA-INPUT — visible circular boundary and spacing inputs
 
 Owner: **Codex** · Branch: `codex/arena-input` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-29). Based on MOVE-V2 `d1b8327`; implementation `ce3938a`. No gameplay merge or default promotion.
