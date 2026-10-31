@@ -1,0 +1,268 @@
+{
+  "inputs": [
+    {
+      "query": "",
+      "step": "",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2",
+      "step": "",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear",
+      "step": "linear",
+      "morrow": ""
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&morrow=jab15heavy",
+      "step": "linear",
+      "morrow": "jab15heavy"
+    }
+  ],
+  "captures": [
+    {
+      "file": "jab-horizon-side-1793404419864.jpg",
+      "key": "jab",
+      "linear": false,
+      "camera": "side",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 11,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "jab-horizon-lock-1793404419864.jpg",
+      "key": "jab",
+      "linear": false,
+      "camera": "lock",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 11,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "jab-linear-side-1793404419864.jpg",
+      "key": "jab",
+      "linear": true,
+      "camera": "side",
+      "hp": 100,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 20,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "jab-linear-lock-1793404419864.jpg",
+      "key": "jab",
+      "linear": true,
+      "camera": "lock",
+      "hp": 100,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 20,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "sweep-horizon-side-1793404419864.jpg",
+      "key": "sweep",
+      "linear": false,
+      "camera": "side",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 16,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "sweep-horizon-lock-1793404419864.jpg",
+      "key": "sweep",
+      "linear": false,
+      "camera": "lock",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 16,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "sweep-linear-side-1793404419864.jpg",
+      "key": "sweep",
+      "linear": true,
+      "camera": "side",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": true,
+      "moveFrame": 16,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "sweep-linear-lock-1793404419864.jpg",
+      "key": "sweep",
+      "linear": true,
+      "camera": "lock",
+      "hp": 92.56,
+      "cinematic": false,
+      "tracking": true,
+      "moveFrame": 16,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "capture-horizon-side-1793404419864.jpg",
+      "key": "capture",
+      "linear": false,
+      "camera": "side",
+      "hp": 100,
+      "cinematic": true,
+      "tracking": false,
+      "moveFrame": 13,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "capture-horizon-lock-1793404419864.jpg",
+      "key": "capture",
+      "linear": false,
+      "camera": "lock",
+      "hp": 100,
+      "cinematic": true,
+      "tracking": false,
+      "moveFrame": 13,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "capture-linear-side-1793404419864.jpg",
+      "key": "capture",
+      "linear": true,
+      "camera": "side",
+      "hp": 100,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 20,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "file": "capture-linear-lock-1793404419864.jpg",
+      "key": "capture",
+      "linear": true,
+      "camera": "lock",
+      "hp": 100,
+      "cinematic": false,
+      "tracking": false,
+      "moveFrame": 20,
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "errors": []
+}

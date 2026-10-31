@@ -1,0 +1,4373 @@
+{
+  "runs": [
+    {
+      "config": {
+        "mode": "horizon",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 14.013547207
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 131,
+            "draws": 0,
+            "rate": 0.3638888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.31586827683455354,
+              0.4147837431653585
+            ],
+            "clusterInterval": [
+              0.31666666666666665,
+              0.4166666666666667
+            ],
+            "interval": [
+              0.31586827683455354,
+              0.4166666666666667
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 229,
+            "draws": 0,
+            "rate": 0.6361111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5852162568346415,
+              0.6841317231654465
+            ],
+            "clusterInterval": [
+              0.5833333333333334,
+              0.6833333333333333
+            ],
+            "interval": [
+              0.5833333333333334,
+              0.6841317231654465
+            ]
+          },
+          "seconds": 15.462407407407406
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 125,
+            "draws": 0,
+            "rate": 0.3472222222222222,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.29988874247804626,
+              0.3977818922157325
+            ],
+            "clusterInterval": [
+              0.2972222222222222,
+              0.4027777777777778
+            ],
+            "interval": [
+              0.2972222222222222,
+              0.4027777777777778
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 235,
+            "draws": 0,
+            "rate": 0.6527777777777778,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6022181077842674,
+              0.7001112575219537
+            ],
+            "clusterInterval": [
+              0.5972222222222222,
+              0.7027777777777777
+            ],
+            "interval": [
+              0.5972222222222222,
+              0.7027777777777777
+            ]
+          },
+          "seconds": 22.74828703703704
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 330,
+            "draws": 0,
+            "rate": 0.9166666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8835288082626117,
+              0.9410058243907188
+            ],
+            "clusterInterval": [
+              0.8888888888888888,
+              0.9444444444444444
+            ],
+            "interval": [
+              0.8835288082626117,
+              0.9444444444444444
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 30,
+            "draws": 0,
+            "rate": 0.08333333333333333,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.05899417560928128,
+              0.11647119173738826
+            ],
+            "clusterInterval": [
+              0.05555555555555555,
+              0.1111111111111111
+            ],
+            "interval": [
+              0.05555555555555555,
+              0.11647119173738826
+            ]
+          },
+          "seconds": 18.11967592592593
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 302,
+            "draws": 0,
+            "rate": 0.8388888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7973657644784621,
+              0.8732557367462467
+            ],
+            "clusterInterval": [
+              0.7972222222222223,
+              0.8777777777777778
+            ],
+            "interval": [
+              0.7972222222222223,
+              0.8777777777777778
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 58,
+            "draws": 0,
+            "rate": 0.16111111111111112,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.12674426325375332,
+              0.20263423552153798
+            ],
+            "clusterInterval": [
+              0.12222222222222222,
+              0.2
+            ],
+            "interval": [
+              0.12222222222222222,
+              0.20263423552153798
+            ]
+          },
+          "seconds": 22.374490740740733
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 139,
+            "draws": 0,
+            "rate": 0.3861111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.33727255667651385,
+              0.4373546437315759
+            ],
+            "clusterInterval": [
+              0.33611111111111114,
+              0.4388888888888889
+            ],
+            "interval": [
+              0.33611111111111114,
+              0.4388888888888889
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 221,
+            "draws": 0,
+            "rate": 0.6138888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5626453562684242,
+              0.6627274433234862
+            ],
+            "clusterInterval": [
+              0.5611111111111111,
+              0.6638888888888889
+            ],
+            "interval": [
+              0.5611111111111111,
+              0.6638888888888889
+            ]
+          },
+          "seconds": 16.059120370370376
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 106,
+            "draws": 0,
+            "rate": 0.29444444444444445,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.24972989011924562,
+              0.34349969110511136
+            ],
+            "clusterInterval": [
+              0.24722222222222223,
+              0.34444444444444444
+            ],
+            "interval": [
+              0.24722222222222223,
+              0.34444444444444444
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 254,
+            "draws": 0,
+            "rate": 0.7055555555555556,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6565003088948886,
+              0.7502701098807545
+            ],
+            "clusterInterval": [
+              0.6555555555555556,
+              0.7527777777777778
+            ],
+            "interval": [
+              0.6555555555555556,
+              0.7527777777777778
+            ]
+          },
+          "seconds": 22.29833333333334
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 600,
+            "draws": 0,
+            "rate": 0.5555555555555556,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5257747532708303,
+              0.5849425323546706
+            ],
+            "clusterInterval": [
+              0.525,
+              0.5879629629629629
+            ],
+            "interval": [
+              0.525,
+              0.5879629629629629
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 480,
+            "draws": 0,
+            "rate": 0.4444444444444444,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.41505746764532925,
+              0.47422524672916966
+            ],
+            "clusterInterval": [
+              0.41203703703703703,
+              0.475
+            ],
+            "interval": [
+              0.41203703703703703,
+              0.475
+            ]
+          },
+          "seconds": 16.5470679012346
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 533,
+            "draws": 0,
+            "rate": 0.4935185185185185,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.46377642875706815,
+              0.5233065545866235
+            ],
+            "clusterInterval": [
+              0.46111111111111114,
+              0.5296296296296297
+            ],
+            "interval": [
+              0.46111111111111114,
+              0.5296296296296297
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 547,
+            "draws": 0,
+            "rate": 0.5064814814814815,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.47669344541337666,
+              0.536223571242932
+            ],
+            "clusterInterval": [
+              0.4703703703703704,
+              0.5388888888888889
+            ],
+            "interval": [
+              0.4703703703703704,
+              0.5388888888888889
+            ]
+          },
+          "seconds": 22.473703703703688
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 580,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 580,
+            "trackingDamage": 4218.19,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3532,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 667
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 389,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 515,
+            "trackingDamage": 3210.7151999999974,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1153,
+            "directionalSpecialsStarted": 2973,
+            "punishAttemptsStarted": 720
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 804,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 807,
+            "trackingDamage": 5567.110000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4870,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 878
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 121,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 193,
+            "trackingDamage": 1121.8200000000002,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 119,
+            "directionalSpecialsStarted": 2533,
+            "punishAttemptsStarted": 1068
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 615,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 619,
+            "trackingDamage": 4259.34,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3504,
+            "directionalSpecialsStarted": 352,
+            "punishAttemptsStarted": 332
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 422,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 577,
+            "trackingDamage": 1055.4416000000008,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1412,
+            "directionalSpecialsStarted": 3508,
+            "punishAttemptsStarted": 843
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 901,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 908,
+            "trackingDamage": 5838.17,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 5241,
+            "directionalSpecialsStarted": 392,
+            "punishAttemptsStarted": 952
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 128,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 206,
+            "trackingDamage": 618.4799999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 139,
+            "directionalSpecialsStarted": 2591,
+            "punishAttemptsStarted": 1441
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 270,
+            "stepCatches": 0,
+            "trackingChecks": 599,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 599,
+            "trackingDamage": 4382.280000000002,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3602,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 744
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 143,
+            "trackingChecks": 389,
+            "trackingStepOpportunities": 66,
+            "trackingStepCatches": 64,
+            "linearStepOpportunities": 84,
+            "linearStepCatches": 79,
+            "trackingStarts": 542,
+            "trackingDamage": 3237.6499999999965,
+            "trackingTravelCatches": 64,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1244,
+            "directionalSpecialsStarted": 3116,
+            "punishAttemptsStarted": 849
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 134,
+            "stepCatches": 0,
+            "trackingChecks": 726,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 727,
+            "trackingDamage": 5103.000000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4442,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 874
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 155,
+            "trackingChecks": 135,
+            "trackingStepOpportunities": 11,
+            "trackingStepCatches": 11,
+            "linearStepOpportunities": 168,
+            "linearStepCatches": 144,
+            "trackingStarts": 188,
+            "trackingDamage": 1239.7700000000007,
+            "trackingTravelCatches": 11,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 105,
+            "directionalSpecialsStarted": 2481,
+            "punishAttemptsStarted": 980
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 270,
+            "stepCatches": 0,
+            "trackingChecks": 1794,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1798,
+            "trackingDamage": 12859.809999999994,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 10638,
+            "directionalSpecialsStarted": 352,
+            "punishAttemptsStarted": 1743
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 143,
+            "trackingChecks": 1200,
+            "trackingStepOpportunities": 66,
+            "trackingStepCatches": 64,
+            "linearStepOpportunities": 84,
+            "linearStepCatches": 79,
+            "trackingStarts": 1634,
+            "trackingDamage": 7503.806800000002,
+            "trackingTravelCatches": 64,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3809,
+            "directionalSpecialsStarted": 9597,
+            "punishAttemptsStarted": 2412
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 134,
+            "stepCatches": 0,
+            "trackingChecks": 2431,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 2442,
+            "trackingDamage": 16508.280000000028,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 14553,
+            "directionalSpecialsStarted": 392,
+            "punishAttemptsStarted": 2704
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 155,
+            "trackingChecks": 384,
+            "trackingStepOpportunities": 11,
+            "trackingStepCatches": 11,
+            "linearStepOpportunities": 168,
+            "linearStepCatches": 144,
+            "trackingStarts": 587,
+            "trackingDamage": 2980.0699999999974,
+            "trackingTravelCatches": 11,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 363,
+            "directionalSpecialsStarted": 7605,
+            "punishAttemptsStarted": 3489
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "linear",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 14.034386301
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 129,
+            "draws": 0,
+            "rate": 0.35833333333333334,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.3105346348902175,
+              0.4091235900076502
+            ],
+            "clusterInterval": [
+              0.3111111111111111,
+              0.4111111111111111
+            ],
+            "interval": [
+              0.3105346348902175,
+              0.4111111111111111
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 231,
+            "draws": 0,
+            "rate": 0.6416666666666667,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5908764099923498,
+              0.6894653651097826
+            ],
+            "clusterInterval": [
+              0.5861111111111111,
+              0.6888888888888889
+            ],
+            "interval": [
+              0.5861111111111111,
+              0.6894653651097826
+            ]
+          },
+          "seconds": 15.44458333333334
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 119,
+            "draws": 0,
+            "rate": 0.33055555555555555,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.28397456012723404,
+              0.3807146892604116
+            ],
+            "clusterInterval": [
+              0.2777777777777778,
+              0.3861111111111111
+            ],
+            "interval": [
+              0.2777777777777778,
+              0.3861111111111111
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 241,
+            "draws": 0,
+            "rate": 0.6694444444444444,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6192853107395884,
+              0.7160254398727659
+            ],
+            "clusterInterval": [
+              0.6138888888888889,
+              0.7222222222222222
+            ],
+            "interval": [
+              0.6138888888888889,
+              0.7222222222222222
+            ]
+          },
+          "seconds": 22.68662037037037
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 330,
+            "draws": 0,
+            "rate": 0.9166666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8835288082626117,
+              0.9410058243907188
+            ],
+            "clusterInterval": [
+              0.8888888888888888,
+              0.9444444444444444
+            ],
+            "interval": [
+              0.8835288082626117,
+              0.9444444444444444
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 30,
+            "draws": 0,
+            "rate": 0.08333333333333333,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.05899417560928128,
+              0.11647119173738826
+            ],
+            "clusterInterval": [
+              0.05555555555555555,
+              0.1111111111111111
+            ],
+            "interval": [
+              0.05555555555555555,
+              0.11647119173738826
+            ]
+          },
+          "seconds": 18.701805555555566
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 293,
+            "draws": 0,
+            "rate": 0.8138888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7704460366187813,
+              0.8507033866467277
+            ],
+            "clusterInterval": [
+              0.7722222222222223,
+              0.8555555555555555
+            ],
+            "interval": [
+              0.7704460366187813,
+              0.8555555555555555
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 67,
+            "draws": 0,
+            "rate": 0.18611111111111112,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.14929661335327227,
+              0.2295539633812188
+            ],
+            "clusterInterval": [
+              0.14444444444444443,
+              0.22777777777777777
+            ],
+            "interval": [
+              0.14444444444444443,
+              0.2295539633812188
+            ]
+          },
+          "seconds": 22.42078703703704
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 128,
+            "draws": 0,
+            "rate": 0.35555555555555557,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.3078704740378502,
+              0.4062908533089953
+            ],
+            "clusterInterval": [
+              0.3055555555555556,
+              0.40555555555555556
+            ],
+            "interval": [
+              0.3055555555555556,
+              0.4062908533089953
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 232,
+            "draws": 0,
+            "rate": 0.6444444444444445,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5937091466910047,
+              0.6921295259621498
+            ],
+            "clusterInterval": [
+              0.5944444444444444,
+              0.6944444444444444
+            ],
+            "interval": [
+              0.5937091466910047,
+              0.6944444444444444
+            ]
+          },
+          "seconds": 16.21351851851853
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 128,
+            "draws": 0,
+            "rate": 0.35555555555555557,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.3078704740378502,
+              0.4062908533089953
+            ],
+            "clusterInterval": [
+              0.30833333333333335,
+              0.4083333333333333
+            ],
+            "interval": [
+              0.3078704740378502,
+              0.4083333333333333
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 232,
+            "draws": 0,
+            "rate": 0.6444444444444445,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5937091466910047,
+              0.6921295259621498
+            ],
+            "clusterInterval": [
+              0.5916666666666667,
+              0.6916666666666667
+            ],
+            "interval": [
+              0.5916666666666667,
+              0.6921295259621498
+            ]
+          },
+          "seconds": 22.794675925925954
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 587,
+            "draws": 0,
+            "rate": 0.5435185185185185,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5137092794428415,
+              0.573019260963801
+            ],
+            "clusterInterval": [
+              0.5111111111111111,
+              0.575925925925926
+            ],
+            "interval": [
+              0.5111111111111111,
+              0.575925925925926
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 493,
+            "draws": 0,
+            "rate": 0.4564814814814815,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.42698073903619904,
+              0.4862907205571585
+            ],
+            "clusterInterval": [
+              0.42407407407407405,
+              0.4888888888888889
+            ],
+            "interval": [
+              0.42407407407407405,
+              0.4888888888888889
+            ]
+          },
+          "seconds": 16.78663580246915
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 540,
+            "draws": 0,
+            "rate": 0.5,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.47023244479936654,
+              0.5297675552006335
+            ],
+            "clusterInterval": [
+              0.4638888888888889,
+              0.5370370370370371
+            ],
+            "interval": [
+              0.4638888888888889,
+              0.5370370370370371
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 540,
+            "draws": 0,
+            "rate": 0.5,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.47023244479936654,
+              0.5297675552006335
+            ],
+            "clusterInterval": [
+              0.46296296296296297,
+              0.5351851851851852
+            ],
+            "interval": [
+              0.46296296296296297,
+              0.5351851851851852
+            ]
+          },
+          "seconds": 22.634027777777764
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 577,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 577,
+            "trackingDamage": 4219.290000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3546,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 672
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 396,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 522,
+            "trackingDamage": 3306.2971999999963,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1170,
+            "directionalSpecialsStarted": 2986,
+            "punishAttemptsStarted": 736
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 793,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 796,
+            "trackingDamage": 5506.410000000005,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4866,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 884
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 128,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 196,
+            "trackingDamage": 1179.4800000000005,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 116,
+            "directionalSpecialsStarted": 2524,
+            "punishAttemptsStarted": 1075
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 613,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 616,
+            "trackingDamage": 4243.420000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3501,
+            "directionalSpecialsStarted": 349,
+            "punishAttemptsStarted": 332
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 445,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 593,
+            "trackingDamage": 1074.5216000000005,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1425,
+            "directionalSpecialsStarted": 3669,
+            "punishAttemptsStarted": 845
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 891,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 899,
+            "trackingDamage": 5806.519999999998,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 5236,
+            "directionalSpecialsStarted": 393,
+            "punishAttemptsStarted": 944
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 141,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 217,
+            "trackingDamage": 654.5999999999998,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 125,
+            "directionalSpecialsStarted": 2576,
+            "punishAttemptsStarted": 1435
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 280,
+            "stepCatches": 0,
+            "trackingChecks": 609,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 609,
+            "trackingDamage": 4480.880000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3637,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 749
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 126,
+            "trackingChecks": 384,
+            "trackingStepOpportunities": 67,
+            "trackingStepCatches": 65,
+            "linearStepOpportunities": 85,
+            "linearStepCatches": 61,
+            "trackingStarts": 536,
+            "trackingDamage": 3162.2419999999975,
+            "trackingTravelCatches": 65,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1253,
+            "directionalSpecialsStarted": 3162,
+            "punishAttemptsStarted": 878
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 116,
+            "stepCatches": 0,
+            "trackingChecks": 800,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 800,
+            "trackingDamage": 5583.560000000007,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4849,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 1012
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 83,
+            "trackingChecks": 139,
+            "trackingStepOpportunities": 11,
+            "trackingStepCatches": 11,
+            "linearStepOpportunities": 162,
+            "linearStepCatches": 72,
+            "trackingStarts": 194,
+            "trackingDamage": 1318.2800000000004,
+            "trackingTravelCatches": 11,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 107,
+            "directionalSpecialsStarted": 2506,
+            "punishAttemptsStarted": 1053
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 280,
+            "stepCatches": 0,
+            "trackingChecks": 1799,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1802,
+            "trackingDamage": 12943.589999999995,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 10684,
+            "directionalSpecialsStarted": 349,
+            "punishAttemptsStarted": 1753
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 126,
+            "trackingChecks": 1225,
+            "trackingStepOpportunities": 67,
+            "trackingStepCatches": 65,
+            "linearStepOpportunities": 85,
+            "linearStepCatches": 61,
+            "trackingStarts": 1651,
+            "trackingDamage": 7543.060799999999,
+            "trackingTravelCatches": 65,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3848,
+            "directionalSpecialsStarted": 9817,
+            "punishAttemptsStarted": 2459
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 116,
+            "stepCatches": 0,
+            "trackingChecks": 2484,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 2495,
+            "trackingDamage": 16896.490000000038,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 14951,
+            "directionalSpecialsStarted": 393,
+            "punishAttemptsStarted": 2840
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 83,
+            "trackingChecks": 408,
+            "trackingStepOpportunities": 11,
+            "trackingStepCatches": 11,
+            "linearStepOpportunities": 162,
+            "linearStepCatches": 72,
+            "trackingStarts": 607,
+            "trackingDamage": 3152.359999999997,
+            "trackingTravelCatches": 11,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 348,
+            "directionalSpecialsStarted": 7606,
+            "punishAttemptsStarted": 3563
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "linear-heavy",
+        "delay": 10,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 13.40609521
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 117,
+            "draws": 0,
+            "rate": 0.325,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.278684753297688,
+              0.37501070098791317
+            ],
+            "clusterInterval": [
+              0.275,
+              0.37222222222222223
+            ],
+            "interval": [
+              0.275,
+              0.37501070098791317
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 243,
+            "draws": 0,
+            "rate": 0.675,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6249892990120869,
+              0.7213152467023121
+            ],
+            "clusterInterval": [
+              0.6277777777777778,
+              0.725
+            ],
+            "interval": [
+              0.6249892990120869,
+              0.725
+            ]
+          },
+          "seconds": 14.746296296296295
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 116,
+            "draws": 0,
+            "rate": 0.32222222222222224,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.2760427005288873,
+              0.37215585620569175
+            ],
+            "clusterInterval": [
+              0.2722222222222222,
+              0.375
+            ],
+            "interval": [
+              0.2722222222222222,
+              0.375
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 244,
+            "draws": 0,
+            "rate": 0.6777777777777778,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6278441437943083,
+              0.7239572994711128
+            ],
+            "clusterInterval": [
+              0.625,
+              0.7277777777777777
+            ],
+            "interval": [
+              0.625,
+              0.7277777777777777
+            ]
+          },
+          "seconds": 22.504305555555568
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 320,
+            "draws": 0,
+            "rate": 0.8888888888888888,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8522302756638112,
+              0.9173353814792973
+            ],
+            "clusterInterval": [
+              0.8555555555555555,
+              0.9194444444444444
+            ],
+            "interval": [
+              0.8522302756638112,
+              0.9194444444444444
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 40,
+            "draws": 0,
+            "rate": 0.1111111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.0826646185207027,
+              0.14776972433618887
+            ],
+            "clusterInterval": [
+              0.08055555555555556,
+              0.14444444444444443
+            ],
+            "interval": [
+              0.08055555555555556,
+              0.14776972433618887
+            ]
+          },
+          "seconds": 18.03208333333334
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 290,
+            "draws": 0,
+            "rate": 0.8055555555555556,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7615342901921529,
+              0.8431244404202896
+            ],
+            "clusterInterval": [
+              0.7638888888888888,
+              0.8472222222222222
+            ],
+            "interval": [
+              0.7615342901921529,
+              0.8472222222222222
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 70,
+            "draws": 0,
+            "rate": 0.19444444444444445,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.15687555957971053,
+              0.23846570980784718
+            ],
+            "clusterInterval": [
+              0.1527777777777778,
+              0.2361111111111111
+            ],
+            "interval": [
+              0.1527777777777778,
+              0.23846570980784718
+            ]
+          },
+          "seconds": 21.998148148148154
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 129,
+            "draws": 0,
+            "rate": 0.35833333333333334,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.3105346348902175,
+              0.4091235900076502
+            ],
+            "clusterInterval": [
+              0.3138888888888889,
+              0.40555555555555556
+            ],
+            "interval": [
+              0.3105346348902175,
+              0.4091235900076502
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 231,
+            "draws": 0,
+            "rate": 0.6416666666666667,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.5908764099923498,
+              0.6894653651097826
+            ],
+            "clusterInterval": [
+              0.5944444444444444,
+              0.6861111111111111
+            ],
+            "interval": [
+              0.5908764099923498,
+              0.6894653651097826
+            ]
+          },
+          "seconds": 15.636666666666681
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 133,
+            "draws": 0,
+            "rate": 0.36944444444444446,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.32120895439412345,
+              0.42043686070783304
+            ],
+            "clusterInterval": [
+              0.3194444444444444,
+              0.4222222222222222
+            ],
+            "interval": [
+              0.3194444444444444,
+              0.4222222222222222
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 227,
+            "draws": 0,
+            "rate": 0.6305555555555555,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.579563139292167,
+              0.6787910456058766
+            ],
+            "clusterInterval": [
+              0.575,
+              0.6805555555555556
+            ],
+            "interval": [
+              0.575,
+              0.6805555555555556
+            ]
+          },
+          "seconds": 22.432083333333352
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 566,
+            "draws": 0,
+            "rate": 0.524074074074074,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.49425559182983536,
+              0.5537218986078817
+            ],
+            "clusterInterval": [
+              0.4935185185185185,
+              0.5546296296296296
+            ],
+            "interval": [
+              0.4935185185185185,
+              0.5546296296296296
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 514,
+            "draws": 0,
+            "rate": 0.4759259259259259,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.4462781013921183,
+              0.5057444081701645
+            ],
+            "clusterInterval": [
+              0.44537037037037036,
+              0.5055555555555555
+            ],
+            "interval": [
+              0.44537037037037036,
+              0.5057444081701645
+            ]
+          },
+          "seconds": 16.138348765432088
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 539,
+            "draws": 0,
+            "rate": 0.49907407407407406,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.46930985161337824,
+              0.5288448602928635
+            ],
+            "clusterInterval": [
+              0.4648148148148148,
+              0.5361111111111111
+            ],
+            "interval": [
+              0.4648148148148148,
+              0.5361111111111111
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 541,
+            "draws": 0,
+            "rate": 0.5009259259259259,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.4711551397071365,
+              0.5306901483866218
+            ],
+            "clusterInterval": [
+              0.4638888888888889,
+              0.5351851851851852
+            ],
+            "interval": [
+              0.4638888888888889,
+              0.5351851851851852
+            ]
+          },
+          "seconds": 22.311512345679024
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 516,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 516,
+            "trackingDamage": 3786.730000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3308,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 638
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 376,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 479,
+            "trackingDamage": 3138.9819999999972,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1084,
+            "directionalSpecialsStarted": 2899,
+            "punishAttemptsStarted": 722
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 691,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 693,
+            "trackingDamage": 4739.770000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4625,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 876
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 130,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 190,
+            "trackingDamage": 1184.0700000000004,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 113,
+            "directionalSpecialsStarted": 2482,
+            "punishAttemptsStarted": 1051
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 557,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 558,
+            "trackingDamage": 3794.4700000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3292,
+            "directionalSpecialsStarted": 318,
+            "punishAttemptsStarted": 338
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 425,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 569,
+            "trackingDamage": 1143.6276000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1326,
+            "directionalSpecialsStarted": 3603,
+            "punishAttemptsStarted": 843
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 790,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 799,
+            "trackingDamage": 5081.120000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 5037,
+            "directionalSpecialsStarted": 371,
+            "punishAttemptsStarted": 910
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 142,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 208,
+            "trackingDamage": 657.2199999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 116,
+            "directionalSpecialsStarted": 2584,
+            "punishAttemptsStarted": 1379
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 309,
+            "stepCatches": 0,
+            "trackingChecks": 556,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 556,
+            "trackingDamage": 4113.680000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3476,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 746
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 116,
+            "trackingChecks": 364,
+            "trackingStepOpportunities": 58,
+            "trackingStepCatches": 58,
+            "linearStepOpportunities": 116,
+            "linearStepCatches": 58,
+            "trackingStarts": 503,
+            "trackingDamage": 2946.4271999999987,
+            "trackingTravelCatches": 58,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1238,
+            "directionalSpecialsStarted": 3062,
+            "punishAttemptsStarted": 880
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 121,
+            "stepCatches": 0,
+            "trackingChecks": 701,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 701,
+            "trackingDamage": 4809.320000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4563,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 1006
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 84,
+            "trackingChecks": 136,
+            "trackingStepOpportunities": 9,
+            "trackingStepCatches": 9,
+            "linearStepOpportunities": 169,
+            "linearStepCatches": 75,
+            "trackingStarts": 187,
+            "trackingDamage": 1290.9500000000007,
+            "trackingTravelCatches": 9,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 103,
+            "directionalSpecialsStarted": 2445,
+            "punishAttemptsStarted": 1027
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 309,
+            "stepCatches": 0,
+            "trackingChecks": 1629,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1630,
+            "trackingDamage": 11694.879999999994,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 10076,
+            "directionalSpecialsStarted": 318,
+            "punishAttemptsStarted": 1722
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 116,
+            "trackingChecks": 1165,
+            "trackingStepOpportunities": 58,
+            "trackingStepCatches": 58,
+            "linearStepOpportunities": 116,
+            "linearStepCatches": 58,
+            "trackingStarts": 1551,
+            "trackingDamage": 7229.036800000001,
+            "trackingTravelCatches": 58,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3648,
+            "directionalSpecialsStarted": 9564,
+            "punishAttemptsStarted": 2445
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 121,
+            "stepCatches": 0,
+            "trackingChecks": 2182,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 2193,
+            "trackingDamage": 14630.209999999988,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 14225,
+            "directionalSpecialsStarted": 371,
+            "punishAttemptsStarted": 2792
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 84,
+            "trackingChecks": 408,
+            "trackingStepOpportunities": 9,
+            "trackingStepCatches": 9,
+            "linearStepOpportunities": 169,
+            "linearStepCatches": 75,
+            "trackingStarts": 585,
+            "trackingDamage": 3132.2399999999975,
+            "trackingTravelCatches": 9,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 332,
+            "directionalSpecialsStarted": 7511,
+            "punishAttemptsStarted": 3457
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "horizon",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 10.031814326
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 55,
+            "draws": 0,
+            "rate": 0.1527777777777778,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.1192943336050678,
+              0.19359347251715686
+            ],
+            "clusterInterval": [
+              0.11666666666666667,
+              0.18888888888888888
+            ],
+            "interval": [
+              0.11666666666666667,
+              0.19359347251715686
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 305,
+            "draws": 0,
+            "rate": 0.8472222222222222,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8064065274828431,
+              0.8807056663949322
+            ],
+            "clusterInterval": [
+              0.8111111111111111,
+              0.8833333333333333
+            ],
+            "interval": [
+              0.8064065274828431,
+              0.8833333333333333
+            ]
+          },
+          "seconds": 13.662962962962963
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 86,
+            "draws": 0,
+            "rate": 0.2388888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.19774425727766348,
+              0.2855473729262495
+            ],
+            "clusterInterval": [
+              0.19444444444444445,
+              0.2833333333333333
+            ],
+            "interval": [
+              0.19444444444444445,
+              0.2855473729262495
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 274,
+            "draws": 0,
+            "rate": 0.7611111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7144526270737506,
+              0.8022557427223365
+            ],
+            "clusterInterval": [
+              0.7166666666666667,
+              0.8055555555555556
+            ],
+            "interval": [
+              0.7144526270737506,
+              0.8055555555555556
+            ]
+          },
+          "seconds": 22.602083333333344
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 183,
+            "draws": 0,
+            "rate": 0.5083333333333333,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.45687527020572577,
+              0.5596154224473409
+            ],
+            "clusterInterval": [
+              0.46111111111111114,
+              0.5611111111111111
+            ],
+            "interval": [
+              0.45687527020572577,
+              0.5611111111111111
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 177,
+            "draws": 0,
+            "rate": 0.49166666666666664,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.44038457755265914,
+              0.5431247297942742
+            ],
+            "clusterInterval": [
+              0.4388888888888889,
+              0.5388888888888889
+            ],
+            "interval": [
+              0.4388888888888889,
+              0.5431247297942742
+            ]
+          },
+          "seconds": 17.930138888888894
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 178,
+            "draws": 0,
+            "rate": 0.49444444444444446,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.44312910351022095,
+              0.5458771013877347
+            ],
+            "clusterInterval": [
+              0.4388888888888889,
+              0.55
+            ],
+            "interval": [
+              0.4388888888888889,
+              0.55
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 182,
+            "draws": 0,
+            "rate": 0.5055555555555555,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.45412289861226535,
+              0.5568708964897792
+            ],
+            "clusterInterval": [
+              0.45,
+              0.5611111111111111
+            ],
+            "interval": [
+              0.45,
+              0.5611111111111111
+            ]
+          },
+          "seconds": 25.94513888888886
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 53,
+            "draws": 0,
+            "rate": 0.14722222222222223,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.11434832461112049,
+              0.18754568640905978
+            ],
+            "clusterInterval": [
+              0.1111111111111111,
+              0.18333333333333332
+            ],
+            "interval": [
+              0.1111111111111111,
+              0.18754568640905978
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 307,
+            "draws": 0,
+            "rate": 0.8527777777777777,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8124543135909402,
+              0.8856516753888796
+            ],
+            "clusterInterval": [
+              0.8166666666666667,
+              0.8888888888888888
+            ],
+            "interval": [
+              0.8124543135909402,
+              0.8888888888888888
+            ]
+          },
+          "seconds": 13.900740740740737
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 75,
+            "draws": 0,
+            "rate": 0.20833333333333334,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.1695692039184457,
+              0.253256553224223
+            ],
+            "clusterInterval": [
+              0.16111111111111112,
+              0.25277777777777777
+            ],
+            "interval": [
+              0.16111111111111112,
+              0.253256553224223
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 285,
+            "draws": 0,
+            "rate": 0.7916666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.746743446775777,
+              0.8304307960815542
+            ],
+            "clusterInterval": [
+              0.7472222222222222,
+              0.8388888888888889
+            ],
+            "interval": [
+              0.746743446775777,
+              0.8388888888888889
+            ]
+          },
+          "seconds": 22.834768518518526
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 291,
+            "draws": 0,
+            "rate": 0.26944444444444443,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.2438349803941838,
+              0.29668828425998706
+            ],
+            "clusterInterval": [
+              0.24074074074074073,
+              0.29814814814814816
+            ],
+            "interval": [
+              0.24074074074074073,
+              0.29814814814814816
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 789,
+            "draws": 0,
+            "rate": 0.7305555555555555,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7033117157400129,
+              0.7561650196058162
+            ],
+            "clusterInterval": [
+              0.7018518518518518,
+              0.7592592592592593
+            ],
+            "interval": [
+              0.7018518518518518,
+              0.7592592592592593
+            ]
+          },
+          "seconds": 15.16461419753088
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 339,
+            "draws": 0,
+            "rate": 0.3138888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.2869121056785724,
+              0.34218498747599924
+            ],
+            "clusterInterval": [
+              0.2833333333333333,
+              0.3453703703703704
+            ],
+            "interval": [
+              0.2833333333333333,
+              0.3453703703703704
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 741,
+            "draws": 0,
+            "rate": 0.6861111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6578150125240008,
+              0.7130878943214276
+            ],
+            "clusterInterval": [
+              0.6546296296296297,
+              0.7166666666666667
+            ],
+            "interval": [
+              0.6546296296296297,
+              0.7166666666666667
+            ]
+          },
+          "seconds": 23.793996913580255
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 438,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 439,
+            "trackingDamage": 3203.3299999999995,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2381,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 552
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 386,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 515,
+            "trackingDamage": 3134.8963999999987,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 822,
+            "directionalSpecialsStarted": 2657,
+            "punishAttemptsStarted": 565
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 675,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 676,
+            "trackingDamage": 4482.819999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4164,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 700
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 122,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 180,
+            "trackingDamage": 1116.8600000000004,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 116,
+            "directionalSpecialsStarted": 2253,
+            "punishAttemptsStarted": 876
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 464,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 466,
+            "trackingDamage": 3287.79,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2925,
+            "directionalSpecialsStarted": 210,
+            "punishAttemptsStarted": 398
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 492,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 666,
+            "trackingDamage": 1938.5690000000002,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1283,
+            "directionalSpecialsStarted": 3627,
+            "punishAttemptsStarted": 696
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 776,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 789,
+            "trackingDamage": 4884.159999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 5022,
+            "directionalSpecialsStarted": 374,
+            "punishAttemptsStarted": 732
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 142,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 197,
+            "trackingDamage": 977.7400000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 111,
+            "directionalSpecialsStarted": 2778,
+            "punishAttemptsStarted": 1234
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 182,
+            "stepCatches": 0,
+            "trackingChecks": 432,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 434,
+            "trackingDamage": 3183.700000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2411,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 582
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 90,
+            "trackingChecks": 391,
+            "trackingStepOpportunities": 73,
+            "trackingStepCatches": 73,
+            "linearStepOpportunities": 17,
+            "linearStepCatches": 17,
+            "trackingStarts": 498,
+            "trackingDamage": 3199.5095999999976,
+            "trackingTravelCatches": 73,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 871,
+            "directionalSpecialsStarted": 2694,
+            "punishAttemptsStarted": 605
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 150,
+            "stepCatches": 0,
+            "trackingChecks": 652,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 655,
+            "trackingDamage": 4314.390000000002,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4107,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 760
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 164,
+            "trackingChecks": 129,
+            "trackingStepOpportunities": 8,
+            "trackingStepCatches": 8,
+            "linearStepOpportunities": 160,
+            "linearStepCatches": 156,
+            "trackingStarts": 172,
+            "trackingDamage": 1087.0500000000004,
+            "trackingTravelCatches": 8,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 117,
+            "directionalSpecialsStarted": 2273,
+            "punishAttemptsStarted": 872
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 182,
+            "stepCatches": 0,
+            "trackingChecks": 1334,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1339,
+            "trackingDamage": 9674.81999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 7717,
+            "directionalSpecialsStarted": 210,
+            "punishAttemptsStarted": 1532
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 90,
+            "trackingChecks": 1269,
+            "trackingStepOpportunities": 73,
+            "trackingStepCatches": 73,
+            "linearStepOpportunities": 17,
+            "linearStepCatches": 17,
+            "trackingStarts": 1679,
+            "trackingDamage": 8272.975000000006,
+            "trackingTravelCatches": 73,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2976,
+            "directionalSpecialsStarted": 8978,
+            "punishAttemptsStarted": 1866
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 150,
+            "stepCatches": 0,
+            "trackingChecks": 2103,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 2120,
+            "trackingDamage": 13681.37000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 13293,
+            "directionalSpecialsStarted": 374,
+            "punishAttemptsStarted": 2192
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 164,
+            "trackingChecks": 393,
+            "trackingStepOpportunities": 8,
+            "trackingStepCatches": 8,
+            "linearStepOpportunities": 160,
+            "linearStepCatches": 156,
+            "trackingStarts": 549,
+            "trackingDamage": 3181.649999999999,
+            "trackingTravelCatches": 8,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 344,
+            "directionalSpecialsStarted": 7304,
+            "punishAttemptsStarted": 2982
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "linear",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 9.001407488
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 51,
+            "draws": 0,
+            "rate": 0.14166666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.10941968328440163,
+              0.18148053263373418
+            ],
+            "clusterInterval": [
+              0.10555555555555556,
+              0.17777777777777778
+            ],
+            "interval": [
+              0.10555555555555556,
+              0.18148053263373418
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 309,
+            "draws": 0,
+            "rate": 0.8583333333333333,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8185194673662658,
+              0.8905803167155982
+            ],
+            "clusterInterval": [
+              0.8222222222222222,
+              0.8944444444444445
+            ],
+            "interval": [
+              0.8185194673662658,
+              0.8944444444444445
+            ]
+          },
+          "seconds": 13.743472222222222
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 82,
+            "draws": 0,
+            "rate": 0.22777777777777777,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.18746129336284295,
+              0.27384274663698116
+            ],
+            "clusterInterval": [
+              0.18333333333333332,
+              0.275
+            ],
+            "interval": [
+              0.18333333333333332,
+              0.275
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 278,
+            "draws": 0,
+            "rate": 0.7722222222222223,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7261572533630188,
+              0.8125387066371571
+            ],
+            "clusterInterval": [
+              0.725,
+              0.8166666666666667
+            ],
+            "interval": [
+              0.725,
+              0.8166666666666667
+            ]
+          },
+          "seconds": 22.54046296296297
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 191,
+            "draws": 0,
+            "rate": 0.5305555555555556,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.47895081017556074,
+              0.5815150628856834
+            ],
+            "clusterInterval": [
+              0.48333333333333334,
+              0.5805555555555556
+            ],
+            "interval": [
+              0.47895081017556074,
+              0.5815150628856834
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 169,
+            "draws": 0,
+            "rate": 0.46944444444444444,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.4184849371143165,
+              0.5210491898244392
+            ],
+            "clusterInterval": [
+              0.41944444444444445,
+              0.5166666666666667
+            ],
+            "interval": [
+              0.4184849371143165,
+              0.5210491898244392
+            ]
+          },
+          "seconds": 18.42416666666667
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 175,
+            "draws": 0,
+            "rate": 0.4861111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.43490023503262076,
+              0.5376152772122682
+            ],
+            "clusterInterval": [
+              0.43333333333333335,
+              0.5388888888888889
+            ],
+            "interval": [
+              0.43333333333333335,
+              0.5388888888888889
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 185,
+            "draws": 0,
+            "rate": 0.5138888888888888,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.46238472278773163,
+              0.5650997649673791
+            ],
+            "clusterInterval": [
+              0.46111111111111114,
+              0.5666666666666667
+            ],
+            "interval": [
+              0.46111111111111114,
+              0.5666666666666667
+            ]
+          },
+          "seconds": 26.126527777777756
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 51,
+            "draws": 0,
+            "rate": 0.14166666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.10941968328440163,
+              0.18148053263373418
+            ],
+            "clusterInterval": [
+              0.10555555555555556,
+              0.17777777777777778
+            ],
+            "interval": [
+              0.10555555555555556,
+              0.18148053263373418
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 309,
+            "draws": 0,
+            "rate": 0.8583333333333333,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8185194673662658,
+              0.8905803167155982
+            ],
+            "clusterInterval": [
+              0.8222222222222222,
+              0.8944444444444445
+            ],
+            "interval": [
+              0.8185194673662658,
+              0.8944444444444445
+            ]
+          },
+          "seconds": 14.102824074074071
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 67,
+            "draws": 0,
+            "rate": 0.18611111111111112,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.14929661335327227,
+              0.2295539633812188
+            ],
+            "clusterInterval": [
+              0.14166666666666666,
+              0.22777777777777777
+            ],
+            "interval": [
+              0.14166666666666666,
+              0.2295539633812188
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 293,
+            "draws": 0,
+            "rate": 0.8138888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7704460366187813,
+              0.8507033866467277
+            ],
+            "clusterInterval": [
+              0.7722222222222223,
+              0.8583333333333333
+            ],
+            "interval": [
+              0.7704460366187813,
+              0.8583333333333333
+            ]
+          },
+          "seconds": 22.846666666666675
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 293,
+            "draws": 0,
+            "rate": 0.2712962962962963,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.24562349703000408,
+              0.2985903438116835
+            ],
+            "clusterInterval": [
+              0.24351851851851852,
+              0.29907407407407405
+            ],
+            "interval": [
+              0.24351851851851852,
+              0.29907407407407405
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 787,
+            "draws": 0,
+            "rate": 0.7287037037037037,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7014096561883166,
+              0.7543765029699959
+            ],
+            "clusterInterval": [
+              0.700925925925926,
+              0.7555555555555555
+            ],
+            "interval": [
+              0.700925925925926,
+              0.7555555555555555
+            ]
+          },
+          "seconds": 15.42348765432102
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 324,
+            "draws": 0,
+            "rate": 0.3,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.27341726285556717,
+              0.32800050889262927
+            ],
+            "clusterInterval": [
+              0.26666666666666666,
+              0.33240740740740743
+            ],
+            "interval": [
+              0.26666666666666666,
+              0.33240740740740743
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 756,
+            "draws": 0,
+            "rate": 0.7,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6719994911073707,
+              0.7265827371444328
+            ],
+            "clusterInterval": [
+              0.6675925925925926,
+              0.7333333333333333
+            ],
+            "interval": [
+              0.6675925925925926,
+              0.7333333333333333
+            ]
+          },
+          "seconds": 23.837885802469145
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 438,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 439,
+            "trackingDamage": 3200.849999999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2367,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 557
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 393,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 518,
+            "trackingDamage": 3157.451399999998,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 842,
+            "directionalSpecialsStarted": 2685,
+            "punishAttemptsStarted": 563
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 664,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 665,
+            "trackingDamage": 4386.24,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4124,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 726
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 128,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 190,
+            "trackingDamage": 1165.4400000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 123,
+            "directionalSpecialsStarted": 2255,
+            "punishAttemptsStarted": 872
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 472,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 474,
+            "trackingDamage": 3354.5500000000006,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2980,
+            "directionalSpecialsStarted": 234,
+            "punishAttemptsStarted": 403
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 506,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 683,
+            "trackingDamage": 1909.5874000000008,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1322,
+            "directionalSpecialsStarted": 3723,
+            "punishAttemptsStarted": 714
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 771,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 783,
+            "trackingDamage": 4832.999999999997,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 5079,
+            "directionalSpecialsStarted": 378,
+            "punishAttemptsStarted": 768
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 154,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 213,
+            "trackingDamage": 1095.7000000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 115,
+            "directionalSpecialsStarted": 2799,
+            "punishAttemptsStarted": 1277
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 178,
+            "stepCatches": 0,
+            "trackingChecks": 440,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 442,
+            "trackingDamage": 3230.270000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2450,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 591
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 90,
+            "trackingChecks": 395,
+            "trackingStepOpportunities": 74,
+            "trackingStepCatches": 74,
+            "linearStepOpportunities": 17,
+            "linearStepCatches": 16,
+            "trackingStarts": 500,
+            "trackingDamage": 3193.5295999999985,
+            "trackingTravelCatches": 74,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 898,
+            "directionalSpecialsStarted": 2732,
+            "punishAttemptsStarted": 616
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 145,
+            "stepCatches": 0,
+            "trackingChecks": 640,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 642,
+            "trackingDamage": 4225.660000000003,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4100,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 793
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 144,
+            "trackingChecks": 131,
+            "trackingStepOpportunities": 7,
+            "trackingStepCatches": 7,
+            "linearStepOpportunities": 155,
+            "linearStepCatches": 137,
+            "trackingStarts": 176,
+            "trackingDamage": 1096.4100000000003,
+            "trackingTravelCatches": 7,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 124,
+            "directionalSpecialsStarted": 2281,
+            "punishAttemptsStarted": 874
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 178,
+            "stepCatches": 0,
+            "trackingChecks": 1350,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1355,
+            "trackingDamage": 9785.669999999995,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 7797,
+            "directionalSpecialsStarted": 234,
+            "punishAttemptsStarted": 1551
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 90,
+            "trackingChecks": 1294,
+            "trackingStepOpportunities": 74,
+            "trackingStepCatches": 74,
+            "linearStepOpportunities": 17,
+            "linearStepCatches": 16,
+            "trackingStarts": 1701,
+            "trackingDamage": 8260.568400000004,
+            "trackingTravelCatches": 74,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3062,
+            "directionalSpecialsStarted": 9140,
+            "punishAttemptsStarted": 1893
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 145,
+            "stepCatches": 0,
+            "trackingChecks": 2075,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 2090,
+            "trackingDamage": 13444.900000000021,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 13303,
+            "directionalSpecialsStarted": 378,
+            "punishAttemptsStarted": 2287
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 144,
+            "trackingChecks": 413,
+            "trackingStepOpportunities": 7,
+            "trackingStepCatches": 7,
+            "linearStepOpportunities": 155,
+            "linearStepCatches": 137,
+            "trackingStarts": 579,
+            "trackingDamage": 3357.550000000001,
+            "trackingTravelCatches": 7,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 362,
+            "directionalSpecialsStarted": 7335,
+            "punishAttemptsStarted": 3023
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "mode": "linear-heavy",
+        "delay": 15,
+        "seeds": 5,
+        "mirrored": true,
+        "pairs": [
+          [
+            "stepper",
+            "masher"
+          ],
+          [
+            "stepper",
+            "masher-all"
+          ],
+          [
+            "punisher",
+            "masher"
+          ],
+          [
+            "punisher",
+            "masher-all"
+          ],
+          [
+            "side-stepper",
+            "masher"
+          ],
+          [
+            "side-stepper",
+            "masher-all"
+          ]
+        ],
+        "elapsedSeconds": 8.302198625
+      },
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e",
+      "bouts": 2160,
+      "censored": 0,
+      "outcomes": {
+        "stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 58,
+            "draws": 0,
+            "rate": 0.16111111111111112,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.12674426325375332,
+              0.20263423552153798
+            ],
+            "clusterInterval": [
+              0.12222222222222222,
+              0.2
+            ],
+            "interval": [
+              0.12222222222222222,
+              0.20263423552153798
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 302,
+            "draws": 0,
+            "rate": 0.8388888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7973657644784621,
+              0.8732557367462467
+            ],
+            "clusterInterval": [
+              0.8,
+              0.8777777777777778
+            ],
+            "interval": [
+              0.7973657644784621,
+              0.8777777777777778
+            ]
+          },
+          "seconds": 13.295462962962963
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 76,
+            "draws": 0,
+            "rate": 0.2111111111111111,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.17211682183336058,
+              0.25620583286033033
+            ],
+            "clusterInterval": [
+              0.16666666666666666,
+              0.25833333333333336
+            ],
+            "interval": [
+              0.16666666666666666,
+              0.25833333333333336
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 284,
+            "draws": 0,
+            "rate": 0.7888888888888889,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7437941671396697,
+              0.8278831781666394
+            ],
+            "clusterInterval": [
+              0.7416666666666667,
+              0.8333333333333334
+            ],
+            "interval": [
+              0.7416666666666667,
+              0.8333333333333334
+            ]
+          },
+          "seconds": 22.27824074074075
+        },
+        "punisher/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 178,
+            "draws": 0,
+            "rate": 0.49444444444444446,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.44312910351022095,
+              0.5458771013877347
+            ],
+            "clusterInterval": [
+              0.4444444444444444,
+              0.5472222222222223
+            ],
+            "interval": [
+              0.44312910351022095,
+              0.5472222222222223
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 182,
+            "draws": 0,
+            "rate": 0.5055555555555555,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.45412289861226535,
+              0.5568708964897792
+            ],
+            "clusterInterval": [
+              0.4527777777777778,
+              0.5555555555555556
+            ],
+            "interval": [
+              0.4527777777777778,
+              0.5568708964897792
+            ]
+          },
+          "seconds": 17.814629629629636
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 180,
+            "draws": 0,
+            "rate": 0.5,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.4486228630225383,
+              0.5513771369774617
+            ],
+            "clusterInterval": [
+              0.44722222222222224,
+              0.5555555555555556
+            ],
+            "interval": [
+              0.44722222222222224,
+              0.5555555555555556
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 180,
+            "draws": 0,
+            "rate": 0.5,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.4486228630225383,
+              0.5513771369774617
+            ],
+            "clusterInterval": [
+              0.4444444444444444,
+              0.5527777777777778
+            ],
+            "interval": [
+              0.4444444444444444,
+              0.5527777777777778
+            ]
+          },
+          "seconds": 25.82314814814814
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "n": 360,
+            "wins": 52,
+            "draws": 1,
+            "rate": 0.14444444444444443,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.11188178261915036,
+              0.18451533085000768
+            ],
+            "clusterInterval": [
+              0.1111111111111111,
+              0.17777777777777778
+            ],
+            "interval": [
+              0.1111111111111111,
+              0.18451533085000768
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 307,
+            "draws": 1,
+            "rate": 0.8527777777777777,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.8124543135909402,
+              0.8856516753888796
+            ],
+            "clusterInterval": [
+              0.8194444444444444,
+              0.8888888888888888
+            ],
+            "interval": [
+              0.8124543135909402,
+              0.8888888888888888
+            ]
+          },
+          "seconds": 13.558425925925933
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "n": 360,
+            "wins": 70,
+            "draws": 0,
+            "rate": 0.19444444444444445,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.15687555957971053,
+              0.23846570980784718
+            ],
+            "clusterInterval": [
+              0.1527777777777778,
+              0.2361111111111111
+            ],
+            "interval": [
+              0.1527777777777778,
+              0.23846570980784718
+            ]
+          },
+          "masher": {
+            "n": 360,
+            "wins": 290,
+            "draws": 0,
+            "rate": 0.8055555555555556,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7615342901921529,
+              0.8431244404202896
+            ],
+            "clusterInterval": [
+              0.7638888888888888,
+              0.8472222222222222
+            ],
+            "interval": [
+              0.7615342901921529,
+              0.8472222222222222
+            ]
+          },
+          "seconds": 22.799212962962976
+        },
+        "combined/masher": {
+          "skilled": {
+            "n": 1080,
+            "wins": 288,
+            "draws": 1,
+            "rate": 0.26666666666666666,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.2411532970172357,
+              0.2938341033556601
+            ],
+            "clusterInterval": [
+              0.2388888888888889,
+              0.2953703703703704
+            ],
+            "interval": [
+              0.2388888888888889,
+              0.2953703703703704
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 791,
+            "draws": 1,
+            "rate": 0.7324074074074074,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.7052143568336776,
+              0.7579529546996683
+            ],
+            "clusterInterval": [
+              0.7037037037037037,
+              0.7601851851851852
+            ],
+            "interval": [
+              0.7037037037037037,
+              0.7601851851851852
+            ]
+          },
+          "seconds": 14.889506172839521
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "n": 1080,
+            "wins": 326,
+            "draws": 0,
+            "rate": 0.30185185185185187,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.27521488406691785,
+              0.32989346386879526
+            ],
+            "clusterInterval": [
+              0.26944444444444443,
+              0.33611111111111114
+            ],
+            "interval": [
+              0.26944444444444443,
+              0.33611111111111114
+            ]
+          },
+          "masher": {
+            "n": 1080,
+            "wins": 754,
+            "draws": 0,
+            "rate": 0.6981481481481482,
+            "clusters": 180,
+            "wilsonInterval": [
+              0.6701065361312047,
+              0.7247851159330821
+            ],
+            "clusterInterval": [
+              0.6638888888888889,
+              0.7305555555555555
+            ],
+            "interval": [
+              0.6638888888888889,
+              0.7305555555555555
+            ]
+          },
+          "seconds": 23.633533950617252
+        }
+      },
+      "steps": {
+        "stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 396,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 397,
+            "trackingDamage": 2851.01,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2255,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 547
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 362,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 466,
+            "trackingDamage": 2856.446199999999,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 783,
+            "directionalSpecialsStarted": 2593,
+            "punishAttemptsStarted": 547
+          }
+        },
+        "stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 574,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 574,
+            "trackingDamage": 3823.3100000000027,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3900,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 719
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 129,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 180,
+            "trackingDamage": 1169.46,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 117,
+            "directionalSpecialsStarted": 2205,
+            "punishAttemptsStarted": 837
+          }
+        },
+        "punisher/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 388,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 390,
+            "trackingDamage": 2735.7599999999993,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2702,
+            "directionalSpecialsStarted": 237,
+            "punishAttemptsStarted": 377
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 434,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 583,
+            "trackingDamage": 1646.8098000000007,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 1226,
+            "directionalSpecialsStarted": 3575,
+            "punishAttemptsStarted": 692
+          }
+        },
+        "punisher/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 667,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 679,
+            "trackingDamage": 4207.090000000002,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 4877,
+            "directionalSpecialsStarted": 365,
+            "punishAttemptsStarted": 765
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 0,
+            "trackingChecks": 149,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 207,
+            "trackingDamage": 1070.1000000000001,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 108,
+            "directionalSpecialsStarted": 2767,
+            "punishAttemptsStarted": 1225
+          }
+        },
+        "side-stepper/masher": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 167,
+            "stepCatches": 0,
+            "trackingChecks": 376,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 377,
+            "trackingDamage": 2752.1700000000014,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2238,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 542
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 78,
+            "trackingChecks": 352,
+            "trackingStepOpportunities": 60,
+            "trackingStepCatches": 60,
+            "linearStepOpportunities": 21,
+            "linearStepCatches": 18,
+            "trackingStarts": 448,
+            "trackingDamage": 2677.4860000000003,
+            "trackingTravelCatches": 60,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 818,
+            "directionalSpecialsStarted": 2627,
+            "punishAttemptsStarted": 586
+          }
+        },
+        "side-stepper/masher-all": {
+          "skilled": {
+            "bouts": 360,
+            "sidestepsStarted": 157,
+            "stepCatches": 0,
+            "trackingChecks": 552,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 553,
+            "trackingDamage": 3720.33,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 3942,
+            "directionalSpecialsStarted": 0,
+            "punishAttemptsStarted": 800
+          },
+          "masher": {
+            "bouts": 360,
+            "sidestepsStarted": 0,
+            "stepCatches": 148,
+            "trackingChecks": 123,
+            "trackingStepOpportunities": 6,
+            "trackingStepCatches": 6,
+            "linearStepOpportunities": 166,
+            "linearStepCatches": 142,
+            "trackingStarts": 161,
+            "trackingDamage": 1029.0300000000002,
+            "trackingTravelCatches": 6,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 119,
+            "directionalSpecialsStarted": 2227,
+            "punishAttemptsStarted": 854
+          }
+        },
+        "combined/masher": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 167,
+            "stepCatches": 0,
+            "trackingChecks": 1160,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1164,
+            "trackingDamage": 8338.939999999993,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 7195,
+            "directionalSpecialsStarted": 237,
+            "punishAttemptsStarted": 1466
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 78,
+            "trackingChecks": 1148,
+            "trackingStepOpportunities": 60,
+            "trackingStepCatches": 60,
+            "linearStepOpportunities": 21,
+            "linearStepCatches": 18,
+            "trackingStarts": 1497,
+            "trackingDamage": 7180.74200000001,
+            "trackingTravelCatches": 60,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 2827,
+            "directionalSpecialsStarted": 8795,
+            "punishAttemptsStarted": 1825
+          }
+        },
+        "combined/masher-all": {
+          "skilled": {
+            "bouts": 1080,
+            "sidestepsStarted": 157,
+            "stepCatches": 0,
+            "trackingChecks": 1793,
+            "trackingStepOpportunities": 0,
+            "trackingStepCatches": 0,
+            "linearStepOpportunities": 0,
+            "linearStepCatches": 0,
+            "trackingStarts": 1806,
+            "trackingDamage": 11750.729999999992,
+            "trackingTravelCatches": 0,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 12719,
+            "directionalSpecialsStarted": 365,
+            "punishAttemptsStarted": 2284
+          },
+          "masher": {
+            "bouts": 1080,
+            "sidestepsStarted": 0,
+            "stepCatches": 148,
+            "trackingChecks": 401,
+            "trackingStepOpportunities": 6,
+            "trackingStepCatches": 6,
+            "linearStepOpportunities": 166,
+            "linearStepCatches": 142,
+            "trackingStarts": 548,
+            "trackingDamage": 3268.590000000001,
+            "trackingTravelCatches": 6,
+            "trackingRecoveryCatches": 0,
+            "basicStrikesStarted": 344,
+            "directionalSpecialsStarted": 7199,
+            "punishAttemptsStarted": 2916
+          }
+        }
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "stepper/masher",
+      "difference": -0.5555555555555536,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "stepper/masher-all",
+      "difference": -1.6666666666666663,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "punisher/masher",
+      "difference": 0,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "punisher/masher-all",
+      "difference": -2.500000000000002,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "side-stepper/masher",
+      "difference": -3.055555555555556,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "side-stepper/masher-all",
+      "difference": 6.111111111111112,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "combined/masher",
+      "difference": -1.2037037037037068,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear",
+      "key": "combined/masher-all",
+      "difference": 0.6481481481481477,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "stepper/masher",
+      "difference": -3.888888888888886,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "stepper/masher-all",
+      "difference": -2.4999999999999964,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "punisher/masher",
+      "difference": -2.777777777777779,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "punisher/masher-all",
+      "difference": -3.3333333333333326,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "side-stepper/masher",
+      "difference": -2.777777777777779,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "side-stepper/masher-all",
+      "difference": 7.500000000000001,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "combined/masher",
+      "difference": -3.1481481481481555,
+      "label": "could be luck"
+    },
+    {
+      "delay": 10,
+      "mode": "linear-heavy",
+      "key": "combined/masher-all",
+      "difference": 0.5555555555555536,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "stepper/masher",
+      "difference": -1.1111111111111127,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "stepper/masher-all",
+      "difference": -1.1111111111111127,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "punisher/masher",
+      "difference": 2.2222222222222254,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "punisher/masher-all",
+      "difference": -0.8333333333333359,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "side-stepper/masher",
+      "difference": -0.5555555555555564,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "side-stepper/masher-all",
+      "difference": -2.2222222222222228,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "combined/masher",
+      "difference": 0.18518518518518823,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear",
+      "key": "combined/masher-all",
+      "difference": -1.3888888888888895,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "stepper/masher",
+      "difference": 0.8333333333333331,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "stepper/masher-all",
+      "difference": -2.777777777777779,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "punisher/masher",
+      "difference": -1.388888888888884,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "punisher/masher-all",
+      "difference": 0.5555555555555536,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "side-stepper/masher",
+      "difference": -0.27777777777777957,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "side-stepper/masher-all",
+      "difference": -1.3888888888888895,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "combined/masher",
+      "difference": -0.2777777777777768,
+      "label": "could be luck"
+    },
+    {
+      "delay": 15,
+      "mode": "linear-heavy",
+      "key": "combined/masher-all",
+      "difference": -1.2037037037037013,
+      "label": "could be luck"
+    }
+  ],
+  "findings": [
+    "Yes: under step=linear, a same-frame sidestep escapes Morrow’s 11f jab from both 1.5 and 2 units. Close captures now have a narrow path too. Default gameplay is unchanged. Startup aim stays fixed; no invulnerability or faster animation was added.",
+    "The existing sidestep already clears the new paths: 1.8 units over 14 frames, then 6 recovery frames with guard locked. Tala can punish Morrow’s missed jab on fixture tick 30 and Morrow on tick 32, before its 34f move ends. Their attack press starts at tick 20 after step recovery. These are isolated, early-read fixtures, not 15f reactions.",
+    "Morrow’s Returning Sweep still catches an early sidestep. Each fighter has one or two named tracking moves, retaining the existing wide cone or radial check rather than homing toward the defender. They already have longer startup/recovery than the jab; the linear switch changes no attack timing. The existing heavy-Morrow option remains a separate timing/damage variant. The roster and exact escape windows below expose gaps where even a tracking move misses.",
+    "These bot runs do not show defence becoming dominant: all combined-policy changes versus Horizon have overlapping 95% ranges. This is not proof of human balance. Side-stepper reacts late to fast attacks and is less successful than the other policies; the narrowed paths also restrict its own attacks. See masher wins, round times and tracking catches below.",
+    "Mean bout lengths across the six mode/delay groups stay between 19.2 and 19.7 seconds, with 1 draw in all 12,960 bouts. These policies do not produce a defensive stalemate.",
+    "The new side-stepper is a reactive policy, not an expert human. It reads delayed visible startup, alternates left/right, releases between taps, then attacks recovery. It cannot react to an 11f jab at 15f delay; even at 10f, two taps plus displacement take additional time. A move can be dodgeable on a read but too fast for this bot’s reaction. Stepper remains the older backdash policy; punisher remains unchanged.",
+    "Side-stepper vs masher, 10f: 38.6% (139/360); 95% 33.6–43.9% → 35.6% (128/360); 95% 30.6–40.6% (-3.1 percentage points; could be luck). Mean bout time 16.1 → 16.2 seconds; draws 0 → 0.",
+    "Side-stepper vs masher-all, 10f: 29.4% (106/360); 95% 24.7–34.4% → 35.6% (128/360); 95% 30.8–40.8% (6.1 percentage points; could be luck). Mean bout time 22.3 → 22.8 seconds; draws 0 → 0.",
+    "Side-stepper vs masher, 15f: 14.7% (53/360); 95% 11.1–18.8% → 14.2% (51/360); 95% 10.6–18.1% (-0.6 percentage points; could be luck). Mean bout time 13.9 → 14.1 seconds; draws 0 → 0.",
+    "Side-stepper vs masher-all, 15f: 20.8% (75/360); 95% 16.1–25.3% → 18.6% (67/360); 95% 14.2–23.0% (-2.2 percentage points; could be luck). Mean bout time 22.8 → 22.8 seconds; draws 0 → 0.",
+    "Tracking moves caught the side-stepper on 76/78 observed tracking opportunities at 10f. This denominator includes only moves checked while a sidestep was active, not all attacks. The bot is usually stepping late; this is not the chance of catching an optimally timed human step.",
+    "Tracking moves caught the side-stepper on 81/81 observed tracking opportunities at 15f. This denominator includes only moves checked while a sidestep was active, not all attacks. The bot is usually stepping late; this is not the chance of catching an optimally timed human step."
+  ],
+  "notes": [
+    "12,960 bouts: three modes × two delays × three policies × two mashers × all 36 fighter pairs × five seeds × mirrored seats. Horizon baseline is move=v2&arena=ring&burst=v2. Linear adds step=linear; linear-heavy also adds the existing morrow=jab15heavy. No proposed balance or grab switches. Every older study is retained.",
+    "95% ranges envelope Wilson and 2,000 bootstrap resamples of fighter-pair/seed blocks; mirrored seats and combined policies remain grouped. Overlapping ranges mean could be luck, not proof of equality. Multiple comparisons are exploratory. Wins count draws as non-wins; both sides and draw counts are shown.",
+    "Mean bout time is input frames / 60 (including hitstop), not wall-clock simulation runtime. Tracking catches count unique moves that actually hit/capture a sidestepping opponent, separated into travel and recovery. Opportunities count unique move checks while the defender has a sidestep state; a missed early active-frame check may connect on a later active frame. Tracking instances observed includes end-of-tick move snapshots and contact checks, including a move interrupted later in its contact tick; it is not an input-attempt count. Counters belong to the attacking side, except sidesteps started, which belong to the stepping side. These are policy-conditioned opportunities, not universal dodge probabilities.",
+    "Fixtures isolate actual move states with startup aim fixed at +X; chains are tested without preceding hitstun. Offsets are actual step starts; manual double taps require the first tap two frames earlier. They follow through for 240 ticks, including projectiles and later pulses. A miss at 3 units can mean the attack was out of range even without a step. These are not a guarantee of escape from a true combo.",
+    "Basic shots, back-special projectiles, long-range capture projectiles, pursuit and Burst retain their existing checks. Forward special projectiles retain their physical flight/collider but lateral overlap is clipped to their own fixed launch axes. Multi-projectile moves can still cover several lanes. No animation, rig, hitstop or default balance edits. Normal-speed visual acceptance belongs to Adam.",
+    "Side-stepper sanity against random uses seed 1, all 36 pairs and mirrored seats, separately from the five-seed tournament: 10f horizon: 75.0% (54/72); 95% 63.9–83.6%, 35 actual sidesteps; 10f linear: 79.2% (57/72); 95% 68.4–88.9%, 36 actual sidesteps; 15f horizon: 76.4% (55/72); 95% 65.4–86.1%, 22 actual sidesteps; 15f linear: 79.2% (57/72); 95% 68.4–87.5%, 23 actual sidesteps. This is a basic functionality check, not a strong-opponent ranking."
+  ],
+  "tracking": [
+    {
+      "fighter": "aegis",
+      "name": "Strike 2 — reverse cut",
+      "key": "strike2",
+      "startup": 14,
+      "active": 4,
+      "recovery": 24
+    },
+    {
+      "fighter": "rei",
+      "name": "Spiral bloom",
+      "key": "technique",
+      "startup": 18,
+      "active": 16,
+      "recovery": 28
+    },
+    {
+      "fighter": "rei",
+      "name": "Twin moon",
+      "key": "technique-alt",
+      "startup": 18,
+      "active": 28,
+      "recovery": 28
+    },
+    {
+      "fighter": "tala",
+      "name": "Strike 3 — stepping hook",
+      "key": "strike3",
+      "startup": 18,
+      "active": 5,
+      "recovery": 26
+    },
+    {
+      "fighter": "morrow",
+      "name": "Returning Sweep",
+      "key": "strike2",
+      "startup": 16,
+      "active": 4,
+      "recovery": 26
+    },
+    {
+      "fighter": "morrow",
+      "name": "Iron eruption",
+      "key": "forward-alt",
+      "startup": 24,
+      "active": 12,
+      "recovery": 32
+    },
+    {
+      "fighter": "sol",
+      "name": "Solar mantle",
+      "key": "technique",
+      "startup": 18,
+      "active": 20,
+      "recovery": 26
+    },
+    {
+      "fighter": "sol",
+      "name": "Solar ward",
+      "key": "technique-alt",
+      "startup": 18,
+      "active": 28,
+      "recovery": 26
+    },
+    {
+      "fighter": "vesper",
+      "name": "Strike 2 — reverse sweep",
+      "key": "strike2",
+      "startup": 14,
+      "active": 4,
+      "recovery": 24
+    }
+  ],
+  "sanity": [
+    {
+      "delay": 10,
+      "step": "horizon",
+      "outcome": {
+        "n": 72,
+        "wins": 54,
+        "draws": 0,
+        "rate": 0.75,
+        "clusters": 36,
+        "wilsonInterval": [
+          0.6390627413475594,
+          0.8356107887467423
+        ],
+        "clusterInterval": [
+          0.6527777777777778,
+          0.8333333333333334
+        ],
+        "interval": [
+          0.6390627413475594,
+          0.8356107887467423
+        ]
+      },
+      "sidesteps": 35
+    },
+    {
+      "delay": 10,
+      "step": "linear",
+      "outcome": {
+        "n": 72,
+        "wins": 57,
+        "draws": 0,
+        "rate": 0.7916666666666666,
+        "clusters": 36,
+        "wilsonInterval": [
+          0.6843051941004199,
+          0.8694805910095988
+        ],
+        "clusterInterval": [
+          0.6944444444444444,
+          0.8888888888888888
+        ],
+        "interval": [
+          0.6843051941004199,
+          0.8888888888888888
+        ]
+      },
+      "sidesteps": 36
+    },
+    {
+      "delay": 15,
+      "step": "horizon",
+      "outcome": {
+        "n": 72,
+        "wins": 55,
+        "draws": 0,
+        "rate": 0.7638888888888888,
+        "clusters": 36,
+        "wilsonInterval": [
+          0.6540101280256627,
+          0.8470341537405446
+        ],
+        "clusterInterval": [
+          0.6666666666666666,
+          0.8611111111111112
+        ],
+        "interval": [
+          0.6540101280256627,
+          0.8611111111111112
+        ]
+      },
+      "sidesteps": 22
+    },
+    {
+      "delay": 15,
+      "step": "linear",
+      "outcome": {
+        "n": 72,
+        "wins": 57,
+        "draws": 0,
+        "rate": 0.7916666666666666,
+        "clusters": 36,
+        "wilsonInterval": [
+          0.6843051941004199,
+          0.8694805910095988
+        ],
+        "clusterInterval": [
+          0.6944444444444444,
+          0.875
+        ],
+        "interval": [
+          0.6843051941004199,
+          0.875
+        ]
+      },
+      "sidesteps": 23
+    }
+  ],
+  "totalRuntimeSeconds": 68.789449157
+}

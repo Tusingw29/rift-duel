@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "bouts": 12960,
+  "baselineBouts": 2880,
+  "files": [
+    {
+      "file": "10-horizon.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    },
+    {
+      "file": "10-linear.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    },
+    {
+      "file": "10-linear-heavy.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    },
+    {
+      "file": "15-horizon.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    },
+    {
+      "file": "15-linear.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    },
+    {
+      "file": "15-linear-heavy.json.gz",
+      "bouts": 2160,
+      "commit": "e06dcea68d04133cab9764bd6f00d852a4a0994e"
+    }
+  ],
+  "checks": [
+    "Every bout completed with unique policy/fighter/seed/seat",
+    "Every measured source hash matches current source",
+    "All 12,960 outcomes and other telemetry match the initial run; only the observed tracking-instance counter changed",
+    "All 2,880 existing-policy baseline bouts match archived Horizon outcomes, HP, frames and telemetry exactly",
+    "Tracking catches bounded by opportunities, travel/recovery totals consistent, damage bounded by actual HP loss"
+  ]
+}

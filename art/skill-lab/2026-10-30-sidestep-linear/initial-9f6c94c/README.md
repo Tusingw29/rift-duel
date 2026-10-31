@@ -1,0 +1,1 @@
+Initial run retained for audit. Superseded: six 15f player rows checked a tracking follow-up that was interrupted before the end-of-tick snapshot, so the observed-start counter missed it. Gameplay outcomes and catch counters are unaffected; final archives rerun the same seeds with the observer fixed. Do not use these observed-start counts. Commit 9f6c94c.
