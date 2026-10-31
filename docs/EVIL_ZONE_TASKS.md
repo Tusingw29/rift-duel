@@ -1,10 +1,16 @@
 ## SIDESTEP-LINEAR — narrow attack paths and anti-step moves
 
-Owner: **Codex** · Branch: `codex/sidestep-linear` · Status: **In progress** (2026-10-30). Based on Horizon `f8b8696`. Owns switch-gated combat contact, move metadata, movement configuration and bot measurement. Claude retains all character/rig/pose/animation files; default gameplay unchanged.
+Owner: **Codex** · Branch: `codex/sidestep-linear` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-30). Measured implementation `e06dcea`, based on Horizon `f8b8696`. Default gameplay unchanged; no gameplay merge. Claude’s character/rig/pose/animation files untouched.
 
-- [ ] Add `step=linear`, per-move tracking exceptions, and match-owned sidestep configuration.
-- [ ] Sweep every relevant move/startup frame/spacing/direction; test a true side-stepper policy through delayed visible state.
-- [ ] Three-mode tournament, both delays and mashers, five mirrored seeds; full tests, browser and audited evidence.
+- [x] `step=linear`: fixed-startup-aim paths, half-widths 0.7 for light strikes, 0.9 for heavy attacks and 0.8 for close captures. Forward projectiles keep physical flight with clipped lateral overlap. One or two tracking exceptions per fighter keep existing cone/radial coverage; Burst V2 unchanged. Tracking roster/timings in the report.
+- [x] Sidestep remains 1.8 units / 14f + 6f recovery, with no added invulnerability. Same-frame steps escape Morrow’s 11f jab at 1.5/2 units. Tala/Morrow punish from the end of the step at fixture ticks 30/32. Returning Sweep still catches at 2 units; short-range exceptions are documented.
+- [x] 12,852 fixture attempts across 58 variants, every startup offset, three gaps and both directions. Added delayed-visible-state `side-stepper`; basic functionality versus random passes. It cannot react to an 11f jab at 15f delay, and is not an expert-human proxy.
+- [x] 12,960 completed tournament bouts (three modes, two delays, three policies, both mashers, five mirrored seeds). All 2,880 existing-policy Horizon baseline bouts reproduce archived outcomes/HP/telemetry exactly; default fingerprint unchanged. All source hashes/counter audits pass. Earlier counter-flawed run retained, with unchanged gameplay outcomes verified against the final rerun.
+- [x] 728 tests pass; [cloud run 41147503306](https://github.com/Tusingw29/rift-duel/actions/runs/41147503306) passed both study jobs and verification. Local keyboard smoke, 12 real-render side/lock captures, and desktop/phone dashboard checks pass. Captures inspected; run animation and lock-on foreshortening still make the dodge hard to read.
+
+Evidence: [review and full tables](../art/review-2026-10-30/sidestep-linear/README.md), [audited results](../art/skill-lab/2026-10-30-sidestep-linear/summary.json). Combined-policy win changes have overlapping 95% ranges; mean bouts remain 19.2–19.7s, one draw overall. Tracking catches against the reactive side-stepper: 76/78 at 10f, 81/81 at 15f. No evidence of a defensive stalemate in these policies; human balance remains unproven.
+
+Playtest server: **4210**, worktree `~/rift-worktrees/sidestep-linear`; dashboard `/dist/linear-lab.html`. Game `/dist/index.html?move=v2&arena=ring&burst=v2&step=linear`, optionally `&morrow=jab15heavy`. Claude handoff: keep the 14f travel + 6f recovery budgets; author the shuffle and make the named tracking swings visibly horizontal. Do not promote defaults from these bot results alone.
 
 ## HORIZON-FIX — dodgeable Burst and ring/jab comparisons
 
