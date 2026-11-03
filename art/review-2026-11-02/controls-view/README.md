@@ -1,5 +1,6 @@
 # CONTROLS-VIEW review
 
+**Adam’s verdict (2026-11-02): “side control wins”.** Side controls are the chosen direction for the combined preview and sidestep shuffle. Lock-on remains available for comparison. Default gameplay is unchanged; the crossover/latch limitation below remains open.
 **Side:** A/D move screen-left/right by choosing toward or away from the rival’s current screen side. W/S circle into/out of the screen. Double-tap W/S to sidestep. The existing Duel camera is forced for normal fighting.
 
 **Lock-on:** W approaches, S retreats, A/D circle. Double-tap A/D to sidestep. The existing behind-the-back Lock-on camera is forced. Saved camera settings and default controls stay unchanged.
@@ -8,7 +9,7 @@
 
 **Important camera exception:** the existing orbiting crossover changes screen sides twice as the Duel camera catches up; the mapping follows after its dead band at fixture frames 11 and 18. The unheld mapping follows those two genuine changes; a held mapping never flips during that fixture. A slow walk around the rival has no flips because the camera orbits with the fighters. Therefore the requested “one flip per crossover” is true for a single sustained screen crossing, but not for every existing orbital crossover. Enforcing that globally would require a camera or mapping tradeoff; this pass leaves the camera unchanged.
 
-**Adam’s choices:** whether the side scheme feels better; whether retaining a held rival-relative direction through a swap is comfortable. That latch can deliberately make a held right key move screen-left after the rival crosses, until release. Up/down circling is slightly diagonal on screen because Duel is three-quarter, not perfectly broadside. Near end-on alignment there is no clear horizontal “toward”; the last side wins. The shuffle/tell animations remain Claude’s separate work.
+**Remaining playtest question:** whether retaining a held rival-relative direction through a swap is comfortable. That latch can deliberately make a held right key move screen-left after the rival crosses, until release. Up/down circling is slightly diagonal on screen because Duel is three-quarter, not perfectly broadside. Near end-on alignment there is no clear horizontal “toward”; the last side wins. The shuffle/tell animations remain Claude’s separate work.
 
 **Spacing:** the real-renderer captures confirm that Lock-on compresses the visible distance. At 1.5 / 3.25 / 4.5 world units, horizontal centre separation is about 54 / 64 / 58 pixels of an 800px view (6.7% / 8.0% / 7.2%). Duel gives about 110 / 218 / 285 pixels (13.8% / 27.3% / 35.6%). These are chest-centre projections, not empty pixels between silhouettes. Morrow hides much of Tala at close range in Lock-on; its horizontal separation is not even monotonic as the shoulder offset and camera distance adjust.
 
@@ -47,7 +48,7 @@ Bot check only: 7,200 paired simulation ticks (all six fighters, both schemes, d
 
 Browser: six URL/keyboard checks cover baseline, side and lock-on, each with/without heavy Morrow. They verify the saved-camera override, approach key, sidestep, training label and help. Those deterministic input checks stub the renderer. Separately, real-renderer fixtures load both graphic rigs, capture all three spacing distances under each camera, and measure all four keys at eight circle angles. No page errors. Keyboard/controller inputs share the adapter; physical-controller play remains untested.
 
-No combat rules, timings, hitboxes, move data, models, rigs, animation files or camera formulas changed. No Claude branch merged. Rebinding UI uses screen-direction labels for side mode; guided lessons resolve the current side; training history shows physical input arrows. Gameplay stays on `codex/controls-view`, based on `6b86f39`, pending Adam’s normal-speed verdict.
+No combat rules, timings, hitboxes, move data, models, rigs, animation files or camera formulas changed. No Claude branch merged. Rebinding UI uses screen-direction labels for side mode; guided lessons resolve the current side; training history shows physical input arrows. Gameplay stays on `codex/controls-view`, based on `6b86f39`, with side controls selected by Adam; crossover/latch polish remains open.
 
 [Cloud run 41566287400](https://github.com/Tusingw29/rift-duel/actions/runs/41566287400) passed the full 738-test suite and browser checks on `0b2f805`. The first workflow submission had an IPv6-command YAML parsing error; that workflow syntax was corrected before this successful run. `audit.json` records unchanged simulation/camera source files and the tested source hashes; `cloud-browser.json` records the independent browser pass.
 
