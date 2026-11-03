@@ -1,0 +1,32 @@
+{
+  "commit": "0b2f80575fa729749d2a60bc331700544fac93ef",
+  "sourceHashes": {
+    "dist/main.js": "344d5cc395dd5e3e8188fecec68f167af425c73ed11bf73a34deaa3071877556",
+    "dist/controls-view.js": "4d1cb9a9db6bad22a73dfc2605b3c79abf7c40339740bc7cefe94e94840191c3",
+    "dist/keyboard-input.js": "9337c7ceb5da7af701220d2e208f02e4ee8ae3641ddae3640d4366c2fb8bb989",
+    "dist/combat.js": "1c3b00772197434868da449c7fd90e1b62926ee26b5ad65e28a7b860db3aa3ff",
+    "dist/commands.js": "c992a41e87836d22eff108931e404f9510cf6d3a3c91bbf9958f5a866f2c16c4",
+    "dist/movement-v2.js": "c3c43829c799a085ba6a40dc00bb92224b762ddeaf2898196c7452dd166a1b1b",
+    "dist/options.js": "6359c6d06eb85893ac5fdf4bc692b21b7fedce44c319e6ada4cfd616da46e578",
+    "dist/fight-camera.js": "7900be62298b2d359c9f3e9562e1d4fc10f7139ed30d04e2fbb95b61402641fc",
+    "dist/render.js": "c508623397bd9927ec285f96853e2291d8b1ad1b321ae5925ca55a8313ebc1f1",
+    "scripts/skill/controls-fixtures.mjs": "c0dd1dd47f9c02c4d4ea8caf757f179aa62fdea08d850b11fe7988838be3d8d2",
+    "tests/controls-view.test.mjs": "19d91013625324b76440b6752b29f3a173bc54c4f5498bc7d52bb84ae1bbaab2"
+  },
+  "unchangedFromSidestep": [
+    "dist/combat.js",
+    "dist/commands.js",
+    "dist/movement-v2.js",
+    "dist/options.js",
+    "dist/fight-camera.js",
+    "dist/render.js",
+    "dist/moves.js",
+    "dist/fighters.js"
+  ],
+  "defaultFingerprint": "c1fc5ebc1cb77d6845830c4c67fa56d416bf079f78d16c51fac4e1b8d049071a",
+  "tests": "104 files \u00b7 tests 738 \u00b7 pass 738 \u00b7 fail 0 \u00b7 cancelled 0",
+  "pairedBotTicks": 7200,
+  "browserQueries": 6,
+  "realCameraAngleFixtures": 16,
+  "passed": true
+}

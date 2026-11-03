@@ -1,0 +1,1438 @@
+{
+  "inputs": [
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear",
+      "camera": "side",
+      "controls": "",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&morrow=jab15heavy",
+      "camera": "side",
+      "controls": "",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&controls=side",
+      "camera": "duel",
+      "controls": "side",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&controls=side&morrow=jab15heavy",
+      "camera": "duel",
+      "controls": "side",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&controls=lockon",
+      "camera": "lock",
+      "controls": "lockon",
+      "step": "sidestep"
+    },
+    {
+      "query": "?move=v2&arena=ring&burst=v2&step=linear&controls=lockon&morrow=jab15heavy",
+      "camera": "lock",
+      "controls": "lockon",
+      "step": "sidestep"
+    }
+  ],
+  "spacing": [
+    {
+      "scheme": "side",
+      "gap": 1.5,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 110.336459300228,
+      "verticalPixels": 6.364610903281061,
+      "horizontalPercent": 13.7920574125285,
+      "centreDistancePixels": 110.51987388185455,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -7.285533538534253,
+          "screenY": 0.6367018917799214
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 7.258663236922871,
+          "screenY": -0.6343536256196103
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -1.116856872404128,
+          "screenY": -2.86469583643742
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 1.135773778496059,
+          "screenY": 2.9132169884837253
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "side-gap1.5-1793672881478.jpg"
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800038,
+      "verticalPixels": 12.076829338882703,
+      "horizontalPercent": 27.315070551000048,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969890879
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323568
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.6231121144665508,
+          "screenY": 2.6002053656119983
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "side-gap3.25-1793672881478.jpg"
+    },
+    {
+      "scheme": "side",
+      "gap": 4.5,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 285.1084508085153,
+      "verticalPixels": 15.332355392066972,
+      "horizontalPercent": 35.63855635106441,
+      "centreDistancePixels": 285.5204193123501,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.6062706440692125,
+          "screenY": 0.5270450937025544
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.584558241403499,
+          "screenY": -0.525312888663791
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.32608989377280295,
+          "screenY": -2.3739544673494493
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.33100623508556737,
+          "screenY": 2.4097457342525104
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "side-gap4.5-1793672881478.jpg"
+    },
+    {
+      "scheme": "lockon",
+      "gap": 1.5,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 53.81932458324383,
+      "verticalPixels": 42.50276356031202,
+      "horizontalPercent": 6.727415572905478,
+      "centreDistancePixels": 68.57845586523759,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.644223237012227,
+          "screenY": -1.5483036811260718
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.704405837276397,
+          "screenY": 1.5590832432652064
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 3.822242142861853,
+          "screenY": -4.548929967235381
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -3.901495195155917,
+          "screenY": 4.643250675108106
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "lockon-gap1.5-1793672881478.jpg"
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 63.725596444797475,
+      "verticalPixels": 63.01296830590758,
+      "horizontalPercent": 7.965699555599684,
+      "centreDistancePixels": 89.61911524315835,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.136777485003165,
+          "screenY": -0.7365846973211205
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.167894104619052,
+          "screenY": 0.7394015404611878
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.4407169513747817,
+          "screenY": -3.7437020888523875
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.4889083812325907,
+          "screenY": 3.8176206792573453
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "lockon-gap3.25-1793672881478.jpg"
+    },
+    {
+      "scheme": "lockon",
+      "gap": 4.5,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 57.82480455678996,
+      "verticalPixels": 68.50987582606876,
+      "horizontalPercent": 7.228100569598745,
+      "centreDistancePixels": 89.65105190534194,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.08106877581315,
+          "screenY": -0.4236788723984546
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.100599627277688,
+          "screenY": 0.424702846993398
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 1.7615410894185857,
+          "screenY": -3.3860333065223926
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -1.796151064583114,
+          "screenY": 3.45256058161641
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ],
+      "file": "lockon-gap4.5-1793672881478.jpg"
+    }
+  ],
+  "angles": [
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800038,
+      "verticalPixels": 12.076829338882703,
+      "horizontalPercent": 27.315070551000048,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969890879
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323568
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.6231121144665508,
+          "screenY": 2.6002053656119983
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 45,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.5205644080005,
+      "verticalPixels": 12.076829338882646,
+      "horizontalPercent": 27.315070551000062,
+      "centreDistancePixels": 218.8540309797185,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360879,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323511
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.6231121144665508,
+          "screenY": 2.600205365612055
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 90,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800038,
+      "verticalPixels": 12.07682933888259,
+      "horizontalPercent": 27.315070551000048,
+      "centreDistancePixels": 218.85403097971837,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.568541196989031
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323511
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.623112114466494,
+          "screenY": 2.6002053656119983
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 135,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800044,
+      "verticalPixels": 12.076829338882646,
+      "horizontalPercent": 27.315070551000055,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360879,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323511
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.623112114466494,
+          "screenY": 2.600205365612055
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 180,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800044,
+      "verticalPixels": 12.07682933888259,
+      "horizontalPercent": 27.315070551000055,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093617,
+          "screenY": -2.5597539503234543
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.6231121144664371,
+          "screenY": 2.600205365612112
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 225,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800044,
+      "verticalPixels": 12.076829338882703,
+      "horizontalPercent": 27.315070551000055,
+      "centreDistancePixels": 218.8540309797185,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.5665834629903088
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093617,
+          "screenY": -2.559753950323568
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.623112114466494,
+          "screenY": 2.6002053656119983
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 270,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800038,
+      "verticalPixels": 12.076829338882703,
+      "horizontalPercent": 27.315070551000048,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.566583462990252
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093048,
+          "screenY": -2.559753950323511
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.623112114466494,
+          "screenY": 2.600205365612055
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "side",
+      "gap": 3.25,
+      "angle": 315,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 218.52056440800044,
+      "verticalPixels": 12.076829338882646,
+      "horizontalPercent": 27.315070551000055,
+      "centreDistancePixels": 218.85403097971843,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -6.874666087360936,
+          "screenY": 0.5685411969891447
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 6.850993629496315,
+          "screenY": -0.566583462990252
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -0.6134183544093617,
+          "screenY": -2.559753950323511
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 0.623112114466494,
+          "screenY": 2.600205365612055
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 0,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 63.725596444797475,
+      "verticalPixels": 63.01296830590758,
+      "horizontalPercent": 7.965699555599684,
+      "centreDistancePixels": 89.61911524315835,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.136777485003165,
+          "screenY": -0.7365846973211205
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.167894104619052,
+          "screenY": 0.7394015404611878
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.4407169513747817,
+          "screenY": -3.7437020888523875
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.4889083812325907,
+          "screenY": 3.8176206792573453
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 45,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 61.336718702387145,
+      "verticalPixels": 61.034286487387135,
+      "horizontalPercent": 7.667089837798393,
+      "centreDistancePixels": 86.52963185059912,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -7.876246989595984,
+          "screenY": -0.7019130134759735
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 7.905380035084022,
+          "screenY": 0.7045092834732714
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.335247022136798,
+          "screenY": -3.568390686597354
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.3798330443140685,
+          "screenY": 3.636520672325446
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 90,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 63.72559644479736,
+      "verticalPixels": 63.01296830590758,
+      "horizontalPercent": 7.965699555599669,
+      "centreDistancePixels": 89.61911524315828,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.136777485003108,
+          "screenY": -0.7365846973210637
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.167894104619052,
+          "screenY": 0.7394015404612446
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.4407169513748386,
+          "screenY": -3.7437020888523307
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.4889083812325907,
+          "screenY": 3.817620679257402
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 135,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 61.33671870238726,
+      "verticalPixels": 61.03428648738725,
+      "horizontalPercent": 7.667089837798407,
+      "centreDistancePixels": 86.52963185059929,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -7.876246989595984,
+          "screenY": -0.7019130134760303
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 7.905380035084079,
+          "screenY": 0.7045092834732145
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.335247022136741,
+          "screenY": -3.568390686597297
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.3798330443140685,
+          "screenY": 3.636520672325503
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 180,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 63.72559644479742,
+      "verticalPixels": 63.012968305907634,
+      "horizontalPercent": 7.965699555599677,
+      "centreDistancePixels": 89.61911524315835,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.136777485003165,
+          "screenY": -0.7365846973211205
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.167894104619108,
+          "screenY": 0.7394015404611878
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.4407169513748386,
+          "screenY": -3.7437020888523307
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.4889083812325907,
+          "screenY": 3.817620679257402
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 225,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 61.33671870238726,
+      "verticalPixels": 61.03428648738719,
+      "horizontalPercent": 7.667089837798407,
+      "centreDistancePixels": 86.52963185059923,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -7.876246989596041,
+          "screenY": -0.7019130134759166
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 7.905380035084022,
+          "screenY": 0.704509283473385
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.335247022136741,
+          "screenY": -3.5683906865972403
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.3798330443141253,
+          "screenY": 3.636520672325503
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 270,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 63.72559644479742,
+      "verticalPixels": 63.012968305907634,
+      "horizontalPercent": 7.965699555599677,
+      "centreDistancePixels": 89.61911524315835,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -8.136777485003108,
+          "screenY": -0.73658469732095
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 8.167894104619052,
+          "screenY": 0.7394015404613583
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.4407169513748386,
+          "screenY": -3.743702088852217
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.4889083812325907,
+          "screenY": 3.817620679257516
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    },
+    {
+      "scheme": "lockon",
+      "gap": 3.25,
+      "angle": 315,
+      "width": 800,
+      "height": 600,
+      "horizontalPixels": 61.3367187023872,
+      "verticalPixels": 61.03428648738719,
+      "horizontalPercent": 7.667089837798401,
+      "centreDistancePixels": 86.5296318505992,
+      "keys": [
+        {
+          "key": "A",
+          "relative": {
+            "x": 0,
+            "z": -1
+          },
+          "side": 1,
+          "screenX": -7.876246989596098,
+          "screenY": -0.7019130134759166
+        },
+        {
+          "key": "D",
+          "relative": {
+            "x": 0,
+            "z": 1
+          },
+          "side": 1,
+          "screenX": 7.905380035083965,
+          "screenY": 0.704509283473385
+        },
+        {
+          "key": "W",
+          "relative": {
+            "x": 1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": 2.3352470221366843,
+          "screenY": -3.5683906865972403
+        },
+        {
+          "key": "S",
+          "relative": {
+            "x": -1,
+            "z": 0
+          },
+          "side": 1,
+          "screenX": -2.3798330443141253,
+          "screenY": 3.6365206723255596
+        }
+      ],
+      "models": [
+        {
+          "id": "morrow",
+          "status": "v3"
+        },
+        {
+          "id": "tala",
+          "status": "graphic"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
