@@ -1,3 +1,11 @@
+## CONTROLS-VIEW — camera-matched input schemes
+
+Owner: **Codex** · Branch: `codex/controls-view` · Status: **In progress** (2026-11-02). Based on `codex/sidestep-linear` (`6b86f39`). Owns opt-in input mapping, camera selection and verification. No combat/animation changes or Claude branch merges.
+
+- [ ] Add screen-relative side mapping, held-direction latch and hysteresis; lock-on scheme forces lock camera.
+- [ ] Scheme-aware help/training, all command/key fixtures, screen-space circle/crossover and spacing measurements.
+- [ ] Default fingerprint, identical relative-input simulation check, full tests and browser captures; Adam's normal-speed verdict pending.
+
 ## SIDESTEP-LINEAR — narrow attack paths and anti-step moves
 
 Owner: **Codex** · Branch: `codex/sidestep-linear` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-10-30). Measured implementation `e06dcea`, based on Horizon `f8b8696`. Default gameplay unchanged; no gameplay merge. Claude’s character/rig/pose/animation files untouched.
