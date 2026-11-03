@@ -7,12 +7,13 @@ export const MAX_INPUT_STATES=64;
 // own ordered snapshots, one per simulation tick, so short taps cannot vanish.
 export function createKeyboardInput(bindings){
  let maps=normalizeBindings(bindings),codes=new Set(maps.flat(2));
+ const directionHolds=new WeakMap();
  const pressed=new Set(),queues=[[],[]],latest=[neutral(),neutral()],current=[neutral(),neutral()];
  function snapshot(p){
   const map=maps[p],i=neutral(),held=n=>map[n].some(code=>pressed.has(code));
   i.x=Number(held(1))-Number(held(0));
   i.z=Number(held(3))-Number(held(2));
-  actions.forEach((k,n)=>i[k]=held(n+4));
+  actions.forEach((k,n)=>i[k]=held(n+4));directionHolds.set(i,[0,1,2,3].some(held));
   return i;
  }
  function change(code,down){
@@ -33,6 +34,7 @@ export function createKeyboardInput(bindings){
   delete(code){change(code,false);},
   clear(){pressed.clear();for(let p=0;p<2;p++){queues[p].length=0;latest[p]=neutral();current[p]=neutral();}},
   read(p){if(queues[p].length)current[p]=queues[p].shift();return {...current[p]};},
+  directionHeld(p){return directionHolds.get(current[p])||false;},
   pending(p){return queues[p].length;}
  };
 }
