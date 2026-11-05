@@ -1,0 +1,78 @@
+{
+  "games": [
+    {
+      "record": false,
+      "phase": "over",
+      "tick": 1427,
+      "hp": [
+        0,
+        92.86
+      ],
+      "positions": [
+        {
+          "x": -3.666888668972881,
+          "z": 0.5342445887763759
+        },
+        {
+          "x": -1.3401312005907624,
+          "z": -1.0918936397015966
+        }
+      ],
+      "recordedTicks": 0
+    },
+    {
+      "record": true,
+      "phase": "over",
+      "tick": 1427,
+      "hp": [
+        0,
+        92.86
+      ],
+      "positions": [
+        {
+          "x": -3.666888668972881,
+          "z": 0.5342445887763759
+        },
+        {
+          "x": -1.3401312005907624,
+          "z": -1.0918936397015966
+        }
+      ],
+      "recordedTicks": 1479
+    }
+  ],
+  "replay": [
+    {
+      "cursor": 1479,
+      "total": 1479,
+      "round": 1,
+      "done": true,
+      "playing": false,
+      "busy": false,
+      "error": null,
+      "hp": [
+        0,
+        92.86
+      ],
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ]
+    }
+  ],
+  "download": {
+    "filename": "rift-2026-11-05T14-24-38-268Z-tala-vs-morrow-p2-wins.json",
+    "inputTicks": 1479,
+    "verifiedInNode": true
+  },
+  "mismatchRejected": true,
+  "urlLoaded": true,
+  "errors": [],
+  "passed": true
+}

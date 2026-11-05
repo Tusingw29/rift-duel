@@ -1,0 +1,34 @@
+name: MATCH-RECORDER preview checks
+on:
+  push:
+    branches: [codex/match-recorder]
+    paths: ['dist/**', 'tests/match-recorder*', 'scripts/skill/replay.mjs', 'scripts/skill/record-fixtures.mjs', 'scripts/review/match-recorder.mjs', 'scripts/release-build.mjs', 'scripts/prepare-release.mjs', '.github/workflows/match-recorder.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/run-tests.mjs
+      - run: npm run prepare:release
+      - run: node scripts/skill/record-fixtures.mjs /tmp/match-recorder
+      - run: node scripts/skill/replay.mjs /tmp/match-recorder/sample-replay.json
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 4220 --bind :: > /tmp/match-recorder-http.log 2>&1 &
+      - run: node scripts/review/match-recorder.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4220/dist
+          SHOTS: /tmp/match-recorder
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: match-recorder-evidence
+          path: /tmp/match-recorder/

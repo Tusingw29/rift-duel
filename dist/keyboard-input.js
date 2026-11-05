@@ -34,6 +34,7 @@ export function createKeyboardInput(bindings){
   delete(code){change(code,false);},
   clear(){pressed.clear();for(let p=0;p<2;p++){queues[p].length=0;latest[p]=neutral();current[p]=neutral();}},
   read(p){if(queues[p].length)current[p]=queues[p].shift();return {...current[p]};},
+  rawCodes(p){return [...pressed].filter(code=>maps[p].some(list=>list.includes(code))).sort();},
   directionHeld(p){return directionHolds.get(current[p])||false;},
   pending(p){return queues[p].length;}
  };

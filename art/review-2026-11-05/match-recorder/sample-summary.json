@@ -1,0 +1,1527 @@
+{
+  "kind": "rift-replay-analysis",
+  "schema": 1,
+  "build": {
+    "hash": "05d0ecfdabc3",
+    "commit": "338534eafa08732753bbb6ab84ddfdb0e05ccff0",
+    "workingTreeDirty": true
+  },
+  "createdAt": "2026-11-05T14:24:26.507Z",
+  "inputTicks": 1064,
+  "verified": true,
+  "rounds": [
+    {
+      "round": 1,
+      "result": {
+        "hp": [
+          62.800000000000004,
+          0
+        ],
+        "winner": 0,
+        "phase": "over",
+        "ticks": 1002,
+        "inputTicks": 1064,
+        "time": 43.30000000000095,
+        "state": "ec87251e"
+      },
+      "telemetry": {
+        "schema": 1,
+        "telemetryVersion": 4,
+        "source": "replay",
+        "mode": "default",
+        "fighters": [
+          "tala",
+          "morrow"
+        ],
+        "players": [
+          {
+            "attackPresses": 60,
+            "actionPresses": 80,
+            "damage": 100,
+            "chipTaken": 0,
+            "blocks": 0,
+            "perfectGuards": 0,
+            "captureBreaks": 0,
+            "capturesStarted": 0,
+            "capturesLanded": 0,
+            "captureDamage": 0,
+            "capturePresses": 9,
+            "grabAttackAttempts": 0,
+            "grabAttackEligibleFrames": 0,
+            "capturesFaced": 3,
+            "closeCapturesFaced": 3,
+            "reactionBreakAttempts": 0,
+            "guessBreakAttempts": 0,
+            "reactionBreaksLanded": 0,
+            "guessBreaksLanded": 0,
+            "breaksLanded": 0,
+            "wastedBreakTaps": 0,
+            "captures": 0,
+            "capturesThroughGuard": 0,
+            "meleeAttempts": 1,
+            "whiffs": 0,
+            "whiffPunishes": 0,
+            "punishedWhiffs": 0,
+            "shotsReceived": 0,
+            "shotsGuarded": 0,
+            "basicStrikesStarted": 1,
+            "directionalSpecialsStarted": 11,
+            "punishAttemptsStarted": 2,
+            "damageByMove": {
+              "bolt (source unresolved)": 93.88,
+              "chain-strike-1": 6.119999999999997
+            },
+            "moveUses": {
+              "system-eightfold-tempest": 1,
+              "special-storm-spark": 11,
+              "chain-strike-1": 1
+            },
+            "distanceFrames": {
+              "close": 0,
+              "inside reach": 0,
+              "tip": 248,
+              "whiff band": 548,
+              "mid": 179,
+              "far": 27
+            },
+            "pendingBreakTaps": 0,
+            "damagePerPress": 1.6666666666666667,
+            "pressesPerMinute": 203.00751879699246,
+            "dominantMove": "special-storm-spark",
+            "dominantMoveShare": 0
+          },
+          {
+            "attackPresses": 9,
+            "actionPresses": 27,
+            "damage": 37.199999999999996,
+            "chipTaken": 1.7136000000000138,
+            "blocks": 2,
+            "perfectGuards": 0,
+            "captureBreaks": 0,
+            "capturesStarted": 3,
+            "capturesLanded": 2,
+            "captureDamage": 37.199999999999996,
+            "capturePresses": 7,
+            "grabAttackAttempts": 0,
+            "grabAttackEligibleFrames": 0,
+            "capturesFaced": 0,
+            "closeCapturesFaced": 0,
+            "reactionBreakAttempts": 0,
+            "guessBreakAttempts": 0,
+            "reactionBreaksLanded": 0,
+            "guessBreaksLanded": 0,
+            "breaksLanded": 0,
+            "wastedBreakTaps": 0,
+            "captures": 2,
+            "capturesThroughGuard": 0,
+            "meleeAttempts": 1,
+            "whiffs": 0,
+            "whiffPunishes": 0,
+            "punishedWhiffs": 0,
+            "shotsReceived": 13,
+            "shotsGuarded": 2,
+            "basicStrikesStarted": 0,
+            "directionalSpecialsStarted": 3,
+            "punishAttemptsStarted": 0,
+            "damageByMove": {
+              "system-capture-close-": 37.199999999999996
+            },
+            "moveUses": {
+              "system-launcher": 1,
+              "system-capture-close-": 3,
+              "system-last-horizon": 1
+            },
+            "distanceFrames": {
+              "close": 0,
+              "inside reach": 795,
+              "tip": 22,
+              "whiff band": 47,
+              "mid": 111,
+              "far": 27
+            },
+            "pendingBreakTaps": 0,
+            "damagePerPress": 4.133333333333333,
+            "pressesPerMinute": 30.45112781954887,
+            "dominantMove": "system-capture-close-",
+            "dominantMoveShare": 1
+          }
+        ],
+        "inputFrames": 1064,
+        "simulationFrames": 1002,
+        "winner": 0,
+        "completed": true,
+        "koCause": "bolt (source unresolved)",
+        "hp": [
+          62.800000000000004,
+          0
+        ],
+        "seconds": 17.733333333333334
+      },
+      "positioning": {
+        "round": 1,
+        "shape": "ring",
+        "radius": 10,
+        "inputFrames": 1064,
+        "exchanges": [
+          {
+            "inputFrame": 94,
+            "tick": 94,
+            "attacker": 0,
+            "defender": 1,
+            "type": "block",
+            "damage": 0.8568000000000069,
+            "closedByPlayer": [
+              1.1520900588708423,
+              1.964129646531767
+            ],
+            "closer": 1,
+            "positions": [
+              {
+                "x": -2.8479099411291577,
+                "z": -0.0411048129415876
+              },
+              {
+                "x": 2.035870353468233,
+                "z": -0.4677347677481973
+              }
+            ]
+          },
+          {
+            "inputFrame": 94,
+            "tick": 94,
+            "attacker": 0,
+            "defender": 1,
+            "type": "block",
+            "damage": 0.8568000000000069,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": -2.8479099411291577,
+                "z": -0.0411048129415876
+              },
+              {
+                "x": 2.035870353468233,
+                "z": -0.4677347677481973
+              }
+            ]
+          },
+          {
+            "inputFrame": 135,
+            "tick": 135,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.5081404218928717,
+              0.7659648029743366
+            ],
+            "closer": 1,
+            "positions": [
+              {
+                "x": -2.3420394344548607,
+                "z": -0.08924181811665766
+              },
+              {
+                "x": 1.2692576821187815,
+                "z": -0.4417587229310511
+              }
+            ]
+          },
+          {
+            "inputFrame": 135,
+            "tick": 135,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": -2.3420394344548607,
+                "z": -0.08924181811665766
+              },
+              {
+                "x": 1.2692576821187815,
+                "z": -0.4417587229310511
+              }
+            ]
+          },
+          {
+            "inputFrame": 186,
+            "tick": 180,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.5510400000000022,
+              0.12183333333333127
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": -1.7936061663284901,
+                "z": -0.14277715235705418
+              },
+              {
+                "x": 1.148000689583343,
+                "z": -0.42992221701202193
+              }
+            ]
+          },
+          {
+            "inputFrame": 186,
+            "tick": 180,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": -1.7936061663284901,
+                "z": -0.14277715235705418
+              },
+              {
+                "x": 1.148000689583343,
+                "z": -0.42992221701202193
+              }
+            ]
+          },
+          {
+            "inputFrame": 237,
+            "tick": 225,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.5510395730902542,
+              -0.02161657261979166
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": -1.2451922099583834,
+                "z": -0.19650592828228253
+              },
+              {
+                "x": 1.1678420347554446,
+                "z": -0.4491607706563518
+              }
+            ]
+          },
+          {
+            "inputFrame": 237,
+            "tick": 225,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": -1.2451922099583834,
+                "z": -0.19650592828228253
+              },
+              {
+                "x": 1.1678420347554446,
+                "z": -0.4491607706563518
+              }
+            ]
+          },
+          {
+            "inputFrame": 291,
+            "tick": 273,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.5894400000000009,
+              -0.5000000000000001
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": -0.6589568912164101,
+                "z": -0.25788723373840583
+              },
+              {
+                "x": 1.6651236229934099,
+                "z": -0.5012282461043391
+              }
+            ]
+          },
+          {
+            "inputFrame": 291,
+            "tick": 273,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": -0.6589568912164101,
+                "z": -0.25788723373840583
+              },
+              {
+                "x": 1.6651236229934099,
+                "z": -0.5012282461043391
+              }
+            ]
+          },
+          {
+            "inputFrame": 478,
+            "tick": 454,
+            "attacker": 1,
+            "defender": 0,
+            "type": "damage",
+            "damage": 18.599999999999994,
+            "closedByPlayer": [
+              0.520899984047799,
+              -0.49748282480999984
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 2.1718524100901506,
+                "z": -0.43889598166399557
+              },
+              {
+                "x": -0.14047977629587022,
+                "z": -0.3082232415556772
+              }
+            ]
+          },
+          {
+            "inputFrame": 623,
+            "tick": 589,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 6.119999999999997,
+            "closedByPlayer": [
+              0.3515666834363622,
+              0.006058264112213164
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 0.21349941936102668,
+                "z": -0.27545821174294705
+              },
+              {
+                "x": 2.1763677998309867,
+                "z": -0.25161781760929325
+              }
+            ]
+          },
+          {
+            "inputFrame": 805,
+            "tick": 765,
+            "attacker": 1,
+            "defender": 0,
+            "type": "damage",
+            "damage": 18.6,
+            "closedByPlayer": [
+              0.5708086453441157,
+              -0.617854882114517
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 2.793081937188078,
+                "z": -0.1539440569178986
+              },
+              {
+                "x": 0.7842133017018578,
+                "z": -0.2641897159114681
+              }
+            ]
+          },
+          {
+            "inputFrame": 956,
+            "tick": 906,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.06944865644661317,
+              0.06813985946429785
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 0.8386964124876453,
+                "z": 0.01041290867959705
+              },
+              {
+                "x": 2.661085430212813,
+                "z": 1.007767359057259
+              }
+            ]
+          },
+          {
+            "inputFrame": 956,
+            "tick": 906,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": 0.8386964124876453,
+                "z": 0.01041290867959705
+              },
+              {
+                "x": 2.661085430212813,
+                "z": 1.007767359057259
+              }
+            ]
+          },
+          {
+            "inputFrame": 1010,
+            "tick": 954,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0.5894400000000025,
+              -0.5000000000000003
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 1.355766186502458,
+                "z": 0.2933941137096721
+              },
+              {
+                "x": 3.0996964627308046,
+                "z": 1.247809776461978
+              }
+            ]
+          },
+          {
+            "inputFrame": 1010,
+            "tick": 954,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 7.140000000000001,
+            "closedByPlayer": [
+              0,
+              0
+            ],
+            "closer": null,
+            "positions": [
+              {
+                "x": 1.355766186502458,
+                "z": 0.2933941137096721
+              },
+              {
+                "x": 3.0996964627308046,
+                "z": 1.247809776461978
+              }
+            ]
+          },
+          {
+            "inputFrame": 1064,
+            "tick": 1002,
+            "attacker": 0,
+            "defender": 1,
+            "type": "damage",
+            "damage": 6.486399999999982,
+            "closedByPlayer": [
+              0.538240000000004,
+              -0.6195833333333333
+            ],
+            "closer": 0,
+            "positions": [
+              {
+                "x": 1.8279221907874295,
+                "z": 0.5517949751975053
+              },
+              {
+                "x": 3.643208633859349,
+                "z": 1.5452623386959925
+              }
+            ]
+          }
+        ],
+        "definitions": {
+          "bands": [
+            "close",
+            "inside reach",
+            "tip",
+            "whiff band",
+            "mid",
+            "far"
+          ],
+          "edge": 1,
+          "tournamentEdge": 0.5,
+          "pin": 0.05,
+          "velocity": "world units/second over input frames; zero in hitstop",
+          "angles": "unwrapped relative angle from round start in radians",
+          "edgePush": "net world units pushed closer to boundary in edge zone by hit knockback",
+          "advantage": "nominal lab convention, not an empirical actionable-frame/cancel guarantee"
+        },
+        "players": [
+          {
+            "simulationFrames": 1002,
+            "distanceFrames": {
+              "close": 0,
+              "inside reach": 0,
+              "tip": 248,
+              "whiff band": 548,
+              "mid": 179,
+              "far": 27
+            },
+            "damageDealtByBand": {
+              "close": 0,
+              "inside reach": 0,
+              "tip": 41.16639999999998,
+              "whiff band": 28.560000000000002,
+              "mid": 30.273600000000016,
+              "far": 0
+            },
+            "damageTakenByBand": {
+              "close": 0,
+              "inside reach": 0,
+              "tip": 18.6,
+              "whiff band": 18.599999999999994,
+              "mid": 0,
+              "far": 0
+            },
+            "walkedToward": 6.945489703907634,
+            "walkedAway": 0,
+            "edgeFrames": 0,
+            "tournamentEdgeFrames": 0,
+            "pinnedHits": 0,
+            "edgeHits": 0,
+            "edgeEscapes": 0,
+            "edgeTrapped": 0,
+            "totalCirclingRadians": 0,
+            "habits": {
+              "beingHit": {
+                "walk toward": 1,
+                "forward": 1
+              },
+              "knockdown": {
+                "walk toward": 2
+              },
+              "getUp": {
+                "walk toward": 2
+              }
+            },
+            "hitPositions": [
+              {
+                "inputFrame": 94,
+                "tick": 94,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 0.8568000000000069,
+                "type": "block",
+                "attackerPosition": {
+                  "x": -2.8479099411291577,
+                  "z": -0.0411048129415876
+                },
+                "defenderPosition": {
+                  "x": 2.035870353468233,
+                  "z": -0.4677347677481973
+                },
+                "distance": 4.902379328880627,
+                "bands": [
+                  "mid",
+                  "mid"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 94,
+                "tick": 94,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 0.8568000000000069,
+                "type": "block",
+                "attackerPosition": {
+                  "x": -2.8479099411291577,
+                  "z": -0.0411048129415876
+                },
+                "defenderPosition": {
+                  "x": 2.035870353468233,
+                  "z": -0.4677347677481973
+                },
+                "distance": 4.902379328880627,
+                "bands": [
+                  "mid",
+                  "mid"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 135,
+                "tick": 135,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -2.3420394344548607,
+                  "z": -0.08924181811665766
+                },
+                "defenderPosition": {
+                  "x": 1.2692576821187815,
+                  "z": -0.4417587229310511
+                },
+                "distance": 3.6284617997648843,
+                "bands": [
+                  "mid",
+                  "whiff band"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 135,
+                "tick": 135,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -2.3420394344548607,
+                  "z": -0.08924181811665766
+                },
+                "defenderPosition": {
+                  "x": 1.2692576821187815,
+                  "z": -0.4417587229310511
+                },
+                "distance": 3.6284617997648843,
+                "bands": [
+                  "mid",
+                  "whiff band"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 186,
+                "tick": 180,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.7936061663284901,
+                  "z": -0.14277715235705418
+                },
+                "defenderPosition": {
+                  "x": 1.148000689583343,
+                  "z": -0.42992221701202193
+                },
+                "distance": 2.955588466431551,
+                "bands": [
+                  "mid",
+                  "tip"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 186,
+                "tick": 180,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.7936061663284901,
+                  "z": -0.14277715235705418
+                },
+                "defenderPosition": {
+                  "x": 1.148000689583343,
+                  "z": -0.42992221701202193
+                },
+                "distance": 2.955588466431551,
+                "bands": [
+                  "mid",
+                  "tip"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 237,
+                "tick": 225,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.2451922099583834,
+                  "z": -0.19650592828228253
+                },
+                "defenderPosition": {
+                  "x": 1.1678420347554446,
+                  "z": -0.4491607706563518
+                },
+                "distance": 2.4262252029720366,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 237,
+                "tick": 225,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.2451922099583834,
+                  "z": -0.19650592828228253
+                },
+                "defenderPosition": {
+                  "x": 1.1678420347554446,
+                  "z": -0.4491607706563518
+                },
+                "distance": 2.4262252029720366,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 291,
+                "tick": 273,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -0.6589568912164101,
+                  "z": -0.25788723373840583
+                },
+                "defenderPosition": {
+                  "x": 1.6651236229934099,
+                  "z": -0.5012282461043391
+                },
+                "distance": 2.336785202972036,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 291,
+                "tick": 273,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -0.6589568912164101,
+                  "z": -0.25788723373840583
+                },
+                "defenderPosition": {
+                  "x": 1.6651236229934099,
+                  "z": -0.5012282461043391
+                },
+                "distance": 2.336785202972036,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 478,
+                "tick": 454,
+                "attacker": 1,
+                "defender": 0,
+                "damage": 18.599999999999994,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 2.1718524100901506,
+                  "z": -0.43889598166399557
+                },
+                "defenderPosition": {
+                  "x": -0.14047977629587022,
+                  "z": -0.3082232415556772
+                },
+                "distance": 2.316021482025625,
+                "bands": [
+                  "inside reach",
+                  "whiff band"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 623,
+                "tick": 589,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 6.119999999999997,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.21349941936102668,
+                  "z": -0.27545821174294705
+                },
+                "defenderPosition": {
+                  "x": 2.1763677998309867,
+                  "z": -0.25161781760929325
+                },
+                "distance": 1.9630131541691747,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 805,
+                "tick": 765,
+                "attacker": 1,
+                "defender": 0,
+                "damage": 18.6,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 2.793081937188078,
+                  "z": -0.1539440569178986
+                },
+                "defenderPosition": {
+                  "x": 0.7842133017018578,
+                  "z": -0.2641897159114681
+                },
+                "distance": 2.011891473208035,
+                "bands": [
+                  "inside reach",
+                  "tip"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 956,
+                "tick": 906,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.8386964124876453,
+                  "z": 0.01041290867959705
+                },
+                "defenderPosition": {
+                  "x": 2.661085430212813,
+                  "z": 1.007767359057259
+                },
+                "distance": 2.0774546039837856,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 956,
+                "tick": 906,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.8386964124876453,
+                  "z": 0.01041290867959705
+                },
+                "defenderPosition": {
+                  "x": 2.661085430212813,
+                  "z": 1.007767359057259
+                },
+                "distance": 2.0774546039837856,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 1010,
+                "tick": 954,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.355766186502458,
+                  "z": 0.2933941137096721
+                },
+                "defenderPosition": {
+                  "x": 3.0996964627308046,
+                  "z": 1.247809776461978
+                },
+                "distance": 1.9880146039837838,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 1010,
+                "tick": 954,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.355766186502458,
+                  "z": 0.2933941137096721
+                },
+                "defenderPosition": {
+                  "x": 3.0996964627308046,
+                  "z": 1.247809776461978
+                },
+                "distance": 1.9880146039837838,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 1064,
+                "tick": 1002,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 6.486399999999982,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.8279221907874295,
+                  "z": 0.5517949751975053
+                },
+                "defenderPosition": {
+                  "x": 3.643208633859349,
+                  "z": 1.5452623386959925
+                },
+                "distance": 2.069357937317113,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "dealt"
+              }
+            ],
+            "sidesteps": {
+              "started": 0,
+              "steppedOutOfLane": 0,
+              "stillHit": 0,
+              "intoTracking": 0,
+              "unthreatened": 0
+            },
+            "edgePushes": 0,
+            "netWalkToward": 6.945489703907634,
+            "distanceShare": {
+              "close": 0,
+              "inside reach": 0,
+              "tip": 0.24750499001996007,
+              "whiff band": 0.5469061876247505,
+              "mid": 0.17864271457085829,
+              "far": 0.02694610778443114
+            }
+          },
+          {
+            "simulationFrames": 1002,
+            "distanceFrames": {
+              "close": 0,
+              "inside reach": 795,
+              "tip": 22,
+              "whiff band": 47,
+              "mid": 111,
+              "far": 27
+            },
+            "damageDealtByBand": {
+              "close": 0,
+              "inside reach": 37.199999999999996,
+              "tip": 0,
+              "whiff band": 0,
+              "mid": 0,
+              "far": 0
+            },
+            "damageTakenByBand": {
+              "close": 0,
+              "inside reach": 69.72639999999998,
+              "tip": 14.280000000000001,
+              "whiff band": 14.280000000000001,
+              "mid": 1.7136000000000138,
+              "far": 0
+            },
+            "walkedToward": 3.5698843218843628,
+            "walkedAway": 0.3161100000000011,
+            "edgeFrames": 0,
+            "tournamentEdgeFrames": 0,
+            "pinnedHits": 0,
+            "edgeHits": 0,
+            "edgeEscapes": 0,
+            "edgeTrapped": 0,
+            "totalCirclingRadians": 1.042594229619039,
+            "habits": {
+              "block": {
+                "walk toward": 1
+              },
+              "beingHit": {
+                "walk toward": 2,
+                "capture": 1,
+                "walk away": 2
+              }
+            },
+            "hitPositions": [
+              {
+                "inputFrame": 94,
+                "tick": 94,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 0.8568000000000069,
+                "type": "block",
+                "attackerPosition": {
+                  "x": -2.8479099411291577,
+                  "z": -0.0411048129415876
+                },
+                "defenderPosition": {
+                  "x": 2.035870353468233,
+                  "z": -0.4677347677481973
+                },
+                "distance": 4.902379328880627,
+                "bands": [
+                  "mid",
+                  "mid"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 94,
+                "tick": 94,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 0.8568000000000069,
+                "type": "block",
+                "attackerPosition": {
+                  "x": -2.8479099411291577,
+                  "z": -0.0411048129415876
+                },
+                "defenderPosition": {
+                  "x": 2.035870353468233,
+                  "z": -0.4677347677481973
+                },
+                "distance": 4.902379328880627,
+                "bands": [
+                  "mid",
+                  "mid"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 135,
+                "tick": 135,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -2.3420394344548607,
+                  "z": -0.08924181811665766
+                },
+                "defenderPosition": {
+                  "x": 1.2692576821187815,
+                  "z": -0.4417587229310511
+                },
+                "distance": 3.6284617997648843,
+                "bands": [
+                  "mid",
+                  "whiff band"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 135,
+                "tick": 135,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -2.3420394344548607,
+                  "z": -0.08924181811665766
+                },
+                "defenderPosition": {
+                  "x": 1.2692576821187815,
+                  "z": -0.4417587229310511
+                },
+                "distance": 3.6284617997648843,
+                "bands": [
+                  "mid",
+                  "whiff band"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 186,
+                "tick": 180,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.7936061663284901,
+                  "z": -0.14277715235705418
+                },
+                "defenderPosition": {
+                  "x": 1.148000689583343,
+                  "z": -0.42992221701202193
+                },
+                "distance": 2.955588466431551,
+                "bands": [
+                  "mid",
+                  "tip"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 186,
+                "tick": 180,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.7936061663284901,
+                  "z": -0.14277715235705418
+                },
+                "defenderPosition": {
+                  "x": 1.148000689583343,
+                  "z": -0.42992221701202193
+                },
+                "distance": 2.955588466431551,
+                "bands": [
+                  "mid",
+                  "tip"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 237,
+                "tick": 225,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.2451922099583834,
+                  "z": -0.19650592828228253
+                },
+                "defenderPosition": {
+                  "x": 1.1678420347554446,
+                  "z": -0.4491607706563518
+                },
+                "distance": 2.4262252029720366,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 237,
+                "tick": 225,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -1.2451922099583834,
+                  "z": -0.19650592828228253
+                },
+                "defenderPosition": {
+                  "x": 1.1678420347554446,
+                  "z": -0.4491607706563518
+                },
+                "distance": 2.4262252029720366,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 291,
+                "tick": 273,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -0.6589568912164101,
+                  "z": -0.25788723373840583
+                },
+                "defenderPosition": {
+                  "x": 1.6651236229934099,
+                  "z": -0.5012282461043391
+                },
+                "distance": 2.336785202972036,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 291,
+                "tick": 273,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": -0.6589568912164101,
+                  "z": -0.25788723373840583
+                },
+                "defenderPosition": {
+                  "x": 1.6651236229934099,
+                  "z": -0.5012282461043391
+                },
+                "distance": 2.336785202972036,
+                "bands": [
+                  "whiff band",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 478,
+                "tick": 454,
+                "attacker": 1,
+                "defender": 0,
+                "damage": 18.599999999999994,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 2.1718524100901506,
+                  "z": -0.43889598166399557
+                },
+                "defenderPosition": {
+                  "x": -0.14047977629587022,
+                  "z": -0.3082232415556772
+                },
+                "distance": 2.316021482025625,
+                "bands": [
+                  "inside reach",
+                  "whiff band"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 623,
+                "tick": 589,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 6.119999999999997,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.21349941936102668,
+                  "z": -0.27545821174294705
+                },
+                "defenderPosition": {
+                  "x": 2.1763677998309867,
+                  "z": -0.25161781760929325
+                },
+                "distance": 1.9630131541691747,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 805,
+                "tick": 765,
+                "attacker": 1,
+                "defender": 0,
+                "damage": 18.6,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 2.793081937188078,
+                  "z": -0.1539440569178986
+                },
+                "defenderPosition": {
+                  "x": 0.7842133017018578,
+                  "z": -0.2641897159114681
+                },
+                "distance": 2.011891473208035,
+                "bands": [
+                  "inside reach",
+                  "tip"
+                ],
+                "role": "dealt"
+              },
+              {
+                "inputFrame": 956,
+                "tick": 906,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.8386964124876453,
+                  "z": 0.01041290867959705
+                },
+                "defenderPosition": {
+                  "x": 2.661085430212813,
+                  "z": 1.007767359057259
+                },
+                "distance": 2.0774546039837856,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 956,
+                "tick": 906,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 0.8386964124876453,
+                  "z": 0.01041290867959705
+                },
+                "defenderPosition": {
+                  "x": 2.661085430212813,
+                  "z": 1.007767359057259
+                },
+                "distance": 2.0774546039837856,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 1010,
+                "tick": 954,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.355766186502458,
+                  "z": 0.2933941137096721
+                },
+                "defenderPosition": {
+                  "x": 3.0996964627308046,
+                  "z": 1.247809776461978
+                },
+                "distance": 1.9880146039837838,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 1010,
+                "tick": 954,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 7.140000000000001,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.355766186502458,
+                  "z": 0.2933941137096721
+                },
+                "defenderPosition": {
+                  "x": 3.0996964627308046,
+                  "z": 1.247809776461978
+                },
+                "distance": 1.9880146039837838,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              },
+              {
+                "inputFrame": 1064,
+                "tick": 1002,
+                "attacker": 0,
+                "defender": 1,
+                "damage": 6.486399999999982,
+                "type": "damage",
+                "attackerPosition": {
+                  "x": 1.8279221907874295,
+                  "z": 0.5517949751975053
+                },
+                "defenderPosition": {
+                  "x": 3.643208633859349,
+                  "z": 1.5452623386959925
+                },
+                "distance": 2.069357937317113,
+                "bands": [
+                  "tip",
+                  "inside reach"
+                ],
+                "role": "taken"
+              }
+            ],
+            "sidesteps": {
+              "started": 0,
+              "steppedOutOfLane": 0,
+              "stillHit": 0,
+              "intoTracking": 0,
+              "unthreatened": 0
+            },
+            "edgePushes": 0,
+            "netWalkToward": 3.2537743218843618,
+            "distanceShare": {
+              "close": 0,
+              "inside reach": 0.7934131736526946,
+              "tip": 0.021956087824351298,
+              "whiff band": 0.046906187624750496,
+              "mid": 0.11077844311377245,
+              "far": 0.02694610778443114
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,2901 @@
+[
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 1,
+    "tick": 1,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": true,
+        "launch": true,
+        "pursuit": false,
+        "super": true
+      },
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "moveStart",
+        "player": 0,
+        "move": {
+          "key": "system-eightfold-tempest",
+          "name": "super",
+          "kind": "super",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 0,
+          "total": 60,
+          "startup": 22,
+          "active": 4,
+          "recovery": 34,
+          "tracking": false
+        },
+        "distance": 7.971603333333333,
+        "facing": {
+          "x": 1,
+          "z": 0
+        },
+        "lane": {
+          "forward": 7.971603333333333,
+          "lateral": 0,
+          "reach": 4.5,
+          "halfWidth": 0.9,
+          "insideReach": false,
+          "insideWidth": true,
+          "inside": false,
+          "model": "burst-arc",
+          "tracking": false,
+          "invulnerable": false
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -3.99552,
+        "z": 0,
+        "lookX": 1,
+        "lookZ": 0,
+        "velocity": {
+          "x": 0.26880000000000237,
+          "z": 0
+        },
+        "distance": 7.971603333333333,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 3.99552,
+        "boundaryGap": 6.00448,
+        "angleFromRoundStart": 0,
+        "move": {
+          "key": "system-eightfold-tempest",
+          "name": "super",
+          "kind": "super",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 0,
+          "total": 60,
+          "startup": 22,
+          "active": 4,
+          "recovery": 34,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 7.971603333333333,
+          "lateral": 0,
+          "reach": 4.5,
+          "halfWidth": 0.9,
+          "insideReach": false,
+          "insideWidth": true,
+          "inside": false,
+          "model": "burst-arc",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 3.9760833333333334,
+        "z": 0,
+        "lookX": -1,
+        "lookZ": 0,
+        "velocity": {
+          "x": -1.4349999999999952,
+          "z": 0
+        },
+        "distance": 7.971603333333333,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 3.9760833333333334,
+        "boundaryGap": 6.023916666666667,
+        "angleFromRoundStart": 0,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      }
+    ],
+    "raw": [
+      {
+        "keys": [
+          "KeyJ"
+        ],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 2,
+    "tick": 2,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [],
+    "players": [
+      {
+        "x": -3.98272,
+        "z": 0,
+        "lookX": 1,
+        "lookZ": 0,
+        "velocity": {
+          "x": 0.7679999999999954,
+          "z": 0
+        },
+        "distance": 7.934886666666667,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 3.98272,
+        "boundaryGap": 6.0172799999999995,
+        "angleFromRoundStart": 0,
+        "move": {
+          "key": "system-eightfold-tempest",
+          "name": "super",
+          "kind": "super",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 1,
+          "total": 60,
+          "startup": 22,
+          "active": 4,
+          "recovery": 34,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 7.934886666666667,
+          "lateral": 0,
+          "reach": 4.5,
+          "halfWidth": 0.9,
+          "insideReach": false,
+          "insideWidth": true,
+          "inside": false,
+          "model": "burst-arc",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 3.952166666666667,
+        "z": 0,
+        "lookX": -1,
+        "lookZ": 0,
+        "velocity": {
+          "x": -1.4349999999999952,
+          "z": 0
+        },
+        "distance": 7.934886666666667,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 3.952166666666667,
+        "boundaryGap": 6.047833333333333,
+        "angleFromRoundStart": 0,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 3,
+    "tick": 3,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [],
+    "players": [
+      {
+        "x": -3.96992,
+        "z": 0,
+        "lookX": 1,
+        "lookZ": 0,
+        "velocity": {
+          "x": 0.7679999999999954,
+          "z": 0
+        },
+        "distance": 7.89817,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 3.96992,
+        "boundaryGap": 6.03008,
+        "angleFromRoundStart": 0,
+        "move": {
+          "key": "system-eightfold-tempest",
+          "name": "super",
+          "kind": "super",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 2,
+          "total": 60,
+          "startup": 22,
+          "active": 4,
+          "recovery": 34,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 7.89817,
+          "lateral": 0,
+          "reach": 4.5,
+          "halfWidth": 0.9,
+          "insideReach": false,
+          "insideWidth": true,
+          "inside": false,
+          "model": "burst-arc",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 3.9282500000000002,
+        "z": 0,
+        "lookX": -1,
+        "lookZ": 0,
+        "velocity": {
+          "x": -1.4349999999999952,
+          "z": 0
+        },
+        "distance": 7.89817,
+        "band": "far",
+        "rivalBand": "far",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 3.9282500000000002,
+        "boundaryGap": 6.07175,
+        "angleFromRoundStart": 0,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 94,
+    "tick": 94,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 1,
+        "z": 1,
+        "attack": false,
+        "guard": true,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "block",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 0.8568000000000069,
+        "kind": "bolt",
+        "distance": 4.902379328880627,
+        "positions": [
+          {
+            "x": -2.8479099411291577,
+            "z": -0.0411048129415876
+          },
+          {
+            "x": 2.035870353468233,
+            "z": -0.4677347677481973
+          }
+        ],
+        "bands": [
+          "mid",
+          "mid"
+        ],
+        "boundaryGap": 7.911090258270757,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            1.1520900588708423,
+            1.964129646531767
+          ],
+          "closer": 1
+        }
+      },
+      {
+        "type": "block",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 0.8568000000000069,
+        "kind": "bolt",
+        "distance": 4.902379328880627,
+        "positions": [
+          {
+            "x": -2.8479099411291577,
+            "z": -0.0411048129415876
+          },
+          {
+            "x": 2.035870353468233,
+            "z": -0.4677347677481973
+          }
+        ],
+        "bands": [
+          "mid",
+          "mid"
+        ],
+        "boundaryGap": 7.911090258270757,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -2.8479099411291577,
+        "z": -0.0411048129415876,
+        "lookX": 0.998299311066014,
+        "lookZ": -0.05829653098703092,
+        "velocity": {
+          "x": 0.765248664115461,
+          "z": -0.0649498427210439
+        },
+        "distance": 4.902379328880627,
+        "band": "mid",
+        "rivalBand": "mid",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 2.8482065652668602,
+        "boundaryGap": 7.15179343473314,
+        "angleFromRoundStart": -0.08713530180507867,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "recovery",
+          "frame": 32,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 2.035870353468233,
+        "z": -0.4677347677481973,
+        "lookX": -0.9964175314003517,
+        "lookZ": 0.08457010770969259,
+        "velocity": {
+          "x": -0.7834830322433906,
+          "z": -0.6608928341166265
+        },
+        "distance": 4.902379328880627,
+        "band": "mid",
+        "rivalBand": "mid",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.088909741729242,
+        "boundaryGap": 7.911090258270757,
+        "angleFromRoundStart": -0.08713530180507897,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 8,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0.12,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 98.28639999999999
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 135,
+    "tick": 135,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 3.6284617997648843,
+        "positions": [
+          {
+            "x": -2.3420394344548607,
+            "z": -0.08924181811665766
+          },
+          {
+            "x": 1.2692576821187815,
+            "z": -0.4417587229310511
+          }
+        ],
+        "bands": [
+          "mid",
+          "whiff band"
+        ],
+        "boundaryGap": 8.656063307702622,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.5081404218928717,
+            0.7659648029743366
+          ],
+          "closer": 1
+        }
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 3.6284617997648843,
+        "positions": [
+          {
+            "x": -2.3420394344548607,
+            "z": -0.08924181811665766
+          },
+          {
+            "x": 1.2692576821187815,
+            "z": -0.4417587229310511
+          }
+        ],
+        "bands": [
+          "mid",
+          "whiff band"
+        ],
+        "boundaryGap": 8.656063307702622,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -2.3420394344548607,
+        "z": -0.08924181811665766,
+        "lookX": 0.9952694325754361,
+        "lookZ": -0.0971532633572816,
+        "velocity": {
+          "x": 0.7643669242179385,
+          "z": -0.07461370625839236
+        },
+        "distance": 3.6284617997648843,
+        "band": "mid",
+        "rivalBand": "whiff band",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 2.343739067098215,
+        "boundaryGap": 7.656260932901786,
+        "angleFromRoundStart": -0.09730675051673776,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "recovery",
+          "frame": 25,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 1.2692576821187815,
+        "z": -0.4417587229310511,
+        "lookX": -0.9952694325754363,
+        "lookZ": 0.09715326335728153,
+        "velocity": {
+          "x": -1.4282116357457575,
+          "z": 0.13941493291769969
+        },
+        "distance": 3.6284617997648843,
+        "band": "whiff band",
+        "rivalBand": "mid",
+        "insideMyReach": false,
+        "insideHisReach": false,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 1.3439366922973772,
+        "boundaryGap": 8.656063307702622,
+        "angleFromRoundStart": -0.09730675051673769,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 84.00639999999999
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 186,
+    "tick": 180,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.955588466431551,
+        "positions": [
+          {
+            "x": -1.7936061663284901,
+            "z": -0.14277715235705418
+          },
+          {
+            "x": 1.148000689583343,
+            "z": -0.42992221701202193
+          }
+        ],
+        "bands": [
+          "mid",
+          "tip"
+        ],
+        "boundaryGap": 8.774137570538862,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.5510400000000022,
+            0.12183333333333127
+          ],
+          "closer": 0
+        }
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.955588466431551,
+        "positions": [
+          {
+            "x": -1.7936061663284901,
+            "z": -0.14277715235705418
+          },
+          {
+            "x": 1.148000689583343,
+            "z": -0.42992221701202193
+          }
+        ],
+        "bands": [
+          "mid",
+          "tip"
+        ],
+        "boundaryGap": 8.774137570538862,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -1.7936061663284901,
+        "z": -0.14277715235705418,
+        "lookX": 0.9952694325754362,
+        "lookZ": -0.0971532633572815,
+        "velocity": {
+          "x": 0.7643669242179385,
+          "z": -0.07461370625839236
+        },
+        "distance": 2.955588466431551,
+        "band": "mid",
+        "rivalBand": "tip",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 1.799279965743734,
+        "boundaryGap": 8.200720034256266,
+        "angleFromRoundStart": -0.09730675051673732,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "recovery",
+          "frame": 22,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 1.148000689583343,
+        "z": -0.42992221701202193,
+        "lookX": -0.9952694325754363,
+        "lookZ": 0.09715326335728135,
+        "velocity": {
+          "x": -1.4282116357457575,
+          "z": 0.13941493291769969
+        },
+        "distance": 2.955588466431551,
+        "band": "tip",
+        "rivalBand": "mid",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 1.225862429461138,
+        "boundaryGap": 8.774137570538862,
+        "angleFromRoundStart": -0.09730675051673753,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 69.72639999999998
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 237,
+    "tick": 225,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": 1,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": true,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.4262252029720366,
+        "positions": [
+          {
+            "x": -1.2451922099583834,
+            "z": -0.19650592828228253
+          },
+          {
+            "x": 1.1678420347554446,
+            "z": -0.4491607706563518
+          }
+        ],
+        "bands": [
+          "whiff band",
+          "inside reach"
+        ],
+        "boundaryGap": 8.748760448180148,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.5510395730902542,
+            -0.02161657261979166
+          ],
+          "closer": 0
+        }
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.4262252029720366,
+        "positions": [
+          {
+            "x": -1.2451922099583834,
+            "z": -0.19650592828228253
+          },
+          {
+            "x": 1.1678420347554446,
+            "z": -0.4491607706563518
+          }
+        ],
+        "bands": [
+          "whiff band",
+          "inside reach"
+        ],
+        "boundaryGap": 8.748760448180148,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -1.2451922099583834,
+        "z": -0.19650592828228253,
+        "lookX": 0.9952694325754362,
+        "lookZ": -0.0971532633572813,
+        "velocity": {
+          "x": 0.7639185889223299,
+          "z": -0.07907205257811023
+        },
+        "distance": 2.4262252029720366,
+        "band": "whiff band",
+        "rivalBand": "inside reach",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 1.2606023241257032,
+        "boundaryGap": 8.739397675874297,
+        "angleFromRoundStart": -0.10432408338885724,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "recovery",
+          "frame": 19,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 1.1678420347554446,
+        "z": -0.4491607706563518,
+        "lookX": -0.9952694325754363,
+        "lookZ": 0.09715326335728117,
+        "velocity": {
+          "x": -0.017729436789002406,
+          "z": -0.17128487110992907
+        },
+        "distance": 2.4262252029720366,
+        "band": "inside reach",
+        "rivalBand": "whiff band",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 1.2512395518198525,
+        "boundaryGap": 8.748760448180148,
+        "angleFromRoundStart": -0.1043240833888574,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 55.44639999999998
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 291,
+    "tick": 273,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.336785202972036,
+        "positions": [
+          {
+            "x": -0.6589568912164101,
+            "z": -0.25788723373840583
+          },
+          {
+            "x": 1.6651236229934099,
+            "z": -0.5012282461043391
+          }
+        ],
+        "bands": [
+          "whiff band",
+          "inside reach"
+        ],
+        "boundaryGap": 8.261073194598596,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.5894400000000009,
+            -0.5000000000000001
+          ],
+          "closer": 0
+        }
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.336785202972036,
+        "positions": [
+          {
+            "x": -0.6589568912164101,
+            "z": -0.25788723373840583
+          },
+          {
+            "x": 1.6651236229934099,
+            "z": -0.5012282461043391
+          }
+        ],
+        "bands": [
+          "whiff band",
+          "inside reach"
+        ],
+        "boundaryGap": 8.261073194598596,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -0.6589568912164101,
+        "z": -0.25788723373840583,
+        "lookX": 0.9945631764759305,
+        "lookZ": -0.10413495089597469,
+        "velocity": {
+          "x": 0.7638245195335114,
+          "z": -0.07997564228810705
+        },
+        "distance": 2.336785202972036,
+        "band": "whiff band",
+        "rivalBand": "inside reach",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.7076227877950533,
+        "boundaryGap": 9.292377212204947,
+        "angleFromRoundStart": -0.10432408338885724,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "recovery",
+          "frame": 19,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 1.6651236229934099,
+        "z": -0.5012282461043391,
+        "lookX": -0.9945631764759305,
+        "lookZ": 0.10413495089597473,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.336785202972036,
+        "band": "inside reach",
+        "rivalBand": "whiff band",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 1.7389268054014035,
+        "boundaryGap": 8.261073194598596,
+        "angleFromRoundStart": -0.10432408338885744,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 41.16639999999998
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 339,
+    "tick": 315,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": {
+      "kind": "capture",
+      "t": 0,
+      "duration": 2.3
+    },
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": -1,
+        "attack": false,
+        "guard": false,
+        "capture": true,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "meleeCheck",
+        "attacker": 1,
+        "defender": 0,
+        "inside": true,
+        "tracking": false,
+        "sidestep": false,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "distance": 2.316021482025625,
+        "positions": [
+          {
+            "x": 2.1718524100901506,
+            "z": -0.43889598166399557
+          },
+          {
+            "x": -0.14047977629587022,
+            "z": -0.3082232415556772
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "whiff band"
+        ],
+        "boundaryGap": 9.661272773188768,
+        "source": null
+      },
+      {
+        "type": "captureStart",
+        "attacker": 1,
+        "defender": 0,
+        "guard": false,
+        "distance": 2.316021482025625,
+        "positions": [
+          {
+            "x": 2.1718524100901506,
+            "z": -0.43889598166399557
+          },
+          {
+            "x": -0.14047977629587022,
+            "z": -0.3082232415556772
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "whiff band"
+        ],
+        "boundaryGap": 9.661272773188768,
+        "source": null
+      }
+    ],
+    "players": [
+      {
+        "x": -0.14047977629587022,
+        "z": -0.3082232415556772,
+        "lookX": 0.9945631764759304,
+        "lookZ": -0.10413495089597491,
+        "velocity": {
+          "x": 0.7666183944850147,
+          "z": -0.04604603389238959
+        },
+        "distance": 2.316021482025625,
+        "band": "whiff band",
+        "rivalBand": "inside reach",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.33872722681123096,
+        "boundaryGap": 9.661272773188768,
+        "angleFromRoundStart": -0.05645119020185119,
+        "move": {
+          "key": "special-storm-spark",
+          "name": "forward",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 13,
+          "total": 50,
+          "startup": 18,
+          "active": 4,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.3133680437342368,
+          "lateral": -0.11083230320354778,
+          "model": "projectile",
+          "reach": 27.599999999999998,
+          "halfWidth": null,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": null,
+          "paths": [
+            {
+              "forward": 1.3133680437342368,
+              "lateral": -0.11083230320354778,
+              "origin": {
+                "x": 0.8540834001800601,
+                "z": -0.4123581924516521
+              },
+              "velocity": {
+                "x": 11.934758117711166,
+                "z": -1.2496194107516991
+              },
+              "reach": 27.599999999999998,
+              "halfWidth": 0.9,
+              "insideReach": true,
+              "insideWidth": true
+            }
+          ],
+          "tracking": false,
+          "note": "Projected spawn paths, not a collision prediction; targets may move. Live projectiles logged separately."
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 100
+      },
+      {
+        "x": 2.1718524100901506,
+        "z": -0.43889598166399557,
+        "lookX": -0.9945631764759304,
+        "lookZ": 0.10413495089597491,
+        "velocity": {
+          "x": 0.029498240462304537,
+          "z": 0.49111490896696086
+        },
+        "distance": 2.316021482025625,
+        "band": "inside reach",
+        "rivalBand": "whiff band",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.215755531175585,
+        "boundaryGap": 7.784244468824415,
+        "angleFromRoundStart": -0.056451190201851506,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.3133680437342368,
+          "lateral": -0.11083230320354778,
+          "reach": 3.1,
+          "halfWidth": 0.8,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": true,
+          "model": "line",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "circle",
+        "hp": 41.16639999999998
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 478,
+    "tick": 454,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 10,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": -1,
+        "attack": false,
+        "guard": false,
+        "capture": true,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 1,
+        "defender": 0,
+        "damage": 18.599999999999994,
+        "kind": "capture",
+        "distance": 2.316021482025625,
+        "positions": [
+          {
+            "x": 2.1718524100901506,
+            "z": -0.43889598166399557
+          },
+          {
+            "x": -0.14047977629587022,
+            "z": -0.3082232415556772
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "whiff band"
+        ],
+        "boundaryGap": 9.661272773188768,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.520899984047799,
+            -0.49748282480999984
+          ],
+          "closer": 0
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": -0.14047977629587022,
+        "z": -0.3082232415556772,
+        "lookX": 0.9945631764759304,
+        "lookZ": -0.10413495089597491,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.316021482025625,
+        "band": "whiff band",
+        "rivalBand": "inside reach",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.33872722681123096,
+        "boundaryGap": 9.661272773188768,
+        "angleFromRoundStart": -0.05645119020185119,
+        "move": null,
+        "lane": null,
+        "hitstun": 50,
+        "blockstun": 0,
+        "stunSeconds": 0.82,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "airborne",
+        "hp": 81.4
+      },
+      {
+        "x": 2.1718524100901506,
+        "z": -0.43889598166399557,
+        "lookX": -0.9945631764759304,
+        "lookZ": 0.10413495089597491,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.316021482025625,
+        "band": "inside reach",
+        "rivalBand": "whiff band",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.215755531175585,
+        "boundaryGap": 7.784244468824415,
+        "angleFromRoundStart": -0.056451190201851506,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.3133680437342368,
+          "lateral": -0.11083230320354778,
+          "reach": 3.1,
+          "halfWidth": 0.8,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": true,
+          "model": "line",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "idle",
+        "hp": 41.16639999999998
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 623,
+    "tick": 589,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 0,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "meleeCheck",
+        "attacker": 0,
+        "defender": 1,
+        "inside": true,
+        "tracking": false,
+        "sidestep": false,
+        "move": {
+          "key": "chain-strike-1",
+          "name": "Strike 1",
+          "kind": "strike",
+          "chain": 1,
+          "phase": "active",
+          "frame": 9,
+          "total": 28,
+          "startup": 9,
+          "active": 3,
+          "recovery": 16,
+          "tracking": false
+        },
+        "distance": 1.9630131541691747,
+        "positions": [
+          {
+            "x": 0.21349941936102668,
+            "z": -0.27545821174294705
+          },
+          {
+            "x": 2.1763677998309867,
+            "z": -0.25161781760929325
+          }
+        ],
+        "bands": [
+          "tip",
+          "inside reach"
+        ],
+        "boundaryGap": 7.809135256050791,
+        "source": null
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 6.119999999999997,
+        "kind": "hit",
+        "distance": 1.9630131541691747,
+        "positions": [
+          {
+            "x": 0.21349941936102668,
+            "z": -0.27545821174294705
+          },
+          {
+            "x": 2.1763677998309867,
+            "z": -0.25161781760929325
+          }
+        ],
+        "bands": [
+          "tip",
+          "inside reach"
+        ],
+        "boundaryGap": 7.809135256050791,
+        "source": {
+          "key": "chain-strike-1",
+          "name": "Strike 1",
+          "kind": "strike",
+          "chain": 1,
+          "phase": "active",
+          "frame": 9,
+          "total": 28,
+          "startup": 9,
+          "active": 3,
+          "recovery": 16,
+          "tracking": false
+        },
+        "frameAdvantage": {
+          "nominal": 1,
+          "defenderStun": 19,
+          "attackerRemaining": 18,
+          "definition": "stun - remaining active/recovery (excludes shared hitstop; assumes no chain/cancel)",
+          "observed": null
+        },
+        "exchange": {
+          "closedByPlayer": [
+            0.3515666834363622,
+            0.006058264112213164
+          ],
+          "closer": 0
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": 0.21349941936102668,
+        "z": -0.27545821174294705,
+        "lookX": 0.9999262492465182,
+        "lookZ": 0.012144795913883726,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 1.9630131541691747,
+        "band": "tip",
+        "rivalBand": "inside reach",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.348510012028518,
+        "boundaryGap": 9.651489987971482,
+        "angleFromRoundStart": 0.012145094485308117,
+        "move": {
+          "key": "chain-strike-1",
+          "name": "Strike 1",
+          "kind": "strike",
+          "chain": 1,
+          "phase": "active",
+          "frame": 9,
+          "total": 28,
+          "startup": 9,
+          "active": 3,
+          "recovery": 16,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 1.9630131541691747,
+          "lateral": 0,
+          "reach": 2.25,
+          "halfWidth": 0.7,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": true,
+          "model": "line",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "idle",
+        "hp": 81.4
+      },
+      {
+        "x": 2.1763677998309867,
+        "z": -0.25161781760929325,
+        "lookX": -0.9991042832512893,
+        "lookZ": 0.042315850327359704,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 1.9630131541691747,
+        "band": "inside reach",
+        "rivalBand": "tip",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.190864743949209,
+        "boundaryGap": 7.809135256050791,
+        "angleFromRoundStart": 0.012145094485308204,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 35.046399999999984
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 0,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 649,
+    "tick": 609,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": -1,
+        "z": 0,
+        "attack": false,
+        "guard": true,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "frameAdvantageResolved",
+        "attacker": 0,
+        "defender": 1,
+        "contactInputFrame": 623,
+        "nominal": 1,
+        "observed": 1,
+        "readyTicks": [
+          608,
+          609
+        ],
+        "definition": "first grounded ready state; later attacks, chains and interruptions may change this observational value"
+      }
+    ],
+    "players": [
+      {
+        "x": 0.4728936207655632,
+        "z": -0.27230768975227304,
+        "lookX": 0.9999262492465183,
+        "lookZ": 0.01214479591388355,
+        "velocity": {
+          "x": 2.2398347983122004,
+          "z": 0.02720434284710027
+        },
+        "distance": 2.2719331541691745,
+        "band": "whiff band",
+        "rivalBand": "inside reach",
+        "insideMyReach": false,
+        "insideHisReach": true,
+        "betweenReaches": true,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.5456920875905976,
+        "boundaryGap": 9.454307912409403,
+        "angleFromRoundStart": 0.012145094485308117,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 81.4
+      },
+      {
+        "x": 2.7446592181527576,
+        "z": -0.2447155252649027,
+        "lookX": -0.9991042832512893,
+        "lookZ": 0.042315850327359704,
+        "velocity": {
+          "x": 4.099697621910714,
+          "z": 0.04979366324692258
+        },
+        "distance": 2.2719331541691745,
+        "band": "inside reach",
+        "rivalBand": "whiff band",
+        "insideMyReach": true,
+        "insideHisReach": false,
+        "betweenReaches": true,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.7555471166533487,
+        "boundaryGap": 7.244452883346652,
+        "angleFromRoundStart": 0.012145094485308022,
+        "move": null,
+        "lane": null,
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk away",
+        "hp": 35.046399999999984
+      }
+    ],
+    "raw": [
+      {
+        "keys": [
+          "KeyJ"
+        ],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 666,
+    "tick": 626,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 0,
+    "cinematic": {
+      "kind": "capture",
+      "t": 0,
+      "duration": 2.3
+    },
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "meleeCheck",
+        "attacker": 1,
+        "defender": 0,
+        "inside": true,
+        "tracking": false,
+        "sidestep": false,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "distance": 2.011891473208035,
+        "positions": [
+          {
+            "x": 2.793081937188078,
+            "z": -0.1539440569178986
+          },
+          {
+            "x": 0.7842133017018578,
+            "z": -0.2641897159114681
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "tip"
+        ],
+        "boundaryGap": 9.172481596241202,
+        "source": null
+      },
+      {
+        "type": "captureStart",
+        "attacker": 1,
+        "defender": 0,
+        "guard": false,
+        "distance": 2.011891473208035,
+        "positions": [
+          {
+            "x": 2.793081937188078,
+            "z": -0.1539440569178986
+          },
+          {
+            "x": 0.7842133017018578,
+            "z": -0.2641897159114681
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "tip"
+        ],
+        "boundaryGap": 9.172481596241202,
+        "source": null
+      }
+    ],
+    "players": [
+      {
+        "x": 0.7842133017018578,
+        "z": -0.2641897159114681,
+        "lookX": 0.9999262492465182,
+        "lookZ": 0.012144795913883543,
+        "velocity": {
+          "x": 0.7668460911528951,
+          "z": 0.042084112008313745
+        },
+        "distance": 2.011891473208035,
+        "band": "tip",
+        "rivalBand": "inside reach",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.8275184037587993,
+        "boundaryGap": 9.172481596241202,
+        "angleFromRoundStart": 0.05482448125777075,
+        "move": {
+          "key": "special-storm-spark",
+          "name": "forward",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "startup",
+          "frame": 16,
+          "total": 50,
+          "startup": 18,
+          "active": 4,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.010059390939576,
+          "lateral": -0.08584022869736879,
+          "model": "projectile",
+          "reach": 27.599999999999998,
+          "halfWidth": null,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": null,
+          "paths": [
+            {
+              "forward": 1.0100593909395759,
+              "lateral": -0.08584022869736879,
+              "origin": {
+                "x": 1.784139550948376,
+                "z": -0.25204491999758455
+              },
+              "velocity": {
+                "x": 11.999114990958219,
+                "z": 0.14573755096660254
+              },
+              "reach": 27.599999999999998,
+              "halfWidth": 0.9,
+              "insideReach": true,
+              "insideWidth": true
+            }
+          ],
+          "tracking": false,
+          "note": "Projected spawn paths, not a collision prediction; targets may move. Live projectiles logged separately."
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 81.4
+      },
+      {
+        "x": 2.793081937188078,
+        "z": -0.1539440569178986,
+        "lookX": -0.9999262492465183,
+        "lookZ": -0.012144795913883535,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.011891473208035,
+        "band": "inside reach",
+        "rivalBand": "tip",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.7973211257391686,
+        "boundaryGap": 7.202678874260831,
+        "angleFromRoundStart": 0.054824481257770424,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.0100593909395763,
+          "lateral": -0.08584022869736882,
+          "reach": 3.1,
+          "halfWidth": 0.8,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": true,
+          "model": "line",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "idle",
+        "hp": 35.046399999999984
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 805,
+    "tick": 765,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 10,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": 0,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 1,
+        "defender": 0,
+        "damage": 18.6,
+        "kind": "capture",
+        "distance": 2.011891473208035,
+        "positions": [
+          {
+            "x": 2.793081937188078,
+            "z": -0.1539440569178986
+          },
+          {
+            "x": 0.7842133017018578,
+            "z": -0.2641897159114681
+          }
+        ],
+        "bands": [
+          "inside reach",
+          "tip"
+        ],
+        "boundaryGap": 9.172481596241202,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.5708086453441157,
+            -0.617854882114517
+          ],
+          "closer": 0
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": 0.7842133017018578,
+        "z": -0.2641897159114681,
+        "lookX": 0.9999262492465182,
+        "lookZ": 0.012144795913883543,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.011891473208035,
+        "band": "tip",
+        "rivalBand": "inside reach",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.8275184037587993,
+        "boundaryGap": 9.172481596241202,
+        "angleFromRoundStart": 0.05482448125777075,
+        "move": null,
+        "lane": null,
+        "hitstun": 50,
+        "blockstun": 0,
+        "stunSeconds": 0.82,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "airborne",
+        "hp": 62.800000000000004
+      },
+      {
+        "x": 2.793081937188078,
+        "z": -0.1539440569178986,
+        "lookX": -0.9999262492465183,
+        "lookZ": -0.012144795913883535,
+        "velocity": {
+          "x": 0,
+          "z": 0
+        },
+        "distance": 2.011891473208035,
+        "band": "inside reach",
+        "rivalBand": "tip",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.7973211257391686,
+        "boundaryGap": 7.202678874260831,
+        "angleFromRoundStart": 0.054824481257770424,
+        "move": {
+          "key": "system-capture-close-",
+          "name": "capture",
+          "kind": "capture",
+          "chain": 1,
+          "phase": "active",
+          "frame": 13,
+          "total": 54,
+          "startup": 13,
+          "active": 1,
+          "recovery": 40,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.0100593909395763,
+          "lateral": -0.08584022869736882,
+          "reach": 3.1,
+          "halfWidth": 0.8,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": true,
+          "model": "line",
+          "tracking": false,
+          "invulnerable": false
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "idle",
+        "hp": 35.046399999999984
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "projectiles": [],
+    "inputFrame": 956,
+    "tick": 906,
+    "advanced": 1,
+    "frozen": false,
+    "hitstop": 6,
+    "cinematic": null,
+    "inputs": [
+      {
+        "x": 1,
+        "z": 0,
+        "attack": false,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      },
+      {
+        "x": -1,
+        "z": 0,
+        "attack": true,
+        "guard": false,
+        "capture": false,
+        "launch": false,
+        "pursuit": false,
+        "super": false
+      }
+    ],
+    "events": [
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.0774546039837856,
+        "positions": [
+          {
+            "x": 0.8386964124876453,
+            "z": 0.01041290867959705
+          },
+          {
+            "x": 2.661085430212813,
+            "z": 1.007767359057259
+          }
+        ],
+        "bands": [
+          "tip",
+          "inside reach"
+        ],
+        "boundaryGap": 7.1544823464135465,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0.06944865644661317,
+            0.06813985946429785
+          ],
+          "closer": 0
+        }
+      },
+      {
+        "type": "damage",
+        "attacker": 0,
+        "defender": 1,
+        "damage": 7.140000000000001,
+        "kind": "bolt",
+        "distance": 2.0774546039837856,
+        "positions": [
+          {
+            "x": 0.8386964124876453,
+            "z": 0.01041290867959705
+          },
+          {
+            "x": 2.661085430212813,
+            "z": 1.007767359057259
+          }
+        ],
+        "bands": [
+          "tip",
+          "inside reach"
+        ],
+        "boundaryGap": 7.1544823464135465,
+        "source": null,
+        "exchange": {
+          "closedByPlayer": [
+            0,
+            0
+          ],
+          "closer": null
+        }
+      }
+    ],
+    "players": [
+      {
+        "x": 0.8386964124876453,
+        "z": 0.01041290867959705,
+        "lookX": 0.8772220650359831,
+        "lookZ": 0.48008483480943814,
+        "velocity": {
+          "x": 0.6737065459476343,
+          "z": 0.3687051531336482
+        },
+        "distance": 2.0774546039837856,
+        "band": "tip",
+        "rivalBand": "inside reach",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 2.25,
+        "rivalReach": 3.25,
+        "centreDistance": 0.8387610511861028,
+        "boundaryGap": 9.161238948813898,
+        "angleFromRoundStart": 0.5007514183221276,
+        "move": {
+          "key": "variant-twin-spark",
+          "name": "Twin spark",
+          "kind": "forward",
+          "chain": 1,
+          "phase": "active",
+          "frame": 18,
+          "total": 47,
+          "startup": 18,
+          "active": 1,
+          "recovery": 28,
+          "tracking": false
+        },
+        "lane": {
+          "forward": 2.077454603983786,
+          "lateral": 8.881784197001252e-16,
+          "model": "projectile",
+          "reach": 33.800000000000004,
+          "halfWidth": null,
+          "insideReach": true,
+          "insideWidth": true,
+          "inside": null,
+          "paths": [
+            {
+              "forward": 1.0755157674522868,
+              "lateral": -0.06460849485459036,
+              "origin": {
+                "x": 1.7159184775236285,
+                "z": 0.4904977434890352
+              },
+              "velocity": {
+                "x": 11.757607538393462,
+                "z": 5.546049492486815
+              },
+              "reach": 33.800000000000004,
+              "halfWidth": 0.9,
+              "insideReach": true,
+              "insideWidth": true
+            },
+            {
+              "forward": 1.0755157674522866,
+              "lateral": 0.06460849485459197,
+              "origin": {
+                "x": 1.7159184775236285,
+                "z": 0.4904977434890352
+              },
+              "velocity": {
+                "x": 11.009124474618359,
+                "z": 6.913694981871781
+              },
+              "reach": 33.800000000000004,
+              "halfWidth": 0.9,
+              "insideReach": true,
+              "insideWidth": true
+            }
+          ],
+          "tracking": false,
+          "note": "Projected spawn paths, not a collision prediction; targets may move. Live projectiles logged separately."
+        },
+        "hitstun": 0,
+        "blockstun": 0,
+        "stunSeconds": 0,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "walk toward",
+        "hp": 62.800000000000004
+      },
+      {
+        "x": 2.661085430212813,
+        "z": 1.007767359057259,
+        "lookX": -0.8772220650359832,
+        "lookZ": -0.48008483480943775,
+        "velocity": {
+          "x": 1.2588136633266434,
+          "z": 0.6889217379515422
+        },
+        "distance": 2.0774546039837856,
+        "band": "inside reach",
+        "rivalBand": "tip",
+        "insideMyReach": true,
+        "insideHisReach": true,
+        "betweenReaches": false,
+        "myReach": 3.25,
+        "rivalReach": 2.25,
+        "centreDistance": 2.845517653586453,
+        "boundaryGap": 7.1544823464135465,
+        "angleFromRoundStart": 0.5007514183221274,
+        "move": null,
+        "lane": null,
+        "hitstun": 20,
+        "blockstun": 0,
+        "stunSeconds": 0.32,
+        "blockstunSeconds": 0,
+        "posture": {
+          "step": null,
+          "jumpSquat": null,
+          "getUp": null,
+          "knockdown": null,
+          "bounce": null
+        },
+        "locomotion": "stunned",
+        "hp": 20.766399999999983
+      }
+    ],
+    "raw": [
+      {
+        "keys": [],
+        "mappedFrom": {
+          "x": 1,
+          "z": 0
+        },
+        "pad": null
+      },
+      {
+        "source": "cpu"
+      }
+    ]
+  }
+]

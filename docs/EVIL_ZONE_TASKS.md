@@ -1,3 +1,13 @@
+## MATCH-RECORDER — deterministic real-match capture and positioning data
+
+Owner: **Codex** · Branch: `codex/match-recorder` · Status: **Review, awaiting Adam’s verdict** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.
+
+- [x] Record both final rival-relative inputs and physical input snapshots, seeds/settings/build identity; bounded local storage and result download.
+- [x] Deterministic Node/browser replay with mismatch validation, frame log and positioning summaries.
+- [x] **757 tests pass**, 105 files; default fingerprint unchanged. Several seeded CPU/default/v2 replays and a two-round file reproduce exactly. Walk/circle/edge/backdash/jab-lane, Morrow block advantage, storage, corruption and observational equality fixtures pass. Browser recording off/on identical; download/import/play/pause/frame-step/seek/stored reload/build rejection/URL load pass, real desktop/phone captures inspected.
+
+[Review and format](../art/review-2026-11-05/match-recorder/README.md). Build `05d0ecfdabc3`; cloud verification pending branch push. Server **4220** in `~/rift-worktrees/match-recorder`, bound to `::`. [Record](http://localhost:4220/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1) · [Replay](http://localhost:4220/dist/replay.html). Inputs only, not video: audio/ceremony wall time and guided lesson setups excluded. CLI emits frame data and per-round positioning summaries; Claude owns the visual analysis overlay. No gameplay merge or default promotion.
+
 ## CONTROLS-VIEW — camera-matched input schemes
 
 Owner: **Codex** · Branch: `codex/controls-view` · Status: **Side controls selected by Adam** (2026-11-02). Tested implementation `0b2f805`, based on `codex/sidestep-linear` (`6b86f39`). No gameplay merge; no Claude branch merges or animation changes.
