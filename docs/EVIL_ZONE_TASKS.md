@@ -1,10 +1,12 @@
 ## MATCH-RECORDER — deterministic real-match capture and positioning data
 
-Owner: **Codex** · Branch: `codex/match-recorder` · Status: **In progress** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.
+Owner: **Codex** · Branch: `codex/match-recorder` · Status: **Review, awaiting Adam’s verdict** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.
 
-- [ ] Record both final rival-relative inputs and physical input snapshots, seeds/settings/build identity; bounded local storage and result download.
-- [ ] Deterministic Node/browser replay with mismatch validation, frame log and positioning summaries.
-- [ ] Seeded CPU/default/v2 equality, positioning/advantage fixtures, full suite and browser evidence.
+- [x] Record both final rival-relative inputs and physical input snapshots, seeds/settings/build identity; bounded local storage and result download.
+- [x] Deterministic Node/browser replay with mismatch validation, frame log and positioning summaries.
+- [x] **757 tests pass**, 105 files; default fingerprint unchanged. Several seeded CPU/default/v2 replays and a two-round file reproduce exactly. Walk/circle/edge/backdash/jab-lane, Morrow block advantage, storage, corruption and observational equality fixtures pass. Browser recording off/on identical; download/import/play/pause/frame-step/seek/stored reload/build rejection/URL load pass, real desktop/phone captures inspected.
+
+[Review and format](../art/review-2026-11-05/match-recorder/README.md). Build `05d0ecfdabc3`; **[Cloud run 42045156831](https://github.com/Tusingw29/rift-duel/actions/runs/42045156831) passed** on implementation `cbdfe60` (757 tests, CLI verification, browser smoke); local/cloud match outcomes and clocks identical. Server **4220** in `~/rift-worktrees/match-recorder`, bound to `::`. [Record](http://localhost:4220/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1) · [Replay](http://localhost:4220/dist/replay.html). Inputs only, not video: audio/ceremony wall time and guided lesson setups excluded. CLI emits frame data and per-round positioning summaries; Claude owns the visual analysis overlay. No gameplay merge or default promotion.
 
 ## CONTROLS-VIEW — camera-matched input schemes
 
@@ -584,6 +586,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
 | 2026-10-27 | Claude | WEIGHT-TRANSFER | Ground-up weight transfer for every grounded fighter's strikes and specials, chain advance absorbed into the step, feet drag instead of dropping, heel pivot blended across chained hits, get-up floor clamp. 589 tests. Evidence `art/review-2026-10-27/weight-transfer/`. Next: Adam's normal-speed verdict (Aegis finisher wind-up flagged). |
