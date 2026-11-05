@@ -1,0 +1,14 @@
+{
+  "run": 42045156831,
+  "url": "https://github.com/Tusingw29/rift-duel/actions/runs/42045156831",
+  "commit": "cbdfe60d1633e1b94ccc21270c02cbeb2bf9a92f",
+  "conclusion": "success",
+  "tests": 757,
+  "build": {
+    "hash": "05d0ecfdabc3",
+    "commit": "cbdfe60d1633e1b94ccc21270c02cbeb2bf9a92f",
+    "workingTreeDirty": false
+  },
+  "localCloudBrowserOutcomesIdentical": true,
+  "nodeReplayVerified": true
+}
