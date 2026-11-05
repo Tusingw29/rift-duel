@@ -1,3 +1,11 @@
+## MATCH-RECORDER — deterministic real-match capture and positioning data
+
+Owner: **Codex** · Branch: `codex/match-recorder` · Status: **In progress** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.
+
+- [ ] Record both final rival-relative inputs and physical input snapshots, seeds/settings/build identity; bounded local storage and result download.
+- [ ] Deterministic Node/browser replay with mismatch validation, frame log and positioning summaries.
+- [ ] Seeded CPU/default/v2 equality, positioning/advantage fixtures, full suite and browser evidence.
+
 ## CONTROLS-VIEW — camera-matched input schemes
 
 Owner: **Codex** · Branch: `codex/controls-view` · Status: **Side controls selected by Adam** (2026-11-02). Tested implementation `0b2f805`, based on `codex/sidestep-linear` (`6b86f39`). No gameplay merge; no Claude branch merges or animation changes.
