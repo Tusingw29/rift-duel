@@ -1,3 +1,13 @@
+## CAPTURE-SEAL — committed captures and earned approach
+
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
+
+**Adam’s decisions (2026-11-06):** escaping earns a free dash in; captures pay more at closer range; close-grab locking/reach/16f startup comparisons are included. No default promotion.
+
+- [ ] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
+- [ ] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
+- [ ] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+
 ## COMBAT-DESIGN-STUDY — simple controls, spacing and capture risk
 
 Owner: **Codex** · Branch: `codex/combat-design-study` · Status: **Review, awaiting Adam’s design verdict** (2026-11-06). Documentation and read-only probes, based on capture-loop. Re-read Evil Zone guides, distinguish verified commands from unknown capture timing, map all ten reference fighters and propose a punishable two-button combat structure. No gameplay, CPU, animation or art changes.
