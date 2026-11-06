@@ -1,11 +1,13 @@
 ## CAPTURE-LOOP — break ranged-capture wake-up repetition
 
-Owner: **Codex** · Branch: `codex/capture-loop` · Status: **In progress** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
+Owner: **Codex** · Branch: `codex/capture-loop` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
 
-- [ ] `capturewake=inv`: capture-circle-only protection while down/rising and for 20 simulation frames after standing; strikes unchanged.
-- [ ] `capturewake=close3` / `close45` (`close` aliases close3), combinable with inv: landed mid/far captures end 3 / 4.5 units apart within arena bounds.
-- [ ] Real Normal CPU vs delayed circle-camper across all 36 pairs and five seeds, with/without CPU v2; each variant plus guard/flat combinations. Landing, down-throw share, actionable time and non-spam use fixtures.
-- [ ] Frozen 22:12 and batch-2 replay verification; default fingerprint; full tests and browser captures. Review awaits Adam's normal-speed verdict.
+- [x] `capturewake=inv`: capture-circle-only protection while down/rising and for 20 simulation frames after standing; strikes unchanged.
+- [x] `capturewake=close3` / `close45` (`close` aliases close3), combinable with inv: landed mid/far captures end 3 / 4.5 units apart within arena bounds.
+- [x] Real Normal CPU vs delayed circle-camper across all 36 pairs and five seeds, with/without CPU v2; each variant plus guard/flat combinations. Landing, down-throw share, actionable time and non-spam use fixtures.
+- [x] Frozen 22:12 and batch-2 replay verification; default fingerprint; full tests and browser captures. Review awaits Adam's normal-speed verdict.
+
+**Evidence:** [Review](../art/review-2026-11-06/capture-loop/README.md). 808 tests pass; six browser record/replays and eight renderer captures pass; 13 original replay files verify on frozen source. 6,480 real-CPU bouts, zero censored. With guard/flat + CPU v2, inv lowers repeat-circle landings 46.6% → 27.5%, CPU-ready frames 535 → 994; CPU still mostly loses and win ranges overlap. Close resets alone do not help; retreat during recovery reopens the gap. Default fingerprint unchanged. Branch-only preview on **4224**; **[Cloud 42311463791](https://github.com/Tusingw29/rift-duel/actions/runs/42311463791) passed** on `111c0bd` (808 tests, study, browser). Build `4424f1ffbb13`. All local/cloud winners agree; raw counts differ in a few bouts between Node versions, documented in the review.
 
 ## MATCH-RECORDER — deterministic real-match capture and positioning data
 
@@ -595,6 +597,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Codex | CAPTURE-LOOP | `111c0bd`: opt-in wake-circle protection and close3/close45 resets; 808 tests and cloud 42311463791 pass. 6,480 bouts: inv reduces repeated-circle landings 46.6% to 27.5%, CPU still mostly loses; close resets alone do not solve retreat during recovery. Default fingerprint and 13 frozen replays pass. Review at art/review-2026-11-06/capture-loop/README.md; server 4224. Awaiting Adam’s normal-speed verdict, no gameplay merge. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
