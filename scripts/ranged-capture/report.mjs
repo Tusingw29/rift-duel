@@ -17,8 +17,8 @@ if(bots.base){
  md+='\n';}
 const cmodes=[['base','baseline CPU'],['v2','cpu=v2'],['v2-guard-flat','cpu=v2 + rangedcap=guard,flat']],cpu=Object.fromEntries(cmodes.map(([f])=>[f,load(`cpu-${f}.json`)]));
 if(cpu.base){
- md+='## Real game CPU (normal) vs bots\n\nThe CPU always plays player 2; all 36 fighter pairings, 5 seeds, bot reaction delay 15 frames (180 bouts per bot per mode).\n\n| Mode | Bot | CPU wins | CPU blocked (blocks / attacks that reached it) | Capture breaks per bout | Whiff punishes per bout | Bot captures landed per bout | CPU circles thrown per bout |\n|---|---|---|---|---|---|---|---|\n';
+ md+='## Real game CPU (normal) vs bots\n\nThe CPU always plays player 2; all 36 fighter pairings, 5 seeds, bot reaction delay 15 frames (180 bouts per bot per mode).\n\n| Mode | Bot | CPU wins | CPU blocked (blocks / attacks that reached it) | Capture breaks per bout | Whiff punishes per bout | Bot circles that captured the CPU | CPU circles thrown per bout |\n|---|---|---|---|---|---|---|---|\n';
  for(const [f,name] of cmodes){const rows=cpu[f];if(!rows)continue;for(const bot of ['circle-camper','masher']){const rs=rows.filter(r=>r.completed&&r.bot===bot),n=rs.length,w=rs.filter(r=>r.cpuWon).length,base=cpu.base.filter(r=>r.completed&&r.bot===bot),bw=base.filter(r=>r.cpuWon).length,s=k=>rs.reduce((t,r)=>t+r[k],0);
-  md+=`| ${name} | ${bot} | ${range(w,n)}${f!=='base'&&overlap(w,n,bw,base.length)?' · could be luck':''} | ${pct(s('blocks')/Math.max(1,s('blocks')+s('hitsTaken')))} | ${(s('captureBreaks')/n).toFixed(2)} | ${(s('whiffPunishes')/n).toFixed(2)} | ${(s('botCapturesLanded')/n).toFixed(2)} | ${(s('cpuThrown')/n).toFixed(2)} |\n`;}}
+  md+=`| ${name} | ${bot} | ${range(w,n)}${f!=='base'&&overlap(w,n,bw,base.length)?' · could be luck':''} | ${pct(s('blocks')/Math.max(1,s('blocks')+s('hitsTaken')))} | ${(s('captureBreaks')/n).toFixed(2)} | ${(s('whiffPunishes')/n).toFixed(2)} | ${s('botThrown')?pct(s('botCapturesLanded')/s('botThrown'))+' of '+s('botThrown'):'–'} | ${(s('cpuThrown')/n).toFixed(2)} |\n`;}}
  md+='\n';}
 writeFileSync(dir+'study.md',md);console.log(md);

@@ -33,12 +33,12 @@ All 36 fighter pairs, reaction delay 10 and 15 frames, both seats, 5 seeds (720 
 
 The CPU always plays player 2; all 36 fighter pairings, 5 seeds, bot reaction delay 15 frames (180 bouts per bot per mode).
 
-| Mode | Bot | CPU wins | CPU blocked (blocks / attacks that reached it) | Capture breaks per bout | Whiff punishes per bout | Bot captures landed per bout | CPU circles thrown per bout |
+| Mode | Bot | CPU wins | CPU blocked (blocks / attacks that reached it) | Capture breaks per bout | Whiff punishes per bout | Bot circles that captured the CPU | CPU circles thrown per bout |
 |---|---|---|---|---|---|---|---|
-| baseline CPU | circle-camper | 0.0% (0.0%–2.1%) | 0.0% | 1.61 | 0.00 | 6.16 | 0.11 |
-| baseline CPU | masher | 6.7% (3.9%–11.3%) | 28.5% | 0.34 | 0.00 | 1.13 | 0.33 |
-| cpu=v2 | circle-camper | 0.0% (0.0%–2.1%) · could be luck | 0.0% | 1.76 | 0.00 | 6.11 | 0.96 |
-| cpu=v2 | masher | 13.9% (9.6%–19.7%) · could be luck | 32.4% | 0.46 | 0.00 | 0.94 | 0.61 |
-| cpu=v2 + rangedcap=guard,flat | circle-camper | 0.0% (0.0%–2.1%) · could be luck | 2.2% | 1.98 | 0.00 | 7.11 | 1.18 |
-| cpu=v2 + rangedcap=guard,flat | masher | 13.9% (9.6%–19.7%) · could be luck | 32.4% | 0.46 | 0.00 | 0.90 | 0.65 |
+| baseline CPU | circle-camper | 0.0% (0.0%–2.1%) | 0.0% | 1.61 | 0.00 | 64.7% of 1714 | 0.11 |
+| baseline CPU | masher | 6.7% (3.9%–11.3%) | 28.5% | 0.34 | 0.00 | 72.2% of 281 | 0.33 |
+| cpu=v2 | circle-camper | 1.1% (0.3%–4.0%) · could be luck | 0.0% | 2.15 | 0.00 | 49.5% of 2219 | 0.91 |
+| cpu=v2 | masher | 14.4% (10.1%–20.3%) · could be luck | 31.8% | 0.31 | 0.01 | 74.0% of 292 | 0.49 |
+| cpu=v2 + rangedcap=guard,flat | circle-camper | 1.7% (0.6%–4.8%) · could be luck | 6.7% | 2.63 | 0.00 | 45.6% of 2798 | 1.22 |
+| cpu=v2 + rangedcap=guard,flat | masher | 16.7% (11.9%–22.8%) | 32.1% | 0.33 | 0.01 | 64.6% of 314 | 0.52 |
 

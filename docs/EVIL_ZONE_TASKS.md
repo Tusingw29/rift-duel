@@ -1,12 +1,14 @@
 ## RANGED-CAPTURE — comparison builds for ranged capture circles and CPU defence
 
-Owner: **Claude** (at Adam's request; normally Codex's lane) · Branch: `claude/ranged-capture` · Worktree: `~/rift-worktrees/ranged-capture` · Status: **In progress** (2026-11-06). Based on `codex/match-recorder` (`6a4e39a`). All behind switches; default fingerprint unchanged; no permanent nerf decided. Animation/rig files untouched.
+Owner: **Claude** (at Adam's request; normally Codex's lane) · Branch: `claude/ranged-capture` · Worktree: `~/rift-worktrees/ranged-capture` · Status: **Review, awaiting Adam's verdict** (2026-11-06). Based on `codex/match-recorder` (`6a4e39a`). All behind switches; default fingerprint unchanged; no permanent nerf decided. Animation/rig files untouched.
 
-- [x] Frozen build `05d0ecfdabc3` (JS + style.css) and Adam's two 2026-11-06 replays in `tests/fixtures/`; `tests/frozen-replay.test.mjs` verifies them.
-- [ ] `rangedcap=guard`, `rangedcap=flat`, combined.
-- [ ] `cpu=v2` (answers capture circles; some blocking; punishes whiffed captures).
-- [ ] Telemetry labels: capture-mid/far, unresolved fire source, Burst credited to the super.
-- [ ] Measure: capture punish fixture, circle-camper bot study, real-CPU matches, old/new replay summaries.
+- [x] Frozen build `05d0ecfdabc3` and Adam's two replays in `tests/fixtures/`; they verify unchanged.
+- [x] `rangedcap=guard`, `rangedcap=flat`, combined. Close captures still beat guard.
+- [x] `cpu=v2`: reaction delay, then sidestep / timed break / counter-circle per circle; some blocking; whiff punishes. Circles that capture the CPU: 64.7% at baseline, 49.5% with `cpu=v2`. Not a wall.
+- [x] Telemetry: capture-mid / far, Ember Fan source, Burst credited to the super, new `rangedCapturesGuarded` counter.
+- [x] Measured: punish fixture (ranged from 6+ is near-safe; from 4 it's punishable after a break), bot study (`guard` is what matters; `flat` is within luck), real-CPU study, old/new replay comparison (labels only).
+- [x] Cloud run [42279562042](https://github.com/Tusingw29/rift-duel/actions/runs/42279562042): 775 tests, browser smoke 10/10 default and with the switches. [README](../art/review-2026-11-06/ranged-capture/README.md). Server **4222**, bound to `::`.
+- [ ] **Adam's verdict:** keep ranged capture as is, `guard`, `flat` or both; does `cpu=v2` feel right?
 
 ## MATCH-RECORDER — deterministic real-match capture and positioning data
 
@@ -565,6 +567,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Claude | RANGED-CAPTURE | `claude/ranged-capture`: `rangedcap=guard|flat`, `cpu=v2`, telemetry labels, frozen replay build, punish/bot/CPU studies. Cloud run 42279562042: 775 tests and smoke pass; default unchanged. Review, awaiting Adam. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
