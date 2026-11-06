@@ -1,0 +1,346 @@
+{
+  "inputs": [
+    {
+      "flag": "",
+      "normalized": "",
+      "gap": 8,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    },
+    {
+      "flag": "inv",
+      "normalized": "inv",
+      "gap": 8,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    },
+    {
+      "flag": "close3",
+      "normalized": "close3",
+      "gap": 3,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    },
+    {
+      "flag": "close45",
+      "normalized": "close45",
+      "gap": 4.5,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    },
+    {
+      "flag": "inv,close3",
+      "normalized": "close3,inv",
+      "gap": 3,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    },
+    {
+      "flag": "inv,close45",
+      "normalized": "close45,inv",
+      "gap": 4.5,
+      "hp": [
+        100,
+        84.7
+      ],
+      "ticks": 240,
+      "replayVerified": true
+    }
+  ],
+  "captures": [
+    {
+      "flag": "",
+      "stage": "after",
+      "camera": "duel",
+      "gap": 8,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -4,
+          "z": 0,
+          "boundaryGap": 6
+        },
+        {
+          "x": 4,
+          "z": 0,
+          "boundaryGap": 6
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "base-after-duel-1794005189862.jpg"
+    },
+    {
+      "flag": "",
+      "stage": "after",
+      "camera": "lock",
+      "gap": 8,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -4,
+          "z": 0,
+          "boundaryGap": 6
+        },
+        {
+          "x": 4,
+          "z": 0,
+          "boundaryGap": 6
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "base-after-lock-1794005189862.jpg"
+    },
+    {
+      "flag": "close3",
+      "stage": "after",
+      "camera": "duel",
+      "gap": 3,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -1.5,
+          "z": 0,
+          "boundaryGap": 8.5
+        },
+        {
+          "x": 1.5,
+          "z": 0,
+          "boundaryGap": 8.5
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "close3-after-duel-1794005189862.jpg"
+    },
+    {
+      "flag": "close3",
+      "stage": "after",
+      "camera": "lock",
+      "gap": 3,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -1.5,
+          "z": 0,
+          "boundaryGap": 8.5
+        },
+        {
+          "x": 1.5,
+          "z": 0,
+          "boundaryGap": 8.5
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "close3-after-lock-1794005189862.jpg"
+    },
+    {
+      "flag": "close45",
+      "stage": "after",
+      "camera": "duel",
+      "gap": 4.5,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -2.25,
+          "z": 0,
+          "boundaryGap": 7.75
+        },
+        {
+          "x": 2.25,
+          "z": 0,
+          "boundaryGap": 7.75
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "close45-after-duel-1794005189862.jpg"
+    },
+    {
+      "flag": "close45",
+      "stage": "after",
+      "camera": "lock",
+      "gap": 4.5,
+      "hp": [
+        100,
+        80.875
+      ],
+      "positions": [
+        {
+          "x": -2.25,
+          "z": 0,
+          "boundaryGap": 7.75
+        },
+        {
+          "x": 2.25,
+          "z": 0,
+          "boundaryGap": 7.75
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "close45-after-lock-1794005189862.jpg"
+    },
+    {
+      "flag": "inv",
+      "stage": "wake",
+      "camera": "duel",
+      "gap": 8,
+      "hp": [
+        100,
+        100
+      ],
+      "positions": [
+        {
+          "x": -4,
+          "z": 0,
+          "boundaryGap": 6
+        },
+        {
+          "x": 4,
+          "z": 0,
+          "boundaryGap": 6
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "inv-wake-duel-1794005189862.jpg"
+    },
+    {
+      "flag": "inv",
+      "stage": "wake",
+      "camera": "lock",
+      "gap": 8,
+      "hp": [
+        100,
+        100
+      ],
+      "positions": [
+        {
+          "x": -4,
+          "z": 0,
+          "boundaryGap": 6
+        },
+        {
+          "x": 4,
+          "z": 0,
+          "boundaryGap": 6
+        }
+      ],
+      "cinematic": null,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "inv-wake-lock-1794005189862.jpg"
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

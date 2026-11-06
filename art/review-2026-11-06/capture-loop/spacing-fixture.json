@@ -1,0 +1,65 @@
+{
+  "definition": "Tala captures neutral Morrow from 8 units, then holds retreat after cinematic damage. No CPU or follow-up attack.",
+  "rows": [
+    {
+      "flag": "",
+      "resolve": {
+        "tick": 233,
+        "gap": 8
+      },
+      "defenderReady": {
+        "tick": 351,
+        "gap": 14.499933731296853
+      },
+      "framesToReady": 118
+    },
+    {
+      "flag": "close3",
+      "resolve": {
+        "tick": 233,
+        "gap": 3
+      },
+      "defenderReady": {
+        "tick": 351,
+        "gap": 11.499993481212382
+      },
+      "framesToReady": 118
+    },
+    {
+      "flag": "close45",
+      "resolve": {
+        "tick": 233,
+        "gap": 4.5
+      },
+      "defenderReady": {
+        "tick": 351,
+        "gap": 12.249989650808933
+      },
+      "framesToReady": 118
+    },
+    {
+      "flag": "inv,close3",
+      "resolve": {
+        "tick": 233,
+        "gap": 3
+      },
+      "defenderReady": {
+        "tick": 351,
+        "gap": 11.499993481212382
+      },
+      "framesToReady": 118
+    },
+    {
+      "flag": "inv,close45",
+      "resolve": {
+        "tick": 233,
+        "gap": 4.5
+      },
+      "defenderReady": {
+        "tick": 351,
+        "gap": 12.249989650808933
+      },
+      "framesToReady": 118
+    }
+  ]
+}

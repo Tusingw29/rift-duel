@@ -1,0 +1,70 @@
+// Researched base identities with original damage and frame tuning.
+export const baseSpecials={
+ tala:{
+  forward:{name:'Storm spark',description:'One travelling energy shot; the up special remains your rush attack.',type:'bolt',count:1,speed:12,damage:10,radius:.55,life:2.3},
+  back:{name:'Still-water discus',description:'Retreat and throw a disc that stuns on a clean hit.',type:'wheel',count:1,speed:9,damage:10,radius:.7,stun:.65,life:2.3}
+ },
+ sol:{
+  forward:{name:'Comet script',description:'One quick fire shot that stuns on a clean hit.',type:'fire',count:1,speed:14,damage:10,radius:.55,stun:.6},
+  back:{name:'Ember familiar',description:'Retreat and send a travelling flame that knocks the rival down on a clean hit.',type:'fire',count:1,speed:10,damage:10,radius:.65,knockdown:true}
+ },
+ aegis:{
+  forward:{name:'Pulse lance',description:'A fast, straight energy beam.',type:'beam',count:1,speed:19.2,damage:10,radius:.4},
+  back:{name:'Thunder snare',description:'Retreat and send a lightning bolt that stuns on a clean hit.',type:'lightning',count:1,speed:12,damage:10,radius:.5,stun:.7}
+ },
+ rei:{
+  forward:{name:'Crescent wing',description:'A winged spirit shot that briefly stuns on a clean hit.',type:'spirit',count:1,speed:9.35,damage:10,radius:.9,stun:.6},
+  back:{name:'Echo blade',description:'Retreat and send a straight spectral sword.',type:'sword',count:1,speed:12,damage:10,radius:.45}
+ },
+ vesper:{
+  forward:{name:'Binary star',description:'A fire shot that briefly stuns on a clean hit.',type:'fire',count:1,speed:10,damage:10,radius:.6,stun:.6},
+  back:{name:'Event horizon',description:'Retreat and throw a ring that holds the rival in place on a clean hit.',type:'snare',count:1,speed:6.8,damage:10,radius:.8}
+ },
+ morrow:{
+ forward:{name:'Fault line',description:'A ground wave stuns on a clean hit.',type:'wave',count:1,speed:10,damage:10,radius:.7,low:true,stun:.7},
+ back:{name:'Siege salvo',description:'Retreat and fire eight missiles in four pairs. Interruption stops later pairs.',type:'bolt',count:2,spread:.06,pulses:4,interval:4,speed:12,damage:2,radius:.4,knockdown:true}
+}};
+// Original alternate special patterns, informed by the PAL move descriptions.
+export const specialVariants={
+ aegis:{
+  forward:{name:'Sustained verdict',description:'Three aligned beam pulses. Later pulses stop if you are interrupted.',type:'beam',count:1,pulses:3,interval:5,speed:18,damage:4,radius:.45},
+  back:{name:'Split current',description:'Two separated shots cover sidesteps and leave a gap in the middle.',type:'bolt',count:2,offset:1.1,speed:12,damage:6,radius:.45}
+ },
+ rei:{
+  forward:{name:'Spirit wings',description:'Three crescent shots spread across the arena.',type:'crescent',count:3,spread:.22,speed:12,damage:5,radius:.65},
+  back:{name:'Sword fan',description:'Five narrow sword waves cover a wider angle.',type:'crescent',count:5,spread:.16,speed:10,damage:4,radius:.55}
+ },
+ tala:{
+  forward:{name:'Twin spark',description:'Two close energy shots pressure nearby opponents.',type:'bolt',count:2,spread:.12,speed:13,damage:7,radius:.55},
+  back:{name:'Crosswind discs',description:'Two separated rings cover either sidestep.',type:'wheel',count:2,offset:1.2,speed:11,damage:7,radius:.65}
+ },
+ morrow:{
+  forward:{name:'Iron eruption',description:'A close radial blast protects your space. It does not travel.',area:3.5,damage:13,active:12},
+  back:{name:'Ground salvo',description:'Two low missiles cover sidesteps, leaving the center open.',type:'bolt',count:2,offset:1.3,speed:9,damage:8,radius:.5,low:true}
+ },
+ sol:{
+  forward:{name:'Falling ember',description:'One slow fireball knocks the rival down on a clean hit.',type:'fire',count:1,speed:6,damage:12,radius:.75,knockdown:true},
+  back:{name:'Twin dragons',description:'Two separated fire shots cover either side.',type:'fire',count:2,offset:1.3,speed:10,damage:6,radius:.6}
+ },
+ vesper:{
+  forward:{name:'Fourfold flame',description:'Four spreading shots trade focused damage for coverage.',type:'bolt',count:4,spread:.18,speed:12,damage:4,radius:.55},
+  back:{name:'Astral blast',description:'A fast straight blast replaces the trapping ring.',type:'beam',count:1,speed:16,damage:12,radius:.65}
+ }
+};
+export function canSpecialFollowUp(move){
+ return !!move&&['forward','back'].includes(move.kind)&&!move.empowered&&!move.followup&&move.frame<move.startup;
+}
+export function applySpecialVariant(move,id){
+ const special=specialVariants[id][move.kind];
+ Object.assign(move,{special,followup:true,name:special.name,active:special.active||1+((special.pulses||1)-1)*(special.interval||1)});
+ move.total=move.startup+move.active+move.recovery;
+}
+export function specialShots(s,a,move,owner,power){
+ const shots=[],dx=move.aimX,dz=move.aimZ;
+ for(let j=0;j<s.count;j++){
+  const centered=j-(s.count-1)/2,angle=Math.atan2(dz,dx)+centered*(s.spread||0),offset=centered*2*(s.offset||0);
+  const forward=1-j*(s.trail||0);
+  shots.push({x:a.x+dx*forward-dz*offset,z:a.z+dz*forward+dx*offset,dx:Math.cos(angle)*s.speed,dz:Math.sin(angle)*s.speed,life:s.life||2.6,owner,damage:s.damage*power,kind:s.type,radius:s.radius,low:!!s.low,stun:s.stun||0,knockdown:!!s.knockdown});
+ }
+ return shots;
+}

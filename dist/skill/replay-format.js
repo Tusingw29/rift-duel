@@ -1,3 +1,4 @@
+import {captureWakeFromSearch} from '../capture-wake.js';
 import {movementFromSearch} from '../movement-v2.js';
 import {arenaFromSearch,ringFromSearch} from '../arena-bounds.js';
 import {stepFromSearch} from '../linear-hits.js';
@@ -15,7 +16,7 @@ export function canonical(value){if(Array.isArray(value))return '['+value.map(ca
 export function digest(value){let n=2166136261;for(const c of canonical(value)){n^=c.charCodeAt(0);n=Math.imul(n,16777619);}return (n>>>0).toString(16).padStart(8,'0');}
 export function switchConfig(search){const movement=movementFromSearch(search);return {movement,arena:arenaFromSearch(search,movement),ring:ringFromSearch(search),burst:burstFromSearch(search),step:stepFromSearch(search),morrow:morrowFromSearch(search),grab:{...grabFromSearch(search)},controls:controlsFromSearch(search),balance:new URLSearchParams(search).get('balance')||'',...optional(search)};}
 // RANGED-CAPTURE switches are added only when set, so replays recorded before them keep identical switch objects.
-function optional(search){const rangedcap=rangedCaptureFromSearch(search),cpu=cpuFromSearch(search);return {...(rangedcap?{rangedcap}:{}),...(cpu?{cpu}:{})};}
+function optional(search){const rangedcap=rangedCaptureFromSearch(search),cpu=cpuFromSearch(search),capturewake=captureWakeFromSearch(search);return {...(rangedcap?{rangedcap}:{}),...(cpu?{cpu}:{}),...(capturewake?{capturewake}:{})};}
 export function configuration(search,settings={},balance=null){const switches=switchConfig(search);return {search,urlSwitches:[...new URLSearchParams(search)],switches,settings:normalizeOptions(settings),balance:balance?clone(balance):null};}
 export function matchOptions(config){return {...config.settings,...config.switches,balance:config.balance};}
 export function resultOf(m){return {hp:m.players.map(p=>p.hp),winner:m.winner,phase:m.phase,ticks:m.tick,inputTicks:m.inputTick,time:m.time,state:digest({players:m.players,projectiles:m.projectiles,rules:m.rules,time:m.time,tick:m.tick,inputTick:m.inputTick,hitstop:m.hitstop,phase:m.phase,winner:m.winner,cinematic:m.cinematic,pressure:m.pressure??null})};}

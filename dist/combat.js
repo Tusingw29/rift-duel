@@ -1,3 +1,4 @@
+import {configureCaptureWake,updateCaptureWake,rejectWakeCircle,finishRangedCapture,captureDown} from './capture-wake.js';
 import {configureLinear,linearHits,applyLinearMove,meleeContact,linearShots,projectileWidth} from './linear-hits.js';import {configureBurst,burstV2,burstConnects,BURST_V2} from './burst-preview.js';import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
 import {configureGrab,grabOptions,applyGrabTiming} from './grab-options.js';
 import {measured} from './skill/observer.js';
@@ -39,7 +40,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu);
+ return configureCaptureWake(configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu),options.capturewake);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -254,7 +255,7 @@ function executeActionFrame(m,a,b,move){
    beginCapture(m,a,b,captureContext(a,b));
   }else{
    if(m.balance)move.contactResolved=true;
-   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*7,dz:dz*7,life:1.8,owner:m.players.indexOf(a),damage:12*f.power,kind:'capture',context:captureContext(a,b),radius:.65,targetRadius:.65,expandable:true});event(m,'shot',{color:f.color});
+   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*7,dz:dz*7,life:1.8,owner:m.players.indexOf(a),damage:12*f.power,kind:'capture',context:captureContext(a,b),radius:.65,targetRadius:.65,expandable:true});measured(m,'captureCircleThrown',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),context:captureContext(a,b),distance:d,down:captureDown(b),floor:captureDown(b)&&b.air<=0});event(m,'shot',{color:f.color});
   }return;
  }
  if(kind==='pursuit'){
@@ -335,14 +336,14 @@ export function update(m,inputs,dt=STEP){
  }
  if(m.hitstop>0){m.frozen=true;m.hitstop--;m.players.forEach((p,n)=>p.prev={...(inputs[n]||neutral())});return;}
  m.resolving=true;
- m.tick++;m.time-=m.mode==='training'?0:dt;
+ m.tick++;updateCaptureWake(m);m.time-=m.mode==='training'?0:dt;
  if(m.pressure){
   const result=advancePressureDash(m,inputs,dt);
   if(result){if(result.winner>=0){const a=m.players[result.winner],b=m.players[1-result.winner];if(hit(m,a,b,10*matchFighter(m,a).power)){clearStagger(b);b.anim='knockdown';b.animTime=.55;b.stun=KNOCKDOWN_FRAMES*STEP;b.air=0;}}
    event(m,'hint',{text:result.winner<0?'PRESSURE DASH DRAW':`${fighters[m.players[result.winner].id].name.toUpperCase()} WINS PRESSURE DASH`});}
  }else if(m.cinematic){
   const c=m.cinematic;c.t+=dt;
-  if(c.t>=c.duration){const a=m.players[c.a],b=m.players[c.b];const landed=hit(m,a,b,c.damage,c.kind==='capture'?'capture':'burst',c.kind==='capture');if(landed&&c.kind==='super'){b.anim='knockdown';b.animTime=.7;b.stun=(KNOCKDOWN_FRAMES+9)*STEP;b.air=0;}m.cinematic=null;}
+  if(c.t>=c.duration){const a=m.players[c.a],b=m.players[c.b];const landed=hit(m,a,b,c.damage,c.kind==='capture'?'capture':'burst',c.kind==='capture');if(landed&&c.kind==='capture')finishRangedCapture(m,a,b,c.context);updateCaptureWake(m);if(landed&&c.kind==='super'){b.anim='knockdown';b.animTime=.7;b.stun=(KNOCKDOWN_FRAMES+9)*STEP;b.air=0;}m.cinematic=null;}
  }else{
   m.players.forEach((a,n)=>{
    const i=inputs[n]||neutral(),b=m.players[1-n];
@@ -465,12 +466,14 @@ export function update(m,inputs,dt=STEP){
   for(const p of m.players)constrainPosition(p);
   for(const p of m.projectiles){p.x+=p.dx*dt;p.z+=p.dz*dt;p.life-=dt;advanceCapture(p,dt);}
   if(captureClashes(m.projectiles))event(m,'hint',{text:'CAPTURE CIRCLES CANCELLED'});
+  updateCaptureWake(m);
   for(const p of m.projectiles){
    if(p.life<=0)continue;
    if(m.cinematic||m.pressure)break;
    const a=m.players[p.owner],b=m.players[1-p.owner];
    const barrier=b.move?.kind==='technique'&&b.move.effect==='sphere'&&b.move.frame>=b.move.startup&&b.move.frame<b.move.startup+b.move.active;
    if(barrier&&p.kind!=='capture'&&Math.hypot(p.x-b.x,p.z-b.z)<b.move.reach){p.life=0;measured(m,'block',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:0,kind:p.kind});event(m,'block',{x:p.x,z:p.z,color:fighters[b.id].color});continue;}
+   if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&projectileWidth(p,b)&&b.air<.5&&rejectWakeCircle(m,b,p))continue;
    if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&projectileWidth(p,b)&&b.air<.5&&b.inv<=0){
     if(p.kind!=='capture'&&balanceGuard(m,b,'perfectGuard',.17)){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;measured(m,'perfectGuard',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:0,kind:p.kind});event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){p.life=0;if(m.balance?.sys.splitGuard&&!grabOptions(m).fresh){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}measured(m,'captureBreak',{defender:m.players.indexOf(b)});event(m,'hint',{text:'CAPTURE BREAK'});}

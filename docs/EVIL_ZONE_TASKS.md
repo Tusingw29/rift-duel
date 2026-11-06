@@ -1,3 +1,14 @@
+## CAPTURE-LOOP — break ranged-capture wake-up repetition
+
+Owner: **Codex** · Branch: `codex/capture-loop` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
+
+- [x] `capturewake=inv`: capture-circle-only protection while down/rising and for 20 simulation frames after standing; strikes unchanged.
+- [x] `capturewake=close3` / `close45` (`close` aliases close3), combinable with inv: landed mid/far captures end 3 / 4.5 units apart within arena bounds.
+- [x] Real Normal CPU vs delayed circle-camper across all 36 pairs and five seeds, with/without CPU v2; each variant plus guard/flat combinations. Landing, down-throw share, actionable time and non-spam use fixtures.
+- [x] Frozen 22:12 and batch-2 replay verification; default fingerprint; full tests and browser captures. Review awaits Adam's normal-speed verdict.
+
+**Evidence:** [Review](../art/review-2026-11-06/capture-loop/README.md). 808 tests pass; six browser record/replays and eight renderer captures pass; 13 original replay files verify on frozen source. 6,480 real-CPU bouts, zero censored. With guard/flat + CPU v2, inv lowers repeat-circle landings 46.6% → 27.5%, CPU-ready frames 535 → 994; CPU still mostly loses and win ranges overlap. Close resets alone do not help; retreat during recovery reopens the gap. Default fingerprint unchanged. Branch-only preview on **4224**; cloud verification pending.
+
 ## RANGED-CAPTURE — comparison builds for ranged capture circles and CPU defence
 
 Owner: **Claude** (at Adam's request; normally Codex's lane) · Branch: `claude/ranged-capture` · Worktree: `~/rift-worktrees/ranged-capture` · Status: **Review, awaiting Adam's verdict** (2026-11-06). Based on `codex/match-recorder` (`6a4e39a`). All behind switches; default fingerprint unchanged; no permanent nerf decided. Animation/rig files untouched.

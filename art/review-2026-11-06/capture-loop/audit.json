@@ -1,0 +1,30 @@
+{
+  "build": "685ffe6307e8",
+  "studyBouts": 6480,
+  "studyCensored": 0,
+  "unitTests": 808,
+  "isolatedCases": 864,
+  "isolatedLanded": 864,
+  "sourceHashesVerified": true,
+  "baselineReproductionBouts": 540,
+  "defaultFingerprint": "c1fc5ebc1cb77d6845830c4c67fa56d416bf079f78d16c51fac4e1b8d049071a",
+  "numericBalanceRosterUnchanged": true,
+  "balanceRosterChanges": "source line references only; standalone Frame Codex regenerated to match",
+  "unchangedAgainst0d6f9c8": {
+    "dist/cpu-v2.js": true,
+    "dist/render.js": true,
+    "dist/moves.js": true,
+    "dist/fighters.js": true,
+    "dist/recovery.js": true,
+    "dist/animation.js": true
+  },
+  "browserPassed": true,
+  "source": {
+    "dist/combat.js": "2569b803192f9f67f9be17556839a2bb342e90fcc4e1a1d79c0dd06b79ab06e4",
+    "dist/capture-wake.js": "d6bb712d928ce5506cb220ec9f8526f02b8b4030c198481bd390eafeb8fedce3",
+    "dist/cpu-v2.js": "43166151b3b3fc0efd4996b36dc06ad2544266d6d47fa704d2f18a13aa9e9e1b",
+    "scripts/skill/bots/circle-camper.mjs": "a19f1f1e2d1ea207717cd38b2ac7b9b6bd0247740ad68c9a488add2c662e649c",
+    "scripts/skill/bots/common.mjs": "512dd53e41a808a52a038e78ab63e75500d17fb6f041d7c0d7b28eedd013bf44",
+    "scripts/capture-loop/study.mjs": "46a066449715c66a9ddbbf15eb060ed8041825a3eba2019abdf208cedf0b61e7"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "bouts": 540,
+  "modes": [
+    "base-old",
+    "base-v2",
+    "base-all"
+  ],
+  "outcomesAndBothDamageTotalsIdentical": true,
+  "throwCounterCorrection": {
+    "sameGameplayBouts": 6480,
+    "boutsWithThrowCountCorrection": 1688,
+    "previouslyMissedImmediateClashThrows": 2831
+  }
+}

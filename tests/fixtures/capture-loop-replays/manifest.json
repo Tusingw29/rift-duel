@@ -1,0 +1,70 @@
+{
+  "build": "6f15287e3290",
+  "files": [
+    {
+      "file": "rift-2026-11-06T19-38-53-037Z-tala-vs-morrow-p1-wins-2.json.gz",
+      "sha256": "ae2913ef74e71a5a9a22eb75ca65572b55a8f0b15f8c56c8c57f5cdc14457501",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T19-38-53-037Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "bc351e474f755f9add80d4ca9b85a175b0e1ebc508fa9620cf11c26a5bf95ffb",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T19-40-24-412Z-tala-vs-sol-p1-wins.json.gz",
+      "sha256": "7bb01999c922585c9806be323af8d691d57cf21cbeab49a3a46bdbe4c1286050",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T19-41-46-989Z-tala-vs-vesper-p1-wins-2.json.gz",
+      "sha256": "52092468ea4310990c54b888e66a1fddf37c5850dbc111bcdd2d4477091e3ea2",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T19-41-46-989Z-tala-vs-vesper-p1-wins.json.gz",
+      "sha256": "5714ee603e1b6e909ae6f3f9e1a80876b07f410cf7902f75984ae46590957172",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T19-44-05-473Z-tala-vs-morrow-p1-wins-2.json.gz",
+      "sha256": "17d13d81602eb0fcb86a0c932b71eb555fc24b8a936c13d69b7e5fbf6f888f64",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T19-44-05-473Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "2a07ba165f50cc4f8d50c270c26f54e3ed7df9ec427f42a39b3eae2e1712fe60",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T19-46-59-080Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "7cf1a8bc9feade22cd60359d761fe91c9d7d1dc4eaa9ec6f4a64d49ebe8ce840",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T19-48-18-131Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "1c592db2b91b9f1cca51365e940a5a0cb2499b6f94768b91f2d210df36431076",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T19-48-18-131Z-tala-vs-morrow-p2-wins.json.gz",
+      "sha256": "54db4b81f61b75ab99afd114c60953761d79da37fbb2ab1f16cb3f89a8ef2ff2",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T19-50-44-216Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "bce197a6e842ff1f6d637acbac0f279d80ebd07acec1f027017d6d910d92176a",
+      "rounds": 1
+    },
+    {
+      "file": "rift-2026-11-06T22-12-18-161Z-tala-vs-morrow-p1-wins-2.json.gz",
+      "sha256": "c0844bc7d381aea72387e00bd9f1f0adc36e7dd46b1e9dcf0f8701509586c4dd",
+      "rounds": 2
+    },
+    {
+      "file": "rift-2026-11-06T22-12-18-161Z-tala-vs-morrow-p1-wins.json.gz",
+      "sha256": "813b4652548bf967eabef8dee166ba59656a40bc96dd3773111aea94d0a88737",
+      "rounds": 1
+    }
+  ]
+}
