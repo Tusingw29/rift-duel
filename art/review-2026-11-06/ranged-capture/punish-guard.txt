@@ -1,0 +1,13 @@
+whiff punishable pairs 36/36 defender caught 0 attacker free minus defender free (frames) min/median/max Infinity undefined -Infinity options that punish {"strike":36,"shot":36,"pursuit":36,"launch":36,"capture":36,"burst":36}
+break punishable pairs 36/36 defender caught 0 attacker free minus defender free (frames) min/median/max Infinity undefined -Infinity options that punish {"strike":36,"shot":36,"pursuit":36,"launch":36,"capture":36,"burst":36}
+ranged punishable pairs 0/36 defender caught 0 attacker free minus defender free (frames) min/median/max 9 9 9 options that punish {}
+ranged4 punishable pairs 36/36 defender caught 0 attacker free minus defender free (frames) min/median/max 26 26 26 options that punish {"shot":24,"pursuit":36,"burst":36,"strike":6}
+dodge12 punishable pairs 0/36 defender caught 0 attacker free minus defender free (frames) min/median/max 5 5 5 options that punish {}
+dodge18 punishable pairs 0/36 defender caught 0 attacker free minus defender free (frames) min/median/max 0 0 0 options that punish {}
+dodge24 punishable pairs 0/36 defender caught 0 attacker free minus defender free (frames) min/median/max 0 0 0 options that punish {}
+aegis   whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0
+rei     whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0
+tala    whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0
+morrow  whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0
+sol     whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0
+vesper  whiff 6/6 gap 0,0,0,0,0,0 | break 6/6 gap 0,0,0,0,0,0 | ranged 0/6 gap 9,9,9,9,9,9 | ranged4 6/6 gap 26,0,26,26,26,26 | dodge12 0/6 gap 5,5,5,5,5,5 | dodge18 0/6 gap 0,0,0,0,0,0 | dodge24 0/6 gap 0,0,0,0,0,0

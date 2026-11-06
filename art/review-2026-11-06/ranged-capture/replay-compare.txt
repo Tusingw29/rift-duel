@@ -1,0 +1,39 @@
+
+rift-2026-11-06T18-23-54-299Z-tala-vs-sol-p1-wins-2.json: frozen verified true, current build verified true, 27 changed fields
+  round1.telemetry.players.0.damageByMove.system-capture-close- 32.129999999999995 -> 15.299999999999997
+  round1.telemetry.players.0.damageByMove.system-capture-mid (absent) -> 16.83
+  round1.telemetry.players.0.moveUses.system-capture-close- 4 -> 2
+  round1.telemetry.players.0.moveUses.system-capture-mid (absent) -> 2
+  round1.telemetry.players.0.rangedCapturesGuarded (absent) -> 0
+  round1.telemetry.players.1.damageByMove.burst 69.66 -> (absent)
+  round1.telemetry.players.1.damageByMove.system-sunfall-scripture (absent) -> 69.66
+  round1.telemetry.players.1.dominantMoveShare 0 -> 0.7788461538461539
+  round1.telemetry.players.1.rangedCapturesGuarded (absent) -> 0
+  round2.telemetry.players.0.damageByMove.system-capture-close- 100 -> (absent)
+  round2.telemetry.players.0.damageByMove.system-capture-mid (absent) -> 50.489999999999995
+  round2.telemetry.players.0.damageByMove.system-capture-far (absent) -> 49.510000000000005
+  round2.telemetry.players.0.moveUses.system-capture-close- 12 -> (absent)
+  round2.telemetry.players.0.moveUses.system-capture-mid (absent) -> 5
+  round2.telemetry.players.0.moveUses.system-capture-far (absent) -> 7
+  round2.telemetry.players.0.dominantMove "system-capture-close-" -> "system-capture-far"
+  round2.telemetry.players.0.dominantMoveShare 1 -> 0.49510000000000004
+  round2.telemetry.players.0.rangedCapturesGuarded (absent) -> 0
+  round2.telemetry.players.1.damageByMove.burst 46.44 -> (absent)
+  round2.telemetry.players.1.damageByMove.fire (source unresolved) 10.319999999999993 -> (absent)
+  round2.telemetry.players.1.damageByMove.system-sunfall-scripture (absent) -> 46.44
+  round2.telemetry.players.1.damageByMove.stock-ember-fan (absent) -> 10.319999999999993
+  round2.telemetry.players.1.moveUses.system-capture-close- 1 -> (absent)
+  round2.telemetry.players.1.moveUses.system-capture-mid (absent) -> 1
+  round2.telemetry.players.1.dominantMoveShare 0 -> 0.8181818181818182
+  round2.telemetry.players.1.rangedCapturesGuarded (absent) -> 0
+  round2.telemetry.koCause "system-capture-close-" -> "system-capture-far"
+
+rift-2026-11-06T18-26-33-520Z-tala-vs-vesper-p1-wins.json: frozen verified true, current build verified true, 8 changed fields
+  round1.telemetry.players.0.damageByMove.system-capture-close- 49 -> 32.17000000000001
+  round1.telemetry.players.0.damageByMove.system-capture-mid (absent) -> 16.83
+  round1.telemetry.players.0.moveUses.system-capture-close- 6 -> 4
+  round1.telemetry.players.0.moveUses.system-capture-far (absent) -> 2
+  round1.telemetry.players.0.dominantMove "system-capture-close-" -> "system-pursuit"
+  round1.telemetry.players.0.dominantMoveShare 0.49000000000000005 -> 0.4284
+  round1.telemetry.players.0.rangedCapturesGuarded (absent) -> 0
+  round1.telemetry.players.1.rangedCapturesGuarded (absent) -> 0

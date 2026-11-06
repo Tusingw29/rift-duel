@@ -66,7 +66,7 @@ jobs:
           npx playwright install --with-deps chromium
       - run: python3 -m http.server 4173 --directory dist > /tmp/rift-preview.log 2>&1 &
       - run: node scripts/browser-smoke.mjs --url "http://127.0.0.1:4173/" --tala graphic --out artifacts/smoke-default
-      - run: node scripts/browser-smoke.mjs --url "http://127.0.0.1:4173/?move=v2&arena=ring&burst=v2&step=linear&controls=side&rangedcap=guard,flat&cpu=v2&record=1" --tala graphic --out artifacts/smoke-switches
+      - run: node scripts/browser-smoke.mjs --url "http://127.0.0.1:4173/?move=v2&arena=ring&burst=v2&step=linear&rangedcap=guard,flat&cpu=v2&record=1" --tala graphic --out artifacts/smoke-switches
       - uses: actions/upload-artifact@v4
         if: always()
         with:

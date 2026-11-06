@@ -1,3 +1,4 @@
+import {movementV2} from './movement-v2.js';
 // CPU-V2 playtest guesses (2026-11-06). Opt-in only: ?cpu=v2. Changes CPU decisions, never frame data or damage.
 // Runs every frame on top of the existing CPU decision (which still runs on its own clock):
 //  - incoming capture circle: one plan per circle, chosen by weight: step off its line, a fresh timed guard
@@ -12,7 +13,8 @@ export const CPU_V2=Object.freeze({
  punish:Object.freeze({easy:.2,normal:.45,hard:.7}),
  breakLeadFrames:6,           // tap guard this many frames before predicted circle contact (window is 12 frames)
  closeBreakLeadFrames:4,      // tap guard this many frames before a close capture's contact frame
- threatFrames:45,             // react to circles predicted to arrive within this many frames
+ threatFrames:120,            // consider circles predicted to arrive within this many frames
+ reactionFrames:Object.freeze({easy:20,normal:12,hard:8}), // frames after a circle appears before the CPU acts on it
  laneMargin:.35,              // extra lateral room counted as "in the circle's line"
  counterMinDistance:3.1,      // capture circles only exist beyond close-capture range
  blockReachMargin:1.2,
@@ -30,15 +32,21 @@ function circleThreat(m,a,owner){let best=null;
   if(frames<=CPU_V2.threatFrames&&(!best||frames<best.frames))best={p,frames};}
  return best;}
 const free=a=>!a.move&&a.cool<=0&&a.stun<=0&&a.air<=0&&!a.travel&&!a.roll&&!a.getUp&&!a.step;
+function sideAway(a,b,threat){const p=threat.p,s=Math.hypot(p.dx,p.dz),off=(x,z)=>Math.abs((x-p.x)*p.dz-(z-p.z)*p.dx)/s;
+ const rx=a.x-b.x,rz=a.z-b.z,r=Math.hypot(rx,rz)||1,tx=-rz/r,tz=rx/r;return off(a.x+tx*.3,a.z+tz*.3)>=off(a.x-tx*.3,a.z-tz*.3)?1:-1;}
 const pick=(weights,r)=>{let acc=0;for(const [k,w] of Object.entries(weights)){acc+=w;if(r<acc)return k;}return 'none';};
 const plan=(key,make)=>{if(!plans.has(key))plans.set(key,make());return plans.get(key);};
 // a = CPU fighter (players[1]), b = rival, base = existing CPU decision, random = the CPU's seeded RNG.
 export function cpuV2Overlay(m,a,b,base,random,reach=2.4){
  const diff=['easy','hard'].includes(m.difficulty)?m.difficulty:'normal',i={...base},d=Math.hypot(a.x-b.x,a.z-b.z),owner=m.players.indexOf(b);
  const threat=circleThreat(m,a,owner);
- if(threat){const pl=plan(threat.p,()=>({kind:pick(CPU_V2.circlePlan[diff],random()),side:random()<.5?-1:1}));
+ if(threat){const pl=plan(threat.p,()=>({kind:pick(CPU_V2.circlePlan[diff],random()),seen:m.tick}));
+  if(m.tick-pl.seen<CPU_V2.reactionFrames[diff])return i;
   i.attack=false;i.launch=false;i.super=false;i.capture=false;i.guard=false;
-  if(pl.kind==='dodge'){i.x=0;i.z=pl.side;}
+  if(pl.kind==='dodge'){
+   // Lock-on z circles the rival; keep the circling direction that widens the gap from the circle's line.
+   pl.side??=sideAway(a,b,threat);i.x=0;
+   if(movementV2(m)){pl.tap??=0;const k=pl.tap++;i.z=k===1||k===3?pl.side:k<4?0:a.step?0:pl.side;}else i.z=pl.side;} // neutral, tap, neutral, tap = sidestep
   else if(pl.kind==='break'){i.x=0;i.z=0;i.guard=threat.frames<=CPU_V2.breakLeadFrames;}
   else if(pl.kind==='counter'){i.x=0;i.z=0;if(!pl.thrown&&free(a)&&d>=CPU_V2.counterMinDistance){i.capture=!a.prev.capture;if(i.capture)pl.thrown=true;}}
   else i.guard=base.guard;
