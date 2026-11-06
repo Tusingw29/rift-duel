@@ -1,3 +1,12 @@
+## CAPTURE-LOOP — break ranged-capture wake-up repetition
+
+Owner: **Codex** · Branch: `codex/capture-loop` · Status: **In progress** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
+
+- [ ] `capturewake=inv`: capture-circle-only protection while down/rising and for 20 simulation frames after standing; strikes unchanged.
+- [ ] `capturewake=close3` / `close45` (`close` aliases close3), combinable with inv: landed mid/far captures end 3 / 4.5 units apart within arena bounds.
+- [ ] Real Normal CPU vs delayed circle-camper across all 36 pairs and five seeds, with/without CPU v2; each variant plus guard/flat combinations. Landing, down-throw share, actionable time and non-spam use fixtures.
+- [ ] Frozen 22:12 and batch-2 replay verification; default fingerprint; full tests and browser captures. Review awaits Adam's normal-speed verdict.
+
 ## MATCH-RECORDER — deterministic real-match capture and positioning data
 
 Owner: **Codex** · Branch: `codex/match-recorder` · Status: **Review, awaiting Adam’s verdict** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.
