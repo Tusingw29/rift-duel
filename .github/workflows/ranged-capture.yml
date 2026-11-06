@@ -1,0 +1,74 @@
+name: RANGED-CAPTURE comparison studies
+on:
+  push:
+    branches: [claude/ranged-capture]
+    paths: ['dist/combat.js', 'dist/ranged-capture.js', 'dist/cpu-v2.js', 'dist/skill/**', 'scripts/ranged-capture/**', 'scripts/skill/run.mjs', 'scripts/skill/bots/**', 'tests/**', '.github/workflows/ranged-capture.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bots:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        mode: [base, guard, flat, 'guard,flat']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/ranged-capture/bots.mjs "${{ matrix.mode }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bots-${{ strategy.job-index }}
+          path: art/review-2026-11-06/ranged-capture/raw/
+  cpu:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        mode: [base, v2, v2-guard-flat]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/ranged-capture/cpu.mjs "${{ matrix.mode }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cpu-${{ matrix.mode }}
+          path: art/review-2026-11-06/ranged-capture/raw/
+  fixtures:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/ranged-capture/timing.mjs | tee art/review-2026-11-06/ranged-capture/timing.txt
+      - run: node scripts/ranged-capture/punish.mjs | tee art/review-2026-11-06/ranged-capture/punish.txt
+      - run: node scripts/ranged-capture/punish.mjs guard | tee art/review-2026-11-06/ranged-capture/punish-guard.txt
+      - run: node scripts/ranged-capture/replay-compare.mjs | tee art/review-2026-11-06/ranged-capture/replay-compare.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fixtures
+          path: art/review-2026-11-06/ranged-capture/
+  verify:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/run-tests.mjs
+      - run: npm run prepare:release
+      - run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+          npx playwright install --with-deps chromium
+      - run: python3 -m http.server 4173 --directory dist > /tmp/rift-preview.log 2>&1 &
+      - run: node scripts/browser-smoke.mjs --url "http://127.0.0.1:4173/" --tala graphic --out artifacts/smoke-default
+      - run: node scripts/browser-smoke.mjs --url "http://127.0.0.1:4173/?move=v2&arena=ring&burst=v2&step=linear&controls=side&rangedcap=guard,flat&cpu=v2&record=1" --tala graphic --out artifacts/smoke-switches
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke
+          path: artifacts/

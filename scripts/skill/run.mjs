@@ -7,10 +7,10 @@ import {createMatch,update} from '../../dist/combat.js';
 import {createTelemetry} from '../../dist/skill/telemetry.js';
 import {visible,delayedBot} from './bots/common.mjs';
 import random from './bots/random.mjs';import masher from './bots/masher.mjs';import spacer from './bots/spacer.mjs';import timer from './bots/timer.mjs';import reader from './bots/reader.mjs';import turtle from './bots/turtle.mjs';import zoner from './bots/zoner.mjs';
-import punisher from './bots/punisher.mjs';
-export const policies={'side-stepper':sideStepper,stepper,random,masher,spacer,timer,reader,turtle,zoner,punisher,'masher-all':masherAll};
-export function runMatch({bots=['random','masher'],fighters=[0,1],seed=1,delay=15,mode='default',balance=null,grab='',movement='',arena='',ring=10,burst='',step='',morrow='',measureArena=false,measureHorizon=false,measureStep=false,roundSeconds=60}={}){
- const m=createMatch(...fighters,'duel','normal',{roundSeconds,winsNeeded:1,grab,movement,arena,ring,burst,step,morrow,...(balance?{balance}:{})});
+import punisher from './bots/punisher.mjs';import circleCamper from './bots/circle-camper.mjs';
+export const policies={'side-stepper':sideStepper,stepper,random,masher,spacer,timer,reader,turtle,zoner,punisher,'masher-all':masherAll,'circle-camper':circleCamper};
+export function runMatch({bots=['random','masher'],fighters=[0,1],seed=1,delay=15,mode='default',balance=null,grab='',movement='',arena='',ring=10,burst='',step='',morrow='',rangedcap='',cpu='',measureArena=false,measureHorizon=false,measureStep=false,roundSeconds=60}={}){
+ const m=createMatch(...fighters,'duel','normal',{roundSeconds,winsNeeded:1,grab,movement,arena,ring,burst,step,morrow,rangedcap,cpu,...(balance?{balance}:{})});
  const stepping=measureStep?stepObserver(m):null;
  const horizon=measureHorizon?horizonObserver(m):null;
  const boundary=measureArena?arenaObserver(m):null;
