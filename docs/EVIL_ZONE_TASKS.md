@@ -1,3 +1,7 @@
+## COMBAT-DESIGN-STUDY — simple controls, spacing and capture risk
+
+Owner: **Codex** · Branch: `codex/combat-design-study` · Status: **In progress** (2026-11-06). Documentation and read-only probes, based on capture-loop. Re-read Evil Zone guides, distinguish verified commands from unknown capture timing, map all ten reference fighters and propose a punishable two-button combat structure. No gameplay, CPU, animation or art changes.
+
 ## CAPTURE-LOOP — break ranged-capture wake-up repetition
 
 Owner: **Codex** · Branch: `codex/capture-loop` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
