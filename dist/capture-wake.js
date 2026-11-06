@@ -9,7 +9,7 @@ export function normalizeCaptureWake(value=''){
  return names.join(',');
 }
 export const captureWakeFromSearch=search=>normalizeCaptureWake(new URLSearchParams(search).get('capturewake')||'');
-export function configureCaptureWake(m,value){const names=normalizeCaptureWake(value).split(',');if(names.some(Boolean)){configs.set(m,{inv:names.includes('inv'),distance:names.includes('close3')?3:names.includes('close45')?4.5:0});for(const p of m.players)states.set(p,{down:false,until:-Infinity});}return m;}
+export function configureCaptureWake(m,value){const names=normalizeCaptureWake(value).split(',');if(names.some(Boolean)){configs.set(m,{inv:names.includes('inv'),distance:names.includes('close3')?CAPTURE_WAKE.endDistances.close3:names.includes('close45')?CAPTURE_WAKE.endDistances.close45:0});for(const p of m.players)states.set(p,{down:false,until:-Infinity});}return m;}
 export const captureWakeConfig=m=>configs.get(m)||null;
 export const captureDown=p=>!!(p.knockdown||p.getUp||p.bounce||p.roll||p.launched||p.anim==='knockdown'||p.anim==='getUp'||p.anim==='roll');
 // Called on each advancing tick before and after player state updates, so the exact
