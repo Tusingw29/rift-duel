@@ -1,0 +1,60 @@
+{
+  "build": "4424f1ffbb13",
+  "options": {
+    "movement": "v2",
+    "arena": "ring",
+    "burst": "v2",
+    "step": "linear"
+  },
+  "definition": "Tala throws one capture at stationary Morrow. Ready = attacker has no move, cooldown or stun. Times are advancing simulation ticks, not recorded input ticks. Escape fixture: Morrow walks away from a 2.8-unit close capture from frame one.",
+  "morrowSpeed": 4.1,
+  "talaSpeed": 6.4,
+  "stationary": [
+    {
+      "gap": 4,
+      "spawnTick": 14,
+      "attackerReadyTick": null,
+      "confirmationTick": 29,
+      "freeFramesBeforeConfirmation": null
+    },
+    {
+      "gap": 8,
+      "spawnTick": 14,
+      "attackerReadyTick": 55,
+      "confirmationTick": 64,
+      "freeFramesBeforeConfirmation": 9
+    },
+    {
+      "gap": 12,
+      "spawnTick": 14,
+      "attackerReadyTick": 55,
+      "confirmationTick": 98,
+      "freeFramesBeforeConfirmation": 43
+    }
+  ],
+  "retreatingCloseGrab": {
+    "initialGap": 2.8,
+    "events": [
+      {
+        "tick": 14,
+        "type": "captureCircleThrown",
+        "context": "mid",
+        "distance": 3.756666666666667
+      },
+      {
+        "tick": 45,
+        "type": "captureStart",
+        "context": "mid",
+        "distance": 5.875000000000001
+      }
+    ]
+  },
+  "geometryBudget": {
+    "warningFrames": 54,
+    "sealRadius": 1.5,
+    "defenderRadius": 0.5,
+    "reactionFrames": 15,
+    "slowWalkFrames": 30,
+    "comment": "Design guess only. Full-body escape needs centre distance > sealRadius + defenderRadius; edge, body push and input delay need direct testing."
+  }
+}

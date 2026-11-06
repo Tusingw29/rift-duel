@@ -1,3 +1,11 @@
+## COMBAT-DESIGN-STUDY — simple controls, spacing and capture risk
+
+Owner: **Codex** · Branch: `codex/combat-design-study` · Status: **Review, awaiting Adam’s design verdict** (2026-11-06). Documentation and read-only probes, based on capture-loop. Re-read Evil Zone guides, distinguish verified commands from unknown capture timing, map all ten reference fighters and propose a punishable two-button combat structure. No gameplay, CPU, animation or art changes.
+
+- [x] Ten-character direction/type and range/capture matrices; sources re-read, shrinking-circle timing explicitly unverified.
+- [x] Read-only capture-risk fixture: at 8/12 units attacker ready 9/43 ticks before confirmation; a backstepped close grab converts to a circle and still catches. Morrow speed corrected to 4.1 (6.4 is Tala).
+- [x] [Design study](EVIL_ZONE_COMBAT_DESIGN.md): two-button decisions, character roles, real punish requirements, closing-seal comparisons and test gates. No gameplay or CPU changes; no prototype claimed built.
+
 ## CAPTURE-LOOP — break ranged-capture wake-up repetition
 
 Owner: **Codex** · Branch: `codex/capture-loop` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.
@@ -578,6 +586,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Codex | COMBAT-DESIGN-STUDY | Research on codex/combat-design-study: ten-character Evil Zone direction/range map, source uncertainty, read-only capture-risk probes and proposed spacing/punish contract in docs/EVIL_ZONE_COMBAT_DESIGN.md. Close whiff can become a ranged capture; distant attacker recovers before contact. No dist changes or new playable prototype. Awaiting Adam’s design verdict. |
 | 2026-11-06 | Codex | CAPTURE-LOOP | `111c0bd`: opt-in wake-circle protection and close3/close45 resets; 808 tests and cloud 42311463791 pass. 6,480 bouts: inv reduces repeated-circle landings 46.6% to 27.5%, CPU still mostly loses; close resets alone do not solve retreat during recovery. Default fingerprint and 13 frozen replays pass. Review at art/review-2026-11-06/capture-loop/README.md; server 4224. Awaiting Adam’s normal-speed verdict, no gameplay merge. |
 | 2026-11-06 | Claude | RANGED-CAPTURE | `claude/ranged-capture`: `rangedcap=guard|flat`, `cpu=v2`, telemetry labels, frozen replay build, punish/bot/CPU studies. Cloud run 42279562042: 775 tests and smoke pass; default unchanged. Review, awaiting Adam. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
