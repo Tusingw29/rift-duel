@@ -1,3 +1,13 @@
+## RANGED-CAPTURE — comparison builds for ranged capture circles and CPU defence
+
+Owner: **Claude** (at Adam's request; normally Codex's lane) · Branch: `claude/ranged-capture` · Worktree: `~/rift-worktrees/ranged-capture` · Status: **In progress** (2026-11-06). Based on `codex/match-recorder` (`6a4e39a`). All behind switches; default fingerprint unchanged; no permanent nerf decided. Animation/rig files untouched.
+
+- [x] Frozen build `05d0ecfdabc3` (JS + style.css) and Adam's two 2026-11-06 replays in `tests/fixtures/`; `tests/frozen-replay.test.mjs` verifies them.
+- [ ] `rangedcap=guard`, `rangedcap=flat`, combined.
+- [ ] `cpu=v2` (answers capture circles; some blocking; punishes whiffed captures).
+- [ ] Telemetry labels: capture-mid/far, unresolved fire source, Burst credited to the super.
+- [ ] Measure: capture punish fixture, circle-camper bot study, real-CPU matches, old/new replay summaries.
+
 ## MATCH-RECORDER — deterministic real-match capture and positioning data
 
 Owner: **Codex** · Branch: `codex/match-recorder` · Status: **Review, awaiting Adam’s verdict** (2026-11-05). Based on `codex/controls-view` (`338534e`). Opt-in `record=1`; default simulation unchanged. Lane: input recording, replay, passive telemetry and minimal replay transport UI. Claude owns visual overlays/analysis; character, rig, pose and combat files untouched.

@@ -1,0 +1,49 @@
+import {vfxSettings} from './vfx-settings.js';
+import {createSignature,energyStyle,socket} from './energy-style.js';
+import {createInkBeam,createInkRing} from './ink-energy.js';
+import * as T from './vendor/three.module.js';
+const custom=['wave','lightning','spirit','sword','snare','capture','beam'];
+export function createProjectileVisual(){
+ const b=new T.Mesh(new T.IcosahedronGeometry(.3,1),new T.MeshBasicMaterial({color:'#ffffff'}));
+ const material=()=>b.material.clone();
+ const wheel=new T.Mesh(new T.TorusGeometry(.8,.09,6,24),material());
+ const wave=new T.Mesh(new T.TorusGeometry(.85,.16,5,20,Math.PI),material());
+ const path=new T.CurvePath(),points=[[-.08,0,-.9],[.1,.12,-.45],[-.12,-.1,-.15],[.12,.12,.3],[0,0,.9]].map(p=>new T.Vector3(...p));
+ for(let i=1;i<points.length;i++)path.add(new T.LineCurve3(points[i-1],points[i]));
+ const lightning=new T.Mesh(new T.TubeGeometry(path,16,.065,4,false),material());
+ const sword=new T.Group(),blade=new T.Mesh(new T.BoxGeometry(.12,.06,1.3),material()),guard=new T.Mesh(new T.BoxGeometry(.55,.09,.09),material()),tip=new T.Mesh(new T.ConeGeometry(.09,.3,4),material());
+ guard.position.z=-.5;tip.rotation.x=Math.PI/2;tip.position.z=.8;sword.add(blade,guard,tip);
+ const spirit=new T.Group(),body=new T.Mesh(new T.OctahedronGeometry(.25),material());body.scale.set(1,1,2);spirit.add(body);
+ for(const side of [-1,1]){const wing=new T.Mesh(new T.ConeGeometry(.25,.85,3),material());wing.position.x=side*.45;wing.rotation.z=-side*Math.PI/2;wing.rotation.y=Math.PI/2;spirit.add(wing);}
+ const snare=new T.Mesh(new T.TorusGeometry(.65,.08,6,24),material());
+ const fire=new T.Mesh(new T.ConeGeometry(.26,.9,5),material());fire.rotation.x=-Math.PI/2;fire.position.z=-.45;
+ const beam=createInkBeam();
+ const capture=createInkRing();capture.scale.setScalar(.82);
+ for(const [kind,mesh] of Object.entries({wheel,wave,lightning,sword,spirit,snare,fire,capture,beam})){b.add(mesh);b.userData[kind]=mesh;mesh.visible=false;}
+ b.userData.signatures=Array.from({length:6},(_,id)=>{const g=createSignature(id);g.rotation.x=Math.PI/2;g.visible=false;b.add(g);return g;});
+ return b;
+}
+export function updateProjectileVisual(b,p,color,time,reduced=false,fighterId=null,ownerModel=null){
+ b.visible=!!p;if(!p)return;color=Number.isInteger(fighterId)?energyStyle(fighterId).color:color;
+ b.position.set(p.x,p.low?.35:1.4,p.z);b.rotation.set(0,0,0);
+ b.material.color.set(color);b.material.visible=!custom.includes(p.kind);
+ b.scale.set(p.kind==='crescent'?2.5:1,1,1);
+ if(p.kind==='capture')b.scale.setScalar(p.radius);
+ if(p.radius>1&&p.kind!=='capture')b.scale.multiplyScalar(p.kind==='wheel'?p.radius/.8:p.radius/.4);
+ for(const kind of ['wheel',...custom,'fire']){const mesh=b.userData[kind];mesh.visible=p.kind===kind;mesh.traverse(o=>{if(o.material)o.material.color.set(o.userData.fixedColor||(o.userData.whiteCore?'#ffffff':color));});}
+ const signature=Number.isInteger(fighterId)&&p.kind!=='capture'&&(p.kind!=='beam'||fighterId!==0);
+ b.userData.signatures.forEach((g,id)=>{g.visible=signature&&id===fighterId;if(g.visible){g.rotation.set(vfxSettings().flowEnergy?Math.PI/4:Math.PI/2,vfxSettings().flowEnergy?.35:0,0);g.userData.updateInk(time,reduced);g.scale.set(.65,p.kind==='beam'?1.5:.75,.8);}});
+ if(signature){b.material.visible=false;for(const kind of ['wheel',...custom,'fire'])b.userData[kind].visible=false;b.rotation.y=Math.atan2(p.dx,p.dz);}
+ if(Number.isInteger(fighterId)&&p.kind==='capture'){const ring=b.userData.capture;ring.children[1].material.color.set(energyStyle(fighterId).color);}
+ if(p.kind==='beam'||p.kind==='capture')b.userData[p.kind].userData.updateInk(time,reduced);
+ if(p.kind==='beam'){
+  const beam=b.userData.beam,hand=ownerModel?socket(ownerModel,'leftHand'):null,speed=Math.hypot(p.dx,p.dz)||1;
+  const distance=hand?Math.max(.1,((p.x-hand.x)*p.dx+(p.z-hand.z)*p.dz)/speed):2.7;
+  beam.scale.z=Math.min(1,distance/2.7);beam.position.z=.35*(1-beam.scale.z);
+ }
+ if(p.kind==='wave'){b.position.y=.16;b.rotation.y=Math.atan2(p.dx,p.dz);}
+ else if(p.kind==='wheel'){b.position.y=Math.max(.9,p.radius*1.15);b.rotation.set(0,Math.atan2(p.dx,p.dz)+Math.PI/2,time*7);}
+ else if(custom.includes(p.kind)||p.kind==='fire'){b.rotation.y=Math.atan2(p.dx,p.dz);if(p.kind==='snare')b.rotation.z=time*3;}
+ else{b.rotation.y=time*8;b.rotation.z=time*5;}
+ if(signature)b.rotation.set(0,Math.atan2(p.dx,p.dz),0);
+}
