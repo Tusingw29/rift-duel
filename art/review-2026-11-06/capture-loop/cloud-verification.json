@@ -1,0 +1,103 @@
+{
+  "run": "https://github.com/Tusingw29/rift-duel/actions/runs/42311463791",
+  "commit": "111c0bd946b023409bec274df754e224eb0ad951",
+  "conclusion": "success",
+  "tests": 808,
+  "browser": {
+    "passed": true,
+    "inputs": [
+      {
+        "flag": "",
+        "normalized": "",
+        "gap": 8,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      },
+      {
+        "flag": "inv",
+        "normalized": "inv",
+        "gap": 8,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      },
+      {
+        "flag": "close3",
+        "normalized": "close3",
+        "gap": 3,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      },
+      {
+        "flag": "close45",
+        "normalized": "close45",
+        "gap": 4.5,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      },
+      {
+        "flag": "inv,close3",
+        "normalized": "close3,inv",
+        "gap": 3,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      },
+      {
+        "flag": "inv,close45",
+        "normalized": "close45,inv",
+        "gap": 4.5,
+        "hp": [
+          100,
+          84.7
+        ],
+        "ticks": 240,
+        "replayVerified": true
+      }
+    ],
+    "renderedCaptureCount": 8,
+    "errors": []
+  },
+  "studyBuild": "4424f1ffbb13",
+  "studyBouts": 6480,
+  "studySeconds": 103.38125529,
+  "macBeforeConstantConsolidation": {
+    "build": "685ffe6307e8",
+    "seconds": 479.10191898400006,
+    "rowDifferencesAgainstLinuxNode22": {
+      "winner": 0,
+      "completed": 0,
+      "hp": 13,
+      "inputFrames": 16,
+      "simulationFrames": 12,
+      "readyFrames": 19,
+      "players": 17,
+      "thrown": 14,
+      "landed": 6
+    },
+    "all6480WinnersAgree": true,
+    "identicalRawRows": 6341
+  },
+  "earlierRuns": {
+    "42309129879": "Failed: manually paused RAF also paused Playwright boot polling; fixed with timer polling.",
+    "42311228113": "Cancelled: superseded by the harness fix."
+  }
+}

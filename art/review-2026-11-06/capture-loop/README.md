@@ -4,28 +4,28 @@
 
 **Non-repeated captures still work.** All 864 isolated captures against standing, unguarded opponents landed with their expected damage. Against the real CPU, the spaced-capture policy also still lands circles: with guard/flat + CPU v2, 39.6% at baseline, 30.7% with recovery protection, and 31.6–33.1% with protection plus a close reset. These are pooled event ratios, not independent-trial statistical claims or an expert-human test.
 
-Branch `codex/capture-loop`, based on `claude/ranged-capture` `0d6f9c8`. Status: **Review, awaiting Adam's normal-speed verdict** after verification. Build `685ffe6307e8`. Claude's CPU decision policy, model, rig, animation, recovery timings, move data and hit damage are untouched.
+Branch `codex/capture-loop`, based on `claude/ranged-capture` `0d6f9c8`. Status: **Review, awaiting Adam's normal-speed verdict** after local and cloud verification. Build `4424f1ffbb13`. Claude's CPU decision policy, model, rig, animation, recovery timings, move data and hit damage are untouched.
 
 ## Main results
 
-Real Normal CPU, all 36 ordered fighter pairs, five seeds, delayed visible-state circle-camper (15 input frames). Table below includes `rangedcap=guard,flat&cpu=v2` in every row. Each row has 180 completed repeat-policy bouts.
+Real Normal CPU, all 36 ordered fighter pairs, five seeds, delayed visible-state circle-camper (15 input frames). Every bout uses `move=v2&arena=ring&burst=v2&step=linear`, matching Adam’s preview; “base” means no capturewake switch, rather than completely unflagged gameplay. Table below includes `rangedcap=guard,flat&cpu=v2` in every row. Each row has 180 completed repeat-policy bouts.
 
 | Extra capturewake variant | CPU wins | 95% range | Circles landed / thrown | CPU ready frames / round |
 | --- | --- | --- | --- | --- |
 | base | 3/180 (1.7%) | 0.0–4.8% | 1259/2701 (46.6%) | 535.4 |
-| inv | 6/180 (3.3%) | 1.1–7.1% | 1169/4253 (27.5%) | 994.0 |
-| close3 | 2/180 (1.1%) | 0.0–4.0% | 1253/2133 (58.7%) | 367.1 |
-| close45 | 2/180 (1.1%) | 0.0–4.0% | 1257/2563 (49.0%) | 497.0 |
-| inv,close3 | 13/180 (7.2%) | 2.8–12.2% | 1108/3897 (28.4%) | 926.3 |
-| inv,close45 | 15/180 (8.3%) | 4.4–13.3% | 1148/3998 (28.7%) | 931.7 |
+| inv | 6/180 (3.3%) | 1.1–7.1% | 1168/4255 (27.5%) | 994.3 |
+| close3 | 2/180 (1.1%) | 0.0–4.0% | 1253/2129 (58.9%) | 365.3 |
+| close45 | 2/180 (1.1%) | 0.0–4.0% | 1258/2564 (49.1%) | 496.3 |
+| inv,close3 | 13/180 (7.2%) | 2.8–12.2% | 1109/3899 (28.4%) | 925.8 |
+| inv,close45 | 15/180 (8.3%) | 4.4–13.3% | 1148/3996 (28.7%) | 929.5 |
 
 Every variant's CPU-win range overlaps its matched baseline: **could be luck**. Ranges conservatively envelope Wilson and 2,000 ordered-fighter-pair block resamples with the five seeds kept together. They are exploratory and have no multiple-comparison correction. Do not select a default from the CPU wins alone.
 
-The lower landing ratio is only part of the story: `inv` allows more throws because fewer captures start a cinematic. Captures confirmed per bout fall only from 7.0 to 6.5 (1259 to 1169 across the 180 bouts), so the CPU can still lose despite more breathing room. This is why the report shows raw counts, action availability and wins together.
+The lower landing ratio is only part of the story: `inv` allows more throws because fewer captures start a cinematic. Captures confirmed per bout fall only from 7.0 to 6.5 (1259 to 1168 across the 180 bouts), so the CPU can still lose despite more breathing room. This is why the report shows raw counts, action availability and wins together.
 
 The reset is exact **at cinematic resolution**, not a promise that fighters stay together during the subsequent knockdown. In a deterministic Tala/Morrow fixture, holding retreat after the hit opens the 3-unit gap to about 11.5 units by the defender's first ready frame, 118 frames later; the 4.5-unit gap becomes about 12.25. [Fixture](spacing-fixture.json). The task's proposed reset therefore does not ensure the next neutral exchange starts in strike range. No extra attacker lock, recovery-time change or second teleport was added to conceal that result. Resetting closer can also shorten the next circle's flight into the still-vulnerable fall; the close3 repeat landing ratio increases in the study.
 
-[Full study tables](study.md) include repeat and spaced policies for all 18 combinations (each wake variant with old CPU, CPU v2, and CPU v2 + guard/flat), both sides' damage, down-throw shares, guarded/consumed circles and close-capture substitution. [Summary JSON](summary.json), [compressed raw bouts](study.json.gz). **6,480 bouts, zero censored**, 479.1 seconds locally. The 540 repeat-policy baseline bouts reproduce Claude's archived outcomes and both sides' damage exactly: [audit](baseline-reproduction.json).
+[Full study tables](study.md) include repeat and spaced policies for all 18 combinations (each wake variant with old CPU, CPU v2, and CPU v2 + guard/flat), both sides' damage, down-throw shares, guarded/consumed circles and close-capture substitution. [Summary JSON](summary.json), [compressed raw bouts](study.json.gz). **6,480 bouts, zero censored**, 103.4 seconds on GitHub. The 540 repeat-policy baseline bouts reproduce Claude's archived outcomes and both sides' damage exactly: [audit](baseline-reproduction.json).
 
 ## Switches
 
@@ -68,10 +68,10 @@ Every link below records and uses side controls, Move V2, the ring, linear lanes
 
 | Files | State and reading | Limitation |
 | --- | --- | --- |
-| `base-after-{duel,lock}-1794005189862.jpg` | Existing distant endpoint after a landed capture | Static frame, not a timing verdict |
-| `close3-after-{duel,lock}-1794005189862.jpg` | Pair is 3.00 units apart inside the arena; victim is still falling | Relocation can pop and attacker may retreat before wake-up |
-| `close45-after-{duel,lock}-1794005189862.jpg` | Pair is 4.50 units apart | Lock-on compresses the visible gap |
-| `inv-wake-{duel,lock}-1794005189862.jpg` | Rising target remains free of capture; overlapping circle is gone | No newly authored cue for the extra grace |
+| `base-after-{duel,lock}-1794007339302.jpg` | Existing distant endpoint after a landed capture | Static frame, not a timing verdict |
+| `close3-after-{duel,lock}-1794007339302.jpg` | Pair is 3.00 units apart inside the arena; victim is still falling | Relocation can pop and attacker may retreat before wake-up |
+| `close45-after-{duel,lock}-1794007339302.jpg` | Pair is 4.50 units apart | Lock-on compresses the visible gap |
+| `inv-wake-{duel,lock}-1794007339302.jpg` | Rising target remains free of capture; overlapping circle is gone | No newly authored cue for the extra grace |
 
 ## Reproduce
 
@@ -83,4 +83,12 @@ node scripts/capture-loop/isolated.mjs
 node scripts/capture-loop/spacing-fixture.mjs
 ```
 
-The real CPU drives only player 2. Every ordered fighter pairing is covered, but seats cannot be mirrored without changing that API. The spaced policy uses the same movement as circle-camper, requests captures only every 240 delayed input frames, and skips named visible recovery animations; it is not a full normal-fight policy. Both use the same visible-state delay rules. Ready frames are a conservative beginning-of-tick grounded-actionable count, excluding commitments, recovery, hitstop and cinematics; this differs from prior study definitions and their totals should not be mixed. Throws are actual spawned circles, not capture button presses or interrupted wind-ups. A passive spawn event includes circles cancelled immediately by an opposing circle in that same frame; counting only live post-tick projectiles misses those throws. The corrected counter leaves all 6,480 bout outcomes, damage, clocks and action availability identical. Landing ratios pool dependent events and are descriptive. Normal-speed fun, tell readability, controller feel and ordinary fights remain Adam's verdict.
+The real CPU drives only player 2. Every ordered fighter pairing is covered, but seats cannot be mirrored without changing that API. The spaced policy uses the same movement as circle-camper, requests captures only every 240 delayed input frames, and skips named visible recovery animations; it is not a full normal-fight policy. Both use the same visible-state delay rules. Ready frames are a conservative beginning-of-tick grounded-actionable count, excluding commitments, recovery, hitstop and cinematics; this differs from prior study definitions and their totals should not be mixed. Throws are actual spawned circles, not capture button presses or interrupted wind-ups. A passive spawn event includes circles cancelled immediately by an opposing circle in that same frame; counting only live post-tick projectiles misses those throws. The corrected counter leaves all 6,480 bout outcomes, damage, clocks and action availability identical. A passive spawn event includes circles cancelled immediately by an opposing circle in that same frame; counting only live post-tick projectiles misses those throws. The corrected counter leaves all 6,480 bout outcomes, damage, clocks and action availability identical. Landing ratios pool dependent events and are descriptive. Normal-speed fun, tell readability, controller feel and ordinary fights remain Adam's verdict.
+
+## Cloud verification and runtime limits
+
+[Run 42311463791](https://github.com/Tusingw29/rift-duel/actions/runs/42311463791) **passed** on `111c0bd`: 808 tests, 864 isolated captures, 6,480 completed study bouts, six browser input/record/replay checks and eight real-render captures. [Verification record](cloud-verification.json). Build `4424f1ffbb13`; table and primary raw archive above use this final Linux/Node 22 run.
+
+The earlier Mac/Node 24 study is retained as [local raw archive](study-local-node24.json.gz) (479.1 seconds, build `685ffe6307e8`, before the numerically identical end-distance constants were consolidated). All 6,480 winners and completion statuses agree across the runs. 6,341 raw rows are identical; 139 differ, including 13 final HP arrays, 16 input-frame counts, 14 throw-count arrays and six landing-count arrays. Other differences include small reposition distances. We do **not** claim cross-runtime tick-for-tick equivalence. Frozen original replay validation and current browser replay checks pass in the tested environments, but cross-engine replay portability needs its own longer audit. Numeric configuration consolidation does not establish the cause of these differences.
+
+The first cloud attempt stalled because Playwright's default readiness poll used the same RAF clock the harness manually paused. Timer polling fixes that harness race; the superseded second run was cancelled. The final local browser check also passed after the fix. No retries mask a gameplay assertion failure.

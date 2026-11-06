@@ -1,5 +1,5 @@
 {
-  "build": "685ffe6307e8",
+  "build": "4424f1ffbb13",
   "studyBouts": 6480,
   "studyCensored": 0,
   "unitTests": 808,
@@ -21,7 +21,7 @@
   "browserPassed": true,
   "source": {
     "dist/combat.js": "2569b803192f9f67f9be17556839a2bb342e90fcc4e1a1d79c0dd06b79ab06e4",
-    "dist/capture-wake.js": "d6bb712d928ce5506cb220ec9f8526f02b8b4030c198481bd390eafeb8fedce3",
+    "dist/capture-wake.js": "5d72068721b6f55880e620a2cb90437e5c26fdc056cd7edf12fdd11b726da00b",
     "dist/cpu-v2.js": "43166151b3b3fc0efd4996b36dc06ad2544266d6d47fa704d2f18a13aa9e9e1b",
     "scripts/skill/bots/circle-camper.mjs": "a19f1f1e2d1ea207717cd38b2ac7b9b6bd0247740ad68c9a488add2c662e649c",
     "scripts/skill/bots/common.mjs": "512dd53e41a808a52a038e78ab63e75500d17fb6f041d7c0d7b28eedd013bf44",
