@@ -4,6 +4,8 @@ import {measured} from './skill/observer.js';
 import {matchFighter,applyBalanceMove,balanceDamageScale,balanceRule,balanceGuard,balanceCaptureBreak} from './balance-runtime.js';
 import {canPressureDash,beginPressureDash,advancePressureDash,pressureInput} from './pressure-dash.js';
 import {expandCapture,advanceCapture,captureClashes} from './long-capture.js';
+import {configureRangedCapture,rangedCaptureGuard,rangedCaptureFlat,rangedContext,RANGED_CAPTURE} from './ranged-capture.js';
+import {configureCpu,cpuV2,cpuV2Overlay} from './cpu-v2.js';
 import {advanceCharge} from './charge.js';
 import {recoveryInput,GET_UP_FRAMES,JUMP_SQUAT_FRAMES,BOUNCE_FRAMES,BOUNCE_AIR_FRAMES,KNOCKDOWN_FRAMES} from './recovery.js';
 import {reversalEligible,beginReversal,REVERSAL_DAMAGE} from './reversal.js';
@@ -37,7 +39,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step);
+ return configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -84,9 +86,9 @@ export function captureContext(a,b){
 }
 function beginCapture(m,a,b,context){
  if(a.step)cancelStep(a);if(b.step)cancelStep(b);
- measured(m,'captureStart',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),guard:b.guard});
+ measured(m,'captureStart',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),guard:b.guard,context});
  clearStagger(b);
- const multiplier={front:1,back:1.2,mid:1.1,far:1.25}[context];
+ const multiplier=rangedCaptureFlat(m)&&rangedContext(context)?RANGED_CAPTURE.flatMultiplier:{front:1,back:1.2,mid:1.1,far:1.25}[context];
  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,...capturePresentation(fighters[a.id].id,context),damage:15*matchFighter(m,a).power*multiplier*balanceDamageScale(m,a,{kind:'capture'}),kind:'capture',context,name:fighters[a.id].capture};
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
@@ -289,10 +291,11 @@ export function aiInput(m,dt){
   return m.ai;
  }
  m.aiClock-=dt;
- if(m.aiClock>0)return m.ai;
+ const random=()=>{m.seed=((m.seed||1234567)*1664525+1013904223)>>>0;return m.seed/4294967296;};
+ const overlay=base=>cpuV2(m)?cpuV2Overlay(m,m.players[1],m.players[0],base,random,matchFighter(m,m.players[1]).reach):base;
+ if(m.aiClock>0)return overlay(m.ai);
  const a=m.players[1],b=m.players[0],d=distance(a,b),f=matchFighter(m,a);
  const skill=m.difficulty==='hard'?1:m.difficulty==='easy'?.4:.7;
- const random=()=>{m.seed=((m.seed||1234567)*1664525+1013904223)>>>0;return m.seed/4294967296;};
  m.aiClock=.14+random()*.23/skill;
  const i=neutral(),r=random(),preferred=f.id==='tala'?1.8:f.id==='sol'||f.id==='vesper'?6:3;
  i.x=d>preferred?1:d<preferred-1?-1:0;
@@ -302,7 +305,7 @@ export function aiInput(m,dt){
  i.attack=!i.guard&&r<.8;
  i.capture=d<3&&r>.8;i.launch=d<3&&r<.18;i.pursuit=b.air>0||!!b.staggerState&&d<5.6;
  i.super=a.stocks>0&&r>.92&&d<8;
- return m.ai=i;
+ m.ai=i;return overlay(i);
 }
 export function update(m,inputs,dt=STEP){
  m.events=[];if(m.phase!=='fight')return;
@@ -471,6 +474,7 @@ export function update(m,inputs,dt=STEP){
    if(Math.hypot(p.x-b.x,p.z-b.z)<p.radius+.5&&projectileWidth(p,b)&&b.air<.5&&b.inv<=0){
     if(p.kind!=='capture'&&balanceGuard(m,b,'perfectGuard',.17)){p.owner=1-p.owner;p.dx*=-1;p.dz*=-1;p.life=1.5;measured(m,'perfectGuard',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:0,kind:p.kind});event(m,'parry',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){p.life=0;if(m.balance?.sys.splitGuard&&!grabOptions(m).fresh){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}measured(m,'captureBreak',{defender:m.players.indexOf(b)});event(m,'hint',{text:'CAPTURE BREAK'});}
+    else if(p.kind==='capture'&&rangedCaptureGuard(m)&&b.guard){p.life=0;const pd=Math.hypot(p.dx,p.dz)||1;b.blockStun=Math.max(b.blockStun,RANGED_CAPTURE.guardBlockStun);b.x+=p.dx/pd*RANGED_CAPTURE.guardPush;b.z+=p.dz/pd*RANGED_CAPTURE.guardPush;constrainPosition(b);measured(m,'block',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),damage:RANGED_CAPTURE.guardChip,kind:'capture',ranged:true});event(m,'block',{x:b.x,z:b.z,color:fighters[b.id].color});}
     else if(p.kind==='capture'&&!m.cinematic){beginCapture(m,a,b,p.context||captureContext(a,b));p.life=0;}
     else {const landed=hit(m,a,b,p.damage,p.kind);if(landed&&(p.kind==='snare'||p.stun)){b.stun=Math.max(b.stun,p.kind==='snare'?.85:p.stun);b.animTime=Math.max(b.animTime,b.stun);}if(landed&&p.knockdown){clearStagger(b);b.air=0;b.launched=false;b.stun=KNOCKDOWN_FRAMES*STEP;b.anim='knockdown';b.animTime=.55;}p.life=0;}
    }

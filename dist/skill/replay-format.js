@@ -2,6 +2,8 @@ import {movementFromSearch} from '../movement-v2.js';
 import {arenaFromSearch,ringFromSearch} from '../arena-bounds.js';
 import {stepFromSearch} from '../linear-hits.js';
 import {burstFromSearch} from '../burst-preview.js';
+import {rangedCaptureFromSearch} from '../ranged-capture.js';
+import {cpuFromSearch} from '../cpu-v2.js';
 import {morrowFromSearch} from '../morrow-preview.js';
 import {grabFromSearch} from '../grab-options.js';
 import {controlsFromSearch} from '../controls-view.js';
@@ -11,7 +13,9 @@ export const clone=value=>JSON.parse(JSON.stringify(value));
 export function canonical(value){if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';return JSON.stringify(value);}
 // Integrity check for accidental edits, not a cryptographic signature or anti-cheat.
 export function digest(value){let n=2166136261;for(const c of canonical(value)){n^=c.charCodeAt(0);n=Math.imul(n,16777619);}return (n>>>0).toString(16).padStart(8,'0');}
-export function switchConfig(search){const movement=movementFromSearch(search);return {movement,arena:arenaFromSearch(search,movement),ring:ringFromSearch(search),burst:burstFromSearch(search),step:stepFromSearch(search),morrow:morrowFromSearch(search),grab:{...grabFromSearch(search)},controls:controlsFromSearch(search),balance:new URLSearchParams(search).get('balance')||''};}
+export function switchConfig(search){const movement=movementFromSearch(search);return {movement,arena:arenaFromSearch(search,movement),ring:ringFromSearch(search),burst:burstFromSearch(search),step:stepFromSearch(search),morrow:morrowFromSearch(search),grab:{...grabFromSearch(search)},controls:controlsFromSearch(search),balance:new URLSearchParams(search).get('balance')||'',...optional(search)};}
+// RANGED-CAPTURE switches are added only when set, so replays recorded before them keep identical switch objects.
+function optional(search){const rangedcap=rangedCaptureFromSearch(search),cpu=cpuFromSearch(search);return {...(rangedcap?{rangedcap}:{}),...(cpu?{cpu}:{})};}
 export function configuration(search,settings={},balance=null){const switches=switchConfig(search);return {search,urlSwitches:[...new URLSearchParams(search)],switches,settings:normalizeOptions(settings),balance:balance?clone(balance):null};}
 export function matchOptions(config){return {...config.settings,...config.switches,balance:config.balance};}
 export function resultOf(m){return {hp:m.players.map(p=>p.hp),winner:m.winner,phase:m.phase,ticks:m.tick,inputTicks:m.inputTick,time:m.time,state:digest({players:m.players,projectiles:m.projectiles,rules:m.rules,time:m.time,tick:m.tick,inputTick:m.inputTick,hitstop:m.hitstop,phase:m.phase,winner:m.winner,cinematic:m.cinematic,pressure:m.pressure??null})};}
