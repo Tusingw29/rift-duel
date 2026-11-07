@@ -8,13 +8,15 @@ Owner: **Claude** · Branch: `claude/options-audit` · Worktree: `~/rift-worktre
 
 ## CAPTURE-SEAL — committed captures and earned approach
 
-Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
 
 **Adam’s decisions (2026-11-06):** escaping earns a free dash in; captures pay more at closer range; close-grab locking/reach/16f startup comparisons are included. No default promotion.
 
-- [ ] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
-- [ ] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
-- [ ] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+- [x] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
+- [x] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
+- [x] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+
+**Evidence:** [Review and eight recording links](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/capture-seal/README.md). Build `60835d58ed62`; verified `dcfe427`. **839 tests pass**, all frozen replays, 27,360 bouts (zero censored), browser checks and keyboard escape → dash → jab replay pass in [cloud 42316657307](https://github.com/Tusingw29/rift-duel/actions/runs/42316657307). CPU vs circle-camper: 6/180 baseline → 180/180 full; close-grabber: 3/180 → 118/180. Mixed bot still wins 108/180 and lands 52 grabs. All six fighters escape at 15f; all 180 dash fixtures (including 20 units) reserve ≥15f. Default fingerprint/numeric roster unchanged. Server **4226**. **Production ring/tell/escape VFX still Claude's handoff**; text readout and review-only collision geometry are temporary, no renderer/animation edits or gameplay merge.
 
 ## COMBAT-DESIGN-STUDY — simple controls, spacing and capture risk
 
@@ -623,6 +625,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Codex | CAPTURE-SEAL | `dcfe427` verified: 839 tests, 27,360 bouts, browser and frozen replays pass in cloud 42316657307. Full CPU beats circle-camper180/180 vs6/180 baseline; mixed still wins108/180 with52 grabs. All180 dash fixtures reserve≥15f. Review/record links on codex/capture-seal at art/review-2026-11-06/capture-seal/README.md, server4226. Claude owns production seal visuals; no renderer/animation changes or gameplay merge. Awaiting Adam’s normal-speed verdict. |
 | 2026-11-06 | Claude | OPTIONS-AUDIT | Claimed: what-beats-what fixtures per situation on `claude/options-audit` (from capture-loop `15d89ef`). Analysis only. |
 | 2026-11-06 | Codex | COMBAT-DESIGN-STUDY | Research on codex/combat-design-study: ten-character Evil Zone direction/range map, source uncertainty, read-only capture-risk probes and proposed spacing/punish contract in docs/EVIL_ZONE_COMBAT_DESIGN.md. Close whiff can become a ranged capture; distant attacker recovers before contact. No dist changes or new playable prototype. Awaiting Adam’s design verdict. |
 | 2026-11-06 | Codex | CAPTURE-LOOP | `111c0bd`: opt-in wake-circle protection and close3/close45 resets; 808 tests and cloud 42311463791 pass. 6,480 bouts: inv reduces repeated-circle landings 46.6% to 27.5%, CPU still mostly loses; close resets alone do not solve retreat during recovery. Default fingerprint and 13 frozen replays pass. Review at art/review-2026-11-06/capture-loop/README.md; server 4224. Awaiting Adam’s normal-speed verdict, no gameplay merge. |
