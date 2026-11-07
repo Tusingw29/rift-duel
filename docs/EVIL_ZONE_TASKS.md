@@ -1,12 +1,12 @@
 ## REVERSAL-AIR — linear reversal and airborne recovery lockouts
 
-Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Addendum to CAPTURE-SEAL. Lane: linear reversal contact, opt-in airlock configuration, recorder, timing audits and tests. Claude's animation/model/rig files untouched. No default promotion.
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Addendum to CAPTURE-SEAL. Lane: linear reversal contact, opt-in airlock configuration, recorder, timing audits and tests. Claude's animation/model/rig files untouched. No default promotion.
 
 - [x] Repair reversal hit-width under `step=linear`; compare actual damage.
 - [x] Independent `airlock=12` / `20` launch lockouts; measure 15f reaction and attacker reads by fighter.
 - [x] Re-run OPTIONS-AUDIT, default fingerprint, full tests and browser recording checks; Review awaits Adam's verdict.
 
-**Evidence:** [Review and recording links](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/reversal-air/README.md). Build `f7116242389d`. 878 tests pass; default fingerprint, numeric roster and frozen replay checks unchanged. Browser keyboard/default/12/20 recordings replay exactly; zero page errors. Corrected audit confirms all six launches before testing air choices; old D25/30 headline included grounded cases. Reversal returns D30/30. All six fighters can react after unlock: 12f takes one pursuit hit, 20f takes two. 3,480 full timelines. Cloud verification pending; server **4226**.
+**Evidence:** [Review and recording links](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/reversal-air/README.md). Build `f7116242389d`. 878 tests pass; default fingerprint, numeric roster and frozen replay checks unchanged. Browser keyboard/default/12/20 recordings replay exactly; zero page errors. Corrected audit confirms all six launches before testing air choices; old D25/30 headline included grounded cases. Reversal returns D30/30. All six fighters can react after unlock: 12f takes one pursuit hit, 20f takes two. 3,480 full timelines. [Cloud verification 42320764120](https://github.com/Tusingw29/rift-duel/actions/runs/42320764120) passed on `f42f402`; server **4226**.
 
 ## CAPTURE-SEAL — committed captures and earned approach
 
@@ -600,6 +600,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Codex | REVERSAL-AIR | `f42f402` on `codex/capture-seal`; 878 tests, corrected OPTIONS-AUDIT, 3,480 timelines and three browser record/replays pass locally/cloud. Linear reversal D30/30; airlock12/20 previews. Review awaits Adam. [Evidence](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/reversal-air/README.md). |
 | 2026-11-06 | Codex | CAPTURE-SEAL | `dcfe427` verified: 839 tests, 27,360 bouts, browser and frozen replays pass in cloud 42316657307. Full CPU beats circle-camper180/180 vs6/180 baseline; mixed still wins108/180 with52 grabs. All180 dash fixtures reserve≥15f. Review/record links on codex/capture-seal at art/review-2026-11-06/capture-seal/README.md, server4226. Claude owns production seal visuals; no renderer/animation changes or gameplay merge. Awaiting Adam’s normal-speed verdict. |
 | 2026-11-06 | Claude | RANGED-CAPTURE | `claude/ranged-capture`: `rangedcap=guard|flat`, `cpu=v2`, telemetry labels, frozen replay build, punish/bot/CPU studies. Cloud run 42279562042: 775 tests and smoke pass; default unchanged. Review, awaiting Adam. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |

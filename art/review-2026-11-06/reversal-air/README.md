@@ -56,3 +56,5 @@ Local preview (server 4226, recordings enabled, Adam's preferred side controls):
 - [No air lockout comparison](http://localhost:4226/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1)
 
 The options combine with CAPTURE-SEAL's existing query switches. Removing `airlock` restores existing air recovery; removing `step=linear` restores existing contact geometry. Preview only, no merge to main.
+
+**Final verification:** [Cloud run 42320764120](https://github.com/Tusingw29/rift-duel/actions/runs/42320764120) passed on `f42f402`: 878 tests, release preparation, all three corrected audits, 3,480 complete timelines, and all three browser keyboard/download/replay cases. Default fingerprint unchanged. Status: **Review, awaiting Adam’s normal-speed verdict**.
