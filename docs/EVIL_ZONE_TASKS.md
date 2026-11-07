@@ -1,3 +1,11 @@
+## OPTIONS-AUDIT — what beats what, per situation
+
+Owner: **Claude** · Branch: `claude/options-audit` · Worktree: `~/rift-worktrees/options-audit` · Status: **In progress** (2026-11-06). Based on capture-loop `15d89ef`. Analysis only: deterministic fixtures and reaction-check, no gameplay, CPU or animation changes. Adam asked for depth in the existing Evil Zone mechanics; this audit tests whether each situation (far, middle, close, chain third hit, wake-up, air) is a real guess — every option has an answer that arrives in time — and lists the holes for Codex and the tells for Claude.
+
+- [ ] Fixture runner: attacker option × defender option, committed and at 15f reaction, Adam's switches.
+- [ ] Tables for far, middle, close, third hit, wake-up, air; holes marked with evidence.
+- [ ] README with plain-English answers; follow-up prompt for Codex and tell list for Claude.
+
 ## CAPTURE-SEAL — committed captures and earned approach
 
 Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
@@ -615,6 +623,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Claude | OPTIONS-AUDIT | Claimed: what-beats-what fixtures per situation on `claude/options-audit` (from capture-loop `15d89ef`). Analysis only. |
 | 2026-11-06 | Codex | COMBAT-DESIGN-STUDY | Research on codex/combat-design-study: ten-character Evil Zone direction/range map, source uncertainty, read-only capture-risk probes and proposed spacing/punish contract in docs/EVIL_ZONE_COMBAT_DESIGN.md. Close whiff can become a ranged capture; distant attacker recovers before contact. No dist changes or new playable prototype. Awaiting Adam’s design verdict. |
 | 2026-11-06 | Codex | CAPTURE-LOOP | `111c0bd`: opt-in wake-circle protection and close3/close45 resets; 808 tests and cloud 42311463791 pass. 6,480 bouts: inv reduces repeated-circle landings 46.6% to 27.5%, CPU still mostly loses; close resets alone do not solve retreat during recovery. Default fingerprint and 13 frozen replays pass. Review at art/review-2026-11-06/capture-loop/README.md; server 4224. Awaiting Adam’s normal-speed verdict, no gameplay merge. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
