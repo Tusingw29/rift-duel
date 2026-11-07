@@ -1,3 +1,12 @@
+## SEAL-VISUALS — world-space closing seal, escape cue and seal capture
+
+Owner: **Claude** · Branch: `claude/seal-visuals` (from `codex/capture-seal` `51a7974`) · Status: **In progress** (2026-11-06). Lane: renderer-only seal ring, escape cue and dash read, then a seal-specific capture finish; reads `match.seals` / `sealEscape` / `escapeDash` per docs/CAPTURE_SEAL_HANDOFF.md. No combat, CPU or rules changes; visible only with `seal=on`.
+
+- [ ] Closing ring at the fixed cast centre, readable from side and rear, progress visible, exact simulated radius.
+- [ ] Distinct escape cue with remaining input window; dash read.
+- [ ] Resolved seals fade as non-threatening; reduced-motion version.
+- [ ] Seal-specific capture finish instead of the close throw.
+
 ## REVERSAL-AIR — linear reversal and airborne recovery lockouts
 
 Owner: **Codex** · Branch: `codex/capture-seal` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Addendum to CAPTURE-SEAL. Lane: linear reversal contact, opt-in airlock configuration, recorder, timing audits and tests. Claude's animation/model/rig files untouched. No default promotion.
