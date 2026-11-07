@@ -10,7 +10,7 @@ Only `seal=on` creates `match.seals` and `match.sealSerial`. Each seal has:
 - `radius`: actual visible seal radius, linear 3.0 → 1.5 during the 54 advancing warning frames. Capture/escape uses target-centre distance against radius + 0.5 body allowance, not edge contact early in the warning. Target height/invulnerability/wake protection are checked at closure.
 - `frame`, `framesLeft`, `started`, `context` (`mid`/`far`, selected at startup).
 - `status`: closing, escaped, caught, broken, guarded, protected, interrupted or clashed.
-- `escaped`, `resolved`. Resolved seals remain for 20 simulation ticks for feedback, then are removed. Exiting the current ring plus body allowance permanently resolves it as escaped; re-entering cannot reactivate it. Capture occurs only at frame 54 if it has not resolved.
+- `escaped`, `resolved`. Resolved seals become eligible for removal after 20 simulation ticks; cleanup resumes with active combat. During cinematics use resolved age/status when fading, rather than mere list membership. Exiting the current ring plus body allowance permanently resolves it as escaped; re-entering cannot reactivate it. Capture occurs only at frame 54 if it has not resolved.
 
 Hitstop and cinematic/Pressure Dash pauses do not advance seals. Caster interruption removes the threat on the next advancing combat frame; physical contact resolves before the seal's closure check. Two successful same-frame seals clash without a player-order capture winner. No grow-on-tap.
 

@@ -1,0 +1,52 @@
+{
+  "build": "60835d58ed62",
+  "run": "https://github.com/Tusingw29/rift-duel/actions/runs/42316657307",
+  "commit": "dcfe427cea9aefb8b639e56aa89f2de542b1a883",
+  "cloudConclusion": "success",
+  "tests": 839,
+  "testFiles": 110,
+  "studyBouts": 27360,
+  "censored": 0,
+  "summedWorkerSeconds": 285.340432324,
+  "sourceHashesVerified": true,
+  "baselineReproductionBouts": 180,
+  "baselineComparedWith": "capture-loop15d89ef inv-all repeat Linux/Node22 archive",
+  "baselineOutcomesClocksBothDamageIdentical": true,
+  "defaultFingerprint": "c1fc5ebc1cb77d6845830c4c67fa56d416bf079f78d16c51fac4e1b8d049071a",
+  "defaultNumericRosterUnchanged": true,
+  "rosterEdits": "source-location references only; extractor accepts let as well as const for the same default threshold",
+  "unchangedFiles": {
+    "dist/render.js": true,
+    "dist/animation.js": true,
+    "dist/moves.js": true,
+    "dist/fighters.js": true,
+    "dist/movement-v2.js": true
+  },
+  "frozenReplayFiles": 13,
+  "localCloudFixturesIdentical": true,
+  "fixtures": {
+    "walkers": 6,
+    "minimumEscapeSpare": 7,
+    "dashCases": 180,
+    "minimumPunishFrames": 15,
+    "breakCases": 228
+  },
+  "browser": {
+    "passed": true,
+    "configurations": 8,
+    "renderCaptures": 8,
+    "keyboardEscape": {
+      "reservedFrames": 55,
+      "hp": [
+        100,
+        93.88
+      ],
+      "replayVerified": true
+    },
+    "errors": []
+  },
+  "earlierRuns": {
+    "42316461462": "Invalid workflow YAML at unquoted IPv6 command; no jobs ran. Fixed.",
+    "42316536608": "Cancelled when ready-time measurement and boundary coverage were corrected."
+  }
+}

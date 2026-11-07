@@ -1,12 +1,14 @@
 ## CAPTURE-SEAL — committed captures and earned approach
 
-Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
 
 **Adam’s decisions (2026-11-06):** escaping earns a free dash in; captures pay more at closer range; close-grab locking/reach/16f startup comparisons are included. No default promotion.
 
-- [ ] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
-- [ ] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
-- [ ] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+- [x] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
+- [x] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
+- [x] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+
+**Evidence:** [Review and eight recording links](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/capture-seal/README.md). Build `60835d58ed62`; verified `dcfe427`. **839 tests pass**, all frozen replays, 27,360 bouts (zero censored), browser checks and keyboard escape → dash → jab replay pass in [cloud 42316657307](https://github.com/Tusingw29/rift-duel/actions/runs/42316657307). CPU vs circle-camper: 6/180 baseline → 180/180 full; close-grabber: 3/180 → 118/180. Mixed bot still wins 108/180 and lands 52 grabs. All six fighters escape at 15f; all 180 dash fixtures (including 20 units) reserve ≥15f. Default fingerprint/numeric roster unchanged. Server **4226**. **Production ring/tell/escape VFX still Claude's handoff**; text readout and review-only collision geometry are temporary, no renderer/animation edits or gameplay merge.
 
 ## CAPTURE-LOOP — break ranged-capture wake-up repetition
 
@@ -588,6 +590,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Codex | CAPTURE-SEAL | `dcfe427` verified: 839 tests, 27,360 bouts, browser and frozen replays pass in cloud 42316657307. Full CPU beats circle-camper180/180 vs6/180 baseline; mixed still wins108/180 with52 grabs. All180 dash fixtures reserve≥15f. Review/record links on codex/capture-seal at art/review-2026-11-06/capture-seal/README.md, server4226. Claude owns production seal visuals; no renderer/animation changes or gameplay merge. Awaiting Adam’s normal-speed verdict. |
 | 2026-11-06 | Claude | RANGED-CAPTURE | `claude/ranged-capture`: `rangedcap=guard|flat`, `cpu=v2`, telemetry labels, frozen replay build, punish/bot/CPU studies. Cloud run 42279562042: 775 tests and smoke pass; default unchanged. Review, awaiting Adam. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
