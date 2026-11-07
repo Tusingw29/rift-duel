@@ -1,10 +1,12 @@
 ## OPTIONS-AUDIT — what beats what, per situation
 
-Owner: **Claude** · Branch: `claude/options-audit` · Worktree: `~/rift-worktrees/options-audit` · Status: **In progress** (2026-11-06). Based on capture-loop `15d89ef`. Analysis only: deterministic fixtures and reaction-check, no gameplay, CPU or animation changes. Adam asked for depth in the existing Evil Zone mechanics; this audit tests whether each situation (far, middle, close, chain third hit, wake-up, air) is a real guess — every option has an answer that arrives in time — and lists the holes for Codex and the tells for Claude.
+Owner: **Claude** · Branch: `claude/options-audit` · Worktree: `~/rift-worktrees/options-audit` · Status: **Review, awaiting Adam** (2026-11-06). Based on capture-loop `15d89ef`. Analysis only: deterministic fixtures and reaction-check, no gameplay, CPU or animation changes. Adam asked for depth in the existing Evil Zone mechanics; this audit tests whether each situation (far, middle, close, chain third hit, wake-up, air) is a real guess — every option has an answer that arrives in time — and lists the holes for Codex and the tells for Claude.
 
-- [ ] Fixture runner: attacker option × defender option, committed and at 15f reaction, Adam's switches.
-- [ ] Tables for far, middle, close, third hit, wake-up, air; holes marked with evidence.
-- [ ] README with plain-English answers; follow-up prompt for Codex and tell list for Claude.
+- [x] Fixture runner: attacker option × defender option, committed and at 15f reaction, Adam's switches, with a punish probe after every block/break/whiff.
+- [x] Tables for far, middle, close (2.0 and 2.8), third hit, wake-up, air; plus a `rangedcap=guard&capturewake=inv` run.
+- [x] [README](../art/review-2026-11-06/options-audit/README.md) with plain-English answers, seven holes and the tell list.
+
+**Evidence:** 810 tests pass. Close range and wake-up are real guessing games. Middle/far range never punish anything (the circle beats all but a simultaneous shot). The close grab falls back to a circle that catches backdashes and outreaches strikes at 2.8 units in 15/30 pairs. **Bug:** the third-hit reversal never connects with `step=linear` (`dist/reversal.js` skips `applyLinearMove`, so no `hitWidth`). Air recovery has no lockout: an early tap beats pursuit and waiting in 25/30. Next: Codex fixes the reversal and holes 1–3 in CAPTURE-SEAL; rerun on `codex/capture-seal`.
 
 ## CAPTURE-SEAL — committed captures and earned approach
 
@@ -625,6 +627,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 
 | Date | Agent | Task | Change / evidence / next step |
 | --- | --- | --- | --- |
+| 2026-11-06 | Claude | OPTIONS-AUDIT | `claude/options-audit`: what-beats-what fixtures, 6 situations × 30 pairs. Middle/far never punished; grab fallback and reach holes; reversal broken under step=linear (missing applyLinearMove); air recovery has no lockout. 810 tests pass. Review, awaiting Adam. |
 | 2026-11-06 | Codex | CAPTURE-SEAL | `dcfe427` verified: 839 tests, 27,360 bouts, browser and frozen replays pass in cloud 42316657307. Full CPU beats circle-camper180/180 vs6/180 baseline; mixed still wins108/180 with52 grabs. All180 dash fixtures reserve≥15f. Review/record links on codex/capture-seal at art/review-2026-11-06/capture-seal/README.md, server4226. Claude owns production seal visuals; no renderer/animation changes or gameplay merge. Awaiting Adam’s normal-speed verdict. |
 | 2026-11-06 | Claude | OPTIONS-AUDIT | Claimed: what-beats-what fixtures per situation on `claude/options-audit` (from capture-loop `15d89ef`). Analysis only. |
 | 2026-11-06 | Codex | COMBAT-DESIGN-STUDY | Research on codex/combat-design-study: ten-character Evil Zone direction/range map, source uncertainty, read-only capture-risk probes and proposed spacing/punish contract in docs/EVIL_ZONE_COMBAT_DESIGN.md. Close whiff can become a ranged capture; distant attacker recovers before contact. No dist changes or new playable prototype. Awaiting Adam’s design verdict. |
