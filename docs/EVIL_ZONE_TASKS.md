@@ -1,10 +1,12 @@
 ## SEAL-VISUALS — world-space closing seal, escape cue and seal capture
 
-Owner: **Claude** · Branch: `claude/seal-visuals` (from `codex/capture-seal` `51a7974`) · Status: **In progress** (2026-11-06). Lane: renderer-only seal ring, escape cue and dash read, then a seal-specific capture finish; reads `match.seals` / `sealEscape` / `escapeDash` per docs/CAPTURE_SEAL_HANDOFF.md. No combat, CPU or rules changes; visible only with `seal=on`.
+Owner: **Claude** · Branch: `claude/seal-visuals` (from `codex/capture-seal` `51a7974`) · Status: **Ring, cue and dash in review, awaiting Adam's normal-speed verdict; seal capture finish next** (2026-11-06). Lane: renderer-only seal ring, escape cue and dash read, then a seal-specific capture finish; reads `match.seals` / `sealEscape` / `escapeDash` per docs/CAPTURE_SEAL_HANDOFF.md. No combat, CPU or rules changes; visible only with `seal=on`.
 
-- [ ] Closing ring at the fixed cast centre, readable from side and rear, progress visible, exact simulated radius.
-- [ ] Distinct escape cue with remaining input window; dash read.
-- [ ] Resolved seals fade as non-threatening; reduced-motion version.
+- [x] Closing ring at the fixed cast centre, readable from side and rear, progress visible, exact simulated radius (captured; awaiting normal-speed verdict).
+- [x] Distinct escape cue with remaining input window; dash read (captured; awaiting verdict).
+- [x] Resolved seals fade as non-threatening; reduced-motion version (tested).
+
+**Evidence:** `0472c5e` on `claude/seal-visuals`, [review](https://github.com/Tusingw29/rift-duel/blob/claude/seal-visuals/art/review-2026-11-06/seal-visuals/README.md). 884 tests pass; renderer-only, simulation unchanged with drawing on. Server **4227**.
 - [ ] Seal-specific capture finish instead of the close throw.
 
 ## REVERSAL-AIR — linear reversal and airborne recovery lockouts
@@ -652,6 +654,7 @@ Adam (2026-10-27): try Quaternius UAL Standard `Hit_Chest` and `Hit_Head` (CC0) 
 | 2026-11-06 | Claude | OPTIONS-AUDIT | Claimed: what-beats-what fixtures per situation on `claude/options-audit` (from capture-loop `15d89ef`). Analysis only. |
 | 2026-11-06 | Codex | COMBAT-DESIGN-STUDY | Research on codex/combat-design-study: ten-character Evil Zone direction/range map, source uncertainty, read-only capture-risk probes and proposed spacing/punish contract in docs/EVIL_ZONE_COMBAT_DESIGN.md. Close whiff can become a ranged capture; distant attacker recovers before contact. No dist changes or new playable prototype. Awaiting Adam’s design verdict. |
 | 2026-11-06 | Codex | CAPTURE-LOOP | `111c0bd`: opt-in wake-circle protection and close3/close45 resets; 808 tests and cloud 42311463791 pass. 6,480 bouts: inv reduces repeated-circle landings 46.6% to 27.5%, CPU still mostly loses; close resets alone do not solve retreat during recovery. Default fingerprint and 13 frozen replays pass. Review at art/review-2026-11-06/capture-loop/README.md; server 4224. Awaiting Adam’s normal-speed verdict, no gameplay merge. |
+| 2026-11-06 | Claude | SEAL-VISUALS | `0472c5e` on claude/seal-visuals: world-space closing seal (exact sim radius, fixed centre, side wall, start/close guides, red final pulse), escape-window cue, dash streaks, grey fade on resolve. 884 tests. Review at art/review-2026-11-06/seal-visuals/README.md, server 4227. Awaiting Adam's verdict; seal capture finish next. |
 | 2026-11-05 | Codex | MATCH-RECORDER | `codex/match-recorder`, implementation `cbdfe60`: opt-in exact input recording, bounded storage/result download, verified Node/browser replay and frame/position summaries. 757 tests and cloud run 42045156831 pass; default unchanged. Evidence `art/review-2026-11-05/match-recorder/README.md`. Review, awaiting Adam; Claude owns the visual analysis overlay. |
 | 2026-10-26 | Claude | TALA-IMPORT-AB | Experiment complete on `claude/tala-import-ab`: imported CMU boxing footwork and get-up for Tala behind an opt-in A/B switch (sandbox `&anim=imported`, game `?gait=imported`), authored default unchanged. Metrics: imported footwork skates more than authored in 3 of 4 directions (up to 0.88 u/frame) and straddles on the right sidestep; get-up reads more human and sinks less (−0.31 vs −0.66). Provisional: reject footwork, revise get-up, Tala only. Evidence `art/review-2026-10-26/tala-import-ab/README.md`. Next: Adam's normal-speed verdict; separate fix for the authored get-up floor penetration. |
 | 2026-10-27 | Claude | TALA-IMPORT-AB | Adam played Tala with `?gait=imported` in the game: imported "feels a lot better… definitely more responsive" but needs tweaking. Verdict overrides the provisional reject. Authored stays the default. Next: polish pass on the imported mode, then Adam decides on the default. |
