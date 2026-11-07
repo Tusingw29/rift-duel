@@ -1,3 +1,4 @@
+import {cpuSealOverlay} from './cpu-seal.js';
 import {movementV2} from './movement-v2.js';
 // CPU-V2 playtest guesses (2026-11-06). Opt-in only: ?cpu=v2. Changes CPU decisions, never frame data or damage.
 // Runs every frame on top of the existing CPU decision (which still runs on its own clock):
@@ -39,6 +40,7 @@ const plan=(key,make)=>{if(!plans.has(key))plans.set(key,make());return plans.ge
 // a = CPU fighter (players[1]), b = rival, base = existing CPU decision, random = the CPU's seeded RNG.
 export function cpuV2Overlay(m,a,b,base,random,reach=2.4){
  const diff=['easy','hard'].includes(m.difficulty)?m.difficulty:'normal',i={...base},d=Math.hypot(a.x-b.x,a.z-b.z),owner=m.players.indexOf(b);
+ const sealAnswer=cpuSealOverlay(m,a,b,random,CPU_V2.reactionFrames[diff],diff,reach);if(sealAnswer)return sealAnswer;
  const threat=circleThreat(m,a,owner);
  if(threat){const pl=plan(threat.p,()=>({kind:pick(CPU_V2.circlePlan[diff],random()),seen:m.tick}));
   if(m.tick-pl.seen<CPU_V2.reactionFrames[diff])return i;

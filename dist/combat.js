@@ -1,3 +1,4 @@
+import {configureSeal,prepareCapture,captureReach,captureDamageMultiplier,advanceSeals,sealCommit,tryEscapeDash,advanceEscapeDash} from './capture-seal.js';
 import {configureCaptureWake,updateCaptureWake,rejectWakeCircle,finishRangedCapture,captureDown} from './capture-wake.js';
 import {configureLinear,linearHits,applyLinearMove,meleeContact,linearShots,projectileWidth} from './linear-hits.js';import {configureBurst,burstV2,burstConnects,BURST_V2} from './burst-preview.js';import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
 import {configureGrab,grabOptions,applyGrabTiming} from './grab-options.js';
@@ -40,7 +41,7 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureCaptureWake(configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu),options.capturewake);
+ return configureSeal(configureCaptureWake(configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu),options.capturewake),options);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
@@ -61,7 +62,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
   return false;
  }
  const staggerEligible=!launch&&b.air<=0&&!['knockdown','roll'].includes(b.anim)&&!['capture','burst'].includes(kind);
- if(b.step)cancelStep(b);
+ if(b.step)cancelStep(b);if(b.escapeDash)b.escapeDash=null;
  b.slam=null;b.bounce=null;b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  const hpBefore=b.hp;
  b.hp=Math.max(0,b.hp-damage); b.stun=launch?.82:.32;if(m.balance?.sys[launch?'launchStun':'hitstun']!==undefined)b.stun=m.balance.sys[launch?'launchStun':'hitstun']*STEP; b.air=launch?.85:0;
@@ -82,14 +83,15 @@ export function captureContext(a,b){
  const d=distance(a,b);
  if(d>=6)return 'far';
  if(d>=3.1)return 'mid';
- const dot=(a.x-b.x)*b.lookX+(a.z-b.z)*b.lookZ;
- return dot<-.25?'back':'front';
+ return closeCaptureContext(a,b);
+}
+function closeCaptureContext(a,b){const dot=(a.x-b.x)*b.lookX+(a.z-b.z)*b.lookZ;return dot<-.25?'back':'front';
 }
 function beginCapture(m,a,b,context){
  if(a.step)cancelStep(a);if(b.step)cancelStep(b);
  measured(m,'captureStart',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),guard:b.guard,context});
  clearStagger(b);
- const multiplier=rangedCaptureFlat(m)&&rangedContext(context)?RANGED_CAPTURE.flatMultiplier:{front:1,back:1.2,mid:1.1,far:1.25}[context];
+ const multiplier=captureDamageMultiplier(m,context)??(rangedCaptureFlat(m)&&rangedContext(context)?RANGED_CAPTURE.flatMultiplier:{front:1,back:1.2,mid:1.1,far:1.25}[context]);
  m.cinematic={a:m.players.indexOf(a),b:m.players.indexOf(b),t:0,...capturePresentation(fighters[a.id].id,context),damage:15*matchFighter(m,a).power*multiplier*balanceDamageScale(m,a,{kind:'capture'}),kind:'capture',context,name:fighters[a.id].capture};
  event(m,'cinematic',{text:`${fighters[a.id].capture} / ${context.toUpperCase()}`});
 }
@@ -148,7 +150,7 @@ function action(m,a,b,requested,empowered=false){
   a.move.travel=a.move.crossover?orbitTravel(a,b,CROSSOVER_FRAMES):lineTravel(a,a.move.aimX,a.move.aimZ,2.5,CROSSOVER_FRAMES);
   a.air=(CROSSOVER_FRAMES+12)*STEP;a.inv=.12;
  }
- applyBalanceMove(m,a,a.move);applyGrabTiming(m,a.move);applyMorrowJab(m,a,a.move);applyLinearMove(m,f.id,a.move);
+ applyBalanceMove(m,a,a.move);applyGrabTiming(m,a.move);applyMorrowJab(m,a,a.move);applyLinearMove(m,f.id,a.move);prepareCapture(m,a,b,a.move);
  if(m.balance&&a.move.aerial){
   const push=b.knockback,remainingPush=push?push.distance*(1-push.frame/push.frames)**3:0;
   a.move.glideX=(b.x+(push?.dx||0)*remainingPush-a.x-a.move.aimX*1.6)/a.move.startup;
@@ -248,14 +250,17 @@ function executeActionFrame(m,a,b,move){
  if(kind==='capture'){
   if(b.inv>0)return;
   
-  const close=d<3.1;
-  if(close){if(!meleeContact(m,a,b,move,3.1,true)){if(linearHits(m))move.contactResolved=true;return;}
+  if(move.sealId)return;
+  let close=d<3.1;const reach=move.captureReach??captureReach(m,a);
+  if(move.captureReach!==undefined)close=grabOptions(m).locked?move.captureClose:d<reach;
+  if(close&&d>=reach){move.contactResolved=true;return;}
+  if(close){if(!meleeContact(m,a,b,move,reach,true)){if(linearHits(m))move.contactResolved=true;return;}
    if(balanceCaptureBreak(m,b,BALANCE_CAPTURE_BREAK_DEFAULT)){if(m.balance?.sys.splitGuard&&!grabOptions(m).fresh){b.move=null;b.cool=0;b.pendingInput=null;b.anim='idle';b.animTime=0;b.captureTapTick=-Infinity;}a.move=null;a.buffer=null;a.cool=0;a.stun=.6;measured(m,'captureBreak',{defender:m.players.indexOf(b)});event(m,'hint',{text:'CAPTURE BREAK'});return;}
    if(m.balance)move.contactResolved=true;
-   beginCapture(m,a,b,captureContext(a,b));
+   beginCapture(m,a,b,move.captureClose!==undefined?closeCaptureContext(a,b):captureContext(a,b));
   }else{
    if(m.balance)move.contactResolved=true;
-   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*7,dz:dz*7,life:1.8,owner:m.players.indexOf(a),damage:12*f.power,kind:'capture',context:captureContext(a,b),radius:.65,targetRadius:.65,expandable:true});measured(m,'captureCircleThrown',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),context:captureContext(a,b),distance:d,down:captureDown(b),floor:captureDown(b)&&b.air<=0});event(m,'shot',{color:f.color});
+   m.projectiles.push({x:a.x+dx,z:a.z+dz,dx:dx*7,dz:dz*7,life:1.8,owner:m.players.indexOf(a),damage:12*f.power,kind:'capture',context:move.captureRangeContext??captureContext(a,b),radius:.65,targetRadius:.65,expandable:true});measured(m,'captureCircleThrown',{attacker:m.players.indexOf(a),defender:m.players.indexOf(b),context:move.captureRangeContext??captureContext(a,b),distance:d,down:captureDown(b),floor:captureDown(b)&&b.air<=0});event(m,'shot',{color:f.color});
   }return;
  }
  if(kind==='pursuit'){
@@ -320,7 +325,8 @@ export function update(m,inputs,dt=STEP){
   a.frameCommand=readCommand(a.commands,i,a.prev,1,m.inputTick,v2?{...grabOptions(m),steps:canStartStep(a),stepWindow:MOVE_V2_GUESSES.doubleTapWindow}:grabOptions(m));
   if(m.balance?.sys.splitGuard&&i.capture&&!a.prev.capture)a.captureTapTick=m.tick+1;
   if(a.pendingInput&&a.pendingInput.expires<m.inputTick)a.pendingInput=null;
-  const blocked=m.hitstop>0||a.step||a.move||a.travel||a.stun>0||a.cool>0||a.jumpSquat;
+  if(!m.hitstop)tryEscapeDash(m,a,b,i,a.frameCommand);
+  const blocked=m.hitstop>0||a.escapeDash||a.step||a.move||a.travel||a.stun>0||a.cool>0||a.jumpSquat;
   let kind=null,button='attack';
   if(blocked&&i.attack&&!a.prev.attack)kind=a.commands.attack||'attack';
   if(blocked&&!i.attack&&a.prev.attack&&!a.suppressAttackRelease&&(a.held<=.24||hasStockVariant(a.id,a.commands.attack)))kind=a.commands.attack||'attack';
@@ -347,6 +353,7 @@ export function update(m,inputs,dt=STEP){
  }else{
   m.players.forEach((a,n)=>{
    const i=inputs[n]||neutral(),b=m.players[1-n];
+   if(a.escapeDash)return;
    a.turnDelay=Math.max(0,a.turnDelay-dt);
    if(a.turnDelay===0&&a.stun===0&&!a.move&&!a.travel){const d=distance(a,b)||1;a.lookX=(b.x-a.x)/d;a.lookZ=(b.z-a.z)/d;a.face=b.x>=a.x?1:-1;}
    const recovering=!!a.staggerState,recovery=advanceStagger(a,i,dt);
@@ -380,6 +387,7 @@ export function update(m,inputs,dt=STEP){
     if(a.jumpSquat.started!==m.tick&&++a.jumpSquat.frame>=JUMP_SQUAT_FRAMES){a.jumpSquat=null;a.air=.85;a.inv=.18;a.cool=.25;a.anim='jump';a.animTime=.85;}
     a.prev={...i};return;
    }
+   if(a.escapeDash){advanceEscapeDash(m,a);a.prev={...i};return;}
    const wasAir=a.air;
    for(const k of ['cool','stun','blockStun','air','inv','comboTime','animTime'])a[k]=a[k]-dt<1e-9?0:a[k]-dt;
    if(a.slam)a.slam.frame++;
@@ -421,7 +429,7 @@ export function update(m,inputs,dt=STEP){
     }
     if(a.buffer&&a.buffer.expires<m.tick)a.buffer=null;
     if(a.buffer&&!a.move&&a.cool<=0){const buffered=a.buffer;a.buffer=null;action(m,a,b,buffered.kind,buffered.empowered);}
-    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=f.speed*(a.move?.travel&&a.move.frame<a.move.startup?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
+    const len=Math.max(1,Math.hypot(i.x,i.z)),speed=(sealCommit(a)?0:f.speed)*(a.move?.travel&&a.move.frame<a.move.startup?0:1)*(a.blockStun>0?0:1)*(a.move?.12:1)*(a.guard?.25:1)*(i.attack?.35:1);
     // Lock-on movement: x closes or retreats along the line to the rival, z circles.
     if(v2)walks[n]={x:i.x,z:i.z,scale:speed*dt/len};else{const fx=a.lookX,fz=a.lookZ;moveWithinBounds(a,(i.x*fx-i.z*fz)/len*speed*dt,(i.x*fz+i.z*fx)/len*speed*dt,true);}
     if((i.x||i.z)&&a.anim==='idle')a.anim='run';
@@ -453,7 +461,7 @@ export function update(m,inputs,dt=STEP){
    if(move.aerial&&move.frame<=move.startup){
     moveWithinBounds(a,move.glideX,move.glideZ);
    }
-   if(move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
+   if(!move.sealId&&move.frame>=move.startup&&move.frame<move.startup+move.active)contacts.push({a,b:m.players[1-m.players.indexOf(a)],move});
    if(move.frame>=move.total){a.move=null;a.cool=0;a.anim='idle';}
   }
   if(v2)applyLiveMovement(m,walks);
@@ -464,6 +472,7 @@ export function update(m,inputs,dt=STEP){
   const [a,b]=m.players,d=distance(a,b);
   if(d<1.2){const dx=(b.x-a.x)/(d||1)||1,dz=(b.z-a.z)/(d||1);a.x-=dx*(1.2-d)/2;b.x+=dx*(1.2-d)/2;a.z-=dz*(1.2-d)/2;b.z+=dz*(1.2-d)/2;}
   for(const p of m.players)constrainPosition(p);
+  advanceSeals(m,beginCapture);
   for(const p of m.projectiles){p.x+=p.dx*dt;p.z+=p.dz*dt;p.life-=dt;advanceCapture(p,dt);}
   if(captureClashes(m.projectiles))event(m,'hint',{text:'CAPTURE CIRCLES CANCELLED'});
   updateCaptureWake(m);

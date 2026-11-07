@@ -1,0 +1,53 @@
+name: CAPTURE-SEAL preview checks
+on:
+  push:
+    branches: [codex/capture-seal]
+    paths: ['dist/**', 'tests/capture-seal*', 'scripts/capture-seal/**', 'scripts/review/capture-seal.mjs', 'scripts/skill/bots/**', 'scripts/balance/extract.mjs', '.github/workflows/capture-seal.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  study:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [baseline, locked, reach, slow16, seal, dash, damage, full]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/capture-seal/study.mjs --mode=${{ matrix.mode }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seal-study-${{ matrix.mode }}
+          path: art/review-2026-11-06/capture-seal/study-${{ matrix.mode }}.json.gz
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/run-tests.mjs
+      - run: npm run prepare:release
+      - run: node scripts/capture-seal/fixtures.mjs
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 4226 --bind :: > /tmp/seal-http.log 2>&1 &
+      - run: node scripts/review/capture-seal.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4226/dist
+          SHOTS: /tmp/seal-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: seal-browser
+          path: /tmp/seal-browser/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: seal-fixtures
+          path: |
+            art/review-2026-11-06/capture-seal/fixtures.json
+            art/review-2026-11-06/capture-seal/dash-budgets.md

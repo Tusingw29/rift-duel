@@ -1,3 +1,13 @@
+## CAPTURE-SEAL — committed captures and earned approach
+
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.
+
+**Adam’s decisions (2026-11-06):** escaping earns a free dash in; captures pay more at closer range; close-grab locking/reach/16f startup comparisons are included. No default promotion.
+
+- [ ] Independent grab, seal/dash and close-high damage switches; renderer-readable seal state, no renderer edits.
+- [ ] CPU v2 escape/break/punish; all-pair reaction, dash-budget and mixed-use fixtures.
+- [ ] Real CPU and mirrored skilled/mash studies, frozen replays, tests and browser checks; Review awaits normal-speed verdict.
+
 ## CAPTURE-LOOP — break ranged-capture wake-up repetition
 
 Owner: **Codex** · Branch: `codex/capture-loop` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on `claude/ranged-capture` (`0d6f9c8`). No close-capture task exists; this task covers ranged loops only. Lane: combat hooks, opt-in configuration, passive telemetry, real-CPU studies, recorder compatibility. Claude's rig/pose/model/animation files and CPU decision policy untouched.

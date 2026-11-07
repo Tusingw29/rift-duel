@@ -1,6 +1,6 @@
 export const GRAB_HOLD_FRAMES=8; // Playtest guess: held input frames before the attack press.
 // Preview configuration lives outside simulation state: tell cannot alter a replay.
-export const GRAB_OPTIONS=Object.freeze(['slow','tell','deliberate','fresh','hold']);
+export const GRAB_OPTIONS=Object.freeze(['slow','tell','deliberate','fresh','hold','locked','reach','slow16']);
 const configs=new WeakMap(),empty=Object.freeze({});
 export function parseGrabOptions(value=''){const names=typeof value==='string'?value.split(',').map(s=>s.trim()).filter(Boolean):Object.keys(value||{}).filter(k=>value[k]);for(const name of names)if(!GRAB_OPTIONS.includes(name))throw Error('Unknown grab option: '+name);return Object.freeze(Object.fromEntries(names.map(n=>[n,true])));}
 export function configureGrab(m,value){const options=parseGrabOptions(value);if(Object.keys(options).length)configs.set(m,options);return m;}

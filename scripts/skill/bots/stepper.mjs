@@ -1,7 +1,10 @@
+import {sealDefence} from './seal-defence.mjs';
 import {incomingSoon,recovering} from './common.mjs';
-export const directionalAttacks=[];
+// Forward+attack is intentional only for the public seal-escape dash reward.
+export const directionalAttacks=['forward'];
 // Decisions use delayed visible observations and our own input history only.
 export default c=>{
+ const seal=sealDefence(c);if(seal)return seal;
  const {memory,frame,rival,d,self}=c;
  if(memory.stepAt!==undefined){const age=frame-memory.stepAt;if(age===1)return {};if(age===2)return {x:-1};if(age<23)return {};delete memory.stepAt;}
  const threat=rival.move&&rival.move.phase!=='recovery'&&['strike','capture','launch'].includes(rival.move.kind)&&d<rival.reach+1;

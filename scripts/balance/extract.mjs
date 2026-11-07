@@ -55,7 +55,7 @@ const PATTERNS={
  jump:/if\(d<([\d.]+)&&b\.inv<=0\)\{\s*(?:if\(m\.balance\)move\.contactResolved=true;\s*)?move\.connected=hit\(m,a,b,(\d+)\*f\.power\);\s*if\(move\.crossover\)b\.turnDelay=([\d.]+)/,
  burstRange:/burstConnects\(a,b,move\):d<=(\d+)&&b\.inv<=0/,
  burstDamage:/damage:(\d+)\*f\.power,kind:'super'/,
- captureClose:/const close=d<([\d.]+)/,
+ captureClose:/(?:const|let) close=d<([\d.]+)/,
  captureBreak:/BALANCE_CAPTURE_BREAK_DEFAULT=([\d.]+)/,
  pursuit:/if\(d<([\d.]+)&&facing\)\{\s*const punish/,
  pursuitDamage:/\(punish\?(\d+):(\d+)\)\*f\.power/,

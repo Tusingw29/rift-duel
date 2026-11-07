@@ -1,0 +1,462 @@
+{
+  "inputs": [
+    {
+      "mode": "baseline",
+      "tick": 238,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "",
+      "grab": {},
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "locked",
+      "tick": 238,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "",
+      "grab": {
+        "locked": true
+      },
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "reach",
+      "tick": 238,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "",
+      "grab": {
+        "locked": true,
+        "reach": true
+      },
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "slow16",
+      "tick": 238,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "",
+      "grab": {
+        "locked": true,
+        "slow16": true
+      },
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "seal",
+      "tick": 229,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "on",
+      "grab": {},
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "dash",
+      "tick": 229,
+      "hp": [
+        100,
+        84.7
+      ],
+      "seal": "dash,on",
+      "grab": {},
+      "capdmg": "",
+      "replayVerified": true
+    },
+    {
+      "mode": "damage",
+      "tick": 238,
+      "hp": [
+        100,
+        88.525
+      ],
+      "seal": "",
+      "grab": {},
+      "capdmg": "closehigh",
+      "replayVerified": true
+    },
+    {
+      "mode": "full",
+      "tick": 229,
+      "hp": [
+        100,
+        88.525
+      ],
+      "seal": "dash,on",
+      "grab": {
+        "locked": true,
+        "reach": true,
+        "slow16": true
+      },
+      "capdmg": "closehigh",
+      "replayVerified": true
+    }
+  ],
+  "captures": [
+    {
+      "phase": "warning",
+      "camera": "duel",
+      "tick": 25,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 2.3333333333333335,
+          "frame": 24,
+          "framesLeft": 30,
+          "escaped": false,
+          "status": "closing",
+          "started": 1,
+          "context": "far",
+          "resolved": null
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 8.007107953423494,
+      "punishRemaining": 50,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-warning-duel-1794010030054.jpg"
+    },
+    {
+      "phase": "warning",
+      "camera": "lock",
+      "tick": 25,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 2.3333333333333335,
+          "frame": 24,
+          "framesLeft": 30,
+          "escaped": false,
+          "status": "closing",
+          "started": 1,
+          "context": "far",
+          "resolved": null
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 8.007107953423494,
+      "punishRemaining": 50,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-warning-lock-1794010030054.jpg"
+    },
+    {
+      "phase": "escape",
+      "camera": "duel",
+      "tick": 40,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 1.9444444444444444,
+          "frame": 38,
+          "framesLeft": 0,
+          "escaped": true,
+          "status": "escaped",
+          "started": 1,
+          "context": "far",
+          "resolved": 39
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 8.017048500955115,
+      "reward": {
+        "caster": 1,
+        "seal": 1,
+        "earned": 39,
+        "expires": 69
+      },
+      "punishRemaining": 82,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-escape-duel-1794010030054.jpg"
+    },
+    {
+      "phase": "escape",
+      "camera": "lock",
+      "tick": 40,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 1.9444444444444444,
+          "frame": 38,
+          "framesLeft": 0,
+          "escaped": true,
+          "status": "escaped",
+          "started": 1,
+          "context": "far",
+          "resolved": 39
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 8.017048500955115,
+      "reward": {
+        "caster": 1,
+        "seal": 1,
+        "earned": 39,
+        "expires": 69
+      },
+      "punishRemaining": 82,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-escape-lock-1794010030054.jpg"
+    },
+    {
+      "phase": "dash",
+      "camera": "duel",
+      "tick": 53,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 1.9444444444444444,
+          "frame": 38,
+          "framesLeft": 0,
+          "escaped": true,
+          "status": "escaped",
+          "started": 1,
+          "context": "far",
+          "resolved": 39
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 5.217048500955113,
+      "escapeDash": {
+        "caster": 1,
+        "aimX": 0.9493439915650234,
+        "aimZ": -0.314238739940493,
+        "distance": 5.8170485009551145,
+        "travelled": 2.8000000000000003,
+        "frame": 12,
+        "frames": 25,
+        "started": 41
+      },
+      "punishRemaining": 69,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-dash-duel-1794010030054.jpg"
+    },
+    {
+      "phase": "dash",
+      "camera": "lock",
+      "tick": 53,
+      "seals": [
+        {
+          "id": 1,
+          "owner": 1,
+          "target": 0,
+          "x": -4,
+          "z": 0,
+          "centre": {
+            "x": -4,
+            "z": 0
+          },
+          "radius": 1.9444444444444444,
+          "frame": 38,
+          "framesLeft": 0,
+          "escaped": true,
+          "status": "escaped",
+          "started": 1,
+          "context": "far",
+          "resolved": 39
+        }
+      ],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 5.217048500955113,
+      "escapeDash": {
+        "caster": 1,
+        "aimX": 0.9493439915650234,
+        "aimZ": -0.314238739940493,
+        "distance": 5.8170485009551145,
+        "travelled": 2.8000000000000003,
+        "frame": 12,
+        "frames": 25,
+        "started": 41
+      },
+      "punishRemaining": 69,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-dash-lock-1794010030054.jpg"
+    },
+    {
+      "phase": "arrival",
+      "camera": "duel",
+      "tick": 66,
+      "seals": [],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 2.1999999999999993,
+      "escapeDash": null,
+      "punishRemaining": 56,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-arrival-duel-1794010030054.jpg"
+    },
+    {
+      "phase": "arrival",
+      "camera": "lock",
+      "tick": 66,
+      "seals": [],
+      "hp": [
+        100,
+        100
+      ],
+      "gap": 2.1999999999999993,
+      "escapeDash": null,
+      "punishRemaining": 56,
+      "models": [
+        {
+          "id": "tala",
+          "status": "graphic"
+        },
+        {
+          "id": "morrow",
+          "status": "v3"
+        }
+      ],
+      "file": "seal-arrival-lock-1794010030054.jpg"
+    }
+  ],
+  "keyboardEscape": {
+    "reservedFrames": 55,
+    "hp": [
+      100,
+      93.88
+    ],
+    "replayVerified": true
+  },
+  "errors": [],
+  "passed": true
+}
