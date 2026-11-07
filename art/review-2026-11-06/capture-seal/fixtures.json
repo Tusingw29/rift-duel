@@ -131,6 +131,26 @@
     },
     {
       "caster": "aegis",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "aegis",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -207,6 +227,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "aegis",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -291,6 +331,26 @@
     },
     {
       "caster": "aegis",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "aegis",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -367,6 +427,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "aegis",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -451,6 +531,26 @@
     },
     {
       "caster": "aegis",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "aegis",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -527,6 +627,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "aegis",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     },
     {
@@ -611,6 +731,26 @@
     },
     {
       "caster": "rei",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "rei",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -687,6 +827,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "rei",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -771,6 +931,26 @@
     },
     {
       "caster": "rei",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "rei",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -847,6 +1027,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "rei",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -931,6 +1131,26 @@
     },
     {
       "caster": "rei",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "rei",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -1007,6 +1227,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "rei",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     },
     {
@@ -1091,6 +1331,26 @@
     },
     {
       "caster": "tala",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "tala",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -1167,6 +1427,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "tala",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -1251,6 +1531,26 @@
     },
     {
       "caster": "tala",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "tala",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -1327,6 +1627,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "tala",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -1411,6 +1731,26 @@
     },
     {
       "caster": "tala",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "tala",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -1487,6 +1827,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "tala",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     },
     {
@@ -1571,6 +1931,26 @@
     },
     {
       "caster": "morrow",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "morrow",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -1647,6 +2027,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "morrow",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -1731,6 +2131,26 @@
     },
     {
       "caster": "morrow",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "morrow",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -1807,6 +2227,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "morrow",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -1891,6 +2331,26 @@
     },
     {
       "caster": "morrow",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "morrow",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -1967,6 +2427,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "morrow",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     },
     {
@@ -2051,6 +2531,26 @@
     },
     {
       "caster": "sol",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "sol",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -2127,6 +2627,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "sol",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -2211,6 +2731,26 @@
     },
     {
       "caster": "sol",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "sol",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -2287,6 +2827,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "sol",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -2371,6 +2931,26 @@
     },
     {
       "caster": "sol",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "sol",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -2447,6 +3027,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "sol",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     },
     {
@@ -2531,6 +3131,26 @@
     },
     {
       "caster": "vesper",
+      "escaper": "aegis",
+      "initialDistance": 20,
+      "escapeTick": 43,
+      "activationDelay": 29,
+      "started": {
+        "tick": 72,
+        "flightFrames": 75,
+        "distance": 17.339921958292997
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.5499999999999803,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
+      }
+    },
+    {
+      "caster": "vesper",
       "escaper": "rei",
       "initialDistance": 6,
       "escapeTick": 40,
@@ -2607,6 +3227,26 @@
         "punishFramesAfterTick": 16,
         "casterTotal": 135,
         "casterFrame": 119
+      }
+    },
+    {
+      "caster": "vesper",
+      "escaper": "rei",
+      "initialDistance": 20,
+      "escapeTick": 40,
+      "activationDelay": 29,
+      "started": {
+        "tick": 69,
+        "flightFrames": 73,
+        "distance": 16.837051627592935
+      },
+      "arrival": {
+        "tick": 142,
+        "distance": 3.049999999999982,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 168,
+        "casterFrame": 141
       }
     },
     {
@@ -2691,6 +3331,26 @@
     },
     {
       "caster": "vesper",
+      "escaper": "tala",
+      "initialDistance": 20,
+      "escapeTick": 39,
+      "activationDelay": 29,
+      "started": {
+        "tick": 68,
+        "flightFrames": 76,
+        "distance": 17.680496010614533
+      },
+      "arrival": {
+        "tick": 144,
+        "distance": 2.1999999999999824,
+        "punishFrames": 30,
+        "punishFramesAfterTick": 29,
+        "casterTotal": 172,
+        "casterFrame": 143
+      }
+    },
+    {
+      "caster": "vesper",
       "escaper": "morrow",
       "initialDistance": 6,
       "escapeTick": 48,
@@ -2767,6 +3427,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "vesper",
+      "escaper": "morrow",
+      "initialDistance": 20,
+      "escapeTick": 48,
+      "activationDelay": 29,
+      "started": {
+        "tick": 77,
+        "flightFrames": 72,
+        "distance": 16.696233112274676
+      },
+      "arrival": {
+        "tick": 149,
+        "distance": 3.1999999999999864,
+        "punishFrames": 25,
+        "punishFramesAfterTick": 24,
+        "casterTotal": 172,
+        "casterFrame": 148
       }
     },
     {
@@ -2851,6 +3531,26 @@
     },
     {
       "caster": "vesper",
+      "escaper": "sol",
+      "initialDistance": 20,
+      "escapeTick": 41,
+      "activationDelay": 29,
+      "started": {
+        "tick": 70,
+        "flightFrames": 76,
+        "distance": 17.588318887429573
+      },
+      "arrival": {
+        "tick": 146,
+        "distance": 2.299999999999985,
+        "punishFrames": 28,
+        "punishFramesAfterTick": 27,
+        "casterTotal": 172,
+        "casterFrame": 145
+      }
+    },
+    {
+      "caster": "vesper",
       "escaper": "vesper",
       "initialDistance": 6,
       "escapeTick": 44,
@@ -2927,6 +3627,26 @@
         "punishFramesAfterTick": 15,
         "casterTotal": 138,
         "casterFrame": 123
+      }
+    },
+    {
+      "caster": "vesper",
+      "escaper": "vesper",
+      "initialDistance": 20,
+      "escapeTick": 44,
+      "activationDelay": 29,
+      "started": {
+        "tick": 73,
+        "flightFrames": 74,
+        "distance": 17.243847381138245
+      },
+      "arrival": {
+        "tick": 147,
+        "distance": 2.649999999999977,
+        "punishFrames": 27,
+        "punishFramesAfterTick": 26,
+        "casterTotal": 172,
+        "casterFrame": 146
       }
     }
   ],
