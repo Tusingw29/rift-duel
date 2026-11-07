@@ -1,3 +1,13 @@
+## REVERSAL-AIR — linear reversal and airborne recovery lockouts
+
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Addendum to CAPTURE-SEAL. Lane: linear reversal contact, opt-in airlock configuration, recorder, timing audits and tests. Claude's animation/model/rig files untouched. No default promotion.
+
+- [x] Repair reversal hit-width under `step=linear`; compare actual damage.
+- [x] Independent `airlock=12` / `20` launch lockouts; measure 15f reaction and attacker reads by fighter.
+- [x] Re-run OPTIONS-AUDIT, default fingerprint, full tests and browser recording checks; Review awaits Adam's verdict.
+
+**Evidence:** [Review and recording links](https://github.com/Tusingw29/rift-duel/blob/codex/capture-seal/art/review-2026-11-06/reversal-air/README.md). Build `f7116242389d`. 878 tests pass; default fingerprint, numeric roster and frozen replay checks unchanged. Browser keyboard/default/12/20 recordings replay exactly; zero page errors. Corrected audit confirms all six launches before testing air choices; old D25/30 headline included grounded cases. Reversal returns D30/30. All six fighters can react after unlock: 12f takes one pursuit hit, 20f takes two. 3,480 full timelines. Cloud verification pending; server **4226**.
+
 ## CAPTURE-SEAL — committed captures and earned approach
 
 Owner: **Codex** · Branch: `codex/capture-seal` · Status: **Review, awaiting Adam’s normal-speed verdict** (2026-11-06). Based on capture-loop `111c0bd`. Lane: opt-in combat/input hooks, seal state contract, CPU v2, measurement and replay. Renderer/animation/model files remain Claude's lane.

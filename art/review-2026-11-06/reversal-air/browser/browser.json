@@ -1,0 +1,30 @@
+{
+  "cases": [
+    {
+      "url": "http://127.0.0.1:4226/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1",
+      "lock": 0,
+      "early": "recover",
+      "afterUnlock": "recover",
+      "replayVerified": true,
+      "ticks": 258
+    },
+    {
+      "url": "http://127.0.0.1:4226/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1&airlock=12",
+      "lock": 12,
+      "early": "launch",
+      "afterUnlock": "recover",
+      "replayVerified": true,
+      "ticks": 271
+    },
+    {
+      "url": "http://127.0.0.1:4226/dist/index.html?move=v2&arena=ring&burst=v2&step=linear&controls=side&record=1&airlock=20",
+      "lock": 20,
+      "early": "launch",
+      "afterUnlock": "recover",
+      "replayVerified": true,
+      "ticks": 279
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

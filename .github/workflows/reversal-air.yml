@@ -1,0 +1,38 @@
+name: REVERSAL-AIR preview checks
+on:
+  push:
+    branches: [codex/capture-seal]
+    paths: ['dist/**', 'tests/reversal-air*', 'tests/options-audit*', 'scripts/reversal-air/**', 'scripts/options-audit/**', 'scripts/review/reversal-air.mjs', '.github/workflows/reversal-air.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: node scripts/run-tests.mjs
+      - run: npm run prepare:release
+      - run: |
+          node scripts/reversal-air/measure.mjs /tmp/air-audit
+          node scripts/options-audit/audit.mjs /tmp/air-audit/no-lock
+          node scripts/options-audit/audit.mjs /tmp/air-audit/airlock12 --opts=airlock=12
+          node scripts/options-audit/audit.mjs /tmp/air-audit/airlock20 --opts=airlock=20
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 pngjs@7.0.0 jpeg-js@0.4.4
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 4226 --bind :: > /tmp/air-http.log 2>&1 &
+      - run: node scripts/review/reversal-air.mjs
+        env:
+          RIFT_TOOLS: ${{ github.workspace }}
+          RIFT_BASE: http://127.0.0.1:4226/dist
+          SHOTS: /tmp/air-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reversal-air-evidence
+          path: |
+            /tmp/air-audit/
+            /tmp/air-browser/

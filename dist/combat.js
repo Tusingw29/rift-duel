@@ -1,3 +1,4 @@
+import {configureAirlock,recordAirLaunch,airRecoveryAvailable} from './air-recovery-lock.js';
 import {configureSeal,prepareCapture,captureReach,captureDamageMultiplier,advanceSeals,sealCommit,tryEscapeDash,advanceEscapeDash} from './capture-seal.js';
 import {configureCaptureWake,updateCaptureWake,rejectWakeCircle,finishRangedCapture,captureDown} from './capture-wake.js';
 import {configureLinear,linearHits,applyLinearMove,meleeContact,linearShots,projectileWidth} from './linear-hits.js';import {configureBurst,burstV2,burstConnects,BURST_V2} from './burst-preview.js';import {configureArena,moveWithinBounds,constrainPosition} from './arena-bounds.js';import {configureMorrow,applyMorrowJab} from './morrow-preview.js';import {configureMovement,MOVE_V2_GUESSES,movementV2,canStartStep,startStep,cancelStep,applyLiveMovement} from './movement-v2.js';
@@ -41,14 +42,14 @@ export const hasStockVariant=(id,command)=>!!stockSpecials[fighters[id]?.id]?.[c
 export function createMatch(a=0,b=1,mode='duel',difficulty='normal',options={}) {
  const rules=normalizeOptions(options);
  const fighter=(id,x)=>({...freshStagger(),id,x,z:0,hp:100,stocks:1,charge:0,cool:0,stun:0,blockStun:0,air:0,launched:false,roll:null,travel:null,inv:0,guard:false,guardTime:0,guardTapTick:-Infinity,held:0,prev:neutral(),combo:0,comboTime:0,anim:'idle',animTime:0,face:x<0?1:-1,lookX:x<0?1:-1,lookZ:0,turnDelay:0,commands:createCommandState(),move:null,buffer:null,slam:null,bounce:null,pendingInput:null,jumpSquat:null,getUp:null,knockdown:null,knockback:null});
- return configureSeal(configureCaptureWake(configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu),options.capturewake),options);
+ return configureAirlock(configureSeal(configureCaptureWake(configureCpu(configureRangedCapture(configureLinear(configureBurst(configureMorrow(configureArena(configureMovement(configureGrab({...(options.balance?{balance:JSON.parse(JSON.stringify(options.balance))}:{}),players:[fighter(a,-4),fighter(b,4)],projectiles:[],events:[],rules:{roundSeconds:rules.roundSeconds,winsNeeded:rules.winsNeeded,pressureAssist:rules.pressureAssist},time:rules.roundSeconds,tick:0,inputTick:0,hitstop:0,phase:'fight',winner:null,mode,difficulty,cinematic:null,aiClock:0,ai:neutral()},options.grab),options.movement),options),options.morrow),options.burst),options.step),options.rangedcap),options.cpu),options.capturewake),options),options.airlock);
 }
 function event(m,type,values={}){m.events.push({type,...values});}
 function distance(a,b){return Math.hypot(a.x-b.x,a.z-b.z);}
 export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
  if(b.inv>0||b.hp<=0)return false;
  if(kind==='hit'&&!launch&&a.air<=0&&reversalEligible(b,sourceMove,m.tick)){
-  beginReversal(a,b,m.tick);applyBalanceMove(m,b,b.move);b.cool=b.move.total*STEP;b.animTime=b.cool;
+  beginReversal(a,b,m.tick);applyBalanceMove(m,b,b.move);applyLinearMove(m,fighters[b.id].id,b.move);b.cool=b.move.total*STEP;b.animTime=b.cool;
   event(m,'reversal',{player:m.players.indexOf(b),x:b.x,z:b.z,color:fighters[b.id].color});
   return false;
  }
@@ -62,6 +63,7 @@ export function hit(m,a,b,damage,kind='hit',launch=false,sourceMove=null){
   return false;
  }
  const staggerEligible=!launch&&b.air<=0&&!['knockdown','roll'].includes(b.anim)&&!['capture','burst'].includes(kind);
+ if(launch)recordAirLaunch(m,b);
  if(b.step)cancelStep(b);if(b.escapeDash)b.escapeDash=null;
  b.slam=null;b.bounce=null;b.jumpSquat=null;b.getUp=null;b.knockdown=null;b.knockback=null;b.pendingInput=null;b.counterWindow=0;b.travel=null;b.move=null;b.buffer=null;b.roll=null;b.launched=launch;b.cool=0;b.blockStun=0;if(m.cinematic?.a===m.players.indexOf(b))m.cinematic=null;
  const hpBefore=b.hp;
@@ -372,7 +374,7 @@ export function update(m,inputs,dt=STEP){
    if(a.jumpSquat)return;
    if(freshGuard&&!a.step&&a.stun<=0&&a.air<=0&&!a.move&&!a.travel)a.guardTapTick=m.tick;
    const getup=recoveryInput(a,b,i);if(getup){a.commands=createCommandState();event(m,'hint',{text:getup,player:n});}
-   if(freshGuard&&a.air>0&&!a.bounce&&!a.slam){a.travel=null;a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
+   if(freshGuard&&a.air>0&&!a.bounce&&!a.slam&&airRecoveryAvailable(m,a)){a.travel=null;a.move=null;a.buffer=null;a.launched=false;a.air=.16;a.stun=0;a.inv=.25;a.cool=.2;a.anim='recover';a.animTime=.25;event(m,'hint',{text:'AIR RECOVERY',player:n});}
    else if(!a.step&&(command==='jump'||a.pendingInput?.kind==='jump')&&a.air<=0&&a.stun<=0&&a.cool<=0&&!a.move){a.jumpSquat={frame:0,frames:JUMP_SQUAT_FRAMES,started:m.tick};a.pendingInput=null;a.air=0;a.anim='jumpSquat';a.animTime=JUMP_SQUAT_FRAMES*STEP;a.guard=false;event(m,'hint',{text:'JUMP',player:n});}
    else if(!a.step&&(freshGuard&&i.x>.5&&distance(a,b)<3.5||a.pendingInput?.kind==='circle')&&a.stun<=0&&a.cool<=0&&!a.move){
     a.pendingInput=null;

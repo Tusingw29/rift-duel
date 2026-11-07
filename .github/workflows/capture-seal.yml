@@ -1,8 +1,5 @@
 name: CAPTURE-SEAL preview checks
 on:
-  push:
-    branches: [codex/capture-seal]
-    paths: ['dist/**', 'tests/capture-seal*', 'scripts/capture-seal/**', 'scripts/review/capture-seal.mjs', 'scripts/skill/bots/**', 'scripts/balance/extract.mjs', '.github/workflows/capture-seal.yml']
   workflow_dispatch:
 permissions:
   contents: read
