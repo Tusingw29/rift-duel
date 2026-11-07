@@ -1,5 +1,5 @@
 import {ringArena,arenaRadius,ARENA_RADIUS} from './arena-bounds.js';import {createBoundaryRing} from './arena-boundary-visual.js';
-import {restoreGrabTell,applyGrabTell} from './grab-tell.js';
+import {restoreGrabTell,applyGrabTell} from './grab-tell.js';import {createSealVisuals} from './seal-visual.js';
 import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
 import {createInkRing} from './ink-energy.js';
@@ -28,7 +28,7 @@ export function createView(canvas,options={}){
  let talaModel=options.talaModel||'concept',renderQuality='high';
  const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
  const scene=new T.Scene();scene.background=new T.Color('#10191c');scene.fog=new T.FogExp2('#10191c',.023);
- let boundaryRing=null;
+ let boundaryRing=null,sealFX=null;
  const camera=new T.PerspectiveCamera(40,1,.1,130);camera.position.set(14,9,18);
  const {hemisphere,sun,rim}=createLighting(scene);
  // Image-based lighting: a prefiltered studio tinted toward each arena's sky and ground.
@@ -63,7 +63,7 @@ export function createView(canvas,options={}){
   model.techniqueRing=createInkRing(energyStyle(id).color);model.techniqueRing.position.y=1.2;model.techniqueRing.visible=false;model.g.add(model.techniqueRing);
   scene.add(model.g);return model;
  }
- function clear(){impactFX.reset();beamFX.reset();attackFX.reset();burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
+ function clear(){sealFX?.reset();impactFX.reset();beamFX.reset();attackFX.reset();burstFX.reset();trailFX.reset();lastShot=null;lastCue=null;for(const r of models){r.conceptPending=false;scene.remove(r.g);disposeSkeletons(r.g);r.g.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});}models.length=0;}
  function select(id){selection=id;clear();models.push(rig(id));models[0].g.scale.setScalar(1.6);models[0].g.position.set(3.5,0,0);arena(id);}
  function match(m,arenaIndex){delete duelState.dx;delete duelState.dz;clear();m.players.forEach(p=>models.push(rig(p.id)));arena(Number.isInteger(arenaIndex)?arenaIndex:m.players[1].id);}
  function burst(x,z,color,count=14){for(let j=0;j<count;j++){const mesh=new T.Mesh(new T.OctahedronGeometry(.08),new T.MeshBasicMaterial({color}));mesh.position.set(x,1.5,z);scene.add(mesh);sparks.push({mesh,vel:v((Math.random()-.5)*8,Math.random()*7,(Math.random()-.5)*8),life:.4+Math.random()*.3});}}
@@ -84,7 +84,7 @@ export function createView(canvas,options={}){
   const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25)*zoom;pos.set(target.x-dz*back-dx*2*zoom,(3+airHeight*.5+distance*.035)*(.6+.4*zoom),target.z+dx*back-dz*2*zoom);
  }
  function render(dt,m,settings,cue=null){
-  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(boundaryRing){boundaryRing.visible=ringArena(m);boundaryRing.scale.set(arenaRadius(m)/ARENA_RADIUS,1,arenaRadius(m)/ARENA_RADIUS);}
+  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(m?.seals&&!sealFX){sealFX=createSealVisuals();scene.add(sealFX.group);}sealFX?.update(m,settings,n=>fighters[m.players[n].id].color);if(boundaryRing){boundaryRing.visible=ringArena(m);boundaryRing.scale.set(arenaRadius(m)/ARENA_RADIUS,1,arenaRadius(m)/ARENA_RADIUS);}
   if(m?.hitstop>0||m?.frozen)dt=0;
   time+=dt;stage?.update(time);
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
