@@ -1,3 +1,11 @@
+## REVERSAL-AIR — linear reversal and airborne recovery lockouts
+
+Owner: **Codex** · Branch: `codex/capture-seal` · Status: **In progress** (2026-11-06). Addendum to CAPTURE-SEAL. Lane: linear reversal contact, opt-in airlock configuration, recorder, timing audits and tests. Claude's animation/model/rig files untouched. No default promotion.
+
+- [ ] Repair reversal hit-width under `step=linear`; compare actual damage.
+- [ ] Independent `airlock=12` / `20` launch lockouts; measure 15f reaction and attacker reads by fighter.
+- [ ] Re-run OPTIONS-AUDIT, default fingerprint, full tests and browser recording checks; Review awaits Adam's verdict.
+
 ## OPTIONS-AUDIT — what beats what, per situation
 
 Owner: **Claude** · Branch: `claude/options-audit` · Worktree: `~/rift-worktrees/options-audit` · Status: **Review, awaiting Adam** (2026-11-06). Based on capture-loop `15d89ef`. Analysis only: deterministic fixtures and reaction-check, no gameplay, CPU or animation changes. Adam asked for depth in the existing Evil Zone mechanics; this audit tests whether each situation (far, middle, close, chain third hit, wake-up, air) is a real guess — every option has an answer that arrives in time — and lists the holes for Codex and the tells for Claude.
