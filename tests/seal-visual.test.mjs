@@ -41,3 +41,37 @@ test('renderer is read-only: updating visuals does not change the simulation',()
  const run=draw=>{const m=setup({seal:'on,dash'}),v=createSealVisuals();for(let n=0;n<120;n++){tick(m,{capture:n===0},{x:1,z:n<40?1:0});if(draw)v.update(m);}return JSON.stringify(m.players.map(p=>[p.x,p.z,p.hp]));};
  assert.equal(run(true),run(false));
 });
+
+// Seal-bind finish (render-only staging of a caught seal).
+import {sealCatchOf,sealBindPhases} from '../dist/seal-finish.js';
+import {stagedCapturePose} from '../dist/captures.js';
+function catchSeal(){const m=setup({seal:'on'});tick(m,{capture:true});for(let n=0;n<200&&!m.cinematic;n++)tick(m);return m;}
+test('a caught seal is recognised as the source of the capture cinematic for its whole length',()=>{
+ const m=catchSeal();assert.ok(m.cinematic,'idle target is caught');assert.equal(m.seals[0].status,'caught');
+ let frames=0;while(m.cinematic){assert.equal(sealCatchOf(m)?.id,m.seals[0].id);tick(m);frames++;}
+ assert.ok(frames>30);assert.equal(sealCatchOf(m),null);
+});
+test('an ordinary close capture is not staged as a seal bind',()=>{
+ const m=setup({grab:'locked'},1.2);for(let n=0;n<30&&!m.cinematic;n++)tick(m,{capture:n===0});
+ if(m.cinematic)assert.equal(sealCatchOf(m),null);
+ const s=setup({seal:'on'});tick(s,{capture:true});assert.equal(sealCatchOf(s),null,'no cinematic while closing');
+});
+test('seal bind lifts and holds the target, then slams it down and stays down',()=>{
+ const a={x:-4,z:0},b={x:4,z:0},pose=t=>stagedCapturePose('tala',{profile:'seal-bind',t,duration:1,seal:{x:4.2,z:.1}},a,b);
+ assert.ok(pose(.4).victim.y>1.2,'held in the pillar');assert.ok(pose(.4).effects.seal.height>4);
+ const end=pose(1);assert.ok(end.victim.tilt>1,'still flat at the end');assert.equal(end.effects.seal.height,0);
+ assert.ok(pose(.4).actor.rightArm<-2,'caster hand raised');assert.ok(pose(.75).actor.rightArm>-1,'hand driven down');
+ for(const t of [0,.25,.5,.75,1])for(const k of ['x','y','z','tilt','roll','yaw','arm'])assert.ok(Number.isFinite(pose(t).victim[k])&&Number.isFinite(pose(t).actor[k]));
+ assert.ok(sealBindPhases(.7).shock>0&&sealBindPhases(.85).shock<1);
+});
+test('bind visuals show only during a seal catch and the closing ring hides behind them',()=>{
+ const m=catchSeal(),v=createSealVisuals(),s=sealCatchOf(m);
+ const look=stagedCapturePose('tala',{...m.cinematic,profile:'seal-bind',seal:s},m.players[0],m.players[1]).effects.seal;
+ v.update(m,{},()=>'#ff8800',{seal:s,look});const bind=v.group.children.find(c=>c.name==='seal-bind');
+ assert.equal(v.group.visible,true);assert.equal(bind.visible,true);assert.equal(sealGroup(v).visible,false);
+ v.update(m,{},()=>'#ff8800',null);assert.equal(bind.visible,false);
+});
+test('drawing the bind does not change the match',()=>{
+ const run=draw=>{const m=setup({seal:'on'}),v=createSealVisuals();for(let n=0;n<260;n++){tick(m,{capture:n===0});if(draw){const s=sealCatchOf(m);v.update(m,{},undefined,s?{seal:s,look:stagedCapturePose('tala',{...m.cinematic,profile:'seal-bind',seal:s},m.players[0],m.players[1]).effects.seal}:null);}}return JSON.stringify([m.tick,m.players.map(p=>[p.x,p.z,p.hp,p.anim])]);};
+ assert.equal(run(true),run(false));
+});

@@ -52,18 +52,34 @@ function buildStreak(){
  return g;
 }
 
+function buildBind(){
+ const g=new T.Group();g.name='seal-bind';
+ const pillar=new T.Mesh(new T.CylinderGeometry(1,1,1,48,1,true),mat('#ffffff',.5));
+ // Inked rims top and bottom so the pillar reads against sky as well as floor.
+ const rims=[0,1].map(()=>{const r=new T.Group();const ink=new T.Mesh(new T.TorusGeometry(1,.07,4,48),mat(INK,.9));const lit=new T.Mesh(new T.TorusGeometry(1,.04,4,48),mat('#ffffff',1));r.add(ink,lit);r.rotation.x=Math.PI/2;return r;});
+ const core=new T.Mesh(new T.CylinderGeometry(1,1,1,32,1,true),mat('#ffffff',.18));
+ const lockInk=flat(ringGeo(.9,1.12),FLOOR+.006);lockInk.material=mat(INK,.85);
+ const lock=flat(ringGeo(.95,1.07),FLOOR+.008);lock.material=mat('#ffffff',1);
+ const bands=[0,1,2].map(()=>{const b=new T.Mesh(new T.TorusGeometry(1,.035,4,48),mat('#ffffff',.9));b.rotation.x=Math.PI/2;return b;});
+ // Slam: one floor shockwave and a brief white disc where the target lands.
+ const shock=flat(ringGeo(.86,1,64),FLOOR+.012);shock.material=mat('#ffffff',1);const shockInk=flat(ringGeo(.8,1.06,64),FLOOR+.01);shockInk.material=mat(INK,.85);
+ const flash=flat(new T.CircleGeometry(1,48),FLOOR+.002);flash.material=mat('#ffffff',.6);
+ g.add(pillar,core,...rims,lockInk,lock,...bands,shockInk,shock,flash);g.userData={pillar,core,rims,lockInk,lock,bands,shock,shockInk,flash};return g;
+}
+
 export function createSealVisuals(){
  const group=new T.Group();group.name='seal-visuals';
- const seals=new Map(),cues=[],streaks=[];
+ const seals=new Map(),cues=[],streaks=[],bind=buildBind();group.add(bind);bind.visible=false;
  function cueFor(n){return cues[n]||(cues[n]=group.add(buildCue())&&group.children.at(-1));}
  function streakFor(n){return streaks[n]||(streaks[n]=group.add(buildStreak())&&group.children.at(-1));}
- function update(m,settings={},colorOf=()=>'#ffd25a'){
+ function update(m,settings={},colorOf=()=>'#ffd25a',caught=null){
   const reduced=!!settings.reduced,live=new Set();
-  group.visible=!!m?.seals&&!m.cinematic;
+  group.visible=!!m?.seals&&(!m.cinematic||!!caught);
+  updateBind(caught,colorOf,reduced);
   for(const s of m?.seals||[]){
    live.add(s.id);let v=seals.get(s.id);if(!v){v=buildSeal();seals.set(s.id,v);group.add(v);}
    const look=sealLook(s,m.tick,reduced),u=v.userData,base=new T.Color(look.threat?colorOf(s.owner):look.escaped?SPENT:look.caught?colorOf(s.owner):SPENT),col=base.clone().lerp(new T.Color(HOT),look.white);
-   v.position.set(s.x,0,s.z);v.visible=look.fade>0;
+   v.position.set(s.x,0,s.z);v.visible=look.fade>0&&!m.cinematic;
    u.start.visible=u.target.visible=look.threat;
    u.fill.scale.setScalar(look.edge);u.fill.material.color.copy(base);u.fill.material.opacity=look.fillOpacity;
    for(const k of ['edgeInk','edge'])u[k].scale.setScalar(look.edge);
@@ -73,14 +89,36 @@ export function createSealVisuals(){
   }
   for(const [id,v] of seals)if(!live.has(id)){group.remove(v);v.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});seals.delete(id);}
   (m?.players||[]).forEach((p,n)=>{
-   const r=p.sealEscape,cue=cueFor(n),open=!!r&&m.tick<r.expires&&!p.escapeDash;cue.visible=open;
+   const r=p.sealEscape,cue=cueFor(n),open=!!r&&m.tick<r.expires&&!p.escapeDash&&!m.cinematic;cue.visible=open;
    if(open){const c=m.players[r.caster],left=Math.max(0,r.expires-m.tick)/SEAL.dashWindow,u=cue.userData;
     cue.position.set(p.x,0,p.z);cue.rotation.y=Math.atan2(-(c.x-p.x),-(c.z-p.z));
     u.arc.geometry.dispose();u.arc.geometry=new T.RingGeometry(.85,1.05,48,1,Math.PI/2,Math.max(.02,left)*Math.PI*2);
     u.chevrons.children.forEach((ch,i)=>{ch.material.opacity=reduced?.95:.55+.4*Math.max(0,Math.sin(m.tick*.35-i*1.2));});}
-   const d=p.escapeDash,streak=streakFor(n);streak.visible=!!d;
+   const d=p.escapeDash,streak=streakFor(n);streak.visible=!!d&&!m.cinematic;
    if(d){streak.position.set(p.x,0,p.z);streak.rotation.y=Math.atan2(d.aimX,d.aimZ);streak.children.forEach((s,i)=>s.material.opacity=reduced?.5:.35+.35*((m.tick+i)%3===0));}
   });
+ }
+ // The seal-bind finish: pillar in the caster's colour, bands that squeeze onto the target, floor lock, slam shockwave.
+ function updateBind(caught,colorOf,reduced){
+  bind.visible=!!caught;if(!caught)return;
+  const L=caught.look,u=bind.userData,col=new T.Color(colorOf(caught.seal.owner)),hot=col.clone().lerp(new T.Color('#ffffff'),.55);
+  bind.position.set(L.x,0,L.z);
+  const h=Math.max(.001,L.height),r=L.radius;
+  u.pillar.visible=u.core.visible=L.height>.02;
+  u.pillar.scale.set(r,h,r);u.pillar.position.y=FLOOR+h/2;u.pillar.material.color.copy(col);u.pillar.material.opacity=.42*L.opacity;
+  u.core.scale.set(r*.55,h,r*.55);u.core.position.y=FLOOR+h/2;u.core.material.color.copy(hot);u.core.material.opacity=(.2+.25*L.clench)*L.opacity;
+  u.rims.forEach((g,i)=>{g.visible=L.height>.02;g.scale.setScalar(r);g.position.y=FLOOR+i*h;g.children[1].material.color.copy(hot);g.children[0].material.opacity=.9*L.opacity;g.children[1].material.opacity=L.opacity;});
+  for(const k of ['lock','lockInk'])u[k].scale.setScalar(r);
+  u.lock.material.color.copy(L.clench>0?hot:col);u.lock.material.opacity=Math.max(L.opacity,1-L.shock);u.lockInk.material.opacity=.85*Math.max(L.opacity,1-L.shock);
+  // Bands rise up the pillar while it holds, then close onto the target's waist on the clench.
+  const waist=FLOOR+1+L.victimY;
+  u.bands.forEach((b,i)=>{const travel=reduced?(i+1)/4:((L.t*1.8+i/3)%1),y=FLOOR+travel*h;
+   b.position.y=y+(waist-y)*L.clench;b.scale.setScalar(r*(1.04-.3*L.clench));b.material.color.copy(hot);b.material.opacity=.9*L.opacity*(L.height>.02?1:0);});
+  const s=L.shock;u.shock.visible=u.shockInk.visible=u.flash.visible=s>0&&s<1;
+  u.shock.position.set(L.floor.x-L.x,FLOOR+.01,L.floor.z-L.z);u.flash.position.set(L.floor.x-L.x,FLOOR+.002,L.floor.z-L.z);
+  u.shockInk.position.copy(u.shock.position);u.shockInk.position.y=FLOOR+.01;
+  for(const k of ['shock','shockInk'])u[k].scale.setScalar(.8+4.5*s);u.shock.material.color.copy(col);u.shock.material.opacity=1-s*s;u.shockInk.material.opacity=.85*(1-s*s);
+  u.flash.scale.setScalar(1.2+1.5*s);u.flash.material.opacity=reduced?.25*(1-s):.6*(1-s)*(1-s);
  }
  function reset(){for(const v of seals.values()){group.remove(v);v.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});}seals.clear();}
  return {group,update,reset};

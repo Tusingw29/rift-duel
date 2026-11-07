@@ -1,5 +1,6 @@
 import {ringArena,arenaRadius,ARENA_RADIUS} from './arena-bounds.js';import {createBoundaryRing} from './arena-boundary-visual.js';
 import {restoreGrabTell,applyGrabTell} from './grab-tell.js';import {createSealVisuals} from './seal-visual.js';
+import {sealCatchOf} from './seal-finish.js';
 import {vfxSettings} from './vfx-settings.js';
 import {createSignatureField,energyStyle} from './energy-style.js';
 import {createInkRing} from './ink-energy.js';
@@ -84,12 +85,14 @@ export function createView(canvas,options={}){
   const [a,b]=m.players;target.set((a.x+b.x)/2,1.1+airHeight*.8,(a.z+b.z)/2);const distance=Math.hypot(a.x-b.x,a.z-b.z);const dx=(b.x-a.x)/(distance||1),dz=(b.z-a.z)/(distance||1),back=(8+distance*.65)/Math.min(1,camera.aspect/1.25)*zoom;pos.set(target.x-dz*back-dx*2*zoom,(3+airHeight*.5+distance*.035)*(.6+.4*zoom),target.z+dx*back-dz*2*zoom);
  }
  function render(dt,m,settings,cue=null){
-  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(m?.seals&&!sealFX){sealFX=createSealVisuals();scene.add(sealFX.group);}sealFX?.update(m,settings,n=>fighters[m.players[n].id].color);if(boundaryRing){boundaryRing.visible=ringArena(m);boundaryRing.scale.set(arenaRadius(m)/ARENA_RADIUS,1,arenaRadius(m)/ARENA_RADIUS);}
+  if(ringArena(m)&&!boundaryRing){boundaryRing=createBoundaryRing();scene.add(boundaryRing);}if(m?.seals&&!sealFX){sealFX=createSealVisuals();scene.add(sealFX.group);}if(boundaryRing){boundaryRing.visible=ringArena(m);boundaryRing.scale.set(arenaRadius(m)/ARENA_RADIUS,1,arenaRadius(m)/ARENA_RADIUS);}
   if(m?.hitstop>0||m?.frozen)dt=0;
   time+=dt;stage?.update(time);
   const width=innerWidth,height=innerHeight;if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
-  const cinema=m?.cinematic;
+  // A caught seal stages its own finish over the simulated capture cinematic (seal=on only).
+  const sealCatch=sealCatchOf(m),cinema=sealCatch?{...m.cinematic,profile:'seal-bind',seal:sealCatch}:m?.cinematic;
   const stagedState=cinema&&(cinema.kind==='super'||cinema.profile)?(cinema.kind==='capture'?stagedCapturePose:burstPose)(fighters[m.players[cinema.a].id].id,cinema,m.players[cinema.a],m.players[cinema.b]):null;
+  sealFX?.update(m,settings,n=>fighters[m.players[n].id].color,sealCatch&&stagedState?.effects.seal?{seal:sealCatch,look:stagedState.effects.seal}:null);
   models.forEach((r,n)=>{
    let p=m?.players[n];
    if(p&&cue?.kind==='ko'){
@@ -142,7 +145,7 @@ export function createView(canvas,options={}){
   bolts.forEach((b,j)=>{const p=m?.projectiles[j];updateProjectileVisual(b,p,p?fighters[m.players[p.owner].id].color:'#ffffff',(m?.tick||0)/60,settings.reduced,p?m.players[p.owner].id:null,p?models[p.owner]:null);});
   for(let j=sparks.length-1;j>=0;j--){const s=sparks[j];s.life-=dt;s.mesh.position.addScaledVector(s.vel,dt);s.vel.y-=dt*15;s.mesh.scale.setScalar(Math.max(0,s.life*2));if(s.life<=0){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();sparks.splice(j,1);}}
   burstFX.update(stagedState,stagedState?models[cinema.a]:null,settings.reduced,cinema?.kind==='capture');
-  attackFX.update(models,m,time,settings.reduced);
+  attackFX.update(models,m,time,settings.reduced,!!sealCatch);
   const target=v(),pos=v();let cut=false;
   if(m){const [a,b]=m.players;const airHeight=Math.max(liftOf(a),liftOf(b));
    if(settings.camera==='duel'){const shot=duelCamera(m.players,camera.aspect,duelState);pos.copy(shot.position);target.copy(shot.target);}

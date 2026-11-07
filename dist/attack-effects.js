@@ -23,7 +23,7 @@ export function createAttackEffects(scene){
  const shards=Array.from({length:10},()=>{const s=createSignature(0);s.scale.setScalar(.13);group.add(s);return s;});
  let previous=null,brokenAt=null,breakPosition=new T.Vector3(),lastTick=-1,lastMatch=null;
  function reset(){previous=null;brokenAt=null;tether.visible=false;shards.forEach(s=>s.visible=false);restraint.visible=false;charges.forEach(c=>c.g.visible=false);}
- function update(models,m,time,reduced=false){
+ function update(models,m,time,reduced=false,sealBind=false){
   restraint.visible=false;tether.visible=false;charges.forEach(c=>c.g.visible=false);shards.forEach(s=>s.visible=false);
   if(!m){reset();return;}if(m!==lastMatch||m.tick<lastTick){reset();lastMatch=m;}lastTick=m.tick;
   if(previous&&m.cinematic!==previous){brokenAt=m.tick;breakPosition.copy(restraint.position);previous=null;}
@@ -59,7 +59,7 @@ export function createAttackEffects(scene){
   });
   const c=m.cinematic;if(c?.kind!=='capture'||!models[c.b])return;previous=c;
   const progress=Math.min(1,c.t/c.duration),fade=1-Math.max(0,(progress-.82)/.18);
-  restraint.visible=fade>0;socket(models[c.b],'chest',restraint.position);restraint.children[1].material.color.set(energyStyle(m.players[c.a]?.id).color);
+  restraint.visible=fade>0&&!sealBind;socket(models[c.b],'chest',restraint.position);restraint.children[1].material.color.set(energyStyle(m.players[c.a]?.id).color);
   const from=socket(models[c.a],'leftHand'),to=socket(models[c.b],'pelvis');
   const delta=to.clone().sub(from);tether.visible=true;tether.position.copy(from).addScaledVector(delta,.5);tether.scale.y=delta.length();tether.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),delta.normalize());tether.material.color.set(energyStyle(m.players[c.a]?.id).color);
   shards.forEach(s=>s.children.forEach((mesh,i)=>mesh.material.color.set([energyStyle(m.players[c.a]?.id).ink,energyStyle(m.players[c.a]?.id).color,energyStyle(m.players[c.a]?.id).core][Math.min(i,2)])));
